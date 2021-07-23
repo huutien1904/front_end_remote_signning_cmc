@@ -16,7 +16,6 @@ export class UserListService implements Resolve<any> {
    */
   constructor(private _httpClient: HttpClient) {
     // Set the defaults
-    console.log("kaskdfas");
     this.onUserListChanged = new BehaviorSubject({});
   }
 
@@ -29,8 +28,6 @@ export class UserListService implements Resolve<any> {
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
     return new Promise<void>((resolve, reject) => {
-      console.log("kaskdas");
-      
       Promise.all([this.getDataTableRows()]).then(() => {
         resolve();
       }, reject);
@@ -43,11 +40,8 @@ export class UserListService implements Resolve<any> {
   getDataTableRows(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       this._httpClient.get('api/users-data').subscribe((response: any) => {
-        console.log("okok");
-        
-        console.log(response);
-        
         this.rows = response;
+        console.log(response);
         this.onUserListChanged.next(this.rows);
         resolve(this.rows);
       }, reject);
