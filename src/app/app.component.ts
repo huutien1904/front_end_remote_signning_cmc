@@ -18,7 +18,7 @@ import { locale as menuEnglish } from 'app/menu/i18n/en';
 import { locale as menuFrench } from 'app/menu/i18n/fr';
 import { locale as menuGerman } from 'app/menu/i18n/de';
 import { locale as menuPortuguese } from 'app/menu/i18n/pt';
-
+import { locale as menuVietnam } from 'app/menu/i18n/vi';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,8 +27,8 @@ import { locale as menuPortuguese } from 'app/menu/i18n/pt';
 export class AppComponent implements OnInit, OnDestroy {
   coreConfig: any;
   menu: any;
-  defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
-  appLanguage: 'en'; // Set application default language i.e fr
+  defaultLanguage: 'vi'; // This language will be used as a fallback when a translation isn't found in the current language
+  appLanguage: 'vi'; // Set application default language i.e fr
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -69,13 +69,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this._coreMenuService.setCurrentMenu('main');
 
     // Add languages to the translation service
-    this._translateService.addLangs(['en', 'fr', 'de', 'pt']);
+    this._translateService.addLangs(['vi','en', 'fr', 'de', 'pt']);
 
     // This language will be used as a fallback when a translation isn't found in the current language
-    this._translateService.setDefaultLang('en');
+    this._translateService.setDefaultLang('vi');
 
     // Set the translations for the menu
-    this._coreTranslationService.translate(menuEnglish, menuFrench, menuGerman, menuPortuguese);
+    this._coreTranslationService.translate(menuEnglish, menuFrench, menuGerman, menuPortuguese, menuVietnam);
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -100,13 +100,13 @@ export class AppComponent implements OnInit, OnDestroy {
       // Change application language? Read the ngxTranslate Fix
 
       // ? Use app-config.ts file to set default language
-      const appLanguage = this.coreConfig.app.appLanguage || 'en';
+      const appLanguage = this.coreConfig.app.appLanguage || 'vi';
       this._translateService.use(appLanguage);
 
       // ? OR
-      // ? User the current browser lang if available, if undefined use 'en'
+      // ? User the current browser lang if available, if undefined use 'vi'
       // const browserLang = this._translateService.getBrowserLang();
-      // this._translateService.use(browserLang.match(/en|fr|de|pt/) ? browserLang : 'en');
+      // this._translateService.use(browserLang.match(/en|fr|de|pt/) ? browserLang : 'vi');
 
       /**
        * ! Fix : ngxTranslate
@@ -115,7 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       /**
        *
-       * Using different language than the default ('en') one i.e French?
+       * Using different language than the default ('vi') one i.e French?
        * In this case, you may find the issue where application is not properly translated when your app is initialized.
        *
        * It's due to ngxTranslate module and below is a fix for that.
@@ -123,10 +123,10 @@ export class AppComponent implements OnInit, OnDestroy {
        *
        **/
 
-      // Set the default language to 'en' and then back to 'fr'.
+      // Set the default language to 'vi' and then back to 'fr'.
 
       setTimeout(() => {
-        this._translateService.setDefaultLang('en');
+        this._translateService.setDefaultLang('vi');
         this._translateService.setDefaultLang(appLanguage);
       });
 

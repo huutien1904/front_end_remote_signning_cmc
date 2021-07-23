@@ -1,53 +1,68 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouterModule, Routes } from "@angular/router";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
-import 'hammerjs';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
-import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
+import "hammerjs";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
+import { ToastrModule } from "ngx-toastr"; // For auth after login toast
+import { FakeDbService } from "@fake-db/fake-db.service";
 
-import { CoreModule } from '@core/core.module';
-import { CoreCommonModule } from '@core/common.module';
-import { CoreSidebarModule, CoreThemeCustomizerModule } from '@core/components';
+import { CoreModule } from "@core/core.module";
+import { CoreCommonModule } from "@core/common.module";
+import { CoreSidebarModule, CoreThemeCustomizerModule } from "@core/components";
 
-import { coreConfig } from 'app/app-config';
+import { coreConfig } from "app/app-config";
 
-import { AppComponent } from 'app/app.component';
-import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
+import { AppComponent } from "app/app.component";
+import { LayoutModule } from "app/layout/layout.module";
+import { SampleModule } from "app/main/sample/sample.module";
+import {
+  ErrorInterceptor,
+  fakeBackendProvider,
+  JwtInterceptor,
+} from "app/auth/helpers"; // used to create fake backend
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 
 const appRoutes: Routes = [
   {
-    path: 'pages',
-    loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
+    path: "pages",
+    loadChildren: () =>
+      import("./main/pages/pages.module").then((m) => m.PagesModule),
   },
   {
-    path: 'apps',
-    loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule)
+    path: "apps",
+    loadChildren: () =>
+      import("./main/apps/apps.module").then((m) => m.AppsModule),
   },
   {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
+    path: "",
+    redirectTo: "/home",
+    pathMatch: "full",
   },
   {
-    path: '**',
-    redirectTo: '/pages/miscellaneous/error' //Error 404 - Page not found
-  }
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(FakeDbService, {
+      delay: 0,
+      passThruUnknownUrl: true,
+    }),
     RouterModule.forRoot(appRoutes, {
-      scrollPositionRestoration: 'enabled', // Add options right here
-      relativeLinkResolution: 'legacy'
+      scrollPositionRestoration: "enabled", // Add options right here
+      relativeLinkResolution: "legacy",
     }),
     TranslateModule.forRoot(),
 
@@ -63,9 +78,14 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
-    SampleModule
+    SampleModule,
   ],
-
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider,
+  ],
+  entryComponents: [ ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
