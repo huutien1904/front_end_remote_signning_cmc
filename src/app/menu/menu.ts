@@ -127,8 +127,54 @@ export const menu: CoreMenu[] = [
   },
   {
     id: 'token-management',
-    title: 'Quản lý cặp khóa',
+    title: 'Quản lý khóa/Chứng thư số',
     translate: 'MENU.TOKEN_MANAGEMENT.SECTION',
-    type: 'section'
+    type: 'section',
+    children: [
+      {
+        id: 'key-pair',
+        title: 'Khóa',
+        translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.COLLAPSIBLE',
+        type :'collapsible',
+        children: [
+          {
+            id: 'key-pair-list',
+            title: 'Danh sách khóa',
+            translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
+            type: 'item',
+            url: '/a',
+          },
+          {
+            id: 'key-pair-view',
+            title: 'Chi tiết khóa',
+            translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.VIEW',
+            type: 'item',
+            url: '/a',
+          }
+        ]
+      },
+      {
+        id:'certificate-request',
+        title:'Yêu cầu chứng thực',
+        translate: 'MENU.CERTIFICATE_REQUEST.COLLAPSIBLE',
+        type: 'collapsible',
+        children :[
+          {
+            id : 'certificate-request-list',
+            title: 'Danh sách',
+            translate: 'MENU.CERTIFICATE_REQUEST.LIST',
+            type : 'item',
+            url : '/asd/sd'
+          },
+          {
+            id : 'certificate-request-list',
+            title: 'Chi tiết yêu cầu',
+            translate: 'MENU.CERTIFICATE_REQUEST.VIEW',
+            type: 'item',
+            url: '/asdas/asdasd/d'
+          }
+        ]
+      }
+    ]
   }
 ]
