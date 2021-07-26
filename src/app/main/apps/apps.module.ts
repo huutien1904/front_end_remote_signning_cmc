@@ -7,6 +7,10 @@ const routes:Routes = [
   {
     path: 'ip',
     loadChildren: () => import('./identity-provider/identity-provider.module').then(m => m.IdentityProviderModule)
+  },
+  {
+    path: 'tm',
+    loadChildren: () => import('./token-management/token-management.module').then(m => m.TokenManagementModule)
   }
 ]
 @NgModule({

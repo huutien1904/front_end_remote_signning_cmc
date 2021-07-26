@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 
 /**
@@ -8,7 +8,7 @@ import { Routes } from '@angular/router';
  */
 const routes: Routes = [
   { 
-    path: 'personal',
+    path: 'personals',
     loadChildren:()=> import('./personals/personals.module').then(m => m.PersonalsModule)
   },
   { 
@@ -20,7 +20,7 @@ const routes: Routes = [
   declarations: [
   ],
   imports: [
-    CommonModule
+    CommonModule, RouterModule.forChild(routes),
   ]
 })
 export class SubscribersModule { }

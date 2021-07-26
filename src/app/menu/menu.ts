@@ -142,36 +142,58 @@ export const menu: CoreMenu[] = [
             title: 'Danh sách khóa',
             translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
             type: 'item',
-            url: '/a',
+            url: '/apps/tm/keypair/keypair-list',
           },
           {
             id: 'key-pair-view',
             title: 'Chi tiết khóa',
             translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.VIEW',
             type: 'item',
-            url: '/a',
+            url: '/apps/tm/keypair/keypair-view',
           }
         ]
       },
       {
         id:'certificate-request',
-        title:'Yêu cầu chứng thực',
-        translate: 'MENU.CERTIFICATE_REQUEST.COLLAPSIBLE',
+        title:'Chứng thư số',
+        translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.COLLAPSIBLE',
         type: 'collapsible',
         children :[
           {
             id : 'certificate-request-list',
-            title: 'Danh sách',
-            translate: 'MENU.CERTIFICATE_REQUEST.LIST',
+            title: 'Danh sách chứng thư số',
+            translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.LIST',
             type : 'item',
-            url : '/asd/sd'
+            url : '/apps/tm/certificate-request/certificate-request-list'
           },
           {
-            id : 'certificate-request-list',
-            title: 'Chi tiết yêu cầu',
-            translate: 'MENU.CERTIFICATE_REQUEST.VIEW',
+            id : 'certificate-request-view',
+            title: 'Chi tiết chứng thư số',
+            translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.VIEW',
             type: 'item',
-            url: '/asdas/asdasd/d'
+            url: '/apps/tm/certificate-request/certificate-request-view'
+          }
+        ]
+      },
+      {
+        id:'subscriber-certificate',
+        title:'Yêu cầu chứng thực',
+        translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.COLLAPSIBLE',
+        type: 'collapsible',
+        children :[
+          {
+            id : 'subscriber-certificate-list',
+            title: 'Danh sách',
+            translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.LIST',
+            type : 'item',
+            url : '/apps/tm/subscriber-certificate/subscriber-certificate-list'
+          },
+          {
+            id : 'subscriber-certificate-view',
+            title: 'Chi tiết yêu cầu',
+            translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.VIEW',
+            type: 'item',
+            url: '/apps/tm/subscriber-certificate/subscriber-certificate-view'
           }
         ]
       }

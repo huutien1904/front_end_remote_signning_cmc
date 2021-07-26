@@ -39,6 +39,11 @@ export const locale = {
             COLLAPSIBLE: 'Yêu cầu chứng thực',
             LIST : 'Danh sách yêu cầu chứng thực',
             VIEW: 'Chi tiết yêu cầu',
+          },
+          SUBSCRIBER_CERTIFICATE : {
+            COLLAPSIBLE: 'Chứng thư số',
+            LIST : 'Danh sách chứng thư số',
+            VIEW: 'Chi tiết chứng thư số',
           }
         }
       }

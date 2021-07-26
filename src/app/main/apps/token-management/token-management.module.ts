@@ -1,12 +1,29 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
 
+/**
+ * Routing
+ */
 
-
+const routes: Routes = [
+  {
+    path: 'subscriber-certificate',
+    loadChildren: () => import('./subscriber-certificate/subscriber-certificate.module').then(m => m.SubscriberCertificateModule)
+  },
+  {
+    path: 'certificate-request',
+    loadChildren: () => import('./certificate-request/certificate-request.module').then(m => m.CertificateRequestModule)
+  },
+  {
+    path: 'keypair',
+    loadChildren: () => import('./keypair/keypair.module').then(m => m.KeypairModule)
+  }
+]
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  declarations: [
+
+  ],
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
-export class TokenManagementModule { }
+export class TokenManagementModule {}
