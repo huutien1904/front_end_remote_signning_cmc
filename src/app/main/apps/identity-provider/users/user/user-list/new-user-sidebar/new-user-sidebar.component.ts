@@ -6,12 +6,18 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
   templateUrl: './new-user-sidebar.component.html'
 })
 export class NewUserSidebarComponent implements OnInit {
-  public fullname;
   public username;
   public email;
+  public password;
+  public firstname;
+  public lastname;
+  public phonenumber;
+  public role = [ 'ADMIN', 'SUPERADMIN', 'OPERATOR',   
+
+    'USER-PERSONAL', 'USER-ORGANIZATION', 'USER-SERVICE', 'USER-DEVICE' ];
 
   /**
-   * Constructor
+   *' Constructor
    *
    * @param {CoreSidebarService} _coreSidebarService
    */
