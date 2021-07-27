@@ -3,7 +3,8 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
 
 @Component({
   selector: 'app-new-user-sidebar',
-  templateUrl: './new-user-sidebar.component.html'
+  templateUrl: './new-user-sidebar.component.html',
+  styleUrls: ['./new-user-sidebar.component.scss'],
 })
 export class NewUserSidebarComponent implements OnInit {
   public fullname;

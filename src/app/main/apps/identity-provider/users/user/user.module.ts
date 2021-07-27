@@ -17,6 +17,7 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewUserSidebarComponent } from "./user-list/new-user-sidebar/new-user-sidebar.component";
+// import { BFormSelect } from 'bootstrap-vue'
 
 /**
 /**
@@ -70,7 +71,8 @@ const routes: Routes = [
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
-    CoreSidebarModule
+    CoreSidebarModule,
+    // BFormSelect
   ],
   providers: [UserListService, UserEditService, UserViewService],
 })
