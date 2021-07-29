@@ -9,9 +9,9 @@ export class NewUserSidebarComponent implements OnInit {
   public username;
   public email;
   public password;
-  public firstname;
-  public lastname;
-  public phonenumber;
+  public firstName;
+  public lastName;
+  public phoneNo;
   public role = [ 'ADMIN', 'SUPERADMIN', 'OPERATOR',   
 
     'USER-PERSONAL', 'USER-ORGANIZATION', 'USER-SERVICE', 'USER-DEVICE' ];

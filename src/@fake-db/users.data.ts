@@ -2,6 +2,31 @@ export class UsersFakeData {
   public static users = [
     {
       id: 1,
+      role: 'ADMIN',
+      username: 'leesin',
+      fullName: 'Nguyễn Văn A',
+      phoneNo: '0123456789',
+      email: 'nguyenvana@gmail.com',
+    },
+    {
+      id: 2,
+      role: 'SUPERADMIN',
+      username: 'daxua',
+      fullName: 'Nguyễn Tiến B',
+      phoneNo: '0987654321',
+      email: 'nguyentienb@gmail.com',
+    },
+    {
+      id: 3,
+      role: 'USER-SERVICE',
+      username: 'susan0175',
+      fullName: 'Nguyễn Thị C',
+      phoneNo: '0111222333',
+      email: 'nguyenthic@gmail.com',
+    },
+    /*
+    {
+      id: 1,
       fullName: 'Galen Slixby',
       company: 'Yotz PVT LTD',
       role: 'Editor',
@@ -650,5 +675,6 @@ export class UsersFakeData {
       status: 'active',
       avatar: 'assets/images/avatars/9.png'
     }
+    */
   ];
 }
