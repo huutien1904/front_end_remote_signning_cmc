@@ -52,7 +52,10 @@
       </div>
       <!-- users filter end -->
 
+
+      
       <div class="card">
+        <!-- search user -->
         <div class="row">
           <div class="col-md-6 col-12">
             <div class="d-flex justify-content-between align-items-center m-1">
@@ -80,11 +83,14 @@
               /></label>
               <button class="btn btn-primary ml-1" rippleEffect (click)="toggleSidebar('new-user-sidebar')">
                 <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
-                ><span class="d-none d-sm-inline-block">Add New User</span>
+                ><span class="d-none d-sm-inline-block">Thêm Mới</span>
               </button>
             </div>
           </div>
         </div>
+        <!-- end search user -->
+
+        <!-- table -->
         <ngx-datatable
           [rows]="rows"
           [rowHeight]="50"
@@ -128,7 +134,10 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
+
+          <ngx-datatable-column name="Email" prop="email" [width]="200">
+          </ngx-datatable-column>
+
           <ngx-datatable-column name="Role" prop="role" [width]="100">
             <ng-template let-role="value" ngx-datatable-cell-template>
               <div>
@@ -146,7 +155,9 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
+
           <ngx-datatable-column name="Plan" prop="currentPlan" [width]="100"></ngx-datatable-column>
+
           <ngx-datatable-column name="Status" prop="status" [width]="50">
             <ng-template let-status="value" ngx-datatable-cell-template>
               <div
@@ -161,6 +172,7 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
+
           <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div ngbDropdown container="body">
@@ -179,7 +191,9 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
+          
         </ngx-datatable>
+        <!-- end table -->
       </div>
     </section>
     <!--/ User List -->

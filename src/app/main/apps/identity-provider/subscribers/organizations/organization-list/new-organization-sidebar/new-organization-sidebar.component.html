@@ -1,0 +1,315 @@
+<div class="slideout-content">
+    <!-- Modal to add new user starts-->
+    <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
+      <div class="modal-dialog">
+        <form class="form form-horizontal add-new-user modal-content pt-0">
+          <div class="form_header">
+            <div class="h1">Đăng ký thông tin</div>
+            <a href="" (click)="closeSidebar()"><span class="input-group-text"><span [data-feather]="'x'" ></span></span></a>
+          </div>
+          <!-- thông tin cá nhân -->
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>TÊN TỔ CHỨC</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="Tên tổ chức"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>TÊN LÃNH ĐẠO</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="Tên lãnh đạo"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>SỐ ĐIỆN THOẠI</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'phone-call'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="Số điện thoại"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>EMAIL</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'mail'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="huutienn46@gmail.com"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>         
+          </div>
+          
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>ID QUỐC GIA TỔ CHỨC</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'more-horizontal'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="114"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>ID TỔ CHỨC MẸ</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="11567"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>ID LOẠI NGƯỜI ĐĂNG KÝ</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="1234568"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>WEBSIDE</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'credit-card'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="huutien1904.com"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>         
+          </div>
+  
+          
+  
+          <h3>Địa chỉ</h3>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="row">
+                <!-- quốc gia -->
+                <div class="col-12 col-md-6">
+                  <div class="form-group ">
+                    <div class="col-sm-12 col-form-label">
+                      <label>QUỐC GIA</label>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="input-group input-group-merge">
+                        <select class="form-control form-control-lg " >                       
+                          <option value="{{i}}" *ngFor = 'let country of countryBirthPlace,index as i '>{{country}}</option>                       
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end quốc gia -->
+  
+                <!-- tỉnh thành phố -->
+                <div class="col-12 col-md-6">
+                  <div class="form-group ">
+                    <div class="col-sm-12 col-form-label">
+                      <label>TỈNH </label>
+                    </div>
+                    <div class="col-sm-12">
+                      <select class="form-control form-control-lg ">
+                        <option value="{{i}}" *ngFor = 'let country of provinceBirthPlace,index as i '>{{country}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- end tỉnh thành phố -->
+              </div>
+            </div>
+            <div class="col-12 col-md-8">
+              <div class="row">
+                <div class="col-12 col-md-5">
+                  <div class="form-group ">
+                    <div class="col-sm-12 col-form-label">
+                      <label>HUYỆN</label>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="input-group input-group-merge">
+                        <select class="form-control form-control-lg ">
+                          <option value="{{i}}" *ngFor = 'let country of districtBirthPlace,index as i '>{{country}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <div class="col-12 col-md-7">
+                  <div class="form-group ">
+                    <div class="col-sm-12 col-form-label">
+                      <label>XÃ</label>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="input-group input-group-merge">
+                        <select class="form-control form-control-lg ">
+                          <option value="{{i}}" *ngFor = 'let country of communeBirthPlace,index as i '>{{country}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>SỐ NHÀ</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><span [data-feather]="'home'"></span></span>
+                    </div>
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="Số nhà"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-12 col-md-6">
+              <div class="form-group ">
+                <div class="col-sm-12 col-form-label">
+                  <label>TÊN ĐƯỜNG</label>
+                </div>
+                <div class="col-sm-12">
+                  <div class="input-group input-group-merge">
+                    
+                    <input
+                      type="text"
+                      id="fname-icon"
+                      class="form-control"
+                      name="fname-icon"
+                      placeholder="TÊN ĐƯỜNG"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          
+  
+          <div class="col-12 button_summit">
+            <button type="submit" rippleEffect class="btn btn-primary mr-1">Submit</button>
+            <button type="reset" rippleEffect class="btn btn-outline-secondary">Reset</button>
+          </div>
+          
+        </form>
+        
+      </div>
+    </div>
+    <!-- Modal to add new user Ends-->
+  </div>
+  

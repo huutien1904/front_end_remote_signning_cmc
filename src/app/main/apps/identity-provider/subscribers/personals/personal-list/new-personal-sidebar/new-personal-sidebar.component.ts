@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
 @Component({
-  selector: 'app-new-user-sidebar',
-  templateUrl: './new-user-sidebar.component.html',
-  styleUrls: ['./new-user-sidebar.component.scss'],
+  selector: 'app-new-personal-sidebar',
+  templateUrl: './new-personal-sidebar.component.html',
+  styleUrls: ['./new-personal-sidebar.component.scss']
 })
-export class NewUserSidebarComponent implements OnInit {
+export class NewPersonalSidebarComponent implements OnInit {
   public fullname;
   public username;
   public email;
@@ -52,32 +52,16 @@ export class NewUserSidebarComponent implements OnInit {
     'Nhân Bình',
     'Xuân Khê',
   ]
-  /**
-   * Constructor
-   *
-   * @param {CoreSidebarService} _coreSidebarService
-   */
-  constructor(private _coreSidebarService: CoreSidebarService) {}
+  constructor(private _coreSidebarService: CoreSidebarService) { }
 
-  /**
-   * Toggle the sidebar
-   *
-   * @param name
-   */
+  ngOnInit(): void {
+  }
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
-
-  /**
-   * Submit
-   *
-   * @param form
-   */
   submit(form) {
     if (form.valid) {
       this.toggleSidebar('new-personal-sidebar');
     }
   }
-
-  ngOnInit(): void {}
 }
