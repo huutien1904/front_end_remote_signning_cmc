@@ -6,6 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
+import { PersonalListService } from '../../personals/personal-list/personal-list.service';
+import { OrganizationListService } from './organization-list.service';
 @Component({
   selector: 'app-organization-list',
   templateUrl: './organization-list.component.html',
@@ -285,11 +287,11 @@ export class OrganizationListComponent implements OnInit {
    * Constructor
    *
    * @param {CoreConfigService} _coreConfigService
-   * @param {UserListService} PersonalListService
+    * @param {OrganizationListService} OrganizationListService
    * @param {CoreSidebarService} _coreSidebarService
    */
   constructor(
-    // private _userListService: PersonalListService,
+    private _userListService: OrganizationListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService
   ) { 

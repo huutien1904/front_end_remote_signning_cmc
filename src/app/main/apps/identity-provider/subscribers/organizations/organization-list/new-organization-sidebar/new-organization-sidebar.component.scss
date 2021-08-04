@@ -9,17 +9,29 @@
     border-radius: 10px;
     overflow: hidden;
 }
+.modal-content{
+    height: 80% !important;
+    border-radius:10px !important ;
+    padding: 0 !important;
+}
 form{
     padding: 0px 30px;
     overflow: hidden !important;
     
 }
 .form_header{
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // border-bottom: 1px solid black;
+    margin-bottom: 20px;
+    padding: 0 30px 20px 30px ;
+    border-bottom: 0.5px solid #7c7b83;
+    
+
+}
+.form_content{
+    padding: 0 30px;
 }
 .col-sm-9{
     width: 100%;
@@ -35,9 +47,16 @@ select{
     padding: 10px;
 }
 .button_summit{
-    margin-top: 20px;
-}
+    padding: 20px 30px;
+    margin-top: 10px;
+    text-align: end;
+    border-top: 0.5px solid #7c7b83;
 
+}
+.button_exit{
+    background-color: #7367f0;
+    color: #fff;
+}
 @media only screen and (max-width: 600px) {
     form {
         overflow-y: auto !important;

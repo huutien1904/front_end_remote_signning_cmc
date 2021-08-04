@@ -56,18 +56,16 @@
                 [rows]="rows"
                 [rowHeight]="60"
                 class="bootstrap core-bootstrap"
-                [limit]="selectedOption"
+                [limit]="10"
                 [columnMode]="ColumnMode.force"
-                [headerHeight]="500"
+                [headerHeight]="50"
                 [footerHeight]="50"
                 [scrollbarH]="true"
               >
                 
-                <ngx-datatable-column name="STT" prop="id" [width]="5" ></ngx-datatable-column>
+                <ngx-datatable-column name="STT" prop="id" [width]="10" ></ngx-datatable-column>
                 
-
-                
-                <ngx-datatable-column name="Họ và tên" prop="fullName" [width]="200" >
+                <ngx-datatable-column name="Họ và tên" prop="fullName" [width]="250" >
                   <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div class="d-flex align-items-center">
                       <div *ngIf="row.avatar.length > 0; else customAvatar">
@@ -101,16 +99,16 @@
                   </ng-template>
                 </ngx-datatable-column>
                 
-                <ngx-datatable-column name="CMND" prop="passPort" [width]="50"></ngx-datatable-column>
+                <ngx-datatable-column name="CMND" prop="passPort" [width]="100"></ngx-datatable-column>
 
-                <ngx-datatable-column name="email" prop="email" [width]="150">
+                <ngx-datatable-column name="email" prop="email" [width]="200">
                 </ngx-datatable-column>
 
                 
 
                
 
-                <ngx-datatable-column name="Tổ chức" prop="organization" [width]="20">
+                <ngx-datatable-column name="Tổ chức" prop="organization" [width]="50">
                   <ng-template let-status="value" ngx-datatable-cell-template>
                     <a href="">
                       <div
@@ -128,7 +126,7 @@
                   </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column name="SỐ LƯỢNG CHỨNG THƯ SỐ" prop="numberLetter" [width]="60"></ngx-datatable-column>
+                <ngx-datatable-column name="SỐ LƯỢNG CHỨNG THƯ SỐ" prop="numberLetter" [width]="50"></ngx-datatable-column>
 
                 <ngx-datatable-column name="Xem thêm" [width]="40" [sortable]="false">
                   <ng-template ngx-datatable-cell-template let-row="row">

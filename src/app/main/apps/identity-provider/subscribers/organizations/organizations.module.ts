@@ -73,6 +73,7 @@ const routes: Routes = [
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
-  ]
+  ],
+  providers: [OrganizationViewService, OrganizationEditService, OrganizationListService],
 })
 export class OrganizationsModule { }

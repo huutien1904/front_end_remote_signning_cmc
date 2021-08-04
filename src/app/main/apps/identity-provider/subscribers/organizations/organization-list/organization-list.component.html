@@ -6,7 +6,7 @@
         </a>
         </div>
         
-        <span [data-feather]="'chevron-right'"></span>
+        <span [data-feather]="'chevron-right'" class="button_exit"></span>
         <p>thuê bao tổ chức
         </p>
     </div>
@@ -56,7 +56,7 @@
                 [rows]="rows"
                 [rowHeight]="50"
                 class="bootstrap core-bootstrap"
-                [limit]="selectedOption"
+                [limit]="10"
                 [columnMode]="ColumnMode.force"
                 [headerHeight]="50"
                 [footerHeight]="50"
@@ -68,11 +68,11 @@
               <!-- end stt -->
 
               <!-- tên tổ chức -->
-              <ngx-datatable-column name="Tên tổ chức" prop="organizationName" [width]="70"></ngx-datatable-column>
+              <ngx-datatable-column name="Tên tổ chức" prop="organizationName" [width]="100"></ngx-datatable-column>
               <!-- end tên tổ chức -->
 
               <!-- người đại diện -->
-              <ngx-datatable-column name="người đại diện" prop="leaderName" [width]="120">
+              <ngx-datatable-column name="người đại diện" prop="leaderName" [width]="200">
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                   <div class="d-flex align-items-center">
                     <div *ngIf="row.avatar.length > 0; else customAvatar">
@@ -108,11 +108,11 @@
               <!-- end người đại diện -->
 
               <!--số điện thoại  -->
-              <ngx-datatable-column name="điện thoại" prop="phoneNumber" [width]="30"></ngx-datatable-column>
+              <ngx-datatable-column name="điện thoại" prop="phoneNumber" [width]="100"></ngx-datatable-column>
               <!-- end số điện thoại -->
 
               <!-- webside -->
-              <ngx-datatable-column name="webside" prop="website" [width]="70"></ngx-datatable-column>
+              <ngx-datatable-column name="webside" prop="website" [width]="150"></ngx-datatable-column>
               <!-- end webside -->
 
                 <!-- email -->
@@ -122,9 +122,9 @@
                 <!-- end email -->
                 
                 <!-- địa chỉ -->
-                <ngx-datatable-column name="địa chỉ" prop="homeNumber" [width]="70"></ngx-datatable-column>
+                <ngx-datatable-column name="địa chỉ" prop="homeNumber" [width]="100"></ngx-datatable-column>
                 <!-- end địa chỉ -->
-                <ngx-datatable-column name="Xem thêm" [width]="40" [sortable]="false">
+                <ngx-datatable-column name="Xem thêm" [width]="100" [sortable]="false">
                   <ng-template ngx-datatable-cell-template let-row="row">
                     <div ngbDropdown container="body">
                       <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
