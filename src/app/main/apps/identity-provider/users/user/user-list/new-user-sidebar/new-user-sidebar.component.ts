@@ -15,6 +15,7 @@ export class NewUserSidebarComponent implements OnInit {
   public role = [ 'ADMIN', 'SUPERADMIN', 'OPERATOR',   
 
     'USER-PERSONAL', 'USER-ORGANIZATION', 'USER-SERVICE', 'USER-DEVICE' ];
+  public createdAt = new Date();
 
   /**
    *' Constructor
@@ -45,3 +46,4 @@ export class NewUserSidebarComponent implements OnInit {
 
   ngOnInit(): void {}
 }
+

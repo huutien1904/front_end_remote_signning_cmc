@@ -43,9 +43,9 @@ const routes: Routes = [
   {
     path: "user-edit/:id",
     component: UserEditComponent,
-    // resolve: {
-    //   ues: UserEditService
-    // },
+    resolve: {
+      ues: UserEditService
+    },
     data: { animation: "UserEditComponent" },
   },
   {

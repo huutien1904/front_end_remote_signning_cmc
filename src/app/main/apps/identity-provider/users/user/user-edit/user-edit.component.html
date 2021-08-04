@@ -1,1 +1,119 @@
-<p>user-edit works!</p>
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <!-- users edit start -->
+        <section class="app-user-edit">
+            <div class="card">
+                <div class="card-body">
+                    <form class="form-validate" (ngSubmit)="(accountForm.form.valid)" #accountForm="ngForm">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>Chỉnh sửa thông tin</h2>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="username">Tên tài khoản</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="user"></i>
+                                    </span>
+                                    </div>
+                                    <input type="text" id="username" class="form-control" placeholder="" name="username" [(ngModel)]="currentRow.username" [class.error]="accountForm.submitted && UserNameRef.invalid" #UserNameRef="ngModel" required />
+                                    <span *ngIf="accountForm.submitted && UserNameRef.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="UserNameRef.errors.required">Trường này là bắt buộc</small>
+                  </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="lastName">Họ</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="user"></i>
+                                    </span>
+                                    </div>
+                                    <input type="text" id="lastName" class="form-control" placeholder="" name="lastName" [(ngModel)]="currentRow.lastName" [class.error]="accountForm.submitted && LastNameRef.invalid" #LastNameRef="ngModel" required />
+                                    <span *ngIf="accountForm.submitted && LastNameRef.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="LastNameRef.errors.required">Trường này là bắt buộc</small>
+                  </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="firstName">Tên</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="user"></i>
+                                    </span>
+                                    </div>
+                                    <input type="text" id="firstName" class="form-control" placeholder="" name="firstName" [(ngModel)]="currentRow.firstName" [class.error]="accountForm.submitted && FirstNameRef.invalid" #FirstNameRef="ngModel" required />
+                                    <span *ngIf="accountForm.submitted && FirstNameRef.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="FirstNameRef.errors.required">Trường này là bắt buộc</small>
+                  </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="phoneNo">Số điện thoại</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="phone"></i>
+                                    </span>
+                                    </div>
+                                    <input type="number" id="phoneNo" class="form-control" placeholder="" name="phoneNo" [(ngModel)]="currentRow.phoneNo" [class.error]="accountForm.submitted && PhoneNoRef.invalid" #PhoneNoRef="ngModel" required />
+                                    <span *ngIf="accountForm.submitted && PhoneNoRef.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="PhoneNoRef.errors.required">Trường này là bắt buộc</small>
+                  </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="email">E-mail</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="mail"></i>
+                                    </span>
+                                    </div>
+                                    <input type="email" id="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="currentRow.email" [class.error]="accountForm.submitted && EmailRef.invalid" #EmailRef="ngModel" required />
+                                    <span *ngIf="accountForm.submitted && EmailRef.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="EmailRef.errors.required">This field is required!</small>
+                  </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="role">Vai trò</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="star"></i>
+                                    </span>
+                                    </div>
+                                    <select class="form-control" [(ngModel)]="currentRow.role" name="role" id="role">
+                    <option *ngFor="let item of role" value="{{ item }}">{{ item }}</option>
+                  </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="password">Nhập mật khẩu để xác nhận chỉnh sửa</label>
+                                <div class="form-group input-group input-group-merge mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                        <i data-feather="lock"></i>
+                                    </span>
+                                    </div>
+                                    <input type="text" id="password" class="form-control" placeholder="" name="password" [(ngModel)]="currentRow.password" [class.error]="accountForm.submitted && PassRef.invalid" #PassRef="ngModel" required />
+                                    <span *ngIf="accountForm.submitted && PassRef.invalid" class="invalid-form">
+                    <small class="form-text text-danger" *ngIf="PassRef.errors.required">Trường này là bắt buộc</small>
+                  </span>
+                                </div>
+                            </div>
+                            <div class="col-12" style="text-align: right;">
+                                <button type="submit" (click)="submit(accountForm)" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect>Lưu thay đổi</button>
+                                <button (click)="resetFormWithDefaultValues()" class="btn btn-outline-secondary" rippleEffect>Khôi phục</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
