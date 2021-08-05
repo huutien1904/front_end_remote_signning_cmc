@@ -1,6 +1,9 @@
 @import '@core/scss/angular/libs/datatables.component.scss';
 @import '@core/scss/base/pages/app-user.scss';
 @import '@core/scss/angular/libs/select.component.scss';
+// @import '@core/scss/base/plugins/forms/form-validation.scss';
+@import './../../../../../../../../@core/scss/base/plugins/forms/form-validation.scss';
+
 
 .modal-dialog{
     width: 90%;
@@ -48,6 +51,39 @@ select{
 }
 .form_content{
     padding: 0 30px;
+}
+input.error:focus {
+    border-color: $danger !important;
+    ~ .custom-control-label::before,
+    ~ .custom-file-label {
+      border-color: $danger !important;
+    }
+    ~ .custom-control-label {
+      color: $danger;
+    }
+}
+small{
+    color: #db1e27 !important;
+}
+
+.error_icon{
+    border-color: #db1e27;
+}
+.form-group{
+    margin-bottom: 5px;
+}
+.row_bottom{
+    margin-bottom: 1.5rem;
+}
+select{
+    cursor: pointer;
+}
+option{
+    cursor: pointer !important;
+}
+button{
+    background-color: transparent;
+    border-color: transparent;
 }
 @media only screen and (max-width: 600px) {
     form {
