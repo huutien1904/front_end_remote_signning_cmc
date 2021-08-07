@@ -39,7 +39,7 @@ export class UserEditService implements Resolve<any> {
    */
   getApiData(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/users-data').subscribe((response: any) => {
+      this._httpClient.get('api/user-data').subscribe((response: any) => {
         this.apiData = response;
         this.onUserEditChanged.next(this.apiData);
         resolve(this.apiData);

@@ -4,10 +4,10 @@ import { NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FlatpickrOptions } from 'ng2-flatpickr';
 import { cloneDeep } from 'lodash';
 
 import { UserEditService } from './user-edit.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-edit',
@@ -25,25 +25,24 @@ export class UserEditComponent implements OnInit, OnDestroy {
   public avatarImage: string;
 
   //param
-  public username;
-  public email;
-  public password;
-  public firstName;
-  public lastName;
-  public phoneNo;
-  public role = [ 'ADMIN', 'SUPERADMIN', 'OPERATOR',   
-
-    'USER-PERSONAL', 'USER-ORGANIZATION', 'USER-SERVICE', 'USER-DEVICE' ];
+  public UDForm = {
+    username: '',
+    email:'',
+    password:'',
+    firstName:'',
+    lastName:'',
+    phoneNo:'',
+    role:'',
+    createdAt : '',
+    confPassword:'',
+  };
+  roles = [ 'ADMIN', 'SUPERADMIN', 'OPERATOR',   
+  
+  'USER-PERSONAL', 'USER-ORGANIZATION', 'USER-SERVICE', 'USER-DEVICE' ]
+  public ReactiveUserDetailsForm: FormGroup;
+  public ReactiveUDFormSubmitted = false;
 
   @ViewChild('accountForm') accountForm: NgForm;
-
-  public birthDateOptions: FlatpickrOptions = {
-    altInput: true
-  };
-
-  public selectMultiLanguages = ['English', 'Spanish', 'French', 'Russian', 'German', 'Arabic', 'Sanskrit'];
-  public selectMultiLanguagesSelected = [];
-
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -53,7 +52,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
    * @param {Router} router
    * @param {UserEditService} _userEditService
    */
-  constructor(private router: Router, private _userEditService: UserEditService) {
+  constructor(private router: Router, private _userEditService: UserEditService, private formBuilder: FormBuilder) {
     this._unsubscribeAll = new Subject();
     this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
   }
@@ -90,10 +89,18 @@ export class UserEditComponent implements OnInit, OnDestroy {
    *
    * @param form
    */
-  submit(form) {
-    if (form.valid) {
-      console.log('Submitted...!');
+   get ReactiveUDForm() {
+    return this.ReactiveUserDetailsForm.controls;
+  }
+   ReactiveUDFormOnSubmit() {
+    this.ReactiveUDFormSubmitted = true;
+
+    // stop here if form is invalid
+    if (this.ReactiveUserDetailsForm.invalid) {
+      return;
     }
+
+    alert('Đã lưu thay đổi');
   }
 
   // Lifecycle Hooks
@@ -111,6 +118,15 @@ export class UserEditComponent implements OnInit, OnDestroy {
           this.tempRow = cloneDeep(row);
         }
       });
+    });
+    this.ReactiveUserDetailsForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confPassword: ['', [Validators.required, Validators.minLength(6)]],
+      phoneNo: ['', [Validators.required]],
     });
   }
 
