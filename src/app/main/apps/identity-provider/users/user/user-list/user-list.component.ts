@@ -5,8 +5,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CoreConfigService } from '@core/services/config.service';
-import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { UserListService } from './user-list.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -53,12 +53,12 @@ export class UserListComponent implements OnInit {
    *
    * @param {CoreConfigService} _coreConfigService
    * @param {UserListService} _userListService
-   * @param {CoreSidebarService} _coreSidebarService
+   * @param {NgbModal} modalService
    */
   constructor(
     private _userListService: UserListService,
-    private _coreSidebarService: CoreSidebarService,
-    private _coreConfigService: CoreConfigService
+    private _coreConfigService: CoreConfigService,
+    private modalService: NgbModal
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -90,10 +90,10 @@ export class UserListComponent implements OnInit {
   /**
    * Toggle the sidebar
    *
-   * @param name
+   * 
    */
-  toggleSidebar(name): void {
-    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+  toggleSidebar(modalForm) {
+    this.modalService.open(modalForm, {size: 'lg'});
   }
 
   /**
