@@ -16,7 +16,13 @@ const routes: Routes= [
   {
     path:'profile',
     component: ProfileComponent,
-  }
+  },
+  // {
+  //   path:'profile',
+  //   component: ProfileComponent,
+  //   canActivate: [AuthGuard],
+  //   data: {roles: [Role.SuperAdmin], animation: "UserListComponent" },
+  // }
 ]
 @NgModule({
   declarations: [

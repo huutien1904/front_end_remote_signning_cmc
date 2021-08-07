@@ -2,6 +2,29 @@ import { CoreMenu } from '@core/types'
 
 export const menu: CoreMenu[] = [
   {
+    id: 'dashboard',
+    title: 'Dashboard',
+    translate: 'MENU.DASHBOARD.COLLAPSIBLE',
+    type: 'collapsible',
+    // role: ['Admin'], //? To hide collapsible based on user role
+    icon: 'home',
+    badge: {
+      title: '1',
+      translate: 'MENU.DASHBOARD.BADGE',
+      classes: 'badge-light-warning badge-pill'
+    },
+    children: [
+      {
+        id: 'analytics',
+        title: 'Analytics',
+        translate: 'MENU.DASHBOARD.ANALYTICS',
+        type: 'item',
+        icon: 'circle',
+        url: 'apps/dashboard'
+      }
+    ]
+  },
+  {
     id: 'identity-provider',
     title: 'Quản lý thuê bao',
     translate: 'MENU.IDENTITY_PROVIDER.SECTION',
@@ -67,6 +90,7 @@ export const menu: CoreMenu[] = [
                 title: 'Danh sách',
                 translate: 'MENU.IDENTITY_PROVIDER.SUBSCRIBERS.PERSONALS.LIST',
                 type: 'item',
+                
                 icon: 'circle',
                 url: 'apps/ip/subscribers/personals/personal-list'
               },

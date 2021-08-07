@@ -61,7 +61,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     // Get the application main menu
     this.menu = menu;
-
+    console.log("menu");
+    console.log(this.menu);
+    
+    
     // Register the menu to the menu service
     this._coreMenuService.register('main', this.menu);
 

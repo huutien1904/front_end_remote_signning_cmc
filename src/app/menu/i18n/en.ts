@@ -2,6 +2,11 @@ export const locale = {
   lang: 'en',
   data: {
     MENU: {
+      DASHBOARD : {
+        COLLAPSIBLE : "Dashboard",
+        ANALYTICS : "Statistical",
+        BADGE:`1`,
+      },
       IDENTITY_PROVIDER: {
         SECTION: "Identity Provider",
         BADGE: '2',

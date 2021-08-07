@@ -17,6 +17,8 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewUserSidebarComponent } from "./user-list/new-user-sidebar/new-user-sidebar.component";
+import { Role } from "app/auth/models";
+import { AuthGuard } from "app/auth/helpers/auth.guards";
 // import { BFormSelect } from 'bootstrap-vue'
 
 /**
@@ -28,10 +30,11 @@ const routes: Routes = [
   {
     path: "user-list",
     component: UserListComponent,
+    canActivate: [AuthGuard],
     resolve: {
       uls: UserListService
     },
-    data: { animation: "UserListComponent" },
+    data: {roles: [Role.Admin], animation: "UserListComponent" },
   },
   {
     path: "user-view/:id",

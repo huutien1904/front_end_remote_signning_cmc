@@ -2,6 +2,11 @@ export const locale = {
     lang: 'vi',
     data: {
       MENU: {
+        DASHBOARD : {
+          COLLAPSIBLE : "Dashboard",
+          ANALYTICS : "Analytics",
+          BADGE:`1`,
+        },
         IDENTITY_PROVIDER: {
           SECTION: "Quản lý thuê bao",
           BADGE: '2',
