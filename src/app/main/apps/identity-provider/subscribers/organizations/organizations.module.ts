@@ -17,6 +17,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { NewOrganizationSidebarComponent } from './organization-list/new-organization-sidebar/new-organization-sidebar.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 const routes: Routes = [
@@ -73,6 +74,7 @@ const routes: Routes = [
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
+    ReactiveFormsModule
   ],
   providers: [OrganizationViewService, OrganizationEditService, OrganizationListService],
 })

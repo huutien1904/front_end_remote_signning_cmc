@@ -66,7 +66,7 @@ export class PersonalListComponent implements OnInit {
 
   // fake db
   private tempData = [
-      
+    
   ];
 
   private _unsubscribeAll: Subject<any>;
@@ -189,23 +189,24 @@ export class PersonalListComponent implements OnInit {
    */
   ngOnInit(): void {
     // Subscribe config change
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
-      if (config.layout.animation === 'zoomIn') {
-        setTimeout(() => {
-          this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-            this.rows = response;
-            this.tempData = this.rows;
-          });
-        }, 450);
-      } else {
-        this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-          this.rows = response;
-          this.tempData = this.rows;
-        });
-      }
-    });
-    // this.rows = this.tempData
+    // this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
+    //   //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
+    //   if (config.layout.animation === 'zoomIn') {
+    //     setTimeout(() => {
+    //       this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+    //         this.rows = response;
+    //         this.tempData = this.rows;
+    //       });
+    //     }, 450);
+    //   } else {
+    //     this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+    //       this.rows = response;
+    //       this.tempData = this.rows;
+    //     });
+    //   }
+    // });
+    this.rows = this._userListService.createDb().heroes
+    console.log(this.rows)
   }
 
   /**

@@ -2,10 +2,10 @@
     <!-- Modal to add new user starts-->
     <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
       <div class="modal-dialog">
-        <form class="form form-horizontal add-new-user modal-content pt-0" (ngSubmit)="TDMultiRuleForm.form.valid" #TDMultiRuleForm="ngForm">
+        <form class="form form-horizontal add-new-user modal-content pt-0" [formGroup]="newPersonal"  (ngSubmit)="onSubmit()">
           <div class="form_header">
             <div class="h1">Đăng ký thông tin</div>
-            <button >
+            <button aria-label="Close">
               <a href=""><span class="input-group-text button_exit"><span [data-feather]="'x'"></span></span></a>
             </button>
             
@@ -21,27 +21,33 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge" >
                       <div class="input-group-prepend" >
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleNameRef.valid && TDMultiRuleNameRef.touched"><span [data-feather]="'user'"></span></span>
+                        <span 
+                            class="input-group-text" 
+                            [ngClass]="{ 'error_icon': submitted && f.personalFirstName.errors }"
+                            
+                        ><span [data-feather]="'user'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleNameRef.valid && TDMultiRuleNameRef.touched"
-                        class="form-control input-md" 
-                        ngModel 
-                        #TDMultiRuleNameRef="ngModel" 
-                        required                     
-                        id="TDMultiRuleName" 
-                        name="TDMultiRuleName" 
+                        [ngClass]="{ 'error': submitted && f.personalFirstName.errors}"
+                        formControlName="personalFirstName"
+                        placeholder="Họ"                        
                         type="text" 
-                        placeholder="Họ"
+                        class="form-control"
                       />
                       
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleNameRef.valid && TDMultiRuleNameRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleNameRef.errors.required">
-                        Không được bỏ trống </small>
+                    <span *ngIf="submitted && f.personalFirstName.errors || f.personalFirstName?.errors?.required  && f.personalFirstName?.touched" class="invalid-form">
+                      <small class="form-text text-muted danger" *ngIf = "f.personalFirstName.errors.required">
+                        Không được bỏ trống 
+                      </small>
+                      <small class="form-text text-muted danger" *ngIf = "f.personalFirstName.errors.minLength">
+                        phải điển đủ 6 kí tự
+                      </small>
                     </span>
+                    
+                    <!-- {{newPersonal.value.personalFirstName}} -->
                   </div>
                 </div>
               </div>
@@ -53,13 +59,12 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleDemRef.valid && TDMultiRuleDemRef.touched"><span [data-feather]="'user'"></span></span>
+                        <span class="input-group-text"
+                        [ngClass]="{ 'error_icon': submitted && f.personalMiddleName.errors }"><span [data-feather]="'user'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleDemRef.valid && TDMultiRuleDemRef.touched"
-                        ngModel 
-                        #TDMultiRuleDemRef="ngModel" 
-                        required
+                      [ngClass]="{ 'error': submitted && f.personalMiddleName.errors}"
+                        formControlName="personalMiddleName"
                         type="text"
                         id="fname-icon-1"
                         class="form-control"
@@ -69,8 +74,8 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleDemRef.valid && TDMultiRuleDemRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleDemRef.errors.required">
+                    <span *ngIf="submitted && f.personalMiddleName.errors " class="invalid-form">
+                      <small class="form-text text-muted danger" >
                         Không được bỏ trống </small>
                     </span>
                   </div>
@@ -84,13 +89,13 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleTenTienRef.valid && TDMultiRuleTenTienRef.touched"><span [data-feather]="'user'"></span></span>
+                        <span 
+                          class="input-group-text" 
+                          [ngClass]="{ 'error_icon': submitted && f.personalLastName.errors }"><span [data-feather]="'user'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleTenTienRef.valid && TDMultiRuleTenTienRef.touched"
-                        ngModel 
-                        #TDMultiRuleTenTienRef="ngModel" 
-                        required
+                      [ngClass]="{ 'error': submitted && f.personalLastName.errors}"
+                        formControlName="personalLastName"
                         type="text"
                         id="fname-icon-2"
                         class="form-control"
@@ -100,8 +105,8 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleTenTienRef.valid && TDMultiRuleTenTienRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleTenTienRef.errors.required">
+                    <span *ngIf="submitted && f.personalLastName.errors " class="invalid-form">
+                      <small class="form-text text-muted danger" >
                         Không được bỏ trống </small>
                     </span>
                   </div>
@@ -115,13 +120,11 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleCMTRef.valid && TDMultiRuleCMTRef.touched"><span [data-feather]="'credit-card'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.personalCountryId.errors }"><span [data-feather]="'credit-card'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleCMTRef.valid && TDMultiRuleCMTRef.touched"
-                        ngModel 
-                        #TDMultiRuleCMTRef="ngModel" 
-                        required
+                      [ngClass]="{ 'error': submitted && f.personalCountryId.errors}"
+                        formControlName="personalCountryId"
                         type="text"
                         id="fname-icon-3"
                         class="form-control"
@@ -131,10 +134,12 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleCMTRef.valid && TDMultiRuleCMTRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleCMTRef.errors.required">
+                    <span *ngIf="submitted && f.personalCountryId.errors " class="invalid-form">
+                      <small class="form-text text-muted danger" >
                         Không được bỏ trống </small>
+                        
                     </span>
+                    
                   </div>
                 </div>
               </div>         
@@ -149,13 +154,11 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleBirthRef.valid && TDMultiRuleBirthRef.touched"><span [data-feather]="'more-horizontal'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.birthday.errors }"><span [data-feather]="'more-horizontal'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleBirthRef.valid && TDMultiRuleBirthRef.touched"
-                        ngModel 
-                        #TDMultiRuleBirthRef="ngModel" 
-                        required
+                      [ngClass]="{ 'error': submitted && f.birthday.errors}"
+                        formControlName="birthday"
                         type="text"
                         id="fname-icon-4"
                         class="form-control"
@@ -165,10 +168,16 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleBirthRef.valid && TDMultiRuleBirthRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleBirthRef.errors.required">
-                        Không được bỏ trống </small>
+                    <span *ngIf="submitted && f.birthday.errors " class="invalid-form">
+                      <small class="form-text text-muted danger" *ngIf = "f.birthday.errors.required">
+                        Không được bỏ trống 
+                      </small>
+                        <small class="form-text text-muted danger" *ngIf = "f.birthday.errors.pattern">
+                          điền đúng cú pháp dd/mm/yyyy
+                        </small>
                     </span>
+                      
+                   
                   </div>
                 </div>
               </div>
@@ -180,13 +189,11 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRulePhoneNumberRef.valid && TDMultiRulePhoneNumberRef.touched"><span [data-feather]="'phone-call'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.phoneNumber.errors }"><span [data-feather]="'phone-call'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRulePhoneNumberRef.valid && TDMultiRulePhoneNumberRef.touched"
-                        ngModel 
-                        #TDMultiRulePhoneNumberRef="ngModel" 
-                        required
+                      [ngClass]="{ 'error': submitted && f.phoneNumber.errors}"
+                        formControlName="phoneNumber"
                         type="text"
                         id="fname-icon"
                         class="form-control"
@@ -196,9 +203,13 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRulePhoneNumberRef.valid && TDMultiRulePhoneNumberRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRulePhoneNumberRef.errors.required">
-                        Không được bỏ trống </small>
+                    <span *ngIf="submitted && f.phoneNumber.errors " class="invalid-form">
+                      <small class="form-text text-muted danger" *ngIf="f.phoneNumber.errors.required ">
+                        Không được bỏ trống 
+                      </small>
+                      <small class="form-text text-muted danger" *ngIf="f.phoneNumber.errors.minLength ">
+                        phải đủ 10 số 
+                      </small>
                     </span>
                   </div>
                 </div>
@@ -211,14 +222,11 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleEmailRef.valid && TDMultiRuleEmailRef.touched"><span [data-feather]="'mail'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.email.errors }"><span [data-feather]="'mail'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleEmailRef.valid && TDMultiRuleEmailRef.touched"
-                        ngModel 
-                        #TDMultiRuleEmailRef="ngModel" 
-                        required
-                        email
+                      [ngClass]="{ 'error': submitted && f.email.errors}"
+                        formControlName="email"
                         type="text"
                         id="fname-icon-5"
                         class="form-control"
@@ -228,9 +236,13 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleEmailRef.valid && TDMultiRuleEmailRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleEmailRef.errors.required">
-                        email must be valid!</small>
+                    <span *ngIf="submitted && f.email.errors" class="invalid-form">
+                      <small class="form-text text-muted danger" *ngIf="f.email.errors.required">
+                        email must be valid!
+                      </small>
+                      <small class="form-text text-muted danger" *ngIf="f.email.errors.email">
+                        điền đúng định dạng
+                      </small>
                     </span>
                   </div>
                 </div>
@@ -238,18 +250,16 @@
               <div class="col-12 col-md-3">
                 <div class="form-group ">
                   <div class="col-sm-12 col-form-label">
-                    <label>TÊN TỐ CHỨC</label>
+                    <label>ID TỔ CHỨC</label>
                   </div>
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleNameOganizationRef.valid && TDMultiRuleNameOganizationRef.touched"><span [data-feather]="'credit-card'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.organizationId.errors }"><span [data-feather]="'credit-card'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleNameOganizationRef.valid && TDMultiRuleNameOganizationRef.touched"
-                        ngModel 
-                        #TDMultiRuleNameOganizationRef="ngModel" 
-                        required
+                      [ngClass]="{ 'error': submitted && f.organizationId.errors}"
+                        formControlName="organizationId"
                         type="text"
                         id="fname-icon-6"
                         class="form-control"
@@ -259,8 +269,8 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleNameOganizationRef.valid && TDMultiRuleNameOganizationRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleNameOganizationRef.errors.required">
+                    <span *ngIf="submitted && f.organizationId.errors" class="invalid-form">
+                      <small class="form-text text-muted danger">
                         không được bỏ trống</small>
                     </span>
                   </div>
@@ -280,10 +290,16 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="input-group input-group-merge">
-                          <select class="form-control form-control-lg " >                       
+                          <select class="form-control form-control-lg " formControlName="countryBirthPlace" [ngClass]="{ 'error_icon': submitted && f.countryBirthPlace.errors }">                       
                             <option value="{{i}}" *ngFor = 'let country of countryBirthPlace,index as i '>{{country}}</option>                       
                           </select>
                         </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.countryBirthPlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -296,9 +312,15 @@
                         <label>TỈNH </label>
                       </div>
                       <div class="col-sm-12">
-                        <select class="form-control form-control-lg ">
+                        <select class="form-control form-control-lg " formControlName="provinceBirthPlace" [ngClass]="{ 'error_icon': submitted && f.provinceBirthPlace.errors }">
                           <option value="{{i}}" *ngFor = 'let country of provinceBirthPlace,index as i '>{{country}}</option>
                         </select>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.provinceBirthPlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -314,10 +336,16 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="input-group input-group-merge">
-                          <select class="form-control form-control-lg ">
+                          <select class="form-control form-control-lg " formControlName="districtBirthPlace" [ngClass]="{ 'error_icon': submitted && f.districtBirthPlace.errors }">
                             <option value="{{i}}" *ngFor = 'let country of districtBirthPlace,index as i '>{{country}}</option>
                           </select>
                         </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.districtBirthPlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -329,10 +357,16 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="input-group input-group-merge">
-                          <select class="form-control form-control-lg ">
+                          <select class="form-control form-control-lg " formControlName="communeBirthPlace" [ngClass]="{ 'error_icon': submitted && f.communeBirthPlace.errors }">
                             <option value="{{i}}" *ngFor = 'let country of communeBirthPlace,index as i '>{{country}}</option>
                           </select>
                         </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.communeBirthPlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -348,14 +382,11 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleHomeNumberRef.valid && TDMultiRuleHomeNumberRef.touched"><span [data-feather]="'home'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.homeNumberBirthPlace.errors }"><span [data-feather]="'home'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleHomeNumberRef.valid && TDMultiRuleHomeNumberRef.touched"
-                        class="form-control input-md" 
-                        ngModel 
-                        #TDMultiRuleHomeNumberRef="ngModel" 
-                        required   
+                      [ngClass]="{ 'error': submitted && f.homeNumberBirthPlace.errors}"
+                        formControlName="homeNumberBirthPlace"
                         type="text"
                         id="fname-icon-7"
                         class="form-control"
@@ -365,9 +396,10 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleHomeNumberRef.valid && TDMultiRuleHomeNumberRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleHomeNumberRef.errors.required">
+                    <span *ngIf="submitted && f.homeNumberBirthPlace.errors" class="invalid-form">
+                      <small class="form-text text-muted danger" >
                         Không được bỏ trống </small>
+                        
                     </span>
                   </div>
                 </div>
@@ -381,11 +413,8 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <input
-                        [class.error]="!TDMultiRuleNameStressRef.valid && TDMultiRuleNameStressRef.touched"
-                        class="form-control input-md" 
-                        ngModel 
-                        #TDMultiRuleNameStressRef="ngModel" 
-                        required 
+                      [ngClass]="{ 'error': submitted && f.streetBirthplace.errors}"
+                        formControlName="streetBirthplace"
                         type="text"
                         id="fname-icon-8"
                         class="form-control"
@@ -395,8 +424,8 @@
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleNameStressRef.valid && TDMultiRuleNameStressRef.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleNameStressRef.errors.required">
+                    <span *ngIf="submitted && f.streetBirthplace.errors"  class="invalid-form">
+                      <small class="form-text text-muted danger">
                         Không được bỏ trống </small>
                     </span>
                   </div>
@@ -405,7 +434,7 @@
             </div>
     
             <h3>Nơi cư chú</h3>
-            <div class="row">
+            <div class="row ">
               <div class="col-12 col-md-4">
                 <div class="row">
                   <!-- quốc gia -->
@@ -416,10 +445,16 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="input-group input-group-merge">
-                          <select class="form-control form-control-lg ">
+                          <select class="form-control form-control-lg " formControlName="countryResidencePlace" [ngClass]="{ 'error_icon': submitted && f.countryResidencePlace.errors }">
                             <option value="{{i}}" *ngFor = 'let country of countryResidencePlace,index as i '>{{country}}</option> 
                           </select>
                         </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.countryResidencePlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -432,9 +467,15 @@
                         <label>TỈNH/THÀNH PHỐ </label>
                       </div>
                       <div class="col-sm-12">
-                        <select class="form-control form-control-lg ">
+                        <select class="form-control form-control-lg " formControlName="provinceResidencePlace" [ngClass]="{ 'error_icon': submitted && f.provinceResidencePlace.errors }">
                           <option value="{{i}}" *ngFor = 'let country of provinceResidencePlace,index as i '>{{country}}</option> 
                         </select>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.provinceResidencePlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -450,10 +491,17 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="input-group input-group-merge">
-                          <select class="form-control form-control-lg ">
+                          <select class="form-control form-control-lg " formControlName="districtResidencePlace" [ngClass]="{ 'error_icon': submitted && f.districtResidencePlace.errors }">
                             <option value="{{i}}" *ngFor = 'let country of districtResidencePlace,index as i '>{{country}}</option>
                           </select>
                         </div>
+                        
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.districtResidencePlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -465,10 +513,16 @@
                       </div>
                       <div class="col-sm-12">
                         <div class="input-group input-group-merge">
-                          <select class="form-control form-control-lg ">
+                          <select class="form-control form-control-lg " formControlName="communeResidencePlace" [ngClass]="{ 'error_icon': submitted && f.communeResidencePlace.errors }">
                             <option value="{{i}}" *ngFor = 'let country of communeResidencePlace,index as i '>{{country}}</option>
                           </select>
                         </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <span *ngIf="submitted && f.communeResidencePlace.errors" class="invalid-form">
+                          <small class="form-text text-muted danger">
+                            không được bỏ trống</small>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -484,25 +538,22 @@
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" [class.error_icon]="!TDMultiRuleHomeNumber2Ref.valid && TDMultiRuleHomeNumber2Ref.touched"><span [data-feather]="'home'"></span></span>
+                        <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.homeNumberResidencePlace.errors }"><span [data-feather]="'home'"></span></span>
                       </div>
                       <input
-                        [class.error]="!TDMultiRuleHomeNumber2Ref.valid && TDMultiRuleHomeNumber2Ref.touched"
-                        class="form-control input-md" 
-                        ngModel 
-                        #TDMultiRuleHomeNumber2Ref="ngModel" 
-                        required  
+                      [ngClass]="{ 'error': submitted && f.homeNumberResidencePlace.errors}"
+                        formControlName="homeNumberResidencePlace"
                         type="text"
-                        id="fname-icon-9"
+                        id="fname-icon-7"
                         class="form-control"
-                        name="fname-icon-9"
+                        name="fname-icon-7"
                         placeholder="Số nhà"
                       />
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleHomeNumber2Ref.valid && TDMultiRuleHomeNumber2Ref.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleHomeNumber2Ref.errors.required">
+                    <span *ngIf="submitted && f.homeNumberResidencePlace.errors"  class="invalid-form">
+                      <small class="form-text text-muted danger" >
                         Không được bỏ trống </small>
                     </span>
                   </div>
@@ -512,28 +563,24 @@
               <div class="col-12 col-md-6">
                 <div class="form-group ">
                   <div class="col-sm-12 col-form-label">
-                    <label>TÊN ĐƯỜNG ĐỊA CHỈ CỤ THỂ</label>
+                    <label>TÊN ĐƯỜNG</label>
                   </div>
                   <div class="col-sm-12">
                     <div class="input-group input-group-merge">
-                      
                       <input
-                        [class.error]="!TDMultiRuleStressName2Ref.valid && TDMultiRuleStressName2Ref.touched"
-                        class="form-control input-md" 
-                        ngModel 
-                        #TDMultiRuleStressName2Ref="ngModel" 
-                        required  
+                      [ngClass]="{ 'error': submitted && f.streetResidencePlace.errors}"
+                        formControlName="streetResidencePlace"
                         type="text"
-                        id="fname-icon-10"
+                        id="fname-icon-8"
                         class="form-control"
-                        name="fname-icon-10"
-                        placeholder="83 Yên Phúc ,Hà Đông ,Hà Nội"
+                        name="fname-icon-8"
+                        placeholder="TÊN ĐƯỜNG"
                       />
                     </div>
                   </div>
                   <div class="col-sm-12">
-                    <span *ngIf="!TDMultiRuleStressName2Ref.valid && TDMultiRuleStressName2Ref.touched" class="invalid-form">
-                      <small class="form-text text-muted danger" *ngIf="TDMultiRuleStressName2Ref.errors.required">
+                    <span *ngIf="submitted && f.streetResidencePlace.errors"  class="invalid-form">
+                      <small class="form-text text-muted danger" >
                         Không được bỏ trống </small>
                     </span>
                   </div>
@@ -543,7 +590,7 @@
           </div>
   
           <div class="col-12 button_summit">
-            <button type="submit" rippleEffect class="btn btn-primary mr-1" [disabled]="!TDMultiRuleForm.form.valid" rippleEffect>Submit</button>
+            <button type="submit" rippleEffect class="btn btn-primary mr-1"  >Submit</button>
             <button type="reset" rippleEffect class="btn btn-outline-secondary">Reset</button>
           </div>
           
@@ -554,5 +601,7 @@
       </div>
     </div>
     <!-- Modal to add new user Ends-->
+
+    
   </div>
   

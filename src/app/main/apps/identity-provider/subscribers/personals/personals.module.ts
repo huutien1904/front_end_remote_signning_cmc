@@ -17,6 +17,8 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
+import { ReactiveFormsModule } from "@angular/forms";
+
 /**
  * Routing
  */
@@ -74,7 +76,8 @@ const routes: Routes = [
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
-    CoreSidebarModule
+    CoreSidebarModule,
+    ReactiveFormsModule,
   ],
   providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })
