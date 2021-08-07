@@ -1,130 +1,143 @@
-<div class="slideout-content">
-    <!-- Modal to add new user starts-->
-    <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
-        <div class="modal-dialog">
-            <form class="add-new-user modal-content pt-0" (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="toggleSidebar('new-user-sidebar')">×</button>
-                <div class="modal-header mb-1">
-                    <h5 class="modal-title" id="exampleModalLabel">Tài khoản mới</h5>
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">Đăng kí tài khoản mới</h4>
+</div>
+<div class="modal-body" tabindex="0" ngbAutofocus>
+    <form [formGroup]="ReactiveUserDetailsForm" (ngSubmit)="ReactiveUDFormOnSubmit()">
+        <div class="row">
+            <div class="col-6">
+                <label for="UDUserName">Tên tài khoản</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.username.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="user"></i>
+                                </span>
+                    </div>
+                    <input type="text" id="UDUserName" [(ngModel)]="UDForm.username" formControlName="username" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.username.errors }" class="form-control" />
                 </div>
-                <div class="modal-body flex-grow-1">
-                    <label class="form-label" for="basic-icon-default-uname">Tên tài khoản</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="user"></i>
-                            </span>
-                        </div>
-                        <input type="text" id="basic-icon-default-uname" class="form-control dt-uname" placeholder="" aria-label="jdoe1" aria-describedby="basic-icon-default-uname2" name="username" [(ngModel)]="username" [class.error]="newUserForm.submitted && FUserNameRef.invalid"
-                            #FUserNameRef="ngModel" required />
-                        <span *ngIf="newUserForm.submitted && FUserNameRef.invalid" class="invalid-form">
-                            <small class="form-text text-danger" *ngIf="FUserNameRef.errors.required">Trường này là bắt buộc</small>
-                        </span>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.username.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.username.errors.required">Không được bỏ trống</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="UDFirstName">Tên</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.firstName.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="user"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="basic-icon-default-pass">Mật khẩu</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="lock"></i>
-                            </span>
-                        </div>
-                        <input type="password" id="basic-icon-default-pass" class="form-control dt-pass" name="password" placeholder="" [(ngModel)]="password" [class.error]="newUserForm.submitted && PassRef.invalid" #PassRef="ngModel" required />
-                        <span *ngIf="newUserForm.submitted && PassRef.invalid" class="invalid-form">
-                            <small class="form-text text-danger" *ngIf="PassRef.errors.required">Trường này là bắt buộc</small>
-                        </span>
+                    <input type="text" id="UDFirstName" [(ngModel)]="UDForm.firstName" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.firstName.errors }" />
+                </div>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.firstName.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.firstName.errors.required">Không được bỏ trống</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="UDLastName">Họ</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.lastName.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="user"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="basic-icon-default-confpass">Xác nhận mật khẩu</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="lock"></i>
-                            </span>
-                        </div>
-                        <input type="password" id="basic-icon-default-confpass" class="form-control dt-confpass" placeholder="" name="confpass" required ngModel #ConfPasswordRef="ngModel" pattern="{{ PassRef.value }}">
-                        <div *ngIf=" ConfPasswordRef.invalid && ConfPasswordRef.touched" class="form-text text-muted danger">
-                            <small *ngIf="ConfPasswordRef.errors.required">Trường này là bắt buộc</small>
-                            <small *ngIf="ConfPasswordRef.errors.pattern">Trường này phải giống mật khẩu</small>
-                        </div>
+                    <input type="text" id="UDLastName" formControlName="lastName" [(ngModel)]="UDForm.lastName" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.lastName.errors }" />
+                </div>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.lastName.errors.required">Không được bỏ trống</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="UDPhoneNumber">Số điện thoại</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.phoneNo.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="phone"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="basic-icon-default-lname">Họ</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="user"></i>
-                            </span>
-                        </div>
-                        <input type="text" id="basic-icon-default-lname" class="form-control dt-lname" placeholder="" aria-label="jdoe1" aria-describedby="basic-icon-default-lname2" name="lastName" [(ngModel)]="lastName" [class.error]="newUserForm.submitted && LastNameRef.invalid"
-                            #LastNameRef="ngModel" required />
-                        <span *ngIf="newUserForm.submitted && LastNameRef.invalid" class="invalid-form">
-                            <small class="form-text text-danger" *ngIf="LastNameRef.errors.required">Trường này là bắt buộc</small>
-                        </span>
+                    <input type="number" id="UDPhoneNumber" formControlName="phoneNo" [(ngModel)]="UDForm.phoneNo" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.phoneNo.errors }" />
+                </div>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.phoneNo.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.phoneNo.errors.required">Không được bỏ trống</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label" for="user-role">Vai trò</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="star"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="basic-icon-default-fname">Tên</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="lock"></i>
-                            </span>
-                        </div>
-                        <input type="text" id="basic-icon-default-fname" class="form-control dt-fname" placeholder="" aria-label="jdoe1" aria-describedby="basic-icon-default-fname2" name="firstName" [(ngModel)]="firstName" [class.error]="newUserForm.submitted && FirstNameRef.invalid"
-                            #FirstNameRef="ngModel" required />
-                        <span *ngIf="newUserForm.submitted && FirstNameRef.invalid" class="invalid-form">
-                            <small class="form-text text-danger" *ngIf="FirstNameRef.errors.required">Trường này là bắt buộc</small>
-                        </span>
+                    <select id="user-role" class="form-control">
+                                    <option *ngFor="let item of roles" value="{{ item }}">{{ item }}</option>
+                                </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="UDEmail">Email</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.email.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="mail"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="basic-icon-default-phone">Số điện thoại</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="phone"></i>
-                            </span>
-                        </div>
-                        <input type="number" id="basic-icon-default-phone" class="form-control dt-phone" placeholder="" aria-label="jdoe1" aria-describedby="basic-icon-default-phone2" name="phoneNo" [(ngModel)]="phoneNo" [class.error]="newUserForm.submitted && PhoneNoRef.invalid"
-                            #PhoneNoRef="ngModel" required />
-                        <span *ngIf="newUserForm.submitted && PhoneNoRef.invalid" class="invalid-form">
-                            <small class="form-text text-danger" *ngIf="PhoneNoRef.errors.required">Trường này là bắt buộc</small>
-                        </span>
+                    <input type="email" id="UDEmail" formControlName="email" [(ngModel)]="UDForm.email" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.email.errors }" />
+                </div>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.email.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.email.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.email.errors.email">Không hợp lệ</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="UDPassword">Mật khẩu</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.password.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="lock"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="basic-icon-default-email">Email</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="mail"></i>
-                            </span>
-                        </div>
-                        <input type="text" id="basic-icon-default-email" class="form-control dt-email" placeholder="" aria-label="john.doe@example.com" aria-describedby="basic-icon-default-email2" name="email" [(ngModel)]="email" [class.error]="newUserForm.submitted && FEmailRef.invalid"
-                            #FEmailRef="ngModel" required />
-                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
-                            <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">Trường này là bắt buộc</small>
-                        </span>
+                    <input type="password" id="UDPassword" formControlName="password" [(ngModel)]="UDForm.password" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.password.errors }" />
+                </div>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.password.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.password.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.password.errors.minlength">Mật khẩu chứa ít nhất 6 kí tự</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="UDConfPassword">Xác nhận mật khẩu</label>
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.confPassword.errors }">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="lock"></i>
+                                </span>
                     </div>
-                    <label class="form-label" for="user-role">Vai trò</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="star"></i>
-                            </span>
-                        </div>
-                        <select id="user-role" class="form-control">
-                          <option *ngFor="let item of role" value="{{ item }}">{{ item }}</option>
-                        </select>
-                    </div>
-                    <label class="form-label" for="basic-icon-default-created">Ngày đăng kí</label>
-                    <div class="form-group input-group input-group-merge mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="calendar"></i>
-                            </span>
-                        </div>
-                        <input id="basic-icon-default-created" class="form-control" name="createdAt" placeholder="{{ createdAt | date:'dd-MM-yyyy'}}" disabled/>
-                    </div>
-                    <div style="text-align: right;">
-                        <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Thêm</button>
-                        <button type="reset" class="btn btn-outline-secondary" (click)="toggleSidebar('new-user-sidebar')" rippleEffect>Hủy</button>
+                    <input type="password" id="UDConfPassword" formControlName="confPassword" [(ngModel)]="UDForm.confPassword" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormOnSubmit && ReactiveUDForm.confPassword.errors }" />
+                </div>
+                <div *ngIf="ReactiveUDFormOnSubmit && ReactiveUDForm.confPassword.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.confPassword.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.confPassword.errors.minlength">Mật khẩu xác nhận chứa ít nhất 6 kí tự
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="col-6">
+                <label class="form-label" for="basic-icon-default-created">Ngày đăng kí</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                                    <i data-feather="calendar"></i>
+                                </span>
+                    </div>
+                    <input id="basic-icon-default-created" class="form-control" name="createdAt" placeholder="{{ UDForm.createdAt | date:'dd-MM-yyyy'}}" disabled/>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- Modal to add new user Ends-->
+    </form>
+</div>
+<div class="modal-footer" style="text-align: right;">
+    <button type="button" class="btn btn-primary mr-1" (click)="ReactiveUDFormOnSubmit" rippleEffect>
+        Đăng kí
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="toggleSidebar()" rippleEffect>
+        Hủy
+    </button>
 </div>
