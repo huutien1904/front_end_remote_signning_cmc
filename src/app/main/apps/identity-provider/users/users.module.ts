@@ -23,6 +23,10 @@ const routes: Routes= [
   //   canActivate: [AuthGuard],
   //   data: {roles: [Role.SuperAdmin], animation: "UserListComponent" },
   // }
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ]
 @NgModule({
   declarations: [

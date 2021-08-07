@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: 'keypair',
     loadChildren: () => import('./keypair/keypair.module').then(m => m.KeypairModule)
-  }
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ]
 @NgModule({
   declarations: [

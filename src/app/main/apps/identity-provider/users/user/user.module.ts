@@ -34,7 +34,7 @@ const routes: Routes = [
     resolve: {
       uls: UserListService
     },
-    data: {roles: [Role.Admin], animation: "UserListComponent" },
+    data: { animation: "UserListComponent" },
   },
   {
     path: "user-view/:id",
@@ -59,6 +59,10 @@ const routes: Routes = [
   {
     path: "user-edit",
     redirectTo: "/apps/user/user-edit/2", // Redirection
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
   },
 ];
 @NgModule({

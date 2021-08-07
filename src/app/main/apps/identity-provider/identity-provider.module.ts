@@ -16,7 +16,11 @@ const routes:Routes = [
   {
     path: 'subscribers',
     loadChildren: () => import('./subscribers/subscribers.module').then(m => m.SubscribersModule)
-  }
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ]
 
 @NgModule({

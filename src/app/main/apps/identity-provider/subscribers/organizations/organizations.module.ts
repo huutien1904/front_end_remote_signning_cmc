@@ -42,7 +42,11 @@ const routes: Routes = [
   {
     path : "organization-edit",
     redirectTo: "/organization-edit/self", // Redirection to self
-  }
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ];
 @NgModule({
   declarations: [

@@ -1,19 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { KeypairTemplateComponent } from './keypair-template.component';
 import { RouterModule, Routes } from '@angular/router';
 
 
-/**
- * Routing
- */
 const routes: Routes = [
-  { 
-    path: 'personals',
-    loadChildren:()=> import('./personals/personals.module').then(m => m.PersonalsModule)
-  },
-  { 
-    path : 'organizations',
-    loadChildren:()=> import('./organizations/organizations.module').then(m => m.OrganizationsModule)
+  {
+    path: "",
+    component: KeypairTemplateComponent,
+    data: { animation: "KeypairTemplateComponent" },
   },
   {
     path: "**",
@@ -21,10 +16,9 @@ const routes: Routes = [
   },
 ]
 @NgModule({
-  declarations: [
-  ],
+  declarations: [KeypairTemplateComponent],
   imports: [
     CommonModule, RouterModule.forChild(routes),
   ]
 })
-export class SubscribersModule { }
+export class KeypairTemplateModule { }
