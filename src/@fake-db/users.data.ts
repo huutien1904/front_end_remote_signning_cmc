@@ -2,98 +2,6 @@ export class UsersFakeData {
   public static users = [
     {
       id: 1,
-      role: 'ADMIN',
-      username: 'leesin',
-      fullName: 'Nguyễn Văn A',
-      firstName: 'A',
-      lastName: 'Nguyễn Văn',
-      phoneNo: '0123456789',
-      email: 'nguyenvana@gmail.com',
-      createdAt: '03-02-2021',
-      updatedAt: '05-02-2021',
-      isActive: false
-    },
-    {
-      id: 2,
-      role: 'SUPERADMIN',
-      username: 'daxua',
-      fullName: 'Nguyễn Tiến B',
-      firstName: 'B',
-      lastName: 'Nguyễn Tiến',
-      phoneNo: '0987654321',
-      email: 'nguyentienb@gmail.com',
-      createdAt: '15-06-2021',
-      updatedAt: '20-07-2021',
-      isActive: true
-    },
-    {
-      id: 3,
-      role: 'USER-SERVICE',
-      username: 'susan0175',
-      fullName: 'Nguyễn Thị C',
-      firstName: 'C',
-      lastName: 'Nguyễn Thị',
-      phoneNo: '0111222333',
-      email: 'nguyenthic@gmail.com',
-      createdAt: '09-03-2021',
-      updatedAt: '30-06-2021',
-      isActive: true
-    },
-    {
-      id: 4,
-      role: 'OPERATOR',
-      username: 'hacker',
-      fullName: 'Phạm Văn D',
-      firstName: 'D',
-      lastName: 'Phạm Văn',
-      phoneNo: '0911252784',
-      email: 'phamvand@gmail.com',
-      createdAt: '20-06-2021',
-      updatedAt: '21-06-2021',
-      isActive: false
-    },
-    {
-      id: 5,
-      role: 'USER-PERSONAL',
-      username: 'gunny111',
-      fullName: 'Vũ Thị E',
-      firstName: 'E',
-      lastName: 'Vũ Thị',
-      phoneNo: '0255317864',
-      email: 'vuthie@gmail.com',
-      createdAt: '12-04-2021',
-      updatedAt: '25-07-2021',
-      isActive: true
-    },
-    {
-      id: 6,
-      role: 'USER-ORGANIZATION',
-      username: 'boom9x',
-      fullName: 'Phạm Thanh F',
-      firstName: 'F',
-      lastName: 'Phạm Thanh',
-      phoneNo: '0912443556',
-      email: 'phamthanhf@gmail.com',
-      createdAt: '03-01-2021',
-      updatedAt: '01-02-2021',
-      isActive: true
-    },
-    {
-      id: 7,
-      role: 'USER-DEVICE',
-      username: 'ageofempires',
-      fullName: 'Lê Văn G',
-      firstName: 'G',
-      lastName: 'Lê Văn',
-      phoneNo: '0915323911',
-      email: 'levang@gmail.com',
-      createdAt: '10-05-2021',
-      updatedAt: '20-05-2021',
-      isActive: false
-    },
-    /*
-    {
-      id: 1,
       fullName: 'Galen Slixby',
       company: 'Yotz PVT LTD',
       role: 'Editor',
@@ -742,6 +650,5 @@ export class UsersFakeData {
       status: 'active',
       avatar: 'assets/images/avatars/9.png'
     }
-    */
   ];
 }

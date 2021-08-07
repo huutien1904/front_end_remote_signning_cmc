@@ -17,7 +17,9 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewUserSidebarComponent } from "./user-list/new-user-sidebar/new-user-sidebar.component";
-
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryDataService } from './data/in-memory-data.service';
 /**
 /**
  * Routing
@@ -70,7 +72,11 @@ const routes: Routes = [
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
-    CoreSidebarModule
+    CoreSidebarModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [UserListService, UserEditService, UserViewService],
 })
