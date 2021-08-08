@@ -93,7 +93,11 @@ export class NewPersonalSidebarComponent implements OnInit {
       districtResidencePlace: ['',Validators.required],
       communeResidencePlace: ['',Validators.required],
       
-  });
+    });
+    new FormControl("", Validators.required, this.isUserNameDuplicated);
+  }
+  isUserNameDuplicated(control: AbstractControl): Observable<ValidationErrors> {
+    return of(null);
   }
   get f() { return this.newPersonal.controls; }
   onSubmit() {

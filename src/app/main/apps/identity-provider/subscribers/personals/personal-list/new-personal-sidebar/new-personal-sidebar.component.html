@@ -541,8 +541,9 @@
                         <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.homeNumberResidencePlace.errors }"><span [data-feather]="'home'"></span></span>
                       </div>
                       <input
-                      [ngClass]="{ 'error': submitted && f.homeNumberResidencePlace.errors}"
+                      
                         formControlName="homeNumberResidencePlace"
+                        [ngClass]="{ 'error': submitted && f.homeNumberResidencePlace.errors}"
                         type="text"
                         id="fname-icon-7"
                         class="form-control"

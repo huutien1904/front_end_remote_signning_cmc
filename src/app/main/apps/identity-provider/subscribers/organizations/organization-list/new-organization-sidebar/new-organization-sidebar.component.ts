@@ -66,102 +66,53 @@ export class NewOrganizationSidebarComponent implements OnInit {
       private _coreSidebarService: CoreSidebarService,
       private fb: FormBuilder
       ) { }
-
+  submitted = false;
   ngOnInit(): void {
+    
+  
+
     this.newOganization = this.fb.group({
-      // id quốc gia tổ chức
-      countryOrganizationId: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(10),
-        ])
-      ],
-      // tên tổ chức
-      organizationName: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-        ])
-      ],
-      // id tổ chức mẹ
-      parentOrganizationId: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.pattern('^[0-9]')
-        ])
-      ],
-      // id loại người đăng ký
-      subscriberCategoryId:[
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(12),
-          Validators.pattern('^[0-9]')
-        ])
-      ],
-      // tên nhóm trưởng
-      leaderName: [
-        "",
-        Validators.compose([
-          Validators.required,
-          
-        ])
-      ],
-      // webside
-      website: [
-        "",
-        Validators.compose([
-          Validators.required,
-          
-        ])
-      ],
       
-      // số điện thoại
-      phoneNumber: [
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/),
-          Validators.email
-        ])
-      ],
-      // số nhà
-      homeNumber: [
-        "",
-        Validators.compose([
-          Validators.required,
-          
-          
-        ])
-      ],
-      // địa chỉ cụ thể
-      street: [
-        "",
-        Validators.compose([
-          Validators.required,
-          
-          
-        ])
-      ],
+      countryOrganizationId: ['',Validators.required],
+      organizationName: ['',Validators.required],
+      parentOrganizationId: ['',Validators.required],
+      subscriberCategoryId: ['',Validators.required],
+      leaderName: ['',Validators.required],
+      website: ['',Validators.required],
+      phoneNumber: ['',Validators.required],
+      homeNumber: ['',Validators.required],
+      street: ['',Validators.required],
+      country: ['',Validators.required],
+      province: ['',Validators.required],
+      district: ['',Validators.required],
+      commune: ['',Validators.required],
+      descriptionHome: ['',Validators.required],
+      updatedAt: ['',Validators.required],
       
-    }),
+    });
     new FormControl("", Validators.required, this.isUserNameDuplicated);
   }
+  
   isUserNameDuplicated(control: AbstractControl): Observable<ValidationErrors> {
     return of(null);
   }
+  get f() { return this.newOganization.controls; }
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
   closeSidebar() {
     this.toggleSidebar('new-organizarion-sidebar');
   }
-  submit(form) {
-    console.log(this.newOganization)
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.newOganization.invalid) {
+        return;
+    }
+
+    // display form values on success
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.newOganization.value, null, 4));
   }
 
 }
