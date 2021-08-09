@@ -20,6 +20,8 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewUserSidebarComponent } from "./user-list/new-user-sidebar/new-user-sidebar.component";
+import { Role } from "app/auth/models";
+import { AuthGuard } from "app/auth/helpers/auth.guards";
 // import { BFormSelect } from 'bootstrap-vue'
 
 /**
@@ -31,6 +33,7 @@ const routes: Routes = [
   {
     path: "user-list",
     component: UserListComponent,
+    canActivate: [AuthGuard],
     resolve: {
       uls: UserListService
     },
@@ -59,6 +62,10 @@ const routes: Routes = [
   {
     path: "user-edit",
     redirectTo: "/apps/user/user-edit/2", // Redirection
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
   },
 ];
 @NgModule({

@@ -18,12 +18,12 @@ import { coreConfig } from "app/app-config";
 
 import { AppComponent } from "app/app.component";
 import { LayoutModule } from "app/layout/layout.module";
-import { SampleModule } from "app/main/sample/sample.module";
 import {
   ErrorInterceptor,
-  fakeBackendProvider,
   JwtInterceptor,
 } from "app/auth/helpers"; // used to create fake backend
+import { AuthGuard } from 'app/auth/helpers/auth.guards';
+
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 
 const appRoutes: Routes = [
@@ -36,10 +36,11 @@ const appRoutes: Routes = [
     path: "apps",
     loadChildren: () =>
       import("./main/apps/apps.module").then((m) => m.AppsModule),
+      canActivate: [AuthGuard]
   },
   {
     path: "",
-    redirectTo: "/home",
+    redirectTo: "/apps/dashboard",
     pathMatch: "full",
   },
   {
@@ -78,12 +79,10 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
-    SampleModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider,
   ],
   entryComponents: [ ],
   bootstrap: [AppComponent],

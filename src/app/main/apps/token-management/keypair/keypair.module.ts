@@ -37,9 +37,17 @@ const routes: Routes = [
     redirectTo: "/keypair-view/self", //Redirection to self 
   },
   {
+    path : "keypair-template",
+    loadChildren: () => import('./keypair-template/keypair-template.module').then(m => m.KeypairTemplateModule)
+  },
+  {
     path : "keypair-edit",
     redirectTo: "/keypair-edit/self", // Redirection to self
-  }
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ];
 
 
