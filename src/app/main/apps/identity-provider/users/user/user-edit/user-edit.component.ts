@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -42,7 +41,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   public ReactiveUserDetailsForm: FormGroup;
   public ReactiveUDFormSubmitted = false;
 
-  @ViewChild('accountForm') accountForm: NgForm;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -61,30 +59,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   // -----------------------------------------------------------------------------------------------------
 
   /**
-   * Reset Form With Default Values
-   */
-  resetFormWithDefaultValues() {
-    this.accountForm.resetForm(this.tempRow);
-  }
-
-  /**
-   * Upload Image
-   *
-   * @param event
-   */
-  uploadImage(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-
-      reader.onload = (event: any) => {
-        this.avatarImage = event.target.result;
-      };
-
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
-
-  /**
    * Submit
    *
    * @param form
@@ -99,10 +73,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
     if (this.ReactiveUserDetailsForm.invalid) {
       return;
     }
+    this.UDForm = this.currentRow;
+    alert('Đã lưu thay đổi:\nTên tài khoản: ' + this.UDForm.username + '\nHọ và tên: ' + this.UDForm.lastName + this.UDForm.firstName + '\nSố điện thoại: ' + this.UDForm.phoneNo + '\nEmail: ' + this.UDForm.email + '\nPassword: ' + this.UDForm.password + '\nVai trò: ' + this.UDForm.role + '\nNgày đăng kí: ' + this.UDForm.createdAt);
 
-    alert('Đã lưu thay đổi');
   }
 
+  cancel() {
+    this.router.navigateByUrl('/apps/ip/users/user/user-view/' + this.urlLastValue);
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
@@ -119,7 +97,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
         }
       });
     });
-    this.ReactiveUserDetailsForm = this.formBuilder.group({
+    this.ReactiveUserDetailsForm = this.formBuilder.group(
+    {
       username: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -127,7 +106,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confPassword: ['', [Validators.required, Validators.minLength(6)]],
       phoneNo: ['', [Validators.required]],
-    });
+    },
+    {
+        validator: MustMatch('password', 'confPassword')
+    }
+    );
   }
 
   /**
@@ -138,4 +121,22 @@ export class UserEditComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
+}
+export function MustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return;
+    }
+
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
 }
