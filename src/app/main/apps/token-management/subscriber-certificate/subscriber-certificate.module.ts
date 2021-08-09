@@ -39,7 +39,11 @@ const routes: Routes = [
   {
     path : "subscriber-certificate-edit",
     redirectTo: "/subscriber-certificate-edit/self", // Redirection to self
-  }
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ];
 @NgModule({
   declarations: [],

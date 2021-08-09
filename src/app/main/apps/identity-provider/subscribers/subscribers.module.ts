@@ -14,7 +14,11 @@ const routes: Routes = [
   { 
     path : 'organizations',
     loadChildren:()=> import('./organizations/organizations.module').then(m => m.OrganizationsModule)
-  }
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
 ]
 @NgModule({
   declarations: [

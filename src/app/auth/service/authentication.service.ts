@@ -31,17 +31,17 @@ export class AuthenticationService {
   }
 
   /**
-   *  Confirms if user is admin
+   *  Confirms if user is superadmin
    */
   get isAdmin() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
+    return this.currentUser && this.currentUserSubject.value.role === Role.SuperAdmin;
   }
 
   /**
-   *  Confirms if user is client
+   *  Confirms if user is admin
    */
   get isClient() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.Client;
+    return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
   }
 
   /**
@@ -52,30 +52,39 @@ export class AuthenticationService {
    * @returns user
    */
   login(email: string, password: string) {
+    const bodyRequest = {
+      email: email,
+      password: password,
+    };
+    console.log("login with " + email + " and " + password);
+
     return this._http
-      .post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
+      .post<any>(`${environment.apiUrl}/authenticate`, bodyRequest, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .pipe(
         map(user => {
+          console.log(user);
           // login successful if there's a jwt token in the response
           if (user && user.token) {
+
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
-
             // Display welcome toast!
             setTimeout(() => {
               this._toastrService.success(
-                'You have successfully logged in as an ' +
-                  user.role +
-                  ' user to Vuexy. Now you can start to explore. Enjoy! 🎉',
-                '👋 Welcome, ' + user.firstName + '!',
+                'Đăng nhập thành công với quyền ' +
+                user.role +
+                ' trên SSA Server. Bạn có thể sử dụng ứng dụng ngay bây giờ! 🎉',
+                '👋 Chào mừng, ' + user.firstName + '!',
                 { toastClass: 'toast ngx-toastr', closeButton: true }
               );
             }, 2500);
-
             // notify
             this.currentUserSubject.next(user);
           }
-
           return user;
         })
       );

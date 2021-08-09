@@ -2,10 +2,11 @@ export const locale = {
     lang: 'vi',
     data: {
       MENU: {
+        DASHBOARD: "Dashboard",
         IDENTITY_PROVIDER: {
-          SECTION: "Quản lý thuê bao",
+          SECTION: "Quản lý người dùng",
           BADGE: '2',
-          PROFILE : "Hồ sơ",
+          PROFILE : "Thông tin tài khoản",
           USERS:{
             COLLAPSIBLE: 'Tài khoản',
             LIST: 'Danh sách',
@@ -34,6 +35,7 @@ export const locale = {
             COLLAPSIBLE: 'Khóa',
             LIST : 'Danh sách khóa',
             VIEW : 'Chi tiết khóa',
+            TEMPLATE : "Mẫu cặp khóa",
           },
           CERTIFICATE_REQUEST : {
             COLLAPSIBLE: 'Yêu cầu chứng thực',
@@ -45,6 +47,16 @@ export const locale = {
             LIST : 'Danh sách chứng thư số',
             VIEW: 'Chi tiết chứng thư số',
           }
+        },
+        EQUIPMENT_MANAGEMENT :{
+          SECTION : "Quản lý thiết bị",
+          HSM: "Thiết bị HSM",
+          TOKEN : "TOKEN"
+        },
+        SYSTEM_MANAGEMENT : {
+          SECTION : "Quản lý hệ thống",
+          SYSTEM : "Thiết lập cấu hình",
+          LOG : "Nhật ký"
         }
       }
     }

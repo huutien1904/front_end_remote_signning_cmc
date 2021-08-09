@@ -5,7 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-new-user-sidebar',
-  templateUrl: './new-user-sidebar.component.html'
+  templateUrl: './new-user-sidebar.component.html',
+  styleUrls: ['./new-user-sidebar.component.scss'],
 })
 export class NewUserSidebarComponent implements OnInit {
   public ReactiveUserDetailsForm: FormGroup;
