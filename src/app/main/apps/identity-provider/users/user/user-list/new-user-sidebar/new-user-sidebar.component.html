@@ -111,7 +111,7 @@
                                     <i data-feather="lock"></i>
                                 </span>
                     </div>
-                    <input type="password" id="UDConfPassword" formControlName="confPassword" [(ngModel)]="UDForm.confPassword" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.confPassword.errors }" />
+                    <input type="password" id="UDConfPassword" formControlName="confPassword" [(ngModel)]="confPassword" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.confPassword.errors }" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.confPassword.errors" class="invalid-feedback">
                     <div *ngIf="ReactiveUDForm.confPassword.errors.required">Không được bỏ trống</div>
