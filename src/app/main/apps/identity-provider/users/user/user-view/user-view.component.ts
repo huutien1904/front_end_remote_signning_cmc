@@ -40,6 +40,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
     this._userViewService.onUserViewChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
       this.data = response;
     });
+    console.log(this.data);
   }
 
   /**

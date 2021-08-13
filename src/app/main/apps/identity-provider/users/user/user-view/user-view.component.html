@@ -1,5 +1,5 @@
 <section class="app-user-view">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div class="card user-card">
             <div class="card-body">
                 <div class="row">
@@ -20,14 +20,14 @@
                                     <i data-feather="user" class="mr-1"></i>
                                     <span class="card-text user-info-title font-weight-bold mb-0">Họ và tên: </span>
                                 </div>
-                                <p class="card-text mb-0">{{ data.fullName }}</p>
+                                <p class="card-text mb-0">{{ data.lastName }} {{ data.firstName }}</p>
                             </div>
                             <div class="d-flex flex-wrap my-50">
                                 <div class="user-info-title">
                                     <i data-feather="star" class="mr-1"></i>
                                     <span class="card-text user-info-title font-weight-bold mb-0">Vai trò: </span>
                                 </div>
-                                <p class="card-text mb-0">{{ data.role }}</p>
+                                <p class="card-text mb-0">{{ data.userRole.roleName }}</p>
                             </div>
                             <div class="d-flex flex-wrap my-50">
                                 <div class="user-info-title">
@@ -58,7 +58,7 @@
                                 <p class="card-text mb-0">{{ data.updatedAt }}</p>
                             </div>
                             <div style="text-align: right;">
-                                <button class="btn btn-primary" routerLink="../../user-edit/{{ data.id }}" type="button" rippleEffect>Chỉnh sửa</button>
+                                <button class="btn btn-primary" routerLink="../../user-edit/{{ data.userId }}" type="button" rippleEffect>Chỉnh sửa</button>
                             </div>
                         </div>
                     </div>
