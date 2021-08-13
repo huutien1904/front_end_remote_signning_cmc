@@ -11,7 +11,12 @@
                             <div class="row">
                                 <div class="col-12 col-md-4">
                                     <fieldset class="form-group">
-                                        <ng-select [items]="selectRole" [(ngModel)]="selectedRole" name="selectedRole" bindLabel="name" placeholder="Lựa chọn vai trò" (change)="filterByRole($event)"></ng-select>
+                                        <ng-select [items]="selectRole" [(ngModel)]="selectedRole" name="selectedRole" bindLabel="name" placeholder="Vai trò" (change)="filterByRole($event)"></ng-select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <fieldset class="form-group">
+                                        <ng-select [items]="selectStatus" [(ngModel)]="selectedStatus" name="selectedStatus" bindLabel="name" placeholder="Trạng thái hoạt động" (change)="filterByStatus($event)"></ng-select>
                                     </fieldset>
                                 </div>
                             </div>
@@ -131,42 +136,42 @@
           </ngx-datatable-column>
         </ngx-datatable>
                 -->
-                <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50">
-                    <ngx-datatable-column name="Tên tài khoản" prop="username" [width]="200"></ngx-datatable-column>
-                    <ngx-datatable-column name="Họ và tên" prop="fullName" [width]="250"></ngx-datatable-column>
-                    <ngx-datatable-column name="Email" prop="email" [width]="250"></ngx-datatable-column>
-                    <ngx-datatable-column name="Vai trò" prop="role" [width]="150">
-                        <ng-template let-role="value" ngx-datatable-cell-template>
-                            <div>
-                                {{ role }}
-                            </div>
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Số điện thoại" prop="phoneNo" [width]="120"></ngx-datatable-column>
-                    <ngx-datatable-column name="Hoạt động" prop="isActive" [width]="50">
-                        <ng-template let-isActive="value" ngx-datatable-cell-template>
-                            <div class="badge badge-pill" [ngClass]="{
+                <div *ngIf="show">
+                    <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [limit]="selectedOption" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50">
+                        <ngx-datatable-column name="Tên tài khoản" prop="username" [width]="200"></ngx-datatable-column>
+                        <ngx-datatable-column name="Họ và tên" prop="" [width]="250">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row.lastName }} {{row.firstName}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Email" prop="email" [width]="250"></ngx-datatable-column>
+                        <ngx-datatable-column name="Vai trò" prop="userRole.roleName" [width]="150">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Số điện thoại" prop="phoneNo" [width]="120"></ngx-datatable-column>
+                        <ngx-datatable-column name="Hoạt động" prop="isActive" [width]="50">
+                            <ng-template let-isActive="value" ngx-datatable-cell-template>
+                                <div class="badge badge-pill" [ngClass]="{
                             'badge-light-success': isActive == true,
                             'badge-light-danger': isActive == false
                           }">
-                                <div *ngIf="isActive == true;else no">
-                                    Có
+                                    <div *ngIf="isActive == true;else no">
+                                        Có
+                                    </div>
+                                    <ng-template #no>
+                                        Không
+                                    </ng-template>
                                 </div>
-                                <ng-template #no>
-                                    Không
-                                </ng-template>
-                            </div>
-                        </ng-template>
-                    </ngx-datatable-column>
-                    <ngx-datatable-column name="Thao tác" [width]="50" [sortable]="false">
-                        <ng-template ngx-datatable-cell-template let-row="row">
-                            <div ngbDropdown container="body">
-                                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Thao tác" [width]="50" [sortable]="false">
+                            <ng-template ngx-datatable-cell-template let-row="row">
+                                <div ngbDropdown container="body">
+                                    <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
                 <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
               </button>
-                                <div ngbDropdownMenu>
-                                    <a routerLink="../user-view/{{ row.id }}" ngbDropdownItem><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span>Chi tiết</a
-                ><a routerLink="../user-edit/{{ row.id }}" ngbDropdownItem
+                                    <div ngbDropdownMenu>
+                                        <a routerLink="../user-view/{{ row.userId }}" ngbDropdownItem><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span>Chi tiết</a
+                ><a routerLink="../user-edit/{{ row.userId }}" ngbDropdownItem
                   ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span>Chỉnh sửa</a
                 ><a href="javascript:;" ngbDropdownItem
                   ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span>Xóa</a
@@ -175,7 +180,9 @@
             </div>
           </ng-template>
         </ngx-datatable-column>
-      </ngx-datatable>
+                </ngx-datatable>
+                </div>
+
             </div>
         </section>
         <!--/ User List -->

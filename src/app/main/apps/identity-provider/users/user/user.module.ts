@@ -86,9 +86,7 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-    InMemoryDataService, { dataEncapsulation: false }
-    )
+
     // BFormSelect
   ],
   providers: [UserListService, UserEditService, UserViewService],

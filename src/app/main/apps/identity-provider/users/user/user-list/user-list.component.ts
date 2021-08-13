@@ -18,16 +18,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UserListComponent implements OnInit {
   // Public
-  public sidebarToggleRef = false;
   public rows;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
   public previousRoleFilter = '';
+  public previousStatusFilter: boolean;
   public isActive: boolean;
+  public show= false;
 
   public selectRole: any = [
-    { name: 'All', value: '' },
+    { name: 'Tất cả', value: '' },
     { name: 'ADMIN', value: 'ADMIN' },
     { name: 'SUPERADMIN', value: 'SUPERADMIN' },
     { name: 'OPERATOR', value: 'OPERATOR' },
@@ -36,9 +37,14 @@ export class UserListComponent implements OnInit {
     { name: 'USER-SERVICE', value: 'USER-SERVICE'},
     { name: 'USER-DEVICE', value: 'USER-DEVICE'}
   ];
-
+  public selectStatus: any = [
+    { name: 'Tất cả', value: null },
+    { name: 'Có', value: true },
+    { name: 'Không', value: false }
+  ];
 
   public selectedRole = [];
+  public selectedStatus = [];
   public searchValue = '';
 
   // Decorator
@@ -74,6 +80,8 @@ export class UserListComponent implements OnInit {
   filterUpdate(event) {
     // Reset ng-select on search
     this.selectedRole = this.selectRole[0];
+    this.selectedStatus = this.selectStatus[0];
+
     const val = event.target.value;
 
     // Filter Our Data
@@ -104,7 +112,13 @@ export class UserListComponent implements OnInit {
   filterByRole(event) {
     const filter = event ? event.value : '';
     this.previousRoleFilter = filter;
-    this.temp = this.filterRows(filter);
+    this.temp = this.filterRows(filter, this.previousStatusFilter);
+    this.rows = this.temp;
+  }
+  filterByStatus(event) {
+    const filter = event ? event.value: Boolean ;
+    this.previousStatusFilter = filter;
+    this.temp = this.filterRows(this.previousRoleFilter, filter);
     this.rows = this.temp;
   }
 
@@ -112,14 +126,18 @@ export class UserListComponent implements OnInit {
    * Filter Rows
    *
    * @param roleFilter
+   * @param statusFilter
    */
-  filterRows(roleFilter): any[] {
+  filterRows(roleFilter, statusFilter): any[] {
     // Reset search on select change
     this.searchValue = '';
-    
+    this.show = true;
     return this.tempData.filter(row => {
-      const isPartialNameMatch = row.role.localeCompare(roleFilter) == 0 || !roleFilter;
-      return isPartialNameMatch;
+
+      const isPartialNameMatch = row.userRole.roleName.localeCompare(roleFilter) == 0 || !roleFilter;
+      const isPartialStatusMatch = (row.isActive == statusFilter) || statusFilter == null;
+
+      return isPartialNameMatch && isPartialStatusMatch;
     });
   }
 
