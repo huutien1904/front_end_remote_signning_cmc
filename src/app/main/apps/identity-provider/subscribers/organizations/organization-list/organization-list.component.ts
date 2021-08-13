@@ -25,35 +25,22 @@ export class OrganizationListComponent implements OnInit {
   public previousRoleFilter = '';
   public previousPlanFilter = '';
   public previousStatusFilter = '';
+  public previousNameFilter = '';
 
 
-  public selectRole: any = [
+  public selectName: any = [
     { name: 'All', value: '' },
-    { name: 'Admin', value: 'Admin' },
-    { name: 'Author', value: 'Author' },
-    { name: 'Editor', value: 'Editor' },
-    { name: 'Maintainer', value: 'Maintainer' },
-    { name: 'Subscriber', value: 'Subscriber' }
+    { name: 'SMV', value: 'SMV' },
+    { name: 'CMC', value: 'CMC' },
+    { name: 'CIST', value: 'CIST' },
+    
   ];
 
-  public selectPlan: any = [
-    { name: 'All', value: '' },
-    { name: 'Basic', value: 'Basic' },
-    { name: 'Company', value: 'Company' },
-    { name: 'Enterprise', value: 'Enterprise' },
-    { name: 'Team', value: 'Team' }
-  ];
+  
 
-  public selectStatus: any = [
-    { name: 'All', value: '' },
-    { name: 'Pending', value: 'Pending' },
-    { name: 'Active', value: 'Active' },
-    { name: 'Inactive', value: 'Inactive' }
-  ];
-
-  public selectedRole = [];
-  public selectedPlan = [];
-  public selectedStatus = [];
+  public selectedName = [];
+  
+  
   public searchValue = '';
 
   // Decorator
@@ -93,21 +80,22 @@ export class OrganizationListComponent implements OnInit {
   // to search 
   filterUpdate(event) {
     // Reset ng-select on search
-    this.selectedRole = this.selectRole[0];
-    this.selectedPlan = this.selectPlan[0];
-    this.selectedStatus = this.selectStatus[0];
+    
+    // this.selectedRole = this.selectRole[0];
+    // this.selectedPlan = this.selectPlan[0];
+    // this.selectedStatus = this.selectStatus[0];
 
-    const val = event.target.value.toLowerCase();
+    // const val = event.target.value.toLowerCase();
 
-    // Filter Our Data
-    const temp = this.tempData.filter(function (d) {
-      return d.organizationName.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+    // // Filter Our Data
+    // const temp = this.tempData.filter(function (d) {
+    //   return d.organizationName.toLowerCase().indexOf(val) !== -1 || !val;
+    // });
 
-    // Update The Rows
-    this.rows = temp;
-    // Whenever The Filter Changes, Always Go Back To The First Page
-    this.table.offset = 0;
+    // // Update The Rows
+    // this.rows = temp;
+    // // Whenever The Filter Changes, Always Go Back To The First Page
+    // this.table.offset = 0;
   }
 
   /**
@@ -125,10 +113,10 @@ export class OrganizationListComponent implements OnInit {
    *
    * @param event
    */
-  filterByRole(event) {
+  filterByName(event) {
     const filter = event ? event.value : '';
     this.previousRoleFilter = filter;
-    this.temp = this.filterRows(filter, this.previousPlanFilter, this.previousStatusFilter);
+    this.temp = this.filterRows(filter);
     this.rows = this.temp;
   }
 
@@ -137,45 +125,43 @@ export class OrganizationListComponent implements OnInit {
    *
    * @param event
    */
-  filterByPlan(event) {
-    const filter = event ? event.value : '';
-    this.previousPlanFilter = filter;
-    this.temp = this.filterRows(this.previousRoleFilter, filter, this.previousStatusFilter);
-    this.rows = this.temp;
-  }
+  // filterByPlan(event) {
+  //   const filter = event ? event.value : '';
+  //   this.previousPlanFilter = filter;
+  //   this.temp = this.filterRows(this.previousRoleFilter, filter, this.previousStatusFilter);
+  //   this.rows = this.temp;
+  // }
 
   /**
    * Filter By Status
    *
    * @param event
    */
-  filterByStatus(event) {
-    const filter = event ? event.value : '';
-    this.previousStatusFilter = filter;
-    this.temp = this.filterRows(this.previousRoleFilter, this.previousPlanFilter, filter);
-    this.rows = this.temp;
-  }
+  // filterByStatus(event) {
+  //   const filter = event ? event.value : '';
+  //   this.previousStatusFilter = filter;
+  //   this.temp = this.filterRows(this.previousRoleFilter, this.previousPlanFilter, filter);
+  //   this.rows = this.temp;
+  // }
 
   /**
    * Filter Rows
    *
-   * @param roleFilter
-   * @param planFilter
-   * @param statusFilter
+   * @param NameFilter
+   
    */
-  filterRows(roleFilter, planFilter, statusFilter): any[] {
+  filterRows(nameFilter): any[] {
     // Reset search on select change
     this.searchValue = '';
 
-    roleFilter = roleFilter.toLowerCase();
-    planFilter = planFilter.toLowerCase();
-    statusFilter = statusFilter.toLowerCase();
+    nameFilter = nameFilter.toLowerCase();
+    
 
     return this.tempData.filter(row => {
       // const isPartialNameMatch = row.role.toLowerCase().indexOf(roleFilter) !== -1 || !roleFilter;
-      const isPartialGenderMatch = row.organizationName.toLowerCase().indexOf(planFilter) !== -1 || !planFilter;
-      const isPartialStatusMatch = row.province.toLowerCase().indexOf(statusFilter) !== -1 || !statusFilter;
-      return   isPartialGenderMatch && isPartialStatusMatch;
+      const isPartialGenderMatch = row.organizationName.toLowerCase().indexOf(nameFilter) !== -1 || !nameFilter;
+      
+      return   isPartialGenderMatch ;
     });
   }
   // Lifecycle Hooks
@@ -202,6 +188,7 @@ export class OrganizationListComponent implements OnInit {
     //   }
     // });
     this.rows = this._organizationListService.createDb().heroes
+    this.tempData = this.rows;
   }
   
 

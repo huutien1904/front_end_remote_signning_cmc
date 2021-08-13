@@ -41,10 +41,11 @@ export class UserListService implements Resolve<any> {
     return new Promise((resolve, reject) => {
       this._httpClient.get('api/users-data').subscribe((response: any) => {
         this.rows = response;
-        console.log(response);
+        // console.log(response);
         this.onUserListChanged.next(this.rows);
         resolve(this.rows);
       }, reject);
     });
   }
+  
 }

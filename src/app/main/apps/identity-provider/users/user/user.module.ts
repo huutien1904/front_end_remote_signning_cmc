@@ -42,9 +42,9 @@ const routes: Routes = [
   {
     path: "user-view/:id",
     component: UserViewComponent,
-    // resolve: {
-    //   data: UserViewService
-    // },
+    resolve: {
+      data: UserViewService
+    },
     data: { path: "view/:id", animation: "UserViewComponent" },
   },
   {

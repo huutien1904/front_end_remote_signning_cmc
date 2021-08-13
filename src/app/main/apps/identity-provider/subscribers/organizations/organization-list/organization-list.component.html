@@ -1,16 +1,56 @@
 <div class="header-personal">
-    <h1 class="header-personal_title">Danh sách các thuê bao tổ chức</h1>
-    <div class="info_user-personal">
-        <div class="info_user-link">
-          <a href="">Thông tin tài khoản
-        </a>
+    <!-- fliter -->
+    <div class="card">
+      <h5 class="card-header">Search Filter</h5>
+      <div class="card-body">
+        <div class="users-list-filter">
+          <form>
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="selectName"
+                    [(ngModel)]="selectName"
+                    name="selectedName"
+                    bindLabel="name"
+                    placeholder="Tên tổ chức"
+                    (change)="filterByName($event)"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <!-- <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="selectPlan"
+                    [(ngModel)]="selectedPlan"
+                    name="selectedPlan"
+                    bindLabel="name"
+                    placeholder="Select Plan"
+                    (change)="filterByPlan($event)"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="selectStatus"
+                    [(ngModel)]="selectedStatus"
+                    name="selectedStatus"
+                    bindLabel="name"
+                    placeholder="Select Status"
+                    (change)="filterByStatus($event)"
+                  ></ng-select>
+                </fieldset>
+              </div> -->
+            </div>
+          </form>
         </div>
-        
-        <span [data-feather]="'chevron-right'" class="button_exit"></span>
-        <p>thuê bao tổ chức
-        </p>
+      </div>
     </div>
-
+    <!-- end filter -->
+    <h1 class="header-personal_title">Danh sách các thuê bao tổ chức</h1>
+    
+    <!-- table -->
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
           <!-- User List -->
@@ -160,7 +200,7 @@
         </core-sidebar>
         <!--/ New User Sidebar -->
     </div>
-      
+    <!-- table -->
 </div>
 
 

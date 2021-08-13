@@ -69,7 +69,7 @@ export class OrganizationListService {
         id: 2,
         countryOrganizationId: "CMC12347888", 
   
-        organizationName: "CMC CIST", 
+        organizationName: "CMC ", 
   
         parentOrganizationId: "organization_00005", 
   
@@ -100,7 +100,7 @@ export class OrganizationListService {
         id: 3,
         countryOrganizationId: "CMC123488ass", 
   
-        organizationName: "CMC CIST", 
+        organizationName: "CIST", 
   
         parentOrganizationId: "organization_00005", 
   
@@ -131,7 +131,7 @@ export class OrganizationListService {
         id: 4,
         countryOrganizationId: "CMC1234ddd", 
   
-        organizationName: "CMC CIST", 
+        organizationName: "SMV", 
   
         parentOrganizationId: "organization_00005", 
   
@@ -162,7 +162,7 @@ export class OrganizationListService {
         id: 5,
         countryOrganizationId: "CMC1234rrr", 
   
-        organizationName: "CMC CIST", 
+        organizationName: "CMC ", 
   
         parentOrganizationId: "organization_00005", 
   
@@ -193,7 +193,7 @@ export class OrganizationListService {
         id: 6,
         countryOrganizationId: "CMC1234999", 
   
-        organizationName: "CMC CIST", 
+        organizationName: " CIST", 
   
         parentOrganizationId: "organization_00005", 
   
@@ -224,7 +224,162 @@ export class OrganizationListService {
         id: 7,
         countryOrganizationId: "CMC1234ddd", 
   
-        organizationName: "CMC CIST", 
+        organizationName: "SMV", 
+  
+        parentOrganizationId: "organization_00005", 
+  
+        subscriberCategoryId: "subscriberCategory_03", 
+  
+        leaderName: "Le Quang Huy", 
+  
+        province: "8", 
+  
+        district: "76", 
+  
+        commune: "255", 
+  
+        street: "1", 
+  
+        homeNumber: "hoang mai nhi", 
+  
+        country: "237", 
+  
+        phoneNumber: "0889716224122", 
+  
+        website: "hunghust.sicftu.v", 
+  
+        email: "hunga1k15tv1s1w@cmc.com" ,
+        avatar: 'assets/images/avatars/9.png',
+      },
+      {
+        id: 8,
+        countryOrganizationId: "CMC1234ddd", 
+  
+        organizationName: "CMC", 
+  
+        parentOrganizationId: "organization_00005", 
+  
+        subscriberCategoryId: "subscriberCategory_03", 
+  
+        leaderName: "Le Quang Huy", 
+  
+        province: "8", 
+  
+        district: "76", 
+  
+        commune: "255", 
+  
+        street: "1", 
+  
+        homeNumber: "hoang mai nhi", 
+  
+        country: "237", 
+  
+        phoneNumber: "0889716224122", 
+  
+        website: "hunghust.sicftu.v", 
+  
+        email: "hunga1k15tv1s1w@cmc.com" ,
+        avatar: 'assets/images/avatars/9.png',
+      },
+      {
+        id: 9,
+        countryOrganizationId: "CMC1234ddd", 
+  
+        organizationName: "CIST", 
+  
+        parentOrganizationId: "organization_00005", 
+  
+        subscriberCategoryId: "subscriberCategory_03", 
+  
+        leaderName: "Le Quang Huy", 
+  
+        province: "8", 
+  
+        district: "76", 
+  
+        commune: "255", 
+  
+        street: "1", 
+  
+        homeNumber: "hoang mai nhi", 
+  
+        country: "237", 
+  
+        phoneNumber: "0889716224122", 
+  
+        website: "hunghust.sicftu.v", 
+  
+        email: "hunga1k15tv1s1w@cmc.com" ,
+        avatar: 'assets/images/avatars/9.png',
+      },
+      {
+        id: 10,
+        countryOrganizationId: "CMC1234ddd", 
+  
+        organizationName: "SMV", 
+  
+        parentOrganizationId: "organization_00005", 
+  
+        subscriberCategoryId: "subscriberCategory_03", 
+  
+        leaderName: "Le Quang Huy", 
+  
+        province: "8", 
+  
+        district: "76", 
+  
+        commune: "255", 
+  
+        street: "1", 
+  
+        homeNumber: "hoang mai nhi", 
+  
+        country: "237", 
+  
+        phoneNumber: "0889716224122", 
+  
+        website: "hunghust.sicftu.v", 
+  
+        email: "hunga1k15tv1s1w@cmc.com" ,
+        avatar: 'assets/images/avatars/9.png',
+      },
+      {
+        id: 11,
+        countryOrganizationId: "CMC1234ddd", 
+  
+        organizationName: "CMC", 
+  
+        parentOrganizationId: "organization_00005", 
+  
+        subscriberCategoryId: "subscriberCategory_03", 
+  
+        leaderName: "Le Quang Huy", 
+  
+        province: "8", 
+  
+        district: "76", 
+  
+        commune: "255", 
+  
+        street: "1", 
+  
+        homeNumber: "hoang mai nhi", 
+  
+        country: "237", 
+  
+        phoneNumber: "0889716224122", 
+  
+        website: "hunghust.sicftu.v", 
+  
+        email: "hunga1k15tv1s1w@cmc.com" ,
+        avatar: 'assets/images/avatars/9.png',
+      },
+      {
+        id: 12,
+        countryOrganizationId: "CMC1234ddd", 
+  
+        organizationName: "CIST", 
   
         parentOrganizationId: "organization_00005", 
   
@@ -259,7 +414,7 @@ export class OrganizationListService {
    */
   getDataTableRows(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      this._httpClient.get('api/organization-data ').subscribe((response: any) => {
+      this._httpClient.get('http://183.91.3.60:8080/csignremote-0.3/personal/list').subscribe((response: any) => {
         this.rows = response;
         console.log(response);
         this.onUserListChanged.next(this.rows);

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// import { MonitorlogComponent } from './monitorlog/monitorlog.component';
 import { MonitorlogComponent } from './monitorlog/monitorlog.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'app/auth/helpers';

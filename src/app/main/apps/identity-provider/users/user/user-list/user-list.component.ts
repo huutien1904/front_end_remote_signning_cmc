@@ -120,6 +120,7 @@ export class UserListComponent implements OnInit {
    * @param event
    */
   filterByRole(event) {
+    console.log(event.value)
     const filter = event ? event.value : '';
     this.previousRoleFilter = filter;
     this.temp = this.filterRows(filter, this.previousPlanFilter, this.previousStatusFilter);
@@ -136,6 +137,7 @@ export class UserListComponent implements OnInit {
     this.previousPlanFilter = filter;
     this.temp = this.filterRows(this.previousRoleFilter, filter, this.previousStatusFilter);
     this.rows = this.temp;
+    console.log(this.rows)
   }
 
   /**
@@ -148,6 +150,7 @@ export class UserListComponent implements OnInit {
     this.previousStatusFilter = filter;
     this.temp = this.filterRows(this.previousRoleFilter, this.previousPlanFilter, filter);
     this.rows = this.temp;
+
   }
 
   /**
@@ -166,6 +169,7 @@ export class UserListComponent implements OnInit {
     statusFilter = statusFilter.toLowerCase();
 
     return this.tempData.filter(row => {
+      console.log(row.role.toLowerCase().indexOf(roleFilter))
       const isPartialNameMatch = row.role.toLowerCase().indexOf(roleFilter) !== -1 || !roleFilter;
       const isPartialGenderMatch = row.currentPlan.toLowerCase().indexOf(planFilter) !== -1 || !planFilter;
       const isPartialStatusMatch = row.status.toLowerCase().indexOf(statusFilter) !== -1 || !statusFilter;

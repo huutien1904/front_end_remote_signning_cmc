@@ -1,168 +1,240 @@
 <div class="header-personal">
-    <h1 class="header-personal_title">Danh sách các thuê bao cá nhân</h1>
-    <div class="info_user-personal">
-        <div class="info_user-link">
-          <a href="">Thông tin tài khoản
-        </a>
-        </div>
-        
-        <span [data-feather]="'chevron-right'"></span>
-        <p>Thông tin tài khoản
-        </p>
-    </div>
-
-    <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-          <!-- User List -->
-          <section class="users-list-wrapper">
-            <div class="card">
-              <!-- search -->
-              <div class="row">
-                <div class="col-md-6 col-12">
-                  <div class="d-flex justify-content-between align-items-center m-1">
-                    <label class="d-flex align-items-center"
-                      >Show
-                      <select class="form-control mx-25" [(ngModel)]="selectedOption">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                      </select>
-                      entries</label
-                    >
-                  </div>
-                </div>
-                <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
-                  <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
-                    <label class="d-flex align-items-center ml-1 ml-md-0"
-                      >Search:<input
-                        [(ngModel)]="searchValue"
-                        name="searchValue"
-                        type="search"
-                        class="form-control ml-25"
-                        (keyup)="filterUpdate($event)"
-                    /></label>
-                    <button class="btn btn-primary ml-1" rippleEffect (click)="toggleSidebar('new-personal-sidebar')">
-                      <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
-                      ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-                    </button>
-                  </div>
-                </div>
+    <!-- search filter -->
+    <div class="card">
+      <h5 class="card-header">Search Filter</h5>
+      <div class=" col-12 d-flex justify-content-start justify-content-md-end search_value">
+        <!-- <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"> -->
+          <!-- <label class="d-flex align-items-center ml-1 ml-md-0 col-12">Search: -->
+            <input
+              [(ngModel)]="searchValue"
+              name="searchValue"
+              type="search"
+              class="form-control ml-25 col-12"
+              (keyup)="filterUpdate($event)"
+              placeholder="enter to search"
+              
+            />
+          <!-- </label> -->
+        <!-- </div> -->
+      </div>
+      <div class="card-body">
+        <div class="users-list-filter">
+          <form>
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="selectOganization"
+                    [(ngModel)]="slectedOrganization"
+                    name="slectedOrganization"
+                    bindLabel="name"
+                    placeholder="Tổ chức"
+                    (change)="filterByOganization($event)"
+                  ></ng-select>
+                </fieldset>
               </div>
-              <!-- end search -->
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="selectActive"
+                    [(ngModel)]="selectedActive"
+                    name="selectedActive"
+                    bindLabel="name"
+                    placeholder="Hoạt động"
+                    (change)="filterByActive($event)"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <!-- <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="selectStatus"
+                    [(ngModel)]="selectedStatus"
+                    name="selectedStatus"
+                    bindLabel="name"
+                    placeholder="Select Status"
+                    (change)="filterByStatus($event)"
+                  ></ng-select>
+                </fieldset>
+              </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- end search filter -->
 
-              <!-- table -->
-              <ngx-datatable
-                [rows]="rows"
-                [rowHeight]="60"
-                class="bootstrap core-bootstrap"
-                [limit]="10"
-                [columnMode]="ColumnMode.force"
-                [headerHeight]="50"
-                [footerHeight]="50"
-                [scrollbarH]="true"
-              >
+    <div class="table_content-wrap" >
+      <h1 class="header-personal_title">Danh sách các thuê bao cá nhân</h1>
+      
+      <!-- table content -->
+      <div class="content-wrapper container-xxl p-0">
+          <div class="content-body">
+            <!-- User List -->
+            <section class="users-list-wrapper">
+              <div class="card">
+                <!-- search -->
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                    <div class="d-flex justify-content-between align-items-center m-1">
+                      <label class="d-flex align-items-center"
+                        >Show
+                        <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                        </select>
+                        entries</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+                    <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                      <label class="d-flex align-items-center ml-1 ml-md-0"
+                        >Search:<input
+                          [(ngModel)]="searchValue"
+                          name="searchValue"
+                          type="search"
+                          class="form-control ml-25"
+                          (keyup)="filterUpdate($event)"
+                      /></label>
+                      <button class="btn btn-primary ml-1" rippleEffect (click)="toggleSidebar('new-personal-sidebar')">
+                        <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                        ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- end search -->
                 
-                <ngx-datatable-column name="STT" prop="id" [width]="10" ></ngx-datatable-column>
-                
-                <ngx-datatable-column name="Họ và tên" prop="fullName" [width]="250" >
-                  <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                    <div class="d-flex align-items-center">
-                      <div *ngIf="row.avatar.length > 0; else customAvatar">
-                        <img
-                          class="rounded-circle mr-1"
-                          src="{{ row.avatar }}"
-                          height="32"
-                          width="32"
-                          alt="datatable-avatar"
-                        />
+                <!-- table -->
+                <ngx-datatable
+                  [rows]="rows"
+                  [rowHeight]="60"
+                  class="bootstrap core-bootstrap"
+                  [limit]="10"
+                  [columnMode]="ColumnMode.force"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [scrollbarH]="true"
+                >
+                  
+                  <ngx-datatable-column name="STT" prop="index" [width]="10" ></ngx-datatable-column>
+                  <ngx-datatable-column name="CMND/CCCD" prop="personalCountryId" [width]="50" ></ngx-datatable-column>
+                  <ngx-datatable-column name="ngày sinh" prop="birthday" [width]="50" ></ngx-datatable-column>
+                  
+                  <!-- <ngx-datatable-column name="Họ và tên" prop="personalFirstName" [width]="250" >
+                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                      <div class="d-flex align-items-center">
+                        <div *ngIf="row.avatar.length > 0; else customAvatar">
+                          <img
+                            class="rounded-circle mr-1"
+                            src="{{ row.avatar }}"
+                            height="32"
+                            width="32"
+                            alt="datatable-avatar"
+                          />
+                        </div>
+                        <ng-template #customAvatar>
+                          <div
+                            class="avatar mr-1 ml-0"
+                            [ngClass]="{
+                              'bg-light-success': row.status == 'active',
+                              'bg-light-secondary': row.status == 'inactive',
+                              'bg-light-warning': row.status == 'pending'
+                            }"
+                          >
+                            <div class="avatar-content">{{ name | initials }}</div>
+                          </div>
+                        </ng-template>
+                        <div class="cell-line-height">
+                          <a routerLink="/apps/user/user-view/{{ row.id }}" class="font-medium-1 d-block"
+                            ><span class="font-weight-bold">{{ name }}</span></a
+                          >
+                          
+                        </div>
                       </div>
-                      <ng-template #customAvatar>
+                    </ng-template>
+                  </ngx-datatable-column> -->
+                  
+                  <!-- <ngx-datatable-column name="Hoạt động" prop="active" [width]="100">
+                    <ng-template let-status="value" ngx-datatable-cell-template>
+                      <a href="">
                         <div
-                          class="avatar mr-1 ml-0"
+                          
+                        >
+                          {{ status }}
+                        </div>
+                      </a>
+                      
+                    </ng-template>
+                  </ngx-datatable-column> -->
+                  <ngx-datatable-column name="Họ và tên" prop="" [width]="100" >
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.personalLastName}} {{row.personalMiddleName}} {{row.personalFirstName}}                   
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="email" prop="email" [width]="200">
+                  </ngx-datatable-column>
+  
+                  <!-- <ngx-datatable-column name="Tổ chức" prop="organization" [width]="50">
+                    <ng-template let-status="value" ngx-datatable-cell-template>
+                      <a href="">
+                        <div
+                          class="badge badge-pill"
                           [ngClass]="{
-                            'bg-light-success': row.status == 'active',
-                            'bg-light-secondary': row.status == 'inactive',
-                            'bg-light-warning': row.status == 'pending'
+                            'badge-light-success': status == 'vin',
+                            'badge-light-secondary': status == 'mec',
+                            'badge-light-warning': status == 'liv'
                           }"
                         >
-                          <div class="avatar-content">{{ name | initials }}</div>
+                          {{ status }}
                         </div>
-                      </ng-template>
-                      <div class="cell-line-height">
-                        <a routerLink="/apps/user/user-view/{{ row.id }}" class="font-medium-1 d-block"
-                          ><span class="font-weight-bold">{{ name }}</span></a
-                        >
-                        
+                      </a>
+                      
+                    </ng-template>
+                  </ngx-datatable-column> -->
+                  <ngx-datatable-column name="Tổ chức" prop="organization" [width]="100">
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Số điện thoại" prop="phoneNumber" [width]="100"></ngx-datatable-column>
+  
+                  <ngx-datatable-column name="Xem thêm" [width]="40" [sortable]="false">
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      <div ngbDropdown container="body">
+                        <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                          <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                        </button>
+                        <div ngbDropdownMenu>
+                          <a routerLink="/apps/personal/personal-view" ngbDropdownItem
+                            ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details</a
+                          ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
+                            ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
+                          ><a href="javascript:;" ngbDropdownItem
+                            ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
+                          >
+                        </div>
                       </div>
-                    </div>
-                  </ng-template>
-                </ngx-datatable-column>
-                
-                <ngx-datatable-column name="CMND" prop="passPort" [width]="100"></ngx-datatable-column>
-
-                <ngx-datatable-column name="email" prop="email" [width]="200">
-                </ngx-datatable-column>
-
-                
-
-               
-
-                <ngx-datatable-column name="Tổ chức" prop="organization" [width]="50">
-                  <ng-template let-status="value" ngx-datatable-cell-template>
-                    <a href="">
-                      <div
-                        class="badge badge-pill"
-                        [ngClass]="{
-                          'badge-light-success': status == 'vin',
-                          'badge-light-secondary': status == 'mec',
-                          'badge-light-warning': status == 'liv'
-                        }"
-                      >
-                        {{ status }}
-                      </div>
-                    </a>
-                    
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column name="SỐ LƯỢNG CHỨNG THƯ SỐ" prop="numberLetter" [width]="50"></ngx-datatable-column>
-
-                <ngx-datatable-column name="Xem thêm" [width]="40" [sortable]="false">
-                  <ng-template ngx-datatable-cell-template let-row="row">
-                    <div ngbDropdown container="body">
-                      <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
-                        <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
-                      </button>
-                      <div ngbDropdownMenu>
-                        <a routerLink="/apps/user/user-view/{{ row.id }}" ngbDropdownItem
-                          ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details</a
-                        ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
-                          ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
-                        ><a href="javascript:;" ngbDropdownItem
-                          ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
-                        >
-                      </div>
-                    </div>
-                  </ng-template>
-                </ngx-datatable-column>
-                
-                
-              </ngx-datatable>
-            </div>
-          </section>
-          <!--/ User List -->
-        </div>
-      
-        <!-- New User Sidebar -->
-        <core-sidebar
-          class="modal modal-slide-in sidebar-todo-modal fade"
-          name="new-personal-sidebar"
-          overlayClass="modal-backdrop"
-        >
-          <app-new-personal-sidebar></app-new-personal-sidebar>
-        </core-sidebar>
-        <!--/ New User Sidebar -->
+                    </ng-template>
+                  </ngx-datatable-column>
+                  
+                  
+                </ngx-datatable>
+              </div>
+            </section>
+            <!--/ User List -->
+          </div>
+        
+          <!-- New User Sidebar -->
+          <core-sidebar
+            class="modal modal-slide-in sidebar-todo-modal fade"
+            name="new-personal-sidebar"
+            overlayClass="modal-backdrop"
+          >
+            <app-new-personal-sidebar></app-new-personal-sidebar>
+          </core-sidebar>
+          <!--/ New User Sidebar -->
+      </div>
+      <!-- end table content -->
     </div>
-      
 </div>
