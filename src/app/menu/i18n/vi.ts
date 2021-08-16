@@ -33,19 +33,19 @@ export const locale = {
           SECTION : 'Quản lý cặp khóa',
           KEY_PAIR : {
             COLLAPSIBLE: 'Khóa',
-            LIST : 'Danh sách khóa',
-            VIEW : 'Chi tiết khóa',
+            LIST : 'Danh sách',
+            VIEW : 'Chi tiết',
             TEMPLATE : "Mẫu cặp khóa",
           },
           CERTIFICATE_REQUEST : {
             COLLAPSIBLE: 'Yêu cầu chứng thực',
-            LIST : 'Danh sách yêu cầu chứng thực',
-            VIEW: 'Chi tiết yêu cầu',
+            LIST : 'Danh sách',
+            VIEW: 'Chi tiết',
           },
           SUBSCRIBER_CERTIFICATE : {
             COLLAPSIBLE: 'Chứng thư số',
-            LIST : 'Danh sách chứng thư số',
-            VIEW: 'Chi tiết chứng thư số',
+            LIST : 'Danh sách',
+            VIEW: 'Chi tiết',
           }
         },
         EQUIPMENT_MANAGEMENT :{

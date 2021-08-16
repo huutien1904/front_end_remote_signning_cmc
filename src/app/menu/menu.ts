@@ -142,7 +142,7 @@ export const menu: CoreMenu[] = [
         children: [
           {
             id: 'key-pair-list',
-            title: 'Danh sách khóa',
+            title: 'Danh sách',
             translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
             type: 'item',
             icon: 'circle',
@@ -151,7 +151,7 @@ export const menu: CoreMenu[] = [
           },
           {
             id: 'key-pair-view',
-            title: 'Chi tiết khóa',
+            title: 'Chi tiết',
             translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.VIEW',
             type: 'item',
             icon: 'circle',
@@ -176,7 +176,7 @@ export const menu: CoreMenu[] = [
         children: [
           {
             id: 'certificate-request-list',
-            title: 'Danh sách chứng thư số',
+            title: 'Danh sách',
             translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.LIST',
             type: 'item',
             icon: 'circle',
@@ -184,7 +184,7 @@ export const menu: CoreMenu[] = [
           },
           {
             id: 'certificate-request-view',
-            title: 'Chi tiết chứng thư số',
+            title: 'Chi tiết',
             translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.VIEW',
             icon: 'circle',
             type: 'item',
@@ -208,7 +208,7 @@ export const menu: CoreMenu[] = [
           },
           {
             id: 'subscriber-certificate-view',
-            title: 'Chi tiết yêu cầu',
+            title: 'Chi tiết',
             translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.VIEW',
             type: 'item',
             url: '/apps/tm/subscriber-certificate/subscriber-certificate-view'
