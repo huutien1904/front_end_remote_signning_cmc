@@ -8,6 +8,20 @@ import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewService } from "./personal-view/personal-view.service";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
 
+import { CoreCommonModule } from "@core/common.module";
+import { FormsModule } from "@angular/forms";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { Ng2FlatpickrModule } from "ng2-flatpickr";
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CorePipesModule } from "@core/pipes/pipes.module";
+import { CoreDirectivesModule } from "@core/directives/directives";
+import { CoreSidebarModule } from "@core/components";
+import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
+import { ReactiveFormsModule } from "@angular/forms";
+
+// import { JwPaginationModule } from 'jw-angular-pagination';
+
 /**
  * Routing
  */
@@ -15,19 +29,19 @@ const routes: Routes = [
   {
     path: "personal-list",
     component: PersonalListComponent,
-    // resolve: {
-    //   uls: PersonalListService,
-    // },
+    resolve: {
+      uls: PersonalListService,
+    },
     data: { animation: "PersonalListComponent" },
   },
 
   {
     path: "personal-view/:id",
     component: PersonalViewComponent,
-    // resolve: {
-    //   data: PersonalViewService,
-    // },
-    data: { path: "view/:id", animation: "PersonalViewComponent" },
+    resolve: {
+      data: PersonalViewService,
+    },
+    data: { animation: "PersonalViewComponent" },
   },
   {
     path: "personal-edit/id",
@@ -38,8 +52,13 @@ const routes: Routes = [
     },
   },
   {
-    path: "personal-view",
-    redirectTo: "/personal-view/self", //Redirection to self
+    path: "personal-view/id",
+    component: PersonalViewComponent,
+    resolve: { data: PersonalViewService },
+    data: {
+      animation: "PersonalViewComponent",
+    },
+    redirectTo: "/personal-view", //Redirection to self
   },
   {
     path: "personal-edit",
@@ -56,8 +75,23 @@ const routes: Routes = [
     PersonalEditComponent,
     PersonalViewComponent,
     PersonalListComponent,
+    NewPersonalSidebarComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule, 
+    RouterModule.forChild(routes),
+    CoreCommonModule,
+    FormsModule,
+    NgbModule,
+    NgSelectModule,
+    Ng2FlatpickrModule,
+    NgxDatatableModule,
+    CorePipesModule,
+    CoreDirectivesModule,
+    CoreSidebarModule,
+    ReactiveFormsModule,
+    // JwPaginationModule
+  ],
   providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })
 export class PersonalsModule {}

@@ -58,4 +58,5 @@ export class UserListService implements Resolve<any> {
       }, reject);
     });
   }
+  
 }

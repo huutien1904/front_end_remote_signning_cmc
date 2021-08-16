@@ -31,9 +31,17 @@ form{
 .modal-dialog{
     margin: 10px 0;
 }
+select{
+    padding: 10px;
+}
+.button_summit{
+    margin-top: 20px;
+    text-align: end;
+}
+
 @media only screen and (max-width: 600px) {
     form {
-    overflow: auto ;
+        overflow-y: auto !important;
     }
   }
   

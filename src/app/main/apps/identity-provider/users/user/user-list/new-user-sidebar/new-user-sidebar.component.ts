@@ -26,6 +26,27 @@ export class NewUserSidebarComponent implements OnInit {
     role: '',
   };
 
+
+  countryResidencePlace:String[] =[
+    'Việt Nam',
+    'Thái Lan',
+    'Lào',
+  ]
+  provinceResidencePlace:String[] =[
+    'Hà Nam',
+    'Thài Bình ',
+    'Nam Định',
+  ]
+  districtResidencePlace:String[] =[
+    'Lý Nhân',
+    'Bình Lục',
+    'Thanh Liêm',
+  ]
+  communeResidencePlace:String[] =[
+    'Nhân Nghĩa',
+    'Nhân Bình',
+    'Xuân Khê',
+  ]
   /**
    *' Constructor
    *

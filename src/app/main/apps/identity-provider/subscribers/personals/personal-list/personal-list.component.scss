@@ -1,0 +1,16 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+
+
+.info_user-personal{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.search_value{
+    padding: 0 20px;
+}
+p{
+    margin-bottom: 0;
+}

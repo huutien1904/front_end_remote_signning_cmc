@@ -110,6 +110,7 @@ export class UserListComponent implements OnInit {
    * @param event
    */
   filterByRole(event) {
+    console.log(event.value)
     const filter = event ? event.value : '';
     this.previousRoleFilter = filter;
     this.temp = this.filterRows(filter, this.previousStatusFilter);
@@ -120,6 +121,7 @@ export class UserListComponent implements OnInit {
     this.previousStatusFilter = filter;
     this.temp = this.filterRows(this.previousRoleFilter, filter);
     this.rows = this.temp;
+
   }
 
   /**

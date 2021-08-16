@@ -7,6 +7,17 @@ import { OrganizationViewService } from './organization-view/organization-view.s
 import { OrganizationEditService } from './organization-edit/organization-edit.service';
 import { OrganizationListService } from './organization-list/organization-list.service';
 import { RouterModule, Routes } from '@angular/router';
+import { CoreSidebarModule } from "@core/components";
+import { CoreCommonModule } from "@core/common.module";
+import { FormsModule } from "@angular/forms";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { Ng2FlatpickrModule } from "ng2-flatpickr";
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CorePipesModule } from "@core/pipes/pipes.module";
+import { CoreDirectivesModule } from "@core/directives/directives";
+import { NewOrganizationSidebarComponent } from './organization-list/new-organization-sidebar/new-organization-sidebar.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 const routes: Routes = [
@@ -52,10 +63,23 @@ const routes: Routes = [
   declarations: [
     OrganizationViewComponent,
     OrganizationEditComponent,
-    OrganizationListComponent
+    OrganizationListComponent,
+    NewOrganizationSidebarComponent
   ],
   imports: [
-    CommonModule, RouterModule.forChild(routes),
-  ]
+    CommonModule,
+     RouterModule.forChild(routes),
+     CoreSidebarModule,
+     CoreCommonModule,
+    FormsModule,
+    NgbModule,
+    NgSelectModule,
+    Ng2FlatpickrModule,
+    NgxDatatableModule,
+    CorePipesModule,
+    CoreDirectivesModule,
+    ReactiveFormsModule
+  ],
+  providers: [OrganizationViewService, OrganizationEditService, OrganizationListService],
 })
 export class OrganizationsModule { }

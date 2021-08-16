@@ -1,0 +1,96 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+
+.modal-dialog{
+    width: 90%;
+    left: 5%;
+    transform: translateX(200%) !important;
+    margin: 40px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content{
+    height: 93% !important;
+    border-radius:10px !important ;
+    padding: 0 !important;
+}
+form{
+    padding: 0px 30px;
+    overflow: hidden !important;
+    
+}
+.form_header{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 30px 20px 30px ;
+    border-bottom: 0.5px solid #7c7b83;
+    
+
+}
+.form_content{
+    padding: 0 30px;
+}
+.col-sm-9{
+    width: 100%;
+}
+.form-control-lg{
+    height:2.714rem;
+    // margin-top: 10px;
+}
+.modal-dialog{
+    margin: 10px 0;
+}
+select{
+    padding: 10px;
+}
+.button_summit{
+    padding: 20px 30px;
+    margin-top: 10px;
+    text-align: end;
+    border-top: 0.5px solid #7c7b83;
+
+}
+.button_exit{
+    background-color: #7367f0;
+    color: #fff;
+}
+small{
+    color: #db1e27 !important;
+}
+
+.error_icon{
+    border-color: #db1e27;
+}
+.form-group{
+    margin-bottom: 5px;
+}
+.row_bottom{
+    margin-bottom: 1rem;
+}
+h3{
+    padding: 0;
+    margin: 0;
+}
+input.error:focus {
+    border-color: $danger !important;
+    ~ .custom-control-label::before,
+    ~ .custom-file-label {
+      border-color: $danger !important;
+    }
+    ~ .custom-control-label {
+      color: $danger;
+    }
+}
+@media only screen and (max-width: 600px) {
+    form {
+        overflow-y: auto !important;
+    }
+  }
+  
