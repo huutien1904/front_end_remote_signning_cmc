@@ -200,7 +200,8 @@ export class PersonalListComponent implements OnInit {
         });
       }
     });
-    console.log(typeof(this.rows))
+    this._userListService.getProvice()
+    console.log(this.rows)
     // this.rows = this._userListService.createDb().heroes
     // this.tempData = this.rows;
     

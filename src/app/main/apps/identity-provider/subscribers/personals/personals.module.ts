@@ -7,6 +7,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewService } from "./personal-view/personal-view.service";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
+
 import { CoreCommonModule } from "@core/common.module";
 import { FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -18,6 +19,7 @@ import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { ReactiveFormsModule } from "@angular/forms";
+
 // import { JwPaginationModule } from 'jw-angular-pagination';
 
 /**
@@ -34,12 +36,12 @@ const routes: Routes = [
   },
 
   {
-    path: "/apps/personal/personal-view",
+    path: "personal-view/:id",
     component: PersonalViewComponent,
     resolve: {
-      uls: PersonalViewService,
+      data: PersonalViewService,
     },
-    data: { path: "/apps/personal/personal-view", animation: "PersonalViewComponent" },
+    data: { animation: "PersonalViewComponent" },
   },
   {
     path: "personal-edit/id",
@@ -49,15 +51,15 @@ const routes: Routes = [
       animation: "PersonalEditComponent",
     },
   },
-  // {
-  //   path: "personal-view/id",
-  //   component: PersonalViewComponent,
-  //   resolve: { data: PersonalViewService },
-  //   data: {
-  //     animation: "PersonalViewComponent",
-  //   },
-  //   redirectTo: "/personal-view", //Redirection to self
-  // },
+  {
+    path: "personal-view/id",
+    component: PersonalViewComponent,
+    resolve: { data: PersonalViewService },
+    data: {
+      animation: "PersonalViewComponent",
+    },
+    redirectTo: "/personal-view", //Redirection to self
+  },
   {
     path: "personal-edit",
     redirectTo: "/personal-edit/self", // Redirection to self

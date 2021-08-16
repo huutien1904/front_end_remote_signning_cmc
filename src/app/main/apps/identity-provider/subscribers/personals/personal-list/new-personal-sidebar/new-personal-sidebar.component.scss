@@ -4,7 +4,13 @@
 // @import '@core/scss/base/plugins/forms/form-validation.scss';
 @import './../../../../../../../../@core/scss/base/plugins/forms/form-validation.scss';
 
-
+option{
+    font-size: 14px !important;
+}
+select{
+    font-size: 14px !important;
+    
+}
 .modal-dialog{
     width: 90%;
     left: 5%;

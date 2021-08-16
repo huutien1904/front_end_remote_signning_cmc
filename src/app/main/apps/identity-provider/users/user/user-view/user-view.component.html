@@ -1,1 +1,69 @@
-<p>user-view works!</p>
+<section class="app-user-view">
+    <div class="col-md-6">
+        <div class="card user-card">
+            <div class="card-body">
+                <div class="row">
+                    <h2>Thông tin chi tiết</h2>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 mt-2 mt-xl-0">
+                        <div class="user-info-wrapper">
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="user" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Tên tài khoản: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.username }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="user" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Họ và tên: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.lastName }} {{ data.firstName }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="star" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Vai trò: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.userRole.roleName }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="mail" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Email: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.email }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="phone" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Số điện thoại: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.phoneNo }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="calendar" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Thời gian đăng kí: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.createdAt }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap my-50">
+                                <div class="user-info-title">
+                                    <i data-feather="calendar" class="mr-1"></i>
+                                    <span class="card-text user-info-title font-weight-bold mb-0">Cập nhật gần nhất: </span>
+                                </div>
+                                <p class="card-text mb-0">{{ data.updatedAt }}</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <button class="btn btn-primary" routerLink="../../user-edit/{{ data.userId }}" type="button" rippleEffect>Chỉnh sửa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

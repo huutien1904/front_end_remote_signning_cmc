@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-
+import { catchError,tap,map } from 'rxjs/operators';
+// import {of} from 'rxjs/observable/of'
+import { of } from 'rxjs';
 @Injectable()
 export class PersonalListService implements Resolve<any> {
   public rows: any;
@@ -193,4 +195,10 @@ export class PersonalListService implements Resolve<any> {
       }, reject);
     });
   }
+  getProvice(): Observable<any[]> {
+    return this._httpClient.get<any>('http://183.91.3.60:8080/csignremote-0.3/address/province/list/237').pipe(
+      tap(respon => console.log(JSON.stringify(respon))),
+      catchError(error => of([]))
+      )
+  }      
 }
