@@ -17,9 +17,15 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewUserSidebarComponent } from "./user-list/new-user-sidebar/new-user-sidebar.component";
+
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryDataService } from './data/in-memory-data.service';
+
 import { Role } from "app/auth/models";
 import { AuthGuard } from "app/auth/helpers/auth.guards";
 // import { BFormSelect } from 'bootstrap-vue'
+
 
 /**
 /**
@@ -39,17 +45,17 @@ const routes: Routes = [
   {
     path: "user-view/:id",
     component: UserViewComponent,
-    // resolve: {
-    //   data: UserViewService
-    // },
+    resolve: {
+       data: UserViewService
+    },
     data: { path: "view/:id", animation: "UserViewComponent" },
   },
   {
     path: "user-edit/:id",
     component: UserEditComponent,
-    // resolve: {
-    //   ues: UserEditService
-    // },
+    resolve: {
+      ues: UserEditService
+    },
     data: { animation: "UserEditComponent" },
   },
   {
@@ -79,6 +85,8 @@ const routes: Routes = [
     CorePipesModule,
     CoreDirectivesModule,
     CoreSidebarModule,
+    HttpClientModule,
+
     // BFormSelect
   ],
   providers: [UserListService, UserEditService, UserViewService],
