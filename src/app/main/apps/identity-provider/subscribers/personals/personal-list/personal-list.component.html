@@ -138,31 +138,20 @@
                       
                     </ng-template>
                   </ngx-datatable-column>
+
                   <ngx-datatable-column name="Họ và tên" prop="" [width]="100" >
                     <ng-template let-row="row" ngx-datatable-cell-template>
                       {{row.personalLastName}} {{row.personalMiddleName}} {{row.personalFirstName}}                   
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column name="email" prop="email" [width]="100">
+
+                  <ngx-datatable-column name="thời gian cập nhật" prop="updatedAt" [width]="100">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.updatedAt.slice(0, 10)}}  {{row.updatedAt.slice(11, 19)}}                   
+                    </ng-template>
                   </ngx-datatable-column>
   
-                  <!-- <ngx-datatable-column name="Tổ chức" prop="organization" [width]="50">
-                    <ng-template let-status="value" ngx-datatable-cell-template>
-                      <a href="">
-                        <div
-                          class="badge badge-pill"
-                          [ngClass]="{
-                            'badge-light-success': status == 'vin',
-                            'badge-light-secondary': status == 'mec',
-                            'badge-light-warning': status == 'liv'
-                          }"
-                        >
-                          {{ status }}
-                        </div>
-                      </a>
-                      
-                    </ng-template>
-                  </ngx-datatable-column> -->
+                  
                   <ngx-datatable-column name="Tổ chức" prop="organizationId" [width]="100">
                   </ngx-datatable-column>
                   <!-- <ngx-datatable-column name="Số điện thoại" prop="phoneNumber" [width]="100"></ngx-datatable-column> -->
@@ -186,8 +175,6 @@
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
-                  
-                  
                 </ngx-datatable>
               </div>
             </section>
