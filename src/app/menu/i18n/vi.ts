@@ -3,31 +3,10 @@ export const locale = {
     data: {
       MENU: {
         DASHBOARD: "Dashboard",
-        IDENTITY_PROVIDER: {
-          SECTION: "Quản lý người dùng",
-          BADGE: '2',
-          PROFILE : "Thông tin tài khoản",
-          USERS:{
-            COLLAPSIBLE: 'Tài khoản',
-            LIST: 'Danh sách',
-            VIEW: 'Chi tiết',
-            EDIT: 'Chỉnh sửa'
-          }, 
-          SUBSCRIBERS: {
-            COLLAPSIBLE: 'Thuê bao',
-            PERSONALS:{
-              COLLAPSIBLE: 'Thuê bao cá nhân',
-              LIST : 'Danh sách',
-              VIEW: 'Chi tiết',
-              EDIT: 'Chỉnh sửa'
-            },
-            ORGANIZATIONS: {
-              COLLAPSIBLE: 'Thuê bao tổ chức',
-              LIST : 'List',
-              EDIT: 'Edit',
-              VIEW: 'View'
-            }
-          }
+        SUBSCRIPTION_MANAGEMENT  :{
+          SECTION : "QUẢN LÝ NGƯỜI DÙNG",
+          SEARCH: "Tìm kiếm",
+          CREATE_NEW_SUBSCRIPTIONS : "Tạo mới thuê bao"
         },
         TOKEN_MANAGEMENT :{
           SECTION : 'Quản lý cặp khóa',

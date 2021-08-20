@@ -68,7 +68,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-     RouterModule.forChild(routes),
+     RouterModule.forChild([]),
      CoreSidebarModule,
      CoreCommonModule,
     FormsModule,
@@ -80,6 +80,7 @@ const routes: Routes = [
     CoreDirectivesModule,
     ReactiveFormsModule
   ],
+  exports:[OrganizationListComponent],
   providers: [OrganizationViewService, OrganizationEditService, OrganizationListService],
 })
 export class OrganizationsModule { }

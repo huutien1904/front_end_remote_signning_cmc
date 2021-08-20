@@ -72,7 +72,7 @@ const routes: Routes = [
   declarations: [UserEditComponent, UserListComponent, UserViewComponent,NewUserSidebarComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild([]),
     CoreCommonModule,
     FormsModule,
     NgbModule,
@@ -84,6 +84,7 @@ const routes: Routes = [
     CoreSidebarModule,
     // BFormSelect
   ],
+  exports:[UserListComponent],
   providers: [UserListService, UserEditService, UserViewService],
 })
 export class UserModule {}

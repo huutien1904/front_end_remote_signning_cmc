@@ -3,7 +3,9 @@
 @import '@core/scss/angular/libs/select.component.scss';
 // @import '@core/scss/base/plugins/forms/form-validation.scss';
 @import './../../../../../../../../@core/scss/base/plugins/forms/form-validation.scss';
-
+.lable{
+    margin-bottom: 0px !important;
+}
 option{
     font-size: 14px !important;
 }
@@ -92,6 +94,7 @@ button{
     background-color: transparent;
     border-color: transparent;
 }
+
 @media only screen and (max-width: 600px) {
     form {
         overflow-y: auto !important;

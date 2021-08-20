@@ -57,7 +57,6 @@ export class NewPersonalSidebarComponent implements OnInit {
 // residence place
   countryResidencePlace:String[] =[
     'Việt Nam',
-    
   ]
   provinceResidencePlace:String[] =[
     
@@ -87,8 +86,11 @@ export class NewPersonalSidebarComponent implements OnInit {
     private modalService: NgbModal,
   ) {
     }
-  toggleSidebar(){
-    this.modalService.dismissAll();
+  toggleSidebar(name){
+    console.log(name)
+    this._coreSidebarService.removeSidebarRegistry(name)
+    // console.log('test exit')
+    // this.modalService.dismissAll();
   }
   submitted = false;
   ngOnInit(): void {
@@ -155,8 +157,8 @@ export class NewPersonalSidebarComponent implements OnInit {
     // display form values on success
     
     return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>(
-      // console.log('respon',respon)
-      this.toggleSidebar()
+      console.log('respon',respon)
+      // this.toggleSidebar()
        )
     )
     

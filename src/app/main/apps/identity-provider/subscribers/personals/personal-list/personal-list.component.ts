@@ -4,7 +4,7 @@ import { ColumnMode, DatatableComponent, } from '@swimlane/ngx-datatable';
 import { takeUntil } from 'rxjs/operators';
 
 import { Subject } from 'rxjs';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { PersonalListService } from './personal-list.service';
@@ -25,17 +25,29 @@ export class PersonalListComponent implements OnInit {
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
-  
+  public pageBasicText = 1;
   public previousOganizationFilter = '';
   public previousActiveFilter = '';
-  
+  public page = 0
+  public itemOnPage = 12  
+  public changeAB = false
+  public pageSizes = [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ]
+  public selectSex: any = [
 
-  public selectOganization: any = [
-
-    { name: 'All', value: '' },
-    { name: 'Tổ chức Vin', value: 'vin' },
-    { name: 'Tổ chức mec', value: 'mec' },
-    { name: 'Tổ chức liv', value: 'liv' },
+    { name: 'Nam', value: 'Name' },
+    { name: 'Nữ', value: 'Nữ' },
+    
     
   ];
 
@@ -46,7 +58,7 @@ export class PersonalListComponent implements OnInit {
   ];
 
   
-  public slectedOrganization = [];
+  public slectedSex = [];
   public selectedActive = [];
   
   public searchValue = '';
@@ -67,11 +79,14 @@ export class PersonalListComponent implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    * @param {UserListService} PersonalListService
    * @param {CoreSidebarService} _coreSidebarService
-   */
+   * @param {NgbModal} modalService
+  */
+
   constructor(
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
-    private _coreConfigService: CoreConfigService
+    private _coreConfigService: CoreConfigService,
+    private modalService: NgbModal
   ) { 
     this._unsubscribeAll = new Subject();
   }
@@ -113,7 +128,10 @@ export class PersonalListComponent implements OnInit {
     // alert(name);
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
-
+  
+  // toggleSidebar(modalForm) {
+  //   this.modalService.open(modalForm);
+  // }
   /**
    * Filter By active
    *
@@ -176,31 +194,55 @@ export class PersonalListComponent implements OnInit {
     })
     return myArrays
   }
+  changePage(e){
+    console.log(typeof(e))
+    this.page = e
+    this._userListService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
+      this.rows = respon.data.data;
+            this.tempData = this.rows;
+    })
+  }
+  selectItem(e){
+    const item = Number(e.target.value)
+    this._userListService.getData(this.page,item).subscribe((respon:any) =>{
+      this.rows = respon.data.data;
+            this.tempData = this.rows;
+    })
+  }
+  changeAb(){
+    this.changeAB =! this.changeAB
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
    * On init
    */
   ngOnInit(): void {
-    // Subscribe config change
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
-      if (config.layout.animation === 'zoomIn') {
-        setTimeout(() => {
-          this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-            this.rows = response;
+    this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
+      this.rows = this.addIndex(respon.data.data);
             this.tempData = this.rows;
-          });
-        }, 450);
-      } else {
-        this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-          this.rows = this.addIndex(response.data.data)
-          console.log(this.rows)
-          this.tempData = this.rows;
-        });
-      }
-    });
-    this._userListService.getProvice()
+    })
+    // console.log(this.rows)
+    // this.tempData = this.rows;
+    // Subscribe config change
+    // this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
+    //   //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
+    //   if (config.layout.animation === 'zoomIn') {
+    //     setTimeout(() => {
+    //       this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+    //         this.rows = response;
+    //         this.tempData = this.rows;
+    //       });
+    //     }, 450);
+    //   } else {
+    //     this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+    //       this.rows = this.addIndex(response.data.data)
+    //       console.log(this.rows)
+    //       this.tempData = this.rows;
+    //     });
+    //   }
+    // });
+    // this._userListService.getProvice()
     // console.log(this.row)
     // this.rows = this._userListService.createDb().heroes
     // this.tempData = this.rows;

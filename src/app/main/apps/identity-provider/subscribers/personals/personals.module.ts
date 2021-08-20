@@ -20,7 +20,7 @@ import { CoreSidebarModule } from "@core/components";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { ReactiveFormsModule } from "@angular/forms";
 
-// import { JwPaginationModule } from 'jw-angular-pagination';
+
 
 /**
  * Routing
@@ -79,7 +79,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule, 
-    RouterModule.forChild(routes),
+    RouterModule.forChild([]),
     CoreCommonModule,
     FormsModule,
     NgbModule,
@@ -90,8 +90,10 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     ReactiveFormsModule,
+    // NgbModal
     // JwPaginationModule
   ],
+  exports:[PersonalListComponent],
   providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })
 export class PersonalsModule {}
