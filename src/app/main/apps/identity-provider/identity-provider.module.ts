@@ -10,6 +10,19 @@ import { CoreCommonModule } from '@core/common.module';
 import { UserModule } from './users/user/user.module';
 import { PersonalsModule } from './subscribers/personals/personals.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
+import { PersonalEditComponent } from './subscribers/personals/personal-edit/personal-edit.component';
+import { PersonalViewComponent } from './subscribers/personals/personal-view/personal-view.component';
+import { NewPersonalSidebarComponent } from './subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { CoreSidebarModule } from '@core/components';
+import { CoreDirectivesModule } from '@core/directives/directives';
+import { CorePipesModule } from '@core/pipes/pipes.module';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { PersonalEditService } from './subscribers/personals/personal-edit/personal-edit.service';
+import { PersonalListService } from './subscribers/personals/personal-list/personal-list.service';
+import { PersonalViewService } from './subscribers/personals/personal-view/personal-view.service';
 
 
 /**
@@ -39,9 +52,17 @@ const routes:Routes = [
   //   // },
   //   data: {roles: [Role.SuperAdmin], animation: "" },
   // },
+  // {
+  //   path: 'users',
+  //   loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+    
+  // },
   {
-    path: 'users',
-    loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+    path: "subscribers/personals/personal-view/:id",
+    component: PersonalViewComponent,
+    resolve: {
+      data: PersonalViewService,
+    },
   },
   {
     path: 'subscribers',
@@ -56,7 +77,10 @@ const routes:Routes = [
 @NgModule({
   declarations: [
     SearchSubcribersComponent,
-    
+    PersonalListComponent,
+    PersonalEditComponent,
+    PersonalViewComponent,
+    NewPersonalSidebarComponent,
   ],
   imports: [
     CommonModule, 
@@ -64,10 +88,20 @@ const routes:Routes = [
     NgbModule,
     CoreCommonModule,
     UserModule,
-    PersonalsModule,
-    OrganizationsModule
-  ]
+    OrganizationsModule,
+    FormsModule,
+    NgbModule,
+    NgSelectModule,
+    Ng2FlatpickrModule,
+    NgxDatatableModule,
+    CorePipesModule,
+    CoreDirectivesModule,
+    CoreSidebarModule,
+    ReactiveFormsModule,
+  ],
+  providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })
+
 export class IdentityProviderModule {
   constructor() {};
 

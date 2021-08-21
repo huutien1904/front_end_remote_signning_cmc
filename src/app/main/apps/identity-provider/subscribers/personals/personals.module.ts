@@ -7,7 +7,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewService } from "./personal-view/personal-view.service";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
-
 import { CoreCommonModule } from "@core/common.module";
 import { FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -19,8 +18,6 @@ import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { ReactiveFormsModule } from "@angular/forms";
-
-
 
 /**
  * Routing
@@ -72,14 +69,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    PersonalEditComponent,
-    PersonalViewComponent,
-    PersonalListComponent,
-    NewPersonalSidebarComponent,
+   
   ],
   imports: [
     CommonModule, 
-    RouterModule.forChild([]),
+    RouterModule.forChild(routes),
     CoreCommonModule,
     FormsModule,
     NgbModule,
@@ -90,10 +84,10 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     ReactiveFormsModule,
-    // NgbModal
+    // BsModalService
     // JwPaginationModule
   ],
-  exports:[PersonalListComponent],
+  // exports:[PersonalListComponent],
   providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })
 export class PersonalsModule {}

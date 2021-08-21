@@ -91,7 +91,8 @@
 
     <div class="table_content-wrap" >
       <div class="col-md-12 col-12 d-flex justify-content-start justify-content-md-end">
-        <button class="btn btn-primary ml-1 round mb-50" rippleEffect (click)="toggleSidebar('new-personal-sidebar')">
+        <!-- (click)="toggleSidebar('new-personal-sidebar')" -->
+        <button class="btn btn-primary ml-1 round mb-50" rippleEffect (click)="toggleSidebar('new-personal-sidebar')"   >
           <span [data-feather]="'clock'" [class]="'mr-50'"></span>
           <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
           ><span class="d-none d-sm-inline-block">Thêm Mới</span>
@@ -160,7 +161,7 @@
                         </button>
                         <div ngbDropdownMenu>
                           
-                          <a routerLink="../personal-view/{{row.personalId}}" ngbDropdownItem
+                          <a routerLink="../subscribers/personals/personal-view/{{row.personalId}}" ngbDropdownItem
                             ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details</a
                           ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
                             ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
@@ -209,13 +210,14 @@
             name="new-personal-sidebar"
             overlayClass="modal-backdrop"
           >
-            <app-new-personal-sidebar></app-new-personal-sidebar>
+            <!-- <button (click)="test('new-personal-sidebar')">Test</button> -->
+            <app-new-personal-sidebar (onClose)="test('new-personal-sidebar')"></app-new-personal-sidebar>
           </core-sidebar> 
          
       </div>
       <!-- end table content -->
     </div>
-    <!-- <ng-template #modalFormtien let-modal>
+    <!-- <ng-template #modalForm let-modal>
       <app-new-personal-sidebar></app-new-personal-sidebar>
     </ng-template> -->
 </div>

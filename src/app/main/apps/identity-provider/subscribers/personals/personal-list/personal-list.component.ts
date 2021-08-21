@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation ,TemplateRef} from '@angular/core';
 
 import { ColumnMode, DatatableComponent, } from '@swimlane/ngx-datatable';
 import { takeUntil } from 'rxjs/operators';
-
+// import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CoreConfigService } from '@core/services/config.service';
@@ -65,7 +65,7 @@ export class PersonalListComponent implements OnInit {
 
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
-
+  
   // Private
 
   // fake db
@@ -86,7 +86,7 @@ export class PersonalListComponent implements OnInit {
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
-    private modalService: NgbModal
+    // public modalService: BsModalService
   ) { 
     this._unsubscribeAll = new Subject();
   }
@@ -125,13 +125,14 @@ export class PersonalListComponent implements OnInit {
    * @param name
    */
   toggleSidebar(name): void {
-    // alert(name);
+    
+    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+  }
+  test(name){
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
   
-  // toggleSidebar(modalForm) {
-  //   this.modalService.open(modalForm);
-  // }
+  
   /**
    * Filter By active
    *

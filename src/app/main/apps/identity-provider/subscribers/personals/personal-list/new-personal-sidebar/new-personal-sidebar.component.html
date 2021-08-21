@@ -5,7 +5,7 @@
           <form class="form form-horizontal add-new-user modal-content pt-0" [formGroup]="newPersonal"  (ngSubmit)="onSubmit()">
             <div class="form_header">
               <div class="h1">Đăng ký thông tin</div>
-              <button aria-label="Close" (click)="toggleSidebar(modal)">
+              <button aria-label="Close" (click) = "closeModal()">
                 <a href=""><span class="input-group-text button_exit"><span [data-feather]="'x'"></span></span></a>
               </button>
               
