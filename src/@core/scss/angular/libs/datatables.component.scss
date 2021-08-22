@@ -81,6 +81,7 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
         margin-bottom: 1rem;
 
         .datatable-pager {
+          display: none;
           a {
             color: $datatables-text-color;
             line-height: 20px;

@@ -211,7 +211,7 @@
             overlayClass="modal-backdrop"
           >
             <!-- <button (click)="test('new-personal-sidebar')">Test</button> -->
-            <app-new-personal-sidebar (onClose)="test('new-personal-sidebar')"></app-new-personal-sidebar>
+            <app-new-personal-sidebar (onClose)="closeModal('new-personal-sidebar')" (onUpdate) ="updateTable()" ></app-new-personal-sidebar>
           </core-sidebar> 
          
       </div>

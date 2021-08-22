@@ -1,3 +1,4 @@
+// import { ModuleNewPersonalSidebar } from './subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.module';
 import { PersonalListComponent } from './subscribers/personals/personal-list/personal-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -23,7 +24,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PersonalEditService } from './subscribers/personals/personal-edit/personal-edit.service';
 import { PersonalListService } from './subscribers/personals/personal-list/personal-list.service';
 import { PersonalViewService } from './subscribers/personals/personal-view/personal-view.service';
-
+import { CreateSubcribersComponent } from './create-subcribers.component';
 
 /**
  * Routing
@@ -43,20 +44,18 @@ const routes:Routes = [
     data: { animation: "SearchSubcribersComponent" },
   },
   
-  // {
-  //   path: 'subscribers-search',
-  //   component : SearchSubcribersComponent,
-  //   canActivate : [AuthGuard], 
-  //   // resolve: {
-  //   //   uls: DashboardService
-  //   // },
-  //   data: {roles: [Role.SuperAdmin], animation: "" },
-  // },
-  // {
-  //   path: 'users',
-  //   loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
-    
-  // },
+  {
+    path: 'subscribers-create',
+    component: CreateSubcribersComponent,
+    canActivate: [AuthGuard],
+    // resolve: {
+    //   uls: UserListService
+    // },
+    // resolve: {
+    //   inv:UserListService
+    // },
+    data: { animation: "CreateSubcribersComponent" },
+  },
   {
     path: "subscribers/personals/personal-view/:id",
     component: PersonalViewComponent,
@@ -80,7 +79,8 @@ const routes:Routes = [
     PersonalListComponent,
     PersonalEditComponent,
     PersonalViewComponent,
-    NewPersonalSidebarComponent,
+    NewPersonalSidebarComponent, 
+    CreateSubcribersComponent
   ],
   imports: [
     CommonModule, 
@@ -98,6 +98,7 @@ const routes:Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     ReactiveFormsModule,
+    // ModuleNewPersonalSidebar
   ],
   providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })

@@ -69,7 +69,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-   
   ],
   imports: [
     CommonModule, 
@@ -84,10 +83,10 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     ReactiveFormsModule,
+    // NewPersonalSidebarComponent
     // BsModalService
     // JwPaginationModule
   ],
-  // exports:[PersonalListComponent],
   providers: [PersonalEditService, PersonalListService, , PersonalViewService],
 })
 export class PersonalsModule {}

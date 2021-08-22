@@ -128,7 +128,7 @@ export class PersonalListComponent implements OnInit {
     
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
-  test(name){
+  closeModal(name){
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
   
@@ -218,6 +218,12 @@ export class PersonalListComponent implements OnInit {
   /**
    * On init
    */
+  updateTable(){
+    this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
+      this.rows = this.addIndex(respon.data.data);
+            this.tempData = this.rows;
+    })
+  }
   ngOnInit(): void {
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
       this.rows = this.addIndex(respon.data.data);

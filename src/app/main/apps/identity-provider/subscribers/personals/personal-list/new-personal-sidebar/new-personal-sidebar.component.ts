@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import {
   AbstractControl,
@@ -36,6 +35,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   public provinceResidence:any
   public districtResidence:any
   public communeResidence:any
+  public submitted = false;
   // birth place
   countryBirthPlace:String[] =[
     'Việt Nam',
@@ -72,6 +72,7 @@ export class NewPersonalSidebarComponent implements OnInit {
     'Tố Hữu'
   ]
   @Output() onClose = new EventEmitter<any>();
+  @Output() onUpdate = new EventEmitter<any>();
   newPersonal: FormGroup;
  /**
    *' Constructor
@@ -92,7 +93,7 @@ export class NewPersonalSidebarComponent implements OnInit {
     // console.log('test exit')
     this.modalService.dismissAll();
   }
-  submitted = false;
+  
   ngOnInit(): void {
     
     this.newPersonal = this.fb.group({
@@ -132,7 +133,9 @@ export class NewPersonalSidebarComponent implements OnInit {
   closeModal(){
     this.onClose.emit();
   }
-  
+  updateTable(){
+    this.onUpdate.emit()
+  }
   isUserNameDuplicated(control: AbstractControl): Observable<ValidationErrors> {
     return of(null);
   }
@@ -159,11 +162,14 @@ export class NewPersonalSidebarComponent implements OnInit {
     // display form values on success
     
     return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>{
-      // if(respon.result =)
+      if(respon.result = "true"){
+        this.closeModal()
+        this.updateTable()
+      }
       console.log(respon.result)
       // console.log(respon)
       // if(respon.result)
-      this.closeModal()
+      // this.closeModal()
       // this.toggleSidebar()
     }
     )

@@ -25,7 +25,15 @@ export const menu: CoreMenu[] = [
         url: 'apps/ip/subscribers-search',
         
       },
-      
+      {
+        id: 'subcription-management',
+        title: 'Tạo mới thuê bao',
+        translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
+        type: 'item',
+        icon: 'user-plus',
+        url: 'apps/ip/subscribers-create',
+        
+      },
     ]
   },
   {
