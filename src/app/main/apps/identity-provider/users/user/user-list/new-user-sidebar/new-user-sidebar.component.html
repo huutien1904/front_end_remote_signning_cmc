@@ -1,8 +1,103 @@
-<div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Đăng kí tài khoản mới</h4>
-</div>
-<div class="modal-body" tabindex="0" ngbAutofocus>
-    <form [formGroup]="ReactiveUserDetailsForm" (ngSubmit)="ReactiveUDFormOnSubmit()">
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="form form-horizontal add-new-user modal-content pt-0">
+        <div class="form_header">
+          <div class="h1">Đăng ký thông tin</div>
+          <a href=""><span class="input-group-text"><span [data-feather]="'x'"></span></span></a>
+        </div>
+        <!-- thông tin cá nhân -->
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <div class="form-group ">
+              <div class="col-sm-12 col-form-label">
+                <label>Họ</label>
+              </div>
+              <div class="col-sm-12">
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                  </div>
+                  <input
+                    type="text"
+                    id="fname-icon"
+                    class="form-control"
+                    name="fname-icon"
+                    placeholder="Họ"
+                  />
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="form-group ">
+              <div class="col-sm-12 col-form-label">
+                <label>TÊN ĐỆM</label>
+              </div>
+              <div class="col-sm-12">
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                  </div>
+                  <input
+                    type="text"
+                    id="fname-icon"
+                    class="form-control"
+                    name="fname-icon"
+                    placeholder="Tên đệm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="form-group ">
+              <div class="col-sm-12 col-form-label">
+                <label>TÊN</label>
+              </div>
+              <div class="col-sm-12">
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span [data-feather]="'user'"></span></span>
+                  </div>
+                  <input
+                    type="text"
+                    id="fname-icon"
+                    class="form-control"
+                    name="fname-icon"
+                    placeholder="Tên"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="form-group ">
+              <div class="col-sm-12 col-form-label">
+                <label>CHỨNG MINH THƯ</label>
+              </div>
+              <div class="col-sm-12">
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span [data-feather]="'credit-card'"></span></span>
+                  </div>
+                  <input
+                    type="text"
+                    id="fname-icon"
+                    class="form-control"
+                    name="fname-icon"
+                    placeholder="03520001170"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>         
+        </div>
+        
         <div class="row">
             <div class="col-6">
                 <label for="UDUserName">Tên tài khoản</label>

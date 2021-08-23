@@ -1,11 +1,11 @@
-  <div class="slideout-content">
+  <div class="slideout-content" #modal>
       <!-- Modal to add new user starts-->
       <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
         <div class="modal-dialog">
           <form class="form form-horizontal add-new-user modal-content pt-0" [formGroup]="newPersonal"  (ngSubmit)="onSubmit()">
             <div class="form_header">
               <div class="h1">Đăng ký thông tin</div>
-              <button aria-label="Close" (click) = "toggleSidebar()">
+              <button aria-label="Close" (click) = "closeModal()">
                 <a href=""><span class="input-group-text button_exit"><span [data-feather]="'x'"></span></span></a>
               </button>
               
@@ -16,7 +16,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label >Họ</label>
+                      <label class="lable" >Họ</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge" >
@@ -54,7 +54,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>TÊN ĐỆM</label>
+                      <label class="lable">TÊN ĐỆM</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -84,7 +84,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>TÊN</label>
+                      <label class="lable">TÊN</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -115,7 +115,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>CHỨNG MINH THƯ</label>
+                      <label class="lable">CHỨNG MINH THƯ</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -149,7 +149,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>NGÀY THÁNG NĂM SINH </label>
+                      <label class="lable">NGÀY THÁNG NĂM SINH </label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -184,7 +184,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>SỐ ĐIỆN THOẠI</label>
+                      <label class="lable">SỐ ĐIỆN THOẠI</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -217,7 +217,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>EMAIL</label>
+                      <label class="lable">EMAIL</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -250,7 +250,7 @@
                 <div class="col-12 col-md-3">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>ID TỔ CHỨC</label>
+                      <label class="lable">ID TỔ CHỨC</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -286,7 +286,7 @@
                     <div class="col-12 col-md-6">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>QUỐC GIA</label>
+                          <label class="lable">QUỐC GIA</label>
                         </div>
                         <div class="col-sm-12">
                           <div class="input-group input-group-merge">
@@ -315,7 +315,7 @@
                     <div class="col-12 col-md-6">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>TỈNH </label>
+                          <label class="lable">TỈNH </label>
                         </div>
                         <div class="col-sm-12">
                           <select 
@@ -344,7 +344,7 @@
                     <div class="col-12 col-md-5">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>HUYỆN</label>
+                          <label class="lable">HUYỆN</label>
                         </div>
                         <div class="col-sm-12">
                           <div class="input-group input-group-merge">
@@ -371,7 +371,7 @@
                     <div class="col-12 col-md-7">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>XÃ</label>
+                          <label class="lable">XÃ</label>
                         </div>
                         <div class="col-sm-12">
                           <div class="input-group input-group-merge">
@@ -401,7 +401,7 @@
                 <div class="col-12 col-md-4">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>Đường</label>
+                      <label class="lable">Đường</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -430,7 +430,7 @@
                 <div class="col-12 col-md-6">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>ĐỊA CHỈ CỤ THỂ (SỐ NHÀ, NGÕ, NGÁCH, ...)</label>
+                      <label class="lable">ĐỊA CHỈ CỤ THỂ (SỐ NHÀ, NGÕ, NGÁCH, ...)</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -463,13 +463,13 @@
                     <div class="col-12 col-md-6">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>QUỐC GIA</label>
+                          <label class="lable">QUỐC GIA</label>
                         </div>
                         <div class="col-sm-12">
                           <div class="input-group input-group-merge">
                             <select class="form-control form-control-lg " formControlName="countryResidencePlace" [ngClass]="{ 'error_icon': submitted && f.countryResidencePlace.errors }">
                               <option value="Việt Nam">{{countryResidencePlace[0]}}</option>
-                              <option value="Việt Nam" *ngFor = 'let country of countryResidencePlace,index as i '>{{country}}</option> 
+                              <option value="country" *ngFor = 'let country of countryResidencePlace,index as i '>{{country}}</option> 
                             </select>
                           </div>
                         </div>
@@ -487,7 +487,7 @@
                     <div class="col-12 col-md-6">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>TỈNH/THÀNH PHỐ </label>
+                          <label class="lable">TỈNH/THÀNH PHỐ </label>
                         </div>
                         <div class="col-sm-12">
                           <select 
@@ -516,7 +516,7 @@
                     <div class="col-12 col-md-5">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>HUYỆN</label>
+                          <label class="lable">HUYỆN</label>
                         </div>
                         <div class="col-sm-12">
                           <div class="input-group input-group-merge">
@@ -544,7 +544,7 @@
                     <div class="col-12 col-md-7">
                       <div class="form-group ">
                         <div class="col-sm-12 col-form-label">
-                          <label>XÃ</label>
+                          <label class="lable">XÃ</label>
                         </div>
                         <div class="col-sm-12">
                           <div class="input-group input-group-merge">
@@ -569,7 +569,7 @@
                 <div class="col-12 col-md-4">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
-                      <label>ĐƯỜNG</label>
+                      <label class="lable">ĐƯỜNG</label>
                     </div>
                     <div class="col-sm-12">
                       <div class="input-group input-group-merge">
@@ -624,14 +624,16 @@
             </div>
     
             <div class="col-12 button_summit">
-              <button type="submit" rippleEffect class="btn btn-primary mr-1"   >Submit</button>
+              <button type="submit" rippleEffect class="btn btn-primary mr-1"  (click) = "onSubmit()" >Submit</button>
               <button type="reset" rippleEffect class="btn btn-outline-secondary">Reset</button>
             </div>
             
           </form>
-   
+          
         </div>
+        
       </div>
+      
       <!-- Modal to add new user Ends-->
   
   </div>

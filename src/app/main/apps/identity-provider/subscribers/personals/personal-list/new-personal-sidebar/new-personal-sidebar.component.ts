@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import {
   AbstractControl,
@@ -36,6 +35,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   public provinceResidence:any
   public districtResidence:any
   public communeResidence:any
+  public submitted = false;
   // birth place
   countryBirthPlace:String[] =[
     'Việt Nam',
@@ -57,7 +57,6 @@ export class NewPersonalSidebarComponent implements OnInit {
 // residence place
   countryResidencePlace:String[] =[
     'Việt Nam',
-    
   ]
   provinceResidencePlace:String[] =[
     
@@ -72,7 +71,8 @@ export class NewPersonalSidebarComponent implements OnInit {
     'Nguyễn Khuyến',
     'Tố Hữu'
   ]
-  
+  @Output() onClose = new EventEmitter<any>();
+  @Output() onUpdate = new EventEmitter<any>();
   newPersonal: FormGroup;
  /**
    *' Constructor
@@ -85,12 +85,15 @@ export class NewPersonalSidebarComponent implements OnInit {
     private _httpClient: HttpClient,
     private fb: FormBuilder,
     private modalService: NgbModal,
-  ) {
-    }
+    // public activeModal: NgbActiveModal
+  ) {}
   toggleSidebar(){
+    // console.log(name)
+    // this._coreSidebarService.removeSidebarRegistry()
+    // console.log('test exit')
     this.modalService.dismissAll();
   }
-  submitted = false;
+  
   ngOnInit(): void {
     
     this.newPersonal = this.fb.group({
@@ -127,8 +130,12 @@ export class NewPersonalSidebarComponent implements OnInit {
     this.getDistrictResidence()
     this.getCommuneResidence()
   }
-  
-  
+  closeModal(){
+    this.onClose.emit();
+  }
+  updateTable(){
+    this.onUpdate.emit()
+  }
   isUserNameDuplicated(control: AbstractControl): Observable<ValidationErrors> {
     return of(null);
   }
@@ -154,16 +161,23 @@ export class NewPersonalSidebarComponent implements OnInit {
     }
     // display form values on success
     
-    return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>(
-      // console.log('respon',respon)
-      this.toggleSidebar()
-       )
+    return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>{
+      if(respon.result = "true"){
+        this.closeModal()
+        this.updateTable()
+      }
+      console.log(respon.result)
+      // console.log(respon)
+      // if(respon.result)
+      // this.closeModal()
+      // this.toggleSidebar()
+    }
     )
     
   }
-  close(){
-    this.modalService.dismissAll()
-  }
+  // close(){
+  //   this.activeModal.close();
+  // }
   // set address birth
   selectProviceBirth(e){
     console.log(e.target.value)

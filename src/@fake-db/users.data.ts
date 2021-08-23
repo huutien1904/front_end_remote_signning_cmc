@@ -650,5 +650,83 @@ export class UsersFakeData {
       status: 'active',
       avatar: 'assets/images/avatars/9.png'
     }
+    ,{
+      id: 45,
+      fullName: 'Corrie Perot',
+      company: 'Flipopia PVT LTD',
+      role: 'Subscriber',
+      username: 'cperot18',
+      country: 'China',
+      contact: '(659) 385-6808',
+      email: 'cperot18@goo.ne.jp',
+      currentPlan: 'Team',
+      status: 'pending',
+      avatar: 'assets/images/avatars/3.png'
+    },
+    {
+      id: 46,
+      fullName: 'Saunder Offner',
+      company: 'Skalith PVT LTD',
+      role: 'Maintainer',
+      username: 'soffner19',
+      country: 'Poland',
+      contact: '(200) 586-2264',
+      email: 'soffner19@mac.com',
+      currentPlan: 'Enterprise',
+      status: 'pending',
+      avatar: ''
+    },
+    {
+      id: 47,
+      fullName: 'Karena Courtliff',
+      company: 'Feedfire PVT LTD',
+      role: 'Admin',
+      username: 'kcourtliff1a',
+      country: 'China',
+      contact: '(478) 199-0020',
+      email: 'kcourtliff1a@bbc.co.uk',
+      currentPlan: 'Basic',
+      status: 'active',
+      avatar: 'assets/images/avatars/1.png'
+    },
+    {
+      id: 48,
+      fullName: 'Onfre Wind',
+      company: 'Thoughtmix PVT LTD',
+      role: 'Admin',
+      username: 'owind1b',
+      country: 'Ukraine',
+      contact: '(344) 262-7270',
+      email: 'owind1b@yandex.ru',
+      currentPlan: 'Basic',
+      status: 'pending',
+      avatar: ''
+    },
+    {
+      id: 49,
+      fullName: 'Paulie Durber',
+      company: 'Babbleblab PVT LTD',
+      role: 'Subscriber',
+      username: 'pdurber1c',
+      country: 'Sweden',
+      contact: '(694) 676-1275',
+      email: 'pdurber1c@gov.uk',
+      currentPlan: 'Team',
+      status: 'inactive',
+      avatar: ''
+    },
+    {
+      id: 50,
+      fullName: 'Beverlie Krabbe',
+      company: 'Kaymbo PVT LTD',
+      role: 'Editor',
+      username: 'bkrabbe1d',
+      country: 'China',
+      contact: '(397) 294-5153',
+      email: 'bkrabbe1d@home.pl',
+      currentPlan: 'Company',
+      status: 'active',
+      avatar: 'assets/images/avatars/9.png'
+    }
   ];
 }

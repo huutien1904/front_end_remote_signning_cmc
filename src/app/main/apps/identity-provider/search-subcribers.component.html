@@ -1,0 +1,28 @@
+<div class="select_subcribers-header">
+    <h1>Tìm kiếm</h1>
+    <div class="subcribers-header_side">
+        <a href="" class="home_icon"><span [data-feather]="'home'" [class]="'mr-25'"></span></a>
+        
+        <span [data-feather]="'chevron-right'" [class]="'mr-25'"></span>
+        <a href="">Thuê bao</a>
+        <span [data-feather]="'chevron-right'" [class]="'mr-25'"></span>
+        <p>Tìm kiếm</p>
+    </div>
+</div>
+
+
+<div class="select_subcribers">
+    <!-- <p class="select_subcribers-title">loại thuê bao :</p> -->
+    <div class="card-body col-md-5">
+       <div class="form-group select_subcribers-wrap">
+        <label for="basicSelect">Loại thuê bao :</label>
+        <select class="form-control" id="basicSelect" (change) = "selectSubcriber($event)">
+          <option value="thuê bao cá nhân">THUÊ BAO CÁ NHÂN</option>
+          <option value="thuê bao tổ chức">THUÊ BAO TỔ CHỨC</option>
+        </select>
+      </div>
+    </div>
+    
+</div>
+<app-personal-list *ngIf = "subcriberP"></app-personal-list>
+<app-organization-list *ngIf = "subcriberO"></app-organization-list>
