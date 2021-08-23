@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-user-sidebar',
@@ -35,7 +35,8 @@ export class NewUserSidebarComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private _httpClient: HttpClient
+    private _httpClient: HttpClient,
+    private toastr: ToastrService
     ) {}
 
   get ReactiveUDForm() {
@@ -54,8 +55,7 @@ export class NewUserSidebarComponent implements OnInit {
     const option = {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-        "Access-Control-Allow-Origin": "*",
+        "Authorization": "Bearer " + token
       }
     };
     // stop here if form is invalid
@@ -64,6 +64,12 @@ export class NewUserSidebarComponent implements OnInit {
     }
     return this._httpClient.post<any>(`${environment.apiUrl}/user/register`, bodyRequest, option).subscribe((response: any) => {
       console.log(response);
+      this.toggleSidebar();
+      this.toastr.success('👋 Bạn đã đăng ký tài khoản mởi', 'Thành công', {
+        positionClass: 'toast-top-center',
+        toastClass: 'toast ngx-toastr',
+        closeButton: true
+      });
     })
   }
 
@@ -71,12 +77,13 @@ export class NewUserSidebarComponent implements OnInit {
     this.ReactiveUserDetailsForm = this.formBuilder.group(
     {
       username: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', Validators.required, Validators.pattern('[a-zA-z]')],
+      lastName: ['', Validators.required, Validators.pattern('[a-zA-z]')],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(1)]],
       confPassword: ['', [Validators.required, Validators.minLength(1)]],
-      phoneNo: ['', [Validators.required]],
+      phoneNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      role: ['', [Validators.required]]
     },
     {
         validator: MustMatch('password', 'confPassword')
