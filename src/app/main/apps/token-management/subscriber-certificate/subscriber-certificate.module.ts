@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { SubscriberCertificateListComponent } from './subscriber-certificate-list/subscriber-certificate-list.component';
 import { SubscriberCertificateViewComponent } from './subscriber-certificate-view/subscriber-certificate-view.component';
 import { SubscriberCertificateEditComponent } from './subscriber-certificate-edit/subscriber-certificate-edit.component';
@@ -46,9 +49,13 @@ const routes: Routes = [
   },
 ];
 @NgModule({
-  declarations: [],
+  declarations: [SubscriberCertificateListComponent],
   imports: [
-    CommonModule,RouterModule.forChild(routes)
+    CommonModule,
+    NgSelectModule,
+    NgbCollapseModule,
+    FormsModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class SubscriberCertificateModule { }
