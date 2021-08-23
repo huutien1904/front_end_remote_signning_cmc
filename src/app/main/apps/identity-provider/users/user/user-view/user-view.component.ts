@@ -31,6 +31,13 @@ export class UserViewComponent implements OnInit, OnDestroy {
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
   }
 
+  edit() {
+    this.router.navigateByUrl('/apps/ip/users/user/user-edit/' + this.lastValue);
+  }
+  back() {
+    this.router.navigateByUrl('apps/ip/users/user/user-list');
+  }
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
