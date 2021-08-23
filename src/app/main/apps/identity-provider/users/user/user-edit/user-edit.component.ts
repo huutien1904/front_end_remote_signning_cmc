@@ -21,7 +21,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   public rows;
   public currentRow;
   public tempRow;
-  public avatarImage: string;
 
   //param
   public UDForm = {
@@ -88,14 +87,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this._userEditService.onUserEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-      this.rows = response;
-      this.rows.map(row => {
-        if (row.id == this.urlLastValue) {
-          this.currentRow = row;
-          this.avatarImage = this.currentRow.avatar;
-          this.tempRow = cloneDeep(row);
-        }
-      });
+      this.currentRow = response;
     });
     this.ReactiveUserDetailsForm = this.formBuilder.group(
     {
