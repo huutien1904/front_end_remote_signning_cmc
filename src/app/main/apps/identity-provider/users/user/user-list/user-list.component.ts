@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ColumnMode,  DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { CoreConfigService } from '@core/services/config.service';
 import { UserListService } from './user-list.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -26,6 +27,9 @@ export class UserListComponent implements OnInit {
   public previousStatusFilter: boolean;
   public isActive: boolean;
   public show= false;
+  public pageNo = 1;
+  public total;
+  public countItems;
 
   public selectRole: any = [
     { name: 'Tất cả', value: '' },
@@ -86,6 +90,7 @@ export class UserListComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
+      d.fullName = d.firstName + ' ' + d.lastName;
       return d.fullName.indexOf(val) !== -1 || !val;
     });
 
@@ -114,12 +119,19 @@ export class UserListComponent implements OnInit {
     this.previousRoleFilter = filter;
     this.temp = this.filterRows(filter, this.previousStatusFilter);
     this.rows = this.temp;
+    this.countItems = this.rows.length;
   }
+  /**
+   * Filter By Status
+   *
+   * @param event
+   */
   filterByStatus(event) {
     const filter = event ? event.value: Boolean ;
     this.previousStatusFilter = filter;
     this.temp = this.filterRows(this.previousRoleFilter, filter);
     this.rows = this.temp;
+    this.countItems = this.rows.length;
   }
 
   /**
@@ -141,13 +153,59 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  /**
+   * @param event
+   */
+  filterByNumberItems(event) {
+    this.getData(this.creatParams(1, event));
+  }
+  
+  /**
+   * 
+   * @param page 
+   * @param pageSize 
+   * @returns 
+   */
+  creatParams(page, pageSize) {
+    const params = {};
+    params['page'] = page - 1;
+    params['pageSize'] = pageSize;
+    return params;
+  }
+
+  /**
+   * 
+   * @param params 
+   */
+  getData(params) {
+    this._userListService.getTestApi(params).subscribe((response: any) => {
+      this.rows = response.data.data;
+      this.tempData = this.rows;
+      this.total = response.data.totalItems;
+      this.countItems = this.rows.length;
+      console.log('So luong phan tu ' + this.countItems);
+      console.log('Danh sach: ' + this.rows);
+    })
+  }
+
+  /**
+   * 
+   * @param event 
+   */
+  load(event) {
+    this.pageNo = event;
+    this.getData(this.creatParams(this.pageNo, this.selectedOption));
+  }
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
    * On init
    */
   ngOnInit(): void {
+    this.getData(this.creatParams(1, this.selectedOption));
     // Subscribe config change
+    /*
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
       if (config.layout.animation === 'zoomIn') {
@@ -164,7 +222,9 @@ export class UserListComponent implements OnInit {
         });
       }
     });
+    */
   }
+
 
   /**
    * On destroy
@@ -175,3 +235,41 @@ export class UserListComponent implements OnInit {
     this._unsubscribeAll.complete();
   }
 }
+/*
+creatParams(page, pageSize) {
+  const params = {};
+  params['page'] = page;
+  params['pageSize'] = pageSize;
+  return params;
+}
+getData(params) {
+  this._userListService.getTestApi(params).subscribe((response: any) => {
+    this.rows = response.data.data;
+    this.total = response.data.totalItems;
+    console.log(this.rows);
+    console.log(this.total);
+  })
+}
+load(event) {
+  this.pageAdvancedNoEllipses = event;
+  console.log(this.pageAdvancedNoEllipses);
+  this.getData(this.creatParams(this.pageAdvancedNoEllipses, 2));
+}
+  getTestApi(x: any): any{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const option = {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      params: {
+        "page": x.page,
+        "size": x.pageSize
+      }
+    };
+    console.log(x);
+    console.log(this.rows)
+    return this._httpClient.get(`${environment.apiUrl}/user/list`, option);
+  }
+*/

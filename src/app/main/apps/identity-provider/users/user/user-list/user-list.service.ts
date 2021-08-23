@@ -31,7 +31,7 @@ export class UserListService implements Resolve<any> {
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
     return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getDataTableRows()]).then(() => {
+      Promise.all([/*this.getDataTableRows()*/]).then(() => {
         resolve();
       }, reject);
     });
@@ -57,5 +57,22 @@ export class UserListService implements Resolve<any> {
         resolve(this.rows);
       }, reject);
     });
+  }
+
+
+  getTestApi(x: any): any{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const option = {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      params: {
+        "page": x.page,
+        "size": x.pageSize
+      }
+    };
+    return this._httpClient.get(`${environment.apiUrl}/user/list`, option);
   }
 }
