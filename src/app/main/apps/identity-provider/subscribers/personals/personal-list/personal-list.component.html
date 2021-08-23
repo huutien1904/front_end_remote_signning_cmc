@@ -59,28 +59,47 @@
           ><span class="d-none d-sm-inline-block">Thêm tùy chọn</span>
         </button>   
         <div class="cart-body" *ngIf = "changeAB">
-          <div class="col-12 col-md-3 ">
-            <label for="">Thay đổi sau:</label>
-            <fieldset class="form-group">
-              <input               
-                name="changeAfter"
-                id="changeAfter"                
-                class="form-control ml-25 col-12"
-                placeholder="dd-mm-yyyy"
-              />
-            </fieldset>
-          </div>
-          <div class="col-12 col-md-3 ">
-            <label for="">Thay đổi trước:</label>
-            <fieldset class="form-group">
-              <input               
-                name="changeBefore"
-                id="changeBefore"                
-                class="form-control ml-25 col-12"
-                placeholder="dd-mm-yyyy"
-              />
-            </fieldset>
-          </div>
+          
+            <div class="col-3 col-md-2">
+              <div class="form-group item_on_page">
+                <div class="col-sm-6 col-md-12">
+                  <div class="input-group input-group-merge">
+                    <select class="form-control form-control-md " (change) = "selectItem($event)">
+                      <option *ngFor = "let size of pageSizes" [ngValue]="size">{{size}} dòng</option>
+                    </select>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+            
+            <div class="col-3 col-md-3">
+              <div class="change_time">
+                <div class="col-12 col-md-12 ">
+                  <label for="">Thay đổi sau:</label>
+                  <fieldset class="form-group">
+                    <input               
+                      name="changeAfter"
+                      id="changeAfter"                
+                      class="form-control ml-25 col-12"
+                      placeholder="dd-mm-yyyy"
+                    />
+                  </fieldset>
+                </div>
+                <div class="col-12 col-md-12 ">
+                  <label for="">Thay đổi trước:</label>
+                  <fieldset class="form-group">
+                    <input               
+                      name="changeBefore"
+                      id="changeBefore"                
+                      class="form-control ml-25 col-12"
+                      placeholder="dd-mm-yyyy"
+                    />
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          
         </div>
       </div>
 
@@ -138,7 +157,7 @@
 
                   <ngx-datatable-column name="Họ và tên" prop="" [width]="100" >
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                      {{row.personalLastName}} {{row.personalMiddleName}} {{row.personalFirstName}}                   
+                      {{row.personalFirstName}} {{row.personalMiddleName}} {{row.personalLastName}}                   
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -178,27 +197,36 @@
             <!--/ User List -->
             
             <div class="pagination">
-              <ngb-pagination [collectionSize]="70" [(page)]="pageBasicText" aria-label="Default pagination" (pageChange)='changePage($event)' >
+              <!-- <ngb-pagination 
+                [collectionSize]="70" 
+                [(page)]="pageBasicText" 
+                aria-label="Default pagination" 
+                (pageChange)='changePage($event)' >
                 <ng-template ngbPaginationPrevious
                   ><span [data-feather]="'chevron-left'" [size]="18" [class]="'font-weight-bolder'"></span>
                 </ng-template>
                 <ng-template ngbPaginationNext
                   ><span [data-feather]="'chevron-right'" [size]="18" [class]="'font-weight-bolder'"></span
                 ></ng-template>
+              </ngb-pagination> -->
+              
+              <ngb-pagination
+                [(collectionSize)]="totalPages"
+                [(page)]="pageAdvancedEllipses"
+                [maxSize]="2"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                (pageChange)='changePage($event)'
+              >
+                <ng-template ngbPaginationFirst>First</ng-template>
+                <ng-template ngbPaginationPrevious
+                  ><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Prev
+                </ng-template>
+                <ng-template ngbPaginationNext
+                  >Next<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
+                </ng-template>
+                <ng-template ngbPaginationLast>Last</ng-template>
               </ngb-pagination>
-              <div class="form-group item_on_page">
-                <div class="col-sm-8 col-form-label">
-                  <label>Item per Page</label>
-                </div>
-                <div class="col-sm-6">
-                  <div class="input-group input-group-merge">
-                    <select class="form-control form-control-md " (change) = "selectItem($event)">
-                      <option *ngFor = "let size of pageSizes" [ngValue]="size">{{size}}</option>
-                    </select>
-                  </div>
-                </div>
-                
-              </div>
             </div>
               
           </div>
