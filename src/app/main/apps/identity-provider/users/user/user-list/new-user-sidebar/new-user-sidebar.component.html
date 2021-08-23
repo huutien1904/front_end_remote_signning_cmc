@@ -110,7 +110,7 @@
                     <input type="text" id="UDUserName" [(ngModel)]="UDForm.username" formControlName="username" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.username.errors }" class="form-control" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.username.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.username.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.username.errors.required">Bạn cần nhập Tên tài khoản</div>
                 </div>
             </div>
             <div class="col-6">
@@ -124,8 +124,8 @@
                     <input type="email" id="UDEmail" formControlName="email" [(ngModel)]="UDForm.email" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.email.errors }" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.email.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.email.errors.required">Không được bỏ trống</div>
-                    <div *ngIf="ReactiveUDForm.email.errors.email">Không hợp lệ</div>
+                    <div *ngIf="ReactiveUDForm.email.errors.required">Bạn cần nhập địa chỉ email</div>
+                    <div *ngIf="ReactiveUDForm.email.errors.email">Đia chỉ email không hợp lệ</div>
                 </div>
             </div>
             <div class="col-6">
@@ -139,7 +139,7 @@
                     <input type="text" id="UDLastName" formControlName="lastName" [(ngModel)]="UDForm.lastName" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.lastName.errors }" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.lastName.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.lastName.errors.required">Bạn cần nhập Họ</div>
                 </div>
             </div>
             <div class="col-6">
@@ -153,7 +153,7 @@
                     <input type="text" id="UDFirstName" [(ngModel)]="UDForm.firstName" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.firstName.errors }" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.firstName.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.firstName.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.firstName.errors.required">Bạn cần nhập Tên</div>
                 </div>
             </div>
             <div class="col-6">
@@ -167,20 +167,23 @@
                     <input type="number" id="UDPhoneNumber" formControlName="phoneNo" [(ngModel)]="UDForm.phoneNo" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.phoneNo.errors }" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.phoneNo.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.phoneNo.errors.required">Không được bỏ trống</div>
+                    <div *ngIf="ReactiveUDForm.phoneNo.errors.required">Bạn cần nhập Số điện thoại</div>
                 </div>
             </div>
             <div class="col-6">
                 <label class="form-label" for="user-role">Vai trò</label>
-                <div class="input-group">
+                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.role.errors }">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                                     <i data-feather="star"></i>
                                 </span>
                     </div>
-                    <select id="user-role" class="form-control" formControlName="phoneNo" [(ngModel)]="UDForm.role">
+                    <select id="user-role" class="form-control" formControlName="role" [(ngModel)]="UDForm.role" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.role.errors }">
                         <option *ngFor="let item of roles" [value]="item">{{ item }}</option>
                     </select>
+                </div>
+                <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.role.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.role.errors.required">Bạn cần chọn Vai trò</div>
                 </div>
             </div>
             <div class="col-6">
@@ -194,24 +197,24 @@
                     <input type="password" id="UDPassword" formControlName="password" [(ngModel)]="UDForm.password" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.password.errors }" />
                 </div>
                 <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.password.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.password.errors.required">Không được bỏ trống</div>
-                    <div *ngIf="ReactiveUDForm.password.errors.minlength">Mật khẩu chứa ít nhất 6 kí tự</div>
+                    <div *ngIf="ReactiveUDForm.password.errors.required">Bạn cần nhập Mật khẩu</div>
+                    <div *ngIf="ReactiveUDForm.password.errors.minlength">Mật khẩu chứa ít nhất 1 kí tự</div>
                 </div>
             </div>
             <div class="col-6">
                 <label for="UDConfPassword">Xác nhận mật khẩu</label>
-                <div class="input-group" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.confPassword.errors }">
+                <div class="input-group" [ngClass]="{ 'is-invalid':ReactiveUDForm.confPassword.dirty && ReactiveUDForm.confPassword.errors }">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
                                     <i data-feather="lock"></i>
                                 </span>
                     </div>
-                    <input type="password" id="UDConfPassword" formControlName="confPassword" [(ngModel)]="confPassword" class="form-control" [ngClass]="{ 'is-invalid': ReactiveUDFormSubmitted && ReactiveUDForm.confPassword.errors }" />
+                    <input type="password" id="UDConfPassword" formControlName="confPassword" [(ngModel)]="confPassword" class="form-control" [ngClass]="{ 'is-invalid':ReactiveUDForm.confPassword.dirty && ReactiveUDForm.confPassword.errors }" />
                 </div>
-                <div *ngIf="ReactiveUDFormSubmitted && ReactiveUDForm.confPassword.errors" class="invalid-feedback">
-                    <div *ngIf="ReactiveUDForm.confPassword.errors.required">Không được bỏ trống</div>
-                    <div *ngIf="ReactiveUDForm.confPassword.errors.minlength">Mật khẩu xác nhận chứa ít nhất 6 kí tự</div>
-                    <div *ngIf="ReactiveUDForm.confPassword.errors.mustMatch">Phải khớp với Mật khẩu</div>
+                <div *ngIf="ReactiveUDForm.confPassword.dirty && ReactiveUDForm.confPassword.errors" class="invalid-feedback">
+                    <div *ngIf="ReactiveUDForm.confPassword.errors.required">Bạn cần xác nhận Mật khẩu</div>
+                    <div *ngIf="ReactiveUDForm.confPassword.errors.minlength">Mật khẩu xác nhận chứa ít nhất 1 kí tự</div>
+                    <div *ngIf="ReactiveUDForm.confPassword.errors.mustMatch">Cần khớp với Mật khẩu</div>
                 </div>
             </div>
         </div>

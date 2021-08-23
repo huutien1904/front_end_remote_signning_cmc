@@ -3,7 +3,9 @@
         <div class="card user-card">
             <div class="card-body">
                 <div class="row">
-                    <h2>Thông tin chi tiết</h2>
+                    <div class="col-6 offset-3">
+                        <h2>Thông tin chi tiết</h2>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 mt-2 mt-xl-0">
@@ -57,10 +59,13 @@
                                 </div>
                                 <p class="card-text mb-0">{{ data.updatedAt }}</p>
                             </div>
-                            <div style="text-align: right;">
-                                <button class="btn btn-primary" routerLink="../../user-edit/{{ data.userId }}" type="button" rippleEffect>Chỉnh sửa</button>
-                            </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-6 d-flex justify-content-md-end">
+                        <button class="btn btn-primary mr-1" (click)="edit()" type="button" rippleEffect>Chỉnh sửa</button>
+                        <button class="btn btn-secondary" (click)="back()" type="button" rippleEffect>Quay lại</button>
                     </div>
                 </div>
             </div>

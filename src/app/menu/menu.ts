@@ -38,17 +38,26 @@ export const menu: CoreMenu[] = [
   },
   {
     id: 'token-management',
-    title: 'Quản lý khóa/Chứng thư số',
+    title: 'Quản lý cặp khóa',
     translate: 'MENU.TOKEN_MANAGEMENT.SECTION',
     type: 'section',
     children: [
       {
-        id: 'key-pair',
-        title: 'Khóa',
-        translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.COLLAPSIBLE',
-        type: 'collapsible',
-        icon: 'key',
-        children: [
+        id: 'search',
+        title: 'Tìm kiếm',
+        type: 'item',
+        icon: 'search',
+        url: '/apps/tm/search'
+      },
+      {
+        id: 'key-pair-list',
+        title: 'Tạo mới cặp khóa',
+        translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
+        type: 'item',
+        icon: 'file-text',
+        url: '/apps/tm/keypair/keypair-list'
+      },
+        /*children: [
           {
             id: 'key-pair-list',
             title: 'Danh sách',
@@ -74,15 +83,16 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: '/apps/tm/keypair/keypair-template',
           }
-        ]
-      },
+        ]*/
       {
-        id: 'certificate-request',
-        title: 'Chứng thư số',
-        translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.COLLAPSIBLE',
-        type: 'collapsible',
+        id: 'certificate-request-list',
+        title: 'Tạo mới yêu cầu',
+        translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.LIST',
+        type: 'item',
         icon: 'file-text',
-        children: [
+        url: '/apps/tm/certificate-request/certificate-request-list'
+      },
+        /*children: [
           {
             id: 'certificate-request-list',
             title: 'Danh sách',
@@ -99,15 +109,16 @@ export const menu: CoreMenu[] = [
             type: 'item',
             url: '/apps/tm/certificate-request/certificate-request-view'
           }
-        ]
-      },
+        ]*/
       {
-        id: 'subscriber-certificate',
-        title: 'Yêu cầu chứng thực',
-        translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.COLLAPSIBLE',
-        type: 'collapsible',
-        icon: 'send',
-        children: [
+        id: 'subscriber-certificate-list',
+        title: 'Xuất/nhập chứng thư số',
+        translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.LIST',
+        icon: 'file-text',
+        type: 'item',
+        url: '/apps/tm/subscriber-certificate/subscriber-certificate-list'
+      }
+        /*children: [
           {
             id: 'subscriber-certificate-list',
             title: 'Danh sách',
@@ -122,8 +133,7 @@ export const menu: CoreMenu[] = [
             type: 'item',
             url: '/apps/tm/subscriber-certificate/subscriber-certificate-view'
           }
-        ]
-      }
+        ]*/
     ]
   },
   {

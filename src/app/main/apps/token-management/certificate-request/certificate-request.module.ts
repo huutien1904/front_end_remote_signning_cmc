@@ -1,9 +1,13 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CertificateRequestListComponent } from "./certificate-request-list/certificate-request-list.component";
 import { CertificateRequestViewComponent } from "./certificate-request-view/certificate-request-view.component";
 import { CertificateRequestEditComponent } from "./certificate-request-edit/certificate-request-edit.component";
-import { RouterModule, Routes } from "@angular/router";
+
 
 const routes: Routes = [
   {
@@ -51,6 +55,12 @@ const routes: Routes = [
     CertificateRequestViewComponent,
     CertificateRequestEditComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    NgSelectModule,
+    NgbCollapseModule,
+    FormsModule,
+    RouterModule.forChild(routes)
+  ]
 })
 export class CertificateRequestModule {}
