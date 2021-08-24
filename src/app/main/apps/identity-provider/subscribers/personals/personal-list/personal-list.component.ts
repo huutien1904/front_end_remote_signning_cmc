@@ -29,8 +29,11 @@ export class PersonalListComponent implements OnInit {
   public previousOganizationFilter = '';
   public previousActiveFilter = '';
   public page = 0
-  public itemOnPage = 12  
+  public itemOnPage = 3  
   public changeAB = false
+  public pageAdvancedEllipses = 1;
+  public totalItems:number
+  public totalPages:number 
   public pageSizes = [
     3,
     4,
@@ -199,15 +202,19 @@ export class PersonalListComponent implements OnInit {
     console.log(typeof(e))
     this.page = e
     this._userListService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
-      this.rows = respon.data.data;
+      this.rows = this.addIndex(respon.data.data);
             this.tempData = this.rows;
     })
   }
   selectItem(e){
-    const item = Number(e.target.value)
+    const chars = e.target.value.split('');
+    const item = Number(chars[0])
+    this.itemOnPage = Number(item)
     this._userListService.getData(this.page,item).subscribe((respon:any) =>{
-      this.rows = respon.data.data;
-            this.tempData = this.rows;
+      console.log(respon)
+      this.totalPages = respon.data.totalPages * 10
+      this.rows = this.addIndex(respon.data.data);
+      this.tempData = this.rows;
     })
   }
   changeAb(){
@@ -226,6 +233,9 @@ export class PersonalListComponent implements OnInit {
   }
   ngOnInit(): void {
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10
+      // console.log(this.totalPages)
+      // console.log(this.totalPages)
       this.rows = this.addIndex(respon.data.data);
             this.tempData = this.rows;
     })

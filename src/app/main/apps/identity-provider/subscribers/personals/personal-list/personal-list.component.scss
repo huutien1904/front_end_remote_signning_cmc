@@ -19,6 +19,7 @@ p{
 }
 .item_on_page{
     display: flex;
+    margin-top: 23px;
 }
 .item_on_page label{
     font-size: 14px;
@@ -43,4 +44,8 @@ p{
 }
 .search_value {
     padding-top: 20px;
+}
+.cart-body{
+    display:flex
+    
 }
