@@ -17,6 +17,23 @@
       'mr-1': breadcrumb.alignment == 'right'
     }"
   >
+    <li
+      class="breadcrumb-item"
+      style="position: relative; left: -2px; top: 2px"
+    >
+      <a
+        href="/"
+        class="breadcrumb-item"
+        style="
+          transition: none 0s ease 0s;
+          cursor: move;
+          position: relative;
+          top: -3px;
+          left: 3px;
+        "
+        ><span [data-feather]="'home'" [class]="'mr-25'"></span
+      ></a>
+    </li>
     <li class="breadcrumb-item" *ngFor="let link of breadcrumb.links">
       <a *ngIf="link.isLink" routerLink="{{ link.link }}">{{ link.name }}</a>
       <span *ngIf="!link.isLink">{{ link.name }}</span>
