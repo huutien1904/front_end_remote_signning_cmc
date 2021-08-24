@@ -29,7 +29,7 @@ form{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 0 30px 20px 30px ;
+    padding: 0 30px 0px 30px ;
     border-bottom: 0.5px solid #7c7b83;
     
 
@@ -56,6 +56,9 @@ select{
     text-align: end;
     border-top: 0.5px solid #7c7b83;
 
+}
+.form-group label{
+    margin-bottom: 0px;
 }
 .button_exit{
     background-color: #7367f0;
@@ -93,4 +96,9 @@ input.error:focus {
         overflow-y: auto !important;
     }
   }
-  
+@media only screen and (min-height: 784px) {
+
+.modal-content{
+    height: 68% !important;
+}
+}

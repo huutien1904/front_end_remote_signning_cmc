@@ -45,6 +45,8 @@ form{
 }
 .modal-dialog{
     margin: 10px 0;
+    display: flex;
+    align-items: center;
 }
 select{
     padding: 10px;
@@ -102,4 +104,10 @@ button{
         overflow-y: auto !important;
     }
   }
-  
+
+@media only screen and (min-width: 784px) {
+form {
+    height: 726px !important;
+    border-radius: 10px !important;
+}
+}
