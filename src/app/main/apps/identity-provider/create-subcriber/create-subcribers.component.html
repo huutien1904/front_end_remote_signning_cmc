@@ -16,7 +16,7 @@
     <div class="card-body col-md-5">
        <div class="form-group select_subcribers-wrap">
         <label for="basicSelect">Loại thuê bao :</label>
-        <select class="form-control" id="basicSelect" >
+        <select class="form-control" id="basicSelect" (change)="create($event)" >
           <option value="thuê bao cá nhân">THUÊ BAO CÁ NHÂN</option>
           <option value="thuê bao tổ chức">THUÊ BAO TỔ CHỨC</option>
         </select>
@@ -24,6 +24,7 @@
     </div>
     
 </div>
-<app-new-personal-sidebar></app-new-personal-sidebar>
+<app-new-personal-sidebar ></app-new-personal-sidebar>
+<app-new-organization-sidebar></app-new-organization-sidebar>
 
 

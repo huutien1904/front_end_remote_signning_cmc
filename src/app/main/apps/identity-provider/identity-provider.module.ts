@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'app/auth/helpers/auth.guards';
 import { Role } from 'app/auth/models/role';
-import {SearchSubcribersComponent} from './search-subcribers.component'
+import {SearchSubcribersComponent} from './search-subcriber/search-subcribers.component'
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CoreCommonModule } from '@core/common.module';
 import { UserModule } from './users/user/user.module';
@@ -24,8 +24,14 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PersonalEditService } from './subscribers/personals/personal-edit/personal-edit.service';
 import { PersonalListService } from './subscribers/personals/personal-list/personal-list.service';
 import { PersonalViewService } from './subscribers/personals/personal-view/personal-view.service';
-import { CreateSubcribersComponent } from './create-subcribers.component';
-
+import { CreateSubcribersComponent } from './create-subcriber/create-subcribers.component';
+import { NewOrganizationSidebarComponent } from './subscribers/organizations/organization-list/new-organization-sidebar/new-organization-sidebar.component';
+import { OrganizationEditComponent } from './subscribers/organizations/organization-edit/organization-edit.component';
+import { OrganizationListComponent } from './subscribers/organizations/organization-list/organization-list.component';
+import { OrganizationViewComponent } from './subscribers/organizations/organization-view/organization-view.component';
+import { OrganizationEditService } from './subscribers/organizations/organization-edit/organization-edit.service';
+import { OrganizationListService } from './subscribers/organizations/organization-list/organization-list.service';
+import { OrganizationViewService } from './subscribers/organizations/organization-view/organization-view.service';
 /**
  * Routing
  */
@@ -80,7 +86,12 @@ const routes:Routes = [
     PersonalEditComponent,
     PersonalViewComponent,
     NewPersonalSidebarComponent, 
-    CreateSubcribersComponent
+    
+    CreateSubcribersComponent,
+    OrganizationViewComponent,
+    OrganizationEditComponent,
+    OrganizationListComponent,
+    NewOrganizationSidebarComponent
   ],
   imports: [
     CommonModule, 
@@ -100,7 +111,7 @@ const routes:Routes = [
     ReactiveFormsModule,
     // ModuleNewPersonalSidebar
   ],
-  providers: [PersonalEditService, PersonalListService, , PersonalViewService],
+  providers: [PersonalEditService, PersonalListService, , PersonalViewService,OrganizationViewService, OrganizationEditService, OrganizationListService],
 })
 
 export class IdentityProviderModule {

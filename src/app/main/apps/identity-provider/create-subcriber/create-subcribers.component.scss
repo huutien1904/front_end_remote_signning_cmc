@@ -60,7 +60,42 @@ color: white !important;
     background-color:#7367F0;
     color: white;
 }
-
+.create-subcriber{
+    .modal-content{
+        background-color: transparent;
+        border: none;
+    }
+    .form_header{
+        border-bottom: none !important;
+    }
+    .form_header button{
+        display: none;
+    }
+    .button_summit{
+        border-top: none !important;
+    }
+}
+.create-orgnization{
+    .modal-content{
+        background-color: transparent;
+        border: none;
+    }
+    .form_header{
+        border-bottom: none !important;
+    }
+    .form_header a{
+        display: none;
+    }
+    .form_header button{
+        display: none;
+    }
+    .button_summit{
+        border-top: none !important;
+    }
+}
+.check{
+    display: none;
+}
 // background-image: linear-gradient(
 // 47deg
 // , #7367f0, #9e95f5);

@@ -108,9 +108,9 @@ export class NewPersonalSidebarComponent implements OnInit {
       streetResidencePlace: ['',Validators.required],
       homeNumberResidencePlace: ['',Validators.required],
       // validates date format yyyy-mm-dd
-      birthday: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/)]],
+      // birthday: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/)]],
 
-      // birthday: ['', [Validators.required]],
+      birthday: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       countryBirthPlace: ['',Validators.required],
       provinceBirthPlace: ['',Validators.required],

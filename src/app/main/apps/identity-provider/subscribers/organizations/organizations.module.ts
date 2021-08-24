@@ -61,10 +61,7 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [
-    OrganizationViewComponent,
-    OrganizationEditComponent,
-    OrganizationListComponent,
-    NewOrganizationSidebarComponent
+    
   ],
   imports: [
     CommonModule,
@@ -80,7 +77,7 @@ const routes: Routes = [
     CoreDirectivesModule,
     ReactiveFormsModule
   ],
-  exports:[OrganizationListComponent],
+  // exports:[OrganizationListComponent],
   providers: [OrganizationViewService, OrganizationEditService, OrganizationListService],
 })
 export class OrganizationsModule { }

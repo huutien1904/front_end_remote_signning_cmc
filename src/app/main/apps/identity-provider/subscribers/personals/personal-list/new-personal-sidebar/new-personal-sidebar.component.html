@@ -1,7 +1,7 @@
   <div class="slideout-content" >
       <!-- Modal to add new user starts-->
       <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
-        <div class="modal-dialog">
+        <div class="modal-dialog" id="modal-dialog-remove">
           <form class="form form-horizontal add-new-user modal-content pt-0" [formGroup]="newPersonal"  (ngSubmit)="onSubmit()">
             <div class="form_header">
               <div class="h1">Đăng ký thông tin</div>
@@ -566,7 +566,7 @@
                 </div>
               </div>
               <div class="row row_bottom">
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-4 mt-1">
                   <div class="form-group ">
                     <div class="col-sm-12 col-form-label">
                       <label class="lable">ĐƯỜNG</label>
