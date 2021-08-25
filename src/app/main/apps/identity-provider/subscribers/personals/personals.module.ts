@@ -69,6 +69,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    PersonalListComponent,
+    NewPersonalSidebarComponent,
   ],
   imports: [
     CommonModule, 

@@ -19,7 +19,15 @@ const routes:Routes = [
   declarations: [SearchComponent],
 
   imports: [
-    CommonModule, ReactiveFormsModule, NgSelectModule,ReactiveFormsModule,ContentHeaderModule, KeypairModule,RouterModule.forChild(routes),CertificateRequestModule,SubscriberCertificateModule
+    CommonModule, 
+    ReactiveFormsModule, 
+    NgSelectModule,
+    ReactiveFormsModule,
+    ContentHeaderModule, 
+    KeypairModule,
+    RouterModule.forChild(routes),
+    CertificateRequestModule,
+    SubscriberCertificateModule
   ],
   
 })

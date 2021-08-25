@@ -10,7 +10,10 @@ export class KeypairListComponent implements OnInit {
   public moreOption = true;
   public tested = [];
   public test: any = [{name: '1'}, {name: '2'}, {name: '3'}];
-
+  public addOption = false
+  changeAb(){
+    this.addOption = true
+  }
   constructor() { }
 
   ngOnInit(): void {

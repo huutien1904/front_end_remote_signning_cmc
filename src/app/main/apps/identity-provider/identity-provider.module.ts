@@ -32,66 +32,60 @@ import { OrganizationViewComponent } from './subscribers/organizations/organizat
 import { OrganizationEditService } from './subscribers/organizations/organization-edit/organization-edit.service';
 import { OrganizationListService } from './subscribers/organizations/organization-list/organization-list.service';
 import { OrganizationViewService } from './subscribers/organizations/organization-view/organization-view.service';
+import { SubscriseRoutingModule } from './subscribers/subcrisebers-routing.module';
 /**
  * Routing
  */
 
 const routes:Routes = [
   {
-    path: 'subscribers-search',
-    component: SearchSubcribersComponent,
-    canActivate: [AuthGuard],
-    // resolve: {
-    //   uls: UserListService
-    // },
-    // resolve: {
-    //   inv:UserListService
-    // },
-    data: { animation: "SearchSubcribersComponent" },
+    path: "",
+    loadChildren: () =>
+      import("./search-subcriber/search-subcribers.module").then(m => m.SearchSubcribersModule),
   },
   
-  {
-    path: 'subscribers-create',
-    component: CreateSubcribersComponent,
-    canActivate: [AuthGuard],
-    // resolve: {
-    //   uls: UserListService
-    // },
-    // resolve: {
-    //   inv:UserListService
-    // },
-    data: { animation: "CreateSubcribersComponent" },
-  },
-  {
-    path: "subscribers/personals/personal-view/:id",
-    component: PersonalViewComponent,
-    resolve: {
-      data: PersonalViewService,
-    },
-  },
-  {
-    path: 'subscribers',
-    loadChildren: () => import('./subscribers/subscribers.module').then(m => m.SubscribersModule)
-  },
-  {
-    path: "**",
-    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
-  },
+  // {
+  //   path: 'subscribers-create',
+  //   component: CreateSubcribersComponent,
+  //   canActivate: [AuthGuard],
+  //   // resolve: {
+  //   //   uls: UserListService
+  //   // },
+  //   // resolve: {
+  //   //   inv:UserListService
+  //   // },
+  //   data: { animation: "CreateSubcribersComponent" },
+  // },
+  // {
+  //   path: "subscribers/personals/personal-view/:id",
+  //   component: PersonalViewComponent,
+  //   resolve: {
+  //     data: PersonalViewService,
+  //   },
+  // },
+  // {
+  //   path: 'subscribers',
+  //   loadChildren: () => import('./subscribers/subcrisebers-routing.module').then(m => m.SubscriseRoutingModule)
+  // },
+  // {
+  //   path: "**",
+  //   redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  // },
 ]
 
 @NgModule({
   declarations: [
-    SearchSubcribersComponent,
-    PersonalListComponent,
-    PersonalEditComponent,
-    PersonalViewComponent,
-    NewPersonalSidebarComponent, 
+    // SearchSubcribersComponent,
+    // PersonalListComponent,
+    // PersonalEditComponent,
+    // PersonalViewComponent,
+    // NewPersonalSidebarComponent, 
     
     CreateSubcribersComponent,
-    OrganizationViewComponent,
-    OrganizationEditComponent,
-    OrganizationListComponent,
-    NewOrganizationSidebarComponent
+    // OrganizationViewComponent,
+    // OrganizationEditComponent,
+    // OrganizationListComponent,
+    // NewOrganizationSidebarComponent
   ],
   imports: [
     CommonModule, 
@@ -109,9 +103,18 @@ const routes:Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     ReactiveFormsModule,
+    SubscriseRoutingModule
     // ModuleNewPersonalSidebar
   ],
-  providers: [PersonalEditService, PersonalListService, , PersonalViewService,OrganizationViewService, OrganizationEditService, OrganizationListService],
+  exports: [RouterModule],
+  providers: [
+    // PersonalEditService,
+    // PersonalListService, 
+    // PersonalViewService,
+    // OrganizationViewService, 
+    // OrganizationEditService, 
+    // OrganizationListService
+    ],
 })
 
 export class IdentityProviderModule {

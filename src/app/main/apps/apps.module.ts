@@ -11,6 +11,7 @@ const routes:Routes = [
   
   {
     path: 'ip',
+    // loadChildren: () => import('./token-management/token-management.module').then(m => m.TokenManagementModule),
     loadChildren: () => import('./identity-provider/identity-provider.module').then(m => m.IdentityProviderModule),
     
   },
