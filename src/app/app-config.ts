@@ -16,8 +16,8 @@ import { CoreConfig } from '@core/types';
 // prettier-ignore
 export const coreConfig: CoreConfig = {
   app: {
-    appName     : 'Csign',                                        // App Name
-    appTitle    : 'Csign - Phần mềm quản trị SSA', // App Title
+    appName     : 'CSign',                                        // App Name
+    appTitle    : 'Phần mềm quản trị dịch vụ ký số từ xa - CSign', // App Title
     appLogoImage: 'assets/images/logo/logo.png',                  // App Logo
     appLanguage : 'vi',                                           // App Default Language (en, fr, de, pt etc..)
   },
