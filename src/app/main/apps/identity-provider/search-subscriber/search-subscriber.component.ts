@@ -3,14 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-search-subcribers',
-  templateUrl: './search-subcribers.component.html',
-  styleUrls: ['./search-subcribers.component.scss'],
+  selector: 'app-search-subscriber',
+  templateUrl: './search-subscriber.component.html',
+  styleUrls: ['./search-subscriber.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
 
-export class SearchSubcribersComponent implements OnInit {
+export class SearchSubscriberComponent implements OnInit {
   // imports: [FeatherIconDirective]
   // declarations: [ FeatherIconDirective]
   public subcriberP = true
