@@ -25,7 +25,7 @@
         </form>
       </div>
     </section>
-    <app-keypair-list></app-keypair-list>
+    <!-- <app-keypair-list></app-keypair-list> -->
     <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key">
       <div *ngSwitchCase="'keypair'">
           <app-keypair-list></app-keypair-list>

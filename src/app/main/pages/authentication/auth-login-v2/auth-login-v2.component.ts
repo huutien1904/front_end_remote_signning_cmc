@@ -50,9 +50,9 @@ export class AuthLoginV2Component implements OnInit {
           hidden: true
         },
         footer: {
-          hidden: false
+          hidden: true
         },
-        customizer: true,
+        customizer: false,
         enableLocalStorage: false
       }
     };
