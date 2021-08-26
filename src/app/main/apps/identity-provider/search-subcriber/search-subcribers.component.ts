@@ -1,4 +1,5 @@
 import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -14,10 +15,46 @@ export class SearchSubcribersComponent implements OnInit {
   // declarations: [ FeatherIconDirective]
   public subcriberP = true
   public subcriberO = false
-  constructor() { }
-
+  public contentHeader: object;
+  formSelectSearch: FormGroup;
+  constructor(private fb: FormBuilder) { }
+  public searchType = [
+    {
+      id: 1,
+      key:"Thuê bao cá nhân",
+      name: "Thuê bao cá nhân"
+    }, 
+    {
+      id: 2,
+      key:"Thuê bao tổ chức",
+      name: "Thuê bao tổ chức"
+    }, 
+    
+  ]  
   ngOnInit(): void {
+    this.contentHeader = {
+      headerTitle: 'Tìm kiếm',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Thuê bao',
+            isLink: true,
+            link: '/apps/tm/search'
+          },
+          {
+            name: 'Tìm kiếm',
+            isLink: false
+          }
+        ]
+      }
+    };
+    this.formSelectSearch = this.fb.group({
+      searchType : [null, Validators.required]
+    })
   }
+  
   selectSubcriber(e):any{
     if(e.target.value === "thuê bao cá nhân"){
       this.subcriberP = true

@@ -33,17 +33,24 @@ import { OrganizationEditService } from './subscribers/organizations/organizatio
 import { OrganizationListService } from './subscribers/organizations/organization-list/organization-list.service';
 import { OrganizationViewService } from './subscribers/organizations/organization-view/organization-view.service';
 import { SubscriseRoutingModule } from './subscribers/subcrisebers-routing.module';
+import { SubscribersModule } from './subscribers/subscribers.module';
 /**
  * Routing
  */
 
 const routes:Routes = [
   {
-    path: "",
+    path: "subscribers-search",
     loadChildren: () =>
       import("./search-subcriber/search-subcribers.module").then(m => m.SearchSubcribersModule),
   },
-  
+  // {
+  //   path: "keypair",
+  //   loadChildren: () =>
+  //     import("./keypair/keypair-routing.module").then(
+  //       (m) => m.KeypairRoutingModule
+  //     ),
+  // },
   // {
   //   path: 'subscribers-create',
   //   component: CreateSubcribersComponent,
@@ -63,10 +70,10 @@ const routes:Routes = [
   //     data: PersonalViewService,
   //   },
   // },
-  // {
-  //   path: 'subscribers',
-  //   loadChildren: () => import('./subscribers/subcrisebers-routing.module').then(m => m.SubscriseRoutingModule)
-  // },
+  {
+    path: 'subscribers',
+    loadChildren: () => import('./subscribers/subcrisebers-routing.module').then(m => m.SubscriseRoutingModule)
+  },
   // {
   //   path: "**",
   //   redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
@@ -103,18 +110,13 @@ const routes:Routes = [
     CoreDirectivesModule,
     CoreSidebarModule,
     ReactiveFormsModule,
-    SubscriseRoutingModule
-    // ModuleNewPersonalSidebar
+    PersonalsModule
+    
   ],
-  exports: [RouterModule],
+  
   providers: [
-    // PersonalEditService,
-    // PersonalListService, 
-    // PersonalViewService,
-    // OrganizationViewService, 
-    // OrganizationEditService, 
-    // OrganizationListService
-    ],
+    
+  ],
 })
 
 export class IdentityProviderModule {
