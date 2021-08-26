@@ -1,48 +1,29 @@
 // import { ModuleNewPersonalSidebar } from './subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.module';
-import { PersonalListComponent } from './subscribers/personals/personal-list/personal-list.component';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'app/auth/helpers/auth.guards';
-import { Role } from 'app/auth/models/role';
-import {SearchSubcribersComponent} from './search-subcriber/search-subcribers.component'
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { CoreCommonModule } from '@core/common.module';
-import { UserModule } from './users/user/user.module';
-import { PersonalsModule } from './subscribers/personals/personals.module';
-import { OrganizationsModule } from './subscribers/organizations/organizations.module';
-import { PersonalEditComponent } from './subscribers/personals/personal-edit/personal-edit.component';
-import { PersonalViewComponent } from './subscribers/personals/personal-view/personal-view.component';
-import { NewPersonalSidebarComponent } from './subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { RouterModule, Routes } from '@angular/router';
+import { CoreCommonModule } from '@core/common.module';
 import { CoreSidebarModule } from '@core/components';
 import { CoreDirectivesModule } from '@core/directives/directives';
 import { CorePipesModule } from '@core/pipes/pipes.module';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PersonalEditService } from './subscribers/personals/personal-edit/personal-edit.service';
-import { PersonalListService } from './subscribers/personals/personal-list/personal-list.service';
-import { PersonalViewService } from './subscribers/personals/personal-view/personal-view.service';
-import { CreateSubcribersComponent } from './create-subcriber/create-subcribers.component';
-import { NewOrganizationSidebarComponent } from './subscribers/organizations/organization-list/new-organization-sidebar/new-organization-sidebar.component';
-import { OrganizationEditComponent } from './subscribers/organizations/organization-edit/organization-edit.component';
-import { OrganizationListComponent } from './subscribers/organizations/organization-list/organization-list.component';
-import { OrganizationViewComponent } from './subscribers/organizations/organization-view/organization-view.component';
-import { OrganizationEditService } from './subscribers/organizations/organization-edit/organization-edit.service';
-import { OrganizationListService } from './subscribers/organizations/organization-list/organization-list.service';
-import { OrganizationViewService } from './subscribers/organizations/organization-view/organization-view.service';
-import { SubscriseRoutingModule } from './subscribers/subcrisebers-routing.module';
-import { SubscribersModule } from './subscribers/subscribers.module';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { CreateSubcribersComponent } from './create-subscribers/create-subcribers.component';
+import { OrganizationsModule } from './subscribers/organizations/organizations.module';
+import { PersonalsModule } from './subscribers/personals/personals.module';
+import { UserModule } from './users/user/user.module';
 /**
  * Routing
  */
 
-const routes:Routes = [
+const routes: Routes = [
   {
     path: "subscribers-search",
     loadChildren: () =>
-      import("./search-subcriber/search-subcribers.module").then(m => m.SearchSubcribersModule),
+      import("./search-subscribers/search-subcribers.module").then(m => m.SearchSubcribersModule),
   },
   // {
   //   path: "keypair",
@@ -87,7 +68,7 @@ const routes:Routes = [
     // PersonalEditComponent,
     // PersonalViewComponent,
     // NewPersonalSidebarComponent, 
-    
+
     CreateSubcribersComponent,
     // OrganizationViewComponent,
     // OrganizationEditComponent,
@@ -95,7 +76,7 @@ const routes:Routes = [
     // NewOrganizationSidebarComponent
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule.forChild(routes),
     NgbModule,
     CoreCommonModule,
@@ -111,17 +92,12 @@ const routes:Routes = [
     CoreSidebarModule,
     ReactiveFormsModule,
     PersonalsModule
-    
   ],
-  
-  providers: [
-    
-  ],
+  providers: [],
 })
 
 export class IdentityProviderModule {
   constructor() {};
-
-ngOnInit(): void {};
- }
+  ngOnInit(): void {};
+}
 
