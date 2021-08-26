@@ -50,6 +50,6 @@ const routes: Routes = [
     CertificateRequestModule,
     SubscriberCertificateModule,
   ],
-  exports: [RouterModule],
+  // exports: [RouterModule],
 })
 export class TokenManagementModule {}

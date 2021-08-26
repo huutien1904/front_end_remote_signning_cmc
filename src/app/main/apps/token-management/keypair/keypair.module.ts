@@ -7,6 +7,7 @@ import { NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { KeypairListComponent } from "./keypair-list/keypair-list.component";
 import { KeypairViewComponent } from "./keypair-view/keypair-view.component";
 import { KeypairEditComponent } from "./keypair-edit/keypair-edit.component";
+import { CoreCommonModule } from "@core/common.module";
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { KeypairEditComponent } from "./keypair-edit/keypair-edit.component";
     KeypairViewComponent,
     KeypairEditComponent,
   ],
-  imports: [CommonModule, NgSelectModule, NgbCollapseModule, FormsModule],
+  imports: [CommonModule, NgSelectModule, NgbCollapseModule, FormsModule,CoreCommonModule],
   exports: [KeypairListComponent, KeypairViewComponent, KeypairEditComponent],
 })
 export class KeypairModule {}

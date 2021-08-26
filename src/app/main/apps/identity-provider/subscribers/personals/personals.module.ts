@@ -22,57 +22,61 @@ import { ReactiveFormsModule } from "@angular/forms";
 /**
  * Routing
  */
-const routes: Routes = [
-  {
-    path: "personal-list",
-    component: PersonalListComponent,
-    resolve: {
-      uls: PersonalListService,
-    },
-    data: { animation: "PersonalListComponent" },
-  },
+// const routes: Routes = [
+//   {
+//     path: "personal-list",
+//     component: PersonalListComponent,
+//     resolve: {
+//       uls: PersonalListService,
+//     },
+//     data: { animation: "PersonalListComponent" },
+//   },
 
-  {
-    path: "personal-view/:id",
-    component: PersonalViewComponent,
-    resolve: {
-      data: PersonalViewService,
-    },
-    data: { animation: "PersonalViewComponent" },
-  },
-  {
-    path: "personal-edit/id",
-    component: PersonalEditComponent,
-    // resolve: { data: PersonalEditService },
-    data: {
-      animation: "PersonalEditComponent",
-    },
-  },
-  {
-    path: "personal-view/id",
-    component: PersonalViewComponent,
-    resolve: { data: PersonalViewService },
-    data: {
-      animation: "PersonalViewComponent",
-    },
-    redirectTo: "/personal-view", //Redirection to self
-  },
-  {
-    path: "personal-edit",
-    redirectTo: "/personal-edit/self", // Redirection to self
-  },
-  {
-    path: "**",
-    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
-  },
-];
+//   {
+//     path: "personal-view/:id",
+//     component: PersonalViewComponent,
+//     resolve: {
+//       data: PersonalViewService,
+//     },
+//     data: { animation: "PersonalViewComponent" },
+//   },
+//   {
+//     path: "personal-edit/id",
+//     component: PersonalEditComponent,
+//     // resolve: { data: PersonalEditService },
+//     data: {
+//       animation: "PersonalEditComponent",
+//     },
+//   },
+//   {
+//     path: "personal-view/id",
+//     component: PersonalViewComponent,
+//     resolve: { data: PersonalViewService },
+//     data: {
+//       animation: "PersonalViewComponent",
+//     },
+//     redirectTo: "/personal-view", //Redirection to self
+//   },
+//   {
+//     path: "personal-edit",
+//     redirectTo: "/personal-edit/self", // Redirection to self
+//   },
+//   {
+//     path: "**",
+//     redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+//   },
+// ];
 
 @NgModule({
   declarations: [
+    PersonalListComponent,
+    PersonalViewComponent,
+    PersonalEditComponent,
+    NewPersonalSidebarComponent,
   ],
   imports: [
     CommonModule, 
-    RouterModule.forChild(routes),
+    // RouterModule.forChild(routes),
     CoreCommonModule,
     FormsModule,
     NgbModule,
@@ -87,6 +91,11 @@ const routes: Routes = [
     // BsModalService
     // JwPaginationModule
   ],
-  providers: [PersonalEditService, PersonalListService, , PersonalViewService],
+  exports:[
+    PersonalListComponent,
+    PersonalViewComponent,
+    PersonalEditComponent,
+    NewPersonalSidebarComponent],
+  providers: [PersonalEditService, PersonalListService,  PersonalViewService],
 })
 export class PersonalsModule {}

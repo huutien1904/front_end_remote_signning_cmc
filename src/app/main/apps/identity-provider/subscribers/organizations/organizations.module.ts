@@ -61,7 +61,8 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [
-    
+    NewOrganizationSidebarComponent,
+    OrganizationListComponent,
   ],
   imports: [
     CommonModule,
