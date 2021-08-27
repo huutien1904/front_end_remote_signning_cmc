@@ -1,3 +1,4 @@
+
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
@@ -8,14 +9,15 @@
             <div class="col-12">
               <div class="form-group row">
                 <div class="col-sm-3 col-form-label">
-                  <h5>Loại tìm kiếm:</h5>
+                  <h5>Loại tạo mới :</h5>
                 </div>
                 <div class="col-sm-9">
                   <ng-select
                     [items]="searchType"
                     bindLabel="name"
-                    placeholder="Chọn loại tìm kiếm"
+                    placeholder="Chọn loại tạo mới"
                     formControlName="searchType"
+                    (change) = "changeSelect($event)"
                   >
                   </ng-select>
                 </div>
@@ -25,17 +27,19 @@
         </form>
       </div>
     </section>
-    <!-- <app-keypair-list></app-keypair-list> -->
-    <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key">
-      <div *ngSwitchCase="'keypair'">
-          <app-keypair-list></app-keypair-list>
+    <app-new-personal-sidebar ></app-new-personal-sidebar>
+    <!-- <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key" >
+      <div *ngSwitchCase="'Thuê bao cá nhân'">
+        <app-new-personal-sidebar ></app-new-personal-sidebar>
       </div>
-      <div *ngSwitchCase="'certRequest'">
-        <app-certificate-request-list></app-certificate-request-list>
+      <div *ngSwitchCase="'Thuê bao tổ chức'">
+        <app-new-organization-sidebar ></app-new-organization-sidebar>
       </div>
-      <div *ngSwitchCase="'cert'">
-        <app-subscriber-certificate-list></app-subscriber-certificate-list>
-       </div> 
-    </section>
+    </section> -->
+
   </div>
 </div>
+
+
+
+

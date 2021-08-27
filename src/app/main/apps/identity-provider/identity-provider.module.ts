@@ -1,4 +1,3 @@
-// import { ModuleNewPersonalSidebar } from './subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,10 +10,9 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
-import { CreateSubcribersComponent } from './create-subscribers/create-subcribers.component';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
-import { PersonalsModule } from './subscribers/personals/personals.module';
 import { UserModule } from './users/user/user.module';
+
 /**
  * Routing
  */
@@ -23,58 +21,37 @@ const routes: Routes = [
   {
     path: "subscribers-search",
     loadChildren: () =>
-      import("./search-subscribers/search-subcribers.module").then(m => m.SearchSubcribersModule),
+      import("./search-subscribers/search-subscriber.module").then(
+        (m) => m.SearchSubcribersModule
+      ),
+
   },
-  // {
-  //   path: "keypair",
-  //   loadChildren: () =>
-  //     import("./keypair/keypair-routing.module").then(
-  //       (m) => m.KeypairRoutingModule
-  //     ),
-  // },
-  // {
-  //   path: 'subscribers-create',
-  //   component: CreateSubcribersComponent,
-  //   canActivate: [AuthGuard],
-  //   // resolve: {
-  //   //   uls: UserListService
-  //   // },
-  //   // resolve: {
-  //   //   inv:UserListService
-  //   // },
-  //   data: { animation: "CreateSubcribersComponent" },
-  // },
-  // {
-  //   path: "subscribers/personals/personal-view/:id",
-  //   component: PersonalViewComponent,
-  //   resolve: {
-  //     data: PersonalViewService,
-  //   },
-  // },
+  
   {
-    path: 'subscribers',
-    loadChildren: () => import('./subscribers/subcrisebers-routing.module').then(m => m.SubscriseRoutingModule)
+    path: "subscribers-create",
+    loadChildren: () =>
+      import("./create-subscribers/create-subscribers.module").then(
+        (m) => m.CreateSubscribersModule
+      ),
   },
-  // {
-  //   path: "**",
-  //   redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
-  // },
-]
+  {
+    path: "subscribers",
+    loadChildren: () =>
+      import("./subscribers/subscribers-routing.module").then(
+        (m) => m.SubscriseRoutingModule
+      ),
+  },
+  {
+    path: "**",
+    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
+  },
+];
 
 @NgModule({
   declarations: [
-    // SearchSubcribersComponent,
-    // PersonalListComponent,
-    // PersonalEditComponent,
-    // PersonalViewComponent,
-    // NewPersonalSidebarComponent, 
-
-    CreateSubcribersComponent,
-    // OrganizationViewComponent,
-    // OrganizationEditComponent,
-    // OrganizationListComponent,
-    // NewOrganizationSidebarComponent
+    
   ],
+  
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -90,14 +67,12 @@ const routes: Routes = [
     CorePipesModule,
     CoreDirectivesModule,
     CoreSidebarModule,
-    ReactiveFormsModule,
-    PersonalsModule
+    ReactiveFormsModule, 
   ],
   providers: [],
+  exports: [RouterModule],
 })
-
 export class IdentityProviderModule {
-  constructor() {};
-  ngOnInit(): void {};
+  constructor() {}
+  ngOnInit(): void {}
 }
-

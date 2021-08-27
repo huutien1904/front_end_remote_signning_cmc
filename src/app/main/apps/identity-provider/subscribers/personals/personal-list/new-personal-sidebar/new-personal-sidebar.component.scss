@@ -98,7 +98,9 @@ button{
     background-color: transparent;
     border-color: transparent;
 }
-
+.require{
+    color: red;
+}
 @media only screen and (max-width: 600px) {
     form {
         overflow-y: auto !important;

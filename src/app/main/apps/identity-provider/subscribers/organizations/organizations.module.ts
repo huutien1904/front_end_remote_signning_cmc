@@ -20,53 +20,17 @@ import { NewOrganizationSidebarComponent } from './organization-list/new-organiz
 import { ReactiveFormsModule } from "@angular/forms";
 
 
-const routes: Routes = [
-  {
-    path: "organization-list",
-    component: OrganizationListComponent,
-    // resolve: {
-    //   uls: OrganizationListService,
-    // },
-    data: { animation: "OrganizationListComponent" },
-  },
 
-  {
-    path: "organization-view/:id",
-    component: OrganizationViewComponent,
-    // resolve: {
-    //   data: OrganizationViewService,
-    // },
-    data: { path: "view/:id", animation: "OrganizationViewComponent" },
-  },
-  {
-    path: "organization-edit/id",
-    component: OrganizationEditComponent,
-    // resolve: { data: OrganizationEditService },
-    data : {
-      animation : "OrganizationEditComponent",
-    },
-  },
-  {
-    path : "organization-view",
-    redirectTo: "/organization-view/self", //Redirection to self 
-  },
-  {
-    path : "organization-edit",
-    redirectTo: "/organization-edit/self", // Redirection to self
-  },
-  {
-    path: "**",
-    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
-  },
-];
 @NgModule({
   declarations: [
     NewOrganizationSidebarComponent,
     OrganizationListComponent,
+    OrganizationViewComponent,
+    OrganizationEditComponent
   ],
   imports: [
     CommonModule,
-     RouterModule.forChild([]),
+     
      CoreSidebarModule,
      CoreCommonModule,
     FormsModule,
@@ -78,7 +42,11 @@ const routes: Routes = [
     CoreDirectivesModule,
     ReactiveFormsModule
   ],
-  // exports:[OrganizationListComponent],
+  exports:[
+    NewOrganizationSidebarComponent,
+    OrganizationListComponent,
+    OrganizationViewComponent,
+    OrganizationEditComponent],
   providers: [OrganizationViewService, OrganizationEditService, OrganizationListService],
 })
 export class OrganizationsModule { }
