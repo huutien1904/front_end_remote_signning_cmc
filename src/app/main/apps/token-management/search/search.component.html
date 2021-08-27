@@ -25,15 +25,15 @@
         </form>
       </div>
     </section>
-    <!-- <app-keypair-list></app-keypair-list> -->
-    <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key">
-      <div *ngSwitchCase="'keypair'">
+    <app-certificate-request-list></app-certificate-request-list>
+    <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value">
+      <!-- <div *ngSwitchCase=searchType[0]>
           <app-keypair-list></app-keypair-list>
-      </div>
-      <div *ngSwitchCase="'certRequest'">
+      </div> -->
+      <div *ngSwitchCase=searchType[0]>
         <app-certificate-request-list></app-certificate-request-list>
     </div>
-    <div *ngSwitchCase="'cert'">
+    <div *ngSwitchCase=searchType[1]>
       <app-subscriber-certificate-list></app-subscriber-certificate-list>
   </div> 
     </section>

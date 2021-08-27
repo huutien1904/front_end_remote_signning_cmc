@@ -1,9 +1,8 @@
-import { KeypairModule } from "./keypair/keypair.module";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CertificateRequestModule } from "./certificate-request/certificate-request.module";
-import { SubscriberCertificateRoutingModule } from "./subscriber-certificate/subscriber-certificate-routing.module";
+import { KeypairModule } from "./keypair/keypair.module";
 import { SubscriberCertificateModule } from "./subscriber-certificate/subscriber-certificate.module";
 /**
  * Routing

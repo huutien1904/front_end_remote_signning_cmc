@@ -13,11 +13,11 @@ export class SearchComponent implements OnInit {
   // Public
   public contentHeader: object;
   public searchType = [
-    {
-      id: 1,
-      key:"keypair",
-      name: "Cặp khóa"
-    }, 
+    // {
+    //   id: 1,
+    //   key:"keypair",
+    //   name: "Cặp khóa"
+    // }, 
     {
       id: 2,
       key:"certRequest",

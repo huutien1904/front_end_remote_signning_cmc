@@ -1,13 +1,12 @@
-import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule, Routes } from "@angular/router";
-import { NgSelectModule } from "@ng-select/ng-select";
+import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
+import { CoreCommonModule } from "@core/common.module";
+import { NgbCollapseModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { KeypairEditComponent } from "./keypair-edit/keypair-edit.component";
 import { KeypairListComponent } from "./keypair-list/keypair-list.component";
 import { KeypairViewComponent } from "./keypair-view/keypair-view.component";
-import { KeypairEditComponent } from "./keypair-edit/keypair-edit.component";
-import { CoreCommonModule } from "@core/common.module";
 
 
 @NgModule({
@@ -16,7 +15,7 @@ import { CoreCommonModule } from "@core/common.module";
     KeypairViewComponent,
     KeypairEditComponent,
   ],
-  imports: [CommonModule, NgSelectModule, NgbCollapseModule, FormsModule,CoreCommonModule],
+  imports: [CommonModule, NgSelectModule, NgbCollapseModule, FormsModule,CoreCommonModule, NgbModule],
   exports: [KeypairListComponent, KeypairViewComponent, KeypairEditComponent],
 })
 export class KeypairModule {}

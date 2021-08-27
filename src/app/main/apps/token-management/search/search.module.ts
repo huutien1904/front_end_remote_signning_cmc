@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchComponent } from './search.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { CoreCommonModule } from '@core/common.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-import { KeypairModule } from '../keypair/keypair.module';
-import { RouterModule, Routes } from '@angular/router';
 import { CertificateRequestModule } from '../certificate-request/certificate-request.module';
+import { KeypairModule } from '../keypair/keypair.module';
 import { SubscriberCertificateModule } from '../subscriber-certificate/subscriber-certificate.module';
+import { SearchComponent } from './search.component';
 
 const routes:Routes = [
   {
@@ -20,9 +20,8 @@ const routes:Routes = [
 
   imports: [
     CommonModule, 
-    ReactiveFormsModule, 
+    CoreCommonModule,
     NgSelectModule,
-    ReactiveFormsModule,
     ContentHeaderModule, 
     KeypairModule,
     RouterModule.forChild(routes),

@@ -27,7 +27,7 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'subcription-management',
-        title: 'Tạo mới thuê bao',
+        title: 'Tạo thuê bao',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
         type: 'item',
         icon: 'user-plus',
@@ -49,14 +49,14 @@ export const menu: CoreMenu[] = [
         icon: 'search',
         url: '/apps/tm/search'
       },
-      {
-        id: 'key-pair-list',
-        title: 'Tạo mới cặp khóa',
-        translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
-        type: 'item',
-        icon: 'file-text',
-        url: '/apps/tm/keypair/keypair-list'
-      },
+      // {
+      //   id: 'key-pair-list',
+      //   title: 'Tạo cặp khóa',
+      //   translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
+      //   type: 'item',
+      //   icon: 'file-text',
+      //   url: '/apps/tm/keypair/keypair-list'
+      // },
         /*children: [
           {
             id: 'key-pair-list',
@@ -86,7 +86,7 @@ export const menu: CoreMenu[] = [
         ]*/
       {
         id: 'certificate-request-list',
-        title: 'Tạo mới yêu cầu',
+        title: 'Tạo yêu cầu chứng thực',
         translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.LIST',
         type: 'item',
         icon: 'file-text',
@@ -112,7 +112,7 @@ export const menu: CoreMenu[] = [
         ]*/
       {
         id: 'subscriber-certificate-list',
-        title: 'Xuất/nhập chứng thư số',
+        title: 'Nhập chứng thư số',
         translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.LIST',
         icon: 'file-text',
         type: 'item',
@@ -168,7 +168,7 @@ export const menu: CoreMenu[] = [
     children: [
       {
         id: 'configuration',
-        title: 'Thiết lập cấu hình',
+        title: 'Cấu hình',
         translate: 'MENU.SYSTEM_MANAGEMENT.SYSTEM',
         type: 'item',
         icon: 'settings',
@@ -176,7 +176,7 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'monitorlog',
-        title: 'Nhật ký',
+        title: 'Xem nhật ký',
         translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
         type: 'item',
         icon: 'monitor',
