@@ -93,7 +93,7 @@ export class NewPersonalSidebarComponent implements OnInit {
     // console.log('test exit')
     this.modalService.dismissAll();
   }
-  
+
   ngOnInit(): void {
     
     this.newPersonal = this.fb.group({

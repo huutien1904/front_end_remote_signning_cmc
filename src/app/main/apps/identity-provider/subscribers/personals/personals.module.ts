@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
@@ -18,6 +18,7 @@ import { CoreDirectivesModule } from "@core/directives/directives";
 import { CoreSidebarModule } from "@core/components";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/new-personal-sidebar.module";
 
 /**
  * Routing
@@ -72,7 +73,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     PersonalListComponent,
     PersonalViewComponent,
     PersonalEditComponent,
-    NewPersonalSidebarComponent,
+
   ],
   imports: [
     CommonModule, 
@@ -86,16 +87,14 @@ import { ReactiveFormsModule } from "@angular/forms";
     CorePipesModule,
     CoreDirectivesModule,
     CoreSidebarModule,
-    ReactiveFormsModule,
-    // NewPersonalSidebarComponent
-    // BsModalService
-    // JwPaginationModule
+    NewPersonalSidebarModule,
+
   ],
   exports:[
     PersonalListComponent,
     PersonalViewComponent,
     PersonalEditComponent,
-    NewPersonalSidebarComponent],
+    ],
   providers: [PersonalEditService, PersonalListService,  PersonalViewService],
 })
 export class PersonalsModule {}

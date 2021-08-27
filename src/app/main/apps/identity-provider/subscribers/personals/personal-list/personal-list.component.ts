@@ -89,7 +89,7 @@ export class PersonalListComponent implements OnInit {
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
-    // public modalService: BsModalService
+    private modalService: NgbModal,
   ) { 
     this._unsubscribeAll = new Subject();
   }
@@ -97,6 +97,12 @@ export class PersonalListComponent implements OnInit {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
+  openNewPesonalModal(modal){
+    this.modalService.open(modal, {
+      centered:true,
+      size:'xl'
+    });
+  }
   /**
    * filterUpdate
    *

@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CoreCommonModule } from '@core/common.module';
 import { NewPersonalSidebarComponent } from './new-personal-sidebar.component';
 
 @NgModule({
@@ -7,10 +8,10 @@ import { NewPersonalSidebarComponent } from './new-personal-sidebar.component';
     NewPersonalSidebarComponent   //Khai báo Component thuộc Module
     ],
   imports: [
-    CommonModule
+    CommonModule,CoreCommonModule,
   ],
   exports: [
     NewPersonalSidebarComponent  //Export để sử dụng được ở Module khác
   ]
 })
-export class ModuleNewPersonalSidebar { }
+export class NewPersonalSidebarModule { }
