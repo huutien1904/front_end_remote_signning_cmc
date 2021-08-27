@@ -7,7 +7,7 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { RouterModule, Routes } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { PersonalsModule } from '../subscribers/personals/personals.module';
-
+import { OrganizationsModule } from '../subscribers/organizations/organizations.module';
 const routes:Routes = [
     {
       path:'',
@@ -26,7 +26,8 @@ const routes:Routes = [
       ContentHeaderModule, 
       CoreCommonModule,
       RouterModule.forChild(routes),
-      PersonalsModule
+      PersonalsModule,
+      OrganizationsModule
     ],
     
   })

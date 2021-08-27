@@ -1,0 +1,45 @@
+
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <section id="search-token-management" class="row">
+      <div class="col-md-6">
+        <form class="form form-horizontal" [formGroup]="formSelectSearch">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                  <h5>Loại tạo mới :</h5>
+                </div>
+                <div class="col-sm-9">
+                  <ng-select
+                    [items]="searchType"
+                    bindLabel="name"
+                    placeholder="Chọn loại tạo mới"
+                    formControlName="searchType"
+                    (change) = "changeSelect($event)"
+                  >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <app-new-personal-sidebar ></app-new-personal-sidebar>
+    <!-- <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key" >
+      <div *ngSwitchCase="'Thuê bao cá nhân'">
+        <app-new-personal-sidebar ></app-new-personal-sidebar>
+      </div>
+      <div *ngSwitchCase="'Thuê bao tổ chức'">
+        <app-new-organization-sidebar ></app-new-organization-sidebar>
+      </div>
+    </section> -->
+
+  </div>
+</div>
+
+
+
+

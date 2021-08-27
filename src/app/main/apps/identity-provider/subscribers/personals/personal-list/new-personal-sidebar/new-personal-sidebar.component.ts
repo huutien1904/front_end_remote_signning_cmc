@@ -162,11 +162,12 @@ export class NewPersonalSidebarComponent implements OnInit {
     // display form values on success
     
     return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>{
+      
       if(respon.result = "true"){
         this.closeModal()
         this.updateTable()
       }
-      console.log(respon.result)
+      
       // console.log(respon)
       // if(respon.result)
       // this.closeModal()

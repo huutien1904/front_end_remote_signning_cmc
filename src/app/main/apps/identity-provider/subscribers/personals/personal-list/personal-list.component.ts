@@ -128,10 +128,11 @@ export class PersonalListComponent implements OnInit {
    * @param name
    */
   toggleSidebar(name): void {
-    
+    console.log("toggle mở")
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
   closeModal(name){
+    console.log('toggle đóng sau khi submit or ấn thoát')
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
   

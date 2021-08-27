@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     { 
       path : 'organizations',
-      loadChildren:()=> import('./organizations/organizations.module').then(m => m.OrganizationsModule)
+      loadChildren:()=> import('./organizations/organizations-routing.module').then(m => m.OrganizationsRoutingModule)
     },
     {
       path: "**",

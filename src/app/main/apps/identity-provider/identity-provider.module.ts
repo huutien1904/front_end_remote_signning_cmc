@@ -1,19 +1,18 @@
-// import { ModuleNewPersonalSidebar } from './subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.module';
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule, Routes } from "@angular/router";
-import { CoreCommonModule } from "@core/common.module";
-import { CoreSidebarModule } from "@core/components";
-import { CoreDirectivesModule } from "@core/directives/directives";
-import { CorePipesModule } from "@core/pipes/pipes.module";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { CoreCommonModule } from '@core/common.module';
+import { CoreSidebarModule } from '@core/components';
+import { CoreDirectivesModule } from '@core/directives/directives';
+import { CorePipesModule } from '@core/pipes/pipes.module';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { Ng2FlatpickrModule } from "ng2-flatpickr";
-import { OrganizationsModule } from "./subscribers/organizations/organizations.module";
-import { PersonalsModule } from "./subscribers/personals/personals.module";
-import { UserModule } from "./users/user/user.module";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { OrganizationsModule } from './subscribers/organizations/organizations.module';
+import { UserModule } from './users/user/user.module';
+
 /**
  * Routing
  */
@@ -22,8 +21,17 @@ const routes: Routes = [
   {
     path: "subscribers-search",
     loadChildren: () =>
-      import("./search-subscriber/search-subscriber.module").then(
+      import("./search-subscribers/search-subscriber.module").then(
         (m) => m.SearchSubcribersModule
+      ),
+
+  },
+  
+  {
+    path: "subscribers-create",
+    loadChildren: () =>
+      import("./create-subscribers/create-subscribers.module").then(
+        (m) => m.CreateSubscribersModule
       ),
   },
   {
@@ -40,7 +48,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
+  
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -56,14 +67,12 @@ const routes: Routes = [
     CorePipesModule,
     CoreDirectivesModule,
     CoreSidebarModule,
-    ReactiveFormsModule,
-    PersonalsModule,
+    ReactiveFormsModule, 
   ],
-
   providers: [],
+  exports: [RouterModule],
 })
 export class IdentityProviderModule {
   constructor() {}
-
   ngOnInit(): void {}
 }

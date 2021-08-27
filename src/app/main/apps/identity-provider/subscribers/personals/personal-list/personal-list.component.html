@@ -238,8 +238,17 @@
             name="new-personal-sidebar"
             overlayClass="modal-backdrop"
           >
+          <div class="slideout-content" >
+            <!-- Modal to add new user starts-->
+            <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
+              <div class="modal-dialog" id="modal-dialog-remove">
+                <app-new-personal-sidebar (onClose)="closeModal('new-personal-sidebar')" (onUpdate) ="updateTable()" ></app-new-personal-sidebar>
+              </div>
+            </div>
+            <!-- Modal to add new user Ends-->
+          </div>
             <!-- <button (click)="test('new-personal-sidebar')">Test</button> -->
-            <app-new-personal-sidebar (onClose)="closeModal('new-personal-sidebar')" (onUpdate) ="updateTable()" ></app-new-personal-sidebar>
+            <!-- <app-new-personal-sidebar (onClose)="closeModal('new-personal-sidebar')" (onUpdate) ="updateTable()" ></app-new-personal-sidebar> -->
           </core-sidebar> 
          
       </div>
