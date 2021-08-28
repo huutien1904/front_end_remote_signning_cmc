@@ -23,120 +23,114 @@ export class NewPersonalSidebarComponent implements OnInit {
   public username;
   public email;
 
-  public idDistrict:number = 1
-  public idProvice:number = 1
+  public idDistrictBirth: number
+  public idProviceBirth: number
 
-  public idDistrictPlace:number = 1
-  public idProvicePlace:number = 1
+  public idDistrictPlace: number
+  public idProvicePlace: number = 1
 
-  public provinceBirth:any
-  public districtBirth:any
-  public communeBirth:any
-  public provinceResidence:any
-  public districtResidence:any
-  public communeResidence:any
+  public provinceBirth: any
+  public districtBirth: any
+  public communeBirth: any
+  public provinceResidence: any
+  public districtResidence: any
+  public communeResidence: any
   public submitted = false;
   // birth place
-  public countryBirthPlace:any[] =[
-    "Việt Nam",
-    "Thái Lan",
-    "CamPuchia", 
+  public countryBirthPlace: any[] = [
+   {name: "Việt Nam"},
+    {name:"Thái Lan"},
+    {name:"CamPuchia"},
   ]
-  provinceBirthPlace:String[] =[
-    
+  provinceBirthPlace: any[] = [
+
   ]
-  districtBirthPlace:String[] =[
-    
+  districtBirthPlace: String[] = [
+
   ]
-  communeBirthPlace:String[] =[
+  communeBirthPlace: String[] = [
   ]
-  homeNumberBirthPlace:String[]=[
-    'ĐIện Biên Phủ',
-    'Nguyễn Khuyến',
-    'Tố Hữu'
+  homeNumberBirthPlace: any[] = [
+    {name: "ĐIện Biên Phủ"},
+    {name:"Nguyễn Khuyến"},
+    {name:"Tố Hữu"},
   ]
-// residence place
-  countryResidencePlace:String[] =[
-    'Việt Nam',
+  // residence place
+  countryResidencePlace: any[] = [
+    {name:"Việt Nam"}
   ]
-  provinceResidencePlace:String[] =[
-    
+  provinceResidencePlace: String[] = [
+
   ]
-  districtResidencePlace:String[] =[
-    
+  districtResidencePlace: String[] = [
+
   ]
-  communeResidencePlace:String[] =[
+  communeResidencePlace: String[] = [
   ]
-  homeNumberResidencePlace:String[]=[
-    'ĐIện Biên Phủ',
-    'Nguyễn Khuyến',
-    'Tố Hữu'
+  homeNumberResidencePlace: any[] = [
+    {name: "ĐIện Biên Phủ"},
+    {name:"Nguyễn Khuyến"},
+    {name:"Tố Hữu"},
   ]
   @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
   newPersonal: FormGroup;
- /**
-   *' Constructor
-   *
-   * @param {NgbModal} modalService
-   * @param {HttpClient} _httpClient
-   */
+  /**
+    *' Constructor
+    *
+    * @param {NgbModal} modalService
+    * @param {HttpClient} _httpClient
+    */
   constructor(
     private _coreSidebarService: CoreSidebarService,
     private _httpClient: HttpClient,
     private fb: FormBuilder,
     private modalService: NgbModal,
-    // public activeModal: NgbActiveModal
-  ) {}
-  toggleSidebar(){
-    // console.log(name)
-    // this._coreSidebarService.removeSidebarRegistry()
-    // console.log('test exit')
+  ) {
+  }
+  toggleSidebar() {
     this.modalService.dismissAll();
   }
 
   ngOnInit(): void {
-    
     this.newPersonal = this.fb.group({
-      personalFirstName: ['', [Validators.required,Validators.minLength(6)]],
+      personalFirstName: ['', [Validators.required, Validators.minLength(6)]],
       personalMiddleName: ['', Validators.required],
       personalLastName: ['', Validators.required],
-      phoneNumber: ['',Validators.required,,Validators.minLength(10)],
-      personalCountryId: ['',Validators.required],
-      organizationId: ['',Validators.required],
-      streetBirthPlace: ['',Validators.required],
-      homeNumberBirthPlace: ['',Validators.required],
-      streetResidencePlace: ['',Validators.required],
-      homeNumberResidencePlace: ['',Validators.required],
+      phoneNumber: ['', Validators.required, , Validators.minLength(10)],
+      personalCountryId: ['', Validators.required],
+      organizationId: ['', Validators.required],
+      streetBirthPlace: ['', Validators.required],
+      homeNumberBirthPlace: [this.homeNumberBirthPlace, Validators.required],
+      streetResidencePlace: ['', Validators.required],
+      homeNumberResidencePlace: [this.homeNumberResidencePlace, Validators.required],
       // validates date format yyyy-mm-dd
       // birthday: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/)]],
 
       birthday: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      countryBirthPlace: ['',Validators.required],
-      provinceBirthPlace: ['',Validators.required],
-      districtBirthPlace: ['',Validators.required],
-      communeBirthPlace: ['',Validators.required],
-      countryResidencePlace: ['',Validators.required],
-      provinceResidencePlace: ['',Validators.required],
-      districtResidencePlace: ['',Validators.required],
-      communeResidencePlace: ['',Validators.required],
-      
+      countryBirthPlace: [this.countryBirthPlace, Validators.required],
+      provinceBirthPlace: [this.provinceBirthPlace, Validators.required],
+      districtBirthPlace: [this.districtBirthPlace, Validators.required],
+      communeBirthPlace: [this.communeBirthPlace, Validators.required],
+      countryResidencePlace: [this.countryResidencePlace, Validators.required],
+      provinceResidencePlace: [this.provinceResidencePlace, Validators.required],
+      districtResidencePlace: [this.districtResidencePlace, Validators.required],
+      communeResidencePlace: [this.communeResidencePlace, Validators.required],
+
     });
-    new FormControl("", Validators.required, this.isUserNameDuplicated);
-    console.log(this.provinceBirthPlace)
-    console.log(this.countryBirthPlace)
-    this.getProviceBirth()
-    this.getDistrictBirth()
-    this.getCommuneBirth()
-    this.getProviceResidence()
-    this.getDistrictResidence()
-    this.getCommuneResidence()
+    this.getProvice(237,3)
+    this.getDistrict(this.idProviceBirth,3)
   }
-  closeModal(){
+  changeCryptoSystemName(e) {
+    console.log(e)
+    this.newPersonal.get("provinceBirthPlace").setValue("1");
+
+  };
+  closeModal() {
     this.onClose.emit();
   }
-  updateTable(){
+  updateTable() {
     this.onUpdate.emit()
   }
   isUserNameDuplicated(control: AbstractControl): Observable<ValidationErrors> {
@@ -148,208 +142,166 @@ export class NewPersonalSidebarComponent implements OnInit {
     this.submitted = true;
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     const token = currentUser.token
-    
+
     // stop here if form is invalid
     if (this.newPersonal.invalid) {
-        return;
+      return;
     }
     const newPersonal = JSON.stringify(this.newPersonal.value)
     console.log(newPersonal)
     const option = {
-      headers :{
+      headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,
-        
+
       }
     }
     // display form values on success
-    
-    return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>{
+
+    return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option).subscribe((respon: any) => {
       console.log(respon)
-      if(respon.result = "true"){
+      if (respon.result = "true") {
         this.closeModal()
         this.updateTable()
       }
     }
     )
-    
+
   }
   // set address birth
-  selectProviceBirth(e){
-    console.log(e.target.value)
-    const add = ' '
-    const provice = this.provinceBirth.find((province,index) => province.provinceType.concat(add,province.provinceName) === e.target.value )
-    console.log(provice)
-    this.idProvice= provice.provinceId
-    
-    this.getDistrictBirth()
-    this.getCommuneBirth()
-    
+  OnSelectProviceBirth(e){
+    this.getDistrict(e.id,1)
   }
-  selectDistrictBirth(e){
-    const add = ' '
-    const district = this.districtBirth.find((district,index) => district.districtType.concat(add,district.districtName) == e.target.value)
-    this.idDistrict = district.districtId
-    this.getCommuneBirth()
+  OnSelectDistrictBirth(e){
+    this.getCommune(e.id,1)
   }
-
-  getProviceBirth(){
+  OnSelectProviceResidence(e){
+    this.getDistrict(e.id,2)
+  }
+  OnSelectDistrictResidence(e){
+    this.getCommune(e.id,2)
+  }
+  getProvice(idCountry,x) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     const token = currentUser.token
     const option = {
-      headers :{
+      headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,
       }
     }
-    this._httpClient.get<any>(`${environment.apiUrl}/address/province/list/237`,option).subscribe((respon:any) =>{ 
-      // this.provinceBirthPlace= respon.data
-      console.log("các tỉnh ",this.provinceBirth)
-        respon.data.map((item,index) =>{
-          return this.provinceBirthPlace.push(item)
-        })
-        // "name:"+item.provinceType+' '+item.provinceName
+    this._httpClient.get<any>(`${environment.apiUrl}/address/province/list/${idCountry}`, option).subscribe((respon: any) => {
+      if(x===1){
+        this.idProviceBirth = respon.data[0].provinceId
+        this.getDistrict(respon.data[0].provinceId,1)
+        this.provinceBirthPlace = respon.data.map(item=>({
+          id: item.provinceId,
+          name:item.provinceType +" "+ item.provinceName
+        }))
       }
+      if(x===2){
+        this.idProviceBirth = respon.data[0].provinceId
+        this.getDistrict(respon.data[0].provinceId,2)
+        this.provinceResidencePlace = respon.data.map(item=>({
+          id: item.provinceId,
+          name:item.provinceType +" "+ item.provinceName
+        }))
+      }
+      if(x===3){
+        console.log(respon.data)
+        this.idProviceBirth = respon.data[0].provinceId
+        this.getDistrict(respon.data[0].provinceId,3)
+        this.provinceBirthPlace = respon.data.map(item=>({
+          id: item.provinceId,
+          name:item.provinceType +" "+ item.provinceName
+        }))
+        console.log()
+        this.provinceResidencePlace = this.provinceBirthPlace
+      }
+      
+    }
     )
-
+    
   }
-  getDistrictBirth(){
+  getDistrict(idProvice,x) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     const token = currentUser.token
     const option = {
-      headers :{
+      headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,
       }
     }
     // this.districtBirthPlace=[]
-    this._httpClient.get<any>(`${environment.apiUrl}/address/district/list/${this.idProvice}`,option).subscribe((respon:any) =>{
-      this.districtBirth = respon.data
-      // console.log(this.districtBirth)
-      this.idDistrict = this.districtBirth[0].districtId
-      console.log('id huyện đầu tiên ', this.idDistrict)
-      this.districtBirthPlace=[]
-      respon.data.map((item) =>{
-        return this.districtBirthPlace.push(item.districtType+' '+item.districtName)
-      })
-      // console.log("huyện mới ",this.districtBirthPlace)
-      
-      }
-    )
+    this._httpClient.get<any>(`${environment.apiUrl}/address/district/list/${idProvice}`, option).subscribe((respon: any) => {
+      if(x===1){
+        this.getCommune(respon.data[0].districtId,1)
 
+        this.districtBirthPlace = respon.data.map((item) =>({
+          id:item.districtId,
+          name:item.districtType + " " + item.districtName
+        }))
+      }
+      if(x===2){
+        this.getCommune(respon.data[0].districtId,2)
+
+        this.districtResidencePlace = respon.data.map((item) =>({
+          id:item.districtId,
+          name:item.districtType + " " + item.districtName
+        }))
+      }
+      if(x===3){
+        this.getCommune(respon.data[0].districtId,1)
+  
+        this.districtBirthPlace = respon.data.map((item) =>({
+          id:item.districtId,
+          name:item.districtType + " " + item.districtName
+        }))
+        this.districtResidencePlace = this.districtBirthPlace
+      }
+    }
+    )
   }
-  getCommuneBirth(){
+  getCommune(idDistrict,x) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     const token = currentUser.token
     const option = {
-      headers :{
+      headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,
       }
     }
-    console.log(this.idDistrict)
-    this._httpClient.get<any>(`${environment.apiUrl}/address/commune/list/${this.idDistrict}`,option).subscribe((respon:any) =>{
-      // console.log("dữ liệu xã khi chưa xã",respon.data)
-      // this.idDistrict = 0
-      this.communeBirthPlace = []
-      respon.data.map((item) =>{
-        return this.communeBirthPlace.push(item.communeType+ ' '+item.communeName)
-      })
-      // console.log(respon.data[1])
-      
-    }
-    )
-  }
-
-  // set address residence
-
-  selectProvinceResidence(e){
-    const add = ' '
-    const provice = this.provinceResidence.find((province,index) => province.provinceType.concat(add,province.provinceName) === e.target.value)
-    this.idDistrictPlace = provice.provinceId
-    console.log(this.idDistrictPlace)
-    this.getDistrictResidence()
-    this.getCommuneResidence()
-  }
-  selectDistrictResidence(e){
-    console.log(this.districtResidence)
-    console.log(e.target.value)
-    const add = ' '
-    const district = this.districtResidence.find((district,index) => district.districtType.concat(add,district.districtName) == e.target.value)
-    // this.idDistrict = district.districtId
-    this.getCommuneResidence()
-  }
-  
-  getProviceResidence(){
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
-    const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
+    this._httpClient.get<any>(`${environment.apiUrl}/address/commune/list/${idDistrict}`, option).subscribe((respon: any) => {
+      if(x===1){
+        this.communeBirthPlace = respon.data.map((item) =>({
+          id:item.communeId,
+          name:item.communeType + " " +item.communeName
+        }))
       }
-    }
-    this._httpClient.get<any>(`${environment.apiUrl}/address/province/list/237`,option).subscribe((respon:any) =>{ 
-      this.provinceResidence= respon.data
-      // console.log("các tỉnh ",this.provinceBirth)
-        respon.data.map((item,index) =>{
-          return this.provinceResidencePlace.push(item.provinceType+' '+item.provinceName)
-        })
+      if(x===2){
+        this.communeResidencePlace = respon.data.map((item) =>({
+          id:item.communeId,
+          name:item.communeType + " " +item.communeName
+        }))
       }
-    )
-
-  }
-  getDistrictResidence(){
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
-    const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
+      if(x===3){
+        this.communeBirthPlace = respon.data.map((item) =>({
+          id:item.communeId,
+          name:item.communeType + " " +item.communeName
+        }))
+        this.communeResidencePlace = this.communeBirthPlace
       }
-    }
-    this._httpClient.get<any>(`${environment.apiUrl}/address/district/list/${this.idDistrictPlace}`,option).subscribe((respon:any) =>{
-      this.districtResidence = respon.data
-      // console.log(this.districtBirth)
-      this.idDistrictPlace = respon.data[0].districtId
-      // console.log('các huyện sau khi đổi ', this.districtBirth)
-      // this.districtBirthPlace=[]
-      this.districtResidencePlace = []
-      respon.data.map((item) =>{
-        return this.districtResidencePlace.push(item.districtType+' '+item.districtName)
-      })
-      // console.log("huyện mới ",this.districtBirthPlace)
-      
-      }
-    )
-
-  }
-  getCommuneResidence(){
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
-    const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      }
-    }
-    this._httpClient.get<any>(`${environment.apiUrl}/address/commune/list/${this.idDistrictPlace}`,option).subscribe((respon:any) =>{
-      // console.log("dữ liệu xã khi chưa xã",respon.data)
-      // this.idDistrictPlace = 0
-      this.communeResidencePlace = []
-      respon.data.map((item) =>{
-        return this.communeResidencePlace.push(item.communeType+ ' '+item.communeName)
-      })
-      // console.log(respon.data[1])
-      
     }
     )
   }
 
   
 
-  
 
-  
-  
+
+
+
+
+
+
 }
