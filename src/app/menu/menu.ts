@@ -143,21 +143,36 @@ export const menu: CoreMenu[] = [
     type: 'section',
     children: [
       {
-        id: "hsm-management",
-        title: 'Thiết bị HSM',
-        translate: 'MENU.EQUIPMENT_MANAGEMENT.HSM',
+        id: 'search',
+        title: 'Tìm kiếm',
         type: 'item',
-        icon: 'tool',
-        url: '/apps/equipment-management/hsm'
+        icon: 'search',
+        url: '/apps/equipment-management/search'
       },
       {
-        id: "token-management",
-        title: 'Token',
-        translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
-        type: 'item',
-        icon: 'tablet',
-        url: '/apps/equipment-management/token'
-      }
+        id: 'create',
+        title: 'Tạo mới',
+        type: 'collapsible',
+        icon: 'file-plus',
+        children: [
+          {
+            id: "hsm-management",
+            title: 'Thiết bị HSM',
+            translate: 'MENU.EQUIPMENT_MANAGEMENT.HSM',
+            type: 'item',
+            icon: 'tool',
+            url: '/apps/equipment-management/hsm'
+          },
+          {
+            id: "token-management",
+            title: 'Token',
+            translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
+            type: 'item',
+            icon: 'tablet',
+            url: '/apps/equipment-management/token'
+          }
+        ]
+      },
     ]
   },
   {

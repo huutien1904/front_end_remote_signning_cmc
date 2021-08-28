@@ -9,6 +9,10 @@ import { Role } from 'app/auth/models/role';
 
 const routes : Routes = [
   {
+    path: 'search',
+    loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
+  },
+  {
     path: 'hsm',
     component : HsmManagementComponent,
     canActivate : [AuthGuard], 
@@ -16,7 +20,8 @@ const routes : Routes = [
     //   uls: DashboardService
     // },
     data: {roles: [Role.SuperAdmin], animation: "HsmManagementComponent" },
-  },{
+  },
+  {
     path: 'token',
     component : TokenManagementComponent,
     canActivate : [AuthGuard], 
@@ -25,8 +30,6 @@ const routes : Routes = [
 ]
 @NgModule({
   declarations: [
-    HsmManagementComponent,
-    TokenManagementComponent
   ],
   imports: [
     CommonModule, RouterModule.forChild(routes)
