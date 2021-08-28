@@ -1,98 +1,261 @@
 <div class="content-wrapper container-xxl p-0">
-    <div class="content-body">
-        <!-- Certificate request List -->
-        <section class="users-list-wrapper">
-            <!-- Certificate request filter start -->
-            <div class="card">
-                <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <label class="d-flex align-items-center ml-md-0">
-                                <input name="searchValue" type="search" class="form-control" placeholder="Một phần CN, O">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <fieldset class="form-group">
-                                <label for="">Hệ mật:</label>
-                                <ng-select [items]="test" [(ngModel)]="tested" name="" bindLabel="name" placeholder="RSA, EC"></ng-select>
-                            </fieldset>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="">Độ dài khóa:</label>
-                            <fieldset class="form-group">
-                                <ng-select [items]="test" name="test" [(ngModel)]="tested" bindLabel="name" placeholder="2048, 1024"></ng-select>
-                            </fieldset>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-primary" (click)="moreOption = !moreOption" aria-controls="collapseExample4" rippleEffect>
-                                Thêm tùy chọn
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row" [ngbCollapse]="moreOption">
-                        <div class="col-12 col-md-4">
-                            <label for="">Số dòng:</label>
-                            <fieldset class="form-group">
-                                <ng-select [items]="test" name="test" [(ngModel)]="tested" bindLabel="name" placeholder="15" suffix=" dòng"></ng-select>
-                            </fieldset>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <fieldset class="form-group">
-                                <label for="">Thay đổi sau:</label>
-                                <input class="form-control" type="text" placeholder="dd/mm/yyyy" mask="00-00-0000" />
-                            </fieldset>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <fieldset class="form-group">
-                                <label for="">Thay đổi trước:</label>
-                                <input class="form-control" type="text" placeholder="dd/mm/yyyy" mask="00-00-0000" />
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
+  <div class="content-body">
+    <!-- Certificate request List -->
+    <section class="users-list-wrapper">
+      <!-- Certificate request filter start -->
+      <div class="card">
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+          <form
+            class="form form-vertical"
+            [formGroup]="formListSubscriberCertificate"
+          >
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input
+                  name="distinguishedName"
+                  id="distinguishedName"
+                  type="search"
+                  class="form-control"
+                  formControlName="distinguishedName"
+                  placeholder="Một phần DN"
+                />
+              </div>
             </div>
-            <!-- Certificate request filter end -->
-            <div class="card">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-md-end m-1">
-                            <button class="btn btn-primary ml-1" rippleEffect>
-                                <span class="d-none d-sm-inline-block">Thêm mới</span>
-                              </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>TT</th>
-                                        <th>Mã cặp khóa</th>
-                                        <th>Hệ mật</th>
-                                        <th>Mã Yêu Cầu</th>
-                                        <th>Tham số khóa</th>
-                                        <th>Độ dài khóa</th>
-                                        <th>Alias</th>
-                                        <th>Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="row mb-1">
+              <div class="col-12">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary mr-1"
+                  (click)="moreOption = !moreOption"
+                  rippleEffect
+                >
+                  tùy chọn
+                </button>
+                <button
+                  type="button"
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click)="onSubmit()"
+                  [disabled]="!formListSubscriberCertificate.valid"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
             </div>
-        </section>
-        <!--/ Certificate request List -->
-    </div>
-    <!-- Certificate request Sidebar -->
-
+            <div class="row" [ngbCollapse]="moreOption">
+              <div class="col-md-1 mr-2">
+                <label for="">Số dòng:</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="sizePage"
+                    suffix=" dòng"
+                    [clearable]="false"
+                    formControlName="sizePage"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="form-group">
+                    <div class="input-group w-0">
+                      <input
+                        style="display: none"
+                        name="datepicker"
+                        class="form-control"
+                        ngbDatepicker
+                        #datepicker="ngbDatepicker"
+                        [autoClose]="'outside'"
+                        (dateSelect)="onDateSelection($event)"
+                        [displayMonths]="2"
+                        [dayTemplate]="rangeSelectionDP"
+                        outsideDays="hidden"
+                        [startDate]="fromDate!"
+                      />
+                      <ng-template
+                        #rangeSelectionDP
+                        let-date
+                        let-focused="focused"
+                      >
+                        <span
+                          class="custom-day"
+                          [class.focused]="focused"
+                          [class.range]="isRange(date)"
+                          [class.faded]="isHovered(date) || isInside(date)"
+                          (mouseenter)="hoveredDate = date"
+                          (mouseleave)="hoveredDate = null"
+                        >
+                          {{ date.day }}
+                        </span>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="">Từ ngày:</label>
+                      <div class="input-group">
+                        <input
+                          #dpFromDate
+                          ngbDatepicker
+                          class="form-control"
+                          placeholder="yyyy-mm-dd"
+                          name="dpFromDate"
+                          formControlName="fromDate"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="
+                              btn btn-outline-secondary
+                              feather
+                              icon-calendar
+                            "
+                            (click)="datepicker.toggle()"
+                            type="button"
+                            rippleEffect
+                          ></button>
+                        </div>
+                      </div>
+                      <div class="demo-spacing-0">
+                        <!-- ngb-alert component-->
+                        <ngb-alert
+                          [type]="'danger'"
+                          *ngIf="
+                            formListSubscriberCertificate.controls['fromDate']
+                              .invalid
+                          "
+                          class="mt-1"
+                          [dismissible]="false"
+                        >
+                          <div class="alert-body">
+                            <span
+                              [data-feather]="'info'"
+                              [class]="'mr-50 align-middle'"
+                            ></span>
+                            <span
+                              ><strong>Không hợp lệ</strong> sai định dạng
+                              yyyy-mm-dd</span
+                            >
+                          </div>
+                        </ngb-alert>
+                        <!--/ ngb-alert component -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group ml-sm-2">
+                      <label for="">Đến ngày:</label>
+                      <div class="input-group">
+                        <input
+                          #dpToDate
+                          class="form-control"
+                          placeholder="yyyy-mm-dd"
+                          name="dpToDate"
+                          ngbDatepicker
+                          formControlName="toDate"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="
+                              btn btn-outline-secondary
+                              feather
+                              icon-calendar
+                            "
+                            (click)="datepicker.toggle()"
+                            type="button"
+                            rippleEffect
+                          ></button>
+                        </div>
+                      </div>
+                      <div class="demo-spacing-0">
+                        <!-- ngb-alert component-->
+                        <ngb-alert
+                          [type]="'danger'"
+                          *ngIf="
+                            formListSubscriberCertificate.controls['toDate']
+                              .invalid
+                          "
+                          class="mt-1"
+                          [dismissible]="false"
+                        >
+                          <div class="alert-body">
+                            <span
+                              [data-feather]="'info'"
+                              [class]="'mr-50 align-middle'"
+                            ></span>
+                            <span
+                              ><strong>Không hợp lệ</strong> sai định dạng
+                              yyyy-mm-dd</span
+                            >
+                          </div>
+                        </ngb-alert>
+                        <!--/ ngb-alert component -->
+                        <ngb-alert
+                          [type]="'danger'"
+                          *ngIf="
+                            this.formatter.format(
+                              formListSubscriberCertificate.controls['fromDate']
+                                .value
+                            ) >
+                              this.formatter.format(
+                                formListSubscriberCertificate.controls['toDate']
+                                  .value
+                              ) &&
+                            formListSubscriberCertificate.controls['toDate']
+                              .value != null
+                          "
+                          class="mt-1"
+                          [dismissible]="false"
+                        >
+                          <div class="alert-body">
+                            <span
+                              [data-feather]="'info'"
+                              [class]="'mr-50 align-middle'"
+                            ></span>
+                            <span
+                              ><strong>Không hợp lệ</strong> Ngày kết thúc sớm
+                              hơn ngày bắt đầu</span
+                            >
+                          </div>
+                        </ngb-alert>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Certificate request filter end -->
+    </section>
+    <section>
+      <div class="row" id="basic-table">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Danh sách chứng thư số</h4>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>TT</th>
+                    <th>Mã cặp khóa</th>
+                    <th>Hệ mật</th>
+                    <th>Mã Yêu Cầu</th>
+                    <th>Tham số khóa</th>
+                    <th>Độ dài khóa</th>
+                    <th>Alias</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ Certificate request List -->
+  </div>
 </div>

@@ -86,7 +86,7 @@
             </div>
           </div>
           <div class="row" [ngbCollapse]="moreOption">
-            <div class="col-md-2">
+            <div class="col-md-1 mr-2">
               <label for="">Số dòng:</label>
               <fieldset class="form-group">
                 <ng-select
@@ -97,89 +97,109 @@
                 ></ng-select>
               </fieldset>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
               <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group inline">
-                    <label for="">Từ ngày</label>
-                    <small
-                      class="text-danger"
-                      *ngIf="
-                        formListKeyPair.controls['fromDate']?.errors &&
-                        formListKeyPair.controls['fromDate'].touched
-                      "
-                    >
-                      Bạn chưa nhập tên</small
-                    >
-                    <div class="input-group">
-                      <input
-                        name="datepicker"
-                        class="form-control"
-                        ngbDatepicker
-                        placeholder="yyyy-mm-dd"
-                        #rangeSelectionDP="ngbDatepicker"
-                        [autoClose]="'outside'"
-                        (dateSelect)="onDateSelection($event)"
-                        [displayMonths]="2"
-                        [dayTemplate]="t"
-                        outsideDays="hidden"
-                        [startDate]="fromDate!"
-                        [value]="formatter.format(today)"
-                        formControlName="fromDate"
-                      />
-                      <ng-template #t let-date let-focused="focused">
-                        <span
-                          class="custom-day"
-                          [class.focused]="focused"
-                          [class.range]="isRange(date)"
-                          [class.faded]="isHovered(date) || isInside(date)"
-                          (mouseenter)="hoveredDate = date"
-                          (mouseleave)="hoveredDate = null"
-                        >
-                          {{ date.day }}
-                        </span>
-                      </ng-template>
-                      <div class="input-group-append">
-                        <button
-                          class="
-                            btn btn-outline-secondary
-                            feather
-                            icon-calendar
-                          "
-                          (click)="rangeSelectionDP.toggle()"
-                          type="button"
-                          rippleEffect
-                        ></button>
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <div class="input-group w-0" >
+                    <input
+                    style="display:none;"
+                      name="datepicker"
+                      class="form-control"
+                      ngbDatepicker
+                      #datepicker="ngbDatepicker"
+                      [autoClose]="'outside'"
+                      (dateSelect)="onDateSelection($event)"
+                      [displayMonths]="2"
+                      [dayTemplate]="rangeSelectionDP"
+                      outsideDays="hidden"
+                      [startDate]="fromDate!"
+                    />
+                    <ng-template #rangeSelectionDP let-date let-focused="focused">
+                      <span
+                        class="custom-day"
+                        [class.focused]="focused"
+                        [class.range]="isRange(date)"
+                        [class.faded]="isHovered(date) || isInside(date)"
+                        (mouseenter)="hoveredDate = date"
+                        (mouseleave)="hoveredDate = null"
+                      >
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="">Đến ngày</label>
+               <div class="col-6">
+                <div class="form-group">
+                  <label for="">Từ ngày:</label>
+                  <div class="input-group">
+                    <input
+                      #dpFromDate
+                      ngbDatepicker
+                      class="form-control"
+                      placeholder="yyyy-mm-dd"
+                      name="dpFromDate"
+                      formControlName="fromDate"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-secondary feather icon-calendar"
+                        (click)="datepicker.toggle()"
+                        type="button"
+                        rippleEffect
+                      ></button>
+                    </div>
+                  </div>
+                  <div class="demo-spacing-0">
+                    <!-- ngb-alert component--> 
+                    <ngb-alert [type]="'danger'" *ngIf="formListKeyPair.controls['fromDate'].invalid" class="mt-1" [dismissible]="false">
+                      <div class="alert-body">
+                        <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                        <span><strong>Không hợp lệ</strong> sai định dạng yyyy-mm-dd</span>
+                      </div>
+                    </ngb-alert>
+                    <!--/ ngb-alert component -->
+                  </div>
+                </div>
+               </div>
+                <div class="col-6">
+                  <div class="form-group ml-sm-2">
+                    <label for="">Đến ngày:</label>
                     <div class="input-group">
                       <input
                         #dpToDate
                         class="form-control"
                         placeholder="yyyy-mm-dd"
                         name="dpToDate"
-                        [value]="formatter.format(toDate)"
+                        ngbDatepicker
                         formControlName="toDate"
                       />
                       <div class="input-group-append">
                         <button
-                          class="
-                            btn btn-outline-secondary
-                            feather
-                            icon-calendar
-                          "
-                          (click)="rangeSelectionDP.toggle()"
+                          class="btn btn-outline-secondary feather icon-calendar"
+                          (click)="datepicker.toggle()"
                           type="button"
                           rippleEffect
                         ></button>
                       </div>
                     </div>
+                    <div class="demo-spacing-0">
+                      <!-- ngb-alert component--> 
+                      <ngb-alert [type]="'danger'" *ngIf="formListKeyPair.controls['toDate'].invalid" class="mt-1" [dismissible]="false">
+                        <div class="alert-body">
+                          <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                          <span><strong>Không hợp lệ</strong> sai định dạng yyyy-mm-dd</span>
+                        </div>
+                      </ngb-alert>
+                      <!--/ ngb-alert component -->
+                      <ngb-alert [type]="'danger'" *ngIf="this.formatter.format(formListKeyPair.controls['fromDate'].value)>this.formatter.format(formListKeyPair.controls['toDate'].value)&&formListKeyPair.controls['toDate'].value!=null" class="mt-1" [dismissible]="false">
+                        <div class="alert-body">
+                          <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                          <span><strong>Không hợp lệ</strong> Ngày kết thúc sớm hơn ngày bắt đầu</span>
+                        </div>
+                      </ngb-alert>
+                    </div>
                   </div>
+                  
                 </div>
               </div>
             </div>

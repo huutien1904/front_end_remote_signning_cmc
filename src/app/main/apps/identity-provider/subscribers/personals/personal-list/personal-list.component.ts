@@ -97,7 +97,7 @@ export class PersonalListComponent implements OnInit {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
-  openNewPesonalModal(modal){
+  openNewPersonalModal(modal){
     this.modalService.open(modal, {
       centered:true,
       size:'xl'

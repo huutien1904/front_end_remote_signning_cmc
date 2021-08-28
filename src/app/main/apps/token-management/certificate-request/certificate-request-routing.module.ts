@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CertificateRequestEditComponent } from './certificate-request-edit/certificate-request-edit.component';
 import { CertificateRequestListComponent } from './certificate-request-list/certificate-request-list.component';
 import { CertificateRequestViewComponent } from './certificate-request-view/certificate-request-view.component';
+import { CertificateRequestCreateComponent } from './certificate-request-create/certificate-request-create.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,9 @@ const routes: Routes = [
     //   uls: CertificateRequestListService,
     // },
     data: { animation: "CertificateRequestListComponent" },
+  },{
+    path: "certificate-request-create",
+    component: CertificateRequestCreateComponent, 
   },
 
   {

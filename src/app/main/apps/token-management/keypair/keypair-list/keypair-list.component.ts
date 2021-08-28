@@ -87,6 +87,8 @@ export class KeypairListComponent implements OnInit {
       this.toDate = null;
       this.fromDate = date;
     }
+    this.formListKeyPair.get("fromDate").setValue(this.fromDate);
+    this.formListKeyPair.get("toDate").setValue(this.toDate);
   }
 
   isHovered(date: NgbDate) {

@@ -90,7 +90,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.LIST',
         type: 'item',
         icon: 'file-text',
-        url: '/apps/tm/certificate-request/certificate-request-list'
+        url: '/apps/tm/certificate-request/certificate-request-create'
       },
         /*children: [
           {

@@ -1,84 +1,83 @@
-<div class="content-body">
-  <!-- Keypair List -->
-  <section class="users-list-wrapper">
-    <!-- keypair filter start -->
-    <div class="card">
-      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-      <div class="card-body">
-        <form
-          class="form form-vertical"
-          [formGroup]="formListCertificateRequest"
-        >
-          <div class="row mb-1">
-            <div class="col-md-6">
-              <input
-                name="distinguishedName"
-                id="distinguishedName"
-                type="search"
-                class="form-control"
-                formControlName="distinguishedName"
-                placeholder="Một phần DN"
-              />
+
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- Keypair List -->
+    <section class="users-list-wrapper">
+      <!-- keypair filter start -->
+      <div class="card">
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+          <form
+            class="form form-vertical"
+            [formGroup]="formListCertificateRequest"
+          >
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input
+                  name="distinguishedName"
+                  id="distinguishedName"
+                  type="search"
+                  class="form-control"
+                  formControlName="distinguishedName"
+                  placeholder="Một phần DN"
+                />
+              </div>
             </div>
-          </div>
-          <div class="row mb-1">
-            <div class="col-12">
-              <button
-                type="button"
-                class="btn btn-outline-secondary mr-1"
-                (click)="moreOption = !moreOption"
-                rippleEffect
-              >
-                tùy chọn
-              </button>
-              <button
-                type="button"
-                rippleEffect
-                class="btn btn-primary"
-                (click)="onSubmit()"
-                [disabled]="!formListCertificateRequest.valid"
-              >
-                Tìm kiếm
-              </button>
+            <div class="row mb-1">
+              <div class="col-12">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary mr-1"
+                  (click)="moreOption = !moreOption"
+                  rippleEffect
+                >
+                  tùy chọn
+                </button>
+                <button
+                  type="button"
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click)="onSubmit()"
+                  [disabled]="!formListCertificateRequest.valid"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="row" [ngbCollapse]="moreOption">
-            <div class="col-md-2">
-              <label for="">Số dòng:</label>
-              <fieldset class="form-group">
-                <ng-select
-                  [items]="sizePage"
-                  suffix=" dòng"
-                  [clearable]="false"
-                  formControlName="sizePage"
-                ></ng-select>
-              </fieldset>
-            </div>
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group inline">
-                    <label for="">Từ ngày</label>
-                    <small class="text-danger"
-                    *ngIf="formListCertificateRequest.controls['fromDate']?.errors&&formListCertificateRequest.controls['fromDate'].touched">
-                    Bạn chưa nhập tên</small>
-                    <div class="input-group">
+            <div class="row" [ngbCollapse]="moreOption">
+              <div class="col-md-1 mr-2">
+                <label for="">Số dòng:</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="sizePage"
+                    suffix=" dòng"
+                    [clearable]="false"
+                    formControlName="sizePage"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="form-group">
+                    <div class="input-group w-0">
                       <input
+                        style="display: none"
                         name="datepicker"
                         class="form-control"
                         ngbDatepicker
-                        placeholder="yyyy-mm-dd"
-                        #rangeSelectionDP="ngbDatepicker"
+                        #datepicker="ngbDatepicker"
                         [autoClose]="'outside'"
                         (dateSelect)="onDateSelection($event)"
                         [displayMonths]="2"
-                        [dayTemplate]="t"
+                        [dayTemplate]="rangeSelectionDP"
                         outsideDays="hidden"
                         [startDate]="fromDate!"
-                        [value]="formatter.format(today)"
-                        formControlName="fromDate"
                       />
-                      <ng-template #t let-date let-focused="focused">
+                      <ng-template
+                        #rangeSelectionDP
+                        let-date
+                        let-focused="focused"
+                      >
                         <span
                           class="custom-day"
                           [class.focused]="focused"
@@ -90,87 +89,172 @@
                           {{ date.day }}
                         </span>
                       </ng-template>
-                      <div class="input-group-append">
-                        <button
-                          class="
-                            btn btn-outline-secondary
-                            feather
-                            icon-calendar
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="">Từ ngày:</label>
+                      <div class="input-group">
+                        <input
+                          #dpFromDate
+                          ngbDatepicker
+                          class="form-control"
+                          placeholder="yyyy-mm-dd"
+                          name="dpFromDate"
+                          formControlName="fromDate"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="
+                              btn btn-outline-secondary
+                              feather
+                              icon-calendar
+                            "
+                            (click)="datepicker.toggle()"
+                            type="button"
+                            rippleEffect
+                          ></button>
+                        </div>
+                      </div>
+                      <div class="demo-spacing-0">
+                        <!-- ngb-alert component-->
+                        <ngb-alert
+                          [type]="'danger'"
+                          *ngIf="
+                            formListCertificateRequest.controls['fromDate']
+                              .invalid
                           "
-                          (click)="rangeSelectionDP.toggle()"
-                          type="button"
-                          rippleEffect
-                        ></button>
+                          class="mt-1"
+                          [dismissible]="false"
+                        >
+                          <div class="alert-body">
+                            <span
+                              [data-feather]="'info'"
+                              [class]="'mr-50 align-middle'"
+                            ></span>
+                            <span
+                              ><strong>Không hợp lệ</strong> sai định dạng
+                              yyyy-mm-dd</span
+                            >
+                          </div>
+                        </ngb-alert>
+                        <!--/ ngb-alert component -->
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="">Đến ngày</label>
-                    <div class="input-group">
-                      <input
-                        #dpToDate
-                        class="form-control"
-                        placeholder="yyyy-mm-dd"
-                        name="dpToDate"
-                        [value]="formatter.format(toDate)"
-                        formControlName="toDate"
-                      />
-                      <div class="input-group-append">
-                        <button
-                          class="
-                            btn btn-outline-secondary
-                            feather
-                            icon-calendar
+                  <div class="col-6">
+                    <div class="form-group ml-sm-2">
+                      <label for="">Đến ngày:</label>
+                      <div class="input-group">
+                        <input
+                          #dpToDate
+                          class="form-control"
+                          placeholder="yyyy-mm-dd"
+                          name="dpToDate"
+                          ngbDatepicker
+                          formControlName="toDate"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="
+                              btn btn-outline-secondary
+                              feather
+                              icon-calendar
+                            "
+                            (click)="datepicker.toggle()"
+                            type="button"
+                            rippleEffect
+                          ></button>
+                        </div>
+                      </div>
+                      <div class="demo-spacing-0">
+                        <!-- ngb-alert component-->
+                        <ngb-alert
+                          [type]="'danger'"
+                          *ngIf="
+                            formListCertificateRequest.controls['toDate'].invalid
                           "
-                          (click)="rangeSelectionDP.toggle()"
-                          type="button"
-                          rippleEffect
-                        ></button>
+                          class="mt-1"
+                          [dismissible]="false"
+                        >
+                          <div class="alert-body">
+                            <span
+                              [data-feather]="'info'"
+                              [class]="'mr-50 align-middle'"
+                            ></span>
+                            <span
+                              ><strong>Không hợp lệ</strong> sai định dạng
+                              yyyy-mm-dd</span
+                            >
+                          </div>
+                        </ngb-alert>
+                        <!--/ ngb-alert component -->
+                        <ngb-alert
+                          [type]="'danger'"
+                          *ngIf="
+                            this.formatter.format(
+                              formListCertificateRequest.controls['fromDate']
+                                .value
+                            ) >
+                              this.formatter.format(
+                                formListCertificateRequest.controls['toDate']
+                                  .value
+                              ) &&
+                            formListCertificateRequest.controls['toDate'].value !=
+                              null
+                          "
+                          class="mt-1"
+                          [dismissible]="false"
+                        >
+                          <div class="alert-body">
+                            <span
+                              [data-feather]="'info'"
+                              [class]="'mr-50 align-middle'"
+                            ></span>
+                            <span
+                              ><strong>Không hợp lệ</strong> Ngày kết thúc sớm hơn
+                              ngày bắt đầu</span
+                            >
+                          </div>
+                        </ngb-alert>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-    <!-- keypair filter end -->
-    <div class="card">
-      <div class="row">
+      <!-- keypair filter end -->
+
+    </section>
+    <section>
+      <div class="row" id="basic-table">
         <div class="col-12">
-          <div class="d-flex justify-content-md-end m-1">
-            <button class="btn btn-primary ml-1" rippleEffect>
-              <span class="d-none d-sm-inline-block">Thêm mới</span>
-            </button>
+          <div class="card">
+            <div class="card-header"><h4 class="card-title">Danh sách yêu cầu chứng thực</h4></div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>TT</th>
+                    <th>Mã cặp khóa</th>
+                    <th>Hệ mật</th>
+                    <th>Tham số khóa</th>
+                    <th>Độ dài khóa</th>
+                    <th>Alias</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>TT</th>
-                  <th>Mã cặp khóa</th>
-                  <th>Hệ mật</th>
-                  <th>Tham số khóa</th>
-                  <th>Độ dài khóa</th>
-                  <th>Alias</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--/ Keypair List -->
+    </section>
+    <!--/ Keypair List -->
+  </div>
 </div>

@@ -41,41 +41,55 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.fb.control);
-    alert(this.formListCertificateRequest.get("fromDate"));
-    console.log(this.formListCertificateRequest.get("fromDate").value);
+    console.log(this.formListCertificateRequest.value);
+    console.log(this.formListCertificateRequest.get("toDate").value);
   }
 
-  onDateSelection(date: NgbDate) {
+  /**
+   * Range selection Date Picker
+   *
+   * @param date
+   */
+   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
-    } else if (
-      this.fromDate &&
-      !this.toDate &&
-      date &&
-      date.after(this.fromDate)
-    ) {
+    } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
       this.toDate = date;
     } else {
       this.toDate = null;
       this.fromDate = date;
     }
+    this.formListCertificateRequest.get("fromDate").setValue(this.fromDate);
+    this.formListCertificateRequest.get("toDate").setValue(this.toDate);
+
   }
 
+  /**
+   * Is Hovered
+   *
+   * @param date
+   */
   isHovered(date: NgbDate) {
     return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
+      this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
     );
+    
   }
 
+  /**
+   * Is Inside
+   *
+   * @param date
+   */
   isInside(date: NgbDate) {
     return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
   }
 
+  /**
+   *  Is Range
+   *
+   * @param date
+   */
   isRange(date: NgbDate) {
     return (
       date.equals(this.fromDate) ||

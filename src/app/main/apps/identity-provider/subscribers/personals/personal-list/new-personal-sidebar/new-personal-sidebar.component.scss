@@ -1,5 +1,9 @@
+
 @import '@core/scss/angular/libs/datatables.component.scss';
 @import '@core/scss/base/pages/app-user.scss';
 @import '@core/scss/angular/libs/select.component.scss';
 // @import '@core/scss/base/plugins/forms/form-validation.scss';
 @import '@core/scss/base/plugins/forms/form-validation.scss';
+.modal-content {
+    box-shadow: 0 5px 20px 0 rgb(255 255 255 / 10%);
+}
