@@ -96,8 +96,10 @@ export class PersonalListComponent implements OnInit {
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
-
-  openNewPesonalModal(modal){
+  toggleModal(){
+    this.modalService.dismissAll();
+  }
+  openNewPersonalModal(modal){
     this.modalService.open(modal, {
       centered:true,
       size:'xl'
@@ -110,22 +112,7 @@ export class PersonalListComponent implements OnInit {
    */
   // to search 
    filterUpdate(event) {
-    // Reset ng-select on search
-    // this.slectedOrganization = this.selectOganization[0];
-    // this.selectedActive = this.selectActive[0];
-    // // this.selectedStatus = this.selectStatus[0];
-
-    // const val = event.target.value.toLowerCase();
-
-    // // Filter Our Data
-    // const temp = this.tempData.filter(function (d) {
-    //   return d.fullName.toLowerCase().indexOf(val) !== -1 || !val;
-    // });
-
-    // // Update The Rows
-    // this.rows = temp;
-    // // Whenever The Filter Changes, Always Go Back To The First Page
-    // this.table.offset = 0;
+    
   }
 
   /**

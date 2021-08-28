@@ -3,47 +3,9 @@
 @import '@core/scss/angular/libs/select.component.scss';
 
 
-.info_user-personal{
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+.modal .modal-content{
+    box-shadow: none !important;
 }
-
-p{
-    margin-bottom: 0;
-}
-.pagination{
-    display: flex;
-}
-.item_on_page{
-    display: flex;
-    margin-top: 23px;
-}
-.item_on_page label{
-    font-size: 14px;
-}
-.filter_sex{
-    display: flex;
-    padding-left: 38px !important;
-}
-.pl-10{
-    display: flex;
-    padding-left: 34px;
-    align-items: center;
-}
-.pl-10 label{
-    flex: 1;
-    font-size: 16px;
-    line-height: 20px;
-    // margin-right: 10px;
-}
-.pl-10 fieldset{
-    flex: 2;
-}
-.search_value {
-    padding-top: 20px;
-}
-.cart-body{
-    display:flex
-    
+.modal-header .close{
+    margin: 0px ;
 }

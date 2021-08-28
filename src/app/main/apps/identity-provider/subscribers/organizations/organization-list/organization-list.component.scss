@@ -3,11 +3,14 @@
 @import '@core/scss/angular/libs/select.component.scss';
 
 
-.info_user-personal{
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-p{
-    margin-bottom: 0;
+// .info_user-personal{
+//     display: flex;
+//     align-items: center;
+//     margin-bottom: 10px;
+// }
+// p{
+//     margin-bottom: 0;
+// }
+.modal .modal-content{
+    box-shadow: none;
 }

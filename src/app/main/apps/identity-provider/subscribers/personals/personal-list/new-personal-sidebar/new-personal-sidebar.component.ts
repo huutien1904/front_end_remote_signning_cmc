@@ -37,9 +37,10 @@ export class NewPersonalSidebarComponent implements OnInit {
   public communeResidence:any
   public submitted = false;
   // birth place
-  countryBirthPlace:String[] =[
-    'Việt Nam',
-    
+  public countryBirthPlace:any[] =[
+    "Việt Nam",
+    "Thái Lan",
+    "CamPuchia", 
   ]
   provinceBirthPlace:String[] =[
     
@@ -123,6 +124,8 @@ export class NewPersonalSidebarComponent implements OnInit {
       
     });
     new FormControl("", Validators.required, this.isUserNameDuplicated);
+    console.log(this.provinceBirthPlace)
+    console.log(this.countryBirthPlace)
     this.getProviceBirth()
     this.getDistrictBirth()
     this.getCommuneBirth()
@@ -162,23 +165,15 @@ export class NewPersonalSidebarComponent implements OnInit {
     // display form values on success
     
     return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`,newPersonal,option).subscribe((respon:any)=>{
-      
+      console.log(respon)
       if(respon.result = "true"){
         this.closeModal()
         this.updateTable()
       }
-      
-      // console.log(respon)
-      // if(respon.result)
-      // this.closeModal()
-      // this.toggleSidebar()
     }
     )
     
   }
-  // close(){
-  //   this.activeModal.close();
-  // }
   // set address birth
   selectProviceBirth(e){
     console.log(e.target.value)
@@ -208,11 +203,12 @@ export class NewPersonalSidebarComponent implements OnInit {
       }
     }
     this._httpClient.get<any>(`${environment.apiUrl}/address/province/list/237`,option).subscribe((respon:any) =>{ 
-      this.provinceBirth= respon.data
+      // this.provinceBirthPlace= respon.data
       console.log("các tỉnh ",this.provinceBirth)
         respon.data.map((item,index) =>{
-          return this.provinceBirthPlace.push(item.provinceType+' '+item.provinceName)
+          return this.provinceBirthPlace.push(item)
         })
+        // "name:"+item.provinceType+' '+item.provinceName
       }
     )
 

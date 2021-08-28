@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ColumnMode, DatatableComponent, } from '@swimlane/ngx-datatable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -64,7 +65,8 @@ export class OrganizationListComponent implements OnInit {
   constructor(
     private _organizationListService: OrganizationListService,
     private _coreSidebarService: CoreSidebarService,
-    private _coreConfigService: CoreConfigService
+    private _coreConfigService: CoreConfigService,
+    private modalService: NgbModal,
   ) { 
     this._unsubscribeAll = new Subject();
    }
@@ -79,34 +81,19 @@ export class OrganizationListComponent implements OnInit {
    */
   // to search 
   filterUpdate(event) {
-    // Reset ng-select on search
     
-    // this.selectedRole = this.selectRole[0];
-    // this.selectedPlan = this.selectPlan[0];
-    // this.selectedStatus = this.selectStatus[0];
-
-    // const val = event.target.value.toLowerCase();
-
-    // // Filter Our Data
-    // const temp = this.tempData.filter(function (d) {
-    //   return d.organizationName.toLowerCase().indexOf(val) !== -1 || !val;
-    // });
-
-    // // Update The Rows
-    // this.rows = temp;
-    // // Whenever The Filter Changes, Always Go Back To The First Page
-    // this.table.offset = 0;
+  }
+  openNewOrganizationModal(modal){
+    this.modalService.open(modal, {
+      centered:true,
+      size:'xl'
+    });
+  }
+  toggleModal(){
+    this.modalService.dismissAll();
   }
 
-  /**
-   * Toggle the sidebar
-   *
-   * @param name
-   */
-  toggleSidebar(name): void {
-    // alert(name);
-    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
-  }
+
 
   /**
    * Filter By Roles
