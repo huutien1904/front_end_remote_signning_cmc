@@ -286,10 +286,12 @@
               </div>
               <div class="col-sm-12">
                 <ng-select   
+                  [ngClass]="{ 'error': submitted && f.countryBirthPlace.errors}"
                   [items]="countryBirthPlace" 
-                  [(ngModel)]="countryBirthPlace" 
                   [clearable]="false"
-                  placeholder="Quốc Gia"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Quốc gia"
                   formControlName="countryBirthPlace">
                 </ng-select>
               </div>
@@ -310,22 +312,16 @@
                 <label class="lable">TỈNH </label>
               </div>
               <div class="col-sm-12">
-                <!-- <select 
-                  class="form-control form-control-lg " 
-                  formControlName="provinceBirthPlace" 
-                  [ngClass]="{ 'error_icon': submitted && f.provinceBirthPlace.errors }"
-                  (change) = "selectProviceBirth($event)"
-                  >
-                  <option value="">{{provinceBirthPlace[0]}}</option>
-                  <option value="{{country}}" *ngFor = 'let country of provinceBirthPlace,index as i ' >{{country}}</option>
-                </select> -->
-                <ng-select   
+                <ng-select  
+                  [ngClass]="{ 'error_icon': submitted && f.provinceBirthPlace.errors }"   
                   [items]="provinceBirthPlace" 
                   [clearable]="false"
-                  bindLabel="provinceName"
-                  bindValue="provinceName"
+                  bindLabel="name"
+                  bindValue="name"
                   placeholder="Tỉnh/Thành phố"
-                  formControlName="provinceBirthPlace">
+                  formControlName="provinceBirthPlace"
+                  (change) = "OnSelectProviceBirth($event)"
+                  >
                 </ng-select>
               </div>
               <div class="col-sm-12">
@@ -347,17 +343,17 @@
                 <label class="lable">HUYỆN</label>
               </div>
               <div class="col-sm-12">
-                <div class="input-group input-group-merge">
-                  <select 
-                    class="form-control form-control-lg " 
-                    formControlName="districtBirthPlace" 
-                    [ngClass]="{ 'error_icon': submitted && f.districtBirthPlace.errors }"
-                    (change) = "selectDistrictBirth($event)"
-                    >
-                    <option value="">{{districtBirthPlace[0]}}</option>
-                    <option value="{{country}}" *ngFor = 'let country of districtBirthPlace,index as i '>{{country}}</option>
-                  </select>
-                </div>
+                <ng-select  
+                  [ngClass]="{ 'error_icon': submitted && f.districtBirthPlace.errors }"   
+                  [items]="districtBirthPlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Huyện"
+                  formControlName="districtBirthPlace"
+                  (change) = "OnSelectDistrictBirth($event)"
+                  >
+                </ng-select>
               </div>
               <div class="col-sm-12">
                 <span *ngIf="submitted && f.districtBirthPlace.errors" class="invalid-form">
@@ -374,17 +370,16 @@
                 <label class="lable">XÃ</label>
               </div>
               <div class="col-sm-12">
-                <div class="input-group input-group-merge">
-                  <select 
-                    class="form-control form-control-lg " 
-                    formControlName="communeBirthPlace" 
-                    [ngClass]="{ 'error_icon': submitted && f.communeBirthPlace.errors }"
-                    
-                    >
-                    <option value="">{{communeBirthPlace[0]}}</option>
-                    <option value="{{country}}" *ngFor = 'let country of communeBirthPlace,index as i ' >{{country}}</option>
-                  </select>
-                </div>
+                <ng-select  
+                  [ngClass]="{ 'error_icon': submitted && f.communeBirthPlace.errors }"   
+                  [items]="communeBirthPlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Xã"
+                  formControlName="communeBirthPlace"
+                  >
+                </ng-select>
               </div>
               <div class="col-sm-12">
                 <span *ngIf="submitted && f.communeBirthPlace.errors" class="invalid-form">
@@ -404,17 +399,16 @@
             <label class="lable">Đường</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
-              <select 
-                class="form-control form-control-lg " 
-                formControlName="homeNumberBirthPlace" 
-                [ngClass]="{ 'error_icon': submitted && f.homeNumberBirthPlace.errors }"
-                
-                >
-                <option value="">{{homeNumberBirthPlace[0]}}</option>
-                <option value="{{country}}" *ngFor = 'let country of homeNumberBirthPlace,index as i ' >{{country}}</option>
-              </select>
-            </div>
+            <ng-select  
+                  [ngClass]="{ 'error_icon': submitted && f.homeNumberBirthPlace.errors }"   
+                  [items]="homeNumberBirthPlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Đường"
+                  formControlName="homeNumberBirthPlace"
+                  >
+            </ng-select>
           </div>
           
           <div class="col-sm-12">
@@ -466,12 +460,15 @@
                 <label class="lable">QUỐC GIA</label>
               </div>
               <div class="col-sm-12">
-                <div class="input-group input-group-merge">
-                  <select class="form-control form-control-lg " formControlName="countryResidencePlace" [ngClass]="{ 'error_icon': submitted && f.countryResidencePlace.errors }">
-                    <option value="Việt Nam">{{countryResidencePlace[0]}}</option>
-                    <option value="country" *ngFor = 'let country of countryResidencePlace,index as i '>{{country}}</option> 
-                  </select>
-                </div>
+                <ng-select   
+                  [ngClass]="{ 'error': submitted && f.countryResidencePlace.errors}"
+                  [items]="countryResidencePlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Quốc gia"
+                  formControlName="countryResidencePlace">
+                </ng-select>
               </div>
               <div class="col-sm-12">
                 <span *ngIf="submitted && f.countryResidencePlace.errors" class="invalid-form">
@@ -490,15 +487,17 @@
                 <label class="lable">TỈNH/THÀNH PHỐ </label>
               </div>
               <div class="col-sm-12">
-                <select 
-                  class="form-control form-control-lg " 
-                  formControlName="provinceResidencePlace" 
-                  [ngClass]="{ 'error_icon': submitted && f.provinceResidencePlace.errors }"
-                  (change) = "selectProvinceResidence($event)"
+                <ng-select   
+                  [ngClass]="{ 'error': submitted && f.provinceResidencePlace.errors}"
+                  [items]="provinceResidencePlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Tỉnh/Thành Phố"
+                  formControlName="provinceResidencePlace"
+                  (change) = "OnSelectProviceResidence($event)"
                   >
-                  <option value="">{{provinceResidencePlace[0]}}</option>
-                  <option value="{{country}}" *ngFor = 'let country of provinceResidencePlace,index as i '>{{country}}</option> 
-                </select>
+                </ng-select>
               </div>
               <div class="col-sm-12">
                 <span *ngIf="submitted && f.provinceResidencePlace.errors" class="invalid-form">
@@ -519,17 +518,16 @@
                 <label class="lable">HUYỆN</label>
               </div>
               <div class="col-sm-12">
-                <div class="input-group input-group-merge">
-                  <select 
-                    class="form-control form-control-lg " 
-                    formControlName="districtResidencePlace" 
-                    [ngClass]="{ 'error_icon': submitted && f.districtResidencePlace.errors }"
-                    (change) = "selectDistrictResidence($event)"
-                    >
-                    <option value="">{{districtResidencePlace[0]}}</option>
-                    <option value="{{country}}" *ngFor = 'let country of districtResidencePlace,index as i '>{{country}}</option>
-                  </select>
-                </div>
+                <ng-select   
+                  [ngClass]="{ 'error': submitted && f.districtResidencePlace.errors}"
+                  [items]="districtResidencePlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Huyện"
+                  formControlName="districtResidencePlace"
+                  (change) = "OnSelectDistrictResidence($event)">
+                </ng-select>
                 
               </div>
               <div class="col-sm-12">
@@ -547,12 +545,15 @@
                 <label class="lable">XÃ</label>
               </div>
               <div class="col-sm-12">
-                <div class="input-group input-group-merge">
-                  <select class="form-control form-control-lg " formControlName="communeResidencePlace" [ngClass]="{ 'error_icon': submitted && f.communeResidencePlace.errors }">
-                    <option value="">{{communeResidencePlace[0]}}</option>
-                    <option value="{{country}}" *ngFor = 'let country of communeResidencePlace,index as i '>{{country}}</option>
-                  </select>
-                </div>
+                <ng-select   
+                  [ngClass]="{ 'error': submitted && f.communeResidencePlace.errors}"
+                  [items]="communeResidencePlace" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Xã"
+                  formControlName="communeResidencePlace">
+                </ng-select>
               </div>
               <div class="col-sm-12">
                 <span *ngIf="submitted && f.communeResidencePlace.errors" class="invalid-form">
@@ -572,17 +573,15 @@
             <label class="lable">ĐƯỜNG</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
-              <select 
-                class="form-control form-control-lg " 
-                formControlName="homeNumberResidencePlace" 
-                [ngClass]="{ 'error_icon': submitted && f.homeNumberResidencePlace.errors }"
-                
-                >
-                <option value="">{{homeNumberResidencePlace[0]}}</option>
-                <option value="{{country}}" *ngFor = 'let country of homeNumberResidencePlace,index as i ' >{{country}}</option>
-              </select>
-            </div>
+            <ng-select   
+              [ngClass]="{ 'error': submitted && f.homeNumberResidencePlace.errors}"
+              [items]="homeNumberResidencePlace" 
+              [clearable]="false"
+              bindLabel="name"
+              bindValue="name"
+              placeholder="Đường"
+              formControlName="homeNumberResidencePlace">
+            </ng-select>
           </div>
           
           <div class="col-sm-12">
