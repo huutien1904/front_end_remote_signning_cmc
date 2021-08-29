@@ -93,6 +93,7 @@ import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/n
     PersonalListComponent,
     PersonalViewComponent,
     PersonalEditComponent,
+    NewPersonalSidebarComponent
     ],
   providers: [PersonalEditService, PersonalListService,  PersonalViewService],
 })

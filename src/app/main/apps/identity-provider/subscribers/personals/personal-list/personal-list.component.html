@@ -1,34 +1,25 @@
 <div class="header-personal">
   <!-- search filter -->
-  <div class="">
-    <!-- <h5 class="card-header">Search Filter</h5> -->
+  <div class="card">
+    
     <!-- search -->
-    <div
-      class="
-        col-12
-        d-flex
-        justify-content-start justify-content-md-end
-        search_value
-      "
-    >
-      <!-- <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0"> -->
-      <!-- <label class="d-flex align-items-center ml-1 ml-md-0 col-12">Search: -->
-      <input
-        [(ngModel)]="searchValue"
-        name="searchValue"
-        type="search"
-        class="form-control ml-25 col-12"
-        (keyup)="filterUpdate($event)"
-        placeholder="Nhập họ tên ,email,địa chỉ"
-      />
-      <!-- </label> -->
-      <!-- </div> -->
-    </div>
+    <h5 class="card-header">Bộ lọc tìm kiếm</h5>
     <div class="card-body">
+      <div class="row mb-1">
+        <div class="col-md-6">
+          <input
+            name="distinguishedName"
+            id="distinguishedName"
+            type="search"
+            class="form-control"
+            placeholder="Nhập họ tên email địa chỉ"
+          />
+        </div>
+      </div>
       <div class="users-list-filter">
         <form>
           <div class="row">
-            <div class="col-12 col-md-3 justify-content-start pl-10">
+            <div class="col-12 col-md-3 justify-content-start">
               <label for="">Giới Tính:</label>
               <fieldset class="form-group">
                 <ng-select
@@ -41,7 +32,7 @@
                 ></ng-select>
               </fieldset>
             </div>
-            <div class="col-12 col-md-3 pl-10">
+            <div class="col-12 col-md-3">
               <label for="">Ngày sinh:</label>
               <fieldset class="form-group">
                 <input
@@ -58,58 +49,71 @@
         </form>
       </div>
     </div>
-    <div class="">
-      <button
-        class="btn btn-primary ml-1 round mb-50"
-        rippleEffect
-        (click)="changeAb()"
-      >
-        <span [data-feather]="'clock'" [class]="'mr-50'"></span>
-        <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
-        ><span class="d-none d-sm-inline-block">Thêm tùy chọn</span>
-      </button>
-      <div class="cart-body" *ngIf="changeAB">
-        <div class="col-3 col-md-2">
-          <div class="form-group item_on_page">
-            <div class="col-sm-6 col-md-12">
-              <div class="input-group input-group-merge">
-                <select
-                  class="form-control form-control-md"
-                  (change)="selectItem($event)"
-                >
-                  <option *ngFor="let size of pageSizes" [ngValue]="size">
-                    {{ size }} dòng
-                  </option>
-                </select>
+    
+    <div class="row mb-1">
+      <div class="col-12 ml-2">
+        <button
+          class="btn btn-outline-secondary mr-1"
+          rippleEffect
+          (click)="changeAb()"
+        >
+          <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
+          <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+          ><span class="d-none d-sm-inline-block">Thêm tùy chọn</span>
+        </button>
+      </div>
+      <div class="col-12 ">
+        <div class="cart-body d-flex mt-1" *ngIf="changeAB">
+          <div class="col-3 col-md-2">
+            <div class="form-group item_on_page">
+              <div class="col-sm-6 col-md-12">
+                
+                  <!-- <select
+                    class="form-control form-control-md mt-2"
+                    (change)="selectItem($event)"
+                  >
+                    <option *ngFor="let size of pageSizes" [ngValue]="size">
+                      {{ size }} dòng
+                    </option>
+                  </select> -->
+                  <label for="">Số dòng:</label>
+                  <fieldset class="form-group">
+                    <ng-select
+                      [items]="pageSizes"
+                      bindValue="pageSizes"
+                      [clearable]="false"
+                      formControlName="sizePage"
+                      placeholder="3"
+                      (change)="selectItem($event)"
+                    ></ng-select>
+                  </fieldset>
+                
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="col-3 col-md-3">
-          <div class="change_time">
-            <div class="col-12 col-md-12">
-              <label for="">Thay đổi sau:</label>
-              <fieldset class="form-group">
-                <input
-                  name="changeAfter"
-                  id="changeAfter"
-                  class="form-control ml-25 col-12"
-                  placeholder="dd-mm-yyyy"
-                />
-              </fieldset>
-            </div>
-            <div class="col-12 col-md-12">
-              <label for="">Thay đổi trước:</label>
-              <fieldset class="form-group">
-                <input
-                  name="changeBefore"
-                  id="changeBefore"
-                  class="form-control ml-25 col-12"
-                  placeholder="dd-mm-yyyy"
-                />
-              </fieldset>
-            </div>
+          <div class="col-3 col-md-3">
+              <div class="col-12 col-md-12">
+                <label for="">Thay đổi sau:</label>
+                <fieldset class="form-group">
+                  <input
+                    name="changeAfter"
+                    id="changeAfter"
+                    class="form-control ml-25 col-12"
+                    placeholder="dd-mm-yyyy"
+                  />
+                </fieldset>
+              </div>
+              <div class="col-12 col-md-12">
+                <label for="">Thay đổi trước:</label>
+                <fieldset class="form-group">
+                  <input
+                    name="changeBefore"
+                    id="changeBefore"
+                    class="form-control ml-25 col-12"
+                    placeholder="dd-mm-yyyy"
+                  />
+                </fieldset>
+              </div>
           </div>
         </div>
       </div>
@@ -139,7 +143,7 @@
           </button>
         </div>
         <div class="modal-body" tabindex="0" ngbAutofocus>
-          <app-new-personal-sidebar (onClose) = "toggleModal()" ></app-new-personal-sidebar>
+          <app-new-personal-sidebar (onClose) = "toggleModal()" (onUpdate) = "updateTable()" ></app-new-personal-sidebar>
         </div>
         
       </ng-template>

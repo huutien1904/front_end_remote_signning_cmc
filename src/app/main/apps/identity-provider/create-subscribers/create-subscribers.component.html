@@ -27,15 +27,21 @@
         </form>
       </div>
     </section>
-    <app-new-personal-sidebar></app-new-personal-sidebar>
-    <!-- <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key" >
+
+    
+    <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key" >
       <div *ngSwitchCase="'Thuê bao cá nhân'">
-        <app-new-personal-sidebar ></app-new-personal-sidebar>
+        <div class="personal_form">
+          <app-new-personal-sidebar></app-new-personal-sidebar>
+        </div>
       </div>
       <div *ngSwitchCase="'Thuê bao tổ chức'">
-        <app-new-organization-sidebar ></app-new-organization-sidebar>
+        <div class="organization_form">
+          <app-new-organization-sidebar ></app-new-organization-sidebar>
+
+        </div>
       </div>
-    </section> -->
+    </section>
 
   </div>
 </div>

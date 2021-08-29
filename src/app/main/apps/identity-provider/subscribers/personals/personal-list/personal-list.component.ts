@@ -201,9 +201,9 @@ export class PersonalListComponent implements OnInit {
     })
   }
   selectItem(e){
-    const chars = e.target.value.split('');
-    const item = Number(chars[0])
-    this.itemOnPage = Number(item)
+    console.log(e)
+    const item = Number(e)
+    this.itemOnPage = Number(e)
     this._userListService.getData(this.page,item).subscribe((respon:any) =>{
       console.log(respon)
       this.totalPages = respon.data.totalPages * 10
