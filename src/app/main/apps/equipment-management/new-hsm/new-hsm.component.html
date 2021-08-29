@@ -1,0 +1,62 @@
+<app-content-header [contentHeader]="contentHeader">
+</app-content-header>
+<div class="content-body">
+    <section>
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="HsmForm">
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <div class="form-group">
+                                <label for="UDUserName">Tên HSM</label>
+                                <input type="text" [(ngModel)]="Form.hsm" formControlName="hsm" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.hsm.errors }" />
+                                <div *ngIf="submitted && HsmForm.controls.hsm.errors" class="invalid-feedback">
+                                    <div *ngIf="HsmForm.controls.hsm.errors.required">Bạn cần nhập tên HSM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 offset-3">
+                            <div class="form-group">
+                                <label for="UDUserName">Tên hãng sản xuất</label>
+                                <input type="text" [(ngModel)]="Form.hangsx" formControlName="hangsx" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.hangsx.errors }" />
+                                <div *ngIf="submitted && HsmForm.controls.hangsx.errors" class="invalid-feedback">
+                                    <div *ngIf="HsmForm.controls.hangsx.errors.required">Bạn cần nhập tên hãng sản xuất</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 offset-3">
+                            <div class="form-group">
+                                <label for="UDUserName">Model</label>
+                                <input type="text" [(ngModel)]="Form.model" formControlName="model" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.model.errors }" />
+                                <div *ngIf="submitted && HsmForm.controls.model.errors" class="invalid-feedback">
+                                    <div *ngIf="HsmForm.controls.model.errors.required">Bạn cần nhập model</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 offset-3">
+                            <div class="form-group">
+                                <label for="UDUserName">Đường dẫn file thư viện</label>
+                                <input type="text" [(ngModel)]="Form.lib" formControlName="lib" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.lib.errors }" />
+                                <div *ngIf="submitted && HsmForm.controls.lib.errors" class="invalid-feedback">
+                                    <div *ngIf="HsmForm.controls.lib.errors.required">Bạn cần nhập đường dẫn file thư viện</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <div class="d-flex justify-content-md-end m-1">
+                                <button class="btn btn-primary mr-1" (click)="onSubmit()" rippleEffect>
+                                Cập nhật
+                            </button>
+                                <button (click)="exit()" rippleEffect class="btn btn-outline-primary">
+                                Thoát
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>

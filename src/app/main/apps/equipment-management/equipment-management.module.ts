@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HsmManagementComponent } from './hsm-management/hsm-management.component';
-import { TokenManagementComponent } from './token-management/token-management.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'app/auth/helpers/auth.guards';
-import { Role } from 'app/auth/models/role';
 
 
 const routes : Routes = [
@@ -12,6 +8,15 @@ const routes : Routes = [
     path: 'search',
     loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
   },
+  {
+    path: 'new-hsm',
+    loadChildren: () => import('./new-hsm/new-hsm.module').then(m => m.NewHsmModule)
+  },
+  {
+    path: 'new-token',
+    loadChildren: () => import('./new-token/new-token.module').then(m => m.NewTokenModule)
+  },
+  /*
   {
     path: 'hsm',
     component : HsmManagementComponent,
@@ -27,6 +32,7 @@ const routes : Routes = [
     canActivate : [AuthGuard], 
     data: {roles: [Role.SuperAdmin], animation:''}
   }
+  */
 ]
 @NgModule({
   declarations: [
