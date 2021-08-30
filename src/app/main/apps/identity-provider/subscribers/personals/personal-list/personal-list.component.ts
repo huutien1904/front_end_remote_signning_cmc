@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation ,TemplateRef} from '@angular/core';
-
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ColumnMode, DatatableComponent, } from '@swimlane/ngx-datatable';
-import { takeUntil } from 'rxjs/operators';
-// import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { PersonalListService } from './personal-list.service';
+import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 
 
 
@@ -34,7 +33,7 @@ export class PersonalListComponent implements OnInit {
   public pageAdvancedEllipses = 1;
   public totalItems:number
   public totalPages:number 
-  public pageSizes = [
+  public sizePage = [
     3,
     4,
     5,
@@ -46,22 +45,21 @@ export class PersonalListComponent implements OnInit {
     11,
     12
   ]
-  public selectSex: any = [
-
-    { name: 'Nam', value: 'Name' },
-    { name: 'Nữ', value: 'Nữ' },
-    
-    
-  ];
-
   public selectActive: any = [
     { name: 'All', value: '' },
     { name: 'Hoạt động', value: 'hoạt động' },
     { name: 'Không hoạt động', value: 'không hoạt động' }
   ];
-
-  
+  public hoveredDate: NgbDate | null = null;
+  public fromDate: NgbDate | null;
+  public toDate: NgbDate | null;
+  public birthDay:NgbDate | null
+  public today = this.calendar.getToday();
   public slectedSex = [];
+  sexOption:any[] = [
+    "NAM",
+    "NỮ",
+  ]
   public selectedActive = [];
   
   public searchValue = '';
@@ -75,6 +73,7 @@ export class PersonalListComponent implements OnInit {
   private tempData = [];
 
   private _unsubscribeAll: Subject<any>;
+  formListPersonal: FormGroup;
 
   /**
    * Constructor
@@ -90,6 +89,10 @@ export class PersonalListComponent implements OnInit {
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
+    private fb: FormBuilder,
+    private calendar: NgbCalendar,
+    public formatter: NgbDateParserFormatter
+
   ) { 
     this._unsubscribeAll = new Subject();
   }
@@ -97,7 +100,8 @@ export class PersonalListComponent implements OnInit {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
   toggleModal(){
-    this.modalService.dismissAll();
+    console.log("output đóng form")
+    // this.modalService.dismissAll();
   }
   openNewPersonalModal(modal){
     this.modalService.open(modal, {
@@ -105,76 +109,12 @@ export class PersonalListComponent implements OnInit {
       size:'xl'
     });
   }
-  /**
-   * filterUpdate
-   *
-   * @param event
-   */
-  // to search 
-   filterUpdate(event) {
-    
-  }
-
-  /**
-   * Toggle the sidebar
-   *
-   * @param name
-   */
-  toggleSidebar(name): void {
-    console.log("toggle mở")
-    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
-  }
+  
   closeModal(name){
-    console.log('toggle đóng sau khi submit or ấn thoát')
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
-  
-  
-  /**
-   * Filter By active
-   *
-   * @param event
-   */
-  filterByActive(event) {
-    
-    const filter = event ? event.value : '';
-    this.previousActiveFilter = filter;
-    this.temp = this.filterRows(this.previousOganizationFilter, filter);
-    this.rows = this.temp;
-  }
 
   
-
-  filterByOganization(event){
-    const filter = event ? event.value : '';
-    this.previousOganizationFilter = filter;
-    this.temp = this.filterRows( filter, this.previousActiveFilter);
-    this.rows = this.temp;
-    
-  }
-  
-
-  
-  filterRows(organizationFilter, activeFilter): any[] {
-  //  this.showTableContent= true;
-
-    // Reset search on select change
-    this.searchValue = '';
-    // load data
-    // this.rows = this._userListService.createDb().heroes
-    // this.tempData = this.rows;
-
-    organizationFilter = organizationFilter.toLowerCase();
-    activeFilter = activeFilter.toLowerCase();
-
-    return this.tempData.filter(row => {
-      console.log(!organizationFilter)
-      const isPartialGenderMatch = row.organization.toLowerCase().indexOf(organizationFilter) !== -1 || !organizationFilter;
-      const isPartialNameMatch = row.active.toLowerCase().indexOf(activeFilter) !== -1 || !activeFilter;
-      
-      return  isPartialGenderMatch && isPartialNameMatch
-    }); 
-  }
   handBirthDay(birthday){
     const year = birthday.slice(0,4)
     const month = birthday.slice(4,6)
@@ -205,7 +145,6 @@ export class PersonalListComponent implements OnInit {
     const item = Number(e)
     this.itemOnPage = Number(e)
     this._userListService.getData(this.page,item).subscribe((respon:any) =>{
-      console.log(respon)
       this.totalPages = respon.data.totalPages * 10
       this.rows = this.addIndex(respon.data.data);
       this.tempData = this.rows;
@@ -214,17 +153,57 @@ export class PersonalListComponent implements OnInit {
   changeAb(){
     this.changeAB =! this.changeAB
   }
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
-  /**
-   * On init
-   */
   updateTable(){
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
       this.rows = this.addIndex(respon.data.data);
             this.tempData = this.rows;
     })
   }
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (
+      this.fromDate &&
+      !this.toDate &&
+      date &&
+      date.after(this.fromDate)
+    ) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+  isHovered(date: NgbDate) {
+    return (
+      this.fromDate &&
+      !this.toDate &&
+      this.hoveredDate &&
+      date.after(this.fromDate) &&
+      date.before(this.hoveredDate)
+    );
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return (
+      date.equals(this.fromDate) ||
+      (this.toDate && date.equals(this.toDate)) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
+  }
+  onSubmit(){
+    console.log(this.formListPersonal)
+  }
+  // Lifecycle Hooks
+  // -----------------------------------------------------------------------------------------------------
+  /**
+   * On init
+   */
   ngOnInit(): void {
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
       this.totalPages = respon.data.totalPages * 10
@@ -233,31 +212,15 @@ export class PersonalListComponent implements OnInit {
       this.rows = this.addIndex(respon.data.data);
             this.tempData = this.rows;
     })
-    // console.log(this.rows)
-    // this.tempData = this.rows;
-    // Subscribe config change
-    // this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-    //   //! If we have zoomIn route Transition then load datatable after 450ms(Transition will finish in 400ms)
-    //   if (config.layout.animation === 'zoomIn') {
-    //     setTimeout(() => {
-    //       this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-    //         this.rows = response;
-    //         this.tempData = this.rows;
-    //       });
-    //     }, 450);
-    //   } else {
-    //     this._userListService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-    //       this.rows = this.addIndex(response.data.data)
-    //       console.log(this.rows)
-    //       this.tempData = this.rows;
-    //     });
-    //   }
-    // });
-    // this._userListService.getProvice()
-    // console.log(this.row)
-    // this.rows = this._userListService.createDb().heroes
-    // this.tempData = this.rows;
-    
+    this.formListPersonal = this.fb.group({
+      inputPersonal: ["", Validators.required],
+      fromDate: [null],
+      toDate: [null],
+      sizePage: [this.sizePage[0]],
+      sexOption:[],
+      birthDay:[]
+    })
+
   }
 
   /**

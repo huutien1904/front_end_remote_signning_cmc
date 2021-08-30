@@ -112,7 +112,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group ">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">CHỨNG MINH THƯ</label>
+            <label class="lable">CĂN CƯỚC CÔNG DÂN</label>
           </div>
           <div class="col-sm-12">
             <div class="input-group input-group-merge">
@@ -250,20 +250,15 @@
             <label class="lable">ID TỔ CHỨC</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
-              <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.organizationId.errors }"><span [data-feather]="'credit-card'"></span></span>
-              </div>
-              <input
-              [ngClass]="{ 'error': submitted && f.organizationId.errors}"
-                formControlName="organizationId"
-                type="text"
-                id="fname-icon-6"
-                class="form-control"
-                name="fname-icon-6"
-                placeholder="organization_00006"
-              />
-            </div>
+              <ng-select   
+                [ngClass]="{ 'error': submitted && f.organizationId.errors}"
+                [items]="organizationId" 
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                placeholder="Tổ chức"
+                formControlName="organizationId">
+              </ng-select>
           </div>
           <div class="col-sm-12">
             <span *ngIf="submitted && f.organizationId.errors" class="invalid-form">
@@ -273,6 +268,31 @@
           </div>
         </div>
       </div>         
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <div class="form-group ">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">GIỚI TÍNH</label>
+          </div>
+          <div class="col-sm-12">
+              <ng-select   
+                [items]="sexOption" 
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                placeholder="Giới tính"
+                >
+              </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span *ngIf="submitted && f.organizationId.errors" class="invalid-form">
+              <small class="form-text text-muted danger">
+                không được bỏ trống</small>
+            </span>
+          </div>
+        </div>
+      </div>  
     </div>
 
     <h3>Nơi sinh</h3>
@@ -394,7 +414,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-3">
         <div class="form-group ">
           <div class="col-sm-12 col-form-label">
             <label class="lable">Đường</label>
@@ -422,7 +442,7 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
         <div class="form-group ">
           <div class="col-sm-12 col-form-label">
             <label class="lable">ĐỊA CHỈ CỤ THỂ (SỐ NHÀ, NGÕ, NGÁCH, ...)</label>
@@ -568,7 +588,7 @@
       </div>
     </div>
     <div class="row row_bottom">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-3">
         <div class="form-group ">
           <div class="col-sm-12 col-form-label">
             <label class="lable">ĐƯỜNG</label>
@@ -594,7 +614,7 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
         <div class="form-group ">
           <div class="col-sm-12 col-form-label">
             <label>ĐỊA CHỈ CỤ THỂ (SỐ NHÀ, NGÕ, NGÁCH, ...)</label>
