@@ -95,7 +95,7 @@
                         <ngx-datatable-footer>
                             <ng-template ngx-datatable-footer-template>
                                 <div class="page-count ng-star-inserted">
-                                    <span class="ng-star-inserted"> Đang hiển thị {{countItems}} / </span> {{total}} mục
+                                    <span class="ng-star-inserted"> Đang hiển thị {{countItems}} / </span> {{total}} dòng
                                 </div>
                                 <ngb-pagination class="d-flex justify-content-end" [pageSize]="selectedOption" [collectionSize]="total" [(page)]="pageNo" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="load($event)">
                                     <ng-template ngbPaginationFirst>Trang đầu</ng-template>

@@ -42,14 +42,9 @@ export class NewPersonalSidebarComponent implements OnInit {
     {name:"Thái Lan"},
     {name:"CamPuchia"},
   ]
-  provinceBirthPlace: any[] = [
-
-  ]
-  districtBirthPlace: String[] = [
-
-  ]
-  communeBirthPlace: String[] = [
-  ]
+  provinceBirthPlace: any[] = []
+  districtBirthPlace: String[] = []
+  communeBirthPlace: String[] = []
   homeNumberBirthPlace: any[] = [
     {name: "ĐIện Biên Phủ"},
     {name:"Nguyễn Khuyến"},
@@ -59,18 +54,23 @@ export class NewPersonalSidebarComponent implements OnInit {
   countryResidencePlace: any[] = [
     {name:"Việt Nam"}
   ]
-  provinceResidencePlace: String[] = [
-
-  ]
-  districtResidencePlace: String[] = [
-
-  ]
-  communeResidencePlace: String[] = [
-  ]
+  provinceResidencePlace: String[] = []
+  districtResidencePlace: String[] = []
+  communeResidencePlace: String[] = []
   homeNumberResidencePlace: any[] = [
     {name: "ĐIện Biên Phủ"},
     {name:"Nguyễn Khuyến"},
     {name:"Tố Hữu"},
+  ]
+  organizationId:any[] = [
+    "CMC",
+    "CIRS",
+    "FPT"
+  ]
+  sexOption:any[] = [
+    "NAM",
+    "NỮ",
+  
   ]
   @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
@@ -94,12 +94,12 @@ export class NewPersonalSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.newPersonal = this.fb.group({
-      personalFirstName: ['', [Validators.required, Validators.minLength(6)]],
+      personalFirstName: ['', [Validators.required]],
       personalMiddleName: ['', Validators.required],
       personalLastName: ['', Validators.required],
       phoneNumber: ['', Validators.required, , Validators.minLength(10)],
       personalCountryId: ['', Validators.required],
-      organizationId: ['', Validators.required],
+      organizationId: [this.organizationId, Validators.required],
       streetBirthPlace: ['', Validators.required],
       homeNumberBirthPlace: [this.homeNumberBirthPlace, Validators.required],
       streetResidencePlace: ['', Validators.required],
@@ -157,11 +157,9 @@ export class NewPersonalSidebarComponent implements OnInit {
       }
     }
     // display form values on success
-
     return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option).subscribe((respon: any) => {
-      console.log(respon)
       if (respon.result = "true") {
-        this.closeModal()
+        this.toggleSidebar()
         this.updateTable()
       }
     }

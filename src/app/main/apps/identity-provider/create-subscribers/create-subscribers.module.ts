@@ -30,7 +30,6 @@ const routes:Routes = [
       RouterModule.forChild(routes),
       PersonalsModule,
       OrganizationsModule,
-      NewPersonalSidebarModule
     ],
     
   })

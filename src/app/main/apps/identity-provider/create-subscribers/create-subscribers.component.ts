@@ -12,8 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class CreateSubcribersComponent implements OnInit {
   
-  public selectFormP = false;
-  public selectFormO = false;
+  public selectPresonal = true;
+  public selectOrganization = false;
   public contentHeader: object;
   formSelectSearch: FormGroup;
   constructor(private fb: FormBuilder,private el: ElementRef) { }
@@ -31,31 +31,14 @@ export class CreateSubcribersComponent implements OnInit {
     
   ]  
   changeSelect(e){
-      let myTag = this.el.nativeElement.querySelector("#modal-dialog-remove");
-      console.log(e.key,myTag)
-      myTag.classList.remove('modal-dialog'); 
-      myTag.classList.add('create-subcriber');
-      let myTagOgn = this.el.nativeElement.querySelector("#modal-dialog-organization");
-      myTagOgn.classList.remove('modal-dialog'); 
-      myTagOgn.classList.add('create-orgnization');
-    //   console.log(myTag)
-    // if(e.key === "Thuê bao cá nhân"){
-    //   console.log(e.key)
-    //   this.selectFormP = true;
-    //   this.selectFormO= false;
-    //   let myTag = document.querySelector("app-new-personal-sidebar");
-    //   console.log(myTag)
-    //   myTag.classList.remove('modal-dialog'); 
-    //   myTag.classList.add('create-subcriber'); 
-    // }
-    // if(e.key === "Thuê bao tổ chức"){
-    //   this.selectFormP = false;
-    //   this.selectFormO= true;
-    //   let myTagOgn = this.el.nativeElement.querySelector("#modal-dialog-organization");
-    //   myTagOgn.classList.remove('modal-dialog'); 
-    //   myTagOgn.classList.add('create-orgnization');
-    // }
     
+      let myTag = this.el.nativeElement.querySelector("#form-peronal");
+      console.log(myTag)
+      // myTag.classList.remove('modal-dialog'); 
+      // myTag.classList.add('create-subcriber');
+      // let myTagOgn = this.el.nativeElement.querySelector("#modal-dialog-organization");
+      // myTagOgn.classList.remove('modal-dialog'); 
+      // myTagOgn.classList.add('create-orgnization');
   }
   ngOnInit(): void {
     this.contentHeader = {
@@ -79,6 +62,11 @@ export class CreateSubcribersComponent implements OnInit {
     this.formSelectSearch = this.fb.group({
       searchType : [null, Validators.required]
     })
+    let myTag = this.el.nativeElement.querySelector("#form-peronal");
+    console.log(myTag)
+    myTag.classList.add('create-subcriber');
+
+    console.log(myTag)
     // let myTag = this.el.nativeElement.querySelector("#modal-dialog-remove");
     // myTag.classList.remove('modal-dialog'); 
     // myTag.classList.add('create-subcriber'); 
