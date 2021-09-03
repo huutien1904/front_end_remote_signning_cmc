@@ -57,8 +57,8 @@ export class PersonalListComponent implements OnInit {
   public today = this.calendar.getToday();
   public slectedSex = [];
   sexOption:any[] = [
-    "NAM",
-    "NỮ",
+    "Nam",
+    "Nữ",
   ]
   public selectedActive = [];
   
@@ -101,7 +101,7 @@ export class PersonalListComponent implements OnInit {
   // -----------------------------------------------------------------------------------------------------
   toggleModal(){
     console.log("output đóng form")
-    // this.modalService.dismissAll();
+    this.modalService.hasOpenModals();
   }
   openNewPersonalModal(modal){
     this.modalService.open(modal, {
@@ -115,29 +115,13 @@ export class PersonalListComponent implements OnInit {
   }
 
   
-  handBirthDay(birthday){
-    const year = birthday.slice(0,4)
-    const month = birthday.slice(4,6)
-    const day = birthday.slice(6,8)
-    const add = '-'
-    const so = '0'
-    return year.concat(add,month,add,so,day)
-  }
-  addIndex(myArrays){
-    myArrays.map((array,index) =>{
-      return (
-        array.index = index + 1,
-        array.birthday = this.handBirthDay(array.birthday)
-      )
-    })
-    return myArrays
-  }
+
   changePage(e){
     console.log(typeof(e))
     this.page = e
     this._userListService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
-      this.rows = this.addIndex(respon.data.data);
-            this.tempData = this.rows;
+      this.rows = respon.data.data;
+            this.tempData = respon.data.data;
     })
   }
   selectItem(e){
@@ -146,7 +130,7 @@ export class PersonalListComponent implements OnInit {
     this.itemOnPage = Number(e)
     this._userListService.getData(this.page,item).subscribe((respon:any) =>{
       this.totalPages = respon.data.totalPages * 10
-      this.rows = this.addIndex(respon.data.data);
+      this.rows = respon.data.data;
       this.tempData = this.rows;
     })
   }
@@ -155,7 +139,7 @@ export class PersonalListComponent implements OnInit {
   }
   updateTable(){
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
-      this.rows = this.addIndex(respon.data.data);
+      this.rows = respon.data.data;
             this.tempData = this.rows;
     })
   }
@@ -209,7 +193,10 @@ export class PersonalListComponent implements OnInit {
       this.totalPages = respon.data.totalPages * 10
       // console.log(this.totalPages)
       // console.log(this.totalPages)
-      this.rows = this.addIndex(respon.data.data);
+      console.log(respon.data.data[2].birthday);
+      console.log(respon.data.data);
+      console.log(respon.data.data[2].birthday);
+      this.rows = respon.data.data;
             this.tempData = this.rows;
     })
     this.formListPersonal = this.fb.group({

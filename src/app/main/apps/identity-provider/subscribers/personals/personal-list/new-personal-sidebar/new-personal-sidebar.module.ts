@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CoreCommonModule } from '@core/common.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NewPersonalSidebarComponent } from './new-personal-sidebar.component';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CoreSidebarModule } from '@core/components';
 @NgModule({
   declarations: [
-    NewPersonalSidebarComponent   //Khai báo Component thuộc Module
+    NewPersonalSidebarComponent   
     ],
   imports: [
     CommonModule,CoreCommonModule,FormsModule,
-    NgSelectModule
+    NgSelectModule,NgbModule,CoreSidebarModule
   ],
   exports: [
-    NewPersonalSidebarComponent  //Export để sử dụng được ở Module khác
-  ]
+    NewPersonalSidebarComponent 
+  ],
+  bootstrap: [NewPersonalSidebarComponent]
+,
 })
 export class NewPersonalSidebarModule { }

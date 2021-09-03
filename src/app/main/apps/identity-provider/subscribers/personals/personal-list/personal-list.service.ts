@@ -50,12 +50,7 @@ export class PersonalListService implements Resolve<any> {
       }, reject);
     });
   }
-  getProvice(): Observable<any[]> {
-    return this._httpClient.get<any>('http://183.91.3.60:8080/csignremote-0.3/address/province/list/237').pipe(
-      tap(respon => console.log(JSON.stringify(respon))),
-      catchError(error => of([]))
-      )
-  } 
+
   getData(page:number,Item:number): Observable<any[]>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     const token = currentUser.token

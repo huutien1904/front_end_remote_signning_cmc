@@ -41,6 +41,9 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   onSubmit() {
+    const jsDate = new Date(this.formListCertificateRequest.get("toDate").value.year, this.formListCertificateRequest.get("toDate").value.month - 1, this.formListCertificateRequest.get("toDate").value.day);
+    console.log(jsDate);
+    
     console.log(this.formListCertificateRequest.value);
     console.log(this.formListCertificateRequest.get("toDate").value);
   }

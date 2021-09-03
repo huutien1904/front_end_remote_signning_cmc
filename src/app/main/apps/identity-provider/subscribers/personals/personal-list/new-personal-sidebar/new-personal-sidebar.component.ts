@@ -1,305 +1,471 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
+import { HttpClient } from "@angular/common/http";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
 } from "@angular/forms";
-import { Observable, of } from "rxjs";
-import { environment } from 'environments/environment';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AddressService } from "app/main/apps/identity-provider/address.service";
+import { Commune, District, Province, Street } from "app/main/models/Address";
+import { environment } from "environments/environment";
+import { ToastrService } from "ngx-toastr";
+import { Observable, of, Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: 'app-new-personal-sidebar',
-  templateUrl: './new-personal-sidebar.component.html',
-  styleUrls: ['./new-personal-sidebar.component.scss']
+  selector: "app-new-personal-sidebar",
+  templateUrl: "./new-personal-sidebar.component.html",
+  styleUrls: ["./new-personal-sidebar.component.scss"],
+  providers: [AddressService],
 })
 export class NewPersonalSidebarComponent implements OnInit {
-  public fullname;
-  public username;
-  public email;
+  /** @Private */
+  private _unsubscribeAll = new Subject();
 
-  public idDistrictBirth: number
-  public idProviceBirth: number
-
-  public idDistrictPlace: number
-  public idProvicePlace: number = 1
-
-  public provinceBirth: any
-  public districtBirth: any
-  public communeBirth: any
-  public provinceResidence: any
-  public districtResidence: any
-  public communeResidence: any
+  /** @public */
   public submitted = false;
-  // birth place
+  public display = "none"; //default Variable
+  /**@form */
+  public newPersonal: FormGroup;
+  public email;
+  //BirthPlace
   public countryBirthPlace: any[] = [
-   {name: "Việt Nam"},
-    {name:"Thái Lan"},
-    {name:"CamPuchia"},
-  ]
-  provinceBirthPlace: any[] = []
-  districtBirthPlace: String[] = []
-  communeBirthPlace: String[] = []
-  homeNumberBirthPlace: any[] = [
-    {name: "ĐIện Biên Phủ"},
-    {name:"Nguyễn Khuyến"},
-    {name:"Tố Hữu"},
-  ]
-  // residence place
-  countryResidencePlace: any[] = [
-    {name:"Việt Nam"}
-  ]
-  provinceResidencePlace: String[] = []
-  districtResidencePlace: String[] = []
-  communeResidencePlace: String[] = []
-  homeNumberResidencePlace: any[] = [
-    {name: "ĐIện Biên Phủ"},
-    {name:"Nguyễn Khuyến"},
-    {name:"Tố Hữu"},
-  ]
-  organizationId:any[] = [
-    "CMC",
-    "CIRS",
-    "FPT"
-  ]
-  sexOption:any[] = [
-    "NAM",
-    "NỮ",
-  
-  ]
+    {
+      countryId: 237,
+      countryName: "Việt Nam",
+      countryCode: "VN",
+      countryType: "Independent State",
+    },
+  ];
+  provinceBirthPlace: Province[];
+  districtBirthPlace: District[];
+  communeBirthPlace: Commune[];
+  streetBirthPlace: Street[];
+
+  //ResidencePlace
+  public countryResidencePlace: any[] = [
+    {
+      countryId: 237,
+      countryName: "Việt Nam",
+      countryCode: "VN",
+      countryType: "Independent State",
+    },
+  ];
+  public provinceResidencePlace: Province[];
+  public districtResidencePlace: District[];
+  communeResidencePlace: Commune[];
+  streetResidencePlace: Street[];
+  organizationId: any[] = ["CMC", "CIST", "FPT"];
+  gender: any[] = ["Nam", "Nữ"];
   @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
-  newPersonal: FormGroup;
+
   /**
-    *' Constructor
-    *
-    * @param {NgbModal} modalService
-    * @param {HttpClient} _httpClient
-    */
+   * Constructor
+   *
+   * @param {NgbModal} modalService
+   * @param {HttpClient} _httpClient
+   */
   constructor(
-    private _coreSidebarService: CoreSidebarService,
     private _httpClient: HttpClient,
     private fb: FormBuilder,
     private modalService: NgbModal,
-  ) {
+    private _addressService: AddressService,
+    private _toastrService: ToastrService
+  ) {}
+
+  ngOnInit(): void {
+    this.newPersonal = this.fb.group({
+      personalFirstName: [null, [Validators.required]],
+      personalMiddleName: [null, Validators.required],
+      personalLastName: [null, Validators.required],
+      phoneNumber: [null, Validators.required, , Validators.minLength(10)],
+      personalCountryId: [null, Validators.required],
+      organizationId: [null, Validators.required],
+      streetBirthPlace: [{value:null, disabled : true}, Validators.required],
+      countryBirthPlace: [this.countryBirthPlace[0]],
+      provinceBirthPlace: [null, Validators.required],
+      districtBirthPlace: [{value:null, disabled : true}, Validators.required],
+      communeBirthPlace: [{value:null, disabled : true}, Validators.required],
+      homeNumberBirthPlace: [{value:null, disabled : true}, Validators.required],
+      countryResidencePlace: [this.countryResidencePlace[0]],
+      provinceResidencePlace: [null, Validators.required],
+      districtResidencePlace: [{value:null, disabled : true}, Validators.required],
+      communeResidencePlace: [{value:null, disabled : true}, Validators.required],
+      streetResidencePlace: [{value:null, disabled : true}, Validators.required],
+      homeNumberResidencePlace: [{value:null, disabled : true}, Validators.required],
+      gender: [this.gender[0], [Validators.required]],
+      birthday: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+    });
+
+    this.initAddress();
   }
+
+//Khởi tạo các địa chỉ ban đầu và select sẵn các giá trị, nhưng không cần thiết làm như trang tiêm chủng
+  // initAddress() {
+  //   this._addressService
+  //     .getProvince(237)
+  //     .pipe(
+  //       map((res) => {
+  //         const data = res.data.map((city) => ({
+  //           ...city,
+  //           provinceDisplay: city.provinceType + " " + city.provinceName,
+  //         }));
+  //         return data;
+  //       }),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((res) => {
+  //       this.provinceResidencePlace = res;
+  //       this.provinceBirthPlace = res;
+  //       this._addressService
+  //         .getDistrict(this.provinceResidencePlace[0].provinceId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((district) => ({
+  //               ...district,
+  //               districtDisplay:
+  //                 district.districtType + " " + district.districtName,
+  //             }));
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .subscribe((res) => {
+  //           this.districtResidencePlace = res;
+  //           this.districtBirthPlace = res;
+  //           this._addressService
+  //             .getCommune(this.districtResidencePlace[0].districtId)
+  //             .pipe(
+  //               map((res) => {
+  //                 const data = res.data.map((commune) => ({
+  //                   ...commune,
+  //                   communeDisplay:
+  //                     commune.communeType + " " + commune.communeName,
+  //                 }));
+  //                 return data;
+  //               }),
+  //               takeUntil(this._unsubscribeAll)
+  //             )
+  //             .subscribe((res) => {
+  //               this.communeResidencePlace = res;
+  //               this.communeBirthPlace = res;
+  //               this._addressService
+  //                 .getStreet(this.communeBirthPlace[0].communeId)
+  //                 .pipe(takeUntil(this._unsubscribeAll))
+  //                 .subscribe((res) => {
+  //                   this.streetResidencePlace = res.data;
+  //                   this.streetBirthPlace = res.data;
+  //                 });
+  //             });
+  //         });
+  //     });
+  // }
+
+initAddress() {
+    this._addressService
+      .getProvince(237)
+      .pipe(
+        map((res) => {
+          const data = res.data.map((city) => ({
+            ...city,
+            provinceDisplay: city.provinceType + " " + city.provinceName,
+          }));
+          return data;
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((res) => {
+        this.provinceResidencePlace = res;
+        this.provinceBirthPlace = res;
+      }); 
+  }
+selectProvince(type){
+  switch (type) {
+    case 2: {
+      this.newPersonal.patchValue({
+        districtResidencePlace : null,
+        communeResidencePlace : null, 
+        streetResidencePlace : null, 
+        homeNumberResidencePlace:null,
+      })
+      this._addressService
+              .getDistrict(this.newPersonal.get('provinceResidencePlace').value.provinceId)
+              .pipe(
+                map((res) => {
+                  const data = res.data.map((district) => ({
+                    ...district,
+                    districtDisplay:
+                      district.districtType + " " + district.districtName,
+                  }));
+                  return data;
+                }),
+                takeUntil(this._unsubscribeAll)
+              ).subscribe((res) => {
+                this.districtResidencePlace =res;
+                this.newPersonal.get('districtResidencePlace').enable();
+              })
+    };
+    case 1: {
+      this.newPersonal.patchValue({
+        districtBirthPlace : null,
+        communeBirthPlace : null, 
+        streetBirthPlace : null, 
+        homeNumberBirthPlace:null,
+      })
+      this._addressService
+              .getDistrict(this.newPersonal.get('provinceBirthPlace').value.provinceId)
+              .pipe(
+                map((res) => {
+                  const data = res.data.map((district) => ({
+                    ...district,
+                    districtDisplay:
+                      district.districtType + " " + district.districtName,
+                  }));
+                  return data;
+                }),
+                takeUntil(this._unsubscribeAll)
+              ).subscribe((res) => {
+                this.districtBirthPlace =res;
+                this.newPersonal.get('districtBirthPlace').enable();
+              })
+    };
+  }
+}
+
+selectDistrict(type:number){
+  switch (type) {
+    case 2: {
+      this.newPersonal.patchValue({
+        communeResidencePlace : null, 
+        streetResidencePlace : null, 
+        homeNumberResidencePlace:null,
+      })
+      this._addressService
+              .getCommune(this.newPersonal.get('districtResidencePlace').value.districtId)
+              .pipe(
+                map((res) => {
+                  const data = res.data.map((commune) => ({
+                    ...commune,
+                    communeDisplay:
+                      commune.communeType + " " + commune.communeName,
+                  }));
+                  return data;
+                }),
+                takeUntil(this._unsubscribeAll)
+              ).subscribe((res) => {
+                this.communeResidencePlace =res;
+                this.newPersonal.get('communeResidencePlace').enable();
+              });
+              break;
+    };
+    case 1: {
+      this.newPersonal.patchValue({
+        communeBirthPlace : null, 
+        streetBirthPlace : null, 
+        homeNumberBirthPlace:null,
+      })
+      this._addressService
+              .getCommune(this.newPersonal.get('districtBirthPlace').value.districtId)
+              .pipe(
+                map((res) => {
+                  const data = res.data.map((commune) => ({
+                    ...commune,
+                    communeDisplay:
+                      commune.communeType + " " + commune.communeName,
+                  }));
+                  return data;
+                }),
+                takeUntil(this._unsubscribeAll)
+              ).subscribe((res) => {
+                this.communeBirthPlace =res;
+                this.newPersonal.get('communeBirthPlace').enable();
+              })
+    };
+    break;
+  }
+}
+selectCommune(type:number){
+  switch (type) {
+    case 2: {
+      this.newPersonal.patchValue({
+        streetResidencePlace : null, 
+        homeNumberResidencePlace:null,
+      })
+      this._addressService
+              .getStreet(this.newPersonal.get('communeResidencePlace').value.communeId)
+              .pipe(
+                map((res) => {
+                  const data = res.data.map((street) => ({
+                    ...street,
+                    streetDisplay:
+                      street.streetType + " " + street.streetName,
+                  }));
+                  return data;
+                }),
+                takeUntil(this._unsubscribeAll)
+              ).subscribe((res) => {
+                this.streetResidencePlace =res;
+                this.newPersonal.get('streetResidencePlace').enable();
+              })
+              break;
+    };
+    case 1: {
+      this.newPersonal.patchValue({
+        streetBirthPlace : null, 
+        homeNumberBirthPlace:null,
+      })
+      this._addressService
+              .getStreet(this.newPersonal.get('communeBirthPlace').value.communeId)
+              .pipe(
+                map((res) => {
+                  const data = res.data.map((street) => ({
+                    ...street,
+                    streetDisplay:
+                      street.streetType + " " + street.streetName,
+                  }));
+                  return data;
+                }),
+                takeUntil(this._unsubscribeAll)
+              ).subscribe((res) => {
+                this.streetBirthPlace =res;
+                this.newPersonal.get('streetBirthPlace').enable();
+              });
+              break;
+    };
+  }
+}
+selectStreet(type:number){
+  switch (type) {
+    case 2: {
+      this.newPersonal.patchValue({
+        homeNumberResidencePlace:null,
+      })
+      this.newPersonal.get('homeNumberResidencePlace').enable();
+              break;
+    };
+    case 1: {
+      this.newPersonal.patchValue({
+        homeNumberBirthPlace:null,
+      })
+      this.newPersonal.get('homeNumberBirthPlace').enable();
+              break;
+    };
+  }
+}
+  modalOpenCreateStreet(modalSuccess) {
+    this.modalService.open(modalSuccess, {
+      centered: true,
+      windowClass: "modal modal-success",
+    });
+  }
+  onSubmitCreateStreet(type, streetName) {
+    switch (type) {
+      case 1: {
+        const communeId = this.newPersonal.get("communeResidencePlace").value
+          .communeId;
+        const body = {
+          streetName: streetName,
+          streetType: "Đường",
+          communeId: communeId,
+        };
+        this._addressService.createStreet(body).subscribe((res) => {
+          this.streetResidencePlace = [...this.streetResidencePlace, res.data];
+          if(this.newPersonal.get("communeBirthPlace").value!=null&&communeId==this.newPersonal.get("communeBirthPlace").value.communeId){
+            this.streetBirthPlace = [...this.streetBirthPlace, res.data];
+          }
+          this._toastrService.success(
+            "Thêm thành công đường " +
+              res.data.streetName +
+              "vào cơ sở dữ liệu",
+            "Thành công",
+            { toastClass: "toast ngx-toastr", closeButton: true }
+          );
+        });
+        return true;
+      }
+      case 2: {
+        const communeId =
+          this.newPersonal.get("communeBirthPlace").value.communeId;
+        const body = {
+          streetName: streetName,
+          streetType: "Đường",
+          communeId: communeId,
+        };
+        //Tạo dữ liệu đường mới lấy từ dữ liệu phường xã đã select
+        this._addressService.createStreet(body).subscribe((res) => {
+          //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
+          this.streetBirthPlace = [...this.streetBirthPlace, res.data];
+          if(this.newPersonal.get("communeResidencePlace").value!=null&&communeId==this.newPersonal.get("communeResidencePlace").value.communeId){
+            this.streetResidencePlace = [...this.streetResidencePlace, res.data];
+          }
+          //Gửi thông báo thành công lên góc bên phải màn hình
+          this._toastrService.success(
+            "Thêm thành công đường " +
+              res.data.streetName +
+              "vào cơ sở dữ liệu",
+            "Thành công",
+            { toastClass: "toast ngx-toastr", closeButton: true }
+          );
+        });
+        return true;
+      }
+    }
+  }
+
   toggleSidebar() {
     this.modalService.dismissAll();
   }
 
-  ngOnInit(): void {
-    this.newPersonal = this.fb.group({
-      personalFirstName: ['', [Validators.required]],
-      personalMiddleName: ['', Validators.required],
-      personalLastName: ['', Validators.required],
-      phoneNumber: ['', Validators.required, , Validators.minLength(10)],
-      personalCountryId: ['', Validators.required],
-      organizationId: [this.organizationId, Validators.required],
-      streetBirthPlace: ['', Validators.required],
-      homeNumberBirthPlace: [this.homeNumberBirthPlace, Validators.required],
-      streetResidencePlace: ['', Validators.required],
-      homeNumberResidencePlace: [this.homeNumberResidencePlace, Validators.required],
-      // validates date format yyyy-mm-dd
-      // birthday: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/)]],
-
-      birthday: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      countryBirthPlace: [this.countryBirthPlace, Validators.required],
-      provinceBirthPlace: [this.provinceBirthPlace, Validators.required],
-      districtBirthPlace: [this.districtBirthPlace, Validators.required],
-      communeBirthPlace: [this.communeBirthPlace, Validators.required],
-      countryResidencePlace: [this.countryResidencePlace, Validators.required],
-      provinceResidencePlace: [this.provinceResidencePlace, Validators.required],
-      districtResidencePlace: [this.districtResidencePlace, Validators.required],
-      communeResidencePlace: [this.communeResidencePlace, Validators.required],
-
-    });
-    this.getProvice(237,3)
-    this.getDistrict(this.idProviceBirth,3)
-  }
-  changeCryptoSystemName(e) {
-    console.log(e)
-    this.newPersonal.get("provinceBirthPlace").setValue("1");
-
-  };
   closeModal() {
     this.onClose.emit();
   }
   updateTable() {
-    this.onUpdate.emit()
+    this.onUpdate.emit();
   }
-  isUserNameDuplicated(control: AbstractControl): Observable<ValidationErrors> {
-    return of(null);
+
+  get f() {
+    return this.newPersonal.controls;
   }
-  get f() { return this.newPersonal.controls; }
 
   onSubmit() {
     this.submitted = true;
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const token = currentUser.token;
 
     // stop here if form is invalid
     if (this.newPersonal.invalid) {
       return;
     }
-    const newPersonal = JSON.stringify(this.newPersonal.value)
-    console.log(newPersonal)
+    const newPersonal = JSON.stringify(this.newPersonal.value);
+    console.log(newPersonal);
     const option = {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-
-      }
-    }
+        Authorization: "Bearer " + token,
+      },
+    };
     // display form values on success
-    return this._httpClient.post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option).subscribe((respon: any) => {
-      if (respon.result = "true") {
-        this.toggleSidebar()
-        this.updateTable()
-      }
-    }
-    )
-
-  }
-  // set address birth
-  OnSelectProviceBirth(e){
-    this.getDistrict(e.id,1)
-  }
-  OnSelectDistrictBirth(e){
-    this.getCommune(e.id,1)
-  }
-  OnSelectProviceResidence(e){
-    this.getDistrict(e.id,2)
-  }
-  OnSelectDistrictResidence(e){
-    this.getCommune(e.id,2)
-  }
-  getProvice(idCountry,x) {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      }
-    }
-    this._httpClient.get<any>(`${environment.apiUrl}/address/province/list/${idCountry}`, option).subscribe((respon: any) => {
-      if(x===1){
-        this.idProviceBirth = respon.data[0].provinceId
-        this.getDistrict(respon.data[0].provinceId,1)
-        this.provinceBirthPlace = respon.data.map(item=>({
-          id: item.provinceId,
-          name:item.provinceType +" "+ item.provinceName
-        }))
-      }
-      if(x===2){
-        this.idProviceBirth = respon.data[0].provinceId
-        this.getDistrict(respon.data[0].provinceId,2)
-        this.provinceResidencePlace = respon.data.map(item=>({
-          id: item.provinceId,
-          name:item.provinceType +" "+ item.provinceName
-        }))
-      }
-      if(x===3){
-        console.log(respon.data)
-        this.idProviceBirth = respon.data[0].provinceId
-        this.getDistrict(respon.data[0].provinceId,3)
-        this.provinceBirthPlace = respon.data.map(item=>({
-          id: item.provinceId,
-          name:item.provinceType +" "+ item.provinceName
-        }))
-        console.log()
-        this.provinceResidencePlace = this.provinceBirthPlace
-      }
-      
-    }
-    )
-    
-  }
-  getDistrict(idProvice,x) {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      }
-    }
-    // this.districtBirthPlace=[]
-    this._httpClient.get<any>(`${environment.apiUrl}/address/district/list/${idProvice}`, option).subscribe((respon: any) => {
-      if(x===1){
-        this.getCommune(respon.data[0].districtId,1)
-
-        this.districtBirthPlace = respon.data.map((item) =>({
-          id:item.districtId,
-          name:item.districtType + " " + item.districtName
-        }))
-      }
-      if(x===2){
-        this.getCommune(respon.data[0].districtId,2)
-
-        this.districtResidencePlace = respon.data.map((item) =>({
-          id:item.districtId,
-          name:item.districtType + " " + item.districtName
-        }))
-      }
-      if(x===3){
-        this.getCommune(respon.data[0].districtId,1)
-  
-        this.districtBirthPlace = respon.data.map((item) =>({
-          id:item.districtId,
-          name:item.districtType + " " + item.districtName
-        }))
-        this.districtResidencePlace = this.districtBirthPlace
-      }
-    }
-    )
-  }
-  getCommune(idDistrict,x) {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      }
-    }
-    this._httpClient.get<any>(`${environment.apiUrl}/address/commune/list/${idDistrict}`, option).subscribe((respon: any) => {
-      if(x===1){
-        this.communeBirthPlace = respon.data.map((item) =>({
-          id:item.communeId,
-          name:item.communeType + " " +item.communeName
-        }))
-      }
-      if(x===2){
-        this.communeResidencePlace = respon.data.map((item) =>({
-          id:item.communeId,
-          name:item.communeType + " " +item.communeName
-        }))
-      }
-      if(x===3){
-        this.communeBirthPlace = respon.data.map((item) =>({
-          id:item.communeId,
-          name:item.communeType + " " +item.communeName
-        }))
-        this.communeResidencePlace = this.communeBirthPlace
-      }
-    }
-    )
+    return this._httpClient
+      .post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option)
+      .subscribe((respon: any) => {
+        if ((respon.result = "true")) {
+          this.toggleSidebar();
+          this.updateTable();
+        }
+      });
   }
 
-  
-
-
-
-
-
-
-
-
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
 }

@@ -6,10 +6,11 @@ import { InitialsPipe } from '@core/pipes/initials.pipe';
 
 import { SafePipe } from '@core/pipes/safe.pipe';
 import { StripHtmlPipe } from '@core/pipes/stripHtml.pipe';
+import { TruncatePipe } from './truncate.pipe';
 
 @NgModule({
-  declarations: [InitialsPipe, FilterPipe, StripHtmlPipe, SafePipe],
+  declarations: [InitialsPipe, FilterPipe, StripHtmlPipe, SafePipe, TruncatePipe, ],
   imports: [],
-  exports: [InitialsPipe, FilterPipe, StripHtmlPipe, SafePipe]
+  exports: [InitialsPipe, FilterPipe, StripHtmlPipe, SafePipe, TruncatePipe]
 })
 export class CorePipesModule {}

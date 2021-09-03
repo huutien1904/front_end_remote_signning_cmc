@@ -1,641 +1,955 @@
-<form class="form form-horizontal add-new-user modal-content pt-0 personal-form" id = "form-peronal" [formGroup]="newPersonal"  (ngSubmit)="onSubmit()">
-  <!-- <div class="form_header">
-    <div class="h1">Đăng ký thông tin</div>
-    <button aria-label="Close" (click) = "closeModal()">
-      <a href=""><span class="input-group-text button_exit"><span [data-feather]="'x'"></span></span></a>
-    </button>
-    
-  </div> -->
-  <!-- thông tin cá nhân -->
+<form
+  class="form form-horizontal"
+  id="form-personal"
+  [formGroup]="newPersonal"
+  (ngSubmit)="onSubmit()"
+>
   <div class="form_content">
-    <h3>Thông tin cá nhân </h3>
+    <h3>Thông tin cá nhân</h3>
     <div class="row">
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
+      <div class="col-12 col-md-2">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable" >Họ</label>
+            <label class="lable">Họ</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge" >
-              <div class="input-group-prepend" >
-                <span 
-                    class="input-group-text" 
-                    [ngClass]="{ 'error_icon': submitted && f.personalFirstName.errors }"
-                    
-                ><span [data-feather]="'user'"></span></span>
-              </div>
-              <input
-                [ngClass]="{ 'error': submitted && f.personalFirstName.errors}"
-                formControlName="personalFirstName"
-                placeholder="Họ"                        
-                type="text" 
-                class="form-control"
-              />
-              
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <span *ngIf="submitted && f.personalFirstName.errors || f.personalFirstName?.errors?.required  && f.personalFirstName?.touched" class="invalid-form">
-              <small class="form-text text-muted danger" *ngIf = "f.personalFirstName.errors.required">
-                Không được bỏ trống 
-              </small>
-              <small class="form-text text-muted danger" *ngIf = "f.personalFirstName.errors.minLength">
-                phải điển đủ 6 kí tự
-              </small>
-            </span>
-            
-            <!-- {{newPersonal.value.personalFirstName}} -->
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
-          <div class="col-sm-12 col-form-label">
-            <label class="lable">TÊN ĐỆM</label>
-          </div>
-          <div class="col-sm-12">
-            <div class="input-group input-group-merge">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                f.personalFirstName.errors && f.personalFirstName?.touched
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
               <div class="input-group-prepend">
                 <span class="input-group-text"
-                [ngClass]="{ 'error_icon': submitted && f.personalMiddleName.errors }"><span [data-feather]="'user'"></span></span>
+                  ><i data-feather="user"></i
+                ></span>
               </div>
               <input
-              [ngClass]="{ 'error': submitted && f.personalMiddleName.errors}"
+                formControlName="personalFirstName"
+                placeholder="Họ"
+                type="text"
+                class="form-control"
+                [ngClass]="
+                  f.personalFirstName.errors && f.personalFirstName?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                f.personalFirstName?.errors?.required &&
+                f.personalFirstName?.touched
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.personalFirstName.errors.required"
+              >
+                Không được bỏ trống
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Tên đệm</label>
+          </div>
+          <div class="col-sm-12">
+            <div class="input-group input-group-merge " [ngClass]="
+            f.personalMiddleName.errors && f.personalMiddleName?.touched
+              ? 'is-invalid'
+              : ''
+          ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="user"></i
+                ></span>
+              </div>
+              <input
                 formControlName="personalMiddleName"
                 type="text"
-                id="fname-icon-1"
                 class="form-control"
-                name="fname-icon-1"
                 placeholder="Tên đệm"
+                [ngClass]="
+                  f.personalMiddleName.errors && f.personalMiddleName?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.personalMiddleName.errors " class="invalid-form">
-              <small class="form-text text-muted danger" >
-                Không được bỏ trống </small>
+            <span
+              *ngIf="f.personalMiddleName.errors?.required&&f.personalMiddleName.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
+      <div class="col-12 col-md-2">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">TÊN</label>
+            <label class="lable">Tên</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
+            <div class="input-group input-group-merge " [ngClass]="
+            f.personalLastName.errors && f.personalLastName?.touched
+              ? 'is-invalid'
+              : ''
+          ">
               <div class="input-group-prepend">
-                <span 
-                  class="input-group-text" 
-                  [ngClass]="{ 'error_icon': submitted && f.personalLastName.errors }"><span [data-feather]="'user'"></span></span>
+                <span class="input-group-text"
+                  ><i data-feather="user"></i
+                ></span>
               </div>
               <input
-              [ngClass]="{ 'error': submitted && f.personalLastName.errors}"
                 formControlName="personalLastName"
                 type="text"
-                id="fname-icon-2"
                 class="form-control"
-                name="fname-icon-2"
                 placeholder="Tên"
+                [ngClass]="
+                  f.personalLastName.errors && f.personalLastName?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.personalLastName.errors " class="invalid-form">
-              <small class="form-text text-muted danger" >
-                Không được bỏ trống </small>
+            <span
+              *ngIf="f.personalLastName.errors&&f.personalLastName?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-3">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">CĂN CƯỚC CÔNG DÂN</label>
+            <label class="lable">CCCD/PASSPORT</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
+            <div class="input-group input-group-merge" [ngClass]="
+            f.personalCountryId.errors && f.personalCountryId?.touched
+              ? 'is-invalid'
+              : ''
+          ">
               <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.personalCountryId.errors }"><span [data-feather]="'credit-card'"></span></span>
+                <span class="input-group-text"
+                  ><i data-feather="user"></i
+                ></span>
               </div>
               <input
-              [ngClass]="{ 'error': submitted && f.personalCountryId.errors}"
                 formControlName="personalCountryId"
                 type="text"
-                id="fname-icon-3"
+                
                 class="form-control"
-                name="fname-icon-3"
+               
                 placeholder="03520001170"
+                [ngClass]="
+                  f.personalCountryId.errors && f.personalCountryId?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.personalCountryId.errors " class="invalid-form">
-              <small class="form-text text-muted danger" >
-                Không được bỏ trống </small>
-                
+            <span
+              *ngIf="f.personalCountryId.errors&&f.personalCountryId?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
-            
           </div>
         </div>
-      </div>         
-    </div>
-    
-    <div class="row">
+      </div>
       <div class="col-12 col-md-3">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">NGÀY THÁNG NĂM SINH </label>
+            <label class="lable">Ngày sinh</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
+            <div class="input-group input-group-merge " [ngClass]="
+            f.birthday.errors && f.birthday?.touched
+              ? 'is-invalid'
+              : ''
+          ">
               <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.birthday.errors }"><span [data-feather]="'more-horizontal'"></span></span>
+                <span class="input-group-text"
+                  ><i data-feather="more-horizontal"></i
+                ></span>
               </div>
               <input
-              [ngClass]="{ 'error': submitted && f.birthday.errors}"
                 formControlName="birthday"
                 type="text"
-                id="fname-icon-4"
                 class="form-control"
-                name="fname-icon-4"
                 placeholder="19/04/2000"
+                [ngClass]="
+                  f.birthday.errors && f.birthday?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.birthday.errors " class="invalid-form">
-              <small class="form-text text-muted danger" *ngIf = "f.birthday.errors.required">
-                Không được bỏ trống 
+            <span *ngIf="f.birthday.errors&&f.birthday?.touched" class="invalid-form">
+              <small
+                class="form-text text-danger"
+                *ngIf="f.birthday.errors.required"
+              >
+                Không được bỏ trống
               </small>
-                <small class="form-text text-muted danger" *ngIf = "f.birthday.errors.pattern">
-                  điền đúng cú pháp dd/mm/yyyy
-                </small>
-            </span>
-              
-           
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
-          <div class="col-sm-12 col-form-label">
-            <label class="lable">SỐ ĐIỆN THOẠI</label>
-          </div>
-          <div class="col-sm-12">
-            <div class="input-group input-group-merge">
-              <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.phoneNumber.errors }"><span [data-feather]="'phone-call'"></span></span>
-              </div>
-              <input
-              [ngClass]="{ 'error': submitted && f.phoneNumber.errors}"
-                formControlName="phoneNumber"
-                type="text"
-                id="fname-icon"
-                class="form-control"
-                name="fname-icon"
-                placeholder="Số điện thoại"
-              />
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <span *ngIf="submitted && f.phoneNumber.errors " class="invalid-form">
-              <small class="form-text text-muted danger" *ngIf="f.phoneNumber.errors.required ">
-                Không được bỏ trống 
-              </small>
-              <small class="form-text text-muted danger" *ngIf="f.phoneNumber.errors.minLength ">
-                phải đủ 10 số 
+              <small
+                class="form-text text-danger"
+                *ngIf="f.birthday.errors.pattern"
+              >
+                điền đúng cú pháp dd/mm/yyyy
               </small>
             </span>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-4">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">EMAIL</label>
+            <label class="lable">Email</label>
           </div>
           <div class="col-sm-12">
-            <div class="input-group input-group-merge">
+            <div class="input-group input-group-merge " [ngClass]="
+            f.email.errors && f.email?.touched
+              ? 'is-invalid'
+              : ''
+          ">
               <div class="input-group-prepend">
-                <span class="input-group-text" [ngClass]="{ 'error_icon': submitted && f.email.errors }"><span [data-feather]="'mail'"></span></span>
+                <span class="input-group-text"
+                  ><i data-feather="mail"></i
+                ></span>
               </div>
               <input
-              [ngClass]="{ 'error': submitted && f.email.errors}"
+                
                 formControlName="email"
                 type="text"
-                id="fname-icon-5"
                 class="form-control"
-                name="fname-icon-5"
                 placeholder="Email"
+                [ngClass]="
+                  f.email.errors && f.email?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.email.errors" class="invalid-form">
-              <small class="form-text text-muted danger" *ngIf="f.email.errors.required">
-                email must be valid!
+            <span *ngIf="f.email.errors&&f.email?.touched" class="invalid-form">
+              <small
+                class="form-text text-danger"
+                *ngIf="f.email.errors.required"
+              >
+                Không được để trống
               </small>
-              <small class="form-text text-muted danger" *ngIf="f.email.errors.email">
-                điền đúng định dạng
+              <small
+                class="form-text text-danger"
+                *ngIf="f.email.errors.email"
+              >
+                Điền đúng định dạng
               </small>
             </span>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
+      <div class="col-12 col-md-2">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">ID TỔ CHỨC</label>
+            <label class="lable">Số điện thoại</label>
           </div>
           <div class="col-sm-12">
-              <ng-select   
-                [ngClass]="{ 'error': submitted && f.organizationId.errors}"
-                [items]="organizationId" 
-                [clearable]="false"
-                bindLabel="name"
-                bindValue="name"
-                placeholder="Tổ chức"
-                formControlName="organizationId">
-              </ng-select>
+            <div class="input-group input-group-merge " [ngClass]="
+            f.phoneNumber.errors && f.phoneNumber?.touched
+              ? 'is-invalid'
+              : ''
+          ">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="phone-call"></i
+                ></span>
+              </div>
+              <input
+                
+                formControlName="phoneNumber"
+                type="text"
+                class="form-control"
+                placeholder="Phone"
+                [ngClass]="
+                  f.phoneNumber.errors && f.phoneNumber?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.organizationId.errors" class="invalid-form">
-              <small class="form-text text-muted danger">
-                không được bỏ trống</small>
+            <span
+              *ngIf="f.phoneNumber.errors&&f.phoneNumber?.touched"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.required"
+              >
+                Không được bỏ trống
+              </small>
+              <small
+                class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.minLength"
+              >
+                Phải đủ 10 số
+              </small>
             </span>
           </div>
         </div>
-      </div>         
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-3">
-        <div class="form-group ">
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label class="lable">GIỚI TÍNH</label>
           </div>
           <div class="col-sm-12">
-              <ng-select   
-                [items]="sexOption" 
-                [clearable]="false"
-                bindLabel="name"
-                bindValue="name"
-                placeholder="Giới tính"
-                >
-              </ng-select>
+            <ng-select
+              [items]="gender"
+              [clearable]="false"
+              formControlName="gender"
+              placeholder="Gender"
+              [ngClass]="
+            f.gender.errors && f.gender?.touched
+              ? 'is-invalid'
+              : ''
+          ">
+            >
+            </ng-select>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.organizationId.errors" class="invalid-form">
-              <small class="form-text text-muted danger">
-                không được bỏ trống</small>
+            <span
+              *ngIf="f.gender.errors&&f.gender?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
             </span>
           </div>
         </div>
-      </div>  
-    </div>
-
-    <h3>Nơi sinh</h3>
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <div class="row">
-          <!-- quốc gia -->
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">QUỐC GIA</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select   
-                  [ngClass]="{ 'error': submitted && f.countryBirthPlace.errors}"
-                  [items]="countryBirthPlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Quốc gia"
-                  formControlName="countryBirthPlace">
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.countryBirthPlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Tổ chức</label>
           </div>
-          <!-- end quốc gia -->
-
-          <!-- tỉnh thành phố -->
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">TỈNH </label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select  
-                  [ngClass]="{ 'error_icon': submitted && f.provinceBirthPlace.errors }"   
-                  [items]="provinceBirthPlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Tỉnh/Thành phố"
-                  formControlName="provinceBirthPlace"
-                  (change) = "OnSelectProviceBirth($event)"
-                  >
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.provinceBirthPlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+          <div class="col-sm-12">
+            <ng-select
+              [items]="organizationId"
+              [clearable]="true"
+              placeholder="Tổ chức"
+              formControlName="organizationId"
+            >
+            </ng-select>
           </div>
-          <!-- end tỉnh thành phố -->
+          
         </div>
       </div>
-      <div class="col-12 col-md-6">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">HUYỆN</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select  
-                  [ngClass]="{ 'error_icon': submitted && f.districtBirthPlace.errors }"   
-                  [items]="districtBirthPlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Huyện"
-                  formControlName="districtBirthPlace"
-                  (change) = "OnSelectDistrictBirth($event)"
-                  >
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.districtBirthPlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+    </div>
+    <h3>Nơi sinh</h3>
+    <div class="row">
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Quốc gia</label>
           </div>
+          <div class="col-sm-12">
+            <ng-select
+              [items]="countryBirthPlace"
+              bindLabel="countryName"
+              [clearable]="false"
+              formControlName="countryBirthPlace"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Tỉnh/Thành phố </label>
+          </div>
+          <div class="col-sm-12 ">
+            <ng-select
+            [ngClass]="
+            f.provinceBirthPlace.errors && f.provinceBirthPlace?.touched
+              ?  'is-invalid' : 'is-valid'
+          "
+              [items]="provinceBirthPlace"
+              [clearable]="false"
+              bindLabel="provinceDisplay"
+              placeholder="Tỉnh/Thành phố"
+              formControlName="provinceBirthPlace"
+              (change)="selectProvince(1)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="f.provinceBirthPlace.errors&&f.provinceBirthPlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống</small
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Quận/Huyện</label>
+          </div>
+          <div class="col-sm-12" [ngbTooltip]="
+          f.provinceBirthPlace.disabled == true || f.provinceBirthPlace.value==null
+            ? 'Phải chọn Thành phố/Tỉnh trước khi chọn Quận/Huyện'
+            : ''
+        "
+        placement="top">
+            <ng-select
+              
+              [items]="districtBirthPlace"
+              [clearable]="false"
+              bindLabel="districtDisplay"
+              placeholder="Huyện"
+              formControlName="districtBirthPlace"
+              (change)="selectDistrict(1)"
+              [ngClass]="
+                  f.districtBirthPlace.errors && f.districtBirthPlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+            >
+            </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="f.districtBirthPlace.errors&&f.districtBirthPlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
+            </span>
+          </div>
+        </div>
+      </div>
 
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">XÃ</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select  
-                  [ngClass]="{ 'error_icon': submitted && f.communeBirthPlace.errors }"   
-                  [items]="communeBirthPlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Xã"
-                  formControlName="communeBirthPlace"
-                  >
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.communeBirthPlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Xã/Phường</label>
+          </div>
+          <div class="col-sm-12" [ngbTooltip]="
+          f.districtBirthPlace.disabled == true || f.districtBirthPlace.value==null
+            ? 'Phải chọn Quận/Huyện trước khi chọn Xã/Phường'
+            : ''
+        "
+        placement="top">
+            <ng-select
+              [items]="communeBirthPlace"
+              [clearable]="false"
+              bindLabel="communeDisplay"
+              placeholder="Xã"
+              formControlName="communeBirthPlace"
+              [ngClass]="
+                  f.communeBirthPlace.errors && f.communeBirthPlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+              (change)="selectCommune(1)"
+
+            >
+            </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="f.communeBirthPlace.errors&&f.communeBirthPlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
+            </span>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-12 col-md-3">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label class="lable">Đường</label>
           </div>
-          <div class="col-sm-12">
-            <ng-select  
-                  [ngClass]="{ 'error_icon': submitted && f.homeNumberBirthPlace.errors }"   
-                  [items]="homeNumberBirthPlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Đường"
-                  formControlName="homeNumberBirthPlace"
+          <div class="col-sm-12" [ngbTooltip]="
+          f.communeBirthPlace.disabled == true || f.communeBirthPlace.value == null
+            ? 'Phải chọn Xã/Phường trước khi chọn đường'
+            : ''
+        "
+        placement="top">
+            <ng-select
+              [items]="streetBirthPlace"
+              [clearable]="false"
+              bindLabel="streetName"
+              placeholder="Đường"
+              formControlName="streetBirthPlace"
+              [ngClass]="
+                  f.streetBirthPlace.errors && f.streetBirthPlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+                (change)="selectStreet(1)"
+            >
+              <ng-template ng-header-tmp>
+                <div
+                  [ngbTooltip]="
+                    f.communeBirthPlace.value == null
+                      ? 'Phải chọn Xã/Phường trước khi thêm đường'
+                      : ''
+                  "
+                  placement="right"
+                >
+                  <button
+                    class="
+                      btn btn-flat-success
+                      cursor-pointer
+                      rounded-0
+                      text-left
+                      p-50
+                      w-100
+                    "
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateStreetBirthPlace)
+                    "
+                    [disabled]="f.communeBirthPlace.value == null"
                   >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Đường</span>
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #modalOpenCreateStreetBirthPlace let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới thông tin Đường
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted">
+                      Ví dụ:<i>Trần Hưng Đạo</i></small
+                    >
+                    <input
+                      type="text"
+                      name="addBirthStreet"
+                      id="addBirthStreet"
+                      #addBirthStreet
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                      onSubmitCreateStreet(2, addBirthStreet.value)
+                        ? modal.close()
+                        : false
+                    "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
-          
+
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.homeNumberBirthPlace.errors" class="invalid-form">
-              <small class="form-text text-muted danger" >
-                Không được bỏ trống </small>
-                
+            <span
+              *ngIf="f.streetBirthPlace.errors&&f.streetBirthPlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-md-4">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">ĐỊA CHỈ CỤ THỂ (SỐ NHÀ, NGÕ, NGÁCH, ...)</label>
+            <label class="lable">Địa chỉ cụ thể (Số nhà, ngõ, ngách,...)</label>
           </div>
-          <div class="col-sm-12">
+          <div class="col-sm-12" [ngbTooltip]="
+          f.streetBirthPlace.disabled == true || f.streetBirthPlace.value==null
+            ? 'Phải chọn Đường phố trước khi điền địa chỉ nhà.'
+            : ''
+        "
+        placement="top">
             <div class="input-group input-group-merge">
               <input
-              [ngClass]="{ 'error': submitted && f.streetBirthPlace.errors}"
-                formControlName="streetBirthPlace"
+                formControlName="homeNumberBirthPlace"
                 type="text"
-                id="fname-icon-8"
                 class="form-control"
-                name="fname-icon-8"
-                placeholder="83 Yên Phúc,Hà Đông ,Hà Nội"
+                placeholder="84 ngách 75 ngõ 10"
+                [ngClass]="
+                  f.homeNumberBirthPlace.errors && f.homeNumberBirthPlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.streetBirthPlace.errors"  class="invalid-form">
-              <small class="form-text text-muted danger">
-                Không được bỏ trống </small>
+            <span
+              *ngIf="f.homeNumberBirthPlace.errors&&f.homeNumberBirthPlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
           </div>
         </div>
       </div>
     </div>
 
-    <h3>Nơi cư chú</h3>
-    <div class="row ">
-      <div class="col-12 col-md-6">
-        <div class="row">
-          <!-- quốc gia -->
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">QUỐC GIA</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select   
-                  [ngClass]="{ 'error': submitted && f.countryResidencePlace.errors}"
-                  [items]="countryResidencePlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Quốc gia"
-                  formControlName="countryResidencePlace">
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.countryResidencePlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+    <h3>Nơi cư trú</h3>
+    <div class="row">
+      <div class="col-12 col-md-2">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Quốc gia</label>
           </div>
-          <!-- end quốc gia -->
-
-          <!-- tỉnh thành phố -->
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">TỈNH/THÀNH PHỐ </label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select   
-                  [ngClass]="{ 'error': submitted && f.provinceResidencePlace.errors}"
-                  [items]="provinceResidencePlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Tỉnh/Thành Phố"
-                  formControlName="provinceResidencePlace"
-                  (change) = "OnSelectProviceResidence($event)"
-                  >
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.provinceResidencePlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+          <div class="col-sm-12">
+            <ng-select
+              [items]="countryResidencePlace"
+              bindLabel="countryName"
+              [searchable]="false"
+              [clearable]="false"
+              formControlName="countryResidencePlace"
+            >
+            </ng-select>
           </div>
-          <!-- end tỉnh thành phố -->
+          <div class="col-sm-12">
+            <span
+              *ngIf="submitted && f.countryResidencePlace.errors"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
+            </span>
+          </div>
         </div>
       </div>
-      <div class="col-12 col-md-6">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">HUYỆN</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select   
-                  [ngClass]="{ 'error': submitted && f.districtResidencePlace.errors}"
-                  [items]="districtResidencePlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Huyện"
-                  formControlName="districtResidencePlace"
-                  (change) = "OnSelectDistrictResidence($event)">
-                </ng-select>
-                
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.districtResidencePlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Tỉnh/Thành phố</label>
           </div>
+          <div class="col-sm-12" >
+            <ng-select
+              [items]="provinceResidencePlace"
+              [clearable]="false"
+              bindLabel="provinceDisplay"
+              placeholder="Tỉnh/Thành Phố"
+              formControlName="provinceResidencePlace"
+              [ngClass]="
+                  f.provinceResidencePlace.errors && f.provinceResidencePlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+              (change)="selectProvince(2)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="f.provinceResidencePlace.errors&&f.provinceResidencePlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
+            </span>
+          </div>
+        </div>
+      </div>
 
-          <div class="col-12 col-md-6">
-            <div class="form-group ">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">XÃ</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select   
-                  [ngClass]="{ 'error': submitted && f.communeResidencePlace.errors}"
-                  [items]="communeResidencePlace" 
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Xã"
-                  formControlName="communeResidencePlace">
-                </ng-select>
-              </div>
-              <div class="col-sm-12">
-                <span *ngIf="submitted && f.communeResidencePlace.errors" class="invalid-form">
-                  <small class="form-text text-muted danger">
-                    không được bỏ trống</small>
-                </span>
-              </div>
-            </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Quận/Huyện</label>
+          </div>
+          <div class="col-sm-12" [ngbTooltip]="
+          f.provinceResidencePlace.disabled == true || f.provinceResidencePlace.value==null
+            ? 'Phải chọn Thành phố/Tỉnh trước khi chọn Quận/Huyện.'
+            : ''
+        "
+        placement="top">
+            <ng-select
+              [items]="districtResidencePlace"
+              [clearable]="false"
+              bindLabel="districtDisplay"
+              placeholder="Huyện"
+              formControlName="districtResidencePlace"
+              [ngClass]="
+                  f.districtResidencePlace.errors && f.districtResidencePlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+              (change)="selectDistrict(2)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="f.districtResidencePlace.errors&&f.districtResidencePlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label class="lable">Xã/Phường</label>
+          </div>
+          <div class="col-sm-12"  [ngbTooltip]="
+          f.districtResidencePlace.disabled == true || f.districtResidencePlace.value==null
+            ? 'Phải chọn Quận/Huyện trước khi chọn Xã/Phường'
+            : ''
+        "
+        placement="top">
+            <ng-select
+              [items]="communeResidencePlace"
+              [clearable]="false"
+              bindLabel="communeDisplay"
+              placeholder="Xã"
+              formControlName="communeResidencePlace"
+              [ngClass]="
+                  f.communeResidencePlace.errors && f.communeResidencePlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+              (change)="selectCommune(2)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="f.communeResidencePlace.errors&&f.communeResidencePlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                không được bỏ trống</small
+              >
+            </span>
           </div>
         </div>
       </div>
     </div>
     <div class="row row_bottom">
       <div class="col-12 col-md-3">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">ĐƯỜNG</label>
+            <label class="lable">Đường</label>
           </div>
-          <div class="col-sm-12">
-            <ng-select   
-              [ngClass]="{ 'error': submitted && f.homeNumberResidencePlace.errors}"
-              [items]="homeNumberResidencePlace" 
+          <div class="col-sm-12"  [ngbTooltip]="
+          f.communeResidencePlace.disabled == true || f.communeResidencePlace.value==null
+            ? 'Phải chọn Xã/Phường trước khi chọn đường.'
+            : ''
+        "
+        placement="top">
+            <ng-select
+              [items]="streetResidencePlace"
               [clearable]="false"
-              bindLabel="name"
-              bindValue="name"
               placeholder="Đường"
-              formControlName="homeNumberResidencePlace">
+              bindLabel="streetName"
+              formControlName="streetResidencePlace"
+              [ngClass]="
+                  f.streetResidencePlace.errors && f.streetResidencePlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
+                (change)="selectStreet(2)"
+            >
+              <ng-template ng-header-tmp>
+                <div
+                [ngbTooltip]="
+                f.communeResidencePlace.value == null
+                  ? 'Phải chọn Xã/Phường trước khi thêm đường.'
+                  : ''
+              "
+              placement="right"
+                >
+                  <button
+                    class="
+                      btn btn-flat-success
+                      cursor-pointer
+                      rounded-0
+                      text-left
+                      p-50
+                      w-100
+                    "
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateResidenceStreet)
+                    "
+                    [disabled]="f.communeResidencePlace.value == null"
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Đường</span>
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #modalOpenCreateResidenceStreet let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới thông tin Đường
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted">
+                      Ví dụ:<i>Trần Hưng Đạo</i></small
+                    >
+                    <input
+                      type="text"
+                      name="addResidenceStreet"
+                      id="addResidenceStreet"
+                      #addResidenceStreet
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                      onSubmitCreateStreet(1, addResidenceStreet.value)
+                        ? modal.close()
+                        : false
+                    "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
-          
+
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.homeNumberResidencePlace.errors"  class="invalid-form">
-              <small class="form-text text-muted danger" >
-                Không được bỏ trống </small>
+            <span
+              *ngIf="f.streetResidencePlace.errors&&f.streetResidencePlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-md-4">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>ĐỊA CHỈ CỤ THỂ (SỐ NHÀ, NGÕ, NGÁCH, ...)</label>
+            <label>Địa chỉ cụ thể (Số nhà, ngõ, ngách,...)</label>
           </div>
-          <div class="col-sm-12">
+          <div class="col-sm-12"  [ngbTooltip]="
+          f.streetResidencePlace.disabled == true || f.streetResidencePlace.value==null
+            ? 'Phải chọn Xã/Phường trước khi chọn đường'
+            : ''
+        "
+        placement="top">
             <div class="input-group input-group-merge">
               <input
-              [ngClass]="{ 'error': submitted && f.streetResidencePlace.errors}"
-                formControlName="streetResidencePlace"
+              
+                formControlName="homeNumberResidencePlace"
                 type="text"
-                id="fname-icon-80"
                 class="form-control"
-                name="fname-icon-80"
-                placeholder="TÊN ĐƯỜNG"
+                placeholder="84 ngách 75 ngõ 10"
+                [ngClass]="
+                  f.homeNumberResidencePlace.errors && f.homeNumberResidencePlace?.touched
+                    ? 'is-invalid'
+                    : ''
+                "
               />
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.streetResidencePlace.errors"  class="invalid-form">
-              <small class="form-text text-muted danger" >
-                Không được bỏ trống </small>
+            <span
+              *ngIf="f.homeNumberResidencePlace.errors&&f.homeNumberResidencePlace?.touched"
+              class="invalid-form"
+            >
+              <small class="form-text text-danger">
+                Không được bỏ trống
+              </small>
             </span>
           </div>
         </div>
@@ -644,10 +958,16 @@
   </div>
 
   <div class="col-12 button_summit d-flex justify-content-end pb-1">
-    <button type="submit" rippleEffect class="btn btn-primary mr-1"  (click) = "onSubmit()" >Submit</button>
-    <button type="reset" rippleEffect class="btn btn-outline-secondary">Reset</button>
+    <button
+      type="submit"
+      rippleEffect
+      class="btn btn-primary mr-1"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+    <button type="reset" rippleEffect class="btn btn-outline-secondary">
+      Reset
+    </button>
   </div>
-  
 </form>
-    
-  

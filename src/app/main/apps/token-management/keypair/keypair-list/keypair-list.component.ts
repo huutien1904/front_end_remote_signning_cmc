@@ -63,7 +63,7 @@ export class KeypairListComponent implements OnInit {
   }
 
   public changeCryptoSystemName(event: Event): void {
-    console.log(this.formListKeyPair.get('cryptoSystemParam').setValue(this.formListKeyPair.get('cryptoSystemName').value.param[0]));
+    this.formListKeyPair.get('cryptoSystemParam').setValue(this.formListKeyPair.get('cryptoSystemName').value.param[0])
     console.log(this.formListKeyPair.value);
   }
 
@@ -113,5 +113,8 @@ export class KeypairListComponent implements OnInit {
       this.isHovered(date)
     );
   }
+
+
+
 
 }
