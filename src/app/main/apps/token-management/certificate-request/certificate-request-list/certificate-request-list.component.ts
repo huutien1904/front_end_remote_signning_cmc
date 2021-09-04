@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
-  NgbDateStruct,
   NgbCalendar,
   NgbDate,
   NgbDateParserFormatter,
-  NgbTimeStruct,
 } from "@ng-bootstrap/ng-bootstrap";
+import { CertificateRequestListService } from "./certificate-request-list.service";
 @Component({
   selector: "app-certificate-request-list",
   templateUrl: "./certificate-request-list.component.html",
@@ -25,10 +24,32 @@ export class CertificateRequestListComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private calendar: NgbCalendar,
-    public formatter: NgbDateParserFormatter
+    public formatter: NgbDateParserFormatter,
+    private listService: CertificateRequestListService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
+  }
+
+    //Table
+    public list: any;
+    public listTemp: any;
+    public selectedOption = 10;
+    public pageNo = 1;
+    public total;
+
+      //Truyen du lieu ra bang
+  getDataTable(pageSize, page) {
+    this.listService.getData(pageSize, page).subscribe((response: any) => {
+      this.list = response.data.data;
+      this.listTemp = response.data.data
+      this.total = response.data.totalItems;
+      this.selectedOption = pageSize
+      console.log(this.list);
+      for(let item of this.list) {
+        console.log(item.certificateRequest);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -38,7 +59,20 @@ export class CertificateRequestListComponent implements OnInit {
       fromDate: [null],
       toDate: [null],
     });
+
+    this.getDataTable(10, 1);
   }
+
+    //Chuyen trang
+    load(event) {
+      this.pageNo = event;
+      this.getDataTable(this.formListCertificateRequest.controls['sizePage'].value, this.pageNo);
+    }
+    //Doi so luong dong tren 1 trang
+    changePageSize(event) {
+      console.log(event);
+      this.getDataTable(event, 1);
+    }
 
   onSubmit() {
     console.log(this.fb.control);
