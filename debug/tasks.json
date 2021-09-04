@@ -31,7 +31,7 @@
       },
       "options": {
         // Note: The ./client directory
-        "cwd": "${workspaceFolder}/client"
+        "cwd": "${workspaceFolder}"
       }
     }
   ]

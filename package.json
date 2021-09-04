@@ -18,14 +18,16 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "12.0.3",
-    "@angular/cdk": "12.0.4",
-    "@angular/common": "12.0.3",
+    "@angular/cdk": "^12.0.4",
+    "@angular/common": "",
     "@angular/compiler": "12.0.3",
-    "@angular/core": "12.0.3",
+    "@angular/core": "",
     "@angular/flex-layout": "12.0.0-beta.34",
     "@angular/forms": "12.0.3",
     "@angular/google-maps": "12.0.4",
     "@angular/localize": "12.0.3",
+    "@angular/material": "^12.2.4",
+    "@angular/material-moment-adapter": "^12.2.4",
     "@angular/platform-browser": "12.0.3",
     "@angular/platform-browser-dynamic": "12.0.3",
     "@angular/router": "12.0.3",
@@ -56,6 +58,7 @@
     "hammerjs": "2.0.8",
     "katex": "0.13.11",
     "lodash": "4.17.21",
+    "moment": "^2.29.1",
     "ng-apexcharts": "1.5.8",
     "ng-block-ui": "3.0.2",
     "ng2-charts": "2.4.2",
@@ -80,7 +83,7 @@
     "rxjs": "6.6.0",
     "sweetalert2": "9.17.2",
     "swiper": "6.7.0",
-    "tslib": "2.2.0",
+    "tslib": "2.3.1",
     "vue": "^2.6.14",
     "zone.js": "0.11.4"
   },
@@ -99,7 +102,7 @@
     "karma-coverage": "2.0.3",
     "karma-jasmine": "4.0.0",
     "karma-jasmine-html-reporter": "1.5.0",
-    "typescript": "4.2.3",
+    "typescript": "^4.2.3",
     "webpack-bundle-analyzer": "4.4.2"
   }
 }
