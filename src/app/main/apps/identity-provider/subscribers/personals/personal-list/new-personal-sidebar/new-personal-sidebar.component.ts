@@ -7,6 +7,8 @@ import {
   ValidationErrors,
   Validators,
 } from "@angular/forms";
+import { DateAdapter } from "@angular/material/core";
+import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddressService } from "app/main/apps/identity-provider/address.service";
 import { Commune, District, Province, Street } from "app/main/models/Address";
@@ -26,6 +28,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   private _unsubscribeAll = new Subject();
 
   /** @public */
+  coreConfig: any;
   public submitted = false;
   public display = "none"; //default Variable
   /**@form */
@@ -74,8 +77,14 @@ export class NewPersonalSidebarComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private _addressService: AddressService,
-    private _toastrService: ToastrService
-  ) {}
+    private _toastrService: ToastrService,
+    private dateAdapter: DateAdapter<any>,
+    private _coreConfigService: CoreConfigService
+  ) {
+    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
+      this.dateAdapter.setLocale(config.app.appLanguage); 
+    });
+  }
 
   ngOnInit(): void {
     this.newPersonal = this.fb.group({
@@ -98,7 +107,7 @@ export class NewPersonalSidebarComponent implements OnInit {
       streetResidencePlace: [{value:null, disabled : true}, Validators.required],
       homeNumberResidencePlace: [{value:null, disabled : true}, Validators.required],
       gender: [this.gender[0], [Validators.required]],
-      birthday: [null, [Validators.required]],
+      birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email]],
     });
 

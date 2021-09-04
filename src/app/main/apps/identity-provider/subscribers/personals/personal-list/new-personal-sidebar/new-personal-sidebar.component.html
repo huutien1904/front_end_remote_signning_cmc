@@ -192,17 +192,19 @@
             f.birthday.errors && f.birthday?.touched
               ? 'is-invalid'
               : ''
-          ">
-              <div class="input-group-prepend">
-                <span class="input-group-text"
-                  ><i data-feather="more-horizontal"></i
-                ></span>
-              </div>
+          " 
+          >
+            <div class="input-group-prepend">
+              <span class="input-group-text" (click)="picker1.open()"
+                ><i data-feather="calendar"></i
+              ></span>
+            </div>
               <input
+               
+               [matDatepicker]="picker1"
                 formControlName="birthday"
-                type="text"
                 class="form-control"
-                placeholder="19/04/2000"
+                type="text"
                 [ngClass]="
                   f.birthday.errors && f.birthday?.touched
                     ? 'is-invalid'
@@ -210,20 +212,16 @@
                 "
               />
             </div>
+            <mat-datepicker #picker1 ></mat-datepicker>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="f.birthday.errors&&f.birthday?.touched" class="invalid-form">
+            <span *ngIf="f.birthday.errors?.required&&f.birthday?.touched" class="invalid-form">
+            
               <small
                 class="form-text text-danger"
-                *ngIf="f.birthday.errors.required"
+                *ngIf="f.birthday.invalid"
               >
-                Không được bỏ trống
-              </small>
-              <small
-                class="form-text text-danger"
-                *ngIf="f.birthday.errors.pattern"
-              >
-                điền đúng cú pháp dd/mm/yyyy
+                Điền đúng cú pháp định dạng. Ví dụ: 19/04/1992
               </small>
             </span>
           </div>

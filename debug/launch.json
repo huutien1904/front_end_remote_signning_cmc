@@ -8,7 +8,7 @@
         "preLaunchTask": "npm: start",
         "url": "http://localhost:4200/",
   
-        "webRoot": "${workspaceFolder}/client",
+        "webRoot": "${workspaceFolder}",
         
         "sourceMaps": true,
         "sourceMapPathOverrides": {
