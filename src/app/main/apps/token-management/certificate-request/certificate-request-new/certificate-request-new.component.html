@@ -1,0 +1,32 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <section id="search-equipment-management" class="row">
+            <div class="col-md-6">
+                <form class="form form-horizontal" [formGroup]="formSelectSearch">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div class="col-sm-3 col-form-label">
+                                    <h5>Loại tìm kiếm:</h5>
+                                </div>
+                                <div class="col-sm-9">
+                                    <ng-select [items]="searchType" bindLabel="name" placeholder="Chọn loại tìm kiếm" formControlName="searchType">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section id="search-content" *ngIf="formSelectSearch.valid" [ngSwitch]="formSelectSearch.controls['searchType'].value">
+            <div *ngSwitchCase=searchType[0]>
+                <app-personals></app-personals>
+            </div>
+            <div *ngSwitchCase=searchType[1]>
+                <app-organizations></app-organizations>
+            </div>
+        </section>
+    </div>
+</div>
