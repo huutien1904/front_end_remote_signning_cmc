@@ -6,6 +6,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { PersonalListService } from './personal-list.service';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
+// import { TablePersonalListComponent } from './table-personal-list/table-personal-list.component';
 
 
 
@@ -17,6 +18,7 @@ import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-b
 })
 export class PersonalListComponent implements OnInit {
   
+  @ViewChild(TablePersonalListComponent) tablePersonalList;
   public typeListPersonal = "listPersonal";
   public rows;
   public page = 0
@@ -25,21 +27,28 @@ export class PersonalListComponent implements OnInit {
   public pageAdvancedEllipses = 1;
   public totalPages:number 
   public sizePage = [5,10,15,20]
+
   public hoveredDate: NgbDate | null = null;
   public fromDate: NgbDate | null;
   public toDate: NgbDate | null;
   public birthDay:NgbDate | null
   public today = this.calendar.getToday();
+  // public slectedSex = [];
   sexOption:any[] = [
     "Nam",
     "Nữ",
   ]
+  // public selectedActive = [];
+  
+  // public searchValue = '';
+
   private _unsubscribeAll: Subject<any>;
   formListPersonal: FormGroup;
 
   /**
    * Constructor
    *
+   * @param {CoreConfigService} _coreConfigService
    * @param {UserListService} PersonalListService
    * @param {CoreSidebarService} _coreSidebarService
    * @param {NgbModal} modalService
@@ -48,6 +57,7 @@ export class PersonalListComponent implements OnInit {
   constructor(
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
+    private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private calendar: NgbCalendar,
@@ -82,13 +92,7 @@ export class PersonalListComponent implements OnInit {
     })
   }
   selectItem(e){
-    console.log(e)
-    const item = Number(e)
-    this.itemOnPage = Number(e)
-    this._userListService.getData(this.page,item).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
-      this.rows = respon.data.data;
-    })
+    this.tablePersonalList.selectItem(this.formListPersonal.get('sizePage').value);
   }
   updateTable(){
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
