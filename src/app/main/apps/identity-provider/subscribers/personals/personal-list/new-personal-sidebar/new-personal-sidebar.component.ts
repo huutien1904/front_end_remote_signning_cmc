@@ -217,10 +217,9 @@ selectProvince(type){
               ).subscribe((res) => {
                 this.districtResidencePlace =res;
                 this.newPersonal.get('districtResidencePlace').enable();
-              });
-              break;
+              })
+      break;
     };
-    
     case 1: {
       this.newPersonal.patchValue({
         districtBirthPlace : null,
@@ -229,7 +228,7 @@ selectProvince(type){
         homeNumberBirthPlace:null,
       })
       this._addressService
-              .getDistrict(this.newPersonal.get('provinceBirthPlace').value)
+              .getDistrict(this.newPersonal.get('provinceBirthPlace').value.provinceId)
               .pipe(
                 map((res) => {
                   const data = res.data.map((district) => ({
@@ -243,10 +242,9 @@ selectProvince(type){
               ).subscribe((res) => {
                 this.districtBirthPlace =res;
                 this.newPersonal.get('districtBirthPlace').enable();
-              });
+              })
               break;
     };
-
   }
 }
 

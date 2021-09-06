@@ -26,7 +26,6 @@ export class AddressService {
     },
   };
 
-
   public getProvince(idCountry): Observable<ResponseData<Province[]>> {
     return this._httpClient.get<ResponseData<Province[]>>(
       `${environment.apiUrl}/address/province/list/${idCountry}`,
