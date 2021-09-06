@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError,tap,map } from 'rxjs/operators';
 // import {of} from 'rxjs/observable/of'
 import { of } from 'rxjs';
+import { environment } from 'environments/environment';
 @Injectable()
 export class PersonalListService implements Resolve<any> {
   public rows: any;
@@ -20,7 +21,22 @@ export class PersonalListService implements Resolve<any> {
     // Set the defaults
     this.onUserListChanged = new BehaviorSubject({});
   }
-
+  private readonly currentUser = JSON.parse(
+    localStorage.getItem("currentUser")
+  );
+  private readonly token = this.currentUser.token;
+  private option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + this.token,
+    },
+  };
+  public submitForm(body): Observable<any> {
+    return this._httpClient.post<any>(
+      `${environment.apiUrl}/personal/create`,body,
+      this.option
+    );
+  }
   /**
    * Resolver
    *

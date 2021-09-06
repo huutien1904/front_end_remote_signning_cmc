@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation ,TemplateRef} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ColumnMode, DatatableComponent, } from '@swimlane/ngx-datatable';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { PersonalListService } from './personal-list.service';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
-// import { TablePersonalListComponent } from './table-personal-list/table-personal-list.component';
 
 
 
@@ -14,33 +14,35 @@ import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-b
   selector: 'app-personal-list',
   templateUrl: './personal-list.component.html',
   styleUrls: ['./personal-list.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class PersonalListComponent implements OnInit {
-  
-  @ViewChild(TablePersonalListComponent) tablePersonalList;
-  public typeListPersonal = "listPersonal";
   public rows;
+  public moreOption = true
   public page = 0
-  public moreOption = true;
-  public itemOnPage = 5  
+  public itemOnPage = 3  
   public pageAdvancedEllipses = 1;
-  public totalPages:number 
+  public totalPages:number
   public sizePage = [5,10,15,20]
-
   public hoveredDate: NgbDate | null = null;
   public fromDate: NgbDate | null;
   public toDate: NgbDate | null;
   public birthDay:NgbDate | null
   public today = this.calendar.getToday();
-  // public slectedSex = [];
   sexOption:any[] = [
     "Nam",
     "Nữ",
   ]
-  // public selectedActive = [];
+  public selectedActive = [];
   
-  // public searchValue = '';
+  public searchValue = '';
+
+  // Decorator
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  
+  // Private
+
+  // fake db
 
   private _unsubscribeAll: Subject<any>;
   formListPersonal: FormGroup;
@@ -79,7 +81,7 @@ export class PersonalListComponent implements OnInit {
       size:'xl'
     });
   }
-  
+
   closeModal(name){
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
@@ -91,14 +93,23 @@ export class PersonalListComponent implements OnInit {
       this.rows = respon.data.data;
     })
   }
+
   selectItem(e){
-    this.tablePersonalList.selectItem(this.formListPersonal.get('sizePage').value);
+    console.log(e)
+    const item = Number(e)
+    this.itemOnPage = Number(e)
+    this._userListService.getData(this.page,item).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10
+      this.rows = respon.data.data;
+    })
   }
+
   updateTable(){
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
       this.rows = respon.data.data;
     })
   }
+
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
@@ -114,6 +125,7 @@ export class PersonalListComponent implements OnInit {
       this.fromDate = date;
     }
   }
+
   isHovered(date: NgbDate) {
     return (
       this.fromDate &&
@@ -146,7 +158,7 @@ export class PersonalListComponent implements OnInit {
    */
   ngOnInit(): void {
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10;
+      this.totalPages = respon.data.totalPages * 10
       this.rows = respon.data.data;
     })
     this.formListPersonal = this.fb.group({

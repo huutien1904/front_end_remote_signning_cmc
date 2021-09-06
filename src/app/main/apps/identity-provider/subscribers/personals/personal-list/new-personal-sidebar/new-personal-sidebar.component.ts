@@ -1,10 +1,9 @@
+import { PersonalListService } from './../personal-list.service';
 import { HttpClient } from "@angular/common/http";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
@@ -16,7 +15,6 @@ import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
 import { Observable, of, Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-
 @Component({
   selector: "app-new-personal-sidebar",
   templateUrl: "./new-personal-sidebar.component.html",
@@ -79,7 +77,8 @@ export class NewPersonalSidebarComponent implements OnInit {
     private _addressService: AddressService,
     private _toastrService: ToastrService,
     private dateAdapter: DateAdapter<any>,
-    private _coreConfigService: CoreConfigService
+    private _coreConfigService: CoreConfigService,
+    private _personalListService:PersonalListService
   ) {
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.dateAdapter.setLocale(config.app.appLanguage); 
@@ -95,18 +94,18 @@ export class NewPersonalSidebarComponent implements OnInit {
       personalCountryId: [null, Validators.required],
       organizationId: [null, Validators.required],
       streetBirthPlace: [{value:null, disabled : true}, Validators.required],
-      countryBirthPlace: [this.countryBirthPlace[0]],
+      countryBirthPlace: [null,Validators.required],
       provinceBirthPlace: [null, Validators.required],
       districtBirthPlace: [{value:null, disabled : true}, Validators.required],
       communeBirthPlace: [{value:null, disabled : true}, Validators.required],
       homeNumberBirthPlace: [{value:null, disabled : true}, Validators.required],
-      countryResidencePlace: [this.countryResidencePlace[0]],
+      countryResidencePlace: [null,Validators.required],
       provinceResidencePlace: [null, Validators.required],
       districtResidencePlace: [{value:null, disabled : true}, Validators.required],
       communeResidencePlace: [{value:null, disabled : true}, Validators.required],
       streetResidencePlace: [{value:null, disabled : true}, Validators.required],
       homeNumberResidencePlace: [{value:null, disabled : true}, Validators.required],
-      gender: [this.gender[0], [Validators.required]],
+      gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email]],
     });
@@ -203,7 +202,7 @@ selectProvince(type){
         homeNumberResidencePlace:null,
       })
       this._addressService
-              .getDistrict(this.newPersonal.get('provinceResidencePlace').value.provinceId)
+              .getDistrict(this.newPersonal.get('provinceResidencePlace').value)
               .pipe(
                 map((res) => {
                   const data = res.data.map((district) => ({
@@ -215,6 +214,7 @@ selectProvince(type){
                 }),
                 takeUntil(this._unsubscribeAll)
               ).subscribe((res) => {
+                // console.log(res)
                 this.districtResidencePlace =res;
                 this.newPersonal.get('districtResidencePlace').enable();
               })
@@ -228,7 +228,7 @@ selectProvince(type){
         homeNumberBirthPlace:null,
       })
       this._addressService
-              .getDistrict(this.newPersonal.get('provinceBirthPlace').value.provinceId)
+              .getDistrict(this.newPersonal.get('provinceBirthPlace').value)
               .pipe(
                 map((res) => {
                   const data = res.data.map((district) => ({
@@ -257,7 +257,7 @@ selectDistrict(type:number){
         homeNumberResidencePlace:null,
       })
       this._addressService
-              .getCommune(this.newPersonal.get('districtResidencePlace').value.districtId)
+              .getCommune(this.newPersonal.get('districtResidencePlace').value)
               .pipe(
                 map((res) => {
                   const data = res.data.map((commune) => ({
@@ -281,7 +281,7 @@ selectDistrict(type:number){
         homeNumberBirthPlace:null,
       })
       this._addressService
-              .getCommune(this.newPersonal.get('districtBirthPlace').value.districtId)
+              .getCommune(this.newPersonal.get('districtBirthPlace').value)
               .pipe(
                 map((res) => {
                   const data = res.data.map((commune) => ({
@@ -308,7 +308,7 @@ selectCommune(type:number){
         homeNumberResidencePlace:null,
       })
       this._addressService
-              .getStreet(this.newPersonal.get('communeResidencePlace').value.communeId)
+              .getStreet(this.newPersonal.get('communeResidencePlace').value)
               .pipe(
                 map((res) => {
                   const data = res.data.map((street) => ({
@@ -331,7 +331,7 @@ selectCommune(type:number){
         homeNumberBirthPlace:null,
       })
       this._addressService
-              .getStreet(this.newPersonal.get('communeBirthPlace').value.communeId)
+              .getStreet(this.newPersonal.get('communeBirthPlace').value)
               .pipe(
                 map((res) => {
                   const data = res.data.map((street) => ({
@@ -378,7 +378,7 @@ onSubmitCreateStreet(type, streetName) {
   switch (type) {
     case 1: {
       const communeId = this.newPersonal.get("communeResidencePlace").value
-        .communeId;
+        ;
       const body = {
         streetName: streetName,
         streetType: "Đường",
@@ -386,7 +386,7 @@ onSubmitCreateStreet(type, streetName) {
       };
       this._addressService.createStreet(body).subscribe((res) => {
         this.streetResidencePlace = [...this.streetResidencePlace, res.data];
-        if(this.newPersonal.get("communeBirthPlace").value!=null&&communeId==this.newPersonal.get("communeBirthPlace").value.communeId){
+        if(this.newPersonal.get("communeBirthPlace").value!=null&&communeId==this.newPersonal.get("communeBirthPlace").value){
           this.streetBirthPlace = [...this.streetBirthPlace, res.data];
         }
         this._toastrService.success(
@@ -401,7 +401,7 @@ onSubmitCreateStreet(type, streetName) {
     }
     case 2: {
       const communeId =
-        this.newPersonal.get("communeBirthPlace").value.communeId;
+        this.newPersonal.get("communeBirthPlace").value;
       const body = {
         streetName: streetName,
         streetType: "Đường",
@@ -411,7 +411,7 @@ onSubmitCreateStreet(type, streetName) {
       this._addressService.createStreet(body).subscribe((res) => {
         //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
         this.streetBirthPlace = [...this.streetBirthPlace, res.data];
-        if(this.newPersonal.get("communeResidencePlace").value!=null&&communeId==this.newPersonal.get("communeResidencePlace").value.communeId){
+        if(this.newPersonal.get("communeResidencePlace").value!=null&&communeId==this.newPersonal.get("communeResidencePlace").value){
           this.streetResidencePlace = [...this.streetResidencePlace, res.data];
         }
         //Gửi thông báo thành công lên góc bên phải màn hình
@@ -453,22 +453,28 @@ onSubmitCreateStreet(type, streetName) {
       return;
     }
     const newPersonal = JSON.stringify(this.newPersonal.value);
-    console.log(newPersonal);
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    };
+    this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+      if ((res.result = "true")) {
+        this.toggleSidebar();
+        this.updateTable();
+      }
+    });
+    // console.log(newPersonal);
+    // const option = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
     // display form values on success
-    return this._httpClient
-      .post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option)
-      .subscribe((respon: any) => {
-        if ((respon.result = "true")) {
-          this.toggleSidebar();
-          this.updateTable();
-        }
-      });
+    // return this._httpClient
+    //   .post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option)
+    //   .subscribe((respon: any) => {
+    //     if ((respon.result = "true")) {
+    //       this.toggleSidebar();
+    //       this.updateTable();
+    //     }
+    //   });
   }
 
   /**
