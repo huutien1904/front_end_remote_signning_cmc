@@ -243,193 +243,119 @@
         </div>
       </ng-template>
     </div>
-    <!-- table content -->
-    <div class="content-wrapper container-xxl p-0">
-      <div class="content-body">
-        <!-- User List -->
-        <section class="users-list-wrapper">
-          <div class="card">
-            <!-- table -->
-            <ngx-datatable
-              [rows]="rows"
-              [rowHeight]="60"
-              class="bootstrap core-bootstrap"
-              [limit]="selectedOption"
-              [columnMode]="ColumnMode.force"
-              [headerHeight]="50"
-              [footerHeight]="50"
-              [scrollbarH]="true"
-            >
-              <ngx-datatable-column
-                name="STT"
-                prop="index"
-                [width]="10"
-              ></ngx-datatable-column>
-              <ngx-datatable-column
-                name="CMND/CCCD"
-                prop="personalCountryId"
-                [width]="50"
-              ></ngx-datatable-column>
 
-              <ngx-datatable-column name="Họ và tên" prop="" [width]="100">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.personalFirstName }} {{ row.personalMiddleName }}
-                  {{ row.personalLastName }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column
-                name="ngày sinh"
-                prop="birthday"
-                [width]="50"
-              >
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.birthday  }}
-              </ng-template>
-            </ngx-datatable-column>
-
-              <!-- <ngx-datatable-column
-                name="Hoạt động"
-                prop="isActive"
-                [width]="40"
-              >
-                <ng-template let-status="value" ngx-datatable-cell-template>
-                  <a href="">
-                    <div>
-                      {{ status }}
-                    </div>
-                  </a>
-                </ng-template>
-              </ngx-datatable-column> -->
-
-              <!-- <ngx-datatable-column
-                name="thời gian cập nhật"
-                prop="updatedAt"
-                [width]="100"
-              >
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.updatedAt.slice(0, 10) }}
-                  {{ row.updatedAt.slice(11, 19) }}
-                </ng-template>
-              </ngx-datatable-column> -->
-
-              <ngx-datatable-column
-                name="Giới tính"
-                prop="gender"
-                [width]="100"
-              >
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.gender }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column
-                name="Tổ chức"
-                prop="organizationId"
-                [width]="100"
-              >
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.organizationId == null ? "Không có" : "" }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column
-                name="email"
-                prop="email"
-                [width]="100"
-                ng-maxlength="5"
-              >
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row.email | limitTo: 20
-                  }}{{ row.email.length > 20 ? "..." : "" }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column
-                name="Xem thêm"
-                [width]="40"
-                [sortable]="false"
-              >
-                <ng-template ngx-datatable-cell-template let-row="row">
-                  <div ngbDropdown container="body">
-                    <button
-                      ngbDropdownToggle
-                      type="button"
-                      class="btn icon-btn btn-sm hide-arrow"
-                      rippleEffect
-                    >
-                      <span
-                        [data-feather]="'more-vertical'"
-                        [class]="'cursor-pointer'"
-                      ></span>
-                    </button>
-                    <div ngbDropdownMenu>
-                      <a
-                        routerLink="../subscribers/personals/personal-view/{{
-                          row.personalId
-                        }}"
-                        ngbDropdownItem
-                        ><span
-                          [data-feather]="'file-text'"
-                          [size]="16"
-                          [class]="'mr-50'"
-                        ></span>
-                        Details</a
-                      ><a
-                        routerLink="/apps/user/user-edit/{{ row.id }}"
-                        ngbDropdownItem
-                        ><span
-                          [data-feather]="'edit'"
-                          [size]="16"
-                          [class]="'mr-50'"
-                        ></span>
-                        Edit</a
-                      ><a href="javascript:;" ngbDropdownItem
-                        ><span
-                          [data-feather]="'trash'"
-                          [size]="16"
-                          [class]="'mr-50'"
-                        ></span>
-                        Delete</a
-                      >
-                    </div>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
+    <div class="card">
+      <div class="row">
+          <div class="col-12">
+              <div class="table-responsive">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>TT</th>
+                              <th>CMND/CCCD</th>
+                              <th>HỌ VA TÊN</th>
+                              <th>NGÀY SINH</th>
+                              <th>GIỚI TÍNH</th>
+                              <th>TỔ CHỨC</th>
+                              <th>EMAIL</th>
+                              <th>XEM THÊM</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of rows; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{item.personalCountryId}}</td>
+                              <td>{{ item.personalFirstName }} {{ item.personalMiddleName }}{{ item.personalLastName }}</td>
+                              <td>{{ item.birthday  }}</td>
+                              <td>{{ item.gender }}</td>
+                              <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
+                              <td>{{ item.email | limitTo: 20
+                              }}{{ item.email.length > 20 ? "..." : "" }}</td>
+                              <td>
+                                <div ngbDropdown container="body">
+                                  <button
+                                    ngbDropdownToggle
+                                    type="button"
+                                    class="btn icon-btn btn-sm hide-arrow"
+                                    rippleEffect
+                                  >
+                                    <span
+                                      [data-feather]="'more-vertical'"
+                                      [class]="'cursor-pointer'"
+                                    ></span>
+                                  </button>
+                                  <div ngbDropdownMenu>
+                                    <a
+                                      routerLink="../subscribers/personals/personal-view/{{
+                                        item.personalId
+                                      }}"
+                                      ngbDropdownItem
+                                      ><span
+                                        [data-feather]="'file-text'"
+                                        [size]="16"
+                                        [class]="'mr-50'"
+                                      ></span>
+                                      Details</a
+                                    ><a
+                                      routerLink="/apps/user/user-edit/{{ item.id }}"
+                                      ngbDropdownItem
+                                      ><span
+                                        [data-feather]="'edit'"
+                                        [size]="16"
+                                        [class]="'mr-50'"
+                                      ></span>
+                                      Edit</a
+                                    ><a href="javascript:;" ngbDropdownItem
+                                      ><span
+                                        [data-feather]="'trash'"
+                                        [size]="16"
+                                        [class]="'mr-50'"
+                                      ></span>
+                                      Delete</a
+                                    >
+                                  </div>
+                                </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
-        </section>
-        <!--/ User List -->
-
-        <div class="pagination">
-          <ngb-pagination
-            [(collectionSize)]="totalPages"
-            [(page)]="pageAdvancedEllipses"
-            [maxSize]="3"
-            [rotate]="true"
-            [boundaryLinks]="true"
-            (pageChange)="changePage($event)"
-          >
-            <ng-template ngbPaginationFirst>Đầu tiên</ng-template>
-            <ng-template ngbPaginationPrevious
-              ><span
-                [data-feather]="'chevron-left'"
-                [class]="'font-weight-bolder'"
-              ></span
-              >Quay lại
-            </ng-template>
-            <ng-template ngbPaginationNext
-              >Tiếp<span
-                [data-feather]="'chevron-right'"
-                [class]="'font-weight-bolder'"
-              ></span>
-            </ng-template>
-            <ng-template ngbPaginationLast>Cuối</ng-template>
-          </ngb-pagination>
-        </div>
       </div>
-
-      <!-- New User Sidebar -->
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col-xl-2 ml-1">
+          <div class="total_item">
+            {{itemOnPage}} dòng
+          </div>
+        </div>
+        <div class="col-xl-6 mt-1 mr-1">
+          <ngb-pagination
+          [(collectionSize)]="totalPages"
+          [(page)]="pageAdvancedEllipses"
+          [maxSize]="3"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="changePage($event)"
+          class="d-flex justify-content-end"
+        >
+          <ng-template ngbPaginationFirst>Đầu</ng-template>
+          <ng-template ngbPaginationPrevious
+            ><span
+              [data-feather]="'chevron-left'"
+              [class]="'font-weight-bolder'"
+            ></span
+            >Quay lại
+          </ng-template>
+          <ng-template ngbPaginationNext
+            >Tiếp<span
+              [data-feather]="'chevron-right'"
+              [class]="'font-weight-bolder'"
+            ></span>
+          </ng-template>
+          <ng-template ngbPaginationLast>Cuối</ng-template>
+        </ngb-pagination>
+        </div>
     </div>
-    <!-- end table content -->
+  </div>
   </div>
 </div>

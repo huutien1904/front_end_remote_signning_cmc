@@ -87,10 +87,9 @@ export const menu: CoreMenu[] = [
       {
         id: 'certificate-request-list',
         title: 'Tạo yêu cầu chứng thực',
-        translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.LIST',
         type: 'item',
         icon: 'file-text',
-        url: '/apps/tm/certificate-request/certificate-request-create'
+        url: '/apps/tm/certificate-request/certificate-request-new'
       },
         /*children: [
           {

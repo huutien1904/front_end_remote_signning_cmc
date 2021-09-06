@@ -33,18 +33,7 @@ export class PersonalListComponent implements OnInit {
   public pageAdvancedEllipses = 1;
   public totalItems:number
   public totalPages:number 
-  public sizePage = [
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-  ]
+  public sizePage = [5,10,15,20]
   public selectActive: any = [
     { name: 'All', value: '' },
     { name: 'Hoạt động', value: 'hoạt động' },
