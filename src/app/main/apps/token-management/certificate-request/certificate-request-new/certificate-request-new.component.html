@@ -1,7 +1,7 @@
 <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
         <app-content-header [contentHeader]="contentHeader"></app-content-header>
-        <section id="search-token-management" class="row">
+        <section id="search-equipment-management" class="row">
             <div class="col-md-6">
                 <form class="form form-horizontal" [formGroup]="formSelectSearch">
                     <div class="row">
@@ -22,10 +22,10 @@
         </section>
         <section id="search-content" *ngIf="formSelectSearch.valid" [ngSwitch]="formSelectSearch.controls['searchType'].value">
             <div *ngSwitchCase=searchType[0]>
-                <app-certificate-request-list></app-certificate-request-list>
+                <app-personals></app-personals>
             </div>
             <div *ngSwitchCase=searchType[1]>
-                <app-subscriber-certificate-list></app-subscriber-certificate-list>
+                <app-organizations></app-organizations>
             </div>
         </section>
     </div>

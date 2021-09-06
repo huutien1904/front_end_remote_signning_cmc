@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực</h4>
+</div>
+<div class="modal-body" tabindex="0" ngbAutofocus>
+    <form [formGroup]="NewRequestForm">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="form-group">
+                    <label for="">Hệ mật</label>
+                    <ng-select [items]="cryptoSelect" bindLabel="name" [clearable]="false" [ngClass]="{ 'is-invalid': submitted && NewRequestForm.controls.crypto.errors }" formControlName="crypto" (change)="test($event)"></ng-select>
+                    <div *ngIf="submitted && NewRequestForm.controls.crypto.errors" class="invalid-feedback">
+                        <div *ngIf="NewRequestForm.controls.crypto.errors.required">Bạn cần chọn hệ mật</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 offset-3">
+                <div class="form-group">
+                    <label for="">Độ dài khóa</label>
+                    <ng-select [items]="lengthSelect" bindLabel="name" [clearable]="false" [ngClass]="{ 'is-invalid': submitted && NewRequestForm.controls.keyLength.errors }" [(ngModel)]="Form.keyLength" formControlName="keyLength"></ng-select>
+                    <div *ngIf="submitted && NewRequestForm.controls.keyLength.errors" class="invalid-feedback">
+                        <div *ngIf="submitted && NewRequestForm.controls.keyLength.errors.required">Bạn cần chọn độ dài khóa</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 offset-3">
+                <div class="form-group">
+                    <label for="">Alias</label>
+                    <input type="text" [(ngModel)]="Form.alias" formControlName="alias" class="form-control" [ngClass]="{ 'is-invalid': submitted && NewRequestForm.controls.alias.errors }" />
+                    <div *ngIf="submitted && NewRequestForm.controls.alias.errors" class="invalid-feedback">
+                        <div *ngIf="NewRequestForm.controls.alias.errors.required">Bạn cần nhập alias</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 offset-3">
+                <div class="form-group">
+                    <label for="">Token</label>
+                    <input type="text" [(ngModel)]="Form.token" formControlName="token" class="form-control" [ngClass]="{ 'is-invalid': submitted && NewRequestForm.controls.token.errors }" />
+                    <div *ngIf="submitted && NewRequestForm.controls.token.errors" class="invalid-feedback">
+                        <div *ngIf="NewRequestForm.controls.token.errors.required">Bạn cần nhập token</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer" style="text-align: right;">
+    <button type="button" class="btn btn-primary mr-1" (click)="submit()" rippleEffect>
+        Đăng kí
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="toggleSidebar()" rippleEffect>
+        Hủy
+    </button>
+</div>

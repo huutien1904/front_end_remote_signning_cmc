@@ -19,7 +19,10 @@ const routes: Routes = [
     path: "certificate-request-create",
     component: CertificateRequestCreateComponent, 
   },
-
+  {
+    path: "certificate-request-new",
+    loadChildren: () => import('./certificate-request-new/certificate-request-new.module').then(m => m.CertificateRequestNewModule)
+  },
   {
     path: "certificate-request-view/:id",
     component: CertificateRequestViewComponent,
