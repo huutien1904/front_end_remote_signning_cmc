@@ -86,7 +86,7 @@
             <button
               class="btn btn-outline-secondary mr-1"
               rippleEffect
-              (click)="changeAb()"
+              (click)="moreOption = !moreOption"
             >
               <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
               <i
@@ -106,7 +106,7 @@
             </button>
           </div>
         </div>
-        <div class="row" *ngIf="changeAB">
+        <div class="row" [ngbCollapse]="moreOption">
           <div class="col-md-2">
             <label for="">Số dòng:</label>
             <fieldset class="form-group">
@@ -243,119 +243,7 @@
         </div>
       </ng-template>
     </div>
+    <app-table-personal-list [itemOnPage]="itemOnPage" [typeListPersonal]="typeListPersonal"></app-table-personal-list>
 
-    <div class="card">
-      <div class="row">
-          <div class="col-12">
-              <div class="table-responsive">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                              <th>TT</th>
-                              <th>CMND/CCCD</th>
-                              <th>HỌ VA TÊN</th>
-                              <th>NGÀY SINH</th>
-                              <th>GIỚI TÍNH</th>
-                              <th>TỔ CHỨC</th>
-                              <th>EMAIL</th>
-                              <th>XEM THÊM</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr *ngFor="let item of rows; let i = index">
-                              <td>{{ i + 1 }}</td>
-                              <td>{{item.personalCountryId}}</td>
-                              <td>{{ item.personalFirstName }} {{ item.personalMiddleName }}{{ item.personalLastName }}</td>
-                              <td>{{ item.birthday  }}</td>
-                              <td>{{ item.gender }}</td>
-                              <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
-                              <td>{{ item.email | limitTo: 20
-                              }}{{ item.email.length > 20 ? "..." : "" }}</td>
-                              <td>
-                                <div ngbDropdown container="body">
-                                  <button
-                                    ngbDropdownToggle
-                                    type="button"
-                                    class="btn icon-btn btn-sm hide-arrow"
-                                    rippleEffect
-                                  >
-                                    <span
-                                      [data-feather]="'more-vertical'"
-                                      [class]="'cursor-pointer'"
-                                    ></span>
-                                  </button>
-                                  <div ngbDropdownMenu>
-                                    <a
-                                      routerLink="../subscribers/personals/personal-view/{{
-                                        item.personalId
-                                      }}"
-                                      ngbDropdownItem
-                                      ><span
-                                        [data-feather]="'file-text'"
-                                        [size]="16"
-                                        [class]="'mr-50'"
-                                      ></span>
-                                      Details</a
-                                    ><a
-                                      routerLink="/apps/user/user-edit/{{ item.id }}"
-                                      ngbDropdownItem
-                                      ><span
-                                        [data-feather]="'edit'"
-                                        [size]="16"
-                                        [class]="'mr-50'"
-                                      ></span>
-                                      Edit</a
-                                    ><a href="javascript:;" ngbDropdownItem
-                                      ><span
-                                        [data-feather]="'trash'"
-                                        [size]="16"
-                                        [class]="'mr-50'"
-                                      ></span>
-                                      Delete</a
-                                    >
-                                  </div>
-                                </div>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-      <div class="row d-flex justify-content-between align-items-center">
-        <div class="col-xl-2 ml-1">
-          <div class="total_item">
-            {{itemOnPage}} dòng
-          </div>
-        </div>
-        <div class="col-xl-6 mt-1">
-          <ngb-pagination
-          [(collectionSize)]="totalPages"
-          [(page)]="pageAdvancedEllipses"
-          [maxSize]="3"
-          [rotate]="true"
-          [boundaryLinks]="true"
-          (pageChange)="changePage($event)"
-          class="d-flex justify-content-end"
-        >
-          <ng-template ngbPaginationFirst>Đầu</ng-template>
-          <ng-template ngbPaginationPrevious
-            ><span
-              [data-feather]="'chevron-left'"
-              [class]="'font-weight-bolder'"
-            ></span
-            >Quay lại
-          </ng-template>
-          <ng-template ngbPaginationNext
-            >Tiếp<span
-              [data-feather]="'chevron-right'"
-              [class]="'font-weight-bolder'"
-            ></span>
-          </ng-template>
-          <ng-template ngbPaginationLast>Cuối</ng-template>
-        </ngb-pagination>
-        </div>
-    </div>
-  </div>
   </div>
 </div>

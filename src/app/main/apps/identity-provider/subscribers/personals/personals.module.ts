@@ -10,12 +10,14 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Ng2FlatpickrModule } from "ng2-flatpickr";
+import { MyNgdropdownComponent } from "./personal-list/my-ngdropdown/my-ngdropdown.component";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/new-personal-sidebar.module";
 import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
+import { TablePersonalListComponent } from "./personal-list/table-personal-list/table-personal-list.component";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
 
@@ -24,6 +26,7 @@ import { PersonalViewService } from "./personal-view/personal-view.service";
     PersonalListComponent,
     PersonalViewComponent,
     PersonalEditComponent,
+    TablePersonalListComponent,MyNgdropdownComponent
   ],
   imports: [
     CommonModule, 
@@ -44,7 +47,8 @@ import { PersonalViewService } from "./personal-view/personal-view.service";
     PersonalListComponent,
     PersonalViewComponent,
     PersonalEditComponent,
-    NewPersonalSidebarComponent
+    NewPersonalSidebarComponent,
+    TablePersonalListComponent,MyNgdropdownComponent
     ],
   providers: [PersonalEditService, PersonalListService,  PersonalViewService],
 })
