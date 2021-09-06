@@ -13,3 +13,6 @@
 input:disabled{
     background-color: transparent ;
 }
+::ng-deep .cdk-overlay-container{
+    z-index:2000;
+  }

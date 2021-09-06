@@ -191,7 +191,7 @@
           <div class="col-sm-12 col-form-label">
             <label class="lable">Ngày sinh</label>
           </div>
-          <div class="col-sm-12" (click)="picker1.open()">
+          <div class="col-sm-12" (click)="picker1.open()" style="z-index: 900;">
             <div
               class="input-group input-group-merge"
               [ngClass]="
@@ -406,6 +406,7 @@
               [items]="provinceBirthPlace"
               [clearable]="false"
               bindLabel="provinceDisplay"
+              bindValue="provinceId"
               placeholder="Tỉnh/Thành phố"
               formControlName="provinceBirthPlace"
               (change)="selectProvince(1)"
