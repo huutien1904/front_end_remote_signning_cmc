@@ -7,6 +7,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { PersonalListService } from './personal-list.service';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
+import { TablePersonalListComponent } from './table-personal-list/table-personal-list.component';
 
 
 
@@ -14,10 +15,12 @@ import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-b
   selector: 'app-personal-list',
   templateUrl: './personal-list.component.html',
   styleUrls: ['./personal-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class PersonalListComponent implements OnInit {
   
+  @ViewChild(TablePersonalListComponent) tablePersonalList;
+
   public sidebarToggleRef = false;
   public showTableContent= false;
   public rows;
@@ -25,10 +28,9 @@ export class PersonalListComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public temp = [];
   public pageBasicText = 1;
-  public previousOganizationFilter = '';
   public previousActiveFilter = '';
   public page = 0
-  public itemOnPage = 3  
+  public itemOnPage = 5  
   public changeAB = false
   public pageAdvancedEllipses = 1;
   public totalItems:number
@@ -52,14 +54,6 @@ export class PersonalListComponent implements OnInit {
   public selectedActive = [];
   
   public searchValue = '';
-
-  // Decorator
-  @ViewChild(DatatableComponent) table: DatatableComponent;
-  
-  // Private
-
-  // fake db
-  private tempData = [];
 
   private _unsubscribeAll: Subject<any>;
   formListPersonal: FormGroup;
@@ -103,25 +97,15 @@ export class PersonalListComponent implements OnInit {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
 
-  
-
   changePage(e){
     console.log(typeof(e))
     this.page = e
     this._userListService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
       this.rows = respon.data.data;
-            this.tempData = respon.data.data;
     })
   }
   selectItem(e){
-    console.log(e)
-    const item = Number(e)
-    this.itemOnPage = Number(e)
-    this._userListService.getData(this.page,item).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
-      this.rows = respon.data.data;
-      this.tempData = this.rows;
-    })
+    this.tablePersonalList.selectItem(this.formListPersonal.get('sizePage').value);
   }
   changeAb(){
     this.changeAB =! this.changeAB
@@ -129,7 +113,6 @@ export class PersonalListComponent implements OnInit {
   updateTable(){
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
       this.rows = respon.data.data;
-            this.tempData = this.rows;
     })
   }
   onDateSelection(date: NgbDate) {
@@ -179,14 +162,8 @@ export class PersonalListComponent implements OnInit {
    */
   ngOnInit(): void {
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
-      // console.log(this.totalPages)
-      // console.log(this.totalPages)
-      console.log(respon.data.data[2].birthday);
-      console.log(respon.data.data);
-      console.log(respon.data.data[2].birthday);
+      this.totalPages = respon.data.totalPages * 10;
       this.rows = respon.data.data;
-            this.tempData = this.rows;
     })
     this.formListPersonal = this.fb.group({
       inputPersonal: ["", Validators.required],
