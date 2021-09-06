@@ -10,7 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Ng2FlatpickrModule } from "ng2-flatpickr";
-import { MyNgdropdownComponent } from "./my-ngdropdown/my-ngdropdown.component";
+import { MyNgdropdownComponent } from "./personal-list/my-ngdropdown/my-ngdropdown.component";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
