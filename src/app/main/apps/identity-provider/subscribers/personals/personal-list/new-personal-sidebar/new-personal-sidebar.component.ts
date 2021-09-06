@@ -366,65 +366,65 @@ selectStreet(type:number){
     };
   }
 }
-  modalOpenCreateStreet(modalSuccess) {
-    this.modalService.open(modalSuccess, {
-      centered: true,
-      windowClass: "modal modal-success",
-    });
-  }
-  onSubmitCreateStreet(type, streetName) {
-    switch (type) {
-      case 1: {
-        const communeId = this.newPersonal.get("communeResidencePlace").value
-          .communeId;
-        const body = {
-          streetName: streetName,
-          streetType: "Đường",
-          communeId: communeId,
-        };
-        this._addressService.createStreet(body).subscribe((res) => {
-          this.streetResidencePlace = [...this.streetResidencePlace, res.data];
-          if(this.newPersonal.get("communeBirthPlace").value!=null&&communeId==this.newPersonal.get("communeBirthPlace").value.communeId){
-            this.streetBirthPlace = [...this.streetBirthPlace, res.data];
-          }
-          this._toastrService.success(
-            "Thêm thành công đường " +
-              res.data.streetName +
-              "vào cơ sở dữ liệu",
-            "Thành công",
-            { toastClass: "toast ngx-toastr", closeButton: true }
-          );
-        });
-        return true;
-      }
-      case 2: {
-        const communeId =
-          this.newPersonal.get("communeBirthPlace").value.communeId;
-        const body = {
-          streetName: streetName,
-          streetType: "Đường",
-          communeId: communeId,
-        };
-        //Tạo dữ liệu đường mới lấy từ dữ liệu phường xã đã select
-        this._addressService.createStreet(body).subscribe((res) => {
-          //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
+modalOpenCreateStreet(modalSuccess) {
+  this.modalService.open(modalSuccess, {
+    centered: true,
+    windowClass: "modal modal-success",
+  });
+}
+onSubmitCreateStreet(type, streetName) {
+  switch (type) {
+    case 1: {
+      const communeId = this.newPersonal.get("communeResidencePlace").value
+        .communeId;
+      const body = {
+        streetName: streetName,
+        streetType: "Đường",
+        communeId: communeId,
+      };
+      this._addressService.createStreet(body).subscribe((res) => {
+        this.streetResidencePlace = [...this.streetResidencePlace, res.data];
+        if(this.newPersonal.get("communeBirthPlace").value!=null&&communeId==this.newPersonal.get("communeBirthPlace").value.communeId){
           this.streetBirthPlace = [...this.streetBirthPlace, res.data];
-          if(this.newPersonal.get("communeResidencePlace").value!=null&&communeId==this.newPersonal.get("communeResidencePlace").value.communeId){
-            this.streetResidencePlace = [...this.streetResidencePlace, res.data];
-          }
-          //Gửi thông báo thành công lên góc bên phải màn hình
-          this._toastrService.success(
-            "Thêm thành công đường " +
-              res.data.streetName +
-              "vào cơ sở dữ liệu",
-            "Thành công",
-            { toastClass: "toast ngx-toastr", closeButton: true }
-          );
-        });
-        return true;
-      }
+        }
+        this._toastrService.success(
+          "Thêm thành công đường " +
+            res.data.streetName +
+            "vào cơ sở dữ liệu",
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      });
+      return true;
+    }
+    case 2: {
+      const communeId =
+        this.newPersonal.get("communeBirthPlace").value.communeId;
+      const body = {
+        streetName: streetName,
+        streetType: "Đường",
+        communeId: communeId,
+      };
+      //Tạo dữ liệu đường mới lấy từ dữ liệu phường xã đã select
+      this._addressService.createStreet(body).subscribe((res) => {
+        //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
+        this.streetBirthPlace = [...this.streetBirthPlace, res.data];
+        if(this.newPersonal.get("communeResidencePlace").value!=null&&communeId==this.newPersonal.get("communeResidencePlace").value.communeId){
+          this.streetResidencePlace = [...this.streetResidencePlace, res.data];
+        }
+        //Gửi thông báo thành công lên góc bên phải màn hình
+        this._toastrService.success(
+          "Thêm thành công đường " +
+            res.data.streetName +
+            "vào cơ sở dữ liệu",
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      });
+      return true;
     }
   }
+}
 
   toggleSidebar() {
     this.modalService.dismissAll();
