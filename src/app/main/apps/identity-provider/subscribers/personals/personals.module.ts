@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
 import { CoreDirectivesModule } from "@core/directives/directives";
@@ -14,15 +13,16 @@ import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/new-personal-sidebar.module";
+import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
-import { PersonalListModule } from "./personal-list/personal-list.module";
 
 @NgModule({
   declarations: [
+    PersonalListComponent,
     PersonalViewComponent,
-    PersonalEditComponent
+    PersonalEditComponent,
   ],
   imports: [
     CommonModule, 
@@ -36,14 +36,13 @@ import { PersonalListModule } from "./personal-list/personal-list.module";
     CoreDirectivesModule,
     CoreSidebarModule,
     NewPersonalSidebarModule,
-    RouterModule,
-    PersonalListModule
+
   ],
   exports:[
+    PersonalListComponent,
     PersonalViewComponent,
     PersonalEditComponent,
-    NewPersonalSidebarComponent,
-    PersonalListModule
+    NewPersonalSidebarComponent
     ],
   providers: [PersonalEditService, PersonalListService,  PersonalViewService],
 })
