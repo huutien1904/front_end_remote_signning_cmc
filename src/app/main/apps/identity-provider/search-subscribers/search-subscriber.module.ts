@@ -27,7 +27,7 @@ const routes:Routes = [
       CoreCommonModule,
       RouterModule.forChild(routes),
       PersonalsModule,
-      OrganizationsModule
+      OrganizationsModule,
     ],
     
   })

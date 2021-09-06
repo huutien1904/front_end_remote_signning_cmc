@@ -7,7 +7,6 @@ import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { PersonalListService } from './personal-list.service';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
-import { TablePersonalListComponent } from './table-personal-list/table-personal-list.component';
 
 
 
@@ -19,7 +18,6 @@ import { TablePersonalListComponent } from './table-personal-list/table-personal
 })
 export class PersonalListComponent implements OnInit {
   
-  @ViewChild(TablePersonalListComponent) tablePersonalList;
   public typeListPersonal = "listPersonal";
   public sidebarToggleRef = false;
   public showTableContent= false;
@@ -105,7 +103,13 @@ export class PersonalListComponent implements OnInit {
     })
   }
   selectItem(e){
-    this.tablePersonalList.selectItem(this.formListPersonal.get('sizePage').value);
+    console.log(e)
+    const item = Number(e)
+    this.itemOnPage = Number(e)
+    this._userListService.getData(this.page,item).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10
+      this.rows = respon.data.data;
+    })
   }
   changeAb(){
     this.changeAB =! this.changeAB
