@@ -271,7 +271,47 @@
                               <td>{{ item.email | limitTo: 20
                               }}{{ item.email.length > 20 ? "..." : "" }}</td>
                               <td>
-                                <app-my-ngdropdown *ngIf="typeListPersonal=='listPersonal'"  [item]="item.personalId"></app-my-ngdropdown>
+                                <div ngbDropdown container="body">
+                                  <button
+                                    ngbDropdownToggle
+                                    type="button"
+                                    class="btn icon-btn btn-sm hide-arrow"
+                                    rippleEffect
+                                  >
+                                    <span
+                                      [data-feather]="'more-vertical'"
+                                      [class]="'cursor-pointer'"
+                                    ></span>
+                                  </button>
+                                  <div ngbDropdownMenu>
+                                    <a
+                                    routerLink="/{{item}}"
+                                      ngbDropdownItem
+                                      ><span
+                                        [data-feather]="'file-text'"
+                                        [size]="16"
+                                        [class]="'mr-50'"
+                                      ></span>
+                                      Details</a
+                                    ><a
+                                      routerLink="/apps/user/user-edit/{{ item.personalId }}"
+                                      ngbDropdownItem
+                                      ><span
+                                        [data-feather]="'edit'"
+                                        [size]="16"
+                                        [class]="'mr-50'"
+                                      ></span>
+                                      Edit</a
+                                    ><a href="javascript:;" ngbDropdownItem
+                                      ><span
+                                        [data-feather]="'trash'"
+                                        [size]="16"
+                                        [class]="'mr-50'"
+                                      ></span>
+                                      Delete</a
+                                    >
+                                  </div>
+                                </div>
                               </td>
                           </tr>
                       </tbody>
