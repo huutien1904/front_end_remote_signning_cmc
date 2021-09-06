@@ -20,7 +20,7 @@ import { TablePersonalListComponent } from './table-personal-list/table-personal
 export class PersonalListComponent implements OnInit {
   
   @ViewChild(TablePersonalListComponent) tablePersonalList;
-
+  public typeListPersonal = "listPersonal";
   public sidebarToggleRef = false;
   public showTableContent= false;
   public rows;

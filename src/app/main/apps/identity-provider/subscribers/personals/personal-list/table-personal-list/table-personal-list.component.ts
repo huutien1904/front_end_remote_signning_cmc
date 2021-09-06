@@ -13,6 +13,7 @@ export class TablePersonalListComponent implements OnInit {
   public totalPages:number ;
   public page = 0;
   @Input() itemOnPage;
+  @Input() typeListPersonal;
   constructor(private _userListService: PersonalListService,) { }
 
   ngOnInit() : void{
