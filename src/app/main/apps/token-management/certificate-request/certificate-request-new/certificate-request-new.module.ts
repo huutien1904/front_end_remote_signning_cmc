@@ -6,7 +6,7 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { CoreCommonModule } from '@core/common.module';
 import { CertificateRequestNewComponent } from './certificate-request-new.component';
 import { OrganizationsModule } from './organizations/organizations.module';
-import { PersonalsModule } from './personals/personals.module';
+import { PersonalsModule } from './personals/personals-list/personals.module';
 
 const routes: Routes = [
   {

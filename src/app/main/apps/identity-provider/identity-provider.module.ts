@@ -70,7 +70,6 @@ const routes: Routes = [
     ReactiveFormsModule, 
   ],
   providers: [],
-  exports: [RouterModule],
 })
 export class IdentityProviderModule {
   constructor() {}

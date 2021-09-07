@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PersonalsModule } from './personals/personals.module';
+import { SubscriseRoutingModule } from './subscribers-routing.module';
 
 
 /**
@@ -27,7 +28,8 @@ import { PersonalsModule } from './personals/personals.module';
   ],
   imports: [
     CommonModule, 
-    PersonalsModule
+    PersonalsModule,
+    SubscriseRoutingModule
     // RouterModule.forChild(routes),
   ],
   // exports:[PersonalsModule]

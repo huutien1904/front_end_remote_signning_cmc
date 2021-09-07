@@ -454,6 +454,7 @@ onSubmitCreateStreet(type, streetName) {
     }
     const newPersonal = JSON.stringify(this.newPersonal.value);
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+      
       if ((res.result = "true")) {
         this.toggleSidebar();
         this.updateTable();

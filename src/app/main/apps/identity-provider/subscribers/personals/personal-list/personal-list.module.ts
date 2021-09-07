@@ -5,9 +5,10 @@ import { CoreCommonModule } from "@core/common.module";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { PersonalRoutingModule } from "../personal-routing.module";
 
 @NgModule({
-  imports: [CommonModule, CoreCommonModule, RouterModule, NgbModule,NgSelectModule],
+  imports: [CommonModule, CoreCommonModule, RouterModule, NgbModule,NgSelectModule,PersonalRoutingModule],
   declarations: [PersonalListComponent, ],
   exports: [PersonalListComponent, ],
 })

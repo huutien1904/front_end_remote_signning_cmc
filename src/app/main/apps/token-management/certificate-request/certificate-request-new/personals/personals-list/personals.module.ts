@@ -5,6 +5,7 @@ import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CoreCommonModule } from '@core/common.module';
 import { SidebarPersonalsComponent } from './sidebar-personals/sidebar-personals.component';
+import { PersonalListService } from 'app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service';
 
 
 
@@ -17,6 +18,7 @@ import { SidebarPersonalsComponent } from './sidebar-personals/sidebar-personals
     NgSelectModule,
     CoreCommonModule
   ],
-  exports: [PersonalsComponent]
+  exports: [PersonalsComponent],
+  providers: [ PersonalListService],
 })
 export class PersonalsModule { }

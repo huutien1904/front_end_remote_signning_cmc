@@ -285,7 +285,9 @@
                                   </button>
                                   <div ngbDropdownMenu>
                                     <a
-                                    routerLink="/{{item}}"
+                                    routerLink="/apps/ip/subscribers/personals/personal-view/{{
+                                      item.personalId
+                                    }}"
                                       ngbDropdownItem
                                       ><span
                                         [data-feather]="'file-text'"
@@ -336,19 +338,6 @@
           class="d-flex justify-content-end"
         >
           <ng-template ngbPaginationFirst>Đầu</ng-template>
-          <ng-template ngbPaginationPrevious
-            ><span
-              [data-feather]="'chevron-left'"
-              [class]="'font-weight-bolder'"
-            ></span
-            >Quay lại
-          </ng-template>
-          <ng-template ngbPaginationNext
-            >Tiếp<span
-              [data-feather]="'chevron-right'"
-              [class]="'font-weight-bolder'"
-            ></span>
-          </ng-template>
           <ng-template ngbPaginationLast>Cuối</ng-template>
         </ngb-pagination>
         </div>

@@ -21,7 +21,8 @@ const routes: Routes = [
     declarations: [],
     imports: [
       CommonModule,RouterModule.forChild(routes)
-    ]
+    ],
+    exports: [RouterModule],
 })
 
 export class SubscriseRoutingModule{

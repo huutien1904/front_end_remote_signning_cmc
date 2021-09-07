@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
 import { CoreDirectivesModule } from "@core/directives/directives";
@@ -15,6 +16,7 @@ import { NewPersonalSidebarComponent } from './personal-list/new-personal-sideba
 import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/new-personal-sidebar.module";
 import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
+import { PersonalRoutingModule } from "./personal-routing.module";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
 
@@ -35,8 +37,11 @@ import { PersonalViewService } from "./personal-view/personal-view.service";
     CorePipesModule,
     CoreDirectivesModule,
     CoreSidebarModule,
-    NewPersonalSidebarModule,
+    // PersonalRoutingModule,
 
+    NewPersonalSidebarModule,
+    RouterModule,
+    // PersonalRoutingModule
   ],
   exports:[
     PersonalListComponent,
