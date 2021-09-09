@@ -55,7 +55,11 @@ const routes: Routes = [
     declarations: [],
     imports: [
       CommonModule,RouterModule.forChild(routes)
-    ]
+    ],
+    providers: [ PersonalListService,  PersonalViewService],
+
+    exports: [RouterModule],
+    
 })
 
 export class PersonalRoutingModule{

@@ -373,6 +373,8 @@
               : ''
           "
               [items]="organizationId"
+              bindLabel="organizationName"
+              bindvalue="organizationId"
               [clearable]="true"
               placeholder="Tổ chức"
               formControlName="organizationId"
@@ -772,11 +774,11 @@
             <label class="lable">Quận/Huyện</label>
           </div>
           <div class="col-sm-12" [ngbTooltip]="
-          f.provinceResidencePlace.disabled == true || f.provinceResidencePlace.value==null
-            ? 'Phải chọn Thành phố/Tỉnh trước khi chọn Quận/Huyện.'
-            : ''
-        "
-        placement="top">
+              f.provinceResidencePlace.disabled == true || f.provinceResidencePlace.value==null
+                ? 'Phải chọn Thành phố/Tỉnh trước khi chọn Quận/Huyện.'
+                : ''
+            "
+            placement="top">
             <ng-select
               [items]="districtResidencePlace"
               [clearable]="false"

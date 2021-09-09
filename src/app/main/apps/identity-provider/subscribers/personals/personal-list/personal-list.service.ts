@@ -37,6 +37,12 @@ export class PersonalListService implements Resolve<any> {
       this.option
     );
   }
+  public getOrganizationId(): Observable<any> {
+    return this._httpClient.get<any>(
+      `${environment.apiUrl}/organization/list?page=0&size=1000`,
+      this.option
+    );
+  }
   /**
    * Resolver
    *

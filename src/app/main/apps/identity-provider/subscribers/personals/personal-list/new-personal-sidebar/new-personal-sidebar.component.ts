@@ -11,9 +11,8 @@ import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddressService } from "app/main/apps/identity-provider/address.service";
 import { Commune, District, Province, Street } from "app/main/models/Address";
-import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
-import { Observable, of, Subject } from "rxjs";
+import {  Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 @Component({
   selector: "app-new-personal-sidebar",
@@ -59,7 +58,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   public districtResidencePlace: District[];
   communeResidencePlace: Commune[];
   streetResidencePlace: Street[];
-  organizationId: any[] = ["CMC", "CIST", "FPT"];
+  organizationId: any[] = [];
   gender: any[] = ["Nam", "Nữ"];
   @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
@@ -111,6 +110,7 @@ export class NewPersonalSidebarComponent implements OnInit {
     });
 
     this.initAddress();
+    this.getOrganizationId();
   }
 
 //Khởi tạo các địa chỉ ban đầu và select sẵn các giá trị, nhưng không cần thiết làm như trang tiêm chủng
@@ -173,7 +173,13 @@ export class NewPersonalSidebarComponent implements OnInit {
   //         });
   //     });
   // }
-
+getOrganizationId(){
+  this._personalListService
+    .getOrganizationId()
+    .subscribe((res) => {
+      this.organizationId = res.data.data;
+    }); 
+}
 initAddress() {
     this._addressService
       .getProvince(237)
@@ -467,7 +473,7 @@ onSubmitCreateStreet(type, streetName) {
     //     Authorization: "Bearer " + token,
     //   },
     // };
-    // display form values on success
+    // dispbirthdayay form values on success
     // return this._httpClient
     //   .post<any>(`${environment.apiUrl}/personal/create`, newPersonal, option)
     //   .subscribe((respon: any) => {
