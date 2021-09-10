@@ -192,13 +192,13 @@
             f.birthday.errors && f.birthday?.touched || submitted && f.birthday?.errors?.required
               ? 'is-invalid'
               : ''
-          " 
-          >
-            <div class="input-group-prepend">
-              <span class="input-group-text" (click)="picker1.open()"
-                ><i data-feather="calendar"></i
-              ></span>
-            </div>
+            " 
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text" (click)="picker1.open()"
+                  ><i data-feather="calendar"></i
+                ></span>
+              </div>
               <input
                
                [matDatepicker]="picker1"

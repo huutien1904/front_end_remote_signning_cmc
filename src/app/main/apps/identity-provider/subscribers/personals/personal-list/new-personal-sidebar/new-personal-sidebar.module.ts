@@ -12,8 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MY_DATE_FORMATS } from '@core/format-data/my-date-formats';
 import { NewPersonalSidebarComponent } from './new-personal-sidebar.component';
-
-const materialModules = [
+const materialModules1234 = [
   MatDatepickerModule,
   MatFormFieldModule,
   MatInputModule,
@@ -25,7 +24,7 @@ const materialModules = [
     ],
   imports: [
     CommonModule,CoreCommonModule,FormsModule,
-    NgSelectModule,NgbModule,CoreSidebarModule,...materialModules,
+    NgSelectModule,NgbModule,CoreSidebarModule,...materialModules1234,
   ],
   exports: [
     NewPersonalSidebarComponent 

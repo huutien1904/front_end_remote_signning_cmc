@@ -51,7 +51,6 @@ const routes: Routes = [
   declarations: [
     
   ],
-  
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

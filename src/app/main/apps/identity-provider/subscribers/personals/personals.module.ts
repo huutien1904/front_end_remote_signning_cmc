@@ -16,7 +16,6 @@ import { NewPersonalSidebarComponent } from './personal-list/new-personal-sideba
 import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/new-personal-sidebar.module";
 import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
-import { PersonalRoutingModule } from "./personal-routing.module";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
 
@@ -38,7 +37,6 @@ import { PersonalViewService } from "./personal-view/personal-view.service";
     CoreDirectivesModule,
     CoreSidebarModule,
     // PersonalRoutingModule,
-
     NewPersonalSidebarModule,
     RouterModule,
     // PersonalRoutingModule
