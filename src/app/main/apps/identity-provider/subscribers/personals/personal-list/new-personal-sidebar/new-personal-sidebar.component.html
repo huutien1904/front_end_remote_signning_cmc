@@ -374,8 +374,8 @@
           "
               [items]="organizationId"
               bindLabel="organizationName"
-              bindvalue="organizationId"
               [clearable]="true"
+              (change)="selectOrganization($event)"
               placeholder="Tổ chức"
               formControlName="organizationId"
             >

@@ -603,47 +603,6 @@
         </div>
       </div>
     </div>
-    <h3>Update</h3>
-    <div class="row row_bottom">
-      <div class="col-12 col-md-4">
-        <div class="form-group ">
-          <div class="col-sm-12 col-form-label">
-            <label>UPDATE AT</label>
-          </div>
-          <div class="col-sm-12">
-            <div class="input-group input-group-merge" [ngClass]="
-            f.updatedAt.errors && f.updatedAt?.touched || submitted && f.updatedAt?.errors?.required
-              ? 'is-invalid'
-              : ''
-          ">
-              <div class="input-group-prepend" >
-                <span class="input-group-text"><span [data-feather]="'home'"></span></span>
-              </div>
-              <input
-              [ngClass]="
-                  f.updatedAt.errors && f.updatedAt?.touched || submitted && f.updatedAt?.errors?.required
-                    ? 'is-invalid'
-                    : ''
-                "
-                formControlName="updatedAt"  
-                type="text"
-                id="fname-icon-9"
-                class="form-control"
-                name="fname-icon-10"
-                formControlName="updatedAt"
-                placeholder="021-06-23 10:04:57.060000"
-              />
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <span *ngIf="f.updatedAt.errors&&f.updatedAt?.touched || submitted && f.updatedAt?.errors?.required"  class="invalid-form">
-              <small class="form-text text-danger" >
-                Không được bỏ trống </small>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div class="col-12 d-flex justify-content-end pb-1">

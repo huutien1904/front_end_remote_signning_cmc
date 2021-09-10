@@ -62,9 +62,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
       province: [null,Validators.required],
       district: [{value:null, disabled : true},Validators.required],
       commune: [{value:null, disabled : true},Validators.required],
-      descriptionHome: [{value:null, disabled : true},Validators.required],
-      updatedAt: ['',Validators.required],
-      
+      descriptionHome: [{value:null, disabled : true},Validators.required],      
     });
     this.initAddress()
   }

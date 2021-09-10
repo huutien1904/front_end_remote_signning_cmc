@@ -180,6 +180,9 @@ getOrganizationId(){
       this.organizationId = res.data.data;
     }); 
 }
+selectOrganization(e){
+  this.newPersonal.controls['organizationId'].setValue(e.organizationId);
+}
 initAddress() {
     this._addressService
       .getProvince(237)
@@ -196,6 +199,7 @@ initAddress() {
       .subscribe((res) => {
         this.provinceResidencePlace = res;
         this.provinceBirthPlace = res;
+        console.log(this.provinceResidencePlace)
       }); 
   }
 selectProvince(type){
@@ -459,8 +463,9 @@ onSubmitCreateStreet(type, streetName) {
       return;
     }
     const newPersonal = JSON.stringify(this.newPersonal.value);
+    console.log(newPersonal)
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
-      
+      console.log(res)
       if ((res.result = "true")) {
         this.toggleSidebar();
         this.updateTable();
