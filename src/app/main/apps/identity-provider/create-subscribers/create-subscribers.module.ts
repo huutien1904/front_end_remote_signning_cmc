@@ -8,8 +8,6 @@ import { CoreCommonModule } from '@core/common.module';
 import { CreateSubcribersComponent } from './create-subscribers.component';
 import { OrganizationsModule } from '../subscribers/organizations/organizations.module';
 import { PersonalsModule } from '../subscribers/personals/personals.module';
-import { NewPersonalSidebarModule } from '../subscribers/personals/personal-list/new-personal-sidebar/new-personal-sidebar.module';
-
 const routes:Routes = [
     {
       path:'',
