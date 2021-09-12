@@ -12,12 +12,12 @@ export class NewHsmComponent implements OnInit {
   public HsmForm: FormGroup;
   public contentHeader: object;
   public submitted = false;
-  public Form = {
-    hsm: '',
-    hangsx: '',
-    model: '',
-    lib: '',
-  };
+  public hsmType: any[] = ["NET", "PCI"];
+
+
+  get f() {
+    return this.HsmForm.controls;
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -38,10 +38,11 @@ export class NewHsmComponent implements OnInit {
 
   ngOnInit(): void {
     this.HsmForm = this.formBuilder.group({
-      hsm: ['', Validators.required],
-      hangsx: ['', Validators.required],
-      model: ['', Validators.required],
-      lib: ['', Validators.required]
+      hsm: [null, Validators.required],
+      hangsx: [null, Validators.required],
+      model: [null, Validators.required],
+      lib: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
+      hsmType: [null, Validators.required]
     });
 
     this.contentHeader = {

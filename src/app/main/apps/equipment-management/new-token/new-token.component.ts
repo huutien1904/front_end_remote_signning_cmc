@@ -12,12 +12,12 @@ export class NewTokenComponent implements OnInit {
   public TokenForm: FormGroup;
   public contentHeader: object;
   public submitted = false;
-  public Form = {
-    number: '',
-    label: '',
-    password:''
-  };
+  public hsm: any[] = ['1', '2'];
 
+
+  get f() {
+    return this.TokenForm.controls;
+  }
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -39,7 +39,8 @@ export class NewTokenComponent implements OnInit {
     this.TokenForm = this.formBuilder.group({
       number: ['', Validators.required],
       label: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      hsm: [null, Validators.required]
     });
     this.contentHeader = {
       headerTitle: 'Token',

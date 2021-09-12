@@ -4,54 +4,66 @@
     <section>
         <div class="card">
             <div class="card-body">
-                <form [formGroup]="HsmForm">
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label for="UDUserName">Tên HSM</label>
-                                <input type="text" [(ngModel)]="Form.hsm" formControlName="hsm" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.hsm.errors }" />
-                                <div *ngIf="submitted && HsmForm.controls.hsm.errors" class="invalid-feedback">
-                                    <div *ngIf="HsmForm.controls.hsm.errors.required">Bạn cần nhập tên HSM</div>
+                <form [formGroup]="HsmForm" class="form form-horizontal">
+                    <div class="form_content">
+                        <div class="row">
+                            <div class="col-md-6 offset-3">
+                                <div class="form-group">
+                                    <label for="UDUserName">Tên HSM</label>
+                                    <input type="text" formControlName="hsm" class="form-control" [ngClass]="f.hsm.errors&&f.hsm.touched || submitted && f.hsm.errors.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hsm.errors&&f.hsm.touched || submitted && f.hsm.errors.required" class="invalid-feedback">
+                                        <div *ngIf="f.hsm.errors.required">Bạn cần nhập tên HSM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-3">
+                                <div class="form-group">
+                                    <label for="UDUserName">Tên hãng sản xuất</label>
+                                    <input type="text" formControlName="hangsx" class="form-control" [ngClass]="f.hangsx.errors&&f.hangsx.touched || submitted && f.hangsx.errors.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hangsx.errors&&f.hangsx.touched || submitted && f.hangsx.errors.required" class="invalid-feedback">
+                                        <div *ngIf="f.hangsx.errors.required">Bạn cần nhập tên hãng sản xuất</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-3">
+                                <div class="form-group">
+                                    <label for="UDUserName">Model</label>
+                                    <input type="text" formControlName="model" class="form-control" [ngClass]="f.model.errors&&f.model.touched || submitted && f.model.errors.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.model.errors&&f.model.touched || submitted && f.model.errors.required" class="invalid-feedback">
+                                        <div *ngIf="f.model.errors.required">Bạn cần nhập model</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-3">
+                                <div class="form-group">
+                                    <label>Loại HSM</label>
+                                    <ng-select [items]="hsmType" [clearable]="false" formControlName="hsmType" [ngClass]="(f.hsmType.errors && f.hsmType?.touched || submitted && f.hsmType?.errors?.required) ? 'is-invalid' : '' ">
+                                    </ng-select>
+                                    <div *ngIf="f.hsmType.errors&&f.hsmType?.touched || submitted && f.hsmType?.errors?.required" class="invalid-feedback">
+                                        <div *ngIf="f.hsmType.errors.required">Bạn cần chọn loại HSM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-3">
+                                <div class="form-group">
+                                    <label for="UDUserName">Đường dẫn file thư viện</label>
+                                    <input type="text" formControlName="lib" class="form-control" [ngClass]="f.lib.errors&&f.lib.touched || submitted && f.lib.errors.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.lib.errors&&f.lib.touched || submitted && f.lib.errors.required" class="invalid-feedback">
+                                        <div *ngIf="f.lib.errors.required">Bạn cần nhập đường dẫn file thư viện</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label for="UDUserName">Tên hãng sản xuất</label>
-                                <input type="text" [(ngModel)]="Form.hangsx" formControlName="hangsx" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.hangsx.errors }" />
-                                <div *ngIf="submitted && HsmForm.controls.hangsx.errors" class="invalid-feedback">
-                                    <div *ngIf="HsmForm.controls.hangsx.errors.required">Bạn cần nhập tên hãng sản xuất</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label for="UDUserName">Model</label>
-                                <input type="text" [(ngModel)]="Form.model" formControlName="model" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.model.errors }" />
-                                <div *ngIf="submitted && HsmForm.controls.model.errors" class="invalid-feedback">
-                                    <div *ngIf="HsmForm.controls.model.errors.required">Bạn cần nhập model</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label for="UDUserName">Đường dẫn file thư viện</label>
-                                <input type="text" [(ngModel)]="Form.lib" formControlName="lib" class="form-control" [ngClass]="{ 'is-invalid': submitted && HsmForm.controls.lib.errors }" />
-                                <div *ngIf="submitted && HsmForm.controls.lib.errors" class="invalid-feedback">
-                                    <div *ngIf="HsmForm.controls.lib.errors.required">Bạn cần nhập đường dẫn file thư viện</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <div class="d-flex justify-content-md-end m-1">
-                                <button class="btn btn-primary mr-1" (click)="onSubmit()" rippleEffect>
+                        <div class="row">
+                            <div class="col-md-6 offset-3">
+                                <div class="d-flex justify-content-md-end m-1">
+                                    <button class="btn btn-primary mr-1" (click)="onSubmit()" rippleEffect>
                                 Cập nhật
                             </button>
-                                <button (click)="exit()" rippleEffect class="btn btn-outline-primary">
+                                    <button (click)="exit()" rippleEffect class="btn btn-outline-primary">
                                 Thoát
                             </button>
+                                </div>
                             </div>
                         </div>
                     </div>
