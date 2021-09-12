@@ -1,1 +1,5 @@
-@import '@core/scss/angular/libs/select.component.scss';
+@import "@core/scss/angular/libs/select.component.scss";
+@import "@core/scss/base/plugins/forms/form-validation.scss";
+.ng-select.is-invalid .ng-select-container {
+    border-color: #ff0000;
+}

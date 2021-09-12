@@ -4,6 +4,7 @@ import { CoreCommonModule } from '@core/common.module';
 import { NewTokenComponent } from './new-token.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
     CommonModule,
     CoreCommonModule,
     RouterModule.forChild(routes),
-    ContentHeaderModule
+    ContentHeaderModule,
+    NgSelectModule
   ]
 })
 export class NewTokenModule { }

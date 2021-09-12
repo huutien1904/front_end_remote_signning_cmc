@@ -4,6 +4,9 @@ import { CoreCommonModule } from '@core/common.module';
 import { NewHsmComponent } from './new-hsm.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -20,7 +23,8 @@ const routes: Routes = [
     CommonModule,
     CoreCommonModule,
     RouterModule.forChild(routes),
-    ContentHeaderModule
-  ]
+    ContentHeaderModule,
+    NgSelectModule
+  ],
 })
 export class NewHsmModule { }

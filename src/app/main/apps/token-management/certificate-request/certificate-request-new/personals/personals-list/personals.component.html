@@ -1,46 +1,30 @@
 <div class="header-personal">
     <!-- search filter -->
     <div class="card">
-      <!-- search -->
-      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-      <div class="card-body">
-        <form class="form form-vertical" [formGroup]="formListPersonal">
-          <div class="row mb-1">
-            <div class="col-md-6">
-              <input
-                name="distinguishedName"
-                id="distinguishedName"
-                type="search"
-                class="form-control"
-                formControlName="inputPersonal"
-                placeholder="Nhập họ tên email địa chỉ"
-              />
-            </div>
-          </div>
-          <div class="row mb-1">
-            <div class="col-md-2">
-              <label class="lable">Giới tính</label>
-              <fieldset class="form-group">
-                <ng-select
-                  [items]="sexOption"
-                  [clearable]="false"
-                  bindLabel="name"
-                  bindValue="name"
-                  placeholder="Giới tính"
-                >
-                </ng-select>
-              </fieldset>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group inline">
-                <label for="">Ngày sinh</label>
-                <small
-                  class="text-danger"
-                  *ngIf="
+        <!-- search -->
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+            <form class="form form-vertical" [formGroup]="formListPersonal">
+                <div class="row mb-1">
+                    <div class="col-md-6">
+                        <input name="distinguishedName" id="distinguishedName" type="search" class="form-control" formControlName="inputPersonal" placeholder="Nhập họ tên email địa chỉ" />
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-2">
+                        <label class="lable">Giới tính</label>
+                        <fieldset class="form-group">
+                            <ng-select [items]="sexOption" [clearable]="false" bindLabel="name" bindValue="name" placeholder="Giới tính">
+                            </ng-select>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group inline">
+                            <label for="">Ngày sinh</label>
+                            <small class="text-danger" *ngIf="
                     formListPersonal.controls['birthDay']?.errors &&
                     formListPersonal.controls['birthDay'].touched
-                  "
-                >
+                  ">
                   Bạn chưa nhập tên</small
                 >
                 <div class="input-group">
@@ -201,9 +185,9 @@
         </form>
       </div>
     </div>
-  
+
     <!-- end search filter -->
-  
+
     <div class="table_content-wrap">
       <div
         class="
@@ -217,7 +201,7 @@
             <h2 class="modal-title" id="myModalLabel160">
               Đăng ký thuê bao cá nhân
             </h2>
-  
+
             <button
               type="button"
               class="close btn-primary"
@@ -234,50 +218,55 @@
           </div>
         </ng-template>
       </div>
-      <div class="card">
-        <div class="row">
-            <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table">
+        <div class="card">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="card-header">
+                        <h5 class="card-title">Chọn một thuê bao để tạo yêu cầu chứng thực</h5>
+                    </div>
+                    <div class="table-responsive">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>TT</th>
                                 <th>CMND/CCCD</th>
-                                <th>HỌ VA TÊN</th>
+                                <th>HỌ VÀ TÊN</th>
                                 <th>NGÀY SINH</th>
                                 <th>GIỚI TÍNH</th>
-                                <th>TỔ CHỨC</th>
                                 <th>EMAIL</th>
-                                <th>XEM THÊM</th>
+                                <th>TỔ CHỨC</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of rows; let i = index">
+                            <tr *ngFor="let item of rows; let i = index" (click)="toggleSidebar(modalForm, item)">
                                 <td>{{ i + 1 }}</td>
                                 <td>{{item.personalCountryId}}</td>
-                                <td>{{ item.personalFirstName }} {{ item.personalMiddleName }}{{ item.personalLastName }}</td>
+                                <td>{{ item.personalFirstName }} {{ item.personalMiddleName }} {{ item.personalLastName }}</td>
                                 <td>{{ item.birthday  }}</td>
                                 <td>{{ item.gender }}</td>
-                                <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
                                 <td>{{ item.email | limitTo: 20
                                 }}{{ item.email.length > 20 ? "..." : "" }}</td>
+                                <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
+                                <!--
                                 <td>
                                     <div ngbDropdown container="body">
                                         <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle data-toggle="dropdown">
                                             <i class="feather icon-more-vertical"></i>
                                         </button>
                                         <div ngbDropdownMenu>
-                                            <a ngbDropdownItem (click)="toggleSidebar(modalForm)">
+                                            <a ngbDropdownItem (click)="toggleSidebar(modalForm, item.subscriberId)">
                                                 <i class="mr-50 feather icon-file-plus"></i>
                                                 <span>Tạo yêu cầu chứng thực</span>
                                             </a>
                                         </div>
                                     </div>
                                 </td>
+                                -->
                             </tr>
                         </tbody>
                     </table>
-                </div>
+              </div>
             </div>
         </div>
         <div class="row d-flex justify-content-between align-items-center">
@@ -304,10 +293,10 @@
       </div>
     </div>
     <ng-template #modalForm let-modal>
-        <app-sidebar-personals></app-sidebar-personals>
+        <app-sidebar-personals [personal]='item'></app-sidebar-personals>
     </ng-template>
 </div>
-  
+
 <!-- <div class="content-body">
     <section>
         <div class="card">
@@ -367,101 +356,101 @@
                                         <small class="text-danger" *ngIf="formListPersonals.controls['fromDate']?.errors && formListPersonals.controls['fromDate'].touched">
                                             Bạn chưa nhập tên
                                         </small>
-                                        <div class="input-group">
-                                            <input name="datepicker" class="form-control" ngbDatepicker placeholder="yyyy-mm-dd" #rangeSelectionDP="ngbDatepicker" [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" [startDate]="fromDate!"
-                                                [value]="formatter.format(today)" formControlName="fromDate" />
-                                            <ng-template #t let-date let-focused="focused">
-                                                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                            <div class="input-group">
+                                <input name="datepicker" class="form-control" ngbDatepicker placeholder="yyyy-mm-dd" #rangeSelectionDP="ngbDatepicker" [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" [startDate]="fromDate!"
+                                    [value]="formatter.format(today)" formControlName="fromDate" />
+                                <ng-template #t let-date let-focused="focused">
+                                    <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
                                                     {{ date.day }}
                                                 </span>
-                                            </ng-template>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary feather icon-calendar" (click)="rangeSelectionDP.toggle()" type="button" rippleEffect></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Đến ngày</label>
-                                        <div class="input-group">
-                                            <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate" [value]="formatter.format(toDate)" formControlName="toDate" />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary feather icon-calendar" (click)="rangeSelectionDP.toggle()" type="button" rippleEffect></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </ng-template>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary feather icon-calendar" (click)="rangeSelectionDP.toggle()" type="button" rippleEffect></button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row">
-                <div class="col-12">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>TT</th>
-                                    <th>CCCD/PASSPORT</th>
-                                    <th>HỌ VÀ TÊN</th>
-                                    <th>NGÀY SINH</th>
-                                    <th>GIỚI TÍNH</th>
-                                    <th>EMAIL</th>
-                                    <th>TÊN TỔ CHỨC</th>
-                                    <th>THAO TÁC</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of list; let i = index" [attr.data-index]="i">
-                                    <td>{{ i + 1 }}</td>
-                                    <td>{{ item.personalCountryId }}</td>
-                                    <td>{{ item.personalLastName + ' ' + item.personalMiddleName + ' ' + item.personalFirstName }}</td>
-                                    <td>{{ item.birthday }}</td>
-                                    <td></td>
-                                    <td>{{ item.email }}</td>
-                                    <td>
-                                        <div *ngIf="item.organization != null">
-                                            {{item.organization.organizationName}}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div ngbDropdown container="body">
-                                            <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle data-toggle="dropdown">
-                                                <i class="feather icon-more-vertical"></i>
-                                            </button>
-                                            <div ngbDropdownMenu>
-                                                <a ngbDropdownItem (click)="toggleSidebar(modalForm)">
-                                                    <i class="mr-50 feather icon-file-plus"></i>
-                                                    <span>Tạo yêu cầu chứng thực</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Đến ngày</label>
+                            <div class="input-group">
+                                <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate" [value]="formatter.format(toDate)" formControlName="toDate" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary feather icon-calendar" (click)="rangeSelectionDP.toggle()" type="button" rippleEffect></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-6 offset-6 mt-1">
-                    <ngb-pagination class="d-flex justify-content-end" [pageSize]="selectedOption" [collectionSize]="total" [(page)]="pageNo" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="load($event)">
-                        <ng-template ngbPaginationFirst>Trang đầu</ng-template>
-                        <ng-template ngbPaginationPrevious><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Trang trước
-                        </ng-template>
-                        <ng-template ngbPaginationNext>Trang sau<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
-                        </ng-template>
-                        <ng-template ngbPaginationLast>Trang cuối</ng-template>
-                    </ngb-pagination>
-                </div>
+        </div>
+    </div>
+    </form>
+</div>
+</div>
+<div class="card">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>TT</th>
+                            <th>CCCD/PASSPORT</th>
+                            <th>HỌ VÀ TÊN</th>
+                            <th>NGÀY SINH</th>
+                            <th>GIỚI TÍNH</th>
+                            <th>EMAIL</th>
+                            <th>TÊN TỔ CHỨC</th>
+                            <th>THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of list; let i = index" [attr.data-index]="i">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.personalCountryId }}</td>
+                            <td>{{ item.personalLastName + ' ' + item.personalMiddleName + ' ' + item.personalFirstName }}</td>
+                            <td>{{ item.birthday }}</td>
+                            <td></td>
+                            <td>{{ item.email }}</td>
+                            <td>
+                                <div *ngIf="item.organization != null">
+                                    {{item.organization.organizationName}}
+                                </div>
+                            </td>
+                            <td>
+                                <div ngbDropdown container="body">
+                                    <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle data-toggle="dropdown">
+                                                <i class="feather icon-more-vertical"></i>
+                                            </button>
+                                    <div ngbDropdownMenu>
+                                        <a ngbDropdownItem (click)="toggleSidebar(modalForm)">
+                                            <i class="mr-50 feather icon-file-plus"></i>
+                                            <span>Tạo yêu cầu chứng thực</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
-    <ng-template #modalForm let-modal>
-        <app-sidebar-personals></app-sidebar-personals>
-    </ng-template>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 offset-6 mt-1">
+            <ngb-pagination class="d-flex justify-content-end" [pageSize]="selectedOption" [collectionSize]="total" [(page)]="pageNo" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="load($event)">
+                <ng-template ngbPaginationFirst>Trang đầu</ng-template>
+                <ng-template ngbPaginationPrevious><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Trang trước
+                </ng-template>
+                <ng-template ngbPaginationNext>Trang sau<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
+                </ng-template>
+                <ng-template ngbPaginationLast>Trang cuối</ng-template>
+            </ngb-pagination>
+        </div>
+    </div>
+</div>
+</section>
+<ng-template #modalForm let-modal>
+    <app-sidebar-personals></app-sidebar-personals>
+</ng-template>
 </div> -->

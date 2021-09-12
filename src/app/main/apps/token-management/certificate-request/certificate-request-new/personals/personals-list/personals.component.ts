@@ -34,6 +34,8 @@ export class PersonalsComponent implements OnInit {
   
   public searchValue = '';
 
+  public item: any;
+  
   // Decorator
   // @ViewChild(DatatableComponent) table: DatatableComponent;
   
@@ -73,7 +75,8 @@ export class PersonalsComponent implements OnInit {
     console.log("output đóng form")
     this.modalService.hasOpenModals();
   }
-  toggleSidebar(modalForm) {
+  toggleSidebar(modalForm, item) {
+    this.item = item;
     this.modal.open(modalForm, {size: 'lg'})
   }
   closeModal(name){

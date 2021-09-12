@@ -7,28 +7,38 @@
                     <div class="row">
                         <div class="col-md-6 offset-3">
                             <div class="form-group">
+                                <label>Tên HSM</label>
+                                <ng-select [items]="hsm" [clearable]="false" formControlName="hsm" [ngClass]="(f.hsm.errors && f.hsm?.touched || submitted && f.hsm?.errors?.required) ? 'is-invalid' : '' ">
+                                </ng-select>
+                                <div *ngIf="f.hsm.errors&&f.hsm?.touched || submitted && f.hsm?.errors?.required" class="invalid-feedback">
+                                    <div *ngIf="f.hsm.errors.required">Bạn cần chọn HSM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 offset-3">
+                            <div class="form-group">
                                 <label for="UDUserName">Số hiệu slot</label>
-                                <input type="text" [(ngModel)]="Form.number" formControlName="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && TokenForm.controls.hsm.errors }" />
-                                <div *ngIf="submitted && TokenForm.controls.number.errors" class="invalid-feedback">
-                                    <div *ngIf="TokenForm.controls.number.errors.required">Bạn cần nhập số hiệu slot</div>
+                                <input type="text" formControlName="number" class="form-control" [ngClass]="f.number.errors && f.number.touched || submitted && f.number.errors.required ? 'is-invalid' : '' " />
+                                <div *ngIf="f.number.errors && f.number.touched || submitted && f.number.errors.required" class="invalid-feedback">
+                                    <div *ngIf="f.number.errors.required">Bạn cần nhập số hiệu slot</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 offset-3">
                             <div class="form-group">
                                 <label for="UDUserName">SlotLabel</label>
-                                <input type="text" [(ngModel)]="Form.label" formControlName="label" class="form-control" [ngClass]="{ 'is-invalid': submitted && TokenForm.controls.hangsx.errors }" />
-                                <div *ngIf="submitted && TokenForm.controls.label.errors" class="invalid-feedback">
-                                    <div *ngIf="TokenForm.controls.label.errors.required">Bạn cần nhập SlotLabel</div>
+                                <input type="text" formControlName="label" class="form-control" [ngClass]="f.label.errors && f.label.touched || submitted && f.label.errors.required ? 'is-invalid' : '' " />
+                                <div *ngIf="f.label.errors && f.label.touched || submitted && f.label.errors.required" class="invalid-feedback">
+                                    <div *ngIf="f.label.errors.required">Bạn cần nhập SlotLabel</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 offset-3">
                             <div class="form-group">
                                 <label for="UDUserName">SlotPassword</label>
-                                <input type="text" [(ngModel)]="Form.password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && TokenForm.controls.model.errors }" />
-                                <div *ngIf="submitted && TokenForm.controls.password.errors" class="invalid-feedback">
-                                    <div *ngIf="TokenForm.controls.password.errors.required">Bạn cần nhập SlotPassword</div>
+                                <input type="text" formControlName="password" class="form-control" [ngClass]="f.password.errors && f.password.touched || submitted && f.password.errors.required ? 'is-invalid' : '' " />
+                                <div *ngIf="f.password.errors && f.password.touched || submitted && f.password.errors.required" class="invalid-feedback">
+                                    <div *ngIf="f.password.errors.required">Bạn cần nhập SlotPassword</div>
                                 </div>
                             </div>
                         </div>

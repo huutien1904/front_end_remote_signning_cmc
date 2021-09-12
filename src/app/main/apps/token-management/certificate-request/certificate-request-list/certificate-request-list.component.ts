@@ -6,6 +6,7 @@ import {
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
 import { CertificateRequestListService } from "./certificate-request-list.service";
+import { Subject } from 'rxjs';
 @Component({
   selector: "app-certificate-request-list",
   templateUrl: "./certificate-request-list.component.html",
@@ -14,65 +15,76 @@ import { CertificateRequestListService } from "./certificate-request-list.servic
 })
 export class CertificateRequestListComponent implements OnInit {
   //Public Properties
-  formListCertificateRequest: FormGroup;
+  public rows: any[];
+  public page = 0;
+  public itemOnPage = 10;
+  public pageAdvancedEllipses = 1;
+  public totalPages:number
+  public formListCertificateRequest: FormGroup;
   public sizePage = [5, 10, 15, 20];
   public moreOption = true;
   public hoveredDate: NgbDate | null = null;
   public fromDate: NgbDate | null;
   public toDate: NgbDate | null;
   public today = this.calendar.getToday();
+
+  private _unsubscribeAll: Subject<any>;
+
   constructor(
     private fb: FormBuilder,
     private calendar: NgbCalendar,
     public formatter: NgbDateParserFormatter,
-    private listService: CertificateRequestListService
+    private _listCerReqService: CertificateRequestListService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
   }
 
-    //Table
-    public list: any;
-    public listTemp: any;
-    public selectedOption = 10;
-    public pageNo = 1;
-    public total;
-
-      //Truyen du lieu ra bang
-  getDataTable(pageSize, page) {
-    this.listService.getData(pageSize, page).subscribe((response: any) => {
-      this.list = response.data.data;
-      this.listTemp = response.data.data
-      this.total = response.data.totalItems;
-      this.selectedOption = pageSize
-      console.log(this.list);
-      for(let item of this.list) {
-        console.log(item.certificateRequest);
-      }
-    });
-  }
-
   ngOnInit(): void {
+    this._listCerReqService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10
+      this.rows = respon.data.data.content;
+      this.rows.forEach(item => {
+        item.organizationName = this.getOrganization(item);
+        item.subscribeName = this.getSubscribe(item);
+      })
+    })
     this.formListCertificateRequest = this.fb.group({
       distinguishedName: ["", Validators.required],
-      sizePage: [this.sizePage[1]],
+      sizePage: [this.sizePage[0]],
       fromDate: [null],
       toDate: [null],
     });
-
-    this.getDataTable(10, 1);
   }
 
-    //Chuyen trang
-    load(event) {
-      this.pageNo = event;
-      this.getDataTable(this.formListCertificateRequest.controls['sizePage'].value, this.pageNo);
-    }
-    //Doi so luong dong tren 1 trang
-    changePageSize(event) {
-      console.log(event);
-      this.getDataTable(event, 1);
-    }
+  getOrganization(item): any {
+    let info = this._listCerReqService.readCertificate(item.certificateRequest);
+    console.log(info)
+    return info.find(obj => obj.name === 'organizationName').value;
+  }
+  getSubscribe(item): any {
+    let info = this._listCerReqService.readCertificate(item.certificateRequest);
+    return info.find(obj => obj.name == 'commonName').value;
+  }
+
+  //Chuyen trang
+  changePage(e){
+    console.log(typeof(e))
+    this.page = e
+    this._listCerReqService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
+      this.rows = respon.data.data;
+    })
+  }
+  //Doi so luong dong tren 1 trang
+  selectItem(e){
+    console.log(e)
+    const item = Number(e)
+    this.itemOnPage = Number(e)
+    this._listCerReqService.getData(this.page,item).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10
+      this.rows = respon.data.data;
+    })
+  }
 
   onSubmit() {
     const jsDate = new Date(this.formListCertificateRequest.get("toDate").value.year, this.formListCertificateRequest.get("toDate").value.month - 1, this.formListCertificateRequest.get("toDate").value.day);
@@ -84,7 +96,6 @@ export class CertificateRequestListComponent implements OnInit {
 
   /**
    * Range selection Date Picker
-   *
    * @param date
    */
    onDateSelection(date: NgbDate) {
@@ -103,19 +114,16 @@ export class CertificateRequestListComponent implements OnInit {
 
   /**
    * Is Hovered
-   *
    * @param date
    */
   isHovered(date: NgbDate) {
     return (
       this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
     );
-    
   }
 
   /**
    * Is Inside
-   *
    * @param date
    */
   isInside(date: NgbDate) {
@@ -124,7 +132,6 @@ export class CertificateRequestListComponent implements OnInit {
 
   /**
    *  Is Range
-   *
    * @param date
    */
   isRange(date: NgbDate) {
@@ -134,5 +141,10 @@ export class CertificateRequestListComponent implements OnInit {
       this.isInside(date) ||
       this.isHovered(date)
     );
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }

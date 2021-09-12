@@ -60,7 +60,7 @@ export class PersonalListService implements Resolve<any> {
    */
   getDataTableRows(page): Observable<any> | Promise<any> | any {
     return new Promise((resolve, reject) => {
-      this._httpClient.get(`http://183.91.3.60:8080/csignremote-0.3/personal/list?page=${page}&size=10`).subscribe((response: any) => {
+      this._httpClient.get(`http://183.91.3.60:8080/csignremote-0.2/personal/list?page=${page}&size=10`).subscribe((response: any) => {
         this.rows = response;
         console.log(response.data.data);
         this.onUserListChanged.next(this.rows);
@@ -79,7 +79,7 @@ export class PersonalListService implements Resolve<any> {
       }
     }
     // this.districtBirthPlace=[]
-    return this._httpClient.get<any>(`http://183.91.3.60:8080/csignremote-0.3/personal/list?page=${page}&size=${Item}`,option)
+    return this._httpClient.get<any>(`http://183.91.3.60:8080/csignremote-0.2/personal/list?page=${page}&size=${Item}`,option)
     
   }
   // }     
