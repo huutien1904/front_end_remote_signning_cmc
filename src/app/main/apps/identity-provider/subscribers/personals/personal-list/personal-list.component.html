@@ -32,6 +32,7 @@
             </fieldset>
           </div>
           <div class="col-md-4">
+            <label class="lable">Ngày sinh</label>
             <div class="input-group input-group-merge">
               <div class="input-group-prepend">
                 <span class="input-group-text" (click)="picker1.open()"
@@ -39,14 +40,14 @@
                 ></span>
               </div>
               <input
-               [matDatepicker]="picker1"
+                [matDatepicker]="picker1"
                 formControlName="birthday"
                 class="form-control"
                 type="text"
+                placeholder="19/04/1992"
               />
-              <mat-datepicker #picker1 ></mat-datepicker>
             </div>
-            
+            <mat-datepicker #picker1></mat-datepicker>
           </div>
         </div>
         <div class="row mb-1">
@@ -90,58 +91,33 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-4">
-                <div class="form-group inline">
-                  <label for="">Từ ngày</label>
-                  <small
-                    class="text-danger"
-                    *ngIf="
-                      formListPersonal.controls['fromDate']?.errors &&
-                      formListPersonal.controls['fromDate'].touched
-                    "
-                  >
-                    Bạn chưa nhập tên</small
-                  >
-                  <div class="input-group">
-                    <input
-                      name="datepicker"
-                      class="form-control"
-                      ngbDatepicker
-                      placeholder="yyyy-mm-dd"
-                      #rangeSelectionDP="ngbDatepicker"
-                      [autoClose]="'outside'"
-                      (dateSelect)="onDateSelection($event)"
-                      [displayMonths]="2"
-                      [dayTemplate]="t"
-                      outsideDays="hidden"
-                      [startDate]="fromDate!"
-                      [value]="formatter.format(today)"
-                      formControlName="fromDate"
-                    />
-                    <ng-template #t let-date let-focused="focused">
-                      <span
-                        class="custom-day"
-                        [class.focused]="focused"
-                        [class.range]="isRange(date)"
-                        [class.faded]="isHovered(date) || isInside(date)"
-                        (mouseenter)="hoveredDate = date"
-                        (mouseleave)="hoveredDate = null"
-                      >
-                        {{ date.day }}
-                      </span>
-                    </ng-template>
-                    <div class="input-group-append">
-                      <button
-                        class="btn btn-outline-secondary feather icon-calendar"
-                        (click)="rangeSelectionDP.toggle()"
-                        type="button"
-                        rippleEffect
-                      ></button>
-                    </div>
+
+                <!-- <label class="lable">Ngày sinh</label>
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i data-feather="calendar"></i
+                    ></span>
                   </div>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start date" formControlName="fromDate">
+                    <input matEndDate placeholder="End date" formControlName="toDate">
+                  </mat-date-range-input>
                 </div>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker> -->
+                <label>Từ ngày - Đến ngày</label>
+                <mat-form-field appearance="fill">
+                  <mat-date-range-input [rangePicker]="picker" pt={0}>
+                    <input matStartDate placeholder="Start date" formControlName="fromDate">
+                    <input matEndDate placeholder="End date" formControlName="toDate">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
               </div>
               <div class="col-md-4">
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="">Đến ngày</label>
                   <div class="input-group">
                     <input
@@ -161,7 +137,24 @@
                       ></button>
                     </div>
                   </div>
+                </div> -->
+                <!-- <label class="lable">Đến ngày</label>
+                <div class="input-group input-group-merge">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" (click)="picker3.open()"
+                      ><i data-feather="calendar"></i
+                    ></span>
+                  </div>
+                  <input
+                    [matDatepicker]="picker3"
+                    formControlName="toDate"
+                    class="form-control"
+                    type="text"
+                    matInput
+                    placeholder="19/04/1992"
+                  />
                 </div>
+                <mat-datepicker #picker3></mat-datepicker> -->
               </div>
             </div>
           </div>
@@ -213,103 +206,108 @@
     </div>
     <div class="card">
       <div class="row">
-          <div class="col-12">
-              <div class="table-responsive">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                              <th>TT</th>
-                              <th>CCCD/PASSPORT</th>
-                              <th>HỌ VA TÊN</th>
-                              <th>NGÀY SINH</th>
-                              <th>GIỚI TÍNH</th>
-                              <th>EMAIL</th>
-                              <th>TỔ CHỨC</th>
-                              <th>XEM THÊM</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr *ngFor="let item of rows; let i = index">
-                              <td>{{ i + 1 }}</td>
-                              <td>{{item.personalCountryId}}</td>
-                              <td>{{ item.personalFirstName }} {{ item.personalMiddleName }} {{ item.personalLastName }}</td>
-                              <td>{{ item.birthday  }}</td>
-                              <td>{{ item.gender }}</td>
-                              <td>{{ item.email | limitTo: 20
-                              }}{{ item.email.length > 20 ? "..." : "" }}</td>
-                              <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
-                              <td>
-                                <div ngbDropdown container="body">
-                                  <button
-                                    ngbDropdownToggle
-                                    type="button"
-                                    class="btn icon-btn btn-sm hide-arrow"
-                                    rippleEffect
-                                  >
-                                    <span
-                                      [data-feather]="'more-vertical'"
-                                      [class]="'cursor-pointer'"
-                                    ></span>
-                                  </button>
-                                  <div ngbDropdownMenu>
-                                    <a
-                                    routerLink="/apps/ip/subscribers/personals/personal-view/{{
-                                      item.personalId
-                                    }}"
-                                      ngbDropdownItem
-                                      ><span
-                                        [data-feather]="'file-text'"
-                                        [size]="16"
-                                        [class]="'mr-50'"
-                                      ></span>
-                                      Details</a
-                                    ><a
-                                      routerLink="/apps/user/user-edit/{{ item.personalId }}"
-                                      ngbDropdownItem
-                                      ><span
-                                        [data-feather]="'edit'"
-                                        [size]="16"
-                                        [class]="'mr-50'"
-                                      ></span>
-                                      Edit</a
-                                    ><a href="javascript:;" ngbDropdownItem
-                                      ><span
-                                        [data-feather]="'trash'"
-                                        [size]="16"
-                                        [class]="'mr-50'"
-                                      ></span>
-                                      Delete</a
-                                    >
-                                  </div>
-                                </div>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>TT</th>
+                  <th>CCCD/Passport</th>
+                  <th>HỌ VÀ TÊN</th>
+                  <th>NGÀY SINH</th>
+                  <th>GIỚI TÍNH</th>
+                  <th>EMAIL</th>
+                  <th>TỔ CHỨC</th>
+                  <th>XEM THÊM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of rows; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.personalCountryId }}</td>
+                  <td>
+                    {{ item.personalFirstName }} {{ item.personalMiddleName }}
+                    {{ item.personalLastName }}
+                  </td>
+                  <td>{{ item.birthday }}</td>
+                  <td>{{ item.gender }}</td>
+                  <td>
+                    {{ item.email | limitTo: 20
+                    }}{{ item.email.length > 20 ? "..." : "" }}
+                  </td>
+                  <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
+                  <td>
+                    <div ngbDropdown container="body">
+                      <button
+                        ngbDropdownToggle
+                        type="button"
+                        class="btn icon-btn btn-sm hide-arrow"
+                        rippleEffect
+                      >
+                        <span
+                          [data-feather]="'more-vertical'"
+                          [class]="'cursor-pointer'"
+                        ></span>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <a
+                          routerLink="/apps/ip/subscribers/personals/personal-view/{{
+                            item.personalId
+                          }}"
+                          ngbDropdownItem
+                          ><span
+                            [data-feather]="'file-text'"
+                            [size]="16"
+                            [class]="'mr-50'"
+                          ></span>
+                          Details</a
+                        ><a
+                          routerLink="/apps/user/user-edit/{{
+                            item.personalId
+                          }}"
+                          ngbDropdownItem
+                          ><span
+                            [data-feather]="'edit'"
+                            [size]="16"
+                            [class]="'mr-50'"
+                          ></span>
+                          Edit</a
+                        ><a href="javascript:;" ngbDropdownItem
+                          ><span
+                            [data-feather]="'trash'"
+                            [size]="16"
+                            [class]="'mr-50'"
+                          ></span>
+                          Delete</a
+                        >
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
       </div>
       <div class="row d-flex justify-content-between align-items-center">
         <div class="col-xl-2 ml-1">
-          <div class="total_item">
-            {{itemOnPage}} dòng
-          </div>
+          <div class="total_item">{{ itemOnPage }} dòng</div>
         </div>
         <div class="col-xl-6 mt-1 mr-1">
           <ngb-pagination
-          [(collectionSize)]="totalPages"
-          [(page)]="pageAdvancedEllipses"
-          [maxSize]="3"
-          [rotate]="true"
-          [boundaryLinks]="true"
-          (pageChange)="changePage($event)"
-          class="d-flex justify-content-end"
-        >
-          <ng-template ngbPaginationFirst>Đầu</ng-template>
-          <ng-template ngbPaginationLast>Cuối</ng-template>
-        </ngb-pagination>
+            [(collectionSize)]="totalPages"
+            [(page)]="pageAdvancedEllipses"
+            [maxSize]="3"
+            [rotate]="true"
+            [boundaryLinks]="true"
+            (pageChange)="changePage($event)"
+            class="d-flex justify-content-end"
+          >
+            <ng-template ngbPaginationFirst>Đầu</ng-template>
+            <ng-template ngbPaginationLast>Cuối</ng-template>
+          </ngb-pagination>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>
