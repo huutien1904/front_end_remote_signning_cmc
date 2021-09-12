@@ -15,6 +15,7 @@ import { PersonalEditService } from "./personal-edit/personal-edit.service";
 import { NewPersonalSidebarComponent } from './personal-list/new-personal-sidebar/new-personal-sidebar.component';
 import { NewPersonalSidebarModule } from "./personal-list/new-personal-sidebar/new-personal-sidebar.module";
 import { PersonalListComponent } from "./personal-list/personal-list.component";
+import { PersonalListModule } from "./personal-list/personal-list.module";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalRoutingModule } from "./personal-routing.module";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
@@ -22,7 +23,7 @@ import { PersonalViewService } from "./personal-view/personal-view.service";
 
 @NgModule({
   declarations: [
-    PersonalListComponent,
+    
     PersonalViewComponent,
     PersonalEditComponent,
   ],
@@ -38,13 +39,13 @@ import { PersonalViewService } from "./personal-view/personal-view.service";
     CoreDirectivesModule,
     CoreSidebarModule,
     // PersonalRoutingModule,
-
+    PersonalListModule,
     NewPersonalSidebarModule,
     RouterModule,
     // PersonalRoutingModule
   ],
   exports:[
-    PersonalListComponent,
+    
     PersonalViewComponent,
     PersonalEditComponent,
     NewPersonalSidebarComponent

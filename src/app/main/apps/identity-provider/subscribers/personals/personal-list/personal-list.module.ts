@@ -24,7 +24,7 @@ const materialModules1234 = [
 @NgModule({
   imports: [CommonModule, CoreCommonModule, RouterModule, 
     NgbModule,NgSelectModule,PersonalRoutingModule,...materialModules1234],
-  declarations: [PersonalListComponent, ],
+  declarations: [PersonalListComponent],
   providers: [
       {
         provide: DateAdapter,
