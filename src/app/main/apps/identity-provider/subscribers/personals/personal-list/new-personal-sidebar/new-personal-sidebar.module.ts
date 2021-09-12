@@ -12,11 +12,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MY_DATE_FORMATS } from '@core/format-data/my-date-formats';
 import { NewPersonalSidebarComponent } from './new-personal-sidebar.component';
+import { NO_ERRORS_SCHEMA } from '@angular/compiler';
 const materialModules1234 = [
   MatDatepickerModule,
   MatFormFieldModule,
   MatInputModule,
   MatNativeDateModule,
+  
 ];
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
-  ]
+  ],
+  
 })
 export class NewPersonalSidebarModule { }

@@ -8,7 +8,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { PersonalsModule } from '../subscribers/personals/personals.module';
 import { OrganizationsModule } from '../subscribers/organizations/organizations.module';
-import { PersonalListModule } from '../subscribers/personals/personal-list/personal-list.module';
 const routes:Routes = [
     {
       path:'',

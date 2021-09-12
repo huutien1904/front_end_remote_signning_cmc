@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError,tap,map } from 'rxjs/operators';
-// import {of} from 'rxjs/observable/of'
-import { of } from 'rxjs';
 import { environment } from 'environments/environment';
 @Injectable()
 export class PersonalListService implements Resolve<any> {
