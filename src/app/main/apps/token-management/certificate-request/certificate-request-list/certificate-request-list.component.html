@@ -84,7 +84,7 @@
                                 <tr>
                                     <th>TT</th>
                                     <th>MÃ YÊU CẦU CHỨNG THỰC</th>
-                                    <th>DN</th>
+                                    <th>DOANH NGHIỆP</th>
                                     <th>TÊN THUÊ BAO</th>
                                     <th>THUẬT TOÁN KÝ</th>
                                     <th>ĐỘ DÀI KHÓA</th>
@@ -92,11 +92,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of list; let i = index">
+                                <tr *ngFor="let item of rows; let i = index">
                                     <td>{{ i + 1 }}</td>
-                                    <td>{{ item.certificateRequestId}}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ item.certificateRequestId }}</td>
+                                    <td>{{ item.organizationName }}</td>
+                                    <td>{{ item.subscribeName }}</td>
                                     <td>{{ item.keypairInformation.cryptoSystem }}</td>
                                     <td>{{ item.keypairInformation.keypairLength }}</td>
                                     <td>{{ item.keypairInformation.keypairStatus.keypairStatus }}</td>
@@ -108,7 +108,7 @@
             </div>
             <div class="row">
                 <div class="col-xl-6 offset-6 mt-1">
-                    <ngb-pagination class="d-flex justify-content-end" [pageSize]="selectedOption" [collectionSize]="total" [(page)]="pageNo" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="load($event)">
+                    <ngb-pagination class="d-flex justify-content-end" [pageSize]="itemOnPage" [collectionSize]="totalPages" [(page)]="pageAdvancedEllipses" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="changePage($event)">
                         <ng-template ngbPaginationFirst>Trang đầu</ng-template>
                         <ng-template ngbPaginationPrevious><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Trang trước
                         </ng-template>
