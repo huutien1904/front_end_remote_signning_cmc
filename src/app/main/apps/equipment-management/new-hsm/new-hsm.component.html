@@ -9,28 +9,28 @@
                         <div class="row">
                             <div class="col-md-6 offset-3">
                                 <div class="form-group">
-                                    <label for="UDUserName">Tên HSM</label>
-                                    <input type="text" formControlName="hsm" class="form-control" [ngClass]="f.hsm.errors&&f.hsm.touched || submitted && f.hsm.errors.required ? 'is-invalid' : ''" />
-                                    <div *ngIf="f.hsm.errors&&f.hsm.touched || submitted && f.hsm.errors.required" class="invalid-feedback">
-                                        <div *ngIf="f.hsm.errors.required">Bạn cần nhập tên HSM</div>
+                                    <label for="UDUserName">HSM</label>
+                                    <input type="text" formControlName="hsmName" class="form-control" [ngClass]="f.hsmName.errors&&f.hsm?.touched || submitted && f.hsmName?.errors?.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hsmName.errors&&f.hsmName?.touched || submitted && f.hsmName?.errors?.required" class="invalid-feedback">
+                                        <div *ngIf="f.hsmName.errors.required">Bạn cần nhập HSM</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 offset-3">
                                 <div class="form-group">
-                                    <label for="UDUserName">Tên hãng sản xuất</label>
-                                    <input type="text" formControlName="hangsx" class="form-control" [ngClass]="f.hangsx.errors&&f.hangsx.touched || submitted && f.hangsx.errors.required ? 'is-invalid' : ''" />
-                                    <div *ngIf="f.hangsx.errors&&f.hangsx.touched || submitted && f.hangsx.errors.required" class="invalid-feedback">
-                                        <div *ngIf="f.hangsx.errors.required">Bạn cần nhập tên hãng sản xuất</div>
+                                    <label for="UDUserName">Hãng sản xuất</label>
+                                    <input type="text" formControlName="hsmManufacturer" class="form-control" [ngClass]="f.hsmManufacturer.errors&&f.hsmManufacturer?.touched || submitted && f.hsmManufacturer?.errors?.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hsmManufacturer.errors&&f.hsmManufacturer?.touched || submitted && f.hsmManufacturer?.errors?.required" class="invalid-feedback">
+                                        <div *ngIf="f.hsmManufacturer.errors.required">Bạn cần nhập hãng sản xuất</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 offset-3">
                                 <div class="form-group">
                                     <label for="UDUserName">Model</label>
-                                    <input type="text" formControlName="model" class="form-control" [ngClass]="f.model.errors&&f.model.touched || submitted && f.model.errors.required ? 'is-invalid' : ''" />
-                                    <div *ngIf="f.model.errors&&f.model.touched || submitted && f.model.errors.required" class="invalid-feedback">
-                                        <div *ngIf="f.model.errors.required">Bạn cần nhập model</div>
+                                    <input type="text" formControlName="hsmModel" class="form-control" [ngClass]="f.hsmModel.errors&&f.hsmModel?.touched || submitted && f.hsmModel?.errors?.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hsmModel.errors&&f.hsmModel?.touched || submitted && f.hsmModel?.errors?.required" class="invalid-feedback">
+                                        <div *ngIf="f.hsmModel.errors.required">Bạn cần nhập model</div>
                                     </div>
                                 </div>
                             </div>
@@ -47,9 +47,9 @@
                             <div class="col-md-6 offset-3">
                                 <div class="form-group">
                                     <label for="UDUserName">Đường dẫn file thư viện</label>
-                                    <input type="text" formControlName="lib" class="form-control" [ngClass]="f.lib.errors&&f.lib.touched || submitted && f.lib.errors.required ? 'is-invalid' : ''" />
-                                    <div *ngIf="f.lib.errors&&f.lib.touched || submitted && f.lib.errors.required" class="invalid-feedback">
-                                        <div *ngIf="f.lib.errors.required">Bạn cần nhập đường dẫn file thư viện</div>
+                                    <input type="text" formControlName="hsmLibraryPath" class="form-control" [ngClass]="f.hsmLibraryPath.errors&&f.hsmLibraryPath?.touched || submitted && f.hsmLibraryPath?.errors?.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hsmLibraryPath.errors&&f.hsmLibraryPath?.touched || submitted && f.hsmLibraryPath?.errors?.required" class="invalid-feedback">
+                                        <div *ngIf="f.hsmLibraryPath.errors.required">Bạn cần nhập đường dẫn file thư viện</div>
                                     </div>
                                 </div>
                             </div>

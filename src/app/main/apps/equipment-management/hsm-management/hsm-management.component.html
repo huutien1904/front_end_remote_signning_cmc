@@ -83,31 +83,35 @@
                             <thead>
                                 <tr>
                                     <th>TT</th>
-                                    <th>NAME</th>
-                                    <th>TÊN HÃNG</th>
+                                    <th>TÊN</th>
+                                    <th>HÃNG SẢN XUẤT</th>
                                     <th>TÊN MODEL</th>
-                                    <th>HARDWAREID</th>
-                                    <th>LIBRARYPATH</th>
+                                    <th>ĐƯỜNG DẪN FILE THƯ VIỆN</th>
                                     <th>HÀNH ĐỘNG</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of fakedb">
+                                <tr *ngFor="let item of rows; let i = index">
                                     <td>{{ item.no }}</td>
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.company }}</td>
-                                    <td>{{ item.model }}</td>
-                                    <td>{{ item.hardwareid }}</td>
-                                    <td>{{ item.librarypath }}</td>
+                                    <td>{{ item.hsmName }}</td>
+                                    <td>{{ item.hsmManufacturer }}</td>
+                                    <td>{{ item.hsmModel }}</td>
+                                    <td>{{ item.hsmLibraryPath }}</td>
                                     <td>
                                         <div ngbDropdown container="body">
                                             <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle data-toggle="dropdown">
                                                 <i class="feather icon-more-vertical"></i>
                                             </button>
                                             <div ngbDropdownMenu>
+                                                <!--
                                                 <a ngbDropdownItem routerLink="/apps/equipment-management/new-token">
                                                     <i class="mr-50 feather icon-plus"></i>
                                                     <span>Thêm token</span>
+                                                </a>
+                                                -->
+                                                <a ngbDropdownItem href="javascript:void(0);">
+                                                    <i class="mr-50 feather icon-file-text"></i>
+                                                    <span>Thông tin</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0);">
                                                     <i class="mr-50 feather icon-trash"></i>
@@ -119,6 +123,20 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <div class="col-xl-6 offset-6 mt-1">
+                        <ngb-pagination class="d-flex justify-content-end" [pageSize]="itemOnPage" [collectionSize]="totalPages" [(page)]="pageAdvancedEllipses" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="changePage($event)">
+                            <ng-template ngbPaginationFirst>Trang đầu</ng-template>
+                            <ng-template ngbPaginationPrevious><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Trang trước
+                            </ng-template>
+                            <ng-template ngbPaginationNext>Trang sau<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
+                            </ng-template>
+                            <ng-template ngbPaginationLast>Trang cuối</ng-template>
+                        </ngb-pagination>
                     </div>
                 </div>
             </div>

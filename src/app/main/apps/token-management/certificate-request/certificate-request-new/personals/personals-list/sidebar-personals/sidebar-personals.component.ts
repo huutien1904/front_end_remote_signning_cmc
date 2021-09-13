@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalsService } from '../personals.service';
-import { Token } from 'app/main/models/Token'
+import { Token } from 'app/main/models/Equipment'
 import { TokenlistService } from 'app/main/apps/equipment-management/token-management/tokenlist.service';
 import { map, takeUntil } from "rxjs/operators";
 import {  Subject } from "rxjs";
@@ -92,7 +92,7 @@ export class SidebarPersonalsComponent implements OnInit {
 
   //Lay danh sach token
   getTokenList() {
-    this._tokenService.getToken()
+    this._tokenService.getAllToken()
       .pipe(
         map(response => {
           const data = response.data.map(tokenId => ({
