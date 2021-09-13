@@ -15,3 +15,12 @@ export interface Token {
         updatedAt: string
     }
 }
+
+export interface Hsm {
+    hsmId: string,
+    hsmName: string,
+    hardwareId: string,
+    hsmManufacturer: string,
+    hsmModel: string,
+    hsmLibraryPath: string
+}

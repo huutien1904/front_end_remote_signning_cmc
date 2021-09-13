@@ -3,8 +3,7 @@ import { Injectable } from "@angular/core";
 import { ResponseData } from "app/main/models/response-data";
 import { environment } from "environments/environment";
 import {  Observable } from "rxjs";
-import { Token } from '../../../models/Token'
-
+import { Token } from 'app/main/models/Equipment'
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +21,15 @@ export class TokenlistService {
       Authorization: "Bearer " + this.token,
     },
   };
-  public getToken(): Observable<ResponseData<Token[]>> {
+  public getAllToken(): Observable<ResponseData<Token[]>> {
     return this._httpClient.get<ResponseData<Token[]>>(
       `${environment.apiUrl}/token/list`,
+      this.option
+    );
+  }
+  public submitForm(body): Observable<any> {
+    return this._httpClient.post<any>(
+      `${environment.apiUrl}/token/create`,body,
       this.option
     );
   }
