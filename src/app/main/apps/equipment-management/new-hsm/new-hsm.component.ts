@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HsmlistService } from '../hsm-management/hsmlist.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-hsm',
@@ -19,30 +21,22 @@ export class NewHsmComponent implements OnInit {
     return this.HsmForm.controls;
   }
 
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.HsmForm.invalid) {
-      return;
-    }
-
-    alert('Thành công');
-    this.exit();
-  }
-
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
-  }
-
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private _hsmService: HsmlistService,
+    private   toastr: ToastrService
+    
+  ) { }
 
   ngOnInit(): void {
     this.HsmForm = this.formBuilder.group({
-      hsm: [null, Validators.required],
-      hangsx: [null, Validators.required],
-      model: [null, Validators.required],
-      lib: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
-      hsmType: [null, Validators.required]
+      hsmName: [null, Validators.required],
+      hsmManufacturer: [null, Validators.required],
+      hsmModel: [null, Validators.required],
+      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
+      hsmType: [null, Validators.required],
+      hardwareId: ['CP5TdVI']
     });
 
     this.contentHeader = {
@@ -67,6 +61,32 @@ export class NewHsmComponent implements OnInit {
         ]
       }
     };
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    console.log(this.HsmForm)
+    // stop here if form is invalid
+    if (this.HsmForm.invalid) {
+      return;
+    }
+    const newRequest = JSON.stringify(this.HsmForm.value);
+    this._hsmService.submitForm(newRequest).subscribe((res: any) => {
+      console.log(res);
+      if ((res.result = "true")) {
+        this.toastr.success('👋 Bạn đã tạo HSM mới', 'Thành công', {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true
+        });
+        this.submitted = false;
+        this.HsmForm.reset();
+      }
+    });
+  }
+
+  exit() {
+    this.router.navigateByUrl("/apps/equipment-management/search")
   }
 
 }
