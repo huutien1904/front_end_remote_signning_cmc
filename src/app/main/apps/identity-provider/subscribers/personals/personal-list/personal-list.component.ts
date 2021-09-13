@@ -30,6 +30,7 @@ export class PersonalListComponent implements OnInit {
   public toDate: NgbDate | null;
   public birthDay:NgbDate | null
   public today = this.calendar.getToday();
+  
   sexOption:any[] = [
     "Nam",
     "Nữ",
@@ -64,10 +65,12 @@ export class PersonalListComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private calendar: NgbCalendar,
-    public formatter: NgbDateParserFormatter
-
+    public formatter: NgbDateParserFormatter,
+    
   ) { 
     this._unsubscribeAll = new Subject();
+    
+
   }
 
   // Public Methods
@@ -152,23 +155,32 @@ export class PersonalListComponent implements OnInit {
   onSubmit(){
     console.log(this.formListPersonal)
   }
+  selectFromDate(e){
+  
+  // this.formListPersonal.controls['toDate'].setValue(new Date(e.value._i.year, e.value._i.month, e.value._i.day));
+
+  //   console.log(e.value._i)
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
   /**
    * On init
    */
   ngOnInit(): void {
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
     this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
       this.totalPages = respon.data.totalPages * 10
       this.rows = respon.data.data;
     })
     this.formListPersonal = this.fb.group({
       inputPersonal: ["", Validators.required],
-      fromDate: [null],
-      toDate: [null],
+      fromDate: [new Date(year, month, 13)],
+      toDate: [new Date(year, month, 16)],
       sizePage: [this.sizePage[0]],
       sexOption:[],
-      birthDay:[]
+      birthday:[],
     })
 
   }

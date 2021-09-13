@@ -25,6 +25,6 @@ const routes: Routes = [
     exports: [RouterModule],
 })
 
-export class SubscriseRoutingModule{
+export class SubscribersRoutingModule{
 
 }

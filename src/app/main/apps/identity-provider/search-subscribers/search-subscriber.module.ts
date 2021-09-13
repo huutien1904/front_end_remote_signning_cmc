@@ -19,16 +19,17 @@ const routes:Routes = [
     declarations: [SearchSubscriberComponent],
   
     imports: [
+      RouterModule.forChild(routes),
       CommonModule, 
       ReactiveFormsModule, 
       NgSelectModule,
       ReactiveFormsModule,
       ContentHeaderModule, 
       CoreCommonModule,
-      RouterModule.forChild(routes),
       PersonalsModule,
       OrganizationsModule,
     ],
+    exports:[SearchSubscriberComponent]
     
   })
 export class SearchSubcribersModule { }

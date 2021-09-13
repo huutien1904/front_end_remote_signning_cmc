@@ -10,6 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { SearchSubcribersModule } from './search-subscribers/search-subscriber.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
 import { UserModule } from './users/user/user.module';
 
@@ -24,7 +25,6 @@ const routes: Routes = [
       import("./search-subscribers/search-subscriber.module").then(
         (m) => m.SearchSubcribersModule
       ),
-
   },
   
   {
@@ -38,7 +38,7 @@ const routes: Routes = [
     path: "subscribers",
     loadChildren: () =>
       import("./subscribers/subscribers-routing.module").then(
-        (m) => m.SubscriseRoutingModule
+        (m) => m.SubscribersRoutingModule
       ),
   },
   {
@@ -57,6 +57,7 @@ const routes: Routes = [
     NgbModule,
     CoreCommonModule,
     UserModule,
+    SearchSubcribersModule,
     OrganizationsModule,
     FormsModule,
     NgbModule,
