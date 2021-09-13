@@ -1,197 +1,135 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation ,TemplateRef} from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ColumnMode, DatatableComponent, } from '@swimlane/ngx-datatable';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CoreConfigService } from '@core/services/config.service';
-import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
-import { PersonalListService } from './personal-list.service';
-import { NgbDate, NgbCalendar, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
-
-
+import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
+import { CoreConfigService } from "@core/services/config.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { PersonalListService } from "./personal-list.service";
 
 @Component({
-  selector: 'app-personal-list',
-  templateUrl: './personal-list.component.html',
-  styleUrls: ['./personal-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-personal-list",
+  templateUrl: "./personal-list.component.html",
+  styleUrls: ["./personal-list.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PersonalListComponent implements OnInit {
+  minDate: Date;
+  maxDate: Date;
   public rows;
-  public moreOption = true
-  public page = 0
-  public itemOnPage = 3  
+  public moreOption = true;
+  public page: number = 0;
   public pageAdvancedEllipses = 1;
-  public totalPages:number
-  public sizePage = [5,10,15,20]
-  public hoveredDate: NgbDate | null = null;
-  public fromDate: NgbDate | null;
-  public toDate: NgbDate | null;
-  public birthDay:NgbDate | null
-  public today = this.calendar.getToday();
-  
-  sexOption:any[] = [
-    "Nam",
-    "Nữ",
-  ]
-  public selectedActive = [];
-  
-  public searchValue = '';
-
-  // Decorator
-  @ViewChild(DatatableComponent) table: DatatableComponent;
-  
+  public totalPages: number;
+  public sizePage: number[] = [5, 10, 15, 20];
+  gender: string[] = ["Nam", "Nữ"];
   // Private
-
-  // fake db
-
   private _unsubscribeAll: Subject<any>;
-  formListPersonal: FormGroup;
+  public formListPersonal: FormGroup;
 
   /**
-   * Constructor
    *
-   * @param {CoreConfigService} _coreConfigService
-   * @param {UserListService} PersonalListService
-   * @param {CoreSidebarService} _coreSidebarService
-   * @param {NgbModal} modalService
-  */
-
+   * @param _userListService
+   * @param _coreSidebarService
+   * @param _coreConfigService
+   * @param modalService
+   * @param fb
+   * @param dateAdapter
+   */
   constructor(
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private calendar: NgbCalendar,
-    public formatter: NgbDateParserFormatter,
-    
-  ) { 
+    private dateAdapter: DateAdapter<any>
+  ) {
     this._unsubscribeAll = new Subject();
-    
-
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 4, 0, 1);
+    this.maxDate = new Date(currentYear + 2, 11, 31);
+    this._coreConfigService.config
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config) => {
+        this.dateAdapter.setLocale(config.app.appLanguage);
+      });
   }
 
-  // Public Methods
-  // -----------------------------------------------------------------------------------------------------
-  toggleModal(){
-    console.log("output đóng form")
-    this.modalService.hasOpenModals();
-  }
-  openNewPersonalModal(modal){
-    this.modalService.open(modal, {
-      centered:true,
-      size:'xl'
-    });
-  }
-
-  closeModal(name){
-    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
-  }
-
-  changePage(e){
-    console.log(typeof(e))
-    this.page = e
-    this._userListService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
-      this.rows = respon.data.data;
-    })
-  }
-
-  selectItem(e){
-    console.log(e)
-    const item = Number(e)
-    this.itemOnPage = Number(e)
-    this._userListService.getData(this.page,item).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
-      this.rows = respon.data.data;
-    })
-  }
-
-  updateTable(){
-    this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
-      this.rows = respon.data.data;
-    })
-  }
-
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (
-      this.fromDate &&
-      !this.toDate &&
-      date &&
-      date.after(this.fromDate)
-    ) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
-  }
-
-  isHovered(date: NgbDate) {
-    return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
-    );
-  }
-
-  isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  isRange(date: NgbDate) {
-    return (
-      date.equals(this.fromDate) ||
-      (this.toDate && date.equals(this.toDate)) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
-  }
-  onSubmit(){
-    console.log(this.formListPersonal)
-  }
-  selectFromDate(e){
-  
-  // this.formListPersonal.controls['toDate'].setValue(new Date(e.value._i.year, e.value._i.month, e.value._i.day));
-
-  //   console.log(e.value._i)
-  }
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
   /**
    * On init
    */
   ngOnInit(): void {
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    this._userListService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
-      this.rows = respon.data.data;
-    })
     this.formListPersonal = this.fb.group({
-      inputPersonal: ["", Validators.required],
-      fromDate: [new Date(year, month, 13)],
-      toDate: [new Date(year, month, 16)],
-      sizePage: [this.sizePage[0]],
-      sexOption:[],
-      birthday:[],
-    })
+      inputPersonal: [null, Validators.required],
+      fromDate: [null],
+      toDate: [null],
+      sizePage: [this.sizePage[1]],
+      gender: [],
+      birthday: [],
+    });
+    this._userListService
+      .getData(this.page, this.sizePage[1])
+      .subscribe((res: any) => {
+        this.totalPages = res.data.totalPages * 10;
+        this.rows = res.data.data;
+      });
+  }
 
+  // Public Methods
+
+  toggleModal() {
+    console.log("output đóng form");
+    this.modalService.hasOpenModals();
+  }
+  openNewPersonalModal(modal) {
+    this.modalService.open(modal, {
+      centered: true,
+      size: "xl",
+    });
+  }
+
+  closeModal(name) {
+    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+  }
+
+  changePage(e) {
+    console.log(typeof e);
+    this.page = e;
+    this._userListService
+      .getData(e - 1, this.formListPersonal.get["sizePage"].value)
+      .subscribe((res: any) => {
+        this.rows = res.data.data;
+      });
+  }
+
+  selectItem() {
+    this._userListService
+      .getData(this.page, this.formListPersonal.get["sizePage"].value)
+      .subscribe((res: any) => {
+        this.totalPages = res.data.totalPages * 10;
+        this.rows = res.data.data;
+      });
+  }
+
+  updateTable() {
+    this._userListService
+      .getData(this.page, this.formListPersonal.get["sizePage"].value)
+      .subscribe((res: any) => {
+        this.rows = res.data.data;
+      });
+  }
+
+  onSubmit() {
+    console.log(this.formListPersonal);
   }
 
   /**
    * On destroy
    */
-   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
-  
-} 
+}
