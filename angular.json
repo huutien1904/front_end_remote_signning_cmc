@@ -31,8 +31,7 @@
                             "chart.js",
                             "contra/emitter",
                             "crossvent",
-                            "highlight.js",
-                            "ng2-flatpickr"
+                            "highlight.js"
                         ],
                         "outputPath": "dist/vuexy",
                         "index": "src/index.html",
@@ -46,7 +45,7 @@
                             "src/assets/fonts/feather/iconfont.css",
                             "src/assets/fonts/font-awesome/css/font-awesome.min.css",
                             "src/assets/fonts/flag-icon-css/css/flag-icon.min.css",
-                            "src/@core/scss/angular/libs/toastr.component.scss",
+                            "src/@core/scss/angular/libs/toastr.component.scss"
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": ["node_modules", "src/assets/"]

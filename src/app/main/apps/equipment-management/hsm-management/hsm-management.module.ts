@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CoreCommonModule } from "@core/common.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { Ng2FlatpickrModule } from "ng2-flatpickr";
+
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -36,7 +36,6 @@ const materialModules1234 = [
     CoreCommonModule,
     NgSelectModule,
     NgbModule,
-    Ng2FlatpickrModule,
     ...materialModules1234,
   ],
   exports: [HsmManagementComponent],

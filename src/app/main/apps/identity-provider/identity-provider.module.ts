@@ -9,7 +9,7 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+
 import { SearchSubscribersModule } from './search-subscribers/search-subscriber.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
 import { UserModule } from './users/user/user.module';
@@ -62,7 +62,6 @@ const routes: Routes = [
     FormsModule,
     NgbModule,
     NgSelectModule,
-    Ng2FlatpickrModule,
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,

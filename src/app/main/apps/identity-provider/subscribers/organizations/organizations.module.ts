@@ -8,7 +8,6 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { Ng2FlatpickrModule } from "ng2-flatpickr";
 import { OrganizationEditComponent } from "./organization-edit/organization-edit.component";
 import { OrganizationEditService } from "./organization-edit/organization-edit.service";
 import { NewOrganizationSidebarComponent } from "./organization-list/new-organization-sidebar/new-organization-sidebar.component";
@@ -31,7 +30,6 @@ import { OrganizationViewService } from "./organization-view/organization-view.s
     FormsModule,
     NgbModule,
     NgSelectModule,
-    Ng2FlatpickrModule,
     NgxDatatableModule,
     CorePipesModule,
     CoreDirectivesModule,
