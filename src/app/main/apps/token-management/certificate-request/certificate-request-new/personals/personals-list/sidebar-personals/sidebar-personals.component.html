@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực cho {{ personal.personalFirstName }} {{ personal.personalMiddleName }} {{ personal.personalLastName }}</h4>
+    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực cho thuê bao {{ personal.personalLastName }} {{ personal.personalMiddleName }} {{ personal.personalFirstName }} </h4>
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
     <form [formGroup]="newRequestForm">
@@ -27,9 +27,10 @@
             <div class="col-6 offset-3">
                 <div class="form-group">
                     <label for="">Alias</label>
-                    <input type="text" formControlName="alias" class="form-control" [ngClass]="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required ? 'is-invalid' : '' " />
-                    <div *ngIf="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required" class="invalid-feedback">
+                    <input type="text" formControlName="alias" class="form-control" [ngClass]="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required || submitted && f.alias?.errors?.used ? 'is-invalid' : '' " />
+                    <div *ngIf="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required || submitted && f.alias?.errors?.used" class="invalid-feedback">
                         <div *ngIf="f.alias.errors.required">Bạn cần nhập alias</div>
+                        <div *ngIf="f.alias.errors.used">Alias đã tồn tại. Vui lòng nhập alias khác</div>
                     </div>
                 </div>
             </div>
