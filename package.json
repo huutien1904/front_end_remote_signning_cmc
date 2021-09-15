@@ -64,6 +64,7 @@
     "ngx-quill": "14.0.0",
     "ngx-swiper-wrapper": "10.0.0",
     "ngx-toastr": "14.0.0",
+    "node-forge": "^0.10.0",
     "node-waves": "0.7.6",
     "nouislider": "15.1.1",
     "plyr": "3.6.8",
