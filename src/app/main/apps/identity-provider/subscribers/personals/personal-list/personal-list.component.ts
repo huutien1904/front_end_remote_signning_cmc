@@ -10,7 +10,7 @@ import {
   SelectionType,
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/pagedData";
-import { Personal } from "app/main/models/Personal";
+import { Personal } from "app/main/models/personal";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { PersonalListService } from "./personal-list.service";

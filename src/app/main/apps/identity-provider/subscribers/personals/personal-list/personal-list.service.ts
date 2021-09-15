@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagedData } from 'app/main/models/pagedData';
-import { Personal } from 'app/main/models/Personal';
+import { Personal } from 'app/main/models/personal';
 import { ResponseData } from 'app/main/models/response-data';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
