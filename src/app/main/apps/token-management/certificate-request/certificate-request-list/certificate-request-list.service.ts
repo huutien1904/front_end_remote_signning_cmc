@@ -52,7 +52,6 @@ export class CertificateRequestListService implements Resolve<any> {
   readCertificate(cer): any[] {
     //decode
     let read: any = forge.pki.certificationRequestFromPem(cer);
-
     //get attributes
     read = read.subject.attributes;
 

@@ -240,17 +240,40 @@
                 <thead>
                   <tr>
                     <th>TT</th>
-                    <th>Mã cặp khóa</th>
-                    <th>Hệ mật</th>
-                    <th>Mã Yêu Cầu</th>
-                    <th>Tham số khóa</th>
-                    <th>Độ dài khóa</th>
-                    <th>Alias</th>
-                    <th>Hành động</th>
+                    <th>Mã chứng thư số</th>
+                    <th>Doanh nghiệp</th>
+                    <th>Tên thuê bao</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody *ngFor="let item of rows; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.subscriberCertificateId }}</td>
+                  <td>{{ item.organizationName }}</td>
+                  <td>{{ item.subscriberName }}</td>
+                  <td>
+                    {{ item.keypairInformation.keypairStatus.keypairStatus }}
+                  </td>
+                </tbody>
               </table>
+            </div>
+
+            <div class="row">
+              
+              <div class="col-md-12 mt-1 mr-1">
+                <ngb-pagination
+                  [(collectionSize)]="totalPages"
+                  [(page)]="pageAdvancedEllipses"
+                  [maxSize]="3"
+                  [rotate]="true"
+                  [boundaryLinks]="true"
+                  (pageChange)="changePage($event)"
+                  class="d-flex justify-content-end mr-1"
+                >
+                  <ng-template ngbPaginationFirst>Đầu</ng-template>
+                  <ng-template ngbPaginationLast>Cuối</ng-template>
+                </ngb-pagination>
+              </div>
             </div>
           </div>
         </div>

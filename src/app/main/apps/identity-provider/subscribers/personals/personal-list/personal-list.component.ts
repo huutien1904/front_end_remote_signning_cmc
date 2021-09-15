@@ -79,7 +79,6 @@ export class PersonalListComponent implements OnInit {
   // Public Methods
 
   toggleModal() {
-    console.log("output đóng form");
     this.modalService.hasOpenModals();
   }
   openNewPersonalModal(modal) {
@@ -94,7 +93,6 @@ export class PersonalListComponent implements OnInit {
   }
 
   changePage(e) {
-    console.log(typeof e);
     this.page = e;
     this._userListService
       .getData(e - 1, this.formListPersonal.get["sizePage"].value)

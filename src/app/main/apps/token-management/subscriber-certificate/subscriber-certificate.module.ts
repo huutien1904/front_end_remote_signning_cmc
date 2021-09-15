@@ -27,5 +27,6 @@ import { CoreCommonModule } from "@core/common.module";
     SubscriberCertificateViewComponent,
     SubscriberCertificateEditComponent,
   ],
+  
 })
 export class SubscriberCertificateModule {}
