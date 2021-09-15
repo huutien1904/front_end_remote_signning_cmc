@@ -1,9 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NgbCalendar, NgbDate, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { HsmlistService } from "./hsmlist.service";
 import { Subject } from 'rxjs';
-
+import { DateAdapter } from "@angular/material/core";
+import { CoreConfigService } from "@core/services/config.service";
+import { takeUntil } from "rxjs/operators";
+import { Router } from '@angular/router';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Hsm } from "app/main/models/Equipment";
 @Component({
   selector: 'app-hsm-management',
   templateUrl: './hsm-management.component.html',
@@ -11,133 +15,85 @@ import { Subject } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class HsmManagementComponent implements OnInit {
-  public rows: any[];
-  public page = 0;
-  public itemOnPage = 10;
-  public pageAdvancedEllipses = 1;
-  public totalPages:number
-  public formListHSM: FormGroup;
-  public sizePage = [5, 10, 15, 20];
+  minDate: Date;
+  maxDate: Date;
+  public rows: Hsm[] = [];
   public moreOption = true;
-  public hoveredDate: NgbDate | null = null;
-  public fromDate: NgbDate | null;
-  public toDate: NgbDate | null;
-  public today = this.calendar.getToday();
+  public page: number = 0;
+  public pageAdvancedEllipses = 1;
+  public totalPages: number;
+  public sizePage: number[] = [5, 10, 15, 20];
+  public formListHsm: FormGroup
   private _unsubscribeAll: Subject<any>;
-  public fakedb = [
-    {
-      no: '1',
-      name: 'MÁY 1',
-      company: 'utimaco',
-      model: 'mm',
-      hardwareid: 'HSM-001',
-      librarypath: 'Máy 1'
-    },
-    {
-      no: '2',
-      name: 'MÁY 2',
-      company: 'utimaco',
-      model: 'mm',
-      hardwareid: 'HSM-002',
-      librarypath: 'Máy 2'
-    },
-    {
-      no: '3',
-      name: 'MÁY 3',
-      company: 'utimaco',
-      model: 'mm',
-      hardwareid: 'HSM-003',
-      librarypath: 'Máy 3'
-    }
-  ]
+  public info: any;
+  public list: any[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private calendar: NgbCalendar,
-    public formatter: NgbDateParserFormatter,
-    private _hsmService: HsmlistService
+    private _hsmService: HsmlistService,
+    private _coreConfigService: CoreConfigService,
+    private dateAdapter: DateAdapter<any>,
+    private router: Router,
+    private modal: NgbModal,
   ) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
+    this._unsubscribeAll = new Subject();
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 4, 0, 1);
+    this.maxDate = new Date(currentYear + 2, 11, 31);
+    this._coreConfigService.config
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config) => {
+        this.dateAdapter.setLocale(config.app.appLanguage);
+      });
   }
 
   ngOnInit(): void {
-    this._hsmService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
+    this._hsmService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
       this.totalPages = respon.data.totalPages * 10
       this.rows = respon.data;
     })
-    this.formListHSM = this.fb.group({
+    this.formListHsm = this.fb.group({
       hsmName: ["", Validators.required],
       sizePage: [this.sizePage[1]],
       fromDate: [null],
       toDate: [null]
     })
   }
+  changePage(e) {
+    this.page = e;
+    this._hsmService
+      .getData(e - 1, this.formListHsm.controls['sizePage'].value)
+      .subscribe((res: any) => {
+        this.rows = res.data;
+      });
+  }
 
-
-    //Chuyen trang
-    changePage(e){
-      console.log(typeof(e))
-      this.page = e
-      this._hsmService.getData(e-1,this.itemOnPage).subscribe((respon:any) =>{
-        this.rows = respon.data.data;
-      })
-    }
-    //Doi so luong dong tren 1 trang
-    selectItem(e){
-      console.log(e)
-      const item = Number(e)
-      this.itemOnPage = Number(e)
-      this._hsmService.getData(this.page,item).subscribe((respon:any) =>{
-        this.totalPages = respon.data.totalPages * 10
-        this.rows = respon.data.data;
-      })
-    }
+  selectItem() {
+    this._hsmService
+      .getData(this.page, this.formListHsm.controls['sizePage'].value)
+      .subscribe((res: any) => {
+        this.totalPages = res.data.totalPages * this.formListHsm.controls['sizePage'].value;
+        console.log(this.totalPages)
+        this.rows = res.data.data.content;
+      });
+  }
 
   onSubmit() {
-    console.log(this.fb.control);
-    alert(this.formListHSM.get("fromDate"));
-    console.log(this.formListHSM.get("fromDate").value);
+    console.log(this.formListHsm);
   }
 
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (
-      this.fromDate &&
-      !this.toDate &&
-      date &&
-      date.after(this.fromDate)
-    ) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
+  creat() {
+    this.router.navigateByUrl("/apps/equipment-management/new-hsm")
   }
 
-  isHovered(date: NgbDate) {
-    return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
-    );
+  toggleSidebar(modalInfo, item) {
+    this.info = item
+    this._hsmService.getHsmDetail(item.hsmId).subscribe((res: any) => {
+      this.list = res.data;
+    })
+    this.modal.open(modalInfo, {size: 'lg'})
   }
 
-  isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  isRange(date: NgbDate) {
-    return (
-      date.equals(this.fromDate) ||
-      (this.toDate && date.equals(this.toDate)) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
-  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

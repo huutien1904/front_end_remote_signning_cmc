@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalsService } from '../personals.service';
 import { Token } from 'app/main/models/Equipment'
@@ -41,14 +41,19 @@ export class SidebarPersonalsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.newRequestForm = this.fb.group({
-      cryptoSystem: [null, Validators.required],
-      keypairLength: [{value:null, disabled : true}, Validators.required],
-      alias: [null, Validators.required],
-      tokenId: [null, Validators.required],
-      templateKeyId: ['keypairtemplate_00001'],
-      subscriberId: [this.personal.subscriberId]
-    })
+    this.newRequestForm = this.fb.group(
+      {
+        cryptoSystem: [null, Validators.required],
+        keypairLength: [{value:null, disabled : true}, Validators.required],
+        alias: [null, Validators.required],
+        tokenId: [null, Validators.required],
+        templateKeyId: ['keypairtemplate_00001'],
+        subscriberId: [this.personal.subscriberId]
+      },
+      {
+        validators: this.usedAlias('alias')
+      }
+    )
     this.getTokenList();
   }
 
@@ -72,7 +77,7 @@ export class SidebarPersonalsComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    this.usedAlias(this.f.alias.value);
     if (this.newRequestForm.invalid) {
       return;
     }
@@ -106,12 +111,21 @@ export class SidebarPersonalsComponent implements OnInit {
         this.tokenList = response;
       });
   }
+
+  usedAlias(alias: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[alias];
+      this._personalsService.checkAlias(control.value).subscribe((res: any) => {
+        console.log(res);
+        let check: boolean = res.data;
+        console.log(check);
+        if (check == true) {
+          control.setErrors({ used: true });
+        } else {
+          control.setErrors(null);
+        }
+      });
+    };
+  }
 }
-/*
-export function UnUsedAlias(alias: AbstractControl, _personalsService: PersonalsService): ValidationErrors|null {
-  let check: boolean = _personalsService.checkAlias(alias);
-  if(check)
-    return null;
-  return {use: true}
-}
-*/
+

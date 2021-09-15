@@ -3,10 +3,10 @@
         <div class="card">
             <h5 class="card-header">Bộ lọc tìm kiếm</h5>
             <div class="card-body">
-                <form class="form form-vertical" [formGroup]="formListHSM">
+                <form class="form form-vertical" [formGroup]="formListHsm">
                     <div class="row mb-1">
                         <div class="col-md-6">
-                            <input name="hsmName" id="hsmName" type="search" class="form-control" formControlName="hsmName" placeholder="Một phần tên hãng, tên modal" />
+                            <input name="hsmName" id="hsmName" type="search" class="form-control" formControlName="hsmName" placeholder="Một phần tên hãng, tên model" />
                         </div>
                     </div>
                     <div class="row mb-1">
@@ -14,7 +14,7 @@
                             <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
                                 Tùy chọn
                             </button>
-                            <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListHSM.valid">
+                            <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListHsm.valid">
                                 Tìm kiếm
                           </button>
                         </div>
@@ -28,36 +28,28 @@
                         </div>
                         <div class="col-md-8">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group inline">
-                                        <label for="">Từ ngày</label>
-                                        <small class="text-danger" *ngIf="formListHSM.controls['fromDate']?.errors && formListHSM.controls['fromDate'].touched">
-                                            Bạn chưa nhập tên
-                                        </small>
-                                        <div class="input-group">
-                                            <input name="datepicker" class="form-control" ngbDatepicker placeholder="yyyy-mm-dd" #rangeSelectionDP="ngbDatepicker" [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" [startDate]="fromDate!"
-                                                [value]="formatter.format(today)" formControlName="fromDate" />
-                                            <ng-template #t let-date let-focused="focused">
-                                                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
-                                                    {{ date.day }}
-                                                </span>
-                                            </ng-template>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary feather icon-calendar" (click)="rangeSelectionDP.toggle()" type="button" rippleEffect></button>
-                                            </div>
+                                <div class="col-md-3">
+                                    <label class="lable">Từ ngày:</label>
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" (click)="fromDate.open()"><i data-feather="calendar"></i
+									></span>
                                         </div>
+                                        <input [matDatepicker]="fromDate" formControlName="fromDate" class="form-control" type="text" [min]="minDate" [max]="formListHsm.controls.toDate.value" placeholder="13/09/2021" />
                                     </div>
+                                    <mat-datepicker #fromDate></mat-datepicker>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Đến ngày</label>
-                                        <div class="input-group">
-                                            <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate" [value]="formatter.format(toDate)" formControlName="toDate" />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary feather icon-calendar" (click)="rangeSelectionDP.toggle()" type="button" rippleEffect></button>
-                                            </div>
+                                <div class="col-md-3">
+                                    <label class="lable">Đến ngày:</label>
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" (click)="toDate.open()"><i data-feather="calendar"></i
+									></span>
                                         </div>
+                                        <input [matDatepicker]="toDate" formControlName="toDate" class="form-control" type="text" [min]="formListHsm.controls.fromDate.value" placeholder="13/09/2021" />
                                     </div>
+
+                                    <mat-datepicker #toDate></mat-datepicker>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +61,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="d-flex justify-content-md-end m-1">
-                        <button routerLink="/apps/equipment-management/new-hsm" class="btn btn-primary ml-1" rippleEffect>
+                        <button (click)='creat()' class="btn btn-primary ml-1" rippleEffect>
                             <span class=" feather icon-plus  mr-0 mr-sm-1"></span>
                             <span class="d-none d-sm-inline-block">Thêm mới</span>
                         </button>
@@ -92,7 +84,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of rows; let i = index">
-                                    <td>{{ item.no }}</td>
+                                    <td>{{ i + 1 }}</td>
                                     <td>{{ item.hsmName }}</td>
                                     <td>{{ item.hsmManufacturer }}</td>
                                     <td>{{ item.hsmModel }}</td>
@@ -109,7 +101,7 @@
                                                     <span>Thêm token</span>
                                                 </a>
                                                 -->
-                                                <a ngbDropdownItem href="javascript:void(0);">
+                                                <a ngbDropdownItem href="javascript:void(0);" (click)='toggleSidebar(modalInfor, item)'>
                                                     <i class="mr-50 feather icon-file-text"></i>
                                                     <span>Thông tin</span>
                                                 </a>
@@ -126,20 +118,82 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="row">
-                    <div class="col-xl-6 offset-6 mt-1">
-                        <ngb-pagination class="d-flex justify-content-end" [pageSize]="itemOnPage" [collectionSize]="totalPages" [(page)]="pageAdvancedEllipses" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="changePage($event)">
-                            <ng-template ngbPaginationFirst>Trang đầu</ng-template>
-                            <ng-template ngbPaginationPrevious><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Trang trước
-                            </ng-template>
-                            <ng-template ngbPaginationNext>Trang sau<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
-                            </ng-template>
-                            <ng-template ngbPaginationLast>Trang cuối</ng-template>
-                        </ngb-pagination>
-                    </div>
+            <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-xl-2 ml-1">
+                    <div class="total_item">{{ rows.length }} dòng</div>
+                </div>
+                <div class="col-xl-6 mt-1 mr-1">
+                    <ngb-pagination [collectionSize]="totalPages" [pageSize]="formListHsm.controls.sizePage.value" [(page)]="pageAdvancedEllipses" [maxSize]="3" [rotate]="true" [boundaryLinks]="true" (pageChange)="changePage($event)" class="d-flex justify-content-end">
+                        <ng-template ngbPaginationFirst>Đầu</ng-template>
+                        <ng-template ngbPaginationLast>Cuối</ng-template>
+                    </ngb-pagination>
                 </div>
             </div>
         </div>
+        <ng-template #modalInfor let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin chi tiết</h4>
+            </div>
+            <div class="modal-body" tabindex="0" ngbAutofocus>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap my-50">
+                            <div class="col-4 offset-1">
+                                <h6 class="font-weight-bolder">Tên thiết bị HSM:</h6>
+                            </div>
+                            <div class="col-7">
+                                {{ info.hsmName }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap my-50">
+                            <div class="col-4 offset-1">
+                                <h6 class="font-weight-bolder">Tên hãng sản xuất:</h6>
+                            </div>
+                            <div class="col-7">
+                                {{ info.hsmManufacturer }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap my-50">
+                            <div class="col-4 offset-1">
+                                <h6 class="font-weight-bolder">Tên model:</h6>
+                            </div>
+                            <div class="col-7">
+                                {{ info.hsmModel }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap my-50">
+                            <div class="col-4 offset-1">
+                                <h6 class="font-weight-bolder">Đường dẫn file thư viện:</h6>
+                            </div>
+                            <div class="col-7">
+                                {{ info.hsmLibraryPath }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap my-50">
+                            <div class="col-4 offset-1">
+                                <h6 class="font-weight-bolder">Danh sách token:</h6>
+                            </div>
+                            <div class="col-7">
+                                <p *ngIf="list.length == 0; else show">Không có token</p>
+                                <p #show *ngFor="let i of list">{{ i.tokenName }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: right;">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()" rippleEffect>
+                    Thoát 
+                </button>
+            </div>
+        </ng-template>
     </section>
 </div>
