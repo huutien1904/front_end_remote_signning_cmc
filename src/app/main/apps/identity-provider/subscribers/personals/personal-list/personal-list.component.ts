@@ -135,7 +135,6 @@ export class PersonalListComponent implements OnInit {
   }
   // Public Methods
   toggleModal() {
-    console.log("output đóng form");
     this.modalService.hasOpenModals();
   }
 

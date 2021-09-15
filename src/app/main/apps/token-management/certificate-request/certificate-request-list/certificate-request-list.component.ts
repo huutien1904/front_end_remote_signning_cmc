@@ -44,8 +44,8 @@ export class CertificateRequestListComponent implements OnInit {
   ngOnInit(): void {
     this._listCerReqService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
       this.totalPages = respon.data.totalPages * 10
-      this.rows = respon.data.data;
-      console.log(this.rows)
+      console.log(respon)
+      this.rows = respon.data.data.content;
       this.rows.forEach(item => {
         item.organizationName = this.getOrganization(item);
         item.subscribeName = this.getSubscribe(item);

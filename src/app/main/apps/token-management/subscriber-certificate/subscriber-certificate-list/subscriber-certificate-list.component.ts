@@ -5,7 +5,7 @@ import {
   NgbCalendar,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
-
+import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
 @Component({
   selector: "app-subscriber-certificate-list",
   templateUrl: "./subscriber-certificate-list.component.html",
@@ -16,21 +16,38 @@ export class SubscriberCertificateListComponent implements OnInit {
   //Public Properties
   formListSubscriberCertificate: FormGroup;
   public sizePage = [5, 10, 15, 20];
+  public page:number = 0;
+  public itemOnPage = 10;
+  public pageAdvancedEllipses = 1;
+  public totalPages:number
   public moreOption = true;
   public hoveredDate: NgbDate | null = null;
   public fromDate: NgbDate | null;
   public toDate: NgbDate | null;
   public today = this.calendar.getToday();
+  public rows: any[];
   constructor(
     private fb: FormBuilder,
     private calendar: NgbCalendar,
-    public formatter: NgbDateParserFormatter
+    public formatter: NgbDateParserFormatter,
+    public _subscrberCertificateService:SubscriberCertificateListService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
   }
 
   ngOnInit(): void {
+
+    this._subscrberCertificateService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10;
+      console.log(respon.data.data)
+      this.rows = respon.data.data;
+      this.rows.forEach(item => {
+        item.organizationName = this.getOrganization(item);
+        item.subscriberName = this.getSubscriber(item);
+      })
+    })
+    
     this.formListSubscriberCertificate = this.fb.group({
       distinguishedName: ["", Validators.required],
       sizePage: [this.sizePage[1]],
@@ -38,7 +55,19 @@ export class SubscriberCertificateListComponent implements OnInit {
       toDate: [null],
     });
   }
+  getOrganization(item): any {
+    let info = this._subscrberCertificateService.readCertificate(item.certificate);
+    console.log(info)
+    return info.find(obj => obj.name === 'organizationName').value;
+  }
+  getSubscriber(item): any {
+    let info = this._subscrberCertificateService.readCertificate(item.certificate);
+    console.log(info)
+    return info.find(obj => obj.name === "commonName").value;
+  }
+  changePage(e){
 
+  }
   onSubmit() {
     console.log(this.formListSubscriberCertificate.value);
     console.log(this.formListSubscriberCertificate.get("toDate").value);
