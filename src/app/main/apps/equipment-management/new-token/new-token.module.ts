@@ -5,7 +5,6 @@ import { NewTokenComponent } from './new-token.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {
@@ -22,7 +21,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ContentHeaderModule,
     NgSelectModule,
-    NgbModule
   ]
 })
 export class NewTokenModule { }

@@ -1,29 +1,53 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TokenManagementComponent } from './token-management.component';
-import { CoreCommonModule } from '@core/common.module';
-import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RouterModule, Routes } from '@angular/router';
-import { NewTokenModule } from '../new-token/new-token.module';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { CoreCommonModule } from "@core/common.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { Ng2FlatpickrModule } from "ng2-flatpickr";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MomentDateAdapter,
+} from "@angular/material-moment-adapter";
+import {
+  DateAdapter,
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from "@angular/material/core";
+import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 
-const routes: Routes = [
-  {
-    path: 'new-token',
-    component: NewTokenModule
-  }
-]
+import { TokenManagementComponent } from './token-management.component';
+import { TokenlistService } from "./tokenlist.service";
+
+const materialModules1234 = [
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatNativeDateModule,
+];
 
 @NgModule({
   declarations: [TokenManagementComponent],
   imports: [
     CommonModule,
     CoreCommonModule,
-    NgbModule,
-    NgbCollapseModule,
     NgSelectModule,
-    RouterModule.forChild(routes)
+    NgbModule,
+    Ng2FlatpickrModule,
+    ...materialModules1234,
   ],
-  exports: [TokenManagementComponent]
+  exports: [TokenManagementComponent],
+  providers: [
+    TokenlistService,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ]
 })
 export class TokenManagementModule { }

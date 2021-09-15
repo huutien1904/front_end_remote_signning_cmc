@@ -1,6 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NgbCalendar, NgbDate, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
+import { Router } from "@angular/router";
+import { Subject } from 'rxjs';
+import { DateAdapter } from "@angular/material/core";
+import { CoreConfigService } from "@core/services/config.service";
+import { takeUntil } from "rxjs/operators";
+import { TokenlistService } from "./tokenlist.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-token-management',
@@ -8,90 +14,86 @@ import { NgbCalendar, NgbDate, NgbDateParserFormatter } from "@ng-bootstrap/ng-b
   styleUrls: ['./token-management.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class TokenManagementComponent implements OnInit {
-  public formListToken: FormGroup;
-  public sizePage = [5, 10, 15, 20];
+  minDate: Date;
+  maxDate: Date;
+  public rows: any[] = [];
   public moreOption = true;
-  public hoveredDate: NgbDate | null = null;
-  public fromDate: NgbDate | null;
-  public toDate: NgbDate | null;
-  public today = this.calendar.getToday();
-  public fakedb = [
-    {
-      no: '1',
-      name: 'MÁY 1',
-      slot: 3
-    },
-    {
-      no: '2',
-      name: 'MÁY 2',
-      slot: 4
-    },
-    {
-      no: '3',
-      name: 'MÁY 3',
-      slot: 5
-    }
-  ]
+  public page: number = 0;
+  public pageAdvancedEllipses = 1;
+  public totalPages: number;
+  public sizePage: number[] = [5, 10, 15, 20];
+  public formListToken: FormGroup;
+  private _unsubscribeAll: Subject<any>;
+  public info: any;
 
   constructor(
     private fb: FormBuilder,
-    private calendar: NgbCalendar,
-    public formatter: NgbDateParserFormatter
+    private _tokenService: TokenlistService,
+    private _coreConfigService: CoreConfigService,
+    private dateAdapter: DateAdapter<any>,
+    private router: Router,
+    private modal: NgbModal,
   ) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
+    this._unsubscribeAll = new Subject();
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 4, 0, 1);
+    this.maxDate = new Date(currentYear + 2, 11, 31);
+    this._coreConfigService.config
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config) => {
+        this.dateAdapter.setLocale(config.app.appLanguage);
+      });
   }
 
   ngOnInit(): void {
+    this._tokenService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
+      this.totalPages = respon.data.totalPages * 10
+      this.rows = respon.data;
+    })
     this.formListToken = this.fb.group({
-      tokenName: ["", Validators.required]
+      tokenName: ["", Validators.required],
+      sizePage: [this.sizePage[1]],
+      fromDate: [null],
+      toDate: [null]
     })
   }
 
-  
+  toggleSidebar(modalInfo, item) {
+    this.info = item;
+    this.modal.open(modalInfo, {size: 'md'});
+  }
+
+  changePage(e) {
+    this.page = e;
+    this._tokenService
+      .getData(e - 1, this.formListToken.controls['sizePage'].value)
+      .subscribe((res: any) => {
+        this.rows = res.data;
+      });
+  }
+
+  selectItem() {
+    this._tokenService
+      .getData(this.page, this.formListToken.controls['sizePage'].value)
+      .subscribe((res: any) => {
+        this.totalPages = res.data.totalPages * this.formListToken.controls['sizePage'].value;
+        console.log(this.totalPages)
+        this.rows = res.data.data.content;
+      });
+  }
+
   onSubmit() {
-    console.log(this.fb.control);
-    alert(this.formListToken.get("fromDate"));
-    console.log(this.formListToken.get("fromDate").value);
+    console.log(this.formListToken);
   }
 
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (
-      this.fromDate &&
-      !this.toDate &&
-      date &&
-      date.after(this.fromDate)
-    ) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
+  creat() {
+    this.router.navigateByUrl("/apps/equipment-management/new-token");
   }
 
-  isHovered(date: NgbDate) {
-    return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
-    );
-  }
-
-  isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  isRange(date: NgbDate) {
-    return (
-      date.equals(this.fromDate) ||
-      (this.toDate && date.equals(this.toDate)) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }
