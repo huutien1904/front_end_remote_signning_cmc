@@ -80,4 +80,15 @@ export class HsmlistService implements Resolve<any> {
     };
     return this._httpClient.get<any>(`${environment.apiUrl}/hsm/list?page=${page}&size=${Item}`, option);
   }
+  getHsmDetail(hsmId: string): Observable<any[]>{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const option = {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+    };
+    return this._httpClient.get<any>(`${environment.apiUrl}/token/list?hsmId=${hsmId}`, option);
+  }
 }
