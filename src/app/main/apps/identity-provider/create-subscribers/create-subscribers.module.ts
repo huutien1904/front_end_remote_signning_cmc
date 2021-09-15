@@ -5,18 +5,18 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { RouterModule, Routes } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
-import { CreateSubcribersComponent } from './create-subscribers.component';
+import { CreateSubscribersComponent } from './create-subscribers.component';
 import { OrganizationsModule } from '../subscribers/organizations/organizations.module';
 import { PersonalsModule } from '../subscribers/personals/personals.module';
 const routes:Routes = [
     {
       path:'',
-      component: CreateSubcribersComponent,
+      component: CreateSubscribersComponent,
     }
 ]
 
 @NgModule({
-    declarations: [CreateSubcribersComponent],
+    declarations: [CreateSubscribersComponent],
   
     imports: [
       CommonModule, 

@@ -4,6 +4,7 @@
     ],
     "cSpell.words": [
         "c",
+        "CCCD",
         "ch",
         "chức",
         "csign",
@@ -12,13 +13,17 @@
         "Datepicker",
         "điền",
         "dòng",
+        "đóng",
         "Đường",
         "flatpickr",
         "Gi",
         "Giới",
+        "hàng",
+        "Hành",
         "Huy",
         "Huyện",
         "i",
+        "liệu",
         "minlength",
         "mydatepicker",
         "n",
@@ -34,6 +39,7 @@
         "Qu",
         "Quận",
         "Quốc",
+        "resizeable",
         "s",
         "sách",
         "t",
@@ -45,5 +51,6 @@
         "Vi",
         "Việt",
         "y"
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

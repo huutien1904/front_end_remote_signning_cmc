@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 
 
-export class CreateSubcribersComponent implements OnInit {
+export class CreateSubscribersComponent implements OnInit {
   
   public selectPresonal = true;
   public selectOrganization = false;

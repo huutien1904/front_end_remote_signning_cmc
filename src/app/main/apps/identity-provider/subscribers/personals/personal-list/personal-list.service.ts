@@ -1,13 +1,14 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { PagedData } from 'app/main/models/pagedData';
+import { Personal } from 'app/main/models/Personal';
+import { ResponseData } from 'app/main/models/response-data';
 import { environment } from 'environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 @Injectable()
-export class PersonalListService implements Resolve<any> {
-  public rows: any;
+export class PersonalListService{
   public onUserListChanged: BehaviorSubject<any>;
-  page=0
   /**
    * Constructor
    *
@@ -27,6 +28,7 @@ export class PersonalListService implements Resolve<any> {
       Authorization: "Bearer " + this.token,
     },
   };
+
   public submitForm(body): Observable<any> {
     return this._httpClient.post<any>(
       `${environment.apiUrl}/personal/create`,body,
@@ -39,48 +41,40 @@ export class PersonalListService implements Resolve<any> {
       this.option
     );
   }
-  /**
-   * Resolver
-   *
-   * @param {ActivatedRouteSnapshot} route
-   * @param {RouterStateSnapshot} state
-   * @returns {Observable<any> | Promise<any> | any}
-   */
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-    return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getDataTableRows(this.page)]).then(() => {
-        resolve();
-      }, reject);
-    })
-    
-  }
 
-  /**
-   * Get rows
-   */
-  getDataTableRows(page): Observable<any> | Promise<any> | any {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`http://183.91.3.60:8080/csignremote-0.2/personal/list?page=${page}&size=10`).subscribe((response: any) => {
-        this.rows = response;
-        console.log(response.data.data);
-        this.onUserListChanged.next(this.rows);
-        resolve(this.rows);
-      }, reject);
-    });
-  }
-
-  getData(page:number,Item:number): Observable<any[]>{
+  getData(page:number,Item:number): Observable<ResponseData<PagedData<Personal>>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    const token = currentUser.token
+    const token = currentUser.token;
+    const param = new HttpParams({fromObject: {page: page, size: Item}});
     const option = {
       headers :{
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token,
-      }
-    }
-    // this.districtBirthPlace=[]
-    return this._httpClient.get<any>(`http://183.91.3.60:8080/csignremote-0.2/personal/list?page=${page}&size=${Item}`,option)
-    
+      }, 
+      params: param,
+    };
+    return this._httpClient.get<ResponseData<PagedData<Personal>>>(`http://183.91.3.60:8080/csignremote-0.2/personal/list`,option);
   }
   // }     
+
+  public getListPersonals(page:PagedData<Personal>) :Observable<ResponseData<PagedData<Personal>>>{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
+    console.log("service personal list");
+    const option = {
+      headers :{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token,
+      },
+      params:param
+    };
+     return this._httpClient.get<ResponseData<PagedData<Personal>>>(`http://183.91.3.60:8080/csignremote-0.2/personal/list`,option);
+    //  .pipe(
+    //   delay(new Date(Date.now() + 0)),
+    //   map(d =>  d )
+    // );
+    
+  }
+
 }

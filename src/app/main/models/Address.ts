@@ -5,6 +5,7 @@ export interface Address {
     districtId: number;
     provinceId: number;
     countryId: number;
+    houseNumber:string;
 }
 export interface Province {
     provinceId:number;
