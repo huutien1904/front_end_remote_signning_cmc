@@ -30,7 +30,7 @@ export class SubscriberCertificateListComponent implements OnInit {
     private fb: FormBuilder,
     private calendar: NgbCalendar,
     public formatter: NgbDateParserFormatter,
-    public _subscrberCertificateService:SubscriberCertificateListService
+    public _subscriberCertificateService:SubscriberCertificateListService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
@@ -38,10 +38,10 @@ export class SubscriberCertificateListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this._subscrberCertificateService.getData(this.page,this.itemOnPage).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10;
-      console.log(respon.data.data)
-      this.rows = respon.data.data;
+    this._subscriberCertificateService.getData(this.page,this.itemOnPage).subscribe((res:any) =>{
+      this.totalPages = res.data.totalPages * 10;
+      console.log(res.data.data)
+      this.rows = res.data.data;
       this.rows.forEach(item => {
         item.organizationName = this.getOrganization(item);
         item.subscriberName = this.getSubscriber(item);
@@ -56,12 +56,12 @@ export class SubscriberCertificateListComponent implements OnInit {
     });
   }
   getOrganization(item): any {
-    let info = this._subscrberCertificateService.readCertificate(item.certificate);
+    let info = this._subscriberCertificateService.readCertificate(item.certificate);
     console.log(info)
     return info.find(obj => obj.name === 'organizationName').value;
   }
   getSubscriber(item): any {
-    let info = this._subscrberCertificateService.readCertificate(item.certificate);
+    let info = this._subscriberCertificateService.readCertificate(item.certificate);
     console.log(info)
     return info.find(obj => obj.name === "commonName").value;
   }

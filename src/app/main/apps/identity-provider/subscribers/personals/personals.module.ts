@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
@@ -12,6 +12,7 @@ import {
   MAT_DATE_LOCALE
 } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
@@ -27,7 +28,6 @@ import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule,
@@ -57,6 +57,7 @@ const materialModules1234 = [
     PersonalViewComponent,
     PersonalEditComponent,
     NewPersonalSidebarComponent,
+    
   ],
   providers: [
     PersonalEditService,

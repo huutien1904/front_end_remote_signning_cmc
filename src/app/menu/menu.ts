@@ -1,5 +1,4 @@
-import { MonitorlogComponent } from '../main/apps/system-management/monitorlog/monitorlog.component';
-import { CoreMenu } from '@core/types'
+import { CoreMenu } from '@core/types';
 
 export const menu: CoreMenu[] = [
   {
@@ -17,7 +16,7 @@ export const menu: CoreMenu[] = [
     type: 'section',
     children: [
       {
-        id: 'subcription-management',
+        id: 'subscriber-management',
         title: 'Tìm kiếm',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.SEARCH',
         type: 'item',
@@ -26,7 +25,7 @@ export const menu: CoreMenu[] = [
         
       },
       {
-        id: 'subcription-management',
+        id: 'subscriber-management',
         title: 'Tạo thuê bao',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
         type: 'item',
@@ -86,8 +85,9 @@ export const menu: CoreMenu[] = [
         ]*/
       {
         id: 'certificate-request-list',
-        title: 'Tạo yêu cầu chứng thực',
+        title: 'Tạo yêu cầu',
         type: 'item',
+        translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.CREATE',
         icon: 'file-text',
         url: '/apps/tm/certificate-request/certificate-request-new'
       },
@@ -112,10 +112,10 @@ export const menu: CoreMenu[] = [
       {
         id: 'subscriber-certificate-list',
         title: 'Nhập chứng thư số',
-        translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.LIST',
+        translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.CREATE',
         icon: 'file-text',
         type: 'item',
-        url: '/apps/tm/subscriber-certificate/subscriber-certificate-list'
+        url: '/apps/tm/subscriber-certificate/subscriber-certificate-create'
       }
         /*children: [
           {

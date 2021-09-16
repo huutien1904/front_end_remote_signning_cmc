@@ -4,29 +4,29 @@ import { Routes, RouterModule } from '@angular/router';
 import { SubscriberCertificateEditComponent } from './subscriber-certificate-edit/subscriber-certificate-edit.component';
 import { SubscriberCertificateListComponent } from './subscriber-certificate-list/subscriber-certificate-list.component';
 import { SubscriberCertificateViewComponent } from './subscriber-certificate-view/subscriber-certificate-view.component';
+import { SubscriberCertificateCreateComponent } from './subscriber-certificate-create/subscriber-certificate-create.component';
+import { PersonalListService } from '../../identity-provider/subscribers/personals/personal-list/personal-list.service';
 
 const routes: Routes = [
   {
+    path: "subscriber-certificate-create",
+    component: SubscriberCertificateCreateComponent,
+    
+  },
+  {
     path: "subscriber-certificate-list",
     component: SubscriberCertificateListComponent,
-    // resolve: {
-    //   uls: SubscriberCertificateListService,
-    // },
     data: { animation: "SubscriberCertificateListComponent" },
   },
 
   {
     path: "subscriber-certificate-view/:id",
     component: SubscriberCertificateViewComponent,
-    // resolve: {
-    //   data: SubscriberCertificateViewService,
-    // },
     data: { path: "view/:id", animation: "SubscriberCertificateViewComponent" },
   },
   {
     path: "subscriber-certificate-edit/id",
     component: SubscriberCertificateEditComponent,
-    // resolve: { data: SubscriberCertificateEditService },
     data : {
       animation : "SubscriberCertificateEditComponent",
     },

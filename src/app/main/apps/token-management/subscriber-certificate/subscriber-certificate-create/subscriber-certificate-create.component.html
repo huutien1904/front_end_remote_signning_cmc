@@ -144,57 +144,14 @@
     <div class="card-header">
       <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
     </div>
-    <div class="row">
-      <div class="col-md-12 mb-50">
-        <button
-          class="btn btn-primary ml-1"
-          rippleEffect
-          (click)="openNewPersonalModal(newPersonal)"
-        >
-          <i
-            data-feather="plus"
-            class="d-sm-none d-inline-block mr-0 mr-sm-1"
-          ></i
-          ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-        </button>
-        <ng-template #newPersonal let-modal>
-          <div class="modal-header">
-            <h2 class="modal-title" id="myModalLabel160">
-              Đăng ký thuê bao cá nhân
-            </h2>
-
-            <button
-              type="button"
-              class="close btn-primary"
-              (click)="modal.close()"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <app-new-personal-sidebar
-              (onUpdate)="updateTable()"
-            ></app-new-personal-sidebar>
-          </div>
-        </ng-template>
-        <a
-          csvLink
-          class="btn btn-outline-secondary float-right mr-1"
-          rippleEffect
-          >Xuất dữ liệu CSV</a
-        >
-      </div>
-    </div>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     <ngx-datatable
       #tableRowDetails
-      class="bootstrap core-bootstrap"
+      class="bootstrap core-bootstrap cursor"
       [rows]="rowsData"
-      [selected]="chkBoxSelected"
-      (select)="customCheckboxOnSelect($event)"
-      (select)="onSelect($event)"
-      [selectionType]="SelectionType.checkbox"
+      [selected]="selected"
+      (select)="onSelect($event, modalKeypairList)"
+      [selectionType]="SelectionType.single"
       [columnMode]="ColumnMode.force"
       [headerHeight]="50"
       rowHeight="auto"
@@ -208,64 +165,11 @@
       [loadingIndicator]="isLoading"
       (page)="setPage($event)"
     >
-      <ngx-datatable-column
-        [width]="50"
-        [sortable]="false"
-        [canAutoResize]="false"
-        [draggable]="false"
-        [resizeable]="false"
-        class="ml-1"
-      >
-        <ng-template
-          ngx-datatable-header-template
-          let-value="value"
-          let-allRowsSelected="allRowsSelected"
-          let-selectFn="selectFn"
-        >
-          <div class="custom-control custom-control-primary custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="allRowsSelected"
-              (change)="selectFn(!allRowsSelected)"
-              id="headerCustomChkbxRef"
-            />
-            <label
-              class="custom-control-label"
-              for="headerCustomChkbxRef"
-            ></label>
-          </div>
-        </ng-template>
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-isSelected="isSelected"
-          let-onCheckboxChangeFn="onCheckboxChangeFn"
-        >
-          <div class="custom-control custom-control-primary custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="isSelected"
-              (change)="onCheckboxChangeFn($event)"
-              id="rowCustomChkbxRef{{ rowIndex }}"
-            />
-            <label
-              class="custom-control-label"
-              for="rowCustomChkbxRef{{ rowIndex }}"
-            ></label>
-          </div>
+      <ngx-datatable-column name="STT" [width]="40">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+          {{ rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
-      <!-- <ngx-datatable-column
-        name="STT"
-        [width]="40"
-      >
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-        {{rowIndex+1}}
-    </ng-template>
-    </ngx-datatable-column> -->
       <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
@@ -332,17 +236,15 @@
           let-value="value"
           let-row="row"
         >
-          <div
-            *ngIf="value != ''; else noneOrganization"
-          >
-            {{ value.organizationName | lowercase  }}
+          <div *ngIf="value != ''; else noneOrganization">
+            {{ value.organizationName | lowercase }}
           </div>
         </ng-template>
         <ng-template ngx-datatable-cell-template #noneOrganization>
           <div>Cá nhân</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column  name="Hành động" [width]="100" [sortable]="false">
+      <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
             <div ngbDropdown container="body">
@@ -424,17 +326,154 @@
       </ngx-datatable-footer>
     </ngx-datatable>
   </div>
-  <!-- <div class="selected-column col-12 mt-1">
-    <hr class="w-100" />
-    <h5 class="mx-1">
-      Selections <small>({{ chkBoxSelected?.length }})</small>
-    </h5>
-    <ul>
-      <li *ngFor="let sel of chkBoxSelected">
-        {{ sel.email }}
-      </li>
-      <li *ngIf="!chkBoxSelected?.length">No Selections</li>
-    </ul>
-  </div> -->
-  
 </section>
+<!-- Modal -->
+<ng-template #modalKeypairList let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">
+      Danh sách khóa của {{ selected[0].personalFirstName }} có CCCD/Passport
+      là: {{ selected[0].personalCountryId }}
+    </h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <mat-progress-bar
+      *ngIf="isKeypairListLoading"
+      mode="indeterminate"
+    ></mat-progress-bar>
+    <div class="row mb-1">
+        <div class="col-form-label ml-1">
+          <label>Tìm kiếm:</label>
+        </div>
+      
+      <div class="col-sm-2">
+        <input
+              type="search"
+              placeholder="Theo alias"
+              class="form-control ml-25"
+              (keyup)="filterUpdate($event)"
+          />
+      </div>
+    </div>
+    <ngx-datatable
+      #tableKeypairRowDetails
+      class="bootstrap core-bootstrap"
+      [rows]="rowsKeypairData"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      rowHeight="auto"
+      [scrollbarH]="true"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [externalPaging]="true"
+      [limit]="pagedKeypairData.size"
+      [count]="pagedKeypairData.totalItems"
+      [offset]="pagedKeypairData.currentPage"
+      [loadingIndicator]="isKeypairListLoading"
+      (page)="setKeypairListPage(selected[0].subscriberId, $event)"
+    >
+      <ngx-datatable-column name="STT" [width]="10">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+          {{ rowIndex + 1 }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Định danh"
+        prop="keypairId"
+        [width]="120"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Alias"
+        prop="keypairAccessRights"
+        [width]="100"
+      >
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <div *ngIf="value.length > 0">{{ value[0].keyAlias }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Trạng thái"
+        prop="keypairStatus"
+        [width]="100"
+      >
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{ value.keypairStatus }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+      name="Hệ mật"
+      prop="cryptoSystem"
+      [width]="120"
+    ></ngx-datatable-column>
+    <ngx-datatable-column
+        name="Ngày tạo"
+        prop="updatedAt"
+        [width]="100"
+      >
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{ value | date: "dd/MM/YYYY" }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Nhập/Xuất" [width]="100" [sortable]="false">
+        <ng-template ngx-datatable-cell-template>
+          <div class="d-flex align-items-center">
+            <div ngbDropdown container="body">
+              <a
+                ngbDropdownToggle
+                href="javascript:void(0);"
+                class="hide-arrow"
+                id="dropdownBrowserState"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i
+                  data-feather="more-vertical"
+                  class="text-primary cursor-pointer mr-50"
+                ></i>
+              </a>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu-right"
+                aria-labelledby="dropdownBrowserState"
+              >
+                <a
+                  href="
+                "
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="file-text" class="mr-50"></i> Nhập</a
+                >
+                <a
+                  href="javascript:void(0)"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="edit" class="mr-50"></i> Xuất</a
+                >
+              </div>
+            </div>
+
+            <i data-feather="edit" class="text-primary cursor-pointer"></i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('Accept click')"
+    >
+      Accept
+    </button>
+  </div>
+</ng-template>
+<!-- / Modal -->
