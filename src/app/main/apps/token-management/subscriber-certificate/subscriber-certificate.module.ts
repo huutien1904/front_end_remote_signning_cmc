@@ -7,12 +7,14 @@ import { SubscriberCertificateListComponent } from "./subscriber-certificate-lis
 import { SubscriberCertificateViewComponent } from "./subscriber-certificate-view/subscriber-certificate-view.component";
 import { SubscriberCertificateEditComponent } from "./subscriber-certificate-edit/subscriber-certificate-edit.component";
 import { CoreCommonModule } from "@core/common.module";
+import { SubscriberCertificateNewComponent } from './subscriber-certificate-new/subscriber-certificate-new.component';
 
 @NgModule({
   declarations: [
     SubscriberCertificateListComponent,
     SubscriberCertificateViewComponent,
     SubscriberCertificateEditComponent,
+    
   ],
   imports: [
     CommonModule,

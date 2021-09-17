@@ -14,7 +14,10 @@ const routes: Routes = [
     // },
     data: { animation: "SubscriberCertificateListComponent" },
   },
-
+  {
+    path: "subscriber-certificate-new",
+    loadChildren: () => import('./subscriber-certificate-new/subscriber-certificate-new.module').then(m => m.SubscriberCertificateNewModule)
+  },
   {
     path: "subscriber-certificate-view/:id",
     component: SubscriberCertificateViewComponent,

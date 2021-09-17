@@ -115,7 +115,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.LIST',
         icon: 'file-text',
         type: 'item',
-        url: '/apps/tm/subscriber-certificate/subscriber-certificate-list'
+        url: '/apps/tm/subscriber-certificate/subscriber-certificate-new'
       }
         /*children: [
           {
