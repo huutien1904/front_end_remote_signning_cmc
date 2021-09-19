@@ -10,7 +10,7 @@ import {
   DatatableComponent,
   SelectionType,
 } from "@swimlane/ngx-datatable";
-import { PagedData } from "app/main/models/pagedData"
+import { PagedData } from "app/main/models/PagedData"
 import { CertificateRequest } from "app/main/models/CertificateRequest";
 import { DomSanitizer } from "@angular/platform-browser";
 @Component({

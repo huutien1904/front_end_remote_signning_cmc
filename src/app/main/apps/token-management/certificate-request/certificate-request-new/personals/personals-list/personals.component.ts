@@ -11,7 +11,7 @@ import {
   DatatableComponent,
   SelectionType,
 } from "@swimlane/ngx-datatable";
-import { PagedData } from "app/main/models/pagedData"
+import { PagedData } from "app/main/models/PagedData"
 import { Personal } from "app/main/models/personal";
 
 @Component({
