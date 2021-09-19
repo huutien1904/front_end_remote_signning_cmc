@@ -9,10 +9,10 @@
                         <div class="row">
                             <div class="col-md-6 offset-3">
                                 <div class="form-group">
-                                    <label for="UDUserName">HSM</label>
+                                    <label for="UDUserName">Tên HSM</label>
                                     <input type="text" formControlName="hsmName" class="form-control" [ngClass]="f.hsmName.errors&&f.hsm?.touched || submitted && f.hsmName?.errors?.required ? 'is-invalid' : ''" />
                                     <div *ngIf="f.hsmName.errors&&f.hsmName?.touched || submitted && f.hsmName?.errors?.required" class="invalid-feedback">
-                                        <div *ngIf="f.hsmName.errors.required">Bạn cần nhập HSM</div>
+                                        <div *ngIf="f.hsmName.errors.required">Bạn cần nhập tên HSM</div>
                                     </div>
                                 </div>
                             </div>

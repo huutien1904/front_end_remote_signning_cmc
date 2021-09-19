@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HsmlistService } from "./hsmlist.service";
 import { Subject } from 'rxjs';
@@ -6,8 +6,8 @@ import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
 import { takeUntil } from "rxjs/operators";
 import { Router } from '@angular/router';
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Hsm } from "app/main/models/Equipment";
+import { SelectionType, DatatableComponent, ColumnMode } from "@swimlane/ngx-datatable";
 @Component({
   selector: 'app-hsm-management',
   templateUrl: './hsm-management.component.html',
@@ -19,14 +19,20 @@ export class HsmManagementComponent implements OnInit {
   maxDate: Date;
   public rows: Hsm[] = [];
   public moreOption = true;
-  public page: number = 0;
-  public pageAdvancedEllipses = 1;
-  public totalPages: number;
-  public sizePage: number[] = [5, 10, 15, 20];
   public formListHsm: FormGroup
   private _unsubscribeAll: Subject<any>;
-  public info: any;
-  public list: any[] = [];
+
+  //page setup
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild("tableRowDetails") tableRowDetails: any;
+  public isLoading: boolean = false;
+  public ColumnMode = ColumnMode;
+  public page: number = 0;
+  public totalPages: number = 0;
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
+  public chkBoxSelected = [];
+  public selected = [];
+  public SelectionType = SelectionType;
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +40,6 @@ export class HsmManagementComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
     private router: Router,
-    private modal: NgbModal,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -49,7 +54,7 @@ export class HsmManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this._hsmService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
+      this.totalPages = respon.data.length;
       this.rows = respon.data;
     })
     this.formListHsm = this.fb.group({
@@ -72,7 +77,7 @@ export class HsmManagementComponent implements OnInit {
     this._hsmService
       .getData(this.page, this.formListHsm.controls['sizePage'].value)
       .subscribe((res: any) => {
-        this.totalPages = res.data.totalPages * this.formListHsm.controls['sizePage'].value;
+        //this.totalPages = res.data.totalPages * this.formListHsm.controls['sizePage'].value;
         console.log(this.totalPages)
         this.rows = res.data.data.content;
       });
@@ -86,13 +91,25 @@ export class HsmManagementComponent implements OnInit {
     this.router.navigateByUrl("/apps/equipment-management/new-hsm")
   }
 
-  toggleSidebar(modalInfo, item) {
-    this.info = item
-    this._hsmService.getHsmDetail(item.hsmId).subscribe((res: any) => {
-      this.list = res.data;
-    })
-    this.modal.open(modalInfo, {size: 'lg'})
-  }
+    /**
+   * Custom Checkbox On Select
+   *
+   * @param { selected }
+  */
+     customCheckboxOnSelect({ selected }) {
+      this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+      this.chkBoxSelected.push(...selected);
+    }
+    /**
+     * For ref only, log selected values
+     *
+     * @param selected
+     */
+    onSelect({ selected }) {
+      console.log("Select Event", selected, this.selected);
+      this.selected.splice(0, this.selected.length);
+      this.selected.push(...selected);
+    }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
