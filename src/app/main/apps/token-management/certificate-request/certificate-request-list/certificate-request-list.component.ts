@@ -11,7 +11,7 @@ import {
   SelectionType,
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/pagedData"
-import { certificateRequest } from "app/main/models/certificateRequest";
+import { CertificateRequest } from "app/main/models/CertificateRequest";
 import { DomSanitizer } from "@angular/platform-browser";
 @Component({
   selector: "app-certificate-request-list",
@@ -25,8 +25,8 @@ export class CertificateRequestListComponent implements OnInit {
   @ViewChild("tableRowDetails") tableRowDetails: any;
   minDate: Date;
   maxDate: Date;
-  public rowsData = new Array<certificateRequest>();
-  public pagedData = new PagedData<certificateRequest>();
+  public rowsData = new Array<CertificateRequest>();
+  public pagedData = new PagedData<CertificateRequest>();
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public formListCertificateRequest: FormGroup;
@@ -70,11 +70,11 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   getOrganization(item): any {
-    let info = this._listCerReqService.readCertificate(item.certificateRequest);
+    let info = this._listCerReqService.readCertificate(item.CertificateRequest);
     return info.find(obj => obj.name === 'organizationName').value;
   }
   getSubscribe(item): any {
-    let info = this._listCerReqService.readCertificate(item.certificateRequest);
+    let info = this._listCerReqService.readCertificate(item.CertificateRequest);
     return info.find(obj => obj.name == 'commonName').value;
   }
 
@@ -104,12 +104,12 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   downloadSidebar(row){
-    const data = row.certificateRequest;
+    const data = row.CertificateRequest;
     const blob = new Blob([data], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    this.fileName = row.certificateRequestId + '.csr';
+    this.fileName = row.CertificateRequestId + '.csr';
   }
 
   /**

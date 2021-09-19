@@ -48,7 +48,11 @@ $datatables-dark-text-color-select-row: #587880;
           }
         }
       }
+      
       &.cursor{
+        .datatable-body-row:hover{
+          background-color: $datatables-text-color-select-row;
+        }
         .datatable-body-row {
           border-color: $datatables-border-color;
           cursor: pointer;
@@ -221,10 +225,13 @@ $datatables-dark-text-color-select-row: #587880;
       }
     }
   }
-
+  .datatable-body-row:hover{
+    background-color:$datatables-dark-text-color-select-row;
+  }
   &.cursor{
     .datatable-body-row {
       cursor: pointer;
+      
       border-color: $datatables-dark-border-color !important;
       &.active {
         background-color:$datatables-dark-text-color-select-row !important;

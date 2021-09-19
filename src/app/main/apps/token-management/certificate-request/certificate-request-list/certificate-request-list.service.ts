@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as forge from 'node-forge';
-import { certificateRequest } from 'app/main/models/certificateRequest';
-import { ResponseData } from 'app/main/models/response-data';
+import { CertificateRequest } from 'app/main/models/CertificateRequest';
+import { ResponseData } from 'app/main/models/ResponseData';
 import { PagedData } from 'app/main/models/pagedData';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class CertificateRequestListService{
     return res;
   }
 
-  public getData(page:PagedData<certificateRequest>) :Observable<ResponseData<PagedData<certificateRequest>>>{
+  public getData(page:PagedData<CertificateRequest>) :Observable<ResponseData<PagedData<CertificateRequest>>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser.token;
     const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
@@ -44,7 +44,7 @@ export class CertificateRequestListService{
       },
       params:param
     };
-     return this._httpClient.get<ResponseData<PagedData<certificateRequest>>>(`${environment.apiUrl}/certificate-request/list`,option);
+     return this._httpClient.get<ResponseData<PagedData<CertificateRequest>>>(`${environment.apiUrl}/certificate-request/list`,option);
   }
 
 }
