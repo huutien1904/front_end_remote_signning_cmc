@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject } from 'rxjs';
@@ -7,6 +7,8 @@ import { CoreConfigService } from "@core/services/config.service";
 import { takeUntil } from "rxjs/operators";
 import { TokenlistService } from "./tokenlist.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { DatatableComponent, ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { Token } from "app/main/models/Equipment";
 
 @Component({
   selector: 'app-token-management',
@@ -18,15 +20,22 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 export class TokenManagementComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
-  public rows: any[] = [];
+  public rows: Token[] = [];
   public moreOption = true;
-  public page: number = 0;
-  public pageAdvancedEllipses = 1;
-  public totalPages: number;
-  public sizePage: number[] = [5, 10, 15, 20];
   public formListToken: FormGroup;
   private _unsubscribeAll: Subject<any>;
-  public info: any;
+
+  //page setup
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild("tableRowDetails") tableRowDetails: any;
+  public isLoading: boolean = false;
+  public ColumnMode = ColumnMode;
+  public page: number = 0;
+  public totalPages: number = 0;
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
+  public chkBoxSelected = [];
+  public selected = [];
+  public SelectionType = SelectionType;
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +58,7 @@ export class TokenManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this._tokenService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
+      this.totalPages = respon.data.length;
       this.rows = respon.data;
     })
     this.formListToken = this.fb.group({
@@ -58,11 +67,6 @@ export class TokenManagementComponent implements OnInit {
       fromDate: [null],
       toDate: [null]
     })
-  }
-
-  toggleSidebar(modalInfo, item) {
-    this.info = item;
-    this.modal.open(modalInfo, {size: 'md'});
   }
 
   changePage(e) {
@@ -78,7 +82,7 @@ export class TokenManagementComponent implements OnInit {
     this._tokenService
       .getData(this.page, this.formListToken.controls['sizePage'].value)
       .subscribe((res: any) => {
-        this.totalPages = res.data.totalPages * this.formListToken.controls['sizePage'].value;
+        //this.totalPages = res.data.totalPages * this.formListToken.controls['sizePage'].value;
         console.log(this.totalPages)
         this.rows = res.data.data.content;
       });
@@ -90,6 +94,26 @@ export class TokenManagementComponent implements OnInit {
 
   creat() {
     this.router.navigateByUrl("/apps/equipment-management/new-token");
+  }
+
+  /**
+   * Custom Checkbox On Select
+   *
+   * @param { selected }
+  */
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
+  /**
+   * For ref only, log selected values
+   *
+   * @param selected
+   */
+  onSelect({ selected }) {
+    console.log("Select Event", selected, this.selected);
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
   }
 
   ngOnDestroy(): void {

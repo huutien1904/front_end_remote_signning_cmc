@@ -2,18 +2,15 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
-import { Hsm } from 'app/main/models/Equipment'
+import { Hsm, Token } from 'app/main/models/Equipment'
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HsmlistService implements Resolve<any> {
-  public rows: any;
+export class HsmlistService {
   public onUserListChanged: BehaviorSubject<any>;
   public page=0;
-
 
   constructor(private _httpClient: HttpClient) { 
     this.onUserListChanged = new BehaviorSubject({});
@@ -29,34 +26,6 @@ export class HsmlistService implements Resolve<any> {
     },
   };
 
-
-  /**
-   * Resolver
-   *
-   * @param {ActivatedRouteSnapshot} route
-   * @param {RouterStateSnapshot} state
-   * @returns {Observable<any> | Promise<any> | any}
-   */
-   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-    return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getDataTableRows(this.page)]).then(() => {
-        resolve();
-      }, reject);
-    })
-    
-  }
-
-  getDataTableRows(page): Observable<any> | Promise<any> | any {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`${environment.apiUrl}/hsm/list?page=${page}&size=10`).subscribe((response: any) => {
-        this.rows = response;
-        console.log(response.data.data);
-        this.onUserListChanged.next(this.rows);
-        resolve(this.rows);
-      }, reject);
-    });
-  }
-
   public getAllHsm(): Observable<ResponseData<Hsm[]>> {
     return this._httpClient.get<ResponseData<Hsm[]>>(
       `${environment.apiUrl}/hsm/list`,
@@ -69,7 +38,7 @@ export class HsmlistService implements Resolve<any> {
       this.option
     );
   }
-  getData(page:number,Item:number): Observable<any[]>{
+  getData(page:number,Item:number): Observable<ResponseData<Hsm[]>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser.token;
     const option = {
@@ -80,7 +49,7 @@ export class HsmlistService implements Resolve<any> {
     };
     return this._httpClient.get<any>(`${environment.apiUrl}/hsm/list?page=${page}&size=${Item}`, option);
   }
-  getHsmDetail(hsmId: string): Observable<any[]>{
+  getHsmDetail(hsmId: string): Observable<ResponseData<Token[]>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser.token;
     const option = {

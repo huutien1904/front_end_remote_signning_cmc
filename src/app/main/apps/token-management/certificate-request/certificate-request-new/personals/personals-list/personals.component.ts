@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -6,6 +6,13 @@ import { PersonalListService } from "app/main/apps/identity-provider/subscribers
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { DateAdapter } from "@angular/material/core";
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType,
+} from "@swimlane/ngx-datatable";
+import { PagedData } from "app/main/models/pagedData"
+import { Personal } from "app/main/models/personal";
 
 @Component({
   selector: 'app-personals',
@@ -16,18 +23,22 @@ import { DateAdapter } from "@angular/material/core";
 export class PersonalsComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
-  public rows: any[] = [];
-  public moreOption = true;
-  public page: number = 0;
-  public pageAdvancedEllipses = 1;
-  public totalPages: number;
-  public sizePage: number[] = [5, 10, 15, 20];
-  gender: string[] = ["Nam", "Nữ"];
-  public searchValue = '';
-  public item: any;
+  public rowsData = new Array<Personal>();
   private _unsubscribeAll: Subject<any>;
   public formListCertificateRequest: FormGroup;
-
+  public item: any;
+  //page setup
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild("tableRowDetails") tableRowDetails: any;
+  public isLoading: boolean = false;
+  public ColumnMode = ColumnMode;
+  public moreOption = true;
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
+  gender: string[] = ["Nam", "Nữ"];
+  public pagedData = new PagedData<Personal>();
+  public chkBoxSelected = [];
+  public selected = [];
+  public SelectionType = SelectionType;
 
   /**
    *
@@ -36,13 +47,14 @@ export class PersonalsComponent implements OnInit {
    * @param modalService
    * @param fb
    * @param dateAdapter
+   * @param _coreSidebarService
    */
   constructor(
     private _userListService: PersonalListService,
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
     private modal: NgbModal,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
   ) { 
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -60,41 +72,68 @@ export class PersonalsComponent implements OnInit {
       inputPersonal: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
-      sizePage: [this.sizePage[1]],
+      sizePage: [this.sizePage[0]],
       gender: [],
       birthday: [],
     });
-    this._userListService
-      .getData(this.page, this.sizePage[1])
-      .subscribe((res: any) => {
-        this.totalPages = res.data.totalPages * 10;
-        this.rows = res.data.data;
-      });
+    this.pagedData.size = this.sizePage[0];
+    this.pagedData.currentPage = 0;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
 
+  changePage() {
+    this.pagedData.size = this.formListCertificateRequest.get("sizePage").value;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
+
+  setPage(pageInfo) {
+    console.log(pageInfo);
+    this.isLoading=true;
+    this.pagedData.currentPage = pageInfo.offset;
+    this.pagedData.size = pageInfo.pageSize;
+    this._userListService
+      .getListPersonals(this.pagedData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData);
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data.map((personalList) => ({
+          ...personalList,
+          personalFirstName:
+            personalList.personalFirstName +
+            " " +
+            personalList.personalMiddleName +
+            " " +
+            personalList.personalLastName,
+        }));
+        this.isLoading=false;
+      });
+  }
+
+  /**
+   * Custom Checkbox On Select
+   *
+   * @param { selected }
+  */
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
+  /**
+   * For ref only, log selected values
+   *
+   * @param selected
+   */
+  onSelect({ selected }) {
+    console.log("Select Event", selected, this.selected);
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
   }
 
   toggleSidebar(modalForm, item) {
     this.item = item;
+    console.log(item);
     this.modal.open(modalForm, {size: 'lg'})
-  }
-
-  changePage(e) {
-    console.log(typeof e);
-    this.page = e;
-    this._userListService
-      .getData(e - 1, this.formListCertificateRequest.controls.sizePage.value)
-      .subscribe((res: any) => {
-        this.rows = res.data.data;
-      });
-  }
-
-  selectItem() {
-    this._userListService
-      .getData(this.page, this.formListCertificateRequest.controls.sizePage.value)
-      .subscribe((res: any) => {
-        this.totalPages = res.data.totalPages * this.formListCertificateRequest.controls.sizePage.value;
-        this.rows = res.data.data;
-      });
   }
 
   onSubmit() {

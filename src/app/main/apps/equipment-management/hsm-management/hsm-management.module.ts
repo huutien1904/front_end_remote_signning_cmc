@@ -3,10 +3,9 @@ import { NgModule } from "@angular/core";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CoreCommonModule } from "@core/common.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
+import { CorePipesModule } from "@core/pipes/pipes.module";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter,
@@ -21,12 +20,11 @@ import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 
 import { HsmManagementComponent } from './hsm-management.component';
 import { HsmlistService } from "./hsmlist.service";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 const materialModules1234 = [
   MatDatepickerModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatNativeDateModule,
+  MatNativeDateModule
 ];
 
 @NgModule({
@@ -37,6 +35,9 @@ const materialModules1234 = [
     NgSelectModule,
     NgbModule,
     ...materialModules1234,
+    NgxDatatableModule,
+    CorePipesModule,
+    MatProgressBarModule
   ],
   exports: [HsmManagementComponent],
   providers: [
