@@ -19,6 +19,7 @@ export class NewTokenComponent implements OnInit {
   public contentHeader: object;
   public submitted = false;
   public hsmList: Hsm[];
+  public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
 
   get f() {
@@ -34,7 +35,7 @@ export class NewTokenComponent implements OnInit {
     const newRequest = JSON.stringify(this.tokenForm.value);
     this._tokenService.submitForm(newRequest).subscribe((res: any) => {
       console.log(res);
-      if ((res.result = "true")) {
+      if ((res.result = true)) {
         this.toastr.success('👋 Bạn đã tạo token mới', 'Thành công', {
           positionClass: 'toast-top-center',
           toastClass: 'toast ngx-toastr',
