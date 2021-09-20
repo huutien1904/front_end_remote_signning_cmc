@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { Commune, District, Province, Street } from "app/main/models/Address";
 import { AddressService } from "app/main/apps/identity-provider/address.service";
 import { map, takeUntil } from "rxjs/operators";
 import {  Subject } from "rxjs";
 import { ToastrService } from "ngx-toastr";
-
+import {OrganizationListService} from './../organization-list.service'
 import {
   AbstractControl,
   FormBuilder,
@@ -22,7 +22,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./new-organization-sidebar.component.scss']
 })
 export class NewOrganizationSidebarComponent implements OnInit {
-
+  @Output() onClose = new EventEmitter<any>();
+  @Output() onUpdate = new EventEmitter<any>();
   public submitted = false;
   private _unsubscribeAll = new Subject();
   country:any[] =[
@@ -45,7 +46,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
       private _addressService: AddressService,
       private modalService: NgbModal,
       private _toastrService: ToastrService,
-
+      private _organizationListService :OrganizationListService
       ) {}
   ngOnInit(): void {
     this.newOganization = this.fb.group({
@@ -62,7 +63,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
       province: [null,Validators.required],
       district: [{value:null, disabled : true},Validators.required],
       commune: [{value:null, disabled : true},Validators.required],
-      descriptionHome: [{value:null, disabled : true},Validators.required],      
+      homeNumber: [{value:null, disabled : true},Validators.required],      
     });
     this.initAddress()
   }
@@ -89,7 +90,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
           district : null,
           commune : null, 
           street : null, 
-          descriptionHome:null,
+          homeNumber:null,
         })
         this._addressService
                 .getDistrict(this.newOganization.get('province').value)
@@ -112,7 +113,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         this.newOganization.patchValue({
           commune : null, 
           street : null, 
-          descriptionHome:null,
+          homeNumber:null,
         })
         this._addressService
                 .getCommune(this.newOganization.get('district').value)
@@ -134,7 +135,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
   selectCommune(){
         this.newOganization.patchValue({
           street : null, 
-          descriptionHome:null,
+          homeNumber:null,
         })
         this._addressService
                 .getStreet(this.newOganization.get('commune').value)
@@ -155,9 +156,9 @@ export class NewOrganizationSidebarComponent implements OnInit {
   }
   selectStreet(){
     this.newOganization.patchValue({
-      descriptionHome:null,
+      homeNumber:null,
     })
-    this.newOganization.get('descriptionHome').enable();
+    this.newOganization.get('homeNumber').enable();
   }
   modalOpenCreateStreet(modalSuccess) {
     this.modalService.open(modalSuccess, {
@@ -188,22 +189,32 @@ export class NewOrganizationSidebarComponent implements OnInit {
         return true;
   }
   get f() { return this.newOganization.controls; }
-  toggleSidebar(name): void {
-    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+  
+  toggleSidebar() {
+    this.onClose.emit();
   }
-  closeSidebar() {
-    this.toggleSidebar('new-organizarion-sidebar');
-  }
+
+  
   onSubmit() {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.newOganization.invalid) {
         return;
     }
-
-    // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.newOganization.value, null, 4));
+    const newOrganization = JSON.stringify(this.newOganization.value);
+    console.log(this.newOganization.value);
+    this._organizationListService.submitForm(newOrganization).subscribe((res: any) => {
+      console.log(res)
+      if ((res.result = "true")) {
+        this.toggleSidebar();
+        this.onUpdate.emit();
+        this._toastrService.success(
+          "Đăng ký thuê bao tổ chức thành công ",
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      }
+    });  
   }
 
   /**

@@ -20,11 +20,13 @@ export const locale = {
             COLLAPSIBLE: 'Yêu cầu chứng thực',
             LIST : 'Danh sách',
             VIEW: 'Chi tiết',
+            CREATE:'Tạo yêu cầu'
           },
           SUBSCRIBER_CERTIFICATE : {
             COLLAPSIBLE: 'Chứng thư số',
             LIST : 'Danh sách',
             VIEW: 'Chi tiết',
+            CREATE:'Nhập chứng thư số'
           }
         },
         EQUIPMENT_MANAGEMENT :{

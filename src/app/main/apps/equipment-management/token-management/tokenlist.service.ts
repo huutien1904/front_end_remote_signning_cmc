@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ResponseData } from "app/main/models/response-data";
+import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
 import { Token } from 'app/main/models/Equipment'
 import { BehaviorSubject, Observable } from 'rxjs';

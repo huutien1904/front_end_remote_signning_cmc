@@ -1,38 +1,43 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
-  ColumnMode,
-  DatatableComponent,
   SelectionType,
+  DatatableComponent,
+  ColumnMode,
 } from "@swimlane/ngx-datatable";
+import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
+import { Keypair } from "app/main/models/Keypair";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { PersonalListService } from "./personal-list.service";
+import { KeypairService } from "../../keypair/keypair.service";
 
 @Component({
-  selector: "app-personal-list",
-  templateUrl: "./personal-list.component.html",
-  styleUrls: ["./personal-list.component.scss"],
+  selector: "app-subscriber-certificate-create",
+  templateUrl: "./subscriber-certificate-create.component.html",
+  styleUrls: ["./subscriber-certificate-create.component.scss"],
   encapsulation: ViewEncapsulation.None,
+  providers: [KeypairService, PersonalListService],
 })
-export class PersonalListComponent implements OnInit {
+export class SubscriberCertificateCreateComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   //Table of personal data
   public pagedData = new PagedData<Personal>();
+  public pagedKeypairData = new PagedData<Keypair>();
+  public rowsKeypairData = new Array<Keypair>();
   public rowsData = new Array<Personal>();
-  public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
   public isLoading: boolean = false;
+  public isKeypairListLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
@@ -49,15 +54,15 @@ export class PersonalListComponent implements OnInit {
    * @param modalService
    * @param fb
    * @param dateAdapter
-   * @param dateAdapter
    */
   constructor(
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
+    private _keypairService: KeypairService,
     private fb: FormBuilder,
-    private dateAdapter: DateAdapter<any>,
+    private dateAdapter: DateAdapter<any>
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -93,8 +98,9 @@ export class PersonalListComponent implements OnInit {
 
   //Set Table View
   setPage(pageInfo) {
+    console.log("lololo");
     console.log(pageInfo);
-    this.isLoading=true;
+    this.isLoading = true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
     this._userListService
@@ -111,36 +117,43 @@ export class PersonalListComponent implements OnInit {
             " " +
             personalList.personalLastName,
         }));
-        console.log(this.rowsData)
-        this.isLoading=false;
+        this.isLoading = false;
       });
   }
 
-  /**
-   * Custom Checkbox On Select
-   *
-   * @param { selected }
-   */
-  customCheckboxOnSelect({ selected }) {
-    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
-    this.chkBoxSelected.push(...selected);
-  }
   /**
    * For ref only, log selected values
    *
    * @param selected
    */
-  onSelect({ selected }) {
-    console.log("Select Event", selected, this.selected);
+  onSelect({ selected }, modal) {
+    this.openKeypairList(modal);
+    console.log(selected);
+    this.pagedKeypairData.size = this.sizePage[0];
+    this.pagedKeypairData.currentPage = 0;
+    console.log(selected[0].subscriberId);
+    
+    this.setKeypairListPage(selected[0].subscriberId, {offset:0, pageSize:5});
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
-  // Public Methods
-  toggleModal() {
-    this.modalService.hasOpenModals();
+  setKeypairListPage(subscriberId: string, pageInfo) {
+    console.log(pageInfo);
+    this.isKeypairListLoading = true;
+    this.pagedKeypairData.currentPage = pageInfo.offset;
+    this.pagedKeypairData.size = pageInfo.pageSize;
+    this._keypairService
+      .getKeypairList(subscriberId, this.pagedKeypairData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log("pagedData", pagedData);
+        this.pagedKeypairData = pagedData.data;
+        this.rowsKeypairData = pagedData.data.data;
+        this.isKeypairListLoading = false;
+      });
   }
 
-  openNewPersonalModal(modal) {
+  openKeypairList(modal) {
     this.modalService.open(modal, {
       centered: true,
       size: "xl",
@@ -154,11 +167,7 @@ export class PersonalListComponent implements OnInit {
   onSubmit() {
     console.log(this.formListPersonal);
   }
-  updateTable(){
-    this.pagedData.size = this.sizePage[0];
-    this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
+
   /**
    * On destroy
    */

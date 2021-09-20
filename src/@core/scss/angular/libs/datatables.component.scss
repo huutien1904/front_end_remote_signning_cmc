@@ -7,6 +7,7 @@
 // variable declaration
 $datatables-bg-header-color: $table-head-bg;
 $datatables-text-color: $gray-400;
+$datatables-text-color-select-row: #37ffbe;
 $datatables-border-color: $border-color;
 $datatables-footer-text-color: $text-muted;
 $datatables-dark-text-color: $theme-dark-body-color;
@@ -15,14 +16,13 @@ $datatables-dark-border-color: $theme-dark-border-color;
 $datatables-dark-header-bg-color: $theme-dark-table-header-bg;
 $datatables-dark-body-bg-color: $theme-dark-table-bg;
 $datatables-dark-active-bg-color: $theme-dark-card-bg;
-
+$datatables-dark-text-color-select-row: #587880;
 .ngx-datatable {
   &.bootstrap {
     &.core-bootstrap {
       &.height-70-vh {
         height: 70vh !important;
       }
-
       .datatable-header {
         background-color: $datatables-bg-header-color;
         text-transform: uppercase;
@@ -48,16 +48,38 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
           }
         }
       }
-
+      &.cursor{
+        .datatable-body-row {
+          border-color: $datatables-border-color;
+          cursor: pointer;
+          &.datatable-row-even {
+            background-color: initial;
+          }
+          &.active {
+            background-color: $datatables-text-color-select-row;
+            color: $body-color;
+          }
+  
+          .datatable-body-cell-label {
+            .cell-line-height {
+              line-height: 1.25;
+            }
+          }
+  
+          .datatable-body-cell {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
       .datatable-body-row {
         border-color: $datatables-border-color;
-
         &.datatable-row-even {
           background-color: initial;
         }
-
         &.active {
-          background-color: $gray-50;
+          background-color: $datatables-text-color-select-row;
           color: $body-color;
         }
 
@@ -73,7 +95,6 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
           align-items: center;
         }
       }
-
       .datatable-footer {
         background-color: $white;
         color: $datatables-text-color;
@@ -137,7 +158,6 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
           color: $datatables-footer-text-color;
         }
       }
-
       &.header-height-50 {
         .datatable-header {
           height: 50px !important;
@@ -202,10 +222,20 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
     }
   }
 
+  &.cursor{
+    .datatable-body-row {
+      cursor: pointer;
+      border-color: $datatables-dark-border-color !important;
+      &.active {
+        background-color:$datatables-dark-text-color-select-row !important;
+        color: inherit !important;
+      }
+    }
+  }
   .datatable-body-row {
     border-color: $datatables-dark-border-color !important;
     &.active {
-      background-color: $datatables-dark-active-bg-color !important;
+      background-color:$datatables-dark-text-color-select-row !important;
       color: inherit !important;
     }
   }
