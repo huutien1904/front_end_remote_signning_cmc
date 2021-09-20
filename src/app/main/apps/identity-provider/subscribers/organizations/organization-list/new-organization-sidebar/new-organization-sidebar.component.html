@@ -584,8 +584,8 @@
             <div class="input-group input-group-merge">
               
               <input
-              formControlName="descriptionHome"  
-              [ngClass]="{ 'error_icon': submitted && f.descriptionHome.errors }" 
+              formControlName="homeNumber"  
+              [ngClass]="{ 'error_icon': submitted && f.homeNumber.errors }" 
                 type="text"
                 id="fname-icon"
                 class="form-control"
@@ -595,7 +595,7 @@
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.descriptionHome.errors"  class="invalid-form">
+            <span *ngIf="submitted && f.homeNumber.errors"  class="invalid-form">
               <small class="form-text text-muted danger" >
                 Không được bỏ trống </small>
             </span>

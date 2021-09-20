@@ -6,6 +6,7 @@ import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
+
 export class PersonalListService{
   public onUserListChanged: BehaviorSubject<any>;
   /**
@@ -17,9 +18,11 @@ export class PersonalListService{
     // Set the defaults
     this.onUserListChanged = new BehaviorSubject({});
   }
+
   private readonly currentUser = JSON.parse(
     localStorage.getItem("currentUser")
   );
+
   private readonly token = this.currentUser.token;
   private option = {
     headers: {
@@ -34,6 +37,7 @@ export class PersonalListService{
       this.option
     );
   }
+
   public getOrganizationId(): Observable<any> {
     return this._httpClient.get<any>(
       `${environment.apiUrl}/organization/list?page=0&size=1000`,

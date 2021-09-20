@@ -49,6 +49,7 @@ export class PersonalListComponent implements OnInit {
    * @param modalService
    * @param fb
    * @param dateAdapter
+   * @param dateAdapter
    */
   constructor(
     private _userListService: PersonalListService,
@@ -56,7 +57,7 @@ export class PersonalListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -110,6 +111,7 @@ export class PersonalListComponent implements OnInit {
             " " +
             personalList.personalLastName,
         }));
+        console.log(this.rowsData)
         this.isLoading=false;
       });
   }
@@ -152,7 +154,11 @@ export class PersonalListComponent implements OnInit {
   onSubmit() {
     console.log(this.formListPersonal);
   }
-
+  updateTable(){
+    this.pagedData.size = this.sizePage[0];
+    this.pagedData.currentPage = 0;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
   /**
    * On destroy
    */

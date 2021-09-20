@@ -113,66 +113,6 @@ export class NewPersonalSidebarComponent implements OnInit {
     this.getOrganizationId();
   }
 
-//Khởi tạo các địa chỉ ban đầu và select sẵn các giá trị, nhưng không cần thiết làm như trang tiêm chủng
-  // initAddress() {
-  //   this._addressService
-  //     .getProvince(237)
-  //     .pipe(
-  //       map((res) => {
-  //         const data = res.data.map((city) => ({
-  //           ...city,
-  //           provinceDisplay: city.provinceType + " " + city.provinceName,
-  //         }));
-  //         return data;
-  //       }),
-  //       takeUntil(this._unsubscribeAll)
-  //     )
-  //     .subscribe((res) => {
-  //       this.provinceResidencePlace = res;
-  //       this.provinceBirthPlace = res;
-  //       this._addressService
-  //         .getDistrict(this.provinceResidencePlace[0].provinceId)
-  //         .pipe(
-  //           map((res) => {
-  //             const data = res.data.map((district) => ({
-  //               ...district,
-  //               districtDisplay:
-  //                 district.districtType + " " + district.districtName,
-  //             }));
-  //             return data;
-  //           }),
-  //           takeUntil(this._unsubscribeAll)
-  //         )
-  //         .subscribe((res) => {
-  //           this.districtResidencePlace = res;
-  //           this.districtBirthPlace = res;
-  //           this._addressService
-  //             .getCommune(this.districtResidencePlace[0].districtId)
-  //             .pipe(
-  //               map((res) => {
-  //                 const data = res.data.map((commune) => ({
-  //                   ...commune,
-  //                   communeDisplay:
-  //                     commune.communeType + " " + commune.communeName,
-  //                 }));
-  //                 return data;
-  //               }),
-  //               takeUntil(this._unsubscribeAll)
-  //             )
-  //             .subscribe((res) => {
-  //               this.communeResidencePlace = res;
-  //               this.communeBirthPlace = res;
-  //               this._addressService
-  //                 .getStreet(this.communeBirthPlace[0].communeId)
-  //                 .pipe(takeUntil(this._unsubscribeAll))
-  //                 .subscribe((res) => {
-  //                   this.streetResidencePlace = res.data;
-  //                   this.streetBirthPlace = res.data;
-  //                 });
-  //             });
-  //         });
-  //     });
-  // }
 getOrganizationId(){
   this._personalListService
     .getOrganizationId()
@@ -181,7 +121,7 @@ getOrganizationId(){
     }); 
 }
 selectOrganization(e){
-  this.newPersonal.controls['organizationId'].setValue(e.organizationId);
+  this.newPersonal.controls['organizationId'].setValue(e.organizationId);       
 }
 initAddress() {
     this._addressService
@@ -196,6 +136,7 @@ initAddress() {
         }),
         takeUntil(this._unsubscribeAll)
       )
+      
       .subscribe((res) => {
         this.provinceResidencePlace = res;
         this.provinceBirthPlace = res;
@@ -469,6 +410,11 @@ onSubmitCreateStreet(type, streetName) {
       if ((res.result = "true")) {
         this.toggleSidebar();
         this.updateTable();
+        this._toastrService.success(
+          "Đăng ký thuê bao cá nhân thành công ",
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
       }
     });
     // console.log(newPersonal);

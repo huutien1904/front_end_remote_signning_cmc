@@ -33,6 +33,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     SubscriberCertificateListComponent,
     SubscriberCertificateViewComponent,
     SubscriberCertificateEditComponent,
+    
   ],
   imports: [
     CommonModule,

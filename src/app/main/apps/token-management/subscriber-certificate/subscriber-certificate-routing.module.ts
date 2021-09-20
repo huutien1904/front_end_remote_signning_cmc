@@ -18,7 +18,7 @@ const routes: Routes = [
     component: SubscriberCertificateListComponent,
     data: { animation: "SubscriberCertificateListComponent" },
   },
-
+  
   {
     path: "subscriber-certificate-view/:id",
     component: SubscriberCertificateViewComponent,

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
+import { PagedData } from 'app/main/models/PagedData';
+import { Organization } from 'app/main/models/organization';
+import { ResponseData } from 'app/main/models/ResponseData';
+import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -18,408 +21,35 @@ export class OrganizationListService {
       // Set the defaults
       this.onUserListChanged = new BehaviorSubject({});
     }
-  /**
-   * Resolver
-   *
-   * @param {ActivatedRouteSnapshot} route
-   * @param {RouterStateSnapshot} state
-   * @returns {Observable<any> | Promise<any> | any}
-   */
-   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-    return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getDataTableRows()]).then(() => {
-        resolve();
-      }, reject);
-    });
-  }
-  createDb() {
-    const heroes = [
-      {
-        id: 1,
-        countryOrganizationId: "CMC1234", 
+    private readonly currentUser = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
   
-        organizationName: "SMV", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Nguyen Huy Hoang", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0941195845", 
-  
-        website: "hoang1904@gmail.com", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/1.png',
+    private readonly token = this.currentUser.token;
+    private option = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.token,
       },
-      {
-        id: 2,
-        countryOrganizationId: "CMC12347888", 
-  
-        organizationName: "CMC ", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: '',
-      },
-      {
-        id: 3,
-        countryOrganizationId: "CMC123488ass", 
-  
-        organizationName: "CIST", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/10.png',
-      },
-      {
-        id: 4,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "SMV", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-      {
-        id: 5,
-        countryOrganizationId: "CMC1234rrr", 
-  
-        organizationName: "CMC ", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/10.png',
-      },
-      {
-        id: 6,
-        countryOrganizationId: "CMC1234999", 
-  
-        organizationName: " CIST", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: '',
-      },
-      {
-        id: 7,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "SMV", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-      {
-        id: 8,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "CMC", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-      {
-        id: 9,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "CIST", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-      {
-        id: 10,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "SMV", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-      {
-        id: 11,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "CMC", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-      {
-        id: 12,
-        countryOrganizationId: "CMC1234ddd", 
-  
-        organizationName: "CIST", 
-  
-        parentOrganizationId: "organization_00005", 
-  
-        subscriberCategoryId: "subscriberCategory_03", 
-  
-        leaderName: "Le Quang Huy", 
-  
-        province: "8", 
-  
-        district: "76", 
-  
-        commune: "255", 
-  
-        street: "1", 
-  
-        homeNumber: "hoang mai nhi", 
-  
-        country: "237", 
-  
-        phoneNumber: "0889716224122", 
-  
-        website: "hunghust.sicftu.v", 
-  
-        email: "hunga1k15tv1s1w@cmc.com" ,
-        avatar: 'assets/images/avatars/9.png',
-      },
-    ];
-    return {heroes};
-  }
-  /**
-   * Get rows
-   */
-  getDataTableRows(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get('http://183.91.3.60:8080/csignremote-0.3/personal/list').subscribe((response: any) => {
-        this.rows = response;
-        console.log(response);
-        this.onUserListChanged.next(this.rows);
-        resolve(this.rows);
-      }, reject);
-    });
-  }
+    };
+    public getListOrganizations(page:PagedData<Organization>) :Observable<ResponseData<PagedData<Organization>>>{
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const token = currentUser.token;
+      const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
+      console.log("service organization list");
+      const option = {
+        headers :{
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+        params:param
+      };
+       return this._httpClient.get<ResponseData<PagedData<Organization>>>(`http://183.91.3.60:8080/csignremote-0.2/organization/list`,option);
+    }
+    public submitForm(body): Observable<any> {
+      return this._httpClient.post<any>(
+        `${environment.apiUrl}/organization/create`,body,
+        this.option
+      );
+    }
 }
