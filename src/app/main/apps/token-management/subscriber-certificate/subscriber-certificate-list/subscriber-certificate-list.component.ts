@@ -26,6 +26,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   public toDate: NgbDate | null;
   public today = this.calendar.getToday();
   public rows: any[];
+  minDate: Date;
   constructor(
     private fb: FormBuilder,
     private calendar: NgbCalendar,
