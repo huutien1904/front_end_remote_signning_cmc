@@ -492,7 +492,7 @@
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <form [formGroup]="formUploadCert">
           <div class="form-group custom-file">
             <input
@@ -514,7 +514,7 @@
               class="alert alert-danger"
             >
               <div *ngIf="formUploadCert.controls.certificate.errors.required">
-                File is required.
+                Cần chọn chứng thư số.
               </div>
             </div>
           </div>
