@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import * as forge from 'node-forge';
 import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { ResponseData } from 'app/main/models/ResponseData';
-import { PagedData } from 'app/main/models/pagedData';
+import { PagedData } from 'app/main/models/PagedData';
 
 @Injectable({
   providedIn: 'root'

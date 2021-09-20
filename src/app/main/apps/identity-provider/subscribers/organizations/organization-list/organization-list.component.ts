@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from "rxjs/operators";
 import { PagedData } from "app/main/models/PagedData";
 import { OrganizationListService } from './organization-list.service';
-import { Organization } from 'app/main/models/organization';
+import { Organization } from 'app/main/models/Organization';
 
 @Component({
   selector: 'app-organization-list',

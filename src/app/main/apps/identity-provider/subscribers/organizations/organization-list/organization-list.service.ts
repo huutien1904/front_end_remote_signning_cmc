@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { PagedData } from 'app/main/models/PagedData';
-import { Organization } from 'app/main/models/organization';
+import { Organization } from 'app/main/models/Organization';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
