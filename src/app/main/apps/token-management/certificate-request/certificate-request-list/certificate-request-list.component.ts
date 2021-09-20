@@ -70,11 +70,11 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   getOrganization(item): any {
-    let info = this._listCerReqService.readCertificate(item.CertificateRequest);
+    let info = this._listCerReqService.readCertificate(item.certificateRequest);
     return info.find(obj => obj.name === 'organizationName').value;
   }
   getSubscribe(item): any {
-    let info = this._listCerReqService.readCertificate(item.CertificateRequest);
+    let info = this._listCerReqService.readCertificate(item.certificateRequest);
     return info.find(obj => obj.name == 'commonName').value;
   }
 
