@@ -46,14 +46,14 @@
                             <div class="form-group">
                                 <label>Xác nhận mật khẩu</label>
                                 <input type="password" formControlName="confPassword" class="form-control" [ngClass]="{
-                                    'is-invalid': f.confPassword.errors && f.confPassword?.touched || submitted && f.confPassword?.errors?.required,
-                                    'is-valid': !f.confPassword?.errors?.mustMatch && f.confPassword?.touched
+                                    'is-invalid': f.confPassword.errors && f.confPassword?.dirty || submitted && f.confPassword?.errors?.required,
+                                    'is-valid': !f.confPassword?.errors?.mustMatch && f.confPassword?.dirty
                                 }" />
-                                <div *ngIf="f.confPassword.errors && f.confPassword?.touched || submitted && f.confPassword?.errors?.required" class="invalid-feedback">
+                                <div *ngIf="f.confPassword.errors && f.confPassword?.dirty  || submitted && f.confPassword?.errors?.required" class="invalid-feedback">
                                     <div *ngIf="f.confPassword.errors.required">Bạn cần xác nhận mật khẩu</div>
                                     <div *ngIf="f.confPassword.errors.mustMatch">Xác nhận mật khẩu không hợp lệ</div>
                                 </div>
-                                <div *ngIf="f.confPassword.errors == null && f.confPassword?.touched" class="valid-feedback">
+                                <div *ngIf="f.confPassword.errors == null" class="valid-feedback">
                                     Xác nhận mật khẩu hợp lệ
                                 </div>
                             </div>
