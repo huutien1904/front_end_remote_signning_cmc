@@ -12,6 +12,7 @@ export class PagedData<T> {
     currentPage: number = 0;
 }
 
+    
 // export class Page {
 //     //The number of elements in the page
 //     size: number = 0;
