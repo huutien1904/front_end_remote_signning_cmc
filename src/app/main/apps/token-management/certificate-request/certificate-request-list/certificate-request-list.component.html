@@ -94,7 +94,7 @@
                                 <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
                             </a>
                             <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
-                                <a [href]='fileUrl' [download]='fileName' ngbDropdownItem class="d-flex align-items-center" (click)="downloadSidebar(row)"><i data-feather="download" class="mr-50"></i>Tải dữ liệu</a>
+                                <a [href]='row.fileUrl' [download]='row.fileName' ngbDropdownItem class="d-flex align-items-center" (click)="downloadSidebar(row)"><i data-feather="download" class="mr-50"></i>Tải dữ liệu</a>
                             </div>
                         </div>
                         <i data-feather="edit" class="text-primary cursor-pointer"></i>

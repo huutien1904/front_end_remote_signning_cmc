@@ -36,8 +36,6 @@ export class CertificateRequestListComponent implements OnInit {
   public SelectionType = SelectionType;
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
-  public fileUrl;
-  public fileName;
 
   constructor(
     private fb: FormBuilder,
@@ -71,11 +69,14 @@ export class CertificateRequestListComponent implements OnInit {
 
   getOrganization(item): any {
     let info = this._listCerReqService.readCertificate(item.certificateRequest);
-    return info.find(obj => obj.name === 'organizationName').value;
+    let rs = info.find(obj => obj.name === 'organizationName');
+    if(rs == undefined)
+      return;
+    return rs.value;
   }
   getSubscribe(item): any {
     let info = this._listCerReqService.readCertificate(item.certificateRequest);
-    return info.find(obj => obj.name == 'commonName').value;
+    return info.find(obj => obj.name === 'commonName').value;
   }
 
   changePage() {
@@ -93,23 +94,24 @@ export class CertificateRequestListComponent implements OnInit {
       .subscribe((pagedData) => {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
         this.rowsData = pagedData.data.data.map(item => ({
           ...item,
           organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item)
         }))
-        console.log(this.rowsData)
         this.isLoading=false;
       });
   }
 
   downloadSidebar(row){
-    const data = row.CertificateRequest;
+    const data = row.certificateRequest;
     const blob = new Blob([data], { type: 'application/octet-stream' });
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    this.fileName = row.CertificateRequestId + '.csr';
+    row.fileName = row.certificateRequestId + '.csr';
+    console.log(row)
   }
 
   /**

@@ -53,7 +53,6 @@ export class SidebarPersonalsComponent implements OnInit {
         keypairLength: [{value:null, disabled : true}, Validators.required],
         alias: [null, Validators.required],
         tokenId: [{value:null, disabled : true}, Validators.required],
-        templateKeyId: ['keypairtemplate_00001'],
         subscriberId: [this.personal.subscriberId],
         hsmInformationId: [null, Validators.required]
       },
@@ -117,7 +116,14 @@ export class SidebarPersonalsComponent implements OnInit {
     if (this.newRequestForm.invalid) {
       return;
     }
-    const newRequest = JSON.stringify(this.newRequestForm.value);
+    const newRequest = JSON.stringify({
+      cryptoSystem: this.f.cryptoSystem.value,
+      keypairLength: this.f.keypairLength.value,
+      alias: this.f.alias.value,
+      tokenId: this.f.tokenId.value,
+      templateKeyId: 'keypairtemplate_00001',
+      subscriberId: this.f.subscriberId.value,
+    });
     this._personalsService.submitForm(newRequest).subscribe((res: any) => {
       console.log(res);
       if ((res.result = true)) {
