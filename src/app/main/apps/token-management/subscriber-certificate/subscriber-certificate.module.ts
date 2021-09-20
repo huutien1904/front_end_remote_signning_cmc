@@ -9,6 +9,8 @@ import { SubscriberCertificateEditComponent } from "./subscriber-certificate-edi
 import { CoreCommonModule } from "@core/common.module";
 import { SubscriberCertificateCreateComponent } from "./subscriber-certificate-create/subscriber-certificate-create.component";
 import { PersonalsModule } from "../../identity-provider/subscribers/personals/personals.module";
+import { FileUploadModule } from 'ng2-file-upload';
+
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import {
   DateAdapter,
@@ -48,6 +50,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     CoreCommonModule,
     ...materialModules1234,
     MatProgressBarModule,
+    FileUploadModule
   ],
   exports: [
     SubscriberCertificateCreateComponent,

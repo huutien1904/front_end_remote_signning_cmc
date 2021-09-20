@@ -9,7 +9,7 @@ export class Keypair {
   subscriberId: string;
   slotNumber: string;
   keypairAccessRight:KeypairAccessRight[];
-  certificateRequest:CertificateRequest[];
+  certificateRequests:CertificateRequest[];
 }
 export class KeypairAccessRight{
   keyAlias:string;
