@@ -26,7 +26,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
   public submitted = false;
   private _unsubscribeAll = new Subject();
-  country:any[] =[
+  public parentOrganizationId:any[]
+  public country:any[] =[
     {
       countryId: 237,
       countryName: "Việt Nam",
@@ -34,11 +35,11 @@ export class NewOrganizationSidebarComponent implements OnInit {
       countryType: "Independent State",
     },
   ]
-  province: Province[];
-  district: District[];
-  commune: Commune[];
-  street: Street[];
-  
+
+  public province: Province[];
+  public district: District[];
+  public commune: Commune[];
+  public street: Street[];
   newOganization: FormGroup;
   constructor(
       private _coreSidebarService: CoreSidebarService,
