@@ -29,6 +29,7 @@ export class CertificateRequestListService{
 
     //dich tieng Viet 
     let res: any[] = JSON.parse( forge.util.decodeUtf8( JSON.stringify(read)));
+ 
     return res;
   }
 

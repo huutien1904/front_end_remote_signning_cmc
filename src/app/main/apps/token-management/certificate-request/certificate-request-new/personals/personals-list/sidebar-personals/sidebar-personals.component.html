@@ -23,13 +23,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 offset-3">
+            <div class="col-md-6 offset-3">
                 <div class="form-group">
-                    <label for="">Alias</label>
-                    <input type="text" formControlName="alias" class="form-control" [ngClass]="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required || submitted && f.alias?.errors?.used ? 'is-invalid' : '' " />
-                    <div *ngIf="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required || submitted && f.alias?.errors?.used" class="invalid-feedback">
+                    <label>Alias</label>
+                    <input type="text" formControlName="alias" class="form-control" [ngClass]="{
+                        'is-invalid': f.alias.errors && f.alias?.dirty || submitted && f.alias?.errors?.required,
+                        'is-valid': !f.alias?.errors?.used && f.alias?.dirty
+                    }" />
+                    <div *ngIf="f.alias.errors && f.alias?.dirty  || submitted && f.alias?.errors?.required" class="invalid-feedback">
                         <div *ngIf="f.alias.errors.required">Bạn cần nhập alias</div>
                         <div *ngIf="f.alias.errors.used">Alias đã tồn tại. Vui lòng nhập alias khác</div>
+                    </div>
+                    <div *ngIf="f.alias.errors == null" class="valid-feedback">
+                        Alias hợp lệ
                     </div>
                 </div>
             </div>
@@ -60,7 +66,7 @@
 
 <div class="modal-footer" style="text-align: right;">
     <button type="button" class="btn btn-primary mr-1" (click)="onSubmit()" rippleEffect>
-        Tạo cặp khóa
+        Tạo
     </button>
     <button type="button" class="btn btn-secondary" (click)="toggleSidebar()" rippleEffect>
         Hủy
@@ -69,7 +75,7 @@
 
 <ng-template #modalLink let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">Tải dữ liệu cặp khóa của bạn</h4>
+        <h4 class="modal-title">Tải dữ liệu yêu cầu chứng thực của bạn</h4>
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
         <div class="badge badge-primary">
