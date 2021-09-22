@@ -1,10 +1,18 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CertificateRequestListService } from "./certificate-request-list.service";
 import { Subject } from 'rxjs';
 import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
 import { takeUntil } from "rxjs/operators";
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType,
+} from "@swimlane/ngx-datatable";
+import { PagedData } from "app/main/models/PagedData"
+import { CertificateRequest } from "app/main/models/CertificateRequest";
+import { DomSanitizer } from "@angular/platform-browser";
 @Component({
   selector: "app-certificate-request-list",
   templateUrl: "./certificate-request-list.component.html",
@@ -13,22 +21,28 @@ import { takeUntil } from "rxjs/operators";
 })
 export class CertificateRequestListComponent implements OnInit {
   //Public Properties
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild("tableRowDetails") tableRowDetails: any;
   minDate: Date;
   maxDate: Date;
-  public rows: any[] = [];
+  public rowsData = new Array<CertificateRequest>();
+  public pagedData = new PagedData<CertificateRequest>();
   public moreOption = true;
-  public page: number = 0;
-  public pageAdvancedEllipses = 1;
-  public totalPages: number;
-  public sizePage: number[] = [5, 10, 15, 20];
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public formListCertificateRequest: FormGroup;
   private _unsubscribeAll: Subject<any>;
+  public chkBoxSelected = [];
+  public selected = [];
+  public SelectionType = SelectionType;
+  public isLoading: boolean = false;
+  public ColumnMode = ColumnMode;
 
   constructor(
     private fb: FormBuilder,
     private _listCerReqService: CertificateRequestListService,
     private _coreConfigService: CoreConfigService,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private sanitizer: DomSanitizer
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -42,57 +56,82 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._listCerReqService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
-      this.totalPages = respon.data.totalPages * 10
-      console.log(respon)
-      this.rows = respon.data.data.content;
-      this.rows.forEach(item => {
-        item.organizationName = this.getOrganization(item);
-        item.subscribeName = this.getSubscribe(item);
-      })
-    })
     this.formListCertificateRequest = this.fb.group({
       inputSearch: ["", Validators.required],
-      sizePage: [this.sizePage[1]],
+      sizePage: [this.sizePage[0]],
       fromDate: [null],
       toDate: [null],
     });
+    this.pagedData.size = this.sizePage[0];
+    this.pagedData.currentPage = 0;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size })
   }
 
   getOrganization(item): any {
     let info = this._listCerReqService.readCertificate(item.certificateRequest);
-    console.log(info)
-    return info.find(obj => obj.name === 'organizationName').value;
+    let rs = info.find(obj => obj.name === 'organizationName');
+    if(rs == undefined)
+      return;
+    return rs.value;
   }
   getSubscribe(item): any {
     let info = this._listCerReqService.readCertificate(item.certificateRequest);
-    return info.find(obj => obj.name == 'commonName').value;
+    return info.find(obj => obj.name === 'commonName').value;
   }
 
-  changePage(e) {
-    this.page = e;
+  changePage() {
+    this.pagedData.size = this.formListCertificateRequest.get("sizePage").value;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
+  
+  setPage(pageInfo) {
+    this.isLoading=true;
+    this.pagedData.currentPage = pageInfo.offset;
+    this.pagedData.size = pageInfo.pageSize;
     this._listCerReqService
-      .getData(e - 1, this.formListCertificateRequest.controls['sizePage'].value)
-      .subscribe((res: any) => {
-        this.rows = res.data.data;
-        this.rows.forEach(item => {
-          item.organizationName = this.getOrganization(item);
-          item.subscribeName = this.getSubscribe(item);
-        })
+      .getData(this.pagedData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
+        this.rowsData = pagedData.data.data.map(item => ({
+          ...item,
+          organizationName: this.getOrganization(item),
+          subscribeName: this.getSubscribe(item)
+        }))
+        this.isLoading=false;
       });
   }
 
-  selectItem() {
-    this._listCerReqService
-      .getData(this.page, this.formListCertificateRequest.controls['sizePage'].value)
-      .subscribe((res: any) => {
-        this.totalPages = res.data.totalPages * this.formListCertificateRequest.controls['sizePage'].value;
-        this.rows = res.data.data;
-        this.rows.forEach(item => {
-          item.organizationName = this.getOrganization(item);
-          item.subscribeName = this.getSubscribe(item);
-        })
-      });
+  downloadSidebar(row){
+    const data = row.certificateRequest;
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+    row.fileName = row.certificateRequestId + '.csr';
+    console.log(row)
+  }
+
+  /**
+   * Custom Checkbox On Select
+   *
+   * @param { selected }
+  */
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
+  /**
+   * For ref only, log selected values
+   *
+   * @param selected
+   */
+  onSelect({ selected }) {
+    console.log("Select Event", selected, this.selected);
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
   }
 
   onSubmit() {

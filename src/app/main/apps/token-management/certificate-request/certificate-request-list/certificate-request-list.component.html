@@ -1,108 +1,168 @@
-<div class="content-body">
-    <!-- Keypair List -->
-    <section class="users-list-wrapper">
-        <!-- keypair filter start -->
-        <div class="card">
-            <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-            <div class="card-body">
-                <form class="form form-vertical" [formGroup]="formListCertificateRequest">
-                    <div class="row mb-1">
-                        <div class="col-md-6">
-                            <input name="distinguishedName" type="search" class="form-control" formControlName="inputSearch" placeholder="Một phần tên doanh nghiệp" />
-                        </div>
+<section>
+    <div class="card">
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+            <form class="form form-vertical" [formGroup]="formListCertificateRequest">
+                <div class="row mb-1">
+                    <div class="col-md-6">
+                        <input name="distinguishedName" type="search" class="form-control" formControlName="inputSearch" placeholder="Một phần tên doanh nghiệp" />
                     </div>
-                    <div class="row mb-1">
-                        <div class="col-12">
-                            <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
-								Thêm tùy chọn
-			  				</button>
-                            <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListCertificateRequest.valid">
-								Tìm kiếm
-			  				</button>
-                        </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
+                            Thêm tùy chọn
+                          </button>
+                        <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListCertificateRequest.valid">
+                            Tìm kiếm
+                          </button>
                     </div>
-                    <div class="row" [ngbCollapse]="moreOption">
-                        <div class="col-md-2">
-                            <label for="">Số dòng:</label>
-                            <fieldset class="form-group">
-                                <ng-select [items]="sizePage" suffix=" dòng" [clearable]="false" bindValue="sizePage" formControlName="sizePage" (change)="selectItem()"></ng-select>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="lable">Từ ngày:</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" (click)="fromDate.open()"><i data-feather="calendar"></i
-									></span>
-                                        </div>
-                                        <input [matDatepicker]="fromDate" formControlName="fromDate" class="form-control" type="text" [min]="minDate" [max]="formListCertificateRequest.controls.toDate.value" placeholder="13/09/2021" />
+                </div>
+                <div class="row" [ngbCollapse]="moreOption">
+                    <div class="col-md-2">
+                        <label for="">Số dòng:</label>
+                        <fieldset class="form-group">
+                            <ng-select [items]="sizePage" suffix=" dòng" [clearable]="false" bindValue="sizePage" formControlName="sizePage" (change)="changePage()"></ng-select>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="lable">Từ ngày:</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" (click)="fromDate.open()"><i data-feather="calendar"></i
+                                ></span>
                                     </div>
-                                    <mat-datepicker #fromDate></mat-datepicker>
+                                    <input [matDatepicker]="fromDate" formControlName="fromDate" class="form-control" type="text" [min]="minDate" [max]="formListCertificateRequest.controls.toDate.value" placeholder="13/09/2021" />
                                 </div>
-                                <div class="col-md-3">
-                                    <label class="lable">Đến ngày:</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" (click)="toDate.open()"><i data-feather="calendar"></i
-									></span>
-                                        </div>
-                                        <input [matDatepicker]="toDate" formControlName="toDate" class="form-control" type="text" [min]="formListCertificateRequest.controls.fromDate.value" placeholder="13/09/2021" />
+                                <mat-datepicker #fromDate></mat-datepicker>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="lable">Đến ngày:</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" (click)="toDate.open()"><i data-feather="calendar"></i
+                                ></span>
                                     </div>
+                                    <input [matDatepicker]="toDate" formControlName="toDate" class="form-control" type="text" [min]="formListCertificateRequest.controls.fromDate.value" placeholder="13/09/2021" />
+                                </div>
 
-                                    <mat-datepicker #toDate></mat-datepicker>
-                                </div>
+                                <mat-datepicker #toDate></mat-datepicker>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-        <!-- keypair filter end -->
-        <div class="card">
-            <div class="row">
-                <div class="col-12">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>TT</th>
-                                    <th>MÃ YÊU CẦU CHỨNG THỰC</th>
-                                    <th>DOANH NGHIỆP</th>
-                                    <th>TÊN THUÊ BAO</th>
-                                    <th>THUẬT TOÁN KÝ</th>
-                                    <th>ĐỘ DÀI KHÓA</th>
-                                    <th>TRẠNG THÁI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of rows; let i = index">
-                                    <td>{{ i + 1 }}</td>
-                                    <td>{{ item.certificateRequestId }}</td>
-                                    <td>{{ item.organizationName }}</td>
-                                    <td>{{ item.subscribeName }}</td>
-                                    <td>{{ item.keypairInformation.cryptoSystem }}</td>
-                                    <td>{{ item.keypairInformation.keypairLength }}</td>
-                                    <td>{{ item.keypairInformation.keypairStatus.keypairStatus }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+    </div>
+</section>
+
+<section>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Danh sách yêu cầu chứng thực</h4>
+        </div>
+        <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+        <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [rows]="rowsData" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force"
+            [headerHeight]="50" rowHeight="auto" [scrollbarH]="false" [footerHeight]="50" [rowHeight]="50" [externalPaging]="true" [limit]="pagedData.size" [count]="pagedData.totalItems" [offset]="pagedData.currentPage" [loadingIndicator]="isLoading" (page)="setPage($event)">
+            <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" class="ml-1">
+                <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+                    <div class="custom-control custom-control-primary custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" id="headerCustomChkbxRef" />
+                        <label class="custom-control-label" for="headerCustomChkbxRef"></label>
                     </div>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-xl-2 ml-1">
-                    <div class="total_item">{{ rows.length }} dòng</div>
-                </div>
-                <div class="col-xl-6 mt-1 mr-1">
-                    <ngb-pagination [collectionSize]="totalPages" [pageSize]="formListCertificateRequest.controls.sizePage.value" [(page)]="pageAdvancedEllipses" [maxSize]="3" [rotate]="true" [boundaryLinks]="true" (pageChange)="changePage($event)" class="d-flex justify-content-end">
-                        <ng-template ngbPaginationFirst>Đầu</ng-template>
-                        <ng-template ngbPaginationLast>Cuối</ng-template>
-                    </ngb-pagination>
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                    <div class="custom-control custom-control-primary custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" id="rowCustomChkbxRef{{ rowIndex }}" />
+                        <label class="custom-control-label" for="rowCustomChkbxRef{{ rowIndex }}"></label>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Mã yêu cầu chứng thực" prop="certificateRequestId" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Doanh nghiệp" prop="organizationName" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Tên thuê bao" prop="subscribeName" [width]="160"></ngx-datatable-column>
+            <ngx-datatable-column name="Thuật toán kí" prop="keypairInformation.cryptoSystem" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Độ dài khóa" prop="keypairInformation.keypairLength" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Trạng thái" prop="keypairInformation.keypairStatus.keypairStatus" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                    <div class="d-flex align-items-center">
+                        <div ngbDropdown container="body">
+                            <a ngbDropdownToggle href="javascript:void(0);" class="hide-arrow" id="dropdownBrowserState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
+                            </a>
+                            <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
+                                <a [href]='row.fileUrl' [download]='row.fileName' ngbDropdownItem class="d-flex align-items-center" (click)="downloadSidebar(row)"><i data-feather="download" class="mr-50"></i>Tải dữ liệu</a>
+                            </div>
+                        </div>
+                        <i data-feather="edit" class="text-primary cursor-pointer"></i>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-footer>
+                <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+                    <div class="page-count" *ngIf="!isLoading">
+                        <span *ngIf="chkBoxSelected">
+                Đã chọn {{ chkBoxSelected.length }} /
+              </span> {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!(rowCount / pageSize > 1)"
+                        (change)="table.onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+    </div>
+</section>
+
+
+
+<!--
+<section>
+    <div class="card">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>TT</th>
+                                <th>MÃ YÊU CẦU CHỨNG THỰC</th>
+                                <th>DOANH NGHIỆP</th>
+                                <th>TÊN THUÊ BAO</th>
+                                <th>THUẬT TOÁN KÝ</th>
+                                <th>ĐỘ DÀI KHÓA</th>
+                                <th>TRẠNG THÁI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of rows; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ item.certificateRequestId }}</td>
+                                <td>{{ item.organizationName }}</td>
+                                <td>{{ item.subscribeName }}</td>
+                                <td>{{ item.keypairInformation.cryptoSystem }}</td>
+                                <td>{{ item.keypairInformation.keypairLength }}</td>
+                                <td>{{ item.keypairInformation.keypairStatus.keypairStatus }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
-    <!--/ Keypair List -->
-</div>
+        <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-xl-2 ml-1">
+                <div class="total_item">{{ rows.length }} dòng</div>
+            </div>
+            <div class="col-xl-6 mt-1 mr-1">
+                <ngb-pagination [collectionSize]="totalPages" [pageSize]="formListCertificateRequest.controls.sizePage.value" [(page)]="pageAdvancedEllipses" [maxSize]="3" [rotate]="true" [boundaryLinks]="true" (pageChange)="changePage($event)" class="d-flex justify-content-end">
+                    <ng-template ngbPaginationFirst>Đầu</ng-template>
+                    <ng-template ngbPaginationLast>Cuối</ng-template>
+                </ngb-pagination>
+            </div>
+        </div>
+    </div>
+</section>
+-->

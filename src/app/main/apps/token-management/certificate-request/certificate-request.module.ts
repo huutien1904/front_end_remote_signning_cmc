@@ -4,8 +4,6 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { CoreCommonModule } from "@core/common.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter,
@@ -22,11 +20,13 @@ import { CertificateRequestListComponent } from "./certificate-request-list/cert
 import { CertificateRequestListService} from './certificate-request-list/certificate-request-list.service'
 import { CertificateRequestViewComponent } from "./certificate-request-view/certificate-request-view.component";
 import { CertificateRequestEditComponent } from "./certificate-request-edit/certificate-request-edit.component";
+import { FormsModule } from "@angular/forms";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { CorePipesModule } from "@core/pipes/pipes.module";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 const materialModules1234 = [
   MatDatepickerModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatNativeDateModule,
+  MatNativeDateModule
 ];
 
 @NgModule({
@@ -42,6 +42,10 @@ const materialModules1234 = [
     CoreCommonModule,
     NgbModule,
     ...materialModules1234,
+    FormsModule,
+    NgxDatatableModule,
+    CorePipesModule,
+    MatProgressBarModule
   ],
   exports: [
     CertificateRequestListComponent,

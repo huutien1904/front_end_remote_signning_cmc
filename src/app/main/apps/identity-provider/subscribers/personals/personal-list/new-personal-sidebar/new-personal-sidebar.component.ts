@@ -117,9 +117,18 @@ getOrganizationId(){
   this._personalListService
     .getOrganizationId()
     .subscribe((res) => {
-      this.organizationId = res.data.data;
+      this.organizationId = res.data.data
+      console.log(this.organizationId)
+      // this.organizationId = listOrganization.filter(function(item, pos) {
+      //   console.log(listOrganization.indexOf("item",item))
+      //   console.log(listOrganization.indexOf("pop",pos))
+        
+      //       return listOrganization.indexOf(item) == pos;
+      //   });
+      // console.log(this.organizationId)
     }); 
 }
+
 selectOrganization(e){
   this.newPersonal.controls['organizationId'].setValue(e.organizationId);       
 }
@@ -408,8 +417,8 @@ onSubmitCreateStreet(type, streetName) {
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res)
       if ((res.result = "true")) {
-        this.toggleSidebar();
         this.updateTable();
+        this.toggleSidebar();
         this._toastrService.success(
           "Đăng ký thuê bao cá nhân thành công ",
           "Thành công",

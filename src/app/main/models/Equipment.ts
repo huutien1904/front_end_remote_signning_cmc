@@ -4,16 +4,7 @@ export interface Token {
     slotNumber: string,
     keypairNumber: string,
     tokenPassword: string,
-    hsmInformation: {
-        hsmId: string,
-        hsmName: string,
-        hardwareId: string,
-        hsmManufacturer: string,
-        hsmModel: string,
-        hsmLibraryPath: string,
-        createdAt: string,
-        updatedAt: string
-    }
+    hsmInformation: Hsm
 }
 
 export interface Hsm {

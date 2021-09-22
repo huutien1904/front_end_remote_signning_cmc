@@ -19,37 +19,13 @@ export class NewTokenComponent implements OnInit {
   public contentHeader: object;
   public submitted = false;
   public hsmList: Hsm[];
+  public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
 
   get f() {
     return this.tokenForm.controls;
   }
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.tokenForm.invalid) {
-      return;
-    }
 
-    const newRequest = JSON.stringify(this.tokenForm.value);
-    this._tokenService.submitForm(newRequest).subscribe((res: any) => {
-      console.log(res);
-      if ((res.result = "true")) {
-        this.toastr.success('👋 Bạn đã tạo token mới', 'Thành công', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
-        this.submitted = false;
-        this.tokenForm.reset();
-      }
-    });
-  }
-
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
-  }
-  
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -110,6 +86,36 @@ export class NewTokenComponent implements OnInit {
       .subscribe(response => {
         this.hsmList = response;
       });
+  }
+  onSubmit() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.tokenForm.invalid) {
+      return;
+    }
+
+    const newRequest = JSON.stringify({
+      slotNumber: this.f.slotNumber.value,
+      tokenName: this.f.tokenName.value,
+      tokenPassword: this.f.tokenPassword.value,
+      hsmInformationId: this.f.hsmInformationId.value
+    });
+    this._tokenService.submitForm(newRequest).subscribe((res: any) => {
+      console.log(res);
+      if ((res.result = true)) {
+        this.toastr.success('👋 Bạn đã tạo token mới', 'Thành công', {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true
+        });
+        this.submitted = false;
+        this.tokenForm.reset();
+      }
+    });
+  }
+
+  exit() {
+    this.router.navigateByUrl("/apps/equipment-management/search")
   }
 
 }

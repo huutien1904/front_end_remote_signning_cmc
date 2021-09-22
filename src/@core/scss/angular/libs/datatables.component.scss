@@ -7,7 +7,7 @@
 // variable declaration
 $datatables-bg-header-color: $table-head-bg;
 $datatables-text-color: $gray-400;
-$datatables-text-color-select-row: #37ffbe;
+$datatables-text-color-select-row: #988ff47a;
 $datatables-border-color: $border-color;
 $datatables-footer-text-color: $text-muted;
 $datatables-dark-text-color: $theme-dark-body-color;
@@ -48,12 +48,19 @@ $datatables-dark-text-color-select-row: #587880;
           }
         }
       }
+      
       &.cursor{
         .datatable-body-row {
+          &:hover {
+            background-color: #22ec737a;
+          }
           border-color: $datatables-border-color;
           cursor: pointer;
           &.datatable-row-even {
             background-color: initial;
+            &:hover {
+              background-color: #22ec737a;
+            }
           }
           &.active {
             background-color: $datatables-text-color-select-row;
@@ -221,10 +228,13 @@ $datatables-dark-text-color-select-row: #587880;
       }
     }
   }
-
+  .datatable-body-row:hover{
+    background-color:$datatables-dark-text-color-select-row;
+  }
   &.cursor{
     .datatable-body-row {
       cursor: pointer;
+      
       border-color: $datatables-dark-border-color !important;
       &.active {
         background-color:$datatables-dark-text-color-select-row !important;

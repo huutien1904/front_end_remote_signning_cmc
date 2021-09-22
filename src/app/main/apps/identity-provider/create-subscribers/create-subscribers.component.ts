@@ -62,17 +62,7 @@ export class CreateSubscribersComponent implements OnInit {
     this.formSelectSearch = this.fb.group({
       searchType : [null, Validators.required]
     })
-    let myTag = this.el.nativeElement.querySelector("#form-peronal");
-    console.log(myTag)
-    myTag.classList.add('create-subcriber');
-
-    console.log(myTag)
-    // let myTag = this.el.nativeElement.querySelector("#modal-dialog-remove");
-    // myTag.classList.remove('modal-dialog'); 
-    // myTag.classList.add('create-subcriber'); 
-    // let myTagOgn = this.el.nativeElement.querySelector("#modal-dialog-organization");
-    // myTagOgn.classList.remove('modal-dialog'); 
-    // myTagOgn.classList.add('create-orgnization'); 
+    
     
   }
 

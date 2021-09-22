@@ -244,7 +244,7 @@
           <div>Cá nhân</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
+      <!-- <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
             <div ngbDropdown container="body">
@@ -293,7 +293,6 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
-
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template
@@ -323,16 +322,17 @@
           >
           </datatable-pager>
         </ng-template>
-      </ngx-datatable-footer>
+      </ngx-datatable-footer> -->
     </ngx-datatable>
   </div>
 </section>
-<!-- Modal -->
+<!-- Modal KeypairList -->
 <ng-template #modalKeypairList let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="myModalLabel160">
-      Danh sách khóa của {{ selected[0].personalFirstName }} có CCCD/Passport
-      là: {{ selected[0].personalCountryId }}
+      Danh sách khóa có CN={{ selected[0].personalFirstName }}, UID={{
+        selected[0].personalCountryId
+      }}, emailAddress={{ selected[0].email }}
     </h5>
     <button
       type="button"
@@ -349,17 +349,17 @@
       mode="indeterminate"
     ></mat-progress-bar>
     <div class="row mb-1">
-        <div class="col-form-label ml-1">
-          <label>Tìm kiếm:</label>
-        </div>
-      
+      <div class="col-form-label ml-1">
+        <label>Tìm kiếm:</label>
+      </div>
+
       <div class="col-sm-2">
         <input
-              type="search"
-              placeholder="Theo alias"
-              class="form-control ml-25"
-              (keyup)="filterUpdate($event)"
-          />
+          type="search"
+          placeholder="Theo alias"
+          class="form-control ml-25"
+          (keyup)="filterUpdate($event)"
+        />
       </div>
     </div>
     <ngx-datatable
@@ -392,7 +392,7 @@
       <ngx-datatable-column
         name="Alias"
         prop="keypairAccessRights"
-        [width]="100"
+        [width]="200"
       >
         <ng-template ngx-datatable-cell-template let-value="value">
           <div *ngIf="value.length > 0">{{ value[0].keyAlias }}</div>
@@ -408,21 +408,17 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
-      name="Hệ mật"
-      prop="cryptoSystem"
-      [width]="120"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-        name="Ngày tạo"
-        prop="updatedAt"
-        [width]="100"
-      >
+        name="Hệ mật"
+        prop="cryptoSystem"
+        [width]="80"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Ngày tạo" prop="updatedAt" [width]="100">
         <ng-template ngx-datatable-cell-template let-value="value">
           {{ value | date: "dd/MM/YYYY" }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Nhập/Xuất" [width]="100" [sortable]="false">
-        <ng-template ngx-datatable-cell-template>
+      <ngx-datatable-column name="Nhập/Xuất" [width]="80" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
           <div class="d-flex align-items-center">
             <div ngbDropdown container="body">
               <a
@@ -444,19 +440,22 @@
                 class="dropdown-menu-right"
                 aria-labelledby="dropdownBrowserState"
               >
-                <a
-                  href="
-                "
+                <div *ngIf="row.certificateRequests.length > 0">
+                  <a
                   ngbDropdownItem
                   class="d-flex align-items-center"
+                  (click)="openUploadCert(modalUploadCert, row)"
                   ><i data-feather="file-text" class="mr-50"></i> Nhập</a
                 >
-                <a
+                </div>
+                <div *ngIf="row.keypairStatus.keypairStatus == 'Đã được lưu trữ chứng thực'">
+                  <a
                   href="javascript:void(0)"
                   ngbDropdownItem
                   class="d-flex align-items-center"
                   ><i data-feather="edit" class="mr-50"></i> Xuất</a
                 >
+                </div>
               </div>
             </div>
 
@@ -477,3 +476,59 @@
   </div>
 </ng-template>
 <!-- / Modal -->
+
+<!-- Modal Upload file -->
+<ng-template #modalUploadCert let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click');"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="formUploadCert">
+          <div class="form-group custom-file">
+            <input
+              #certificate
+              formControlName="certificate"
+              type="file"
+              class="form-control custom-file-input"
+              name="file"
+              id="file"
+              (change)="onFileChange($event)"
+            />
+            <label for="certificate" class="custom-file-label">Chọn chứng thư số</label>
+            <span *ngIf="formUploadCert.controls.certificate.valid && formUploadCert.controls.fileSource.value !=null "><i data-feather="check"></i>{{formUploadCert.controls.fileSource.value.name}}-Đã được chọn</span>
+            <div
+              *ngIf="
+                formUploadCert.controls.certificate.touched &&
+                formUploadCert.controls.certificate.invalid
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="formUploadCert.controls.certificate.errors.required">
+                Cần chọn chứng thư số.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onSubmitCert()"
+    >
+      Cập nhật
+    </button>
+  </div>
+</ng-template>

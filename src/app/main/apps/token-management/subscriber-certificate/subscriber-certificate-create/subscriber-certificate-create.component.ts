@@ -16,6 +16,7 @@ import { Personal } from "app/main/models/Personal";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { KeypairService } from "../../keypair/keypair.service";
+import { SubscriberCertificateListService } from "../subscriber-certificate-list/subscriber-certificate-list.service";
 
 @Component({
   selector: "app-subscriber-certificate-create",
@@ -42,10 +43,11 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
+  public keypairSelected:Keypair;
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
-
+  public formUploadCert: FormGroup;
   /**
    *
    * @param _userListService
@@ -59,6 +61,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     private _userListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
+    private _subscriberCertificateService: SubscriberCertificateListService,
     private modalService: NgbModal,
     private _keypairService: KeypairService,
     private fb: FormBuilder,
@@ -87,6 +90,13 @@ export class SubscriberCertificateCreateComponent implements OnInit {
       gender: [],
       birthday: [],
     });
+    this.formUploadCert = this.fb.group({
+      fileSource : [null, Validators.required],
+      certificate : ['', Validators.required],
+      keypairId : [null, Validators.required],
+      certificateRequestId: [null, Validators.required],
+      caId : [null]
+    })
     this.pagedData.size = this.sizePage[0];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
@@ -153,6 +163,14 @@ export class SubscriberCertificateCreateComponent implements OnInit {
       });
   }
 
+openUploadCert(modal, row){
+  this.formUploadCert.reset();
+  this.keypairSelected = row;
+    this.modalService.open(modal, {
+      centered: true,
+      size: "lg",
+    });
+  }
   openKeypairList(modal) {
     this.modalService.open(modal, {
       centered: true,
@@ -167,7 +185,34 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   onSubmit() {
     console.log(this.formListPersonal);
   }
-
+  onFileChange(event) {
+    console.log(event);
+    if (event.target.files.length > 0) {
+      console.log(event.target.files);
+      const file = event.target.files[0];
+      this.formUploadCert.patchValue({
+        fileSource: file
+      });
+      console.log(this.formUploadCert.get("fileSource"));
+      
+    }
+  }
+  onSubmitCert(){
+    this.formUploadCert.get("keypairId").patchValue(this.keypairSelected.keypairId);
+    this.formUploadCert.get("certificateRequestId").patchValue(this.keypairSelected.certificateRequests[0].certificateRequestId);
+    
+    this.formUploadCert.get("caId").patchValue("cacertificate_00001");
+    if(this.formUploadCert.invalid) {
+      return;
+    }
+    this._subscriberCertificateService.updateCert(this.formUploadCert).subscribe((data)=>{
+      console.log(data);
+      
+    },
+    (error) => {
+      alert("Chứng thư số không đúng. Vui lòng thử lại")
+    });
+  }
   /**
    * On destroy
    */

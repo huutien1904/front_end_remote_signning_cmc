@@ -7,6 +7,15 @@
                     <div class="row">
                         <div class="col-md-6 offset-3">
                             <div class="form-group">
+                                <label>Tên token</label>
+                                <input type="text" formControlName="tokenName" class="form-control" [ngClass]="f.tokenName.errors && f.tokenName?.touched || submitted && f.tokenName?.errors?.required ? 'is-invalid' : '' " />
+                                <div *ngIf="f.tokenName.errors && f.tokenName?.touched || submitted && f.tokenName?.errors?.required" class="invalid-feedback">
+                                    <div *ngIf="f.tokenName?.errors?.required">Bạn cần nhập tên token</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 offset-3">
+                            <div class="form-group">
                                 <label>HSM</label>
                                 <ng-select [items]="hsmList" bindLabel="hsmName" bindValue="hsmId" [clearable]="false" formControlName="hsmInformationId" [ngClass]="f.hsmInformationId.errors && f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required ? 'is-invalid' : '' ">
                                 </ng-select>
@@ -15,21 +24,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 offset-3">
+                        <div class="col-6 offset-3">
                             <div class="form-group">
-                                <label>Số hiệu slot</label>
-                                <input type="text" formControlName="slotNumber" class="form-control" [ngClass]="f.slotNumber.errors && f.slotNumber?.touched || submitted && f.slotNumber?.errors?.required ? 'is-invalid' : '' " />
+                                <label for="">Số hiệu slot</label>
+                                <ng-select [items]="slotOption" [clearable]="false" formControlName="slotNumber" [ngClass]="f.slotNumber.errors && f.slotNumber?.touched || submitted && f.slotNumber?.errors?.required ? 'is-invalid' : '' "></ng-select>
                                 <div *ngIf="f.slotNumber.errors && f.slotNumber?.touched || submitted && f.slotNumber?.errors?.required" class="invalid-feedback">
                                     <div *ngIf="f.slotNumber?.errors?.required">Bạn cần nhập số hiệu slot</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label>Nhãn</label>
-                                <input type="text" formControlName="tokenName" class="form-control" [ngClass]="f.tokenName.errors && f.tokenName?.touched || submitted && f.tokenName?.errors?.required ? 'is-invalid' : '' " />
-                                <div *ngIf="f.tokenName.errors && f.tokenName?.touched || submitted && f.tokenName?.errors?.required" class="invalid-feedback">
-                                    <div *ngIf="f.tokenName?.errors?.required">Bạn cần nhập nhãn</div>
                                 </div>
                             </div>
                         </div>
@@ -46,14 +46,14 @@
                             <div class="form-group">
                                 <label>Xác nhận mật khẩu</label>
                                 <input type="password" formControlName="confPassword" class="form-control" [ngClass]="{
-                                    'is-invalid': f.confPassword.errors && f.confPassword?.touched || submitted && f.confPassword?.errors?.required,
-                                    'is-valid': !f.confPassword?.errors?.mustMatch && f.confPassword?.touched
+                                    'is-invalid': f.confPassword.errors && f.confPassword?.dirty || submitted && f.confPassword?.errors?.required,
+                                    'is-valid': !f.confPassword?.errors?.mustMatch && f.confPassword?.dirty
                                 }" />
-                                <div *ngIf="f.confPassword.errors && f.confPassword?.touched || submitted && f.confPassword?.errors?.required" class="invalid-feedback">
+                                <div *ngIf="f.confPassword.errors && f.confPassword?.dirty  || submitted && f.confPassword?.errors?.required" class="invalid-feedback">
                                     <div *ngIf="f.confPassword.errors.required">Bạn cần xác nhận mật khẩu</div>
                                     <div *ngIf="f.confPassword.errors.mustMatch">Xác nhận mật khẩu không hợp lệ</div>
                                 </div>
-                                <div *ngIf="f.confPassword.errors == null && f.confPassword?.touched" class="valid-feedback">
+                                <div *ngIf="f.confPassword.errors == null" class="valid-feedback">
                                     Xác nhận mật khẩu hợp lệ
                                 </div>
                             </div>

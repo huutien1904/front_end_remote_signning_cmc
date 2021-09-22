@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from "rxjs/operators";
 import { PagedData } from "app/main/models/PagedData";
 import { OrganizationListService } from './organization-list.service';
-import { Organization } from 'app/main/models/organization';
+import { Organization, OrganizationCategory } from 'app/main/models/Organization';
 
 @Component({
   selector: 'app-organization-list',
@@ -17,11 +17,6 @@ import { Organization } from 'app/main/models/organization';
 })
 export class OrganizationListComponent implements OnInit {
   // variable
-  public typeOrganization:any[] = [
-    "CÁ NHÂN",
-    "TẬP ĐOÀN",
-    "DOANH NGHIỆP"
-  ]
   public moreOption = true
   //Table of personal data
   public isLoading: boolean = false;
@@ -34,6 +29,8 @@ export class OrganizationListComponent implements OnInit {
   @ViewChild("tableRowDetails") tableRowDetails: any;
   public ColumnMode = ColumnMode;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
+  public typeOrganization:OrganizationCategory[] ;
+  
   // end variable
   //private
 
@@ -93,10 +90,12 @@ export class OrganizationListComponent implements OnInit {
     this.formListOrganizations = this.fb.group({
       inputOrganization: ["", Validators.required],
       sizePage:[this.sizePage[0], Validators.required],
+      typeOrganization:[null, Validators.required],
     })
     this.pagedData.size = this.sizePage[0];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    this.getListTypeOrganization();
   }
 
   //Set Table View
@@ -146,6 +145,15 @@ export class OrganizationListComponent implements OnInit {
     this.pagedData.size = this.sizePage[0];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
+  getListTypeOrganization(){
+    this._organizationListService
+      .getListOrganizationCategory()
+      .subscribe((res) => {
+        
+        this.typeOrganization = res.data
+        console.log(this.typeOrganization)
+      })
   }
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions

@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import * as forge from 'node-forge';
+import { CertificateRequest } from 'app/main/models/CertificateRequest';
+import { ResponseData } from 'app/main/models/ResponseData';
+import { PagedData } from 'app/main/models/PagedData';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CertificateRequestListService implements Resolve<any> {
-  public rows: any;
+export class CertificateRequestListService{
   public onUserListChanged: BehaviorSubject<any>;
-  public page=0;
-
   /**
    * Constructor
    *
@@ -20,33 +19,6 @@ export class CertificateRequestListService implements Resolve<any> {
    */
   constructor(private _httpClient: HttpClient) {
     this.onUserListChanged = new BehaviorSubject({});
-  }
-  
-  /**
-   * Resolver
-   *
-   * @param {ActivatedRouteSnapshot} route
-   * @param {RouterStateSnapshot} state
-   * @returns {Observable<any> | Promise<any> | any}
-   */
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-    return new Promise<void>((resolve, reject) => {
-      Promise.all([this.getDataTableRows(this.page)]).then(() => {
-        resolve();
-      }, reject);
-    })
-    
-  }
-
-  getDataTableRows(page): Observable<any> | Promise<any> | any {
-    return new Promise((resolve, reject) => {
-      this._httpClient.get(`${environment.apiUrl}/certificate-request/list?page=${page}&size=10`).subscribe((response: any) => {
-        this.rows = response;
-        console.log(response.data.data);
-        this.onUserListChanged.next(this.rows);
-        resolve(this.rows);
-      }, reject);
-    });
   }
 
   readCertificate(cer): any[] {
@@ -57,19 +29,23 @@ export class CertificateRequestListService implements Resolve<any> {
 
     //dich tieng Viet 
     let res: any[] = JSON.parse( forge.util.decodeUtf8( JSON.stringify(read)));
+ 
     return res;
   }
 
-  getData(page:number,Item:number): Observable<any[]>{
+  public getData(page:PagedData<CertificateRequest>) :Observable<ResponseData<PagedData<CertificateRequest>>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser.token;
+    const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
+    console.log("service personal list");
     const option = {
-      headers: {
+      headers :{
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
+        "Authorization": "Bearer " + token,
       },
+      params:param
     };
-    return this._httpClient.get<any>(`${environment.apiUrl}/certificate-request/list?page=${page}&size=${Item}`, option);
+     return this._httpClient.get<ResponseData<PagedData<CertificateRequest>>>(`${environment.apiUrl}/certificate-request/list`,option);
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { PagedData } from 'app/main/models/PagedData';
-import { Organization } from 'app/main/models/Organization';
+import { Organization,OrganizationCategory } from 'app/main/models/Organization';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -49,6 +49,35 @@ export class OrganizationListService {
     public submitForm(body): Observable<any> {
       return this._httpClient.post<any>(
         `${environment.apiUrl}/organization/create`,body,
+        this.option
+      );
+    }
+
+    public getListOrganizationCategory() : Observable<any> {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const token = currentUser.token;
+      const option = {
+        headers :{
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+      };
+      return this._httpClient.get<ResponseData<PagedData<OrganizationCategory>>>(
+        `${environment.apiUrl}/subscriber-category/list`,
+        this.option
+      );
+    }
+    getListSelectOrganization(): Observable<any> {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const token = currentUser.token;
+      const option = {
+        headers :{
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+      };
+      return this._httpClient.get<ResponseData<PagedData<Organization>>>(
+        `${environment.apiUrl}/organization/list?page=0&size=1000`,
         this.option
       );
     }

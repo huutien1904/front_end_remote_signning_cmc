@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực cho thuê bao {{ personal.personalLastName }} {{ personal.personalMiddleName }} {{ personal.personalFirstName }} </h4>
+    <h4 class="modal-title" id="myModalLabel1">Tạo cặp khóa cho thuê bao {{ personal.personalFirstName }} </h4>
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
     <form [formGroup]="newRequestForm">
@@ -7,7 +7,7 @@
             <div class="col-6 offset-3">
                 <div class="form-group">
                     <label for="">Hệ mật</label>
-                    <ng-select [items]="cryptoSelect" [clearable]="false" formControlName="cryptoSystem" [ngClass]="f.cryptoSystem.errors&&f.cryptoSystem?.touched || submitted && f.cryptoSystem?.errors?.required ? 'is-invalid' : ''" (change)="changeHsm($event)"></ng-select>
+                    <ng-select [items]="cryptoSelect" [clearable]="false" formControlName="cryptoSystem" [ngClass]="f.cryptoSystem.errors&&f.cryptoSystem?.touched || submitted && f.cryptoSystem?.errors?.required ? 'is-invalid' : ''" (change)="changeCrypto($event)"></ng-select>
                     <div *ngIf="f.cryptoSystem.errors&&f.cryptoSystem?.touched || submitted && f.cryptoSystem?.errors?.required" class="invalid-feedback">
                         <div *ngIf="f.cryptoSystem.errors.required">Bạn cần chọn hệ mật</div>
                     </div>
@@ -16,30 +16,47 @@
             <div class="col-6 offset-3">
                 <div class="form-group">
                     <label for="">Độ dài khóa</label>
-                    <div [ngbTooltip]="f.cryptoSystem.value == null ? 'Phải chọn hệ mật trước khi chọn độ dài khóa' : '' " placement="top">
-                        <ng-select [items]="lengthSelect" [clearable]="false" formControlName="keypairLength" [ngClass]="f.keypairLength.errors&&f.keypairLength?.touched || submitted && f.keypairLength?.errors?.required ? 'is-invalid' : ''" placement="top"></ng-select>
-                    </div>
+                    <ng-select [items]="lengthSelect" [clearable]="false" formControlName="keypairLength" [ngClass]="f.keypairLength.errors&&f.keypairLength?.touched || submitted && f.keypairLength?.errors?.required ? 'is-invalid' : ''" [ngbTooltip]="f.cryptoSystem.value == null ? 'Phải chọn hệ mật trước khi chọn độ dài khóa' : '' "
+                        placement="top"></ng-select>
                     <div *ngIf="f.keypairLength.errors&&f.keypairLength?.touched || submitted && f.keypairLength?.errors?.required" class="invalid-feedback">
-                        <div *ngIf="f.keypairLength?.errors?.required">Bạn cần chọn độ dài khóa</div>
+                        <div *ngIf="f.keypairLength.errors.required">Bạn cần chọn độ dài khóa</div>
                     </div>
                 </div>
             </div>
-            <div class="col-6 offset-3">
+            <div class="col-md-6 offset-3">
                 <div class="form-group">
-                    <label for="">Alias</label>
-                    <input type="text" formControlName="alias" class="form-control" [ngClass]="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required || submitted && f.alias?.errors?.used ? 'is-invalid' : '' " />
-                    <div *ngIf="f.alias.errors&&f.alias?.touched || submitted && f.alias?.errors?.required || submitted && f.alias?.errors?.used" class="invalid-feedback">
+                    <label>Alias</label>
+                    <input type="text" formControlName="alias" class="form-control" [ngClass]="{
+                        'is-invalid': f.alias.errors && f.alias?.dirty || submitted && f.alias?.errors?.required,
+                        'is-valid': !f.alias?.errors?.used && f.alias?.dirty
+                    }" />
+                    <div *ngIf="f.alias.errors && f.alias?.dirty  || submitted && f.alias?.errors?.required" class="invalid-feedback">
                         <div *ngIf="f.alias.errors.required">Bạn cần nhập alias</div>
                         <div *ngIf="f.alias.errors.used">Alias đã tồn tại. Vui lòng nhập alias khác</div>
+                    </div>
+                    <div *ngIf="f.alias.errors == null" class="valid-feedback">
+                        Alias hợp lệ
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-3">
+                <div class="form-group">
+                    <label>HSM</label>
+                    <ng-select [items]="hsmList" bindLabel="hsmName" bindValue="hsmId" [clearable]="false" formControlName="hsmInformationId" [ngClass]="f.hsmInformationId.errors && f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required ? 'is-invalid' : '' "
+                        (change)="changeHsm()">
+                    </ng-select>
+                    <div *ngIf="f.hsmInformationId.errors&&f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required" class="invalid-feedback">
+                        <div *ngIf="f.hsmInformationId.errors.required">Bạn cần chọn HSM</div>
                     </div>
                 </div>
             </div>
             <div class="col-6 offset-3">
                 <div class="form-group">
                     <label for="">Token</label>
-                    <ng-select [items]="tokenList" bindLabel="tokenName" bindValue="tokenId" [clearable]="false" formControlName="tokenId" [ngClass]="f.tokenId.errors&&f.tokenId?.touched || submitted && f.tokenId?.errors?.required ? 'is-invalid' : ''"></ng-select>
-                    <div *ngIf="f.tokenId.errors&&f.tokenId?.touched || submitted && f.tokenId?.errors?.required" class="invalid-feedback">
-                        <div *ngIf="f.tokenId?.errors?.required">Bạn cần chọn token</div>
+                    <ng-select [items]="tokenList" bindLabel="tokenName" bindValue="tokenId" [clearable]="false" formControlName="tokenId" [ngClass]="f.tokenId.errors&&f.tokenId?.touched || submitted && f.tokenId?.errors?.required ? 'is-invalid' : ''" [ngbTooltip]="f.hsmInformationId.value == null ? 'Phải chọn HSM trước khi chọn token' : '' "
+                        placement="top"></ng-select>
+                    <div *ngIf="(f.tokenId.errors&&f.tokenId?.touched) || (submitted && f.tokenId?.errors?.required)" class="invalid-feedback">
+                        <div *ngIf="f.tokenId.errors.required">Bạn cần chọn token</div>
                     </div>
                 </div>
             </div>
@@ -49,9 +66,28 @@
 
 <div class="modal-footer" style="text-align: right;">
     <button type="button" class="btn btn-primary mr-1" (click)="onSubmit()" rippleEffect>
-        Tạo yêu cầu chứng thực
+        Tạo
     </button>
     <button type="button" class="btn btn-secondary" (click)="toggleSidebar()" rippleEffect>
         Hủy
     </button>
 </div>
+
+<ng-template #modalLink let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Tải dữ liệu yêu cầu chứng thực của bạn</h4>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="badge badge-primary">
+            <a [href]="fileUrl" [download]='fileName'>
+                <span [data-feather]="'link'" [class]="'mr-25'"></span>
+                <span>Link download</span>
+            </a>
+        </div>
+    </div>
+    <div class="modal-footer" style="text-align: right;">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()" rippleEffect>
+            Thoát
+        </button>
+    </div>
+</ng-template>

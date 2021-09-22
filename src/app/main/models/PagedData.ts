@@ -1,5 +1,5 @@
 export class PagedData<T> {
-    [x: string]: any;
+    // [x: string]: any;
     //The number of elements in the page
     size: number;
     //Data
@@ -12,6 +12,7 @@ export class PagedData<T> {
     currentPage: number = 0;
 }
 
+    
 // export class Page {
 //     //The number of elements in the page
 //     size: number = 0;

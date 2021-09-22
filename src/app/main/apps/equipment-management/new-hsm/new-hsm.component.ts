@@ -36,7 +36,6 @@ export class NewHsmComponent implements OnInit {
       hsmModel: [null, Validators.required],
       hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
       hsmType: [null, Validators.required],
-      hardwareId: ['CP5TdVI']
     });
 
     this.contentHeader = {
@@ -70,10 +69,16 @@ export class NewHsmComponent implements OnInit {
     if (this.HsmForm.invalid) {
       return;
     }
-    const newRequest = JSON.stringify(this.HsmForm.value);
+    const newRequest = JSON.stringify({
+      hsmName: this.f.hsmName.value,
+      hsmManufacturer: this.f.hsmManufacturer.value,
+      hsmModel: this.f.hsmModel.value,
+      hsmLibraryPath: this.f.hsmLibraryPath.value,
+      hardwareId: 'CP5TdVI'
+    });
     this._hsmService.submitForm(newRequest).subscribe((res: any) => {
       console.log(res);
-      if ((res.result = "true")) {
+      if ((res.result = true)) {
         this.toastr.success('👋 Bạn đã tạo HSM mới', 'Thành công', {
           positionClass: 'toast-top-center',
           toastClass: 'toast ngx-toastr',

@@ -344,9 +344,9 @@
           <div>Cá nhân</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column  name="Hành động" [width]="100" [sortable]="false">
-        <ng-template ngx-datatable-cell-template>
-          <div class="d-flex align-items-center">
+      <ngx-datatable-column  name="Hành động" [width]="100" [sortable]="false" prop=""> 
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <div class="d-flex align-items-center" >
             <div ngbDropdown container="body">
               <a
                 ngbDropdownToggle
@@ -368,8 +368,7 @@
                 aria-labelledby="dropdownBrowserState"
               >
                 <a
-                  href="
-                "
+                  href="/apps/ip/subscribers/personals/personal-view/{{value.personalId}}"
                   ngbDropdownItem
                   class="d-flex align-items-center"
                   ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
