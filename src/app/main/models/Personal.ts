@@ -1,4 +1,5 @@
 import { Address } from "cluster";
+import { Organization } from "./Organization";
 
 export class Personal {
     personalId:string;
@@ -16,4 +17,24 @@ export class Personal {
     isActive:boolean;
     gender:string;
     
+}
+export class PersonalDetail {
+    address:Address;
+    birthPlace:Address;
+    birthday:string;
+    createdAt:string;
+    createdUser:string;
+    email:string;
+    gender:string;
+    isActive:boolean;
+    managedUser:string;
+    organization:Organization;
+    personalCountryId:string;
+    personalFirstName:string;
+    personalId:string;
+    personalLastName:string;
+    personalMiddleName:string;
+    phoneNumber:string;
+    subscriberId:string;
+    updatedAt:string;
 }

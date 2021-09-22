@@ -137,9 +137,7 @@
                   : ''
               "
               >
-              <div class="input-group-prepend">
-                <span class="input-group-text"><span [data-feather]="'email'"></span></span>
-              </div>
+              
               <input
               [ngClass]="
                 f.website.errors && f.website?.touched || submitted && f.website?.errors?.required
@@ -152,7 +150,7 @@
                 id="fname-icon-3"
                 class="form-control"
                 name="fname-icon-3"
-                placeholder="huutienn46@gmail.com"
+                placeholder="cmc.vn.com"
               />
             </div>
           </div>
@@ -206,83 +204,58 @@
         </div>
       </div>
       <div class="col-12 col-md-3">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>ID TỔ CHỨC MẸ</label>
+            <label class="lable">TỔ CHỨC CHA</label>
           </div>
           <div class="col-sm-12">
-            <div 
-            [ngClass]="
-              f.parentOrganizationId.errors && f.parentOrganizationId?.touched || submitted && f.parentOrganizationId?.errors?.required
-                ? 'is-invalid'
-                : ''
-            "
-              class="input-group input-group-merge">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><span [data-feather]="'user'"></span></span>
-              </div>
-              <input
-                class="form-control input-md" 
-                [ngClass]="
-                  f.parentOrganizationId.errors && f.parentOrganizationId?.touched || submitted && f.parentOrganizationId?.errors?.required
-                    ? 'is-invalid'
-                    : ''
-                "
-                formControlName="parentOrganizationId"
-                type="text"
-                id="fname-icon-6"
-                class="form-control"
-                name="fname-icon-6"
-                placeholder="11567"
-              />
-            </div>
+            <ng-select
+              [items]="organizationList"
+              [clearable]="true"
+              bindLabel="organizationName"
+              bindValue="parentOrganizationId"
+              formControlName="parentOrganizationId"
+              placeholder="organization_01"
+              
+            >
+              >
+            </ng-select>
           </div>
-          <div class="col-sm-12">
-            <span *ngIf="submitted && f.parentOrganizationId.errors || f.parentOrganizationId.errors && f.parentOrganizationId?.touched"  class="invalid-form">
-              <small class="form-text text-danger" >
-                Không được bỏ trống </small>
-            </span>
-          </div>
+          
         </div>
       </div>
       <div class="col-12 col-md-3">
-        <div class="form-group ">
+        <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>ID LOẠI NGƯỜI ĐĂNG KÝ</label>
+            <label class="lable">LOẠI TỔ CHỨC</label>
           </div>
           <div class="col-sm-12">
-            <div 
-              class="input-group input-group-merge"
+            <ng-select
+              [items]="typeOrganization"
+              [clearable]="false"
+              bindLabel="subscriberCategoryName"
+              bindValue="subscriberCategoryId"
+              formControlName="subscriberCategoryId"
+              placeholder="Cá nhân"
               [ngClass]="
-                  f.subscriberCategoryId.errors && f.subscriberCategoryId?.touched || submitted && f.subscriberCategoryId?.errors?.required
-                    ? 'is-invalid'
-                    : ''
-                "
+                (f.subscriberCategoryId.errors && f.subscriberCategoryId?.touched) ||
+                (submitted && f.subscriberCategoryId?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
               >
-              <div class="input-group-prepend">
-                <span class="input-group-text"><span [data-feather]="'user'"></span></span>
-              </div>
-              <input
-                [ngClass]="
-                  f.subscriberCategoryId.errors && f.subscriberCategoryId?.touched || submitted && f.subscriberCategoryId?.errors?.required
-                    ? 'is-invalid'
-                    : ''
-                "
-                formControlName="subscriberCategoryId"
-                class="form-control input-md" 
-                
-                type="text"
-                id="fname-icon-7"
-                class="form-control"
-                name="fname-icon-7"
-                placeholder="1234568"
-              />
-            </div>
+            </ng-select>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.subscriberCategoryId.errors || f.subscriberCategoryId.errors && f.subscriberCategoryId?.touched"  class="invalid-form">
-              <small class="form-text text-danger" >
-                Không được bỏ trống </small>
+            <span
+              *ngIf="
+                (f.subscriberCategoryId.errors && f.subscriberCategoryId?.touched) ||
+                (submitted && f.subscriberCategoryId?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> không được bỏ trống</small>
             </span>
           </div>
         </div>

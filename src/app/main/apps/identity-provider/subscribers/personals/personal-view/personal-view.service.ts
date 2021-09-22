@@ -1,9 +1,11 @@
+import { PagedData } from 'app/main/models/PagedData';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
+import {Personal, PersonalDetail} from './../../../../../models/Personal'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
+import { ResponseData } from 'app/main/models/ResponseData';
 
 @Injectable()
 export class PersonalViewService implements Resolve<any> {
@@ -56,5 +58,16 @@ export class PersonalViewService implements Resolve<any> {
         resolve(this.rows);
       }, reject);
     });
+  }
+  getDetailPersonal(id:string):Observable<ResponseData<PagedData<PersonalDetail>>>{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const token = currentUser.token;
+    const option = {
+      headers :{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token,
+      }, 
+    };
+    return this._httpClient.get<ResponseData<PagedData<PersonalDetail>>>(`${environment.apiUrl}/personal/view/${id}`,option);
   }
 }

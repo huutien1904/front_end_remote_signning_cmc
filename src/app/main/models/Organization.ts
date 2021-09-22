@@ -14,3 +14,8 @@ export class Organization {
     managedUser:string;
     subscriberId:string;
 }
+
+export class OrganizationCategory{
+    subscriberCategoryId:string;
+    subscriberCategoryName:string;
+}

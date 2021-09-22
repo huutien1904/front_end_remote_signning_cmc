@@ -1,3 +1,4 @@
+import { Organization } from 'app/main/models/Organization';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagedData } from 'app/main/models/PagedData';
@@ -39,7 +40,7 @@ export class PersonalListService{
   }
 
   public getOrganizationId(): Observable<any> {
-    return this._httpClient.get<any>(
+    return this._httpClient.get<ResponseData<PagedData<Organization>>>(
       `${environment.apiUrl}/organization/list?page=0&size=1000`,
       this.option
     );
@@ -56,7 +57,7 @@ export class PersonalListService{
       }, 
       params: param,
     };
-    return this._httpClient.get<ResponseData<PagedData<Personal>>>(`http://183.91.3.60:8080/csignremote-0.2/personal/list`,option);
+    return this._httpClient.get<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/personal/list`,option);
   }
   // }     
 
@@ -72,7 +73,7 @@ export class PersonalListService{
       },
       params:param
     };
-     return this._httpClient.get<ResponseData<PagedData<Personal>>>(`http://183.91.3.60:8080/csignremote-0.2/personal/list`,option);
+     return this._httpClient.get<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/personal/list`,option);
     //  .pipe(
     //   delay(new Date(Date.now() + 0)),
     //   map(d =>  d )

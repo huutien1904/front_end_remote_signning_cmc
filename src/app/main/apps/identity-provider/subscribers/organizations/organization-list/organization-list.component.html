@@ -26,6 +26,9 @@
               <fieldset class="form-group">
                 <ng-select
                   [items]="typeOrganization"
+                  bindLabel = "subscriberCategoryName"
+                  bindValue= "subscriberCategoryId"
+                  formControlName = "typeOrganization"
                   [clearable]="false"
                   placeholder="Loại tổ chức"
                 >

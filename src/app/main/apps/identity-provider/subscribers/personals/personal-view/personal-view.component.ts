@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PersonalViewService } from './personal-view.service';
-
+import { ActivatedRoute } from '@angular/router';
+import { PersonalDetail } from 'app/main/models/Personal';
 @Component({
   selector: 'app-personal-view',
   templateUrl: './personal-view.component.html',
@@ -20,18 +21,26 @@ export class PersonalViewComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   constructor(
       private router: Router, 
+      private route:ActivatedRoute,
       private _personalViewService: PersonalViewService) { 
         this._unsubscribeAll = new Subject();
       }
 
   ngOnInit(): void {
-    this._personalViewService.onUserViewChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-      this.data = response;
-    });
-    console.log(this.data);
+    this.getPersonalView();
   }
 
-  
+  getPersonalView(){
+    const routerParams = this.route.snapshot.paramMap
+    const personalDeatailId = routerParams.get('id')
+   this._personalViewService
+   .getDetailPersonal(personalDeatailId)
+   .pipe(takeUntil(this._unsubscribeAll))
+   .subscribe(response => {
+    this.data = response.data
+    console.log(this.data)
+    });
+  }
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();

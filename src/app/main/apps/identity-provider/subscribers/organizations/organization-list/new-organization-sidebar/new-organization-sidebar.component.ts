@@ -1,3 +1,4 @@
+import { Organization, OrganizationCategory } from './../../../../../../models/Organization';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { Commune, District, Province, Street } from "app/main/models/Address";
@@ -7,11 +8,8 @@ import {  Subject } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import {OrganizationListService} from './../organization-list.service'
 import {
-  AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  ValidationErrors,
   Validators
 } from "@angular/forms";
 import { Observable, of } from "rxjs";
@@ -22,11 +20,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./new-organization-sidebar.component.scss']
 })
 export class NewOrganizationSidebarComponent implements OnInit {
-  @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
   public submitted = false;
   private _unsubscribeAll = new Subject();
-  country:any[] =[
+  public organizationList:Organization[];
+  public typeOrganization:OrganizationCategory[] ;
+  public country:any[] =[
     {
       countryId: 237,
       countryName: "Việt Nam",
@@ -34,11 +33,11 @@ export class NewOrganizationSidebarComponent implements OnInit {
       countryType: "Independent State",
     },
   ]
-  province: Province[];
-  district: District[];
-  commune: Commune[];
-  street: Street[];
-  
+
+  public province: Province[];
+  public district: District[];
+  public commune: Commune[];
+  public street: Street[];
   newOganization: FormGroup;
   constructor(
       private _coreSidebarService: CoreSidebarService,
@@ -52,8 +51,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
     this.newOganization = this.fb.group({
       countryOrganizationId: ['',Validators.required],
       organizationName: ['',Validators.required],
-      parentOrganizationId: ['',Validators.required],
-      subscriberCategoryId: ['',Validators.required],
+      parentOrganizationId: [null,Validators.required],
+      subscriberCategoryId: [null,Validators.required],
       leaderName: ['',Validators.required],
       website: ['',Validators.required],
       email: ['',Validators.required],
@@ -65,7 +64,9 @@ export class NewOrganizationSidebarComponent implements OnInit {
       commune: [{value:null, disabled : true},Validators.required],
       homeNumber: [{value:null, disabled : true},Validators.required],      
     });
-    this.initAddress()
+    this.initAddress();
+    this.getListOrganizations();
+    this.getListTypeOrganization();
   }
   initAddress() {
     this._addressService
@@ -189,12 +190,10 @@ export class NewOrganizationSidebarComponent implements OnInit {
         return true;
   }
   get f() { return this.newOganization.controls; }
-  
-  toggleSidebar() {
-    this.onClose.emit();
-  }
 
-  
+  toggleSidebar() {
+    this.modalService.dismissAll();
+  }
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -206,8 +205,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
     this._organizationListService.submitForm(newOrganization).subscribe((res: any) => {
       console.log(res)
       if ((res.result = "true")) {
-        this.toggleSidebar();
         this.onUpdate.emit();
+        this.toggleSidebar();
         this._toastrService.success(
           "Đăng ký thuê bao tổ chức thành công ",
           "Thành công",
@@ -216,7 +215,34 @@ export class NewOrganizationSidebarComponent implements OnInit {
       }
     });  
   }
-
+  getListOrganizations(){
+    this._organizationListService
+    .getListSelectOrganization()
+    .pipe(
+      map((res) => {
+        const data = res.data.data.map((Organization) => ({
+          ...Organization,
+          // subscriberCategory: Organization.subscriberCategory.subscriberCategoryId
+        }));
+        return data;
+      }),
+      takeUntil(this._unsubscribeAll)
+    )
+    .subscribe((res) => {
+      this.organizationList = res;
+      console.log(res)
+    }); 
+  }
+  getListTypeOrganization(){
+    this._organizationListService
+      .getListOrganizationCategory()
+      .subscribe((res) => {
+        
+        this.typeOrganization = res.data
+        console.log(this.typeOrganization)
+      })
+  }
+  
   /**
    * On destroy
    */
