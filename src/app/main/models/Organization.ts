@@ -13,6 +13,7 @@ export class Organization {
     createdUser:string;
     managedUser:string;
     subscriberId:string;
+  subscriberCategoryName: any;
 }
 
 export class OrganizationCategory{

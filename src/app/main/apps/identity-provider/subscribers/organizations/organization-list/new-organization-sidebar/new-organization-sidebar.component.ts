@@ -229,17 +229,22 @@ export class NewOrganizationSidebarComponent implements OnInit {
       takeUntil(this._unsubscribeAll)
     )
     .subscribe((res) => {
-      this.organizationList = res;
-      console.log(res)
+      this.organizationList = res
+      console.log(this.organizationList)
+      
     }); 
   }
   getListTypeOrganization(){
     this._organizationListService
       .getListOrganizationCategory()
       .subscribe((res) => {
-        
+        res.data.forEach(function(item, index){
+          if(item.subscriberCategoryName === "Cá nhân"){
+            res.data.splice(index, 1);
+          }
+       });
         this.typeOrganization = res.data
-        console.log(this.typeOrganization)
+        
       })
   }
   
