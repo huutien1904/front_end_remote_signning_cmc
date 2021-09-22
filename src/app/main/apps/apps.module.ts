@@ -22,11 +22,11 @@ const routes:Routes = [
   {
     path: 'dashboard',
     component : DashboardComponent,
-    canActivate : [AuthGuard], 
+    // canActivate : [AuthGuard], 
     // resolve: {
     //   uls: DashboardService
     // },
-    data: {roles: [Role.SuperAdmin], animation: "DashboardComponent" },
+    // data: {roles: [Role.SuperAdmin], animation: "DashboardComponent" },
   },
   {
     path: 'equipment-management',
