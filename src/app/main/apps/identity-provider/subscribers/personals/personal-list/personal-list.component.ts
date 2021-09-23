@@ -11,9 +11,11 @@ import {
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
+import { ifError } from "assert";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { PersonalListService } from "./personal-list.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-personal-list",
@@ -43,7 +45,7 @@ export class PersonalListComponent implements OnInit {
 
   /**
    *
-   * @param _userListService
+   * @param _personalListService
    * @param _coreSidebarService
    * @param _coreConfigService
    * @param modalService
@@ -52,12 +54,13 @@ export class PersonalListComponent implements OnInit {
    * @param dateAdapter
    */
   constructor(
-    private _userListService: PersonalListService,
+    private _personalListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<any>,
+    private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -97,7 +100,7 @@ export class PersonalListComponent implements OnInit {
     this.isLoading=true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
-    this._userListService
+    this._personalListService
       .getListPersonals(this.pagedData)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
@@ -158,6 +161,23 @@ export class PersonalListComponent implements OnInit {
     this.pagedData.size = this.sizePage[0];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
+  deletePersonal(personalID){
+    this._personalListService
+        .deletePersonal(personalID)
+        .subscribe((res) =>{
+          console.log(res)
+          // if(res.data == true){
+          //   this.updateTable();
+          //   this._toastrService.success(
+          //     "Thêm thành công đường " +
+          //       res.data.streetName +
+          //       "vào cơ sở dữ liệu",
+          //     "Thành công",
+          //     { toastClass: "toast ngx-toastr", closeButton: true }
+          //   );
+          // }
+        })
   }
   /**
    * On destroy
