@@ -166,17 +166,13 @@ export class PersonalListComponent implements OnInit {
     this._personalListService
         .deletePersonal(personalID)
         .subscribe((res) =>{
-          console.log(res)
-          // if(res.data == true){
-          //   this.updateTable();
-          //   this._toastrService.success(
-          //     "Thêm thành công đường " +
-          //       res.data.streetName +
-          //       "vào cơ sở dữ liệu",
-          //     "Thành công",
-          //     { toastClass: "toast ngx-toastr", closeButton: true }
-          //   );
-          // }
+          const result = res
+            this.updateTable();
+            this._toastrService.success(
+              "Xóa Thuê Bao cá nhân thành công ",   
+              "Thành công",
+              { toastClass: "toast ngx-toastr", closeButton: true }
+            )
         })
   }
   /**
