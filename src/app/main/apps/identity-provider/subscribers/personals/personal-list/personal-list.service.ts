@@ -80,5 +80,17 @@ export class PersonalListService{
     // );
     
   }
+  public deletePersonal(personalId):Observable<Object>{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    console.log("service personal list");
+    const option = {
+      headers :{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token,
+      },
+    };
+     return this._httpClient.delete(`${environment.apiUrl}/personal/delete/${personalId}`,option);
+  }
 
 }
