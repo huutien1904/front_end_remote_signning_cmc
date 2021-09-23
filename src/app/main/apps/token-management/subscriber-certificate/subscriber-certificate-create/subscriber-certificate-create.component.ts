@@ -44,7 +44,8 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
-  public keypairSelected:Keypair;
+  public keypairSelected: Keypair;
+  public modalRef;
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
@@ -67,7 +68,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     private _keypairService: KeypairService,
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<any>,
-    private   toastr: ToastrService
+    private toastr: ToastrService
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -93,12 +94,12 @@ export class SubscriberCertificateCreateComponent implements OnInit {
       birthday: [],
     });
     this.formUploadCert = this.fb.group({
-      fileSource : [null, Validators.required],
-      certificate : ['', Validators.required],
-      keypairId : [null, Validators.required],
+      fileSource: [null, Validators.required],
+      certificate: ["", Validators.required],
+      keypairId: [null, Validators.required],
       certificateRequestId: [null, Validators.required],
-      caId : [null]
-    })
+      caId: [null],
+    });
     this.pagedData.size = this.sizePage[0];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
@@ -144,8 +145,11 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     this.pagedKeypairData.size = this.sizePage[0];
     this.pagedKeypairData.currentPage = 0;
     console.log(selected[0].subscriberId);
-    
-    this.setKeypairListPage(selected[0].subscriberId, {offset:0, pageSize:5});
+
+    this.setKeypairListPage(selected[0].subscriberId, {
+      offset: 0,
+      pageSize: 5,
+    });
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
@@ -165,10 +169,10 @@ export class SubscriberCertificateCreateComponent implements OnInit {
       });
   }
 
-openUploadCert(modal, row){
-  this.formUploadCert.reset();
-  this.keypairSelected = row;
-    this.modalService.open(modal, {
+  openUploadCert(modal, row) {
+    this.formUploadCert.reset();
+    this.keypairSelected = row;
+    this.modalRef = this.modalService.open(modal, {
       centered: true,
       size: "lg",
     });
@@ -193,39 +197,55 @@ openUploadCert(modal, row){
       console.log(event.target.files);
       const file = event.target.files[0];
       this.formUploadCert.patchValue({
-        fileSource: file
+        fileSource: file,
       });
       console.log(this.formUploadCert.get("fileSource"));
-      
     }
   }
-  onSubmitCert(){
-    this.formUploadCert.get("keypairId").patchValue(this.keypairSelected.keypairId);
-    this.formUploadCert.get("certificateRequestId").patchValue(this.keypairSelected.certificateRequests[0].certificateRequestId);
-    
+  onSubmitCert(): boolean {
+    this.formUploadCert
+      .get("keypairId")
+      .patchValue(this.keypairSelected.keypairId);
+    this.formUploadCert
+      .get("certificateRequestId")
+      .patchValue(
+        this.keypairSelected.certificateRequests[0].certificateRequestId
+      );
     this.formUploadCert.get("caId").patchValue("cacertificate_00001");
-    if(this.formUploadCert.invalid) {
+    if (this.formUploadCert.invalid) {
       return;
     }
-    this._subscriberCertificateService.updateCert(this.formUploadCert).subscribe((res)=>{
-      console.log(res.result);
-      if (res.result == true) {
-        this.toastr.success('👋 Bạn đã cập nhật chứng thư số', 'Thành công', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
-      }else {
-        this.toastr.error('👋Chứng thư số cập nhật', 'Thất bại', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
-      }
-    },
-    (error) => {
-      alert("Chứng thư số không đúng. Vui lòng thử lại")
-    });
+    this._subscriberCertificateService
+      .updateCert(this.formUploadCert)
+      .subscribe(
+        (res) => {
+          console.log(res.result);
+          if (res.result === true) {
+            this.toastr.success(
+              "👋 Bạn đã cập nhật chứng thư số",
+              "Thành công",
+              {
+                positionClass: "toast-top-center",
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              }
+            );
+            this.modalRef.close();
+            this.keypairSelected.keypairStatus.keypairStatus =
+              "Đã được lưu trữ chứng thực";
+          } else {
+            this.toastr.error("👋Chứng thư số cập nhật", "Thất bại", {
+              positionClass: "toast-top-center",
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          }
+        },
+        (error) => {
+          alert("Chứng thư số không đúng. Vui lòng thử lại");
+          return false;
+        }
+      );
   }
   /**
    * On destroy
