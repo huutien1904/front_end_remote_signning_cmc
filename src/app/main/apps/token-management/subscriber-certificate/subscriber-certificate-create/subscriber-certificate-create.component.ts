@@ -13,6 +13,7 @@ import { PersonalListService } from "app/main/apps/identity-provider/subscribers
 import { Keypair } from "app/main/models/Keypair";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
+import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { KeypairService } from "../../keypair/keypair.service";
@@ -65,7 +66,8 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     private modalService: NgbModal,
     private _keypairService: KeypairService,
     private fb: FormBuilder,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private   toastr: ToastrService
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -205,9 +207,21 @@ openUploadCert(modal, row){
     if(this.formUploadCert.invalid) {
       return;
     }
-    this._subscriberCertificateService.updateCert(this.formUploadCert).subscribe((data)=>{
-      console.log(data);
-      
+    this._subscriberCertificateService.updateCert(this.formUploadCert).subscribe((res)=>{
+      console.log(res.result);
+      if (res.result == true) {
+        this.toastr.success('👋 Bạn đã cập nhật chứng thư số', 'Thành công', {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true
+        });
+      }else {
+        this.toastr.error('👋Chứng thư số cập nhật', 'Thất bại', {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true
+        });
+      }
     },
     (error) => {
       alert("Chứng thư số không đúng. Vui lòng thử lại")
