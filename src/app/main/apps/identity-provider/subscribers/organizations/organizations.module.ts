@@ -30,7 +30,13 @@ import { OrganizationViewService } from "./organization-view/organization-view.s
     FormsModule,
     NgbModule,
     NgSelectModule,
-    NgxDatatableModule,
+    NgxDatatableModule.forRoot({
+      messages: {
+        emptyMessage: 'Không có dữ liệu', // Message to show when array is presented, but contains no values
+        totalMessage: 'tổng', // Footer total message
+        selectedMessage: 'selected' // Footer selected message
+      }
+    }),
     CorePipesModule,
     CoreDirectivesModule,
     ReactiveFormsModule,
