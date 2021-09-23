@@ -58,7 +58,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
       email: ['',Validators.required],
       phoneNumber: ['',Validators.required],
       street: [{value:null, disabled : true},Validators.required],
-      country: [null,Validators.required],
+      country: [this.country[0].countryId,Validators.required],
       province: [null,Validators.required],
       district: [{value:null, disabled : true},Validators.required],
       commune: [{value:null, disabled : true},Validators.required],
@@ -204,12 +204,19 @@ export class NewOrganizationSidebarComponent implements OnInit {
     console.log(this.newOganization.value);
     this._organizationListService.submitForm(newOrganization).subscribe((res: any) => {
       console.log(res)
-      if ((res.result = "true")) {
+      if (res.result === "true") {
         this.onUpdate.emit();
         this.toggleSidebar();
         this._toastrService.success(
           "Đăng ký thuê bao tổ chức thành công ",
           "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      }
+      if(res.result === "false"){
+        this._toastrService.error(
+          "Email hoặc Số điện thoại đã tồn tại ",
+          "Thất bại",
           { toastClass: "toast ngx-toastr", closeButton: true }
         );
       }
