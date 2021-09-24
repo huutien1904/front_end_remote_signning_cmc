@@ -21,7 +21,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NewOrganizationSidebarComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
+  @Output() onClose = new EventEmitter<any>();
   public submitted = false;
+  public flag:any; 
   private _unsubscribeAll = new Subject();
   public organizationList:Organization[];
   public typeOrganization:OrganizationCategory[] ;
@@ -191,9 +193,6 @@ export class NewOrganizationSidebarComponent implements OnInit {
   }
   get f() { return this.newOganization.controls; }
 
-  toggleSidebar() {
-    this.modalService.dismissAll();
-  }
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -204,9 +203,9 @@ export class NewOrganizationSidebarComponent implements OnInit {
     console.log(this.newOganization.value);
     this._organizationListService.submitForm(newOrganization).subscribe((res: any) => {
       console.log(res)
-      if (res.result === "true") {
+      if (res.result === true) {
         this.onUpdate.emit();
-        this.toggleSidebar();
+        this.onClose.emit();
         this._toastrService.success(
           "Đăng ký thuê bao tổ chức thành công ",
           "Thành công",
@@ -244,14 +243,13 @@ export class NewOrganizationSidebarComponent implements OnInit {
   getListTypeOrganization(){
     this._organizationListService
       .getListOrganizationCategory()
-      .subscribe((res) => {
+      .subscribe((res:any) => {
         res.data.forEach(function(item, index){
           if(item.subscriberCategoryName === "Cá nhân"){
             res.data.splice(index, 1);
           }
        });
         this.typeOrganization = res.data
-        
       })
   }
   

@@ -16,7 +16,15 @@ export class PersonalViewComponent implements OnInit {
    public url = this.router.url;
    public lastValue;
    public data;
+   public countryBirth:string
+   public provinceBirth:string
+   public districtBirth:string
+   public communeBirth:string
 
+   public countryAdress:string
+   public provinceAdress:string
+   public districtAdress:string
+   public communeAdress:string
    // private
   private _unsubscribeAll: Subject<any>;
   constructor(

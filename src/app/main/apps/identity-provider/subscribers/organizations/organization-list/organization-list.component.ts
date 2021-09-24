@@ -30,7 +30,7 @@ export class OrganizationListComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public typeOrganization:OrganizationCategory[] ;
-  
+  public flag:any;
   // end variable
   //private
 
@@ -67,13 +67,13 @@ export class OrganizationListComponent implements OnInit {
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
   openNewOrganizationModal(modal){
-    this.modalService.open(modal, {
+    this.flag = this.modalService.open(modal, {
       centered:true,
       size:'xl'
     });
   }
   toggleModal(){
-    this.modalService.dismissAll();
+    this.flag.close();
   }
 
   /**
@@ -149,7 +149,7 @@ export class OrganizationListComponent implements OnInit {
   getListTypeOrganization(){
     this._organizationListService
       .getListOrganizationCategory()
-      .subscribe((res) => {
+      .subscribe((res:any) => {
         
         this.typeOrganization = res.data
         console.log(this.typeOrganization)

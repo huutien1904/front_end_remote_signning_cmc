@@ -53,7 +53,7 @@ export class OrganizationListService {
       );
     }
 
-    public getListOrganizationCategory() : Observable<any> {
+    public getListOrganizationCategory() : Observable<ResponseData<PagedData<OrganizationCategory>>> {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       const token = currentUser.token;
       const option = {
@@ -67,7 +67,7 @@ export class OrganizationListService {
         this.option
       );
     }
-    getListSelectOrganization(): Observable<any> {
+    getListSelectOrganization(): Observable<ResponseData<PagedData<Organization>>> {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       const token = currentUser.token;
       const option = {
