@@ -35,7 +35,13 @@ const materialModules1234 = [
     NgSelectModule,
     NgbModule,
     ...materialModules1234,
-    NgxDatatableModule,
+    NgxDatatableModule.forRoot({
+      messages: {
+        emptyMessage: 'Không có dữ liệu', // Message to show when array is presented, but contains no values
+        totalMessage: 'tổng', // Footer total message
+        selectedMessage: 'selected' // Footer selected message
+      }
+    }),
     CorePipesModule,
     MatProgressBarModule
   ],

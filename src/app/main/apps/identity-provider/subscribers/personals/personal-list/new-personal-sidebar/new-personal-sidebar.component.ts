@@ -5,6 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  FormControl
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
@@ -86,11 +87,11 @@ export class NewPersonalSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.newPersonal = this.fb.group({
-      personalFirstName: [null, [Validators.required]],
-      personalMiddleName: [null, Validators.required],
-      personalLastName: [null, Validators.required],
-      phoneNumber: [null, Validators.required, , Validators.minLength(10)],
-      personalCountryId: [null, Validators.required],
+      personalFirstName: [null, [Validators.required,this.noWhitespaceName]],
+      personalMiddleName: [null, [Validators.required,this.noWhitespaceName]],
+      personalLastName: [null, [Validators.required,this.noWhitespaceName]],
+      phoneNumber: [null, [Validators.required, Validators.minLength(10),Validators.pattern(/^[0-9]\d*$/),this.noWhitespaceName]],
+      personalCountryId: [null, [Validators.required,Validators.minLength(12),Validators.pattern(/^[0-9]\d*$/),this.noWhitespaceName]],
       organizationId: [null, Validators.required],
       streetBirthPlace: [{value:null, disabled : true}, Validators.required],
       countryBirthPlace: [this.countryBirthPlace[0].countryId,Validators.required],
@@ -106,12 +107,18 @@ export class NewPersonalSidebarComponent implements OnInit {
       homeNumberResidencePlace: [{value:null, disabled : true}, Validators.required],
       gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email,this.noWhitespaceName]],
     });
 
     this.initAddress();
     this.getOrganizationId();
   }
+
+noWhitespaceName(control: FormControl) {
+  const isWhitespace = (control.value || '').trim().length === 0;
+  const isValid = !isWhitespace;
+  return isValid ? null : { 'whitespace': true };
+}
 
 getOrganizationId(){
   this._personalListService

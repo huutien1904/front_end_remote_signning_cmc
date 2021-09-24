@@ -3,3 +3,7 @@
 .ng-select.is-invalid .ng-select-container {
     border-color: #ff0000;
 }
+
+.ng-select.ng-select-disabled .ng-select-container {
+    background-color: transparent!important;
+}

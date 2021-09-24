@@ -72,7 +72,7 @@ export class OrganizationListComponent implements OnInit {
       size:'xl'
     });
   }
-  toggleModal(){
+  closeModal(){
     this.flag.close();
   }
 
@@ -111,12 +111,6 @@ export class OrganizationListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((organizationList) => ({
           ...organizationList,
-          // personalFirstName:
-          //   personalList.personalFirstName +
-          //   " " +
-          //   personalList.personalMiddleName +
-          //   " " +
-          //   personalList.personalLastName,
         }));
         console.log(this.rowsData)
         this.isLoading=false;

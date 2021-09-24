@@ -196,7 +196,18 @@
               "
               class="invalid-form"
             >
-              <small class="form-text text-danger"> Không được bỏ trống </small>
+              <small 
+                class="form-text text-danger"
+                *ngIf="f.personalCountryId.errors.required"
+                > Không được bỏ trống 
+              </small>
+              <small
+                class="form-text text-danger"
+                *ngIf="f.personalCountryId.errors.pattern"
+              >
+                Không được chứa chữ cái hoặc khoảng trắng 
+              </small>
+              
             </span>
           </div>
         </div>
@@ -363,6 +374,12 @@
               >
                 Phải đủ 10 số
               </small>
+              <small
+                class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.pattern"
+              >
+                Không được chứa chữ cái hoặc khoảng trắng 
+              </small>
             </span>
           </div>
         </div>
@@ -447,6 +464,12 @@
           </div>
           <div class="col-sm-12">
             <ng-select
+              [ngClass]="
+                (f.countryBirthPlace.errors && f.countryBirthPlace?.touched) ||
+                (submitted && f.countryBirthPlace?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
               [items]="countryBirthPlace"
               bindLabel="countryName"
               bindValue="countryId"
@@ -455,6 +478,17 @@
               formControlName="countryBirthPlace"
             >
             </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.countryBirthPlace.errors && f.countryBirthPlace?.touched) ||
+                (submitted && f.countryBirthPlace?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> không được bỏ trống</small>
+            </span>
           </div>
         </div>
       </div>
@@ -765,6 +799,13 @@
           </div>
           <div class="col-sm-12">
             <ng-select
+              [ngClass]="
+                (f.countryResidencePlace.errors &&
+                  f.countryResidencePlace?.touched) ||
+                (submitted && f.countryResidencePlace?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
               [items]="countryResidencePlace"
               bindLabel="countryName"
               bindValue="countryId"
@@ -774,6 +815,17 @@
               formControlName="countryResidencePlace"
             >
             </ng-select>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (submitted && f.countryResidencePlace.errors) ||
+                (submitted && f.countryResidencePlace?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> không được bỏ trống</small>
+            </span>
           </div>
         </div>
       </div>

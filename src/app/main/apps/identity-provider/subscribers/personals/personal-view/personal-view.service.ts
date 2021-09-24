@@ -59,7 +59,7 @@ export class PersonalViewService implements Resolve<any> {
       }, reject);
     });
   }
-  getDetailPersonal(id:string):Observable<ResponseData<PagedData<PersonalDetail>>>{
+  getDetailPersonal(id:string):Observable<ResponseData<PersonalDetail>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     const token = currentUser.token;
     const option = {
@@ -68,6 +68,7 @@ export class PersonalViewService implements Resolve<any> {
         "Authorization": "Bearer " + token,
       }, 
     };
-    return this._httpClient.get<ResponseData<PagedData<PersonalDetail>>>(`${environment.apiUrl}/personal/view/${id}`,option);
+    return this._httpClient.get<ResponseData<PersonalDetail>>(`${environment.apiUrl}/personal/view/${id}`,option);
   }
+  
 }
