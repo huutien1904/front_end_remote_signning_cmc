@@ -7,19 +7,18 @@
                 <form class="form form-vertical" [formGroup]="formListCertificateRequest">
                     <div class="row mb-1">
                         <div class="col-md-6">
+                            <label class="label">Họ tên, email, địa chỉ</label>
                             <input name="distinguishedName" id="distinguishedName" type="search" class="form-control" formControlName="inputPersonal" placeholder="Nhập họ tên, email, địa chỉ" />
                         </div>
-                    </div>
-                    <div class="row mb-1">
                         <div class="col-md-2">
-                            <label class="lable">Giới tính</label>
+                            <label class="label">Giới tính</label>
                             <fieldset class="form-group">
                                 <ng-select [items]="gender" [clearable]="true" bindLabel="name" bindValue="name" placeholder="Giới tính">
                                 </ng-select>
                             </fieldset>
                         </div>
                         <div class="col-md-2">
-                            <label class="lable">Ngày sinh</label>
+                            <label class="label">Ngày sinh</label>
                             <div class="input-group input-group-merge">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" (click)="birthday.open()"><i data-feather="calendar"></i
@@ -106,6 +105,11 @@
                         <input type="checkbox" class="custom-control-input" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" id="rowCustomChkbxRef{{ rowIndex }}" />
                         <label class="custom-control-label" for="rowCustomChkbxRef{{ rowIndex }}"></label>
                     </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="TT" [sortable]="false" [canAutoResize]="false" [width]="50">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                    {{ rowIndex }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">

@@ -57,13 +57,13 @@ export class TokenManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._tokenService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
+    this._tokenService.getData(this.page, this.sizePage[3]).subscribe((respon:any) =>{
       this.totalPages = respon.data.length;
       this.rows = respon.data;
     })
     this.formListToken = this.fb.group({
       tokenName: ["", Validators.required],
-      sizePage: [this.sizePage[1]],
+      sizePage: [this.sizePage[3]],
       fromDate: [null],
       toDate: [null]
     })

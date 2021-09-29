@@ -58,18 +58,18 @@ export class CertificateRequestListComponent implements OnInit {
   ngOnInit(): void {
     this.formListCertificateRequest = this.fb.group({
       inputSearch: ["", Validators.required],
-      sizePage: [this.sizePage[0]],
+      sizePage: [this.sizePage[3]],
       fromDate: [null],
       toDate: [null],
     });
-    this.pagedData.size = this.sizePage[0];
+    this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size })
   }
 
   getOrganization(item): any {
     let info = this._listCerReqService.readCertificate(item.certificateRequest);
-    let rs = info.find(obj => obj.name === 'organizationName');
+    let rs = info.find(obj => obj.name === 'organizationalUnitName');
     if(rs == undefined)
       return;
     return rs.value;

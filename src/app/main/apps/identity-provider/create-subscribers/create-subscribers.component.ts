@@ -60,7 +60,7 @@ export class CreateSubscribersComponent implements OnInit {
       }
     };
     this.formSelectSearch = this.fb.group({
-      searchType : [null, Validators.required]
+      searchType : [this.searchType[0], Validators.required]
     })
     
     

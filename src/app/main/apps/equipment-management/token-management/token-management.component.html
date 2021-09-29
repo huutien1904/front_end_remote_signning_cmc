@@ -72,7 +72,7 @@
         </div>
         <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
         <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [rows]="rows" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force" [headerHeight]="50"
-            rowHeight="auto" [scrollbarH]="false" [footerHeight]="50" [rowHeight]="50" [externalPaging]="true" [limit]="formListToken.controls.sizePage.value" [count]="totalPages" [offset]="page" [loadingIndicator]="isLoading" (page)="changePage($event)">
+            rowHeight="auto" [scrollbarH]="true" [footerHeight]="50" [rowHeight]="50" [externalPaging]="true" [limit]="formListToken.controls.sizePage.value" [count]="totalPages" [offset]="page" [loadingIndicator]="isLoading" (page)="changePage($event)">
             <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" class="ml-1">
                 <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
                     <div class="custom-control custom-control-primary custom-checkbox">
@@ -85,6 +85,11 @@
                         <input type="checkbox" class="custom-control-input" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" id="rowCustomChkbxRef{{ rowIndex }}" />
                         <label class="custom-control-label" for="rowCustomChkbxRef{{ rowIndex }}"></label>
                     </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="TT" [sortable]="false" [canAutoResize]="false" [width]="50">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                    {{ rowIndex + 1 }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Tên token" prop="tokenName" [width]="200"></ngx-datatable-column>

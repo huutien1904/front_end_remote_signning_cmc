@@ -53,13 +53,13 @@ export class HsmManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._hsmService.getData(this.page, this.sizePage[1]).subscribe((respon:any) =>{
+    this._hsmService.getData(this.page, this.sizePage[3]).subscribe((respon:any) =>{
       this.totalPages = respon.data.length;
       this.rows = respon.data;
     })
     this.formListHsm = this.fb.group({
       hsmName: ["", Validators.required],
-      sizePage: [this.sizePage[1]],
+      sizePage: [this.sizePage[3]],
       fromDate: [null],
       toDate: [null]
     })
