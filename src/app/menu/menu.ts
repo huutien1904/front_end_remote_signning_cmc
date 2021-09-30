@@ -11,7 +11,7 @@ export const menu: CoreMenu[] = [
   },
   {
     id: 'identity-provider',
-    title: 'Quản lý thuê bao',
+    title: 'Quản lý người dùng',
     translate: 'MENU.SUBSCRIPTION_MANAGEMENT.SECTION',
     type: 'section',
     children: [
@@ -50,11 +50,11 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'key-pair-list',
-        title: 'Tạo cặp khóa',
+        title: 'Danh sách',
         translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
         type: 'item',
         icon: 'key',
-        url: '/apps/tm/keypair/keypair-create'
+        url: '/apps/tm/keypair/keypair-list'
       },
         /*children: [
           {

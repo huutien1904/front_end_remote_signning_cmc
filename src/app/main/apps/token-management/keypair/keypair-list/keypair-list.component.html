@@ -1,245 +1,189 @@
-<div class="content-body">
-  <!-- Keypair List -->
-  <section class="users-list-wrapper">
-    <!-- keypair filter start -->
+<app-content-header [contentHeader]="contentHeader"></app-content-header>
+<section id="search-personal-list">
     <div class="card">
-      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-      <div class="card-body">
-        <form class="form form-vertical" [formGroup]="formListKeyPair">
-          <div class="row">
-            <div class="col-md-6">
-              <input
-                name="aliasKeypair"
-                id="aliasKeypair"
-                type="search"
-                class="form-control"
-                formControlName="aliasKeypair"
-                placeholder="Nhập một phần hoặc toàn bộ alias-keypair"
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 col-md-4">
-              <fieldset class="form-group">
-                <label for="">Hệ mật:</label>
-                <ng-select
-                  [items]="cryptoSystem"
-                  bindLabel="name"
-                  [clearable]="false"
-                  formControlName="cryptoSystemName"
-                  (change)="changeCryptoSystemName($event)"
-                ></ng-select>
-              </fieldset>
-            </div>
-            <div class="col-12 col-md-4">
-              <fieldset class="form-group">
-                <label for="">Tham số khóa:</label>
-                <div
-                  *ngIf="
-                    formListKeyPair.controls['cryptoSystemName'].value?.name &&
-                    formListKeyPair.controls['cryptoSystemName'].value.name ==
-                      cryptoSystem[0].name
-                  "
-                >
-                  <ng-select
-                    [items]="cryptoSystem[0].param"
-                    [clearable]="false"
-                    formControlName="cryptoSystemParam"
-                  ></ng-select>
+        <!-- search -->
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+            <form class="form form-vertical" [formGroup]="formListPersonal">
+                <div class="row mb-1">
+                    <div class="col-md-6">
+                        <label class="label">Họ tên, email, địa chỉ</label>
+                        <input name="distinguishedName" id="distinguishedName" type="search" class="form-control" formControlName="inputPersonal" placeholder="Nhập họ tên, email, địa chỉ" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="label">Giới tính</label>
+                        <fieldset class="form-group">
+                            <ng-select [items]="gender" [clearable]="true" bindLabel="name" bindValue="name" placeholder="Giới tính">
+                            </ng-select>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="label">Ngày sinh</label>
+                        <div class="input-group input-group-merge">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" (click)="birthday.open()"><i data-feather="calendar"></i
+                    ></span>
+                            </div>
+                            <input [matDatepicker]="birthday" formControlName="birthday" class="form-control" type="text" placeholder="19/04/1992" />
+                        </div>
+                        <mat-datepicker #birthday></mat-datepicker>
+                    </div>
                 </div>
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
+                            Thêm tùy chọn
+                        </button>
+                        <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListPersonal.valid">
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+                <div class="row" [ngbCollapse]="moreOption">
+                    <div class="col-md-2">
+                        <label for="">Số dòng:</label>
+                        <fieldset class="form-group">
+                            <ng-select [items]="sizePage" bindValue="sizePage" [clearable]="false" formControlName="sizePage" (change)="changePage()"></ng-select>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="lable">Từ ngày:</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" (click)="fromDate.open()"><i data-feather="calendar"></i
+                        ></span>
+                                    </div>
+                                    <input [matDatepicker]="fromDate" formControlName="fromDate" class="form-control" type="text" [min]="minDate" [max]="formListPersonal.controls.toDate.value" placeholder="13/09/2021" />
+                                </div>
+                                <mat-datepicker #fromDate></mat-datepicker>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="lable">Đến ngày:</label>
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" (click)="toDate.open()"><i data-feather="calendar"></i
+                        ></span>
+                                    </div>
+                                    <input [matDatepicker]="toDate" formControlName="toDate" class="form-control" type="text" [min]="formListPersonal.controls.fromDate.value" placeholder="13/09/2021" />
+                                </div>
 
-                <div
-                  *ngIf="
-                    formListKeyPair.controls['cryptoSystemName'].value?.name &&
-                    formListKeyPair.controls['cryptoSystemName'].value.name ==
-                      cryptoSystem[1].name
-                  "
-                >
-                  <ng-select
-                    [items]="cryptoSystem[1].param"
-                    [clearable]="false"
-                    formControlName="cryptoSystemParam"
-                  ></ng-select>
-                </div>
-              </fieldset>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 mb-1">
-              <button
-                type="button"
-                class="btn btn-outline-secondary mr-1"
-                (click)="moreOption = !moreOption"
-                rippleEffect
-              >
-                tùy chọn
-              </button>
-              <button
-                type="button"
-                rippleEffect
-                class="btn btn-primary"
-                (click)="onSubmit()"
-                [disabled]="!formListKeyPair.valid"
-              >
-                Tìm kiếm
-              </button>
-            </div>
-          </div>
-          <div class="row" [ngbCollapse]="moreOption">
-            <div class="col-md-1 mr-2">
-              <label for="">Số dòng:</label>
-              <fieldset class="form-group">
-                <ng-select
-                  [items]="sizePage"
-                  suffix=" dòng"
-                  [clearable]="false"
-                  formControlName="sizePage"
-                ></ng-select>
-              </fieldset>
-            </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="form-group">
-                  <div class="input-group w-0" >
-                    <input
-                    style="display:none;"
-                      name="datepicker"
-                      class="form-control"
-                      ngbDatepicker
-                      #datepicker="ngbDatepicker"
-                      [autoClose]="'outside'"
-                      (dateSelect)="onDateSelection($event)"
-                      [displayMonths]="2"
-                      [dayTemplate]="rangeSelectionDP"
-                      outsideDays="hidden"
-                      [startDate]="fromDate!"
-                    />
-                    <ng-template #rangeSelectionDP let-date let-focused="focused">
-                      <span
-                        class="custom-day"
-                        [class.focused]="focused"
-                        [class.range]="isRange(date)"
-                        [class.faded]="isHovered(date) || isInside(date)"
-                        (mouseenter)="hoveredDate = date"
-                        (mouseleave)="hoveredDate = null"
-                      >
-                        {{ date.day }}
-                      </span>
-                    </ng-template>
-                  </div>
-                </div>
-               <div class="col-6">
-                <div class="form-group">
-                  <label for="">Từ ngày:</label>
-                  <div class="input-group">
-                    <input
-                      #dpFromDate
-                      ngbDatepicker
-                      class="form-control"
-                      placeholder="yyyy-mm-dd"
-                      name="dpFromDate"
-                      formControlName="fromDate"
-                    />
-                    <div class="input-group-append">
-                      <button
-                        class="btn btn-outline-secondary feather icon-calendar"
-                        (click)="datepicker.toggle()"
-                        type="button"
-                        rippleEffect
-                      ></button>
-                    </div>
-                  </div>
-                  <div class="demo-spacing-0">
-                    <!-- ngb-alert component--> 
-                    <ngb-alert [type]="'danger'" *ngIf="formListKeyPair.controls['fromDate'].invalid" class="mt-1" [dismissible]="false">
-                      <div class="alert-body">
-                        <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
-                        <span><strong>Không hợp lệ</strong> sai định dạng yyyy-mm-dd</span>
-                      </div>
-                    </ngb-alert>
-                    <!--/ ngb-alert component -->
-                  </div>
-                </div>
-               </div>
-                <div class="col-6">
-                  <div class="form-group ml-sm-2">
-                    <label for="">Đến ngày:</label>
-                    <div class="input-group">
-                      <input
-                        #dpToDate
-                        class="form-control"
-                        placeholder="yyyy-mm-dd"
-                        name="dpToDate"
-                        ngbDatepicker
-                        formControlName="toDate"
-                      />
-                      <div class="input-group-append">
-                        <button
-                          class="btn btn-outline-secondary feather icon-calendar"
-                          (click)="datepicker.toggle()"
-                          type="button"
-                          rippleEffect
-                        ></button>
-                      </div>
-                    </div>
-                    <div class="demo-spacing-0">
-                      <!-- ngb-alert component--> 
-                      <ngb-alert [type]="'danger'" *ngIf="formListKeyPair.controls['toDate'].invalid" class="mt-1" [dismissible]="false">
-                        <div class="alert-body">
-                          <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
-                          <span><strong>Không hợp lệ</strong> sai định dạng yyyy-mm-dd</span>
+                                <mat-datepicker #toDate></mat-datepicker>
+                            </div>
                         </div>
-                      </ngb-alert>
-                      <!--/ ngb-alert component -->
-                      <ngb-alert [type]="'danger'" *ngIf="this.formatter.format(formListKeyPair.controls['fromDate'].value)>this.formatter.format(formListKeyPair.controls['toDate'].value)&&formListKeyPair.controls['toDate'].value!=null" class="mt-1" [dismissible]="false">
-                        <div class="alert-body">
-                          <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
-                          <span><strong>Không hợp lệ</strong> Ngày kết thúc sớm hơn ngày bắt đầu</span>
-                        </div>
-                      </ngb-alert>
                     </div>
-                  </div>
-                  
                 </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+            </form>
+        </div>
     </div>
-    <!-- keypair filter end -->
+</section>
+  
+  <section id="table-personal-list">
     <div class="card">
-      <div class="row">
-        <div class="col-12">
-          <div class="d-flex justify-content-md-end m-1">
-            <button class="btn btn-primary ml-1" rippleEffect>
-              <span class="d-none d-sm-inline-block">Thêm mới</span>
-            </button>
-          </div>
+        <div class="card-header">
+            <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>TT</th>
-                  <th>Mã cặp khóa</th>
-                  <th>Hệ mật</th>
-                  <th>Tham số khóa</th>
-                  <th>Độ dài khóa</th>
-                  <th>Alias</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+        <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+        <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap cursor" [rows]="rowsData" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force"
+            [headerHeight]="50" rowHeight="auto" [scrollbarH]="true" [footerHeight]="50" [rowHeight]="50" [externalPaging]="true" [limit]="pagedData.size" [count]="pagedData.totalItems" [offset]="pagedData.currentPage" [loadingIndicator]="isLoading" (page)="setPage($event)">
+            <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" class="ml-1">
+                <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+                    <div class="custom-control custom-control-primary custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" id="headerCustomChkbxRef" />
+                        <label class="custom-control-label" for="headerCustomChkbxRef"></label>
+                    </div>
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                    <div class="custom-control custom-control-primary custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" id="rowCustomChkbxRef{{ rowIndex }}" />
+                        <label class="custom-control-label" for="rowCustomChkbxRef{{ rowIndex }}"></label>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="TT" [sortable]="false" [canAutoResize]="false" [width]="50">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                    {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
+                <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                    <div class="d-flex align-items-center">
+                        <div *ngIf="
+                  rowsData.avatar != null && rowsData.avatar.length > 0;
+                  else customAvatar
+                ">
+                            <img class="rounded-circle mr-1" src="assets/images/portrait/small/{{ row.avatar }}" height="32" width="32" alt="datatable-avatar" />
+                        </div>
+                        <ng-template #customAvatar>
+                            <!-- Không có giao diện thì check theo status để tô màu -->
+                            <div class="avatar mr-1 ml-0" [ngClass]="{
+                    'bg-light-primary': row.isActive == false,
+                    'bg-light-success': row.isActive == true,
+                    'bg-light-danger': row.status == '3',
+                    'bg-light-warning': row.status == '4',
+                    'bg-light-info': row.status == '5'
+                  }">
+                                <div class="avatar-content">{{ name | initials }}</div>
+                            </div>
+                        </ng-template>
+                        <div class="cell-line-height">
+                            <p class="font-medium-1 font-weight-bold line-height-1 mb-25">
+                                {{ name }}
+                            </p>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="CCCD/PASSPORT" prop="personalCountryId" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                    {{ value | date: "dd/MM/YYYY" }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Giới tính" prop="gender" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Tổ chức" prop="organization" [width]="70">
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                    <div *ngIf="value != ''; else noneOrganization">
+                        {{ value.organizationName | lowercase }}
+                    </div>
+                </ng-template>
+                <ng-template ngx-datatable-cell-template #noneOrganization>
+                    <div>Cá nhân</div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Hành động" [width]="60" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                    <div class="d-flex align-items-center">
+                        <div ngbDropdown container="body">
+                            <a ngbDropdownToggle href="javascript:void(0);" class="hide-arrow" id="dropdownBrowserState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
+                            </a>
+                            <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
+                                <a href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center" (click)="toggleSidebar(modalForm, row)"><i data-feather="key" class="mr-50"></i> Danh sách cặp khóa</a>
+                            </div>
+                        </div>
+                        <i data-feather="edit" class="text-primary cursor-pointer"></i>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+  
+            <ngx-datatable-footer>
+                <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+                    <div class="page-count" *ngIf="!isLoading">
+                        <span *ngIf="chkBoxSelected">
+                Đã chọn {{ chkBoxSelected.length }} /
+              </span> {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!(rowCount / pageSize > 1)"
+                        (change)="table.onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
     </div>
+    <ng-template #modalForm let-modal>
+        <app-list-sidebar [personal]='item'></app-list-sidebar>
+    </ng-template>
   </section>
-  <!--/ Keypair List -->
-</div>

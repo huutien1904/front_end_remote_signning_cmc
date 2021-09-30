@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { DateAdapter } from "@angular/material/core";
@@ -12,23 +11,30 @@ import {
   SelectionType,
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/PagedData"
-import { Personal } from "app/main/models/Personal";
+import { KeypairListService } from "../keypair-list.service";
+import { Keypair } from "app/main/models/Keypair";
 
 @Component({
-  selector: "app-keypair-list",
-  templateUrl: "./keypair-list.component.html",
-  styleUrls: ["./keypair-list.component.scss"],
+  selector: 'app-list-sidebar',
+  templateUrl: './list-sidebar.component.html',
+  styleUrls: ['./list-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [PersonalListService]
+  providers: [KeypairListService]
 })
-export class KeypairListComponent implements OnInit {
+export class ListSidebarComponent implements OnInit {
+  public cryptoSelect: any[] = [ 'RSA', 'ECDSA'];
+  public rsaKeyLength: any[] = ['1024', '1536', '2048', '3072', '4096', '6144', '8192'];
+  public ecdsaKeyLength: any[] = ['brainpoolIP160r1', 'brainpoolIP160t1', 'brainpoolIP192r1', 'brainpoolIP192t1',
+  'brainpoolIP224r1', 'brainpoolIP224t1', 'brainpoolIP256r1', 'brainpoolIP256t1', 'brainpoolIP384r1', 'brainpoolIP384t1', 'brainpoolIP521r1', 'brainpoolIP521t1'];
+  public lengthSelect: any[] = [];
+  @Input() personal: any;
   minDate: Date;
   maxDate: Date;
-  public rowsData = new Array<Personal>();
+  public rowsData = new Array<Keypair>();
   private _unsubscribeAll: Subject<any>;
-  public formListPersonal: FormGroup;
+  public formListKeypair: FormGroup;
   public item: any;
-  public contentHeader: object;
+
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
@@ -36,15 +42,14 @@ export class KeypairListComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
-  gender: string[] = ["Nam", "Nữ"];
-  public pagedData = new PagedData<Personal>();
+  public pagedData = new PagedData<Keypair>();
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
 
     /**
    *
-   * @param _userListService
+   * @param _keypairService
    * @param _coreSidebarService
    * @param modalService
    * @param fb
@@ -53,7 +58,7 @@ export class KeypairListComponent implements OnInit {
    */
   constructor(
     private fb: FormBuilder,
-    private _userListService: PersonalListService,
+    private _keypairService: KeypairListService,
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
@@ -70,62 +75,39 @@ export class KeypairListComponent implements OnInit {
       });
   }
   ngOnInit(): void {
-    this.formListPersonal = this.fb.group({
-      inputPersonal: [null, Validators.required],
+    this.formListKeypair = this.fb.group({
+      aliasKeypair: [null, Validators.required],
+      cryptoSystem: [null, Validators.required],
+      keypairLength: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
       sizePage: [this.sizePage[3]],
-      gender: [],
-      birthday: [],
     });
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
-    this.contentHeader = {
-      headerTitle: 'Danh sách',
-      actionButton: true,
-      breadcrumb: {
-        type: 'chevron',
-        links: [
-          {
-            name: 'Quản lý cặp khóa',
-            isLink: false
-          },
-          {
-            name: 'Danh sách',
-            isLink: true,
-            link: '/apps/tm/keypair/keypair-list'
-          }
-        ]
-      }
-    };
   }
 
   changePage() {
-    this.pagedData.size = this.formListPersonal.get("sizePage").value;
+    this.pagedData.size = this.formListKeypair.get("sizePage").value;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
 
   setPage(pageInfo) {
-    console.log(pageInfo);
     this.isLoading=true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
-    this._userListService
-      .getListPersonals(this.pagedData)
+    this._keypairService
+      .getData(this.pagedData, this.personal.subscriberId)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData);
+        console.log(pagedData)
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList) => ({
-          ...personalList,
-          personalFirstName:
-            personalList.personalFirstName +
-            " " +
-            personalList.personalMiddleName +
-            " " +
-            personalList.personalLastName,
-        }));
+        this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
+        this.rowsData = pagedData.data.data.map(item => ({
+          ...item,
+        }))
         this.isLoading=false;
       });
   }
@@ -150,14 +132,12 @@ export class KeypairListComponent implements OnInit {
     this.selected.push(...selected);
   }
 
-  toggleSidebar(modalForm, item) {
-    this.item = item;
-    console.log(item);
-    this.modal.open(modalForm, {size: 'xl'})
+  toggleSidebar() {
+    this.modal.dismissAll();
   }
 
   onSubmit() {
-    console.log(this.formListPersonal);
+    console.log(this.formListKeypair);
   }
 
   /**
@@ -168,4 +148,20 @@ export class KeypairListComponent implements OnInit {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
+
+  changeCrypto(event) {
+    this.formListKeypair.patchValue({
+      keypairLength: null
+    })
+    this.formListKeypair.get('keypairLength').enable();
+    switch (event) {
+      case 'RSA':
+        this.lengthSelect = this.rsaKeyLength;
+        break;
+      case 'ECDSA':
+        this.lengthSelect = this.ecdsaKeyLength;
+        break;
+    }
+  }
+
 }
