@@ -26,6 +26,7 @@ import {
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { PersonalsService } from "../certificate-request/certificate-request-new/personals/personals-list/personals.service";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     CoreCommonModule,
     ...materialModules1234,
     MatProgressBarModule,
-    FileUploadModule
+    FileUploadModule,
+    ContentHeaderModule
   ],
   exports: [
     SubscriberCertificateCreateComponent,

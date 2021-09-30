@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="row mb-1">
-            <div class="col-12 mb-1">
+            <div class="col-12">
               <button
                 class="btn btn-outline-secondary mr-1"
                 rippleEffect
@@ -149,7 +149,7 @@
       <ngx-datatable
         [rows]="rowsData"
         rowHeight="auto"
-        class="bootstrap core-bootstrap"
+        class="bootstrap core-bootstrap cursor"
         [columnMode]="ColumnMode.force"
         [headerHeight]="50"
         [footerHeight]="50"
@@ -219,12 +219,13 @@
         </ngx-datatable-column>
 
         <ngx-datatable-column
-        name="STT"
+        name="TT"
         [width]="50"
         [canAutoResize]="false"
+        [sortable]="false"
       >
         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-            {{rowIndex+1}}
+          {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
         

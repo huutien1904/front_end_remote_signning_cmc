@@ -27,6 +27,7 @@ import { SubscriberCertificateListService } from "../subscriber-certificate-list
   providers: [KeypairService, PersonalListService],
 })
 export class SubscriberCertificateCreateComponent implements OnInit {
+  public contentHeader: object;
   minDate: Date;
   maxDate: Date;
   //Table of personal data
@@ -103,6 +104,24 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     this.pagedData.size = this.sizePage[0];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    this.contentHeader = {
+      headerTitle: 'Nhập chứng thư số',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý cặp khóa',
+            isLink: false
+          },
+          {
+            name: 'Nhập chứng thư số',
+            isLink: true,
+            link: '/apps/equipment-management/subscriber-certificate-create'
+          }
+        ]
+      }
+    };
   }
   changePage() {
     this.pagedData.size = this.formListPersonal.get("sizePage").value;

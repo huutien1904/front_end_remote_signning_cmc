@@ -58,8 +58,10 @@ export class SubscriberCertificateListComponent implements OnInit {
   }
   getOrganization(item): any {
     let info = this._subscriberCertificateService.readCertificate(item.certificate);
-    console.log(info)
-    return info.find(obj => obj.name === 'organizationName').value;
+    let rs = info.find(obj => obj.name === 'organizationalUnitName');
+    if(rs == undefined)
+      return;
+    return rs.value;
   }
   getSubscriber(item): any {
     let info = this._subscriberCertificateService.readCertificate(item.certificate);

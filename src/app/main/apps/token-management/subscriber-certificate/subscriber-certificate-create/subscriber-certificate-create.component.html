@@ -1,3 +1,4 @@
+<app-content-header [contentHeader]="contentHeader"></app-content-header>
 <!-- search filter -->
 <section id="search-personal-list">
   <div class="card">
@@ -6,8 +7,8 @@
     <div class="card-body">
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row mb-1">
-          <label class="lable">Họ tên, email, địa chỉ</label>
           <div class="col-md-6">
+            <label class="lable">Họ tên, email, địa chỉ</label>
             <input
               name="distinguishedName"
               id="distinguishedName"
@@ -50,9 +51,7 @@
           </div>
         </div>
         <div class="row mb-1">
-        </div>
-        <div class="row mb-1">
-          <div class="col-12 mb-1">
+          <div class="col-12">
             <button
               class="btn btn-outline-secondary mr-1"
               rippleEffect
@@ -166,9 +165,9 @@
       [loadingIndicator]="isLoading"
       (page)="setPage($event)"
     >
-      <ngx-datatable-column name="STT" [width]="40">
+      <ngx-datatable-column name="STT" [width]="40" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-          {{ rowIndex + 1 }}
+          {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">

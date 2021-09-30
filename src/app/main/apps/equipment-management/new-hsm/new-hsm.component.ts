@@ -39,23 +39,19 @@ export class NewHsmComponent implements OnInit {
     });
 
     this.contentHeader = {
-      headerTitle: 'Thiết bị HSM',
+      headerTitle: 'Tạo Thiết bị HSM',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
             name: 'Quản lý thiết bị',
+            isLink: false,
+          },
+          {
+            name: 'Tạo Thiết bị HSM',
             isLink: true,
-            link: '/apps/equipment-management/search'
-          },
-          {
-            name: 'Tạo mới',
-            isLink: false
-          },
-          {
-            name: 'Thiết bị HSM',
-            isLink: false
+            link: '/apps/equipment-management/new-hsm'
           }
         ]
       }

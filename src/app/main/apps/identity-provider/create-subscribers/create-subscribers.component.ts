@@ -42,19 +42,19 @@ export class CreateSubscribersComponent implements OnInit {
   }
   ngOnInit(): void {
     this.contentHeader = {
-      headerTitle: 'Tạo mới thuê bao',
+      headerTitle: 'Tạo thuê bao',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Thuê bao',
-            isLink: true,
-            link: '/apps/tm/search'
+            name: 'Quản lý người dùng',
+            isLink: false,
           },
           {
-            name: 'Tạo mới thuê bao',
-            isLink: false
+            name: 'Tạo thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-create'
           }
         ]
       }

@@ -49,23 +49,19 @@ export class NewTokenComponent implements OnInit {
     );
     this.getHsmList();
     this.contentHeader = {
-      headerTitle: 'Token',
+      headerTitle: 'Tạo Token',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
             name: 'Quản lý thiết bị',
+            isLink: false,
+          },
+          {
+            name: 'Tạo Token',
             isLink: true,
-            link: '/apps/equipment-management/search'
-          },
-          {
-            name: 'Tạo mới',
-            isLink: false
-          },
-          {
-            name: 'Token',
-            isLink: false
+            link: '/apps/equipment-management/new-token'
           }
         ]
       }

@@ -48,12 +48,12 @@ export class SearchComponent implements OnInit {
         links: [
           {
             name: 'Quản lý cặp khóa',
-            isLink: true,
-            link: '/apps/tm/search'
+            isLink: false
           },
           {
             name: 'Tìm kiếm',
-            isLink: false
+            isLink: true,
+            link: '/apps/tm/search'
           }
         ]
       }

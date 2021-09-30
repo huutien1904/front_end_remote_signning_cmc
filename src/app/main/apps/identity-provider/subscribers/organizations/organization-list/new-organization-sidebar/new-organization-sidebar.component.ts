@@ -185,7 +185,11 @@ export class NewOrganizationSidebarComponent implements OnInit {
       this._toastrService.success(
         "Thêm thành công đường " + res.data.streetName + "vào cơ sở dữ liệu",
         "Thành công",
-        { toastClass: "toast ngx-toastr", closeButton: true }
+        {
+          positionClass: "toast-top-center",
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        }
       );
     });
     return true;

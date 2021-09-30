@@ -64,7 +64,7 @@
             <h4 class="card-title">Danh sách yêu cầu chứng thực</h4>
         </div>
         <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-        <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [rows]="rowsData" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force"
+        <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap cursor" [rows]="rowsData" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force"
             [headerHeight]="50" rowHeight="auto" [scrollbarH]="true" [footerHeight]="50" [rowHeight]="50" [externalPaging]="true" [limit]="pagedData.size" [count]="pagedData.totalItems" [offset]="pagedData.currentPage" [loadingIndicator]="isLoading" (page)="setPage($event)">
             <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" class="ml-1">
                 <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
@@ -82,7 +82,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="TT" [sortable]="false" [canAutoResize]="false" [width]="50">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    {{ rowIndex + 1 }}
+                    {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Mã yêu cầu chứng thực" prop="certificateRequestId" [width]="200"></ngx-datatable-column>

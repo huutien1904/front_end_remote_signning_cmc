@@ -38,12 +38,12 @@ export class SearchComponent implements OnInit {
         links: [
           {
             name: 'Quản lý thiết bị',
-            isLink: true,
-            link: '/apps/equipment-management/search'
+            isLink: false
           },
           {
             name: 'Tìm kiếm',
-            isLink: false
+            isLink: true,
+            link: '/apps/equipment-management/search'
           }
         ]
       }

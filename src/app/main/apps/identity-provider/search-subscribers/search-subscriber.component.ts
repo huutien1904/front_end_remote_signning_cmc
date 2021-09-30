@@ -39,13 +39,13 @@ export class SearchSubscriberComponent implements OnInit {
         type: 'chevron',
         links: [
           {
-            name: 'Thuê bao',
-            isLink: true,
-            link: '/apps/tm/search'
+            name: 'Quản lý người dùng',
+            isLink: false
           },
           {
             name: 'Tìm kiếm',
-            isLink: false
+            isLink: true,
+            link: '/apps/ip/subscribers-search'
           }
         ]
       }

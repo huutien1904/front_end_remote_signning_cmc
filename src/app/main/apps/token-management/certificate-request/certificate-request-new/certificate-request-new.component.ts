@@ -33,19 +33,19 @@ export class CertificateRequestNewComponent implements OnInit {
       searchType : [this.searchType[0], Validators.required]
     })
     this.contentHeader = {
-      headerTitle: 'Tạo yêu cầu chứng thực',
+      headerTitle: 'Tạo yêu cầu',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
             name: 'Quản lý cặp khóa',
-            isLink: true,
-            link: '/apps/tm/search'
+            isLink: false
           },
           {
-            name: 'Tạo yêu cầu chứng thực',
-            isLink: false
+            name: 'Tạo yêu cầu',
+            isLink: true,
+            link: '/apps/tm/certificate-request-new'
           }
         ]
       }

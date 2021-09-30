@@ -354,7 +354,11 @@ onSubmitCreateStreet(type, streetName) {
             res.data.streetName +
             "vào cơ sở dữ liệu",
           "Thành công",
-          { toastClass: "toast ngx-toastr", closeButton: true }
+          {  
+            positionClass: "toast-top-center",
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          }
         );
       });
       return true;
@@ -380,7 +384,11 @@ onSubmitCreateStreet(type, streetName) {
             res.data.streetName +
             "vào cơ sở dữ liệu",
           "Thành công",
-          { toastClass: "toast ngx-toastr", closeButton: true }
+          {     
+          positionClass: "toast-top-center",
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+          }
         );
       });
       return true;
@@ -422,14 +430,22 @@ onSubmitCreateStreet(type, streetName) {
         this._toastrService.success(
           "Đăng ký thuê bao cá nhân thành công ",
           "Thành công",
-          { toastClass: "toast ngx-toastr", closeButton: true }
+          {            
+            positionClass: "toast-top-center",
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          }
         );
       }
       if(res.result === false){
         this._toastrService.error(
           "Email này đã tồn tại",
           "Thất Bại",
-          { toastClass: "toast ngx-toastr", closeButton: true }
+          {  
+            positionClass: "toast-top-center",
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          }
         );
       }
     });
