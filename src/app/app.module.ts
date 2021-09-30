@@ -25,6 +25,7 @@ import {
 import { AuthGuard } from 'app/auth/helpers/auth.guards';
 
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
+import { InputTrimDirective } from './main/directives/input-trim-directive';
 
 const appRoutes: Routes = [
   {
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InputTrimDirective,
   ],
   imports: [
     BrowserModule,

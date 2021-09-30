@@ -47,14 +47,14 @@ export class NewOrganizationSidebarComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.newOrganization = this.fb.group({
-      countryOrganizationId: ["", [Validators.required,this.noWhitespaceValidator]],
-      organizationName: ["", [Validators.required,this.noWhitespaceValidator]],
+      countryOrganizationId: ["", [Validators.required]],
+      organizationName: ["", [Validators.required]],
       parentOrganizationId: [null],
       subscriberCategoryId: [null, Validators.required],
-      leaderName: ["", [Validators.required,this.noWhitespaceValidator]],
-      website: ["", [Validators.required,this.noWhitespaceValidator]],
-      email: ["", [Validators.required, Validators.email,this.noWhitespaceValidator]],
-      phoneNumber: ["", [Validators.required,this.noWhitespaceValidator]],
+      leaderName: ["", [Validators.required]],
+      website: ["", [Validators.required]],
+      email: ["", [Validators.required, Validators.email]],
+      phoneNumber: ["", [Validators.required,Validators.minLength(10),Validators.pattern(/^[0-9]\d*$/)]],
       street: [{ value: null, disabled: true }, Validators.required],
       country: [this.country[0].countryId, Validators.required],
       province: [null, Validators.required],

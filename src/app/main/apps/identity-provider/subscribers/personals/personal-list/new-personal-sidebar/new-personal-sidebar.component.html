@@ -344,7 +344,8 @@
                 formControlName="phoneNumber"
                 type="text"
                 class="form-control"
-                placeholder="Phone"
+                placeholder="PhoneNumber"
+                appRemoveSpace
                 [ngClass]="
                   (f.phoneNumber.errors && f.phoneNumber?.touched) ||
                   (submitted && f.phoneNumber?.errors?.required)
@@ -364,22 +365,38 @@
             >
               <small
                 class="form-text text-danger"
-                *ngIf="f.phoneNumber.errors.required"
-              >
-                Không được bỏ trống
-              </small>
-              <small
-                class="form-text text-danger"
                 *ngIf="f.phoneNumber.errors.minLength"
               >
                 Phải đủ 10 số
               </small>
               <small
                 class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.required"
+              >
+                Không được bỏ trống
+              </small>
+              
+              <small
+                class="form-text text-danger"
                 *ngIf="f.phoneNumber.errors.pattern"
               >
-                Không được chứa chữ cái hoặc khoảng trắng 
+                Số điện thoại chưa đúng
               </small>
+            </span>
+            <span
+              *ngIf="
+                f.phoneNumber.errors 
+              "
+              class="invalid-form"
+            >
+              
+              <small
+                class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.minLength"
+              >
+                Phải đủ 10 số
+              </small>
+              
             </span>
           </div>
         </div>
