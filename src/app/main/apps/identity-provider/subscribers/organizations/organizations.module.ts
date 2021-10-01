@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
+import { TrimDirectivesModule } from "@core/directives/core-trim-input/trim-directive";
 import { CoreDirectivesModule } from "@core/directives/directives";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -41,7 +42,7 @@ import { AppRemoveSpace } from './remove-space.directive';
     }),
     CorePipesModule,
     CoreDirectivesModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,TrimDirectivesModule
   ],
   exports: [
     NewOrganizationSidebarComponent,

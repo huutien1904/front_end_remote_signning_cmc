@@ -5,6 +5,7 @@ import { NewHsmComponent } from './new-hsm.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TrimDirectivesModule } from '@core/directives/core-trim-input/trim-directive';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
     CoreCommonModule,
     RouterModule.forChild(routes),
     ContentHeaderModule,
-    NgSelectModule
+    NgSelectModule,
+    TrimDirectivesModule
   ],
 })
 export class NewHsmModule { }

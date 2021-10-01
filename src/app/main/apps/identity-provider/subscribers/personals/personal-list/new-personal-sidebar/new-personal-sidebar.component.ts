@@ -15,12 +15,11 @@ import { Commune, District, Province, Street } from "app/main/models/Address";
 import { ToastrService } from "ngx-toastr";
 import {  Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { InputTrimDirective } from 'app/main/directives/input-trim-directive';
 @Component({
   selector: "app-new-personal-sidebar",
   templateUrl: "./new-personal-sidebar.component.html",
   styleUrls: ["./new-personal-sidebar.component.scss"],
-  providers: [AddressService,InputTrimDirective],
+  providers: [AddressService],
 })
 export class NewPersonalSidebarComponent implements OnInit {
   /** @Private */

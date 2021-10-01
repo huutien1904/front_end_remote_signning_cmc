@@ -13,7 +13,6 @@ const TRIM_VALUE_ACCESSOR: any = {
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: `
-testTrim,
  input:not([type=checkbox]):not([type=radio]):not([type=password]):not([readonly]):not(.ng-trim-ignore)[formControlName],
  input:not([type=checkbox]):not([type=radio]):not([type=password]):not([readonly]):not(.ng-trim-ignore)[formControl],
  input:not([type=checkbox]):not([type=radio]):not([type=password]):not([readonly]):not(.ng-trim-ignore)[ngModel],
@@ -25,7 +24,7 @@ testTrim,
   providers: [TRIM_VALUE_ACCESSOR],
 })
 export class InputTrimDirective extends DefaultValueAccessor {
-  public resultValue: string;
+
   @HostListener('input', ['$event.target.value'])
   ngOnChange = (val: string) => {
     console.log('log 29');
@@ -40,11 +39,10 @@ export class InputTrimDirective extends DefaultValueAccessor {
   writeValue(value: any): void {
     if (typeof value === 'string') {
       console.log('log 39');
-      this.resultValue = value.trim();
+      value = value.trim();
     }
-    super.writeValue(this.resultValue);
-
-    console.log(this.resultValue);
+    super.writeValue(value);
+    console.log(value);
   }
   @HostListener('mouseenter') mouseover(eventData: Event) {
     console.log('mouseenter');
