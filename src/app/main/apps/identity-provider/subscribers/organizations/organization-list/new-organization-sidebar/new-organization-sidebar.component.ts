@@ -1,7 +1,4 @@
-import {
-  Organization,
-  OrganizationCategory,
-} from "./../../../../../../models/Organization";
+import {Organization,OrganizationCategory,} from "./../../../../../../models/Organization";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { Commune, District, Province, Street } from "app/main/models/Address";
@@ -10,7 +7,7 @@ import { map, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { OrganizationListService } from "./../organization-list.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators ,FormControl} from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 @Component({
@@ -20,7 +17,9 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 })
 export class NewOrganizationSidebarComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
+  @Output() onClose = new EventEmitter<any>();
   public submitted = false;
+  public flag:any; 
   private _unsubscribeAll = new Subject();
   public organizationList: Organization[];
   public typeOrganization: OrganizationCategory[];
@@ -48,14 +47,14 @@ export class NewOrganizationSidebarComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.newOrganization = this.fb.group({
-      countryOrganizationId: ["", Validators.required],
-      organizationName: ["", Validators.required],
+      countryOrganizationId: ["", [Validators.required]],
+      organizationName: ["", [Validators.required]],
       parentOrganizationId: [null],
       subscriberCategoryId: [null, Validators.required],
-      leaderName: ["", Validators.required],
-      website: ["", Validators.required],
-      email: ["", Validators.required],
-      phoneNumber: ["", Validators.required],
+      leaderName: ["", [Validators.required]],
+      website: ["", [Validators.required]],
+      email: ["", [Validators.required, Validators.email]],
+      phoneNumber: ["", [Validators.required,Validators.minLength(10),Validators.pattern(/^[0-9]\d*$/)]],
       street: [{ value: null, disabled: true }, Validators.required],
       country: [this.country[0].countryId, Validators.required],
       province: [null, Validators.required],
@@ -84,6 +83,11 @@ export class NewOrganizationSidebarComponent implements OnInit {
         this.province = res;
         console.log(this.province);
       });
+  }
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
   }
   selectProvince() {
     this.newOrganization.patchValue({
@@ -167,6 +171,9 @@ export class NewOrganizationSidebarComponent implements OnInit {
       windowClass: "modal modal-success",
     });
   }
+  toggleSidebar(){
+    this.onClose.emit();
+  }
   onSubmitCreateStreet(streetName) {
     const communeId = this.newOrganization.get("commune").value;
     const body = {
@@ -194,9 +201,6 @@ export class NewOrganizationSidebarComponent implements OnInit {
     return this.newOrganization.controls;
   }
 
-  toggleSidebar() {
-    this.modalService.dismissAll();
-  }
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -257,7 +261,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
   getListTypeOrganization() {
     this._organizationListService
       .getListOrganizationCategory()
-      .subscribe((res) => {
+      .subscribe((res:any) => {
         res.data.forEach(function (item, index) {
           if (item.subscriberCategoryName === "Cá nhân") {
             res.data.splice(index, 1);

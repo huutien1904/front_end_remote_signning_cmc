@@ -37,6 +37,7 @@ export class PersonalListComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
+  public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
   // Private
@@ -139,19 +140,16 @@ export class PersonalListComponent implements OnInit {
     this.selected.push(...selected);
   }
   // Public Methods
-  toggleModal() {
-    this.modalService.hasOpenModals();
-  }
-
   openNewPersonalModal(modal) {
-    this.modalService.open(modal, {
+    this.flag = this.modalService.open(modal, {
       centered: true,
       size: "xl",
     });
+    console.log(this.flag)
   }
 
   closeModal(name) {
-    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+    this.modalService.dismissAll();
   }
 
   onSubmit() {

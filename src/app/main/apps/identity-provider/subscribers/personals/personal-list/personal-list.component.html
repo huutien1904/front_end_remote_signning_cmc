@@ -176,6 +176,7 @@
           <div class="modal-body" tabindex="0" ngbAutofocus>
             <app-new-personal-sidebar
               (onUpdate)="updateTable()"
+              (onClose) = "closeModel()"
             ></app-new-personal-sidebar>
           </div>
         </ng-template>

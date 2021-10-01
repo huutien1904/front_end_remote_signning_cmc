@@ -106,6 +106,7 @@
                   ? 'is-invalid'
                   : ''
               "
+                cleanInput
                 formControlName="phoneNumber"    
                 type="text"
                 id="fname-icon-2"
@@ -116,9 +117,25 @@
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.phoneNumber.errors || f.phoneNumber.errors && f.phoneNumber?.touched"  class="invalid-form">
-              <small class="form-text text-danger" >
-                Không được bỏ trống </small>
+            <span *ngIf="f.phoneNumber.errors && f.phoneNumber?.touched || submitted && f.phoneNumber?.errors?.required"  class="invalid-form">
+              <small 
+                class="form-text text-danger" 
+                *ngIf="f.phoneNumber.errors.required"
+                >
+                Không được bỏ trống 
+              </small>
+              <small
+                class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.minLength"
+              >
+                Phải đủ 10 số
+              </small>
+              <small
+                class="form-text text-danger"
+                *ngIf="f.phoneNumber.errors.pattern"
+              >
+                Không được chứa chữ cái hoặc khoảng trắng 
+              </small>
             </span>
           </div>
         </div>
