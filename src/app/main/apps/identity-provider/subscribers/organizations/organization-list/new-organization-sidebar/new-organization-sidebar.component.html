@@ -106,7 +106,7 @@
                   ? 'is-invalid'
                   : ''
               "
-                cleanInput
+                appRemoveSpace
                 formControlName="phoneNumber"    
                 type="text"
                 id="fname-icon-2"
@@ -134,7 +134,7 @@
                 class="form-text text-danger"
                 *ngIf="f.phoneNumber.errors.pattern"
               >
-                Không được chứa chữ cái hoặc khoảng trắng 
+                Số điện thoại chưa đúng !
               </small>
             </span>
           </div>
