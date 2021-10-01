@@ -79,6 +79,7 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

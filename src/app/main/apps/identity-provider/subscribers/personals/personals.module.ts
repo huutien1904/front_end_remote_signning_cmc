@@ -16,7 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
-import { TrimDirectivesModule } from "@core/directives/core-trim-input/trim-directive";
+import { CoreDirectivesModule } from "@core/directives/directives";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -61,7 +61,7 @@ const materialModules1234 = [
     RouterModule,
     ...materialModules1234,
     MatProgressBarModule,
-    TrimDirectivesModule
+    CoreDirectivesModule
   ],
   exports: [
     PersonalListComponent,
