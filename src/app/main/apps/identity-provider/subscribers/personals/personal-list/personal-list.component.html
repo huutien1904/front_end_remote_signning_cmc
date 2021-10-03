@@ -7,17 +7,16 @@
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row mb-1">
           <div class="col-md-6">
+            <label class="lable">Họ tên, email, địa chỉ</label>
             <input
               name="distinguishedName"
               id="distinguishedName"
               type="search"
               class="form-control"
               formControlName="inputPersonal"
-              placeholder="Nhập họ tên email địa chỉ"
+              placeholder="Nhập họ tên, email, địa chỉ"
             />
           </div>
-        </div>
-        <div class="row mb-1">
           <div class="col-md-2">
             <label class="lable">Giới tính</label>
             <fieldset class="form-group">
@@ -49,6 +48,8 @@
             </div>
             <mat-datepicker #birthday></mat-datepicker>
           </div>
+        </div>
+        <div class="row mb-1">
         </div>
         <div class="row mb-1">
           <div class="col-12 mb-1">
@@ -261,14 +262,15 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
-      <!-- <ngx-datatable-column
+      <ngx-datatable-column
         name="STT"
-        [width]="40"
+        [width]="50"
+        [canAutoResize]="false"
       >
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-        {{rowIndex+1}}
-    </ng-template>
-    </ngx-datatable-column> -->
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+            {{rowIndex+1}}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">

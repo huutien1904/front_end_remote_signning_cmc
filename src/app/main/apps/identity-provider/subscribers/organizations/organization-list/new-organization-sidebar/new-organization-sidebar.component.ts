@@ -54,7 +54,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
       leaderName: ["", [Validators.required]],
       website: ["", [Validators.required]],
       email: ["", [Validators.required, Validators.email]],
-      phoneNumber: ["", [Validators.required,Validators.minLength(10),Validators.pattern(/^[0-9]\d*$/)]],
+      phoneNumber: [null, [Validators.required, Validators.minLength(10),Validators.pattern(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),]],
       street: [{ value: null, disabled: true }, Validators.required],
       country: [this.country[0].countryId, Validators.required],
       province: [null, Validators.required],

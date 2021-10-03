@@ -48,14 +48,14 @@ export const menu: CoreMenu[] = [
         icon: 'search',
         url: '/apps/tm/search'
       },
-      // {
-      //   id: 'key-pair-list',
-      //   title: 'Tạo cặp khóa',
-      //   translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
-      //   type: 'item',
-      //   icon: 'file-text',
-      //   url: '/apps/tm/keypair/keypair-list'
-      // },
+      {
+        id: 'key-pair-list',
+        title: 'Tạo cặp khóa',
+        translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
+        type: 'item',
+        icon: 'key',
+        url: '/apps/tm/keypair/keypair-create'
+      },
         /*children: [
           {
             id: 'key-pair-list',

@@ -4,6 +4,7 @@ import { KeypairListComponent } from './keypair-list/keypair-list.component';
 import { KeypairViewComponent } from './keypair-view/keypair-view.component';
 import { KeypairEditComponent } from './keypair-edit/keypair-edit.component';
 import { RouterModule, Routes } from '@angular/router';
+import { KeypairCreateComponent } from './keypair-create/keypair-create.component';
 const routes: Routes = [
   {
     path: "keypair-list",
@@ -12,6 +13,14 @@ const routes: Routes = [
     //   uls: KeypairListService,
     // },
     data: { animation: "KeypairListComponent" },
+  },
+  {
+    path: "keypair-create",
+    component: KeypairCreateComponent,
+    // resolve: {
+    //   uls: KeypairListService,
+    // },
+    data: { animation: "KeypairCreateComponent" },
   },
 
   {

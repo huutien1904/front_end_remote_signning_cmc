@@ -30,7 +30,7 @@ export class CertificateRequestNewComponent implements OnInit {
   ngOnInit(): void {
 
     this.formSelectSearch = this.fb.group({
-      searchType : [null, Validators.required]
+      searchType : [this.searchType[0], Validators.required]
     })
     this.contentHeader = {
       headerTitle: 'Tạo yêu cầu chứng thực',

@@ -7,6 +7,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { KeypairEditComponent } from "./keypair-edit/keypair-edit.component";
 import { KeypairListComponent } from "./keypair-list/keypair-list.component";
 import { KeypairViewComponent } from "./keypair-view/keypair-view.component";
+import { KeypairCreateComponent } from './keypair-create/keypair-create.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { KeypairViewComponent } from "./keypair-view/keypair-view.component";
     KeypairListComponent,
     KeypairViewComponent,
     KeypairEditComponent,
+    KeypairCreateComponent,
   ],
   imports: [CommonModule, NgSelectModule, NgbCollapseModule, FormsModule,CoreCommonModule, NgbModule],
   exports: [KeypairListComponent, KeypairViewComponent, KeypairEditComponent],

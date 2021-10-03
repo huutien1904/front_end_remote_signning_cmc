@@ -47,13 +47,14 @@ export class NewPersonalSidebarComponent implements OnInit {
   streetBirthPlace: Street[];
 
   //ResidencePlace
-  public countryResidencePlace: any[] = [
+  public countryResidencePlace: [any] = [
     {
       countryId: 237,
       countryName: "Việt Nam",
       countryCode: "VN",
       countryType: "Independent State",
     },
+    
   ];
   public provinceResidencePlace: Province[];
   public districtResidencePlace: District[];
@@ -138,10 +139,12 @@ initAddress() {
       .getProvince(237)
       .pipe(
         map((res) => {
+          console.log(res);
           const data = res.data.map((city) => ({
             ...city,
             provinceDisplay: city.provinceType + " " + city.provinceName,
           }));
+          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
@@ -192,6 +195,7 @@ selectProvince(type){
               .getDistrict(this.newPersonal.get('provinceBirthPlace').value)
               .pipe(
                 map((res) => {
+                  
                   const data = res.data.map((district) => ({
                     ...district,
                     districtDisplay:
@@ -317,6 +321,7 @@ selectStreet(type:number){
       this.newPersonal.patchValue({
         homeNumberResidencePlace:null,
       })
+      console.log(this.newPersonal.get('homeNumberResidencePlace').enable())
       this.newPersonal.get('homeNumberResidencePlace').enable();
               break;
     };
@@ -410,11 +415,13 @@ onSubmitCreateStreet(type, streetName) {
     const token = currentUser.token;
 
     // stop here if form is invalid
-    if (this.newPersonal.invalid) {
-      return;
-    }
+    // if (this.newPersonal.invalid) {
+    //   return;
+    // }
     const newPersonal = JSON.stringify(this.newPersonal.value);
     console.log(newPersonal)
+    console.log(this.newPersonal.get("personalFirstName").value);
+    
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res)
       if (res.result === true) {

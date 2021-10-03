@@ -15,6 +15,7 @@ import { OrganizationListComponent } from "./organization-list/organization-list
 import { OrganizationListService } from "./organization-list/organization-list.service";
 import { OrganizationViewComponent } from "./organization-view/organization-view.component";
 import { OrganizationViewService } from "./organization-view/organization-view.service";
+import { AppRemoveSpace } from './remove-space.directive';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { OrganizationViewService } from "./organization-view/organization-view.s
     OrganizationListComponent,
     OrganizationViewComponent,
     OrganizationEditComponent,
+    AppRemoveSpace,
   ],
   imports: [
     CommonModule,

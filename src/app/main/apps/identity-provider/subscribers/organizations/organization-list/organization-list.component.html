@@ -10,17 +10,16 @@
           <div class="row mb-1">
             <div class="col-md-6">
               <!-- formControlName="inputPersonal" -->
+              <label class="lable">Họ tên, email, địa chỉ, website</label>
               <input
                 formControlName="inputOrganization"
                 name="findName"
                 id="findName"
                 type="search"
                 class="form-control"
-                placeholder="Nhập họ tên email địa chỉ webside"
+                placeholder="Nhập họ tên, email, địa chỉ, website"
               />
             </div>
-          </div>
-          <div class="row mb-1">
             <div class="col-md-2">
               <label class="lable">Loại tổ chức</label>
               <fieldset class="form-group">
@@ -120,7 +119,7 @@
               <button
                 type="button"
                 class="close btn-primary ml-1"
-                (click)="toggleModal()"
+                (click)="modal.close()"
                 aria-label="Close"
               >
                 <span aria-hidden="true">&times;</span>
@@ -218,6 +217,16 @@
         </div>
       </ng-template>
         </ngx-datatable-column>
+
+        <ngx-datatable-column
+        name="STT"
+        [width]="50"
+        [canAutoResize]="false"
+      >
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+            {{rowIndex+1}}
+        </ng-template>
+      </ngx-datatable-column>
         
         <ngx-datatable-column
         name="Mã tổ chức"
