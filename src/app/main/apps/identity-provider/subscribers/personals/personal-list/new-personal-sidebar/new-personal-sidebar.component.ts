@@ -5,6 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  FormControl
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
@@ -46,13 +47,14 @@ export class NewPersonalSidebarComponent implements OnInit {
   streetBirthPlace: Street[];
 
   //ResidencePlace
-  public countryResidencePlace: any[] = [
+  public countryResidencePlace: [any] = [
     {
       countryId: 237,
       countryName: "Việt Nam",
       countryCode: "VN",
       countryType: "Independent State",
     },
+    
   ];
   public provinceResidencePlace: Province[];
   public districtResidencePlace: District[];
@@ -86,11 +88,11 @@ export class NewPersonalSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.newPersonal = this.fb.group({
-      personalFirstName: [null, [Validators.required]],
-      personalMiddleName: [null, Validators.required],
-      personalLastName: [null, Validators.required],
-      phoneNumber: [null, Validators.required, , Validators.minLength(10)],
-      personalCountryId: [null, Validators.required],
+      personalFirstName: [null, [Validators.required,]],
+      personalMiddleName: [null, [Validators.required,]],
+      personalLastName: [null, [Validators.required,]],
+      phoneNumber: [null, [Validators.required, Validators.minLength(10),Validators.pattern(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),]],
+      personalCountryId: [null, [Validators.required,Validators.minLength(12),Validators.pattern(/^[0-9]\d*$/),]],
       organizationId: [null, Validators.required],
       streetBirthPlace: [{value:null, disabled : true}, Validators.required],
       countryBirthPlace: [this.countryBirthPlace[0].countryId,Validators.required],
@@ -106,7 +108,7 @@ export class NewPersonalSidebarComponent implements OnInit {
       homeNumberResidencePlace: [{value:null, disabled : true}, Validators.required],
       gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email,]],
     });
 
     this.initAddress();
@@ -137,10 +139,12 @@ initAddress() {
       .getProvince(237)
       .pipe(
         map((res) => {
+          console.log(res);
           const data = res.data.map((city) => ({
             ...city,
             provinceDisplay: city.provinceType + " " + city.provinceName,
           }));
+          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
@@ -191,6 +195,7 @@ selectProvince(type){
               .getDistrict(this.newPersonal.get('provinceBirthPlace').value)
               .pipe(
                 map((res) => {
+                  
                   const data = res.data.map((district) => ({
                     ...district,
                     districtDisplay:
@@ -316,6 +321,7 @@ selectStreet(type:number){
       this.newPersonal.patchValue({
         homeNumberResidencePlace:null,
       })
+      console.log(this.newPersonal.get('homeNumberResidencePlace').enable())
       this.newPersonal.get('homeNumberResidencePlace').enable();
               break;
     };
@@ -417,38 +423,32 @@ onSubmitCreateStreet(type, streetName) {
     const token = currentUser.token;
 
     // stop here if form is invalid
-    if (this.newPersonal.invalid) {
-      return;
-    }
+    // if (this.newPersonal.invalid) {
+    //   return;
+    // }
     const newPersonal = JSON.stringify(this.newPersonal.value);
     console.log(newPersonal)
-    this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
-      console.log(res)
-      if (res.result === true) {
-        this.updateTable();
-        this.toggleSidebar();
-        this._toastrService.success(
-          "Đăng ký thuê bao cá nhân thành công ",
-          "Thành công",
-          {            
-            positionClass: "toast-top-center",
-            toastClass: "toast ngx-toastr",
-            closeButton: true,
-          }
-        );
-      }
-      if(res.result === false){
-        this._toastrService.error(
-          "Email này đã tồn tại",
-          "Thất Bại",
-          {  
-            positionClass: "toast-top-center",
-            toastClass: "toast ngx-toastr",
-            closeButton: true,
-          }
-        );
-      }
-    });
+    console.log(this.newPersonal.get("personalFirstName").value);
+    
+    // this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+    //   console.log(res)
+    //   if (res.result === true) {
+    //     this.updateTable();
+    //     this.toggleSidebar();
+    //     this._toastrService.success(
+    //       "Đăng ký thuê bao cá nhân thành công ",
+    //       "Thành công",
+    //       { toastClass: "toast ngx-toastr", closeButton: true }
+    //     );
+    //   }
+    //   if(res.result === false){
+    //     this._toastrService.error(
+    //       "Email này đã tồn tại",
+    //       "Thất Bại",
+    //       { toastClass: "toast ngx-toastr", closeButton: true }
+    //     );
+    //   }
+    // });
     // console.log(newPersonal);
     // const option = {
     //   headers: {

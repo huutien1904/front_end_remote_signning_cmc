@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
+import { CoreDirectivesModule } from "@core/directives/directives";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -28,6 +29,7 @@ import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
+import { AppRemoveSpace } from './remove-space.directive';
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule,
@@ -39,6 +41,7 @@ const materialModules1234 = [
     PersonalViewComponent,
     PersonalEditComponent,
     NewPersonalSidebarComponent,
+    AppRemoveSpace,
   ],
   imports: [
     CommonModule,
@@ -56,7 +59,9 @@ const materialModules1234 = [
     CorePipesModule,
     CoreSidebarModule,
     RouterModule,
-    ...materialModules1234,MatProgressBarModule
+    ...materialModules1234,
+    MatProgressBarModule,
+    CoreDirectivesModule
   ],
   exports: [
     PersonalListComponent,
