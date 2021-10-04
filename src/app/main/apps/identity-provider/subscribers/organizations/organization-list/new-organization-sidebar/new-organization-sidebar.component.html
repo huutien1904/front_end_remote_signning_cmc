@@ -173,8 +173,18 @@
           </div>
           <div class="col-sm-12">
             <span *ngIf="submitted && f.website.errors || f.website.errors && f.website?.touched"  class="invalid-form">
-              <small class="form-text text-danger" >
-                Không được bỏ trống </small>
+              <small 
+                class="form-text text-danger"
+                *ngIf="f.website.errors.required"
+                >
+                Không được bỏ trống 
+              </small>
+              <small
+                class="form-text text-danger"
+                *ngIf="f.website.errors.pattern"
+              >
+                webside chưa đúng !
+              </small>
             </span>
           </div>
         </div>

@@ -52,9 +52,11 @@ export class NewOrganizationSidebarComponent implements OnInit {
       parentOrganizationId: [null],
       subscriberCategoryId: [null, Validators.required],
       leaderName: ["", [Validators.required]],
-      website: ["", [Validators.required]],
+      website: ["", [Validators.required,Validators.pattern("^((?!-)[A-Za-z0-9-]"
+      + "{1,63}(?<!-)\\.)"
+      + "+[A-Za-z]{2,6}"),]],
       email: ["", [Validators.required, Validators.email]],
-      phoneNumber: [null, [Validators.required, Validators.minLength(10),Validators.pattern(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g),]],
+      phoneNumber: [null, [Validators.required, Validators.minLength(10),Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),]],
       street: [{ value: null, disabled: true }, Validators.required],
       country: [this.country[0].countryId, Validators.required],
       province: [null, Validators.required],
