@@ -430,25 +430,25 @@ onSubmitCreateStreet(type, streetName) {
     console.log(newPersonal)
     console.log(this.newPersonal.get("personalFirstName").value);
     
-    // this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
-    //   console.log(res)
-    //   if (res.result === true) {
-    //     this.updateTable();
-    //     this.toggleSidebar();
-    //     this._toastrService.success(
-    //       "Đăng ký thuê bao cá nhân thành công ",
-    //       "Thành công",
-    //       { toastClass: "toast ngx-toastr", closeButton: true }
-    //     );
-    //   }
-    //   if(res.result === false){
-    //     this._toastrService.error(
-    //       "Email này đã tồn tại",
-    //       "Thất Bại",
-    //       { toastClass: "toast ngx-toastr", closeButton: true }
-    //     );
-    //   }
-    // });
+    this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+      console.log(res)
+      if (res.result === true) {
+        this.updateTable();
+        this.toggleSidebar();
+        this._toastrService.success(
+          "Đăng ký thuê bao cá nhân thành công ",
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      }
+      if(res.result === false){
+        this._toastrService.error(
+          "Email này đã tồn tại",
+          "Thất Bại",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      }
+    });
     // console.log(newPersonal);
     // const option = {
     //   headers: {

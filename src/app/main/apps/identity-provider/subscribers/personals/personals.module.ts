@@ -29,7 +29,6 @@ import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
-import { AppRemoveSpace } from './remove-space.directive';
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule,
@@ -41,7 +40,6 @@ const materialModules1234 = [
     PersonalViewComponent,
     PersonalEditComponent,
     NewPersonalSidebarComponent,
-    AppRemoveSpace,
   ],
   imports: [
     CommonModule,
