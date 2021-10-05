@@ -15,11 +15,12 @@ import { Commune, District, Province, Street } from "app/main/models/Address";
 import { ToastrService } from "ngx-toastr";
 import {  Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
+import { Overlay } from '@angular/cdk/overlay';
+
 @Component({
   selector: "app-new-personal-sidebar",
   templateUrl: "./new-personal-sidebar.component.html",
   styleUrls: ["./new-personal-sidebar.component.scss"],
-  providers: [AddressService],
 })
 export class NewPersonalSidebarComponent implements OnInit {
   /** @Private */
@@ -28,6 +29,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   /** @public */
   coreConfig: any;
   public submitted = false;
+  public spinner = false;
   public display = "none"; //default Variable
   /**@form */
   public newPersonal: FormGroup;
@@ -79,7 +81,8 @@ export class NewPersonalSidebarComponent implements OnInit {
     private _toastrService: ToastrService,
     private dateAdapter: DateAdapter<any>,
     private _coreConfigService: CoreConfigService,
-    private _personalListService:PersonalListService
+    private _personalListService:PersonalListService,
+    private overlay: Overlay
   ) {
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.dateAdapter.setLocale(config.app.appLanguage); 
@@ -289,6 +292,7 @@ selectCommune(type:number){
                 this.newPersonal.get('streetResidencePlace').enable();
               })
               break;
+
     };
     case 1: {
       this.newPersonal.patchValue({
@@ -321,7 +325,6 @@ selectStreet(type:number){
       this.newPersonal.patchValue({
         homeNumberResidencePlace:null,
       })
-      console.log(this.newPersonal.get('homeNumberResidencePlace').enable())
       this.newPersonal.get('homeNumberResidencePlace').enable();
               break;
     };
@@ -408,23 +411,31 @@ onSubmitCreateStreet(type, streetName) {
   get f() {
     return this.newPersonal.controls;
   }
-
+  showGlobalOverlay() {
+    const overlayRef = this.overlay.create({
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      hasBackdrop: true
+    });
+    // overlayRef.attach(new ComponentPortal(ProgressContainerComponent))
+  }
   onSubmit() {
     this.submitted = true;
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const token = currentUser.token;
-
+    this.showGlobalOverlay();
     // stop here if form is invalid
-    // if (this.newPersonal.invalid) {
-    //   return;
-    // }
+    if (this.newPersonal.invalid) {
+      return;
+    }
     const newPersonal = JSON.stringify(this.newPersonal.value);
     console.log(newPersonal)
     console.log(this.newPersonal.get("personalFirstName").value);
     
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res)
+      
       if (res.result === true) {
+        
         this.updateTable();
         this.toggleSidebar();
         this._toastrService.success(
@@ -441,7 +452,7 @@ onSubmitCreateStreet(type, streetName) {
         );
       }
     });
-    // console.log(newPersonal);
+    console.log(newPersonal);
     // const option = {
     //   headers: {
     //     "Content-Type": "application/json",

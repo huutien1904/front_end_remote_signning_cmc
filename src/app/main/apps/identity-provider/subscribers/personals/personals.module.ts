@@ -11,6 +11,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from "@angular/material/core";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from "@angular/router";
@@ -29,6 +30,9 @@ import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
+import { LoadingService } from "app/main/loading/loading.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule,
@@ -59,7 +63,8 @@ const materialModules1234 = [
     RouterModule,
     ...materialModules1234,
     MatProgressBarModule,
-    CoreDirectivesModule
+    CoreDirectivesModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     PersonalListComponent,
@@ -78,6 +83,12 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    LoadingService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true
+      }
   ],
 })
 export class PersonalsModule {}

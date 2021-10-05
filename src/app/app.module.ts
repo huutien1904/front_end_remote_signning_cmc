@@ -3,6 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, Routes } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import "hammerjs";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -25,6 +26,9 @@ import {
 import { AuthGuard } from 'app/auth/helpers/auth.guards';
 
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
+import { SpinnerComponent } from './main/loading/spinner/spinner.component';
+import { LoadingService } from "./main/loading/loading.service";
+import { LoadingInterceptor } from "./main/loading/loading.interceptor";
 
 const appRoutes: Routes = [
   {
@@ -52,6 +56,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,13 +84,21 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
-    
+    MatProgressSpinnerModule
   ],
   providers: [
+    // LoadingService,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: LoadingInterceptor,
+    //   multi: true
+    // },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    
   ],
   entryComponents: [ ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule {}
