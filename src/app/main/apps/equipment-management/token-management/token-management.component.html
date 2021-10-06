@@ -3,16 +3,16 @@
         <h5 class="card-header">Bộ lọc tìm kiếm</h5>
         <div class="card-body">
             <form class="form form-vertical" [formGroup]="formListToken">
-                <div class="row mb-1">
+                <div class="row">
                     <div class="col-md-6">
                         <input name="tokenName" type="search" class="form-control" formControlName="tokenName" placeholder="Một phần nhãn token, HSM" />
                     </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-12">
-                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-secondary btn-lighten-2 btn-outline-secondary" (click)="moreOption = !moreOption" rippleEffect>
                             Tùy chọn
                         </button>
+                    </div>
+                    <div class="col-md-2">
                         <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListToken.valid">
                             Tìm kiếm
                         </button>

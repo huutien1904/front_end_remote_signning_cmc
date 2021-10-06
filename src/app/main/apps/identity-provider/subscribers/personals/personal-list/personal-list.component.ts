@@ -82,11 +82,11 @@ export class PersonalListComponent implements OnInit {
       inputPersonal: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
-      sizePage: [this.sizePage[0]],
+      sizePage: [this.sizePage[3]],
       gender: [],
       birthday: [],
     });
-    this.pagedData.size = this.sizePage[0];
+    this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }

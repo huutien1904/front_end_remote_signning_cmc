@@ -16,6 +16,7 @@ import { ToastrService } from "ngx-toastr";
 import {  Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 import { Overlay } from '@angular/cdk/overlay';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: "app-new-personal-sidebar",
@@ -82,7 +83,8 @@ export class NewPersonalSidebarComponent implements OnInit {
     private dateAdapter: DateAdapter<any>,
     private _coreConfigService: CoreConfigService,
     private _personalListService:PersonalListService,
-    private overlay: Overlay
+    private overlay: Overlay,
+    private _spinner: NgxSpinnerService
   ) {
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.dateAdapter.setLocale(config.app.appLanguage); 
@@ -428,20 +430,19 @@ onSubmitCreateStreet(type, streetName) {
       return;
     }
     const newPersonal = JSON.stringify(this.newPersonal.value);
-    console.log(newPersonal)
-    console.log(this.newPersonal.get("personalFirstName").value);
     
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res)
       
       if (res.result === true) {
-        
         this.updateTable();
         this.toggleSidebar();
         this._toastrService.success(
           "Đăng ký thuê bao cá nhân thành công ",
           "Thành công",
-          { toastClass: "toast ngx-toastr", closeButton: true }
+          { 
+            toastClass: "toast ngx-toastr",
+            positionClass: "toast-top-center", closeButton: true }
         );
       }
       if(res.result === false){

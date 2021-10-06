@@ -7,8 +7,8 @@
       <div class="card-body">
         <!-- [formGroup]="formListPersonal" -->
         <form class="form form-vertical" [formGroup]="formListOrganizations">
-          <div class="row mb-1">
-            <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-4">
               <!-- formControlName="inputPersonal" -->
               <label class="lable">Họ tên, email, địa chỉ, website</label>
               <input
@@ -34,7 +34,7 @@
                 </ng-select>
               </fieldset>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
               <label class="lable">Người đại diện</label>
               <input
                 name="findRepresentative"
@@ -44,21 +44,21 @@
                 placeholder="Người đại diện"
               />
             </div>
-          </div>
-          <div class="row mb-1">
-            <div class="col-12 mb-1">
+            <div class="col-md-2 mt-2">
               <button
-                class="btn btn-outline-secondary mr-1"
+                class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12 "
                 rippleEffect
                 (click)="moreOption = !moreOption"
               >
                 <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
                 <i
                   data-feather="plus"
-                  class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                  class="d-sm-none d-inline-block "
                 ></i
-                ><span class="d-none d-sm-inline-block">Thêm tùy chọn</span>
+                ><span class="d-none d-sm-inline-block">Tùy chọn</span>
               </button>
+            </div>
+            <div class="col-md-2 mt-2">
               <button
                 type="button"
                 rippleEffect
@@ -70,6 +70,7 @@
               </button>
             </div>
           </div>
+          
           <div class="row" [ngbCollapse]="moreOption">
             <div class="col-md-2">
               <label for="">Số dòng:</label>

@@ -4,15 +4,15 @@
         <div class="card-body">
             <form class="form form-vertical" [formGroup]="formListCertificateRequest">
                 <div class="row mb-1">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <input name="distinguishedName" type="search" class="form-control" formControlName="inputSearch" placeholder="Một phần tên doanh nghiệp" />
                     </div>
-                </div>
-                <div class="row mb-1">
-                    <div class="col-12">
-                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
-                            Thêm tùy chọn
-                          </button>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-secondary btn-outline-secondary col-12" (click)="moreOption = !moreOption" rippleEffect>
+                            Tùy chọn
+                        </button>
+                    </div>
+                    <div class="col-md-2">
                         <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListCertificateRequest.valid">
                             Tìm kiếm
                           </button>

@@ -44,7 +44,7 @@ export class OrganizationListService {
         },
         params:param
       };
-       return this._httpClient.get<ResponseData<PagedData<Organization>>>(`http://183.91.3.60:8080/csignremote-0.2/organization/list`,option);
+       return this._httpClient.get<ResponseData<PagedData<Organization>>>(`${environment.apiUrl}/organization/list`,option);
     }
     public submitForm(body): Observable<any> {
       return this._httpClient.post<any>(

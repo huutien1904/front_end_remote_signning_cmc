@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PersonalsModule } from './personals/personals.module';
 import { SubscribersRoutingModule } from './subscribers-routing.module';
-import { LoadingComponent } from './loading/loading.component';
-import { LoadingService } from './loading/loading.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoadingInterceptor } from './loading/loading.interceptor';
 
 
 /**
@@ -30,7 +27,6 @@ import { LoadingInterceptor } from './loading/loading.interceptor';
   declarations: [
     
   
-    LoadingComponent
   ],
   imports: [
     CommonModule, 
@@ -39,12 +35,7 @@ import { LoadingInterceptor } from './loading/loading.interceptor';
     // RouterModule.forChild(routes),
   ],
   providers: [
-    LoadingService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true
-    }
+    
   ]
   // exports:[PersonalsModule]
 })

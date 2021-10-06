@@ -7,21 +7,22 @@
                 <h5 class="card-header">Bộ lọc tìm kiếm</h5>
                 <div class="card-body">
                     <form class="form form-vertical" [formGroup]="formListSubscriberCertificate">
-                        <div class="row mb-1">
-                            <div class="col-md-6">
+                        <div class="row pb-1">
+                            <div class="col-md-4">
                                 <input name="distinguishedName" id="distinguishedName" type="search" class="form-control" formControlName="distinguishedName" placeholder="Một phần DN" />
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="moreOption = !moreOption" rippleEffect>
-                  tùy chọn
-                </button>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-secondary btn-outline-secondary col-12" (click)="moreOption = !moreOption" rippleEffect>
+                                  Tùy chọn
+                                </button>
+                            </div>
+                            <div class="col-md-2">
                                 <button type="button" rippleEffect class="btn btn-primary" (click)="onSubmit()" [disabled]="!formListSubscriberCertificate.valid">
-                  Tìm kiếm
-                </button>
+                                    Tìm kiếm
+                                </button>
                             </div>
                         </div>
+                        
                         <div class="row" [ngbCollapse]="moreOption">
                             <div class="col-md-1 mr-2">
                                 <label for="">Số dòng:</label>

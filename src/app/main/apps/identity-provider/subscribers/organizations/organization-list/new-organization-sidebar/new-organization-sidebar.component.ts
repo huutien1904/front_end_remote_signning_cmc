@@ -264,6 +264,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
     this._organizationListService
       .getListOrganizationCategory()
       .subscribe((res:any) => {
+        console.log(res)
         res.data.forEach(function (item, index) {
           if (item.subscriberCategoryName === "Cá nhân") {
             res.data.splice(index, 1);
