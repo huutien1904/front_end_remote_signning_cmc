@@ -26,25 +26,20 @@ const TRIM_VALUE_ACCESSOR: any = {
 export class InputTrimDirective extends DefaultValueAccessor {
   @HostListener("input", ["$event.target.value"])
   ngOnChange = (val: string) => {
-    console.log("log 29");
     this.onChange(val.trim());
-    console.log(val.trim());
   };
   @HostListener("blur", ["$event.target.value"])
   applyTrim(val: string) {
-    console.log("log 34");
     this.writeValue(val.trim());
   }
   writeValue(value: any): void {
     if (typeof value === "string") {
-      console.log("log 39");
+
       value = value.replace(/ {2,}/g, " ").trim();
     }
     super.writeValue(value);
-    console.log(value);
   }
   @HostListener("mouseenter") mouseover(eventData: Event) {
-    console.log("mouseenter");
     //this.renderer.setStyle(this.elementRef.nativeElement,'background-color','pink');
   }
 }

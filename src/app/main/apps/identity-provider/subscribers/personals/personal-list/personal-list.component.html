@@ -5,8 +5,8 @@
     <h5 class="card-header">Bộ lọc tìm kiếm</h5>
     <div class="card-body">
       <form class="form form-vertical" [formGroup]="formListPersonal">
-        <div class="row mb-1">
-          <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-4">
             <label class="lable">Họ tên, email, địa chỉ</label>
             <input
               name="distinguishedName"
@@ -31,7 +31,7 @@
             </fieldset>
           </div>
           <div class="col-md-2">
-            <label class="lable">Ngày sinh</label>
+            <label class="label">Ngày sinh</label>
             <div class="input-group input-group-merge">
               <div class="input-group-prepend">
                 <span class="input-group-text" (click)="birthday.open()"
@@ -48,21 +48,22 @@
             </div>
             <mat-datepicker #birthday></mat-datepicker>
           </div>
-        </div>
-        <div class="row mb-1">
-          <div class="col-12">
+          <div class="col-md-2 mt-2">
             <button
-              class="btn btn-outline-secondary mr-1"
+              class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
               rippleEffect
               (click)="moreOption = !moreOption"
             >
               <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
               <i
                 data-feather="plus"
-                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                class="d-sm-none d-inline-block "
               ></i
-              ><span class="d-none d-sm-inline-block">Thêm tùy chọn</span>
+              ><span class="d-none d-sm-inline-block">Tùy chọn</span>
             </button>
+          </div>
+          <div class="col-md-2 mt-2">
+            
             <button
               type="button"
               rippleEffect

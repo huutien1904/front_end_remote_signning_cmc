@@ -89,10 +89,10 @@ export class OrganizationListComponent implements OnInit {
   ngOnInit(): void {
     this.formListOrganizations = this.fb.group({
       inputOrganization: ["", Validators.required],
-      sizePage:[this.sizePage[0], Validators.required],
+      sizePage:[this.sizePage[3], Validators.required],
       typeOrganization:[null, Validators.required],
     })
-    this.pagedData.size = this.sizePage[0];
+    this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
     this.getListTypeOrganization();
@@ -112,6 +112,7 @@ export class OrganizationListComponent implements OnInit {
         this.rowsData = pagedData.data.data.map((organizationList) => ({
           ...organizationList,
         }));
+        console.log("check 115")
         console.log(this.rowsData)
         this.isLoading=false;
       });

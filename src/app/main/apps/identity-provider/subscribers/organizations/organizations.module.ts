@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CoreCommonModule } from "@core/common.module";
@@ -8,6 +9,8 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
+import { LoadingService } from "app/main/loading/loading.service";
 import { OrganizationEditComponent } from "./organization-edit/organization-edit.component";
 import { OrganizationEditService } from "./organization-edit/organization-edit.service";
 import { NewOrganizationSidebarComponent } from "./organization-list/new-organization-sidebar/new-organization-sidebar.component";
@@ -53,6 +56,12 @@ import { AppRemoveSpace } from './remove-space.directive';
     OrganizationViewService,
     OrganizationEditService,
     OrganizationListService,
+    // LoadingService,
+    //   {
+    //     provide: HTTP_INTERCEPTORS,
+    //     useClass: LoadingInterceptor,
+    //     multi: true
+    //   }
   ],
 })
 export class OrganizationsModule {}
