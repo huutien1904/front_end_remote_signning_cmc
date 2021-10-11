@@ -50,7 +50,7 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'key-pair-list',
-        title: 'Danh sách',
+        title: 'Cặp khóa',
         translate: 'MENU.TOKEN_MANAGEMENT.KEY_PAIR.LIST',
         type: 'item',
         icon: 'key',
@@ -85,7 +85,7 @@ export const menu: CoreMenu[] = [
         ]*/
       {
         id: 'certificate-request-list',
-        title: 'Tạo yêu cầu',
+        title: 'Yêu cầu chứng thực',
         type: 'item',
         translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.CREATE',
         icon: 'file-text',
@@ -111,7 +111,7 @@ export const menu: CoreMenu[] = [
         ]*/
       {
         id: 'subscriber-certificate-list',
-        title: 'Nhập chứng thư số',
+        title: 'Chứng thư số',
         translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.CREATE',
         icon: 'file-text',
         type: 'item',

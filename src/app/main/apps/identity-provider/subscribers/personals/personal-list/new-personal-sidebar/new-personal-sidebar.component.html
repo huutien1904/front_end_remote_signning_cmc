@@ -5,7 +5,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Họ</label>
+            <label class="lable">HỌ</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -59,7 +59,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Tên đệm</label>
+            <label class="lable">TÊN ĐỆM</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -109,7 +109,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Tên</label>
+            <label class="lable">TÊN</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -153,10 +153,10 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">CCCD/PASSPORT</label>
+            <label class="lable">SỐ CCCD/PASSPORT</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -216,7 +216,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Ngày sinh</label>
+            <label class="lable">NGÀY SINH</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -264,12 +264,48 @@
           </div>
         </div>
       </div>
+      <div class="col-12 col-md-2">
+        <div class="col-10">
+          <div class="form-group">
+            <div class="col-sm-12 col-form-label">
+              <label class="lable">GIỚI TÍNH</label>
+            </div>
+            <div class="col-sm-12">
+              <ng-select
+                [items]="gender"
+                [clearable]="false"
+                formControlName="gender"
+                placeholder="Giới tính"
+                [ngClass]="
+                  (f.gender.errors && f.gender?.touched) ||
+                  (submitted && f.gender?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              >
+                >
+              </ng-select>
+            </div>
+            <div class="col-sm-12">
+              <span
+                *ngIf="
+                  (f.gender.errors && f.gender?.touched) ||
+                  (submitted && f.gender?.errors?.required)
+                "
+                class="invalid-form"
+              >
+                <small class="form-text text-danger"> không được bỏ trống</small>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 col-md-4">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Email</label>
+            <label class="lable">THƯ ĐIỆN TỬ (EMAIL)</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -324,7 +360,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Số điện thoại</label>
+            <label class="lable">SỐ ĐIỆN THOẠI</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -345,7 +381,7 @@
                 formControlName="phoneNumber"
                 type="text"
                 class="form-control"
-                placeholder="PhoneNumber"
+                placeholder="Phone Number"
                 appRemoveSpace
                 [ngClass]="
                   (f.phoneNumber.errors && f.phoneNumber?.touched) ||
@@ -402,75 +438,41 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-2">
-        <div class="form-group">
-          <div class="col-sm-12 col-form-label">
-            <label class="lable">GIỚI TÍNH</label>
-          </div>
-          <div class="col-sm-12">
-            <ng-select
-              [items]="gender"
-              [clearable]="false"
-              formControlName="gender"
-              placeholder="Giới tính"
-              [ngClass]="
-                (f.gender.errors && f.gender?.touched) ||
-                (submitted && f.gender?.errors?.required)
-                  ? 'is-invalid'
-                  : ''
-              "
-            >
+      <div class="col-12 col-md-3">
+          <div class="form-group">
+            <div class="col-sm-12 col-form-label">
+              <label class="lable">TỔ CHỨC</label>
+            </div>
+            <div class="col-sm-12">
+              <ng-select
+                [ngClass]="
+                  (f.organizationId.errors && f.organizationId?.touched) ||
+                  (submitted && f.organizationId?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+                [items]="organizationId"
+                bindLabel="organizationName"
+                bindValue="organizationId"
+                [clearable]="true"
+                (change)="selectOrganization($event)"
+                placeholder="Tổ chức"
+                formControlName="organizationId"
               >
-            </ng-select>
+              </ng-select>
+            </div>
+            <div class="col-sm-12">
+              <span
+                *ngIf="
+                  (f.organizationId.errors && f.organizationId?.touched) ||
+                  (submitted && f.organizationId?.errors?.required)
+                "
+                class="invalid-form"
+              >
+                <small class="form-text text-danger"> không được bỏ trống</small>
+              </span>
+            </div>
           </div>
-          <div class="col-sm-12">
-            <span
-              *ngIf="
-                (f.gender.errors && f.gender?.touched) ||
-                (submitted && f.gender?.errors?.required)
-              "
-              class="invalid-form"
-            >
-              <small class="form-text text-danger"> không được bỏ trống</small>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-2">
-        <div class="form-group">
-          <div class="col-sm-12 col-form-label">
-            <label class="lable">Tổ chức</label>
-          </div>
-          <div class="col-sm-12">
-            <ng-select
-              [ngClass]="
-                (f.organizationId.errors && f.organizationId?.touched) ||
-                (submitted && f.organizationId?.errors?.required)
-                  ? 'is-invalid'
-                  : ''
-              "
-              [items]="organizationId"
-              bindLabel="organizationName"
-              bindValue="organizationId"
-              [clearable]="true"
-              (change)="selectOrganization($event)"
-              placeholder="Tổ chức"
-              formControlName="organizationId"
-            >
-            </ng-select>
-          </div>
-          <div class="col-sm-12">
-            <span
-              *ngIf="
-                (f.organizationId.errors && f.organizationId?.touched) ||
-                (submitted && f.organizationId?.errors?.required)
-              "
-              class="invalid-form"
-            >
-              <small class="form-text text-danger"> không được bỏ trống</small>
-            </span>
-          </div>
-        </div>
       </div>
     </div>
     <h3>Nơi sinh</h3>
@@ -478,7 +480,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Quốc gia</label>
+            <label class="lable">QUỐC GIA</label>
           </div>
           <div class="col-sm-12">
             <ng-select
@@ -513,7 +515,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Tỉnh/Thành phố </label>
+            <label class="lable">TỈNH/THÀNH PHỐ</label>
           </div>
           <div class="col-sm-12">
             <ng-select
@@ -551,7 +553,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Quận/Huyện</label>
+            <label class="lable">QUẬN/HUYỆN</label>
           </div>
           <div
             class="col-sm-12"
@@ -598,7 +600,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Xã/Phường</label>
+            <label class="lable">XÃ/PHƯỜNG</label>
           </div>
           <div
             class="col-sm-12"
@@ -645,7 +647,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Đường</label>
+            <label class="lable">ĐƯỜNG/PHỐ</label>
           </div>
           <div
             class="col-sm-12"
@@ -764,7 +766,7 @@
       <div class="col-12 col-md-4">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Địa chỉ cụ thể (Số nhà, ngõ, ngách,...)</label>
+            <label class="lable">ĐỊA CHỈ CỤ THỂ( SỐ NHÀ,NGÕ NGÁCH...)</label>
           </div>
           <div
             class="col-sm-12"
@@ -813,7 +815,7 @@
       <div class="col-12 col-md-2">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Quốc gia</label>
+            <label class="lable">QUỐC GIA</label>
           </div>
           <div class="col-sm-12">
             <ng-select
@@ -850,7 +852,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Tỉnh/Thành phố</label>
+            <label class="lable">TỈNH/THÀNH PHỐ</label>
           </div>
           <div class="col-sm-12">
             <ng-select
@@ -889,7 +891,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Quận/Huyện</label>
+            <label class="lable">QUẬN/HUYỆN</label>
           </div>
           <div
             class="col-sm-12"
@@ -937,7 +939,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Xã/Phường</label>
+            <label class="lable">XÃ/PHƯỜNG</label>
           </div>
           <div
             class="col-sm-12"
@@ -986,7 +988,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="lable">Đường</label>
+            <label class="lable">ĐƯỜNG/PHỐ</label>
           </div>
           <div
             class="col-sm-12"
@@ -1107,7 +1109,7 @@
       <div class="col-12 col-md-4">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>Địa chỉ cụ thể (Số nhà, ngõ, ngách,...)</label>
+            <label>ĐỊA CHỈ CỤ THỂ(SỐ NHÀ ,NGÕ ,NGÁCH ....)</label>
           </div>
           <div
             class="col-sm-12"
@@ -1156,7 +1158,7 @@
     <button
       type="submit"
       rippleEffect
-      class="btn btn-primary mr-1"
+      class="btn pl-3 pr-3 btn-primary mr-1"
       (click)="onSubmit()"
     >
       Tạo
