@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { takeUntil } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
+import { AuthRegisterV2Service } from './auth-register-v2.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -18,6 +20,8 @@ export class AuthRegisterV2Component implements OnInit {
   public passwordTextType: boolean;
   public registerForm: FormGroup;
   public submitted = false;
+  public roles = ['USER'];
+  public loading = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -27,26 +31,32 @@ export class AuthRegisterV2Component implements OnInit {
    *
    * @param {CoreConfigService} _coreConfigService
    * @param {FormBuilder} _formBuilder
+   * @param {AuthRegisterV2Service} _registerService
    */
-  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder) {
-    this._unsubscribeAll = new Subject();
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private _formBuilder: FormBuilder,
+    private _registerService: AuthRegisterV2Service,
+    private toastr: ToastrService
+  ) {
+      this._unsubscribeAll = new Subject();
 
-    // Configure the layout
-    this._coreConfigService.config = {
-      layout: {
-        navbar: {
-          hidden: true
-        },
-        menu: {
-          hidden: true
-        },
-        footer: {
-          hidden: true
-        },
-        customizer: false,
-        enableLocalStorage: false
-      }
-    };
+      // Configure the layout
+      this._coreConfigService.config = {
+        layout: {
+          navbar: {
+            hidden: true
+          },
+          menu: {
+            hidden: true
+          },
+          footer: {
+            hidden: true
+          },
+          customizer: false,
+          enableLocalStorage: false
+        }
+      };
   }
 
   // convenience getter for easy access to form fields
@@ -71,6 +81,34 @@ export class AuthRegisterV2Component implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    this.loading = true;
+    const request = JSON.stringify({
+      username: this.f.username.value,
+      password: this.f.password.value,
+      email: this.f.email.value,
+      role: this.f.role.value
+    })
+    this._registerService
+      .registerReq(request)
+      .pipe(first())
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          if ((response.result = true)) {
+            this.toastr.success('👋 Bạn đã đăng kí tài khoản mới', 'Thành công', {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true
+            });
+            this.submitted = false;
+            this.registerForm.reset();
+            this.loading = false;
+          }
+        },
+        error => {
+          this.loading = false;
+        }
+      )
   }
 
   // Lifecycle Hooks
@@ -80,11 +118,19 @@ export class AuthRegisterV2Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this.registerForm = this._formBuilder.group({
+    this.registerForm = this._formBuilder.group(
+      {
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+      password: ['', Validators.required],
+      confPassword: ['', Validators.required],
+      role: ['', Validators.required],
+      agree: [false, Validators.requiredTrue]
+     },
+     {
+      validator: MustMatch('password', 'confPassword')
+      }
+    );
 
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
@@ -100,4 +146,21 @@ export class AuthRegisterV2Component implements OnInit {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
+}
+
+export function MustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl?.errors && !matchingControl?.errors?.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return;
+    }
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
 }
