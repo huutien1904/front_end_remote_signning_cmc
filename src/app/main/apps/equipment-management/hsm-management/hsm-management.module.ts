@@ -21,6 +21,9 @@ import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { HsmManagementComponent } from './hsm-management.component';
 import { HsmlistService } from "./hsmlist.service";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
+import { LoadingService } from "app/main/loading/loading.service";
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -47,6 +50,7 @@ const materialModules1234 = [
   ],
   exports: [HsmManagementComponent],
   providers: [
+    
     HsmlistService,
     {
       provide: DateAdapter,
@@ -54,6 +58,13 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    LoadingService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true
+      }
+        
   ]
 })
 export class HsmManagementModule { }

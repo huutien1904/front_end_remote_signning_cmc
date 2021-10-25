@@ -12,10 +12,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 import { LoadingService, LoadingOverlayRef } from './loading.service';
-
+import { PersonalsModule } from '../apps/identity-provider/subscribers/personals/personals.module';
 @Injectable({
-    providedIn:'root'
-})
+  providedIn:'root'
+}
+)
 export class LoadingInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) {
   }
@@ -27,9 +28,10 @@ export class LoadingInterceptor implements HttpInterceptor {
     // More informations here:
     // https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
     if(req.method === "POST"){
+      console.log("loading success")
       Promise.resolve("true").then(() => loadingRef = this.loadingService.open());
     }
-    
+    // Promise.resolve("true").then(() => loadingRef = this.loadingService.open());
 
     return next.handle(req).do(event => {
       if (event instanceof HttpResponse && loadingRef) {

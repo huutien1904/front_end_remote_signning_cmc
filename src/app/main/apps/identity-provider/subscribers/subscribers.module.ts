@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PersonalsModule } from './personals/personals.module';
 import { SubscribersRoutingModule } from './subscribers-routing.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 /**
@@ -25,8 +24,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // ]
 @NgModule({
   declarations: [
-    
-  
   ],
   imports: [
     CommonModule, 
@@ -35,7 +32,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     // RouterModule.forChild(routes),
   ],
   providers: [
-    
   ]
   // exports:[PersonalsModule]
 })

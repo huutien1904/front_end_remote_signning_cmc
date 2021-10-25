@@ -5,7 +5,7 @@ import { NewTokenComponent } from './new-token.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {  HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
 import { LoadingService } from 'app/main/loading/loading.service';
 
@@ -24,6 +24,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ContentHeaderModule,
     NgSelectModule,
+    
   ],
   providers: [
     LoadingService,

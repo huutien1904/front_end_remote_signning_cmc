@@ -62,9 +62,9 @@ const materialModules1234 = [
     CoreSidebarModule,
     RouterModule,
     ...materialModules1234,
-    MatProgressBarModule,
-    CoreDirectivesModule,
-    MatProgressSpinnerModule
+    // MatProgressBarModule,
+    // CoreDirectivesModule,
+    // MatProgressSpinnerModule
   ],
   exports: [
     PersonalListComponent,

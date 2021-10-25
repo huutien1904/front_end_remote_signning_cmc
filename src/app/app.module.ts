@@ -58,10 +58,11 @@ const appRoutes: Routes = [
     AppComponent,
     SpinnerComponent,
   ],
+  entryComponents: [ SpinnerComponent ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    
     HttpClientInMemoryWebApiModule.forRoot(FakeDbService, {
       delay: 0,
       passThruUnknownUrl: true,
@@ -87,17 +88,16 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule
   ],
   providers: [
-    // LoadingService,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: LoadingInterceptor,
-    //   multi: true
-    // },
+    
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    
+    LoadingService,
+      // {
+      //   provide: HTTP_INTERCEPTORS,
+      //   useClass: LoadingInterceptor,
+      //   multi: true
+      // }
   ],
-  entryComponents: [ ],
   bootstrap: [AppComponent],
   
 })

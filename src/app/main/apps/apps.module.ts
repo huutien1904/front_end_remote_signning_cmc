@@ -4,6 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'app/auth/helpers';
 import { Role } from 'app/auth/models';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from '../loading/loading.interceptor';
+import { LoadingService } from '../loading/loading.service';
 
 
 
@@ -46,6 +49,8 @@ const routes:Routes = [
   imports: [
     CommonModule, RouterModule.forChild(routes),
   ],
-  providers : [],
+  providers : [
+    
+  ],
 })
 export class AppsModule { }
