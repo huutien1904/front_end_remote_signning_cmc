@@ -27,9 +27,10 @@ export class LoadingInterceptor implements HttpInterceptor {
     // More informations here:
     // https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
     if(req.method === "POST"){
+      
       Promise.resolve("true").then(() => loadingRef = this.loadingService.open());
     }
-    
+    console.log("loding success");
 
     return next.handle(req).do(event => {
       if (event instanceof HttpResponse && loadingRef) {

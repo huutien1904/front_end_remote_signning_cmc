@@ -29,6 +29,7 @@ import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
 import { LoadingService } from "./main/loading/loading.service";
 import { LoadingInterceptor } from "./main/loading/loading.interceptor";
+import { OverlayModule } from "@angular/cdk/overlay";
 
 const appRoutes: Routes = [
   {
@@ -75,7 +76,7 @@ const appRoutes: Routes = [
     //NgBootstrap
     NgbModule,
     ToastrModule.forRoot(),
-
+    
     // Core modules
     CoreModule.forRoot(coreConfig),
     CoreCommonModule,
@@ -84,15 +85,16 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
+    OverlayModule,
     MatProgressSpinnerModule
   ],
   providers: [
-    // LoadingService,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: LoadingInterceptor,
-    //   multi: true
-    // },
+    LoadingService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     

@@ -56,12 +56,12 @@ import { AppRemoveSpace } from './remove-space.directive';
     OrganizationViewService,
     OrganizationEditService,
     OrganizationListService,
-    // LoadingService,
-    //   {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: LoadingInterceptor,
-    //     multi: true
-    //   }
+    LoadingService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true
+      }
   ],
 })
 export class OrganizationsModule {}
