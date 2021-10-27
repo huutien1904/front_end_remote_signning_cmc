@@ -49,6 +49,9 @@ export class PersonalListComponent implements OnInit {
   public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
+  public parentData:any[]=[];
+  public openTable:boolean = true;
+  public openTableUpdate:boolean = false;
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
@@ -195,7 +198,6 @@ export class PersonalListComponent implements OnInit {
   onInputExcel(event:any){
     const targetFileExcel:DataTransfer = <DataTransfer>(event.target);
     const reader:FileReader = new FileReader();
-    console.log("check test")
     reader.onload = (e: any) => {
       /* read workbook */
       const bstr: string = e.target.result;
@@ -207,35 +209,45 @@ export class PersonalListComponent implements OnInit {
 
       /* save data */
       this.excelDataList = <EXCEL>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-      this.excelDataList.splice(0,1)
-      // convert to array object
-      var listPersonals:any = {
-        'personalFirstName':"",
-        'personalMiddleName':"",
-        'personalLastName':"",
-        'personalCountryId':"",
-        'birthday':"",
-        'gender':"",
-        'email':"",
-        'phoneNumber':"",
-        "organizationId":"organization_02004",
-        "streetBirthPlace":28,
-        "countryBirthPlace":237,
-        "provinceBirthPlace":11,
-        "districtBirthPlace":100,
-        "communeBirthPlace":3331,
-        "homeNumberBirthPlace":"12",
-        "countryResidencePlace":237,
-        "provinceResidencePlace":11,
-        "districtResidencePlace":99,
-        "communeResidencePlace":3274,
-        "streetResidencePlace":20,
-        "homeNumberResidencePlace":"12"
+      if(this.excelDataList.length > 1){
+        this.openTableUpdate = true;
+        this.openTable = false;
       }
-      var arrayList:any = [];
+      this.excelDataList.splice(0,1)
+      this.excelDataList.map((item, index) => {
+        if (item.length < 0) {
+          this.excelDataList.splice(index, 1);
+        }
+      });
+      // convert to array object
       console.log(this.excelDataList);
-      this.excelDataList.map((item) => {
-        item.forEach((value,index) =>{
+      
+      // var arrayList:any = [];
+      this.excelDataList.map((item,index) => {
+        var listPersonals:any = {
+          'personalFirstName':"",
+          'personalMiddleName':"",
+          'personalLastName':"",
+          'personalCountryId':"",
+          'birthday':"",
+          'gender':"",
+          'email':"",
+          'phoneNumber':"",
+          "organizationId":"organization_02004",
+          "streetBirthPlace":28,
+          "countryBirthPlace":237,
+          "provinceBirthPlace":11,
+          "districtBirthPlace":100,
+          "communeBirthPlace":3331,
+          "homeNumberBirthPlace":"12",
+          "countryResidencePlace":237,
+          "provinceResidencePlace":11,
+          "districtResidencePlace":99,
+          "communeResidencePlace":3274,
+          "streetResidencePlace":20,
+          "homeNumberResidencePlace":"12"
+        }
+        item.map((value,index) =>{
           if(index === 0)  listPersonals.personalFirstName = value
           if(index === 1)  listPersonals.personalMiddleName = value
           if(index === 2)  listPersonals.personalLastName = value
@@ -244,25 +256,28 @@ export class PersonalListComponent implements OnInit {
           if(index === 5)  listPersonals.gender = value
           if(index === 6)  listPersonals.email = value
           if(index === 7)  listPersonals.phoneNumber = value  
-        }) 
-        arrayList.push(listPersonals)
+        })
+        console.log(listPersonals);
+        this.parentData.push(listPersonals);
       })
-      console.log(arrayList);
-      arrayList.map((item,index) => {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const token = currentUser.token;
-        const newPersonal = JSON.stringify(item);
-        console.log(newPersonal);
-        this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
-          if(res.result === true){
-            this.updateTableOnAdd();
-          }
-        });
-      })
+      // console.log(arrayList);
+      // this.parentData = arrayList
+      // arrayList.map((item,index) => {
+      //   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      //   const token = currentUser.token;
+      //   const newPersonal = JSON.stringify(item);
+      //   console.log(newPersonal);
+        // this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+        //   if(res.result === true){
+        //     this.updateTableOnAdd();
+        //   }
+        // });
+      // })
     };
     reader.readAsBinaryString(targetFileExcel.files[0]);
     // this.openNewPersonalModal(modalBasic)
   }
+  
   /**
    * On destroy
    */

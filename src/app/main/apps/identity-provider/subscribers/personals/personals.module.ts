@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
@@ -11,28 +12,25 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from "@angular/material/core";
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
-import { CoreDirectivesModule } from "@core/directives/directives";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
+import { LoadingService } from "app/main/loading/loading.service";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { PersonalEditService } from "./personal-edit/personal-edit.service";
 import { NewPersonalSidebarComponent } from "./personal-list/new-personal-sidebar/new-personal-sidebar.component";
+import { PersonalListAddComponent } from './personal-list/personal-list-add/personal-list-add.component';
 import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
-import { LoadingService } from "app/main/loading/loading.service";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule,
@@ -44,6 +42,7 @@ const materialModules1234 = [
     PersonalViewComponent,
     PersonalEditComponent,
     NewPersonalSidebarComponent,
+    PersonalListAddComponent,
   ],
   imports: [
     CommonModule,
@@ -62,9 +61,7 @@ const materialModules1234 = [
     CoreSidebarModule,
     RouterModule,
     ...materialModules1234,
-    // MatProgressBarModule,
-    // CoreDirectivesModule,
-    // MatProgressSpinnerModule
+    
   ],
   exports: [
     PersonalListComponent,

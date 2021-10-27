@@ -29,6 +29,7 @@ import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
 import { LoadingService } from "./main/loading/loading.service";
 import { LoadingInterceptor } from "./main/loading/loading.interceptor";
+import { OverlayModule } from "@angular/cdk/overlay";
 
 const appRoutes: Routes = [
   {
@@ -62,7 +63,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    
+    OverlayModule,
     HttpClientInMemoryWebApiModule.forRoot(FakeDbService, {
       delay: 0,
       passThruUnknownUrl: true,
@@ -92,11 +93,11 @@ const appRoutes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     LoadingService,
-      // {
-      //   provide: HTTP_INTERCEPTORS,
-      //   useClass: LoadingInterceptor,
-      //   multi: true
-      // }
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true
+      }
   ],
   bootstrap: [AppComponent],
   

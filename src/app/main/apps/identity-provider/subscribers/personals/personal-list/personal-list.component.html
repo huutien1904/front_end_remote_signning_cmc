@@ -176,7 +176,6 @@
             <h2 class="modal-title" id="myModalLabel160">
               Đăng ký thuê bao cá nhân
             </h2>
-
             <button
               type="button"
               class="close btn-primary"
@@ -203,8 +202,11 @@
     </div>
 
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <!-- (addListToTable)=addListToTable() -->
+    <app-personal-list-add *ngIf = "openTableUpdate" [childData]="parentData"></app-personal-list-add>
     <ngx-datatable
       #tableRowDetails
+      *ngIf = "openTable"
       class="bootstrap core-bootstrap cursor"
       [rows]="rowsData"
       [selected]="chkBoxSelected"
