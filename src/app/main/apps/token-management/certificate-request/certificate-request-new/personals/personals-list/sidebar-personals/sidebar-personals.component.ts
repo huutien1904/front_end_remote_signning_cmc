@@ -6,7 +6,7 @@ import { Hsm, Token } from 'app/main/models/Equipment'
 import { map, takeUntil } from "rxjs/operators";
 import {  Subject } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
-import { HsmlistService } from 'app/main/apps/equipment-management/hsm-management/hsmlist.service';
+import { HsmListService } from 'app/main/apps/equipment-management/hsm-management/hsm-list.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -42,7 +42,7 @@ export class SidebarPersonalsComponent implements OnInit {
     private modal: NgbModal,
     private _personalsService: PersonalsService,
     private   toastr: ToastrService,
-    private _hsmService: HsmlistService,
+    private _hsmService: HsmListService,
     private sanitizer: DomSanitizer
   ) { }
 
