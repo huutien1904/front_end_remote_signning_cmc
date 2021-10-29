@@ -10,6 +10,7 @@ import { CoreCommonModule } from '@core/common.module';
 import { AuthLoginV2Component } from 'app/main/pages/authentication/auth-login-v2/auth-login-v2.component';
 import { AuthRegisterV2Component } from 'app/main/pages/authentication/auth-register-v2/auth-register-v2.component';
 import { AuthForgotPasswordV2Component } from 'app/main/pages/authentication/auth-forgot-password-v2/auth-forgot-password-v2.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -36,6 +37,6 @@ const routes: Routes = [
     AuthRegisterV2Component,
     AuthForgotPasswordV2Component
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), NgbModule, FormsModule, ReactiveFormsModule, CoreCommonModule]
+  imports: [CommonModule, RouterModule.forChild(routes), NgbModule, FormsModule, ReactiveFormsModule, CoreCommonModule, NgSelectModule]
 })
 export class AuthenticationModule {}
