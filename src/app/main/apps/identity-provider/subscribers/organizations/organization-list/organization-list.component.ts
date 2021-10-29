@@ -137,7 +137,7 @@ export class OrganizationListComponent implements OnInit {
     this.selected.push(...selected);
   }
   onUpdateTable(){
-    this.pagedData.size = this.sizePage[0];
+    this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }

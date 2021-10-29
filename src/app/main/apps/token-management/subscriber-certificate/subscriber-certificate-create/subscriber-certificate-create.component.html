@@ -8,18 +8,18 @@
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">   
           <div class="col-md-4">
-            <label class="lable">Họ tên, email, địa chỉ</label>
+            <label class="lable">HỌ TÊN ,THƯ ĐIỆN TỬ ,ĐỊA CHỈ</label>
             <input
               name="distinguishedName"
               id="distinguishedName"
               type="search"
               class="form-control"
               formControlName="inputPersonal"
-              placeholder="Nhập họ tên, email, địa chỉ"
+              placeholder="Nhập họ tên, thư điện tử, địa chỉ"
             />
           </div>
           <div class="col-md-2">
-            <label class="lable">Giới tính</label>
+            <label class="lable">GIỚI TÍNH</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="gender"
@@ -32,7 +32,7 @@
             </fieldset>
           </div>
           <div class="col-md-2">
-            <label class="lable">Ngày sinh</label>
+            <label class="lable">NGÀY SINH</label>
             <div class="input-group input-group-merge">
               <div class="input-group-prepend">
                 <span class="input-group-text" (click)="birthday.open()"
@@ -78,7 +78,7 @@
         
         <div class="row" [ngbCollapse]="moreOption">
           <div class="col-md-2">
-            <label for="">Số dòng:</label>
+            <label for="">SỐ DÒNG:</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="sizePage"
@@ -92,7 +92,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-3">
-                <label class="lable">Từ ngày:</label>
+                <label class="lable">TỪ NGÀY :</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
                     <span class="input-group-text" (click)="fromDate.open()"
@@ -112,7 +112,7 @@
                 <mat-datepicker #fromDate></mat-datepicker>
               </div>
               <div class="col-md-3">
-                <label class="lable">Đến ngày:</label>
+                <label class="lable">ĐẾN NGÀY :</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
                     <span class="input-group-text" (click)="toDate.open()"

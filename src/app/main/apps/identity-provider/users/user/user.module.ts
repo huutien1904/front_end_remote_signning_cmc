@@ -21,11 +21,12 @@ import { CoreSidebarModule } from "@core/components";
 import { NewUserSidebarComponent } from "./user-list/new-user-sidebar/new-user-sidebar.component";
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { HttpClientModule } from '@angular/common/http';
+// import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './data/in-memory-data.service';
 
 import { Role } from "app/auth/models";
 import { AuthGuard } from "app/auth/helpers/auth.guards";
+import { HttpClientModule } from "@angular/common/http";
 // import { BFormSelect } from 'bootstrap-vue'
 
 

@@ -1,21 +1,22 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
+  HttpEvent, HttpHandler,
+
+  HttpInterceptor, HttpRequest,
+
+
+
   HttpResponse
 } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/throw';
-import { LoadingService, LoadingOverlayRef } from './loading.service';
-
+import { LoadingOverlayRef, LoadingService } from './loading.service';
 @Injectable({
-    providedIn:'root'
-})
+  providedIn:'root'
+}
+)
 export class LoadingInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) {
   }
@@ -27,10 +28,10 @@ export class LoadingInterceptor implements HttpInterceptor {
     // More informations here:
     // https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
     if(req.method === "POST"){
-      
+      console.log("loading success")
       Promise.resolve("true").then(() => loadingRef = this.loadingService.open());
     }
-    console.log("loding success");
+    // Promise.resolve("true").then(() => loadingRef = this.loadingService.open());
 
     return next.handle(req).do(event => {
       if (event instanceof HttpResponse && loadingRef) {

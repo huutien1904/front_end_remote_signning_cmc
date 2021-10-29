@@ -19,7 +19,7 @@ import {
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 
 import { HsmManagementComponent } from './hsm-management.component';
-import { HsmlistService } from "./hsmlist.service";
+import { HsmListService } from "./hsm-list.service";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
@@ -50,7 +50,8 @@ const materialModules1234 = [
   ],
   exports: [HsmManagementComponent],
   providers: [
-    HsmlistService,
+    
+    HsmListService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -63,6 +64,7 @@ const materialModules1234 = [
         useClass: LoadingInterceptor,
         multi: true
       }
+        
   ]
 })
 export class HsmManagementModule { }

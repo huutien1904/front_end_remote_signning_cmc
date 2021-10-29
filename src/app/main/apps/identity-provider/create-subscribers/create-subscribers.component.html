@@ -38,7 +38,16 @@
       <div *ngSwitchCase="'Thuê bao tổ chức'">
         <div class="organization_form">
           <app-new-organization-sidebar ></app-new-organization-sidebar>
-
+        </div>
+      </div>
+      <div *ngSwitchCase="'Danh sách thuê bao cá nhân'">
+        <div class="">
+          <app-personal-list-create> </app-personal-list-create>
+        </div>
+      </div>
+      <div *ngSwitchCase="'Danh sách thuê bao tổ chức'">
+        <div class="">
+          <app-organization-list-create></app-organization-list-create>
         </div>
       </div>
     </section>

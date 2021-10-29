@@ -21,6 +21,10 @@ import { TokenlistService } from "./tokenlist.service";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
+import { LoadingService } from "app/main/loading/loading.service";
+
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -43,7 +47,8 @@ const materialModules1234 = [
       }
     }),
     CorePipesModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    
   ],
   exports: [TokenManagementComponent],
   providers: [
@@ -54,6 +59,12 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    // LoadingService,
+    //   {
+    //     provide: HTTP_INTERCEPTORS,
+    //     useClass: LoadingInterceptor,
+    //     multi: true
+    //   }
   ]
 })
 export class TokenManagementModule { }

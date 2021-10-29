@@ -16,6 +16,9 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { PersonalListService } from "./personal-list.service";
 import { ToastrService } from "ngx-toastr";
+import * as XLSX from 'xlsx';
+
+type EXCEL = any[][];
 
 @Component({
   selector: "app-personal-list",
@@ -26,7 +29,13 @@ import { ToastrService } from "ngx-toastr";
 export class PersonalListComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
+  // read file excel
+  excelDataList:EXCEL = [];
+  wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
+  fileName: string = 'SheetJS.xlsx';
+
   //Table of personal data
+  public totalItems:any = 0;
   public pagedData = new PagedData<Personal>();
   public rowsData = new Array<Personal>();
   public chkBoxSelected = [];
@@ -40,6 +49,9 @@ export class PersonalListComponent implements OnInit {
   public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
+  public parentData:any[]=[];
+  public openTable:boolean = true;
+  public openTableUpdate:boolean = false;
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
@@ -105,6 +117,8 @@ export class PersonalListComponent implements OnInit {
       .getListPersonals(this.pagedData)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
+        
+        this.totalItems = pagedData.data.totalItems
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((personalList) => ({
           ...personalList,
@@ -115,7 +129,8 @@ export class PersonalListComponent implements OnInit {
             " " +
             personalList.personalLastName,
         }));
-        console.log(this.rowsData)
+        console.log(this.rowsData);
+        console.log(this.totalItems);
         this.isLoading=false;
       });
   }
@@ -155,17 +170,23 @@ export class PersonalListComponent implements OnInit {
   onSubmit() {
     console.log(this.formListPersonal);
   }
-  updateTable(){
-    this.pagedData.size = this.sizePage[0];
+  updateTableOnDelete(){
+    this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
+  }
+  updateTableOnAdd(){
+    console.log(this.rowsData)
+    const finalTable:any = this.rowsData;
+    this.rowsData = finalTable[0];
+    console.log(finalTable[0]);
   }
   deletePersonal(personalID){
     this._personalListService
         .deletePersonal(personalID)
         .subscribe((res) =>{
           const result = res
-            this.updateTable();
+            this.updateTableOnDelete();
             this._toastrService.success(
               "Xóa Thuê Bao cá nhân thành công ",   
               "Thành công",
@@ -173,11 +194,95 @@ export class PersonalListComponent implements OnInit {
             )
         })
   }
+
+  onInputExcel(event:any){
+    const targetFileExcel:DataTransfer = <DataTransfer>(event.target);
+    const reader:FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      this.excelDataList = <EXCEL>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
+      if(this.excelDataList.length > 1){
+        this.openTableUpdate = true;
+        this.openTable = false;
+      }
+      this.excelDataList.splice(0,1)
+      this.excelDataList.map((item, index) => {
+        if (item.length < 0) {
+          this.excelDataList.splice(index, 1);
+        }
+      });
+      // convert to array object
+      console.log(this.excelDataList);
+      
+      // var arrayList:any = [];
+      this.excelDataList.map((item,index) => {
+        var listPersonals:any = {
+          'personalFirstName':"",
+          'personalMiddleName':"",
+          'personalLastName':"",
+          'personalCountryId':"",
+          'birthday':"",
+          'gender':"",
+          'email':"",
+          'phoneNumber':"",
+          "organizationId":"organization_02004",
+          "streetBirthPlace":28,
+          "countryBirthPlace":237,
+          "provinceBirthPlace":11,
+          "districtBirthPlace":100,
+          "communeBirthPlace":3331,
+          "homeNumberBirthPlace":"12",
+          "countryResidencePlace":237,
+          "provinceResidencePlace":11,
+          "districtResidencePlace":99,
+          "communeResidencePlace":3274,
+          "streetResidencePlace":20,
+          "homeNumberResidencePlace":"12"
+        }
+        item.map((value,index) =>{
+          if(index === 0)  listPersonals.personalFirstName = value
+          if(index === 1)  listPersonals.personalMiddleName = value
+          if(index === 2)  listPersonals.personalLastName = value
+          if(index === 3)  listPersonals.personalCountryId = value
+          if(index === 4)  listPersonals.birthday = value
+          if(index === 5)  listPersonals.gender = value
+          if(index === 6)  listPersonals.email = value
+          if(index === 7)  listPersonals.phoneNumber = value  
+        })
+        console.log(listPersonals);
+        this.parentData.push(listPersonals);
+      })
+      // console.log(arrayList);
+      // this.parentData = arrayList
+      // arrayList.map((item,index) => {
+      //   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      //   const token = currentUser.token;
+      //   const newPersonal = JSON.stringify(item);
+      //   console.log(newPersonal);
+        // this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+        //   if(res.result === true){
+        //     this.updateTableOnAdd();
+        //   }
+        // });
+      // })
+    };
+    reader.readAsBinaryString(targetFileExcel.files[0]);
+    // this.openNewPersonalModal(modalBasic)
+  }
+  
   /**
    * On destroy
    */
   ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
+    // Unsubscribe frof all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }

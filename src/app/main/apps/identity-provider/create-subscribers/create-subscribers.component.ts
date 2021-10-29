@@ -28,7 +28,16 @@ export class CreateSubscribersComponent implements OnInit {
       key:"Thuê bao tổ chức",
       name: "Thuê bao tổ chức"
     }, 
-    
+    {
+      id: 3,
+      key:"Danh sách thuê bao cá nhân",
+      name: "Danh sách thuê bao cá nhân"
+    }, 
+    {
+      id: 4,
+      key:"Danh sách thuê bao tổ chức",
+      name: "Danh sách thuê bao tổ chức"
+    }, 
   ]  
   changeSelect(e){
     

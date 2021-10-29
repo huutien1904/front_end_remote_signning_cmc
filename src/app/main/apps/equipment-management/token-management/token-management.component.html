@@ -1,5 +1,5 @@
 <section>
-    <div class="card">
+    <div class="card pb-1">
         <h5 class="card-header">Bộ lọc tìm kiếm</h5>
         <div class="card-body pb-1">
             <form class="form form-vertical" [formGroup]="formListToken">
@@ -10,7 +10,7 @@
                         </fieldset>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-secondary btn-lighten-2 btn-outline-secondary" (click)="moreOption = !moreOption" rippleEffect>
+                        <button type="button" class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12" (click)="moreOption = !moreOption" rippleEffect>
                             Tùy chọn
                         </button>
                     </div>
@@ -73,7 +73,7 @@
             </div>
         </div>
         <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-        <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap cursor" [rows]="rows" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force" [headerHeight]="50"
+        <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [rows]="rows" [selected]="chkBoxSelected" (select)="customCheckboxOnSelect($event)" (select)="onSelect($event)" [selectionType]="SelectionType.checkbox" [columnMode]="ColumnMode.force" [headerHeight]="50"
             rowHeight="auto" [scrollbarH]="true" [footerHeight]="50" [rowHeight]="50" [externalPaging]="true" [limit]="formListToken.controls.sizePage.value" [count]="totalPages" [offset]="page" [loadingIndicator]="isLoading" (page)="changePage($event)">
             <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" class="ml-1">
                 <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
@@ -91,7 +91,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="TT" [sortable]="false" [canAutoResize]="false" [width]="50">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    {{ page*formListToken.controls.sizePage.value + rowIndex + 1 }}
+                    {{ rowIndex + 1 }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Tên token" prop="tokenName" [width]="200"></ngx-datatable-column>

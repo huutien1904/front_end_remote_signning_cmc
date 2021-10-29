@@ -1,8 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'app/auth/helpers';
-import { Role } from 'app/auth/models';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 
@@ -46,6 +44,8 @@ const routes:Routes = [
   imports: [
     CommonModule, RouterModule.forChild(routes),
   ],
-  providers : [],
+  providers : [
+    
+  ],
 })
 export class AppsModule { }

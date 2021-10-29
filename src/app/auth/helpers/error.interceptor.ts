@@ -24,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     private _modal: NgbModal) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("HttpInterceptor is working");
+    
     return next.handle(request).pipe(
       catchError(err => {
         if ([0, 401, 403, 404, 500, 503].indexOf(err.status) !== -1) {

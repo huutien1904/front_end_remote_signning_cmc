@@ -437,6 +437,7 @@ onSubmitCreateStreet(type, streetName) {
     if (this.newPersonal.invalid) {
       return;
     }
+    console.log(this.newPersonal);
     const newPersonal = JSON.stringify(this.newPersonal.value);
     
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {

@@ -1,0 +1,251 @@
+<section id="table-personal-list">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Danh sách thuê bao tổ chức</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-50">
+            <input
+            #fileInput
+            type="file"
+            style="display: none"
+            (change) = "onInputExcel($event)"
+            
+            />
+            <button
+              class="btn btn-primary ml-1"
+              rippleEffect
+              (click)="fileInput.click()"
+            >
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i
+              ><span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+            </button>
+          
+          <a
+            csvLink
+            class="btn btn-outline-secondary float-right mr-1"
+            rippleEffect
+            >Xuất dữ liệu CSV</a
+          >
+        </div>
+      </div>
+  
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+      <ngx-datatable
+      [rows]="rowsData"
+      rowHeight="auto"
+      class="bootstrap core-bootstrap cursor"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [scrollbarH]="true"
+      [selected]="chkBoxSelected"
+      (select)="customCheckboxOnSelect($event)"
+      (select)="onSelect($event)"
+      [selectionType]="SelectionType.checkbox"        
+      [rowHeight]="50"
+      [externalPaging]="true"
+      [count]="pagedData.totalItems"
+      [offset]="pagedData.currentPage"
+      [loadingIndicator]="isLoading"
+    >
+      
+      <ngx-datatable-column
+    [width]="40"
+    [sortable]="false"
+    [canAutoResize]="false"
+    [draggable]="false"
+    [resizeable]="false"
+    class="ml-1"
+  >
+    <ng-template
+      ngx-datatable-header-template
+      let-value="value"
+      let-allRowsSelected="allRowsSelected"
+      let-selectFn="selectFn"
+    >
+      <div class="custom-control custom-control-primary custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [checked]="allRowsSelected"
+          (change)="selectFn(!allRowsSelected)"
+          id="headerCustomChkbxRef"
+        />
+        <label
+          class="custom-control-label"
+          for="headerCustomChkbxRef"
+        ></label>
+      </div>
+    </ng-template>
+    
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-isSelected="isSelected"
+      let-onCheckboxChangeFn="onCheckboxChangeFn"
+    >
+      <div class="custom-control custom-control-primary custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [checked]="isSelected"
+          (change)="onCheckboxChangeFn($event)"
+          id="rowCustomChkbxRef{{ rowIndex }}"
+        />
+        <label
+          class="custom-control-label"
+          for="rowCustomChkbxRef{{ rowIndex }}"
+        ></label>
+      </div>
+    </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column
+      name="TT"
+      [width]="10"
+      [canAutoResize]="false"
+      [sortable]="false"
+    >
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+        {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
+      </ng-template>
+    </ngx-datatable-column>
+      
+      <ngx-datatable-column
+      name="Mã tổ chức"
+      prop="organizationId"
+      [width]="50"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+      name="Tên tổ chức"
+      prop="organizationName"
+      [width]="50"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+      name="Loại tổ chức"
+      prop="subscriberCategory"
+      [width]="100"
+      >
+        <ng-template 
+          ngx-datatable-cell-template
+          let-value="value"
+          let-row="row"> 
+          <div>{{value.subscriberCategoryName}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+        
+      <ngx-datatable-column
+      name="Người đại diện"
+      prop="leaderName"
+      [width]="100"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+      name="THƯ ĐIỆN TỬ"
+      prop="email"
+      [width]="130"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column  name="Hành động" [width]="20" [sortable]="false">
+        <ng-template ngx-datatable-cell-template>
+          <div class="d-flex align-items-center">
+            <div ngbDropdown container="body">
+              <a
+                ngbDropdownToggle
+                href="javascript:void(0);"
+                class="hide-arrow"
+                id="dropdownBrowserState"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i
+                  data-feather="more-vertical"
+                  class="text-primary cursor-pointer mr-50"
+                ></i>
+              </a>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu-right"
+                aria-labelledby="dropdownBrowserState"
+              >
+                <a
+                  href="
+                "
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+                >
+                <a
+                  href="javascript:void(0)"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
+                >
+                <a
+                  href="javascript:void(0)"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                >
+              </div>
+            </div>
+
+            <i data-feather="edit" class="text-primary cursor-pointer"></i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-footer>
+              <ng-template
+                ngx-datatable-footer-template
+                let-rowCount="rowCount"
+                let-pageSize="pageSize"
+                let-selectedCount="selectedCount"
+                let-curPage="curPage"
+                let-offset="offset"
+                let-isVisible="isVisible"
+              >
+                <div class="page-count" *ngIf="!isLoading">
+                  <span *ngIf="chkBoxSelected">
+                    Đã chọn {{ chkBoxSelected.length }} /
+                  </span>
+                  {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+                </div>
+                <datatable-pager
+                  [pagerLeftArrowIcon]="'datatable-icon-left'"
+                  [pagerRightArrowIcon]="'datatable-icon-right'"
+                  [pagerPreviousIcon]="'datatable-icon-prev'"
+                  [pagerNextIcon]="'datatable-icon-skip'"
+                  [page]="curPage"
+                  [size]="pageSize"
+                  [count]="rowCount"
+                  (change)="table.onFooterPage($event)"
+                >
+                
+                </datatable-pager>
+              </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+    </div>
+    <!-- <div class="selected-column col-12 mt-1">
+      <hr class="w-100" />
+      <h5 class="mx-1">
+        Selections <small>({{ chkBoxSelected?.length }})</small>
+      </h5>
+      <ul>
+        <li *ngFor="let sel of chkBoxSelected">
+          {{ sel.email }}
+        </li>
+        <li *ngIf="!chkBoxSelected?.length">No Selections</li>
+      </ul>
+    </div> -->
+    
+  </section>

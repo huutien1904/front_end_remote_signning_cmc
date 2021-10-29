@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from './../../loading/loading.interceptor';
+import { LoadingService } from './../../loading/loading.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 const routes : Routes = [
@@ -36,9 +40,17 @@ const routes : Routes = [
 ]
 @NgModule({
   declarations: [
+  
   ],
   imports: [
-    CommonModule, RouterModule.forChild(routes)
-  ]
+    CommonModule, 
+    RouterModule.forChild(routes),
+    MatProgressSpinnerModule,
+    
+  ],
+  providers: [
+    
+  ],
+
 })
 export class EquipmentManagementModule { }

@@ -7,18 +7,18 @@
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">
           <div class="col-md-4">
-            <label class="lable">Họ tên, email, địa chỉ</label>
+            <label class="lable">HỌ TÊN,THƯ ĐIỆN TỬ,ĐỊA CHỈ</label>
             <input
               name="distinguishedName"
               id="distinguishedName"
               type="search"
               class="form-control"
               formControlName="inputPersonal"
-              placeholder="Nhập họ tên, email, địa chỉ"
+              placeholder="Nhập họ tên, thư điện tử, địa chỉ"
             />
           </div>
           <div class="col-md-2">
-            <label class="lable">Giới tính</label>
+            <label class="lable">GIỚI TÍNH</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="gender"
@@ -31,7 +31,7 @@
             </fieldset>
           </div>
           <div class="col-md-2">
-            <label class="label">Ngày sinh</label>
+            <label class="label">NGÀY SINH</label>
             <div class="input-group input-group-merge">
               <div class="input-group-prepend">
                 <span class="input-group-text" (click)="birthday.open()"
@@ -77,7 +77,7 @@
         </div>
         <div class="row" [ngbCollapse]="moreOption">
           <div class="col-md-2">
-            <label for="">Số dòng:</label>
+            <label for="">SỐ DÒNG:</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="sizePage"
@@ -91,7 +91,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-3">
-                <label class="lable">Từ ngày:</label>
+                <label class="lable">TỪ NGÀY:</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
                     <span class="input-group-text" (click)="fromDate.open()"
@@ -111,7 +111,7 @@
                 <mat-datepicker #fromDate></mat-datepicker>
               </div>
               <div class="col-md-3">
-                <label class="lable">Đến ngày:</label>
+                <label class="lable">ĐẾN NGÀY:</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
                     <span class="input-group-text" (click)="toDate.open()"
@@ -157,12 +157,25 @@
           ></i
           ><span class="d-none d-sm-inline-block">Thêm Mới</span>
         </button>
+        <input
+            #fileInput
+            type="file"
+            style="display: none"
+            (change) = "onInputExcel($event)" 
+            multiple="false"
+        />
+        <button
+            class="btn btn-primary ml-1"
+            rippleEffect
+            (click)="fileInput.click()"
+          >
+          <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+        </button>
         <ng-template #newPersonal let-modal>
           <div class="modal-header">
             <h2 class="modal-title" id="myModalLabel160">
               Đăng ký thuê bao cá nhân
             </h2>
-
             <button
               type="button"
               class="close btn-primary"
@@ -174,7 +187,7 @@
           </div>
           <div class="modal-body" tabindex="0" ngbAutofocus>
             <app-new-personal-sidebar
-              (onUpdate)="updateTable()"
+              (onUpdate)="updateTableOnAdd()"
               (onClose) = "closeModel()"
             ></app-new-personal-sidebar>
           </div>
@@ -189,8 +202,11 @@
     </div>
 
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <!-- (addListToTable)=addListToTable() -->
+    <app-personal-list-add *ngIf = "openTableUpdate" [childData]="parentData"></app-personal-list-add>
     <ngx-datatable
       #tableRowDetails
+      *ngIf = "openTable"
       class="bootstrap core-bootstrap cursor"
       [rows]="rowsData"
       [selected]="chkBoxSelected"
@@ -211,7 +227,7 @@
       (page)="setPage($event)"
     >
       <ngx-datatable-column
-        [width]="50"
+        [width]="40"
         [sortable]="false"
         [canAutoResize]="false"
         [draggable]="false"
@@ -263,7 +279,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column
         name="TT"
-        [width]="50"
+        [width]="20"
         [canAutoResize]="false"
         [sortable]="false"
       >
@@ -271,7 +287,7 @@
           {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
+      <ngx-datatable-column name="HỌ VÀ TÊN" prop="personalFirstName" [width]="210">
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
             <div
@@ -314,7 +330,7 @@
       <ngx-datatable-column
         name="CCCD/PASSPORT"
         prop="personalCountryId"
-        [width]="120"
+        [width]="130"
       ></ngx-datatable-column>
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
         <ng-template ngx-datatable-cell-template let-value="value">
@@ -324,14 +340,14 @@
       <ngx-datatable-column
         name="Giới tính"
         prop="gender"
-        [width]="100"
+        [width]="80"
       ></ngx-datatable-column>
       <ngx-datatable-column
-        name="Email"
+        name="THƯ ĐIỆN TỬ"
         prop="email"
         [width]="200"
       ></ngx-datatable-column>
-      <ngx-datatable-column name="Tổ chức" prop="organization" [width]="90">
+      <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
         <ng-template
           ngx-datatable-cell-template
           let-value="value"
@@ -347,7 +363,7 @@
           <div>Cá nhân</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column  name="Hành động" [width]="100" [sortable]="false" prop=""> 
+      <ngx-datatable-column  name="Hành động" [width]="70" [sortable]="false" prop=""> 
         <ng-template ngx-datatable-cell-template let-value="value">
           <div class="d-flex align-items-center" >
             <div ngbDropdown container="body">
@@ -441,5 +457,25 @@
       <li *ngIf="!chkBoxSelected?.length">No Selections</li>
     </ul>
   </div> -->
-  
+  <ng-template #modalBasic let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <h5>Check First Paragraph</h5>
+      <p>
+        Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie
+        carrot cake candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie
+        chocolate cake liquorice.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+        Accept
+      </button>
+    </div>
+  </ng-template>
 </section>

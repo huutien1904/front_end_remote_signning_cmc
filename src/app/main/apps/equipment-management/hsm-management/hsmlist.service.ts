@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, SkipSelf } from "@angular/core";
 import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
 import { Hsm, Token } from 'app/main/models/Equipment'
@@ -12,7 +12,7 @@ export class HsmlistService {
   public onUserListChanged: BehaviorSubject<any>;
   public page=0;
 
-  constructor(private _httpClient: HttpClient) { 
+  constructor( private _httpClient: HttpClient) { 
     this.onUserListChanged = new BehaviorSubject({});
   }
   private readonly currentUser = JSON.parse(

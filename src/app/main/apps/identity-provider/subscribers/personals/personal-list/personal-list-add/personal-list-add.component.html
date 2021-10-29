@@ -1,0 +1,250 @@
+<ngx-datatable
+  class="bootstrap core-bootstrap"
+  [headerHeight]="40"
+  [rowHeight]="58"
+  [limit]="10"
+  [columnMode]="ColumnMode.force"
+  [footerHeight]="50"
+  [rows]="childData"
+  [scrollbarH]="true"
+>
+  <ngx-datatable-column
+    [width]="40"
+    [sortable]="false"
+    [canAutoResize]="false"
+    [draggable]="false"
+    [resizeable]="false"
+    class="ml-1"
+  >
+    <ng-template
+      ngx-datatable-header-template
+      let-value="value"
+      let-allRowsSelected="allRowsSelected"
+      let-selectFn="selectFn"
+    >
+      <div class="custom-control custom-control-primary custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [checked]="allRowsSelected"
+          (change)="selectFn(!allRowsSelected)"
+          id="headerCustomChkbxRef"
+        />
+        <label class="custom-control-label" for="headerCustomChkbxRef"></label>
+      </div>
+    </ng-template>
+
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-isSelected="isSelected"
+      let-onCheckboxChangeFn="onCheckboxChangeFn"
+    >
+      <div class="custom-control custom-control-primary custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [checked]="isSelected"
+          (change)="onCheckboxChangeFn($event)"
+          id="rowCustomChkbxRef{{ rowIndex }}"
+        />
+        <label
+          class="custom-control-label"
+          for="rowCustomChkbxRef{{ rowIndex }}"
+        ></label>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    name="TT"
+    [width]="20"
+    [canAutoResize]="false"
+    [sortable]="false"
+  >
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+      {{ rowIndex + 1 }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column [width]="280" name="HỌ VÀ TÊN" prop="personalFirstName">
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-row="row"
+    >
+      <div
+        title="Double click to edit"
+        (dblclick)="editingName[rowIndex + '-personalFirstName'] = true"
+        *ngIf="!editingName[rowIndex + '-personalFirstName']"
+      >
+        <div class="d-flex align-items-center">
+          <div class="cell-line-height">
+            <p class="font-medium-1 line-height-1 mb-0">
+              {{ row.personalFirstName }} {{ row.personalMiddleName }}
+              {{ row.personalLastName }}
+            </p>
+            <span class="text-muted font-small-2"> {{ row.post }}</span>
+          </div>
+        </div>
+      </div>
+      <input
+        autofocus
+        class="form-control form-control-sm"
+        (blur)="inlineEditingUpdateName($event, 'personalFirstName', rowIndex)"
+        *ngIf="editingName[rowIndex + '-personalFirstName']"
+        type="text"
+        [value]="value"
+      />
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [width]="150"
+    name="CCCD/PASSPORT"
+    prop="personalCountryId"
+  >
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-row="row"
+    >
+      <div
+        title="Double click to edit"
+        (dblclick)="editingName[rowIndex + '-personalCountryId'] = true"
+        *ngIf="!editingName[rowIndex + '-personalCountryId']"
+      >
+        <div class="d-flex align-items-center">
+          <div class="cell-line-height">
+            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
+            <span class="text-muted font-small-2"> {{ row.post }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="100" name="NGÀY SINH" prop="birthday">
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-row="row"
+    >
+      <div
+        title="Double click to edit"
+        (dblclick)="editingName[rowIndex + '-birthday'] = true"
+        *ngIf="!editingName[rowIndex + '-birthday']"
+      >
+        <div class="d-flex align-items-center">
+          <div class="cell-line-height">
+            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
+            <span class="text-muted font-small-2"> {{ row.post }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="50" name="GIỚI TÍNH" prop="gender">
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-row="row"
+    >
+      <div
+        title="Double click to edit"
+        (dblclick)="editingName[rowIndex + '-gender'] = true"
+        *ngIf="!editingName[rowIndex + '-gender']"
+      >
+        <div class="d-flex align-items-center">
+          <div class="cell-line-height">
+            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
+            <span class="text-muted font-small-2"> {{ row.post }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [width]="200" name="THƯ ĐIỆN TỬ" prop="email">
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-row="row"
+    >
+      <div
+        title="Double click to edit"
+        (dblclick)="editingName[rowIndex + '-email'] = true"
+        *ngIf="!editingName[rowIndex + '-email']"
+      >
+        <div class="d-flex align-items-center">
+          <div class="cell-line-height">
+            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
+            <span class="text-muted font-small-2"> {{ row.post }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Hành động"
+    [width]="70"
+    [sortable]="false"
+    prop=""
+  >
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <div class="d-flex align-items-center">
+        <div ngbDropdown container="body">
+          <a
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            class="hide-arrow"
+            id="dropdownBrowserState"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i
+              data-feather="more-vertical"
+              class="text-primary cursor-pointer mr-50"
+            ></i>
+          </a>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu-right"
+            aria-labelledby="dropdownBrowserState"
+          >
+            <a href="#" ngbDropdownItem class="d-flex align-items-center"
+              ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+            >
+            <a
+              href="javascript:void(0)"
+              ngbDropdownItem
+              class="d-flex align-items-center"
+              ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
+            >
+            <a
+              href="javascript:void(0)"
+              (click)="deletePersonal(value.personalId)"
+              ngbDropdownItem
+              class="d-flex align-items-center"
+              ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+            >
+          </div>
+        </div>
+
+        <i data-feather="edit" class="text-primary cursor-pointer"></i>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary m-1" rippleEffect>
+    Cập Nhật
+  </button>
+</div>

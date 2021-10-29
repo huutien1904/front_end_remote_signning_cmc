@@ -6,8 +6,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CoreDirectivesModule } from '@core/directives/directives';
 import { LoadingService } from 'app/main/loading/loading.service';
+import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
 
 const routes: Routes = [
   {
@@ -21,11 +23,14 @@ const routes: Routes = [
     NewHsmComponent
   ],
   imports: [
+
     CommonModule,
     CoreCommonModule,
     RouterModule.forChild(routes),
     ContentHeaderModule,
-    NgSelectModule
+    NgSelectModule,
+    CoreDirectivesModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     LoadingService,
