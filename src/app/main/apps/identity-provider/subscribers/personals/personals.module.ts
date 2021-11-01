@@ -31,6 +31,7 @@ import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
+import { PersonalListEditComponent } from './personal-list/personal-list-edit/personal-list-edit.component';
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule,
@@ -43,6 +44,7 @@ const materialModules1234 = [
     PersonalEditComponent,
     NewPersonalSidebarComponent,
     PersonalListAddComponent,
+    PersonalListEditComponent,
   ],
   imports: [
     CommonModule,

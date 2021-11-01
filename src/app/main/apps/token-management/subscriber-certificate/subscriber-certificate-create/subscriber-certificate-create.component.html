@@ -166,12 +166,12 @@
       [loadingIndicator]="isLoading"
       (page)="setPage($event)"
     >
-      <ngx-datatable-column name="STT" [width]="40" [sortable]="false">
+      <ngx-datatable-column name="STT" [width]="10" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
           {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
+      <ngx-datatable-column name="Name" prop="personalFirstName" [width]="250">
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
             <div
@@ -214,7 +214,7 @@
       <ngx-datatable-column
         name="CCCD/PASSPORT"
         prop="personalCountryId"
-        [width]="120"
+        [width]="150"
       ></ngx-datatable-column>
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
         <ng-template ngx-datatable-cell-template let-value="value">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
@@ -180,6 +180,9 @@ export class PersonalListComponent implements OnInit {
     const finalTable:any = this.rowsData;
     this.rowsData = finalTable[0];
     console.log(finalTable[0]);
+    this.pagedData.size = this.sizePage[3];
+    this.pagedData.currentPage = 0;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
   deletePersonal(personalID){
     this._personalListService

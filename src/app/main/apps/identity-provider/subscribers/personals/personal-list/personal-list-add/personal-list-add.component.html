@@ -1,5 +1,5 @@
 <ngx-datatable
-  class="bootstrap core-bootstrap"
+  class="bootstrap core-bootstrap mt-1"
   [headerHeight]="40"
   [rowHeight]="58"
   [limit]="10"
@@ -7,6 +7,11 @@
   [footerHeight]="50"
   [rows]="childData"
   [scrollbarH]="true"
+  [selected]="chkBoxSelected"
+  (select)="customCheckboxOnSelect($event)"
+  (select)="onSelect($event)"
+  [selectionType]="SelectionType.checkbox"
+  
 >
   <ngx-datatable-column
     [width]="40"
@@ -75,7 +80,7 @@
     >
       <div
         title="Double click to edit"
-        (dblclick)="editingName[rowIndex + '-personalFirstName'] = true"
+        (dblclick)="editingName[rowIndex + '-personalFirstName' ] = true"
         *ngIf="!editingName[rowIndex + '-personalFirstName']"
       >
         <div class="d-flex align-items-center">
@@ -84,7 +89,6 @@
               {{ row.personalFirstName }} {{ row.personalMiddleName }}
               {{ row.personalLastName }}
             </p>
-            <span class="text-muted font-small-2"> {{ row.post }}</span>
           </div>
         </div>
       </div>
@@ -111,16 +115,23 @@
     >
       <div
         title="Double click to edit"
-        (dblclick)="editingName[rowIndex + '-personalCountryId'] = true"
-        *ngIf="!editingName[rowIndex + '-personalCountryId']"
+        (dblclick)="editingPersonalId[rowIndex + '-personalCountryId'] = true"
+        *ngIf="!editingPersonalId[rowIndex + '-personalCountryId']"
       >
         <div class="d-flex align-items-center">
           <div class="cell-line-height">
             <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-            <span class="text-muted font-small-2"> {{ row.post }}</span>
           </div>
         </div>
       </div>
+      <input
+        autofocus
+        class="form-control form-control-sm"
+        (blur)="inlineEditingUpdatePersonalId($event, 'personalCountryId', rowIndex)"
+        *ngIf="editingPersonalId[rowIndex + '-personalCountryId']"
+        type="text"
+        [value]="value"
+      />
     </ng-template>
   </ngx-datatable-column>
 
@@ -133,16 +144,24 @@
     >
       <div
         title="Double click to edit"
-        (dblclick)="editingName[rowIndex + '-birthday'] = true"
-        *ngIf="!editingName[rowIndex + '-birthday']"
+        (dblclick)="editingBirthday[rowIndex + '-birthday'] = true"
+        *ngIf="!editingBirthday[rowIndex + '-birthday']"
       >
         <div class="d-flex align-items-center">
           <div class="cell-line-height">
             <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-            <span class="text-muted font-small-2"> {{ row.post }}</span>
+            
           </div>
         </div>
       </div>
+      <input
+        autofocus
+        class="form-control form-control-sm"
+        (blur)="inlineEditingUpdateBirthday($event, 'birthday', rowIndex)"
+        *ngIf="editingBirthday[rowIndex + '-birthday']"
+        type="text"
+        [value]="value"
+      />
     </ng-template>
   </ngx-datatable-column>
 
@@ -155,9 +174,27 @@
     >
       <div
         title="Double click to edit"
-        (dblclick)="editingName[rowIndex + '-gender'] = true"
-        *ngIf="!editingName[rowIndex + '-gender']"
+        (dblclick)="editingGender[rowIndex + '-gender'] = true"
+        *ngIf="!editingGender[rowIndex + '-gender']"
       >
+        <!-- <div
+          class="badge badge-pill"
+          [ngClass]="{
+            'badge-light-primary': value == '1',
+            'badge-light-success': value == '2',
+            'badge-light-danger': value == '3',
+            'badge-light-warning': value == '4',
+            'badge-light-info': value == '5'
+          }"
+        >
+          {{
+              value == 1
+              ? 'Nam'
+              : value == 2
+              ? 'Nữ'
+              : 'Nam'
+          }}
+        </div> -->
         <div class="d-flex align-items-center">
           <div class="cell-line-height">
             <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
@@ -165,6 +202,16 @@
           </div>
         </div>
       </div>
+      <select
+        *ngIf="editingGender[rowIndex + '-gender']"
+        (blur)="editingGender[rowIndex + '-gender'] = false"
+        (change)="inlineEditingUpdateGender($event, 'gender', rowIndex)"
+        [value]="value"
+        class="form-control form-control-sm"
+      >
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+      </select>
     </ng-template>
   </ngx-datatable-column>
 
@@ -177,16 +224,23 @@
     >
       <div
         title="Double click to edit"
-        (dblclick)="editingName[rowIndex + '-email'] = true"
-        *ngIf="!editingName[rowIndex + '-email']"
+        (dblclick)="editingEmail[rowIndex + '-email'] = true"
+        *ngIf="!editingEmail[rowIndex + '-email']"
       >
         <div class="d-flex align-items-center">
           <div class="cell-line-height">
             <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-            <span class="text-muted font-small-2"> {{ row.post }}</span>
           </div>
         </div>
       </div>
+      <input
+        autofocus
+        class="form-control form-control-sm"
+        (blur)="inlineEditingUpdateEmail($event, 'email', rowIndex)"
+        *ngIf="editingEmail[rowIndex + '-email']"
+        type="text"
+        [value]="value"
+      />
     </ng-template>
   </ngx-datatable-column>
 
@@ -196,7 +250,7 @@
     [sortable]="false"
     prop=""
   >
-    <ng-template ngx-datatable-cell-template let-value="value">
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
       <div class="d-flex align-items-center">
         <div ngbDropdown container="body">
           <a
@@ -225,8 +279,159 @@
               href="javascript:void(0)"
               ngbDropdownItem
               class="d-flex align-items-center"
+              (click) = openModalEdit(editPersonal)
               ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
             >
+            <ng-template #editPersonal let-modal>
+              <div class="modal-header">
+                <h2 class="modal-title" id="myModalLabel160">
+                  Chỉnh sửa thuê bao cá nhân
+                  
+                  <!-- {{value.personalId}} -->
+                </h2>
+                <button
+                  type="button"
+                  class="close btn-primary"
+                  (click)="modal.close()"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" tabindex="0" ngbAutofocus>
+                <!-- <app-new-personal-sidebar
+                  (onUpdate)="updateTableOnAdd()"
+                  (onClose) = "closeModel()"
+                ></app-new-personal-sidebar> -->
+                <!-- <app-personal-list-edit ></app-personal-list-edit> -->
+                
+                <form class="form" [formGroup]="editPersonal">
+                  <div class="row">
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="first-name-column">HỌ</label>
+                        <input
+                          type="text"
+                          id="first-name-column"
+                          class="form-control"
+                          placeholder="First Name"
+                          name="fname-column"
+                          value="{{row.personalFirstName}}"
+                          formControlName="personalFirstName"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="last-name-column">TÊN ĐỆM</label>
+                        <input
+                          type="text"
+                          id="last-name-column"
+                          class="form-control"
+                          placeholder="Last Name"
+                          name="lname-column"
+                          value="{{row.personalMiddleName}}"
+                          formControlName="personalMiddleName"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="city-column">TÊN</label>
+                        <input 
+                          type="text" 
+                          id="city-column" 
+                          class="form-control" 
+                          placeholder="City" 
+                          name="city-column" 
+                          value="{{row.personalLastName}}"
+                          formControlName="personalLastName"
+                          />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="country-floating">SỐ CCCD/PASSPORT
+                        </label>
+                        <input
+                          type="text"
+                          id="country-floating"
+                          class="form-control"
+                          name="country-floating"
+                          placeholder="Country"
+                          value="{{row.personalCountryId}}"
+                          formControlName="personalCountryId"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="company-column">NGÀY SINH
+                        </label>
+                        <input
+                          type="text"
+                          id="company-column"
+                          class="form-control"
+                          name="company-column"
+                          placeholder="Company"
+                          value="{{row.birthday}}"
+                          formControlName="birthday"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="email-id-column">GIỚI TÍNH</label>
+                        <input
+                          type="email"
+                          id="email-id-column"
+                          class="form-control"
+                          name="email-id-column"
+                          placeholder="Email"
+                          value="{{row.gender}}"
+                          formControlName="gender"
+
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="company-column">THƯ ĐIỆN TỬ (EMAIL)
+                        </label>
+                        <input
+                          type="text"
+                          id="company-column"
+                          class="form-control"
+                          name="company-column"
+                          placeholder="Thư điện tử"
+                          value="{{row.email}}"
+                          formControlName="email"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="email-id-column">SỐ ĐIỆN THOẠI
+                        </label>
+                        <input
+                          type="email"
+                          id="email-id-column"
+                          class="form-control"
+                          name="email-id-column"
+                          placeholder="Số điện thoại"
+                          value="{{row.phoneNumber}}"
+                          formControlName="phoneNumber"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end mt-2">
+                      <button type="submit" rippleEffect class="btn btn-primary mr-1" (click)="onEdit()">Cập Nhật</button>
+                    </div>
+                  </div>
+                </form>
+  
+              </div>
+            </ng-template>
             <a
               href="javascript:void(0)"
               (click)="deletePersonal(value.personalId)"
@@ -241,10 +446,42 @@
       </div>
     </ng-template>
   </ngx-datatable-column>
+  <ngx-datatable-footer>
+    <ng-template
+      ngx-datatable-footer-template
+      let-rowCount="rowCount"
+      let-pageSize="pageSize"
+      let-selectedCount="selectedCount"
+      let-curPage="curPage"
+      let-offset="offset"
+      let-isVisible="isVisible"
+    >
+      <div class="page-count" *ngIf="!isLoading">
+        <span *ngIf="chkBoxSelected">
+          Đã chọn {{ chkBoxSelected.length }} /
+        </span>
+        {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+      </div>
+      <!-- <datatable-pager
+        [pagerLeftArrowIcon]="'datatable-icon-left'"
+        [pagerRightArrowIcon]="'datatable-icon-right'"
+        [pagerPreviousIcon]="'datatable-icon-prev'"
+        [pagerNextIcon]="'datatable-icon-skip'"
+        [page]="curPage"
+        [size]="pageSize"
+        [count]="rowCount"
+        [hidden]="!(rowCount / pageSize > 1)"
+        (change)="table.onFooterPage($event)"
+      >
+      </datatable-pager> -->
+    </ng-template>
+  </ngx-datatable-footer>
+
+  
 </ngx-datatable>
 
 <div class="d-flex justify-content-end">
-  <button type="button" class="btn btn-primary m-1" rippleEffect>
+  <button type="button" (click) = "updateTable()" class="btn btn-primary m-1" rippleEffect>
     Cập Nhật
   </button>
 </div>

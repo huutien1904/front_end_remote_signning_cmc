@@ -457,25 +457,4 @@
       <li *ngIf="!chkBoxSelected?.length">No Selections</li>
     </ul>
   </div> -->
-  <ng-template #modalBasic let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4>
-      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <h5>Check First Paragraph</h5>
-      <p>
-        Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie
-        carrot cake candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie
-        chocolate cake liquorice.
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
-        Accept
-      </button>
-    </div>
-  </ng-template>
 </section>
