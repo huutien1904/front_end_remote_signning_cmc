@@ -22,26 +22,16 @@ export class PersonalListAddComponent implements OnInit {
   public editingBirthday = {};
   public editingGender = {};
   public editingEmail = {};
-  public editPersonal: FormGroup;
+  public item: any;
 
   constructor(
     private _toastrService: ToastrService,
     private modalService: NgbModal,
-    private fb: FormBuilder,
     ) {}
 
   ngOnInit(): void {
     console.log(this.childData)
-    this.editPersonal = this.fb.group({
-      personalFirstName: [null],
-      personalMiddleName: [null],
-      personalLastName: [null],
-      personalCountryId: [null],
-      birthday: [null],
-      gender: [null],
-      email: [null],
-      phoneNumber: [null],
-    });
+    
   }
   customCheckboxOnSelect({ selected }) {
     this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
@@ -101,14 +91,13 @@ export class PersonalListAddComponent implements OnInit {
   //   event.returnValue = false; // stay on same page
   // }
 
-  openModalEdit(modal) {
-    console.log("tien");
+  openModalEdit(modal,item) {
+    this.item = item
+    console.log(item);
      this.modalService.open(modal, {
       centered: true,
       size: "xl",
     });
   }
-  onEdit(){
-    console.log(this.editPersonal.value)
-  }
+  
 }

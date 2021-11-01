@@ -24,6 +24,9 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { CoreSidebarModule } from "@core/components";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
+import { LoadingService } from "app/main/loading/loading.service";
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -58,6 +61,14 @@ const materialModules1234 = [
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },],
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    LoadingService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true
+      }
+  ],
+    
 })
 export class PersonalsModule { }
