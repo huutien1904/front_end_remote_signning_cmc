@@ -24,7 +24,7 @@ import { SubscriberCertificateListService } from "../subscriber-certificate-list
   templateUrl: "./subscriber-certificate-create.component.html",
   styleUrls: ["./subscriber-certificate-create.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  providers: [KeypairService, PersonalListService],
+  // providers: [KeypairService, PersonalListService],
 })
 export class SubscriberCertificateCreateComponent implements OnInit {
   public contentHeader: object;
