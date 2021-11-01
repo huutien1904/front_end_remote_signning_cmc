@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HsmlistService } from "./hsmlist.service";
+import { HsmListService } from "./hsm-list.service";
 import { Subject } from 'rxjs';
 import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
@@ -36,7 +36,7 @@ export class HsmManagementComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _hsmService: HsmlistService,
+    private _hsmService: HsmListService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
     private router: Router,

@@ -1,22 +1,21 @@
-import { PersonalListService } from './../personal-list.service';
+import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from "@angular/common/http";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
-  Validators,
-  FormControl
+  Validators
 } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddressService } from "app/main/apps/identity-provider/address.service";
 import { Commune, District, Province, Street } from "app/main/models/Address";
-import { ToastrService } from "ngx-toastr";
-import {  Subject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
-import { Overlay } from '@angular/cdk/overlay';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from "ngx-toastr";
+import { Subject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
+import { PersonalListService } from './../personal-list.service';
 
 @Component({
   selector: "app-new-personal-sidebar",

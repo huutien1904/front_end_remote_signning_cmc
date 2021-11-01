@@ -77,7 +77,7 @@ const appRoutes: Routes = [
     //NgBootstrap
     NgbModule,
     ToastrModule.forRoot(),
-
+    
     // Core modules
     CoreModule.forRoot(coreConfig),
     CoreCommonModule,
@@ -86,6 +86,7 @@ const appRoutes: Routes = [
 
     // App modules
     LayoutModule,
+    OverlayModule,
     MatProgressSpinnerModule
   ],
   providers: [

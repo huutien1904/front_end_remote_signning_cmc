@@ -1,32 +1,35 @@
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { NgSelectModule } from "@ng-select/ng-select";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgbCollapseModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { SubscriberCertificateListComponent } from "./subscriber-certificate-list/subscriber-certificate-list.component";
-import { SubscriberCertificateViewComponent } from "./subscriber-certificate-view/subscriber-certificate-view.component";
-import { SubscriberCertificateEditComponent } from "./subscriber-certificate-edit/subscriber-certificate-edit.component";
-import { CoreCommonModule } from "@core/common.module";
-import { SubscriberCertificateCreateComponent } from "./subscriber-certificate-create/subscriber-certificate-create.component";
-import { PersonalsModule } from "../../identity-provider/subscribers/personals/personals.module";
-import { FileUploadModule } from 'ng2-file-upload';
-
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter
+} from "@angular/material-moment-adapter";
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE
 } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import {
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from "@angular/material-moment-adapter";
-import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
-import { PersonalsService } from "../certificate-request/certificate-request-new/personals/personals-list/personals.service";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { CoreCommonModule } from "@core/common.module";
+import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
+import { NgbCollapseModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
+import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
+import { LoadingService } from "app/main/loading/loading.service";
+import { FileUploadModule } from 'ng2-file-upload';
+import { PersonalListService } from "../../identity-provider/subscribers/personals/personal-list/personal-list.service";
+import { KeypairService } from "../keypair/keypair.service";
+import { SubscriberCertificateCreateComponent } from "./subscriber-certificate-create/subscriber-certificate-create.component";
+import { SubscriberCertificateEditComponent } from "./subscriber-certificate-edit/subscriber-certificate-edit.component";
+import { SubscriberCertificateListComponent } from "./subscriber-certificate-list/subscriber-certificate-list.component";
+import { SubscriberCertificateListService } from "./subscriber-certificate-list/subscriber-certificate-list.service";
+import { SubscriberCertificateViewComponent } from "./subscriber-certificate-view/subscriber-certificate-view.component";
+
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 @NgModule({
   declarations: [
@@ -53,7 +56,8 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     ...materialModules1234,
     MatProgressBarModule,
     FileUploadModule,
-    ContentHeaderModule
+    ContentHeaderModule,
+    
   ],
   exports: [
     SubscriberCertificateCreateComponent,
@@ -62,12 +66,21 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     SubscriberCertificateEditComponent,
   ],
   providers: [
+    SubscriberCertificateListService,
+    PersonalListService,
+    KeypairService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    LoadingService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true
+      },
   ],
 })
 export class SubscriberCertificateModule {}

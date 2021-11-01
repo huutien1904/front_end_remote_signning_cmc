@@ -27,6 +27,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
+import { PersonalsService } from "./personals.service";
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -56,6 +57,7 @@ const materialModules1234 = [
   exports: [PersonalsComponent],
   providers: [
     PersonalListService,
+    PersonalsService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

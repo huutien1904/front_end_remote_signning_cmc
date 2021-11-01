@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
+  HttpEvent, HttpHandler,
+
+  HttpInterceptor, HttpRequest,
+
+
+
   HttpResponse
 } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/throw';
-import { LoadingService, LoadingOverlayRef } from './loading.service';
-import { PersonalsModule } from '../apps/identity-provider/subscribers/personals/personals.module';
+import { LoadingOverlayRef, LoadingService } from './loading.service';
 @Injectable({
   providedIn:'root'
 }

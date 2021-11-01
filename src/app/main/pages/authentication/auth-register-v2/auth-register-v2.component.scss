@@ -1,2 +1,7 @@
 @import '@core/scss/base/bootstrap-extended/include'; // Bootstrap includes
 @import '@core/scss/base/pages/page-auth.scss';
+@import "@core/scss/angular/libs/select.component.scss";
+@import "@core/scss/base/plugins/forms/form-validation.scss";
+.ng-select.is-invalid .ng-select-container {
+    border-color: #ea5455;
+}

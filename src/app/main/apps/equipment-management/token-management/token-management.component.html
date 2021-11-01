@@ -1,11 +1,13 @@
 <section>
     <div class="card pb-1">
         <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-        <div class="card-body">
+        <div class="card-body pb-1">
             <form class="form form-vertical" [formGroup]="formListToken">
                 <div class="row">
-                    <div class="col-md-6">
-                        <input name="tokenName" type="search" class="form-control" formControlName="tokenName" placeholder="Một phần nhãn token, HSM" />
+                    <div class="col-md-4">
+                        <fieldset class="form-group">
+                            <input name="tokenName" type="search" class="form-control" formControlName="tokenName" placeholder="Một phần nhãn token, HSM" />
+                        </fieldset>
                     </div>
                     <div class="col-md-2">
                         <button type="button" class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12" (click)="moreOption = !moreOption" rippleEffect>

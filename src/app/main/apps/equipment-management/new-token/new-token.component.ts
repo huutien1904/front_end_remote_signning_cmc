@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TokenlistService } from '../token-management/tokenlist.service';
 import { Hsm } from 'app/main/models/Equipment'
-import { HsmlistService } from '../hsm-management/hsmlist.service';
+import { HsmListService } from '../hsm-management/hsm-list.service';
 import {  Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 @Component({
@@ -30,7 +30,7 @@ export class NewTokenComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private _tokenService: TokenlistService,
-    private _hsmService: HsmlistService,
+    private _hsmService: HsmListService,
     private   toastr: ToastrService
   ) { }
 
