@@ -379,8 +379,7 @@ export class DashboardComponent implements OnInit {
       plotOptions: {
         bar: {
           horizontal: true,
-          barHeight: '30%',
-          endingShape: 'rounded'
+          barHeight: '30%'
         }
       },
       grid: {
