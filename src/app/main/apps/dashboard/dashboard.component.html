@@ -1,4 +1,292 @@
-<p>
-    Bảng điều khiển, hiển thị các thông số như số người dùng, số chứng thư số, thiết bị, lưu lượng truy cập!
-</p>
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <!--Số liệu-->
+        <div class="row">
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Tổng số thuê bao</p>
+                    <h2 class="font-weight-bolder mb-0">385</h2>
+                  </div>
+                  <div class="avatar bg-light-primary p-50 m-0">
+                    <div class="avatar-content">
+                      <span class="feather icon-users font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Chứng thư số</p>
+                    <h2 class="font-weight-bolder mb-0">412</h2>
+                  </div>
+                  <div class="avatar bg-light-success p-50 m-0">
+                    <div class="avatar-content">
+                      <span class="feather icon-award font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Cặp khóa</p>
+                    <h2 class="font-weight-bolder mb-0">225</h2>
+                  </div>
+                  <div class="avatar bg-light-info p-50 m-0">
+                    <div class="avatar-content">
+                        <span class="feather icon-lock font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Số lượng yêu cầu kí số</p>
+                    <h2 class="font-weight-bolder mb-0">1600</h2>
+                  </div>
+                  <div class="avatar bg-light-warning p-50 m-0">
+                    <div class="avatar-content">
+                        <span class="feather icon-edit-2 font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!--Biểu đồ-->
+        <section id="apex-line-charts">
+          <div class="row">
+            <!--Tổng số thuê bao-->
+            <div class="col-6">
+              <div class="card">
+                <div
+                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+                >
+                  <div>
+                    <h4 class="card-title mb-25">Tổng số thuê bao</h4>
+                    <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
+                  </div>
+                  <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
+                    <!--<h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
+                    <div class="badge badge-light-secondary">
+                      <i class="text-danger font-small-3" data-feather="arrow-down"></i>
+                      <span class="align-middle">20%</span>
+                    </div>-->
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="line-chart" #apexLineChartRef>
+                    <apx-chart
+                      [series]="subcriberChart1.series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : subcriberChart1.chart.width,
+                        type: 'line',
+                        zoom: {
+                          enabled: false
+                        },
+                        toolbar: {
+                          show: false
+                        }
+                      }"
+                      [xaxis]="subcriberChart1.xaxis"
+                      [stroke]="subcriberChart1.stroke"
+                      [tooltip]="subcriberChart1.tooltip"
+                      [colors]="subcriberChart1.colors"
+                      [dataLabels]="subcriberChart1.dataLabels"
+                      [grid]="subcriberChart1.grid"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Cơ cấu thuê bao-->
+            <div class="col-xl-6 col-12">
+              <div class="card">
+                <div class="card-header flex-column align-items-start">
+                  <h4 class="card-title mb-75">Cơ cấu thuê bao cá nhân và thuê bao tổ chức</h4>
+                  <span class="card-subtitle text-muted">Số liệu tháng 11/2021</span>
+                </div>
+                <div class="card-body">
+                  <div id="donut-chart" #apexDonutChartRef>
+                    <apx-chart
+                      [series]="subcriberChart2.series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : subcriberChart2.chart.width,
+                        type: 'donut'
+                      }"
+                      [labels]="subcriberChart2.labels"
+                      [plotOptions]="subcriberChart2.plotOptions"
+                      [responsive]="subcriberChart2.responsive"
+                      [colors]="subcriberChart2.colors"
+                      [legend]="subcriberChart2.legend"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Chứng thư số-->
+            <div class="col-6">
+              <div class="card">
+                <div
+                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+                >
+                  <div>
+                    <h4 class="card-title mb-25">Chứng thư số</h4>
+                    <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
+                  </div>
+                  <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
+                    <!--<h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
+                    <div class="badge badge-light-secondary">
+                      <i class="text-danger font-small-3" data-feather="arrow-down"></i>
+                      <span class="align-middle">20%</span>
+                    </div>-->
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="line-chart" #apexLineChartRef>
+                    <apx-chart
+                      [series]="subscriberCertificateChart.series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : subscriberCertificateChart.chart.width,
+                        type: 'line',
+                        zoom: {
+                          enabled: false
+                        },
+                        toolbar: {
+                          show: false
+                        }
+                      }"
+                      [xaxis]="subscriberCertificateChart.xaxis"
+                      [stroke]="subscriberCertificateChart.stroke"
+                      [tooltip]="subscriberCertificateChart.tooltip"
+                      [colors]="subscriberCertificateChart.colors"
+                      [dataLabels]="subscriberCertificateChart.dataLabels"
+                      [grid]="subscriberCertificateChart.grid"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Tổng số cặp khóa-->
+            <div class="col-6">
+              <div class="card">
+                <div
+                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+                >
+                  <div>
+                    <h4 class="card-title mb-25">Tổng số cặp khóa</h4>
+                    <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
+                  </div>
+                  <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
+                    <!--<h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
+                    <div class="badge badge-light-secondary">
+                      <i class="text-danger font-small-3" data-feather="arrow-down"></i>
+                      <span class="align-middle">20%</span>
+                    </div>-->
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="line-chart" #apexLineChartRef>
+                    <apx-chart
+                      [series]="keypairChart.series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : keypairChart.chart.width,
+                        type: 'line',
+                        zoom: {
+                          enabled: false
+                        },
+                        toolbar: {
+                          show: false
+                        }
+                      }"
+                      [xaxis]="keypairChart.xaxis"
+                      [stroke]="keypairChart.stroke"
+                      [tooltip]="keypairChart.tooltip"
+                      [colors]="keypairChart.colors"
+                      [dataLabels]="keypairChart.dataLabels"
+                      [grid]="keypairChart.grid"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Yêu cầu kí số theo tháng-->
+            <div class="col-xl-6 col-12">
+              <div class="card">
+                <div
+                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+                >
+                  <div>
+                    <h4 class="card-title font-weight-bolder">Yêu cầu kí số theo từng tháng</h4>
+                    <p class="card-subtitle text-muted mb-25">Dữ liệu 6 tháng gần nhất</p>
+                  </div>
+                  <div class="d-flex align-items-center mt-md-0 mt-1">
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="bar-chart" #apexBarChartRef>
+                    <apx-chart
+                      [series]="requestChart1 .series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexBarChartRef.offsetWidth : requestChart1 .chart.width,
+                        type: 'bar',
+                        toolbar: {
+                          show: false
+                        }
+                      }"
+                      [dataLabels]="requestChart1 .dataLabels"
+                      [plotOptions]="requestChart1 .plotOptions"
+                      [xaxis]="requestChart1 .xaxis"
+                      [colors]="requestChart1 .colors"
+                      [grid]="requestChart1 .grid"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Cơ cấu thuê bao-->
+            <div class="col-xl-6 col-12">
+              <div class="card">
+                <div class="card-header flex-column align-items-start">
+                  <h4 class="card-title mb-75">Trạng thái</h4>
+                  <span class="card-subtitle text-muted"></span>
+                </div>
+                <div class="card-body">
+                  <div id="donut-chart" #apexDonutChartRef>
+                    <apx-chart
+                      [series]="requestChart2.series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : requestChart2.chart.width,
+                        type: 'donut'
+                      }"
+                      [labels]="requestChart2.labels"
+                      [plotOptions]="requestChart2.plotOptions"
+                      [responsive]="requestChart2.responsive"
+                      [colors]="requestChart2.colors"
+                      [legend]="requestChart2.legend"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    </div>
+</div>
 

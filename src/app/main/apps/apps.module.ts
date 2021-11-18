@@ -19,7 +19,8 @@ const routes:Routes = [
   },
   {
     path: 'dashboard',
-    component : DashboardComponent,
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    //component : DashboardComponent,
     // canActivate : [AuthGuard], 
     // resolve: {
     //   uls: DashboardService
@@ -42,7 +43,7 @@ const routes:Routes = [
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, RouterModule.forChild(routes),
+    CommonModule, RouterModule.forChild(routes)
   ],
   providers : [
     
