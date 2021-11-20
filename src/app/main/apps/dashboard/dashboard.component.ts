@@ -79,7 +79,6 @@ export interface ChartOptions2 {
 export class DashboardComponent implements OnInit {
   @ViewChild('apexLineChartRef') apexLineChartRef: any;
   @ViewChild('apexDonutChartRef') apexDonutChartRef: any;
-  @ViewChild('apexBarChartRef') apexBarChartRef: any;
   private _unsubscribeAll: Subject<any>;
   public numberPersonal: number = 0;
   public numberOrganization: number = 0;
@@ -91,10 +90,12 @@ export class DashboardComponent implements OnInit {
   public keypairChart: Partial<ChartOptions>;
   public requestChart1: Partial<ChartOptions>;
   public requestChart2: Partial<ChartOptions2>;
+  public certificateRequestChart1: Partial<ChartOptions>
+  public certificateRequestChart2: Partial<ChartOptions2>
   public isMenuToggled = false;
 
   // Color Variables
-  chartColors = {
+  private chartColors = {
     column: {
       series1: '#826af9',
       series2: '#d2b0ff',
@@ -363,35 +364,41 @@ export class DashboardComponent implements OnInit {
       }
     };
 
-    this.requestChart1  = {
+    this.requestChart1 = {
       series: [
         {
-          data: [160, 210, 258, 274, 100, 285]
+          data: [190, 230, 190, 170, 220, 300]
         }
       ],
       chart: {
         height: 400,
-        type: 'bar',
+        type: 'line',
+        zoom: {
+          enabled: false
+        },
         toolbar: {
           show: false
-        }
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-          barHeight: '30%'
         }
       },
       grid: {
         xaxis: {
           lines: {
-            show: false
+            show: true
           }
         }
       },
-      colors: ['#FDAC34'],
+      markers: {
+        strokeWidth: 7,
+        strokeOpacity: 1,
+        strokeColors: [colors.solid.white],
+        colors: [colors.solid.warning]
+      },
+      colors: [colors.solid.warning],
       dataLabels: {
         enabled: false
+      },
+      stroke: {
+        curve: 'straight'
       },
       xaxis: {
         categories: [
@@ -402,6 +409,17 @@ export class DashboardComponent implements OnInit {
           '10/2021',
           '11/2021',
         ]
+      },
+      tooltip: {
+        custom: function (data) {
+          return (
+            '<div class="px-1 py-50">' +
+            '<span>' +
+            data.series[data.seriesIndex][data.dataPointIndex] +
+            ' lần</span>' +
+            '</div>'
+          );
+        }
       }
     };
 
@@ -429,7 +447,125 @@ export class DashboardComponent implements OnInit {
                 fontSize: '1rem',
                 fontFamily: 'Montserrat',
                 formatter: function (val) {
-                  return parseInt(val) + ' yêu cầu';
+                  return val;
+                }
+              },
+              total: {
+                show: true,
+                fontSize: '1.5rem',
+                label: 'Tổng số lần kí',
+                formatter: function (w: any) { 
+                  const arr: any[] = w.config.series
+                  return arr.reduce((a, b) => a+b, 0);
+                }
+              }
+            }
+          }
+        }
+      },
+      legend: {
+        show: true,
+        position: 'bottom'
+      },
+      labels: ['Thành công', 'Thất bại', 'Đang xử lí'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              height: 300
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      ]
+    };
+
+    this.certificateRequestChart1 = {
+      series: [
+        {
+          data: [146, 241, 278, 298, 310, 315]
+        }
+      ],
+      chart: {
+        height: 400,
+        type: 'line',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true
+          }
+        }
+      },
+      markers: {
+        strokeWidth: 7,
+        strokeOpacity: 1,
+        strokeColors: [colors.solid.white],
+        colors: [colors.solid.danger]
+      },
+      colors: [colors.solid.danger],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'straight'
+      },
+      xaxis: {
+        categories: [
+          '06/2021',
+          '07/2021',
+          '08/2021',
+          '09/2021',
+          '10/2021',
+          '11/2021',
+        ]
+      },
+      tooltip: {
+        custom: function (data) {
+          return (
+            '<div class="px-1 py-50">' +
+            '<span>' +
+            data.series[data.seriesIndex][data.dataPointIndex] +
+            ' yêu cầu</span>' +
+            '</div>'
+          );
+        }
+      }
+    };
+
+    this.certificateRequestChart2 = {
+      series: [300, 15],
+      chart: {
+        height: 350,
+        type: 'donut'
+      },
+      colors: [
+        colors.solid.success,
+        colors.solid.danger
+      ],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              name: {
+                fontSize: '2rem',
+                fontFamily: 'Montserrat'
+              },
+              value: {
+                fontSize: '1rem',
+                fontFamily: 'Montserrat',
+                formatter: function (val) {
+                  return val;
                 }
               },
               total: {
@@ -449,7 +585,7 @@ export class DashboardComponent implements OnInit {
         show: true,
         position: 'bottom'
       },
-      labels: ['Thành công', 'Thất bại', 'Đang xử lí'],
+      labels: ['Thành công', 'Thất bại'],
       responsive: [
         {
           breakpoint: 480,
@@ -530,8 +666,10 @@ export class DashboardComponent implements OnInit {
           this.subcriberChart2.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
           this.subscriberCertificateChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.keypairChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
-          this.requestChart1.chart.width = this.apexBarChartRef?.nativeElement.offsetWidth;
+          this.requestChart1.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.requestChart2.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
+          this.certificateRequestChart1.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
+          this.certificateRequestChart2.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
         }, 900);
       }
     });
