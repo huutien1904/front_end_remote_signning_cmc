@@ -37,7 +37,7 @@
                 <div class="card-header">
                   <div>
                     <p class="card-text">Tần suất kí số</p>
-                    <h2 class="font-weight-bolder mb-0">1300</h2>
+                    <h2 class="font-weight-bolder mb-0">300</h2>
                   </div>
                   <div class="avatar bg-light-warning p-50 m-0">
                     <div class="avatar-content">
@@ -77,6 +77,21 @@
                 </div>
               </div>
             </div>
+            <div class="col-lg-4 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Thiết bị HSM</p>
+                    <h2 class="font-weight-bolder mb-0">360</h2>
+                  </div>
+                  <div class="avatar bg-light-secondary p-50 m-0">
+                    <div class="avatar-content">
+                        <span class="feather icon-smartphone font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
         <!--Biểu đồ-->
         <section id="apex-line-charts">
@@ -92,11 +107,6 @@
                     <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
                   </div>
                   <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
-                    <!--<h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
-                    <div class="badge badge-light-secondary">
-                      <i class="text-danger font-small-3" data-feather="arrow-down"></i>
-                      <span class="align-middle">20%</span>
-                    </div>-->
                   </div>
                 </div>
                 <div class="card-body">
@@ -129,7 +139,7 @@
             <div class="col-xl-6 col-12">
               <div class="card">
                 <div class="card-header flex-column align-items-start">
-                  <h4 class="card-title mb-75">Cơ cấu thuê bao cá nhân và thuê bao tổ chức</h4>
+                  <h4 class="card-title mb-75">Cơ cấu thuê bao</h4>
                   <span class="card-subtitle text-muted">Số liệu tháng 11/2021</span>
                 </div>
                 <div class="card-body">
@@ -162,11 +172,6 @@
                     <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
                   </div>
                   <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
-                    <!--<h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
-                    <div class="badge badge-light-secondary">
-                      <i class="text-danger font-small-3" data-feather="arrow-down"></i>
-                      <span class="align-middle">20%</span>
-                    </div>-->
                   </div>
                 </div>
                 <div class="card-body">
@@ -206,11 +211,6 @@
                     <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
                   </div>
                   <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
-                    <!--<h5 class="font-weight-bolder mb-0 mr-1">$ 100,000</h5>
-                    <div class="badge badge-light-secondary">
-                      <i class="text-danger font-small-3" data-feather="arrow-down"></i>
-                      <span class="align-middle">20%</span>
-                    </div>-->
                   </div>
                 </div>
                 <div class="card-body">
@@ -320,10 +320,10 @@
                 <div class="card-body">
                   <div id="line-chart" #apexLineChartRef>
                     <apx-chart
-                      [series]="certificateRequestChart1.series"
+                      [series]="certificateRequestChart.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : certificateRequestChart1.chart.width,
+                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : certificateRequestChart.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: false
@@ -332,38 +332,51 @@
                           show: false
                         }
                       }"
-                      [xaxis]="certificateRequestChart1.xaxis"
-                      [stroke]="certificateRequestChart1.stroke"
-                      [tooltip]="certificateRequestChart1.tooltip"
-                      [colors]="certificateRequestChart1.colors"
-                      [dataLabels]="certificateRequestChart1.dataLabels"
-                      [grid]="certificateRequestChart1.grid"
+                      [xaxis]="certificateRequestChart.xaxis"
+                      [stroke]="certificateRequestChart.stroke"
+                      [tooltip]="certificateRequestChart.tooltip"
+                      [colors]="certificateRequestChart.colors"
+                      [dataLabels]="certificateRequestChart.dataLabels"
+                      [grid]="certificateRequestChart.grid"
                     ></apx-chart>
                   </div>
                 </div>
               </div>
             </div>
-            <!--Trạng thái yêu cầu-->
-            <div class="col-xl-6 col-12">
+            <!--HSM-->
+            <div class="col-6">
               <div class="card">
-                <div class="card-header flex-column align-items-start">
-                  <h4 class="card-title mb-75">Trạng thái</h4>
-                  <span class="card-subtitle text-muted">Yêu cầu chứng thực</span>
+                <div
+                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+                >
+                  <div>
+                    <h4 class="card-title mb-25">Thiết bị HSM</h4>
+                    <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
+                  </div>
+                  <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
+                  </div>
                 </div>
                 <div class="card-body">
-                  <div id="donut-chart" #apexDonutChartRef>
+                  <div id="line-chart" #apexLineChartRef>
                     <apx-chart
-                      [series]="certificateRequestChart2.series"
+                      [series]="hsmChart.series"
                       [chart]="{
-                        height: 450,
-                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : certificateRequestChart2.chart.width,
-                        type: 'donut'
+                        height: 400,
+                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : hsmChart.chart.width,
+                        type: 'line',
+                        zoom: {
+                          enabled: false
+                        },
+                        toolbar: {
+                          show: false
+                        }
                       }"
-                      [labels]="certificateRequestChart2.labels"
-                      [plotOptions]="certificateRequestChart2.plotOptions"
-                      [responsive]="certificateRequestChart2.responsive"
-                      [colors]="certificateRequestChart2.colors"
-                      [legend]="certificateRequestChart2.legend"
+                      [xaxis]="hsmChart.xaxis"
+                      [stroke]="hsmChart.stroke"
+                      [tooltip]="hsmChart.tooltip"
+                      [colors]="hsmChart.colors"
+                      [dataLabels]="hsmChart.dataLabels"
+                      [grid]="hsmChart.grid"
                     ></apx-chart>
                   </div>
                 </div>

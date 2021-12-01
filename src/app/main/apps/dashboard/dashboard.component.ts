@@ -90,34 +90,9 @@ export class DashboardComponent implements OnInit {
   public keypairChart: Partial<ChartOptions>;
   public requestChart1: Partial<ChartOptions>;
   public requestChart2: Partial<ChartOptions2>;
-  public certificateRequestChart1: Partial<ChartOptions>
-  public certificateRequestChart2: Partial<ChartOptions2>
+  public certificateRequestChart: Partial<ChartOptions>;
+  public hsmChart: Partial<ChartOptions>;
   public isMenuToggled = false;
-
-  // Color Variables
-  private chartColors = {
-    column: {
-      series1: '#826af9',
-      series2: '#d2b0ff',
-      bg: '#f8d3ff'
-    },
-    success: {
-      shade_100: '#7eefc7',
-      shade_200: '#06774f'
-    },
-    donut: {
-      series1: '#ffe700',
-      series2: '#00d4bd',
-      series3: '#826bf8',
-      series4: '#2b9bf4',
-      series5: '#FFA1A1'
-    },
-    area: {
-      series3: '#a4f8cd',
-      series2: '#60f2ca',
-      series1: '#2bdac7'
-    }
-  };
 
   constructor(
     private _organizationListService: OrganizationListService,
@@ -194,8 +169,8 @@ export class DashboardComponent implements OnInit {
         type: 'donut'
       },
       colors: [
-        this.chartColors.donut.series1,
-        this.chartColors.donut.series5,
+        colors.solid.danger,
+        colors.solid.warning
       ],
       plotOptions: {
         pie: {
@@ -210,7 +185,7 @@ export class DashboardComponent implements OnInit {
                 fontSize: '1rem',
                 fontFamily: 'Montserrat',
                 formatter: function (val) {
-                  return parseInt(val) + ' thuê bao';
+                  return val;
                 }
               },
               total: {
@@ -430,9 +405,9 @@ export class DashboardComponent implements OnInit {
         type: 'donut'
       },
       colors: [
-        this.chartColors.success.shade_100,
-        this.chartColors.donut.series5,
-        this.chartColors.donut.series1
+        colors.solid.success,
+        colors.solid.danger,
+        colors.solid.warning
       ],
       plotOptions: {
         pie: {
@@ -483,7 +458,7 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
-    this.certificateRequestChart1 = {
+    this.certificateRequestChart = {
       series: [
         {
           data: [146, 241, 278, 298, 310, 315]
@@ -542,63 +517,63 @@ export class DashboardComponent implements OnInit {
       }
     };
 
-    this.certificateRequestChart2 = {
-      series: [300, 15],
-      chart: {
-        height: 350,
-        type: 'donut'
-      },
-      colors: [
-        colors.solid.success,
-        colors.solid.danger
-      ],
-      plotOptions: {
-        pie: {
-          donut: {
-            labels: {
-              show: true,
-              name: {
-                fontSize: '2rem',
-                fontFamily: 'Montserrat'
-              },
-              value: {
-                fontSize: '1rem',
-                fontFamily: 'Montserrat',
-                formatter: function (val) {
-                  return val;
-                }
-              },
-              total: {
-                show: true,
-                fontSize: '1.5rem',
-                label: 'Tổng số yêu cầu',
-                formatter: function (w: any) { 
-                  const arr: any[] = w.config.series
-                  return arr.reduce((a, b) => a+b, 0);
-                }
-              }
-            }
-          }
-        }
-      },
-      legend: {
-        show: true,
-        position: 'bottom'
-      },
-      labels: ['Thành công', 'Thất bại'],
-      responsive: [
+    this.hsmChart = {
+      series: [
         {
-          breakpoint: 480,
-          options: {
-            chart: {
-              height: 300
-            },
-            legend: {
-              position: 'bottom'
-            }
+          data: [100, 150, 200, 250, 300, 360]
+        }
+      ],
+      chart: {
+        height: 400,
+        type: 'line',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: true
           }
         }
-      ]
+      },
+      markers: {
+        strokeWidth: 7,
+        strokeOpacity: 1,
+        strokeColors: [colors.solid.white],
+        colors: [colors.solid.secondary]
+      },
+      colors: [colors.solid.secondary],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'straight'
+      },
+      xaxis: {
+        categories: [
+          '06/2021',
+          '07/2021',
+          '08/2021',
+          '09/2021',
+          '10/2021',
+          '11/2021',
+        ]
+      },
+      tooltip: {
+        custom: function (data) {
+          return (
+            '<div class="px-1 py-50">' +
+            '<span>' +
+            data.series[data.seriesIndex][data.dataPointIndex] +
+            ' thiết bị</span>' +
+            '</div>'
+          );
+        }
+      }
     };
   }
 
@@ -668,9 +643,9 @@ export class DashboardComponent implements OnInit {
           this.keypairChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.requestChart1.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.requestChart2.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
-          this.certificateRequestChart1.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
-          this.certificateRequestChart2.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
-        }, 900);
+          this.certificateRequestChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
+          this.hsmChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
+        }, 1300);
       }
     });
   }
