@@ -1,0 +1,195 @@
+
+<div class="profile-header">
+  <app-content-header [contentHeader]="contentHeader"></app-content-header>
+  <h1 class="font-weight-bolder mb-2 d-flex justify-content-center align-items-end" *ngIf="showListProfile">Danh sách các UserProfiles</h1>
+  <h1 class="font-weight-bolder mb-2 d-flex justify-content-center align-items-end" *ngIf = "showAddProfile">Tạo mới UserProfiles</h1>
+</div>
+
+<div class="list-profile" *ngIf="showListProfile">
+  <!-- <form action="">
+      <div class="col-md-12 col-12 h-100">
+          <div class="form-group">
+            <select 
+              class="custom-select form-control-lg" 
+              id="customSelectSize" 
+              size="12"  
+              id="selectLarge" 
+              (change)="onChange($event.target.value)"
+              >
+              <option *ngFor = "let title of fetchData">CMC</option>
+              <option >CORP</option>
+              <option >CIST</option>
+            </select>
+          </div>
+          
+          <div class="row d-flex justify-content-between m-1">
+              <a href="/apps/ip/subscribers/profiles/profile-edit/{{this.titleProfile}}">
+                  <button type="button" [disabled]="this.titleProfile === undefined"class="btn btn-outline-primary" rippleEffect (click) = "editProfile()">Edit End Entity Profile</button>
+              </a>
+              <button type="button" class="btn btn-outline-primary" rippleEffect>Delete End Entity Profile</button>
+          </div>
+          <h1 class="ml-1">Add Profile</h1>
+          <div class="d-flex">
+              
+              <div class="col-xl-4 col-md-6 col-12">
+                  <div class="form-group">
+                      <input type="text" class="form-control " id="helpInputTop" />  
+                  </div> 
+              </div>
+              <div class="col-md-10">
+                  <button type="button" class="btn btn-outline-primary mr-1" rippleEffect >Add Profile</button>
+                  <button type="button" class="btn btn-outline-primary mr-1" rippleEffect>Rename selected</button>
+                  <button type="button" class="btn btn-outline-primary mr-1" rippleEffect>Clone selected</button>
+                  <button type="button" class="btn btn-outline-primary mr-1" rippleEffect>Export selected</button>
+              </div>
+        </div>
+      </div>
+  </form> -->
+  
+  <div class="row d-flex m-2">
+    <button type="button" class="btn btn-primary mt-2" (click)="openNewProfile()" rippleEffect >Tạo UserProfiles</button>
+  </div>
+  <ngx-datatable
+  class
+  [rows]="listProfile"
+  [rowHeight]="58"
+  class="bootstrap core-bootstrap"
+  [limit]="10"
+  [columnMode]="ColumnMode.force"
+  [headerHeight]="40"
+  [footerHeight]="50"
+  [scrollbarH]="true"
+  [selectionType]="SelectionType.checkbox"
+  >
+  <ngx-datatable-column
+      [width]="50"
+      [sortable]="false"
+      [canAutoResize]="false"
+      [draggable]="false"
+      [resizeable]="false"
+    >
+      <ng-template
+        ngx-datatable-header-template
+        let-value="value"
+        let-allRowsSelected="allRowsSelected"
+        let-selectFn="selectFn"
+      >
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [checked]="allRowsSelected"
+            (change)="selectFn(!allRowsSelected)"
+            id="headerChkbxRef"
+          />
+          <label class="custom-control-label" for="headerChkbxRef"></label>
+        </div>
+      </ng-template>
+      <ng-template
+        ngx-datatable-cell-template
+        let-rowIndex="rowIndex"
+        let-value="value"
+        let-isSelected="isSelected"
+        let-onCheckboxChangeFn="onCheckboxChangeFn"
+      >
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [checked]="isSelected"
+            (change)="onCheckboxChangeFn($event)"
+            id="rowChkbxRef{{ rowIndex }}"
+          />
+          <label class="custom-control-label" for="rowChkbxRef{{ rowIndex }}"></label>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column
+    name="TT"
+    [width]="50"
+    [canAutoResize]="false"
+    [sortable]="false"
+  >
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+      {{ rowIndex + 1 }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="TÊN UserProfiles" prop="nameProfile" [width]="300"></ngx-datatable-column>
+  <ngx-datatable-column name="Subject DN Attributes" prop="subjectDNA" [width]="300">
+    <!-- <ng-template
+      ngx-datatable-cell-template
+      let-value="value"
+      let-row="row"
+    >
+      <div
+        
+      >
+        {{ row.subjectDNA.id }}
+      </div>
+    </ng-template> -->
+  </ngx-datatable-column>
+  <ngx-datatable-column name="SUBJECT DN ALTERNATIVE NAME" prop="subjectAttribute" [width]="300"></ngx-datatable-column>
+  <ngx-datatable-column  name="Hành động" [width]="70" [sortable]="false" prop="" > 
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
+      <div class="d-flex align-items-center" >
+        <div ngbDropdown container="body">
+          <a
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            class="hide-arrow"
+            id="dropdownBrowserState"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i
+              data-feather="more-vertical"
+              class="text-primary cursor-pointer mr-50"
+            ></i>
+          </a>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu-right"
+            aria-labelledby="dropdownBrowserState"
+          >
+            <a
+              href="/apps/ip/subscribers/personals/personal-view/{{value.personalId}}"
+              ngbDropdownItem
+              class="d-flex align-items-center"
+              ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+            >
+            <a
+              href="/apps/ip/subscribers/profiles/profile-edit/{{value.id}}"
+              ngbDropdownItem
+              class="d-flex align-items-center"
+              ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa </a
+            >
+            
+  
+            <a
+              href="javascript:void(0)"
+              
+              ngbDropdownItem
+              class="d-flex align-items-center"
+              ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+            >
+          </div>
+        </div>
+  
+        <i data-feather="edit" class="text-primary cursor-pointer"></i>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+  </ngx-datatable>
+</div>
+
+
+<div class="add-new-profile" *ngIf = "showAddProfile">
+  <app-profile-sidebar (submitProfile) = "addProfile($event)" ></app-profile-sidebar>
+</div>
+<!-- <div class="edit-profile" *ngIf = "showEditProfile">
+  <app-profile-edit></app-profile-edit>
+</div> -->
+
+
+

@@ -224,7 +224,7 @@ export class PersonalListComponent implements OnInit {
       });
       // convert to array object
       console.log(this.excelDataList);
-      
+      this.parentData = [];
       // var arrayList:any = [];
       this.excelDataList.map((item,index) => {
         var listPersonals:any = {
@@ -260,10 +260,10 @@ export class PersonalListComponent implements OnInit {
           if(index === 6)  listPersonals.email = value
           if(index === 7)  listPersonals.phoneNumber = value  
         })
-        console.log(listPersonals);
+        
         this.parentData.push(listPersonals);
       })
-      // console.log(arrayList);
+      console.log(this.parentData);
       // this.parentData = arrayList
       // arrayList.map((item,index) => {
       //   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -279,6 +279,10 @@ export class PersonalListComponent implements OnInit {
     };
     reader.readAsBinaryString(targetFileExcel.files[0]);
     // this.openNewPersonalModal(modalBasic)
+  }
+  toggleTable(){
+    this.openTableUpdate = false;
+    this.openTable = true;
   }
   
   /**

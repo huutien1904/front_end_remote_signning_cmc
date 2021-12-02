@@ -71,162 +71,40 @@
       {{ rowIndex + 1 }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column [width]="280" name="HỌ VÀ TÊN" prop="personalFirstName">
-    <ng-template
-      ngx-datatable-cell-template
-      let-rowIndex="rowIndex"
-      let-value="value"
-      let-row="row"
-    >
-      <div
-        title="Double click to edit"
-        (dblclick)="editingName[rowIndex + '-personalFirstName' ] = true"
-        *ngIf="!editingName[rowIndex + '-personalFirstName']"
-      >
-        <div class="d-flex align-items-center">
-          <div class="cell-line-height">
-            <p class="font-medium-1 line-height-1 mb-0">
-              {{ row.personalFirstName }} {{ row.personalMiddleName }}
-              {{ row.personalLastName }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <input
-        autofocus
-        class="form-control form-control-sm"
-        (blur)="inlineEditingUpdateName($event, 'personalFirstName', rowIndex)"
-        *ngIf="editingName[rowIndex + '-personalFirstName']"
-        type="text"
-        [value]="value"
-      />
-    </ng-template>
-  </ngx-datatable-column>
   <ngx-datatable-column
-    [width]="150"
-    name="CCCD/PASSPORT"
-    prop="personalCountryId"
+    name="Tên tổ chức"
+    prop="organizationName"
+    [width]="50"
+  ></ngx-datatable-column>
+  <ngx-datatable-column
+    name="Mã tổ chức"
+    prop="countryOrganizationId"
+    [width]="50"
+  ></ngx-datatable-column>
+  <ngx-datatable-column
+    name="Số điện thoại"
+    prop="phoneNumber"
+    [width]="50"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Thư điện tử"
+    prop="email"
+    [width]="50"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Webside"
+    prop="website"
+    [width]="100"
   >
-    <ng-template
-      ngx-datatable-cell-template
-      let-rowIndex="rowIndex"
-      let-value="value"
-      let-row="row"
-    >
-      <div
-        title="Double click to edit"
-        (dblclick)="editingPersonalId[rowIndex + '-personalCountryId'] = true"
-        *ngIf="!editingPersonalId[rowIndex + '-personalCountryId']"
-      >
-        <div class="d-flex align-items-center">
-          <div class="cell-line-height">
-            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-          </div>
-        </div>
-      </div>
-      <input
-        autofocus
-        class="form-control form-control-sm"
-        (blur)="inlineEditingUpdatePersonalId($event, 'personalCountryId', rowIndex)"
-        *ngIf="editingPersonalId[rowIndex + '-personalCountryId']"
-        type="text"
-        [value]="value"
-      />
-    </ng-template>
   </ngx-datatable-column>
-
-  <ngx-datatable-column [width]="100" name="NGÀY SINH" prop="birthday">
-    <ng-template
-      ngx-datatable-cell-template
-      let-rowIndex="rowIndex"
-      let-value="value"
-      let-row="row"
-    >
-      <div
-        title="Double click to edit"
-        (dblclick)="editingBirthday[rowIndex + '-birthday'] = true"
-        *ngIf="!editingBirthday[rowIndex + '-birthday']"
-      >
-        <div class="d-flex align-items-center">
-          <div class="cell-line-height">
-            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-            
-          </div>
-        </div>
-      </div>
-      <input
-        autofocus
-        class="form-control form-control-sm"
-        (blur)="inlineEditingUpdateBirthday($event, 'birthday', rowIndex)"
-        *ngIf="editingBirthday[rowIndex + '-birthday']"
-        type="text"
-        [value]="value"
-      />
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column [width]="50" name="GIỚI TÍNH" prop="gender">
-    <ng-template
-      ngx-datatable-cell-template
-      let-rowIndex="rowIndex"
-      let-value="value"
-      let-row="row"
-    >
-      <div
-        title="Double click to edit"
-        (dblclick)="editingGender[rowIndex + '-gender'] = true"
-        *ngIf="!editingGender[rowIndex + '-gender']"
-      >
-      
-        <div class="d-flex align-items-center">
-          <div class="cell-line-height">
-            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-            <span class="text-muted font-small-2"> {{ row.post }}</span>
-          </div>
-        </div>
-      </div>
-      <select
-        *ngIf="editingGender[rowIndex + '-gender']"
-        (blur)="editingGender[rowIndex + '-gender'] = false"
-        (change)="inlineEditingUpdateGender($event, 'gender', rowIndex)"
-        [value]="value"
-        class="form-control form-control-sm"
-      >
-        <option value="Nam">Nam</option>
-        <option value="Nữ">Nữ</option>
-      </select>
-    </ng-template>
-  </ngx-datatable-column>
-
-  <ngx-datatable-column [width]="200" name="THƯ ĐIỆN TỬ" prop="email">
-    <ng-template
-      ngx-datatable-cell-template
-      let-rowIndex="rowIndex"
-      let-value="value"
-      let-row="row"
-    >
-      <div
-        title="Double click to edit"
-        (dblclick)="editingEmail[rowIndex + '-email'] = true"
-        *ngIf="!editingEmail[rowIndex + '-email']"
-      >
-        <div class="d-flex align-items-center">
-          <div class="cell-line-height">
-            <p class="font-medium-1 line-height-1 mb-0">{{ value }}</p>
-          </div>
-        </div>
-      </div>
-      <input
-        autofocus
-        class="form-control form-control-sm"
-        (blur)="inlineEditingUpdateEmail($event, 'email', rowIndex)"
-        *ngIf="editingEmail[rowIndex + '-email']"
-        type="text"
-        [value]="value"
-      />
-    </ng-template>
-  </ngx-datatable-column>
-
+    
+  <ngx-datatable-column
+    name="Tên lãnh đạo"
+    prop="parentOrganizationId"
+    [width]="100"
+  ></ngx-datatable-column>
   <ngx-datatable-column
     name="Hành động"
     [width]="70"
@@ -259,20 +137,20 @@
               href="javascript:void(0)" 
               ngbDropdownItem 
               class="d-flex align-items-center"
-              (click) = "openModalEdit(editPersonal,row,rowIndex)"
+              
               ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
             >
             <a
               href="javascript:void(0)"
               ngbDropdownItem
               class="d-flex align-items-center"
-              (click) = "openModalEdit(editPersonal,row,rowIndex)"
+              (click) = "openModalEdit(editOrganization,row,rowIndex)"
               ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa </a
             >
-            <ng-template #editPersonal let-modal>
+            <ng-template #editOrganization let-modal>
               <div class="modal-header">
                 <h2 class="modal-title" id="myModalLabel160">
-                  Thuê bao cá nhân
+                  Thuê bao tổ chức
                   
                   <!-- {{value.personalId}} -->
                 </h2>
@@ -286,9 +164,14 @@
                 </button>
               </div>
               <div class="modal-body" tabindex="0" ngbAutofocus>
+                <!-- <app-new-personal-sidebar
+                  (onUpdate)="updateTableOnAdd()"
+                  (onClose) = "closeModel()"
+                ></app-new-personal-sidebar> -->
+                <!-- <app-personal-list-edit ></app-personal-list-edit> -->
+                <app-sidebar-organization-edit [organization] = 'item' (getEditOrganization)="getEditOrganization($event)"></app-sidebar-organization-edit>
                 
-                <app-sidebar-personal-edit [personal] = 'item' (getEditPersonal)="getEditPersonal($event)"></app-sidebar-personal-edit>
-                
+  
               </div>
             </ng-template>
             <a
@@ -336,7 +219,6 @@
     </ng-template>
   </ngx-datatable-footer>
 
-  
 </ngx-datatable>
 
 <div class="d-flex justify-content-end">

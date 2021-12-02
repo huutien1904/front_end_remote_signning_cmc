@@ -1,50 +1,51 @@
-<form class="form" [formGroup]="formPersonalEdit">
+<p>tiennsas</p>
+<form class="form" [formGroup]="formOrganizationEdit">
     <div class="row">
-      <div class="col-md-3 col-12">
+      <div class="col-md-4 col-12">
         <div class="form-group">
-          <label for="first-name-column">HỌ</label>
+          <label for="first-name-column">TÊN TỔ CHỨC</label>
           <input
             type="text"
             id="first-name-column"
             class="form-control"
             placeholder="First Name"
             name="fname-column"
-            formControlName="personalFirstName"
+            formControlName="organizationName"
           />
         </div>
         
       </div>
-      <div class="col-md-3 col-12">
+      <div class="col-md-4 col-12">
         <div class="form-group">
-          <label for="last-name-column">TÊN ĐỆM</label>
+          <label for="last-name-column">MÃ TỔ CHỨC</label>
           <input
             type="text"
             id="last-name-column"
             class="form-control"
             placeholder="Last Name"
             name="lname-column"
-            formControlName="personalMiddleName"
+            formControlName="countryOrganizationId"
           />
         </div>
         
       </div>
-      <div class="col-md-3 col-12">
+      <div class="col-md-4 col-12">
         <div class="form-group">
-          <label for="city-column">TÊN</label>
+          <label for="city-column">SỐ ĐIỆN THOẠI</label>
           <input 
             type="text" 
             id="city-column" 
             class="form-control" 
             placeholder="City" 
             name="city-column" 
-            formControlName="personalLastName"
+            formControlName="phoneNumber"
             />
         </div>
         
       </div>
-      <div class="col-md-3 col-12">
+      <div class="col-md-4 col-12">
         <div class="form-group">
-          <label for="country-floating">SỐ CCCD/PASSPORT
+          <label for="country-floating">THƯ ĐIỆN TỬ
           </label>
           <input
             type="text"
@@ -52,14 +53,14 @@
             class="form-control"
             name="country-floating"
             placeholder="Country"
-            formControlName="personalCountryId"
+            formControlName="email"
           />
         </div>
        
       </div>
-      <div class="col-md-3 col-12">
+      <div class="col-md-4 col-12">
         <div class="form-group">
-          <label for="company-column">NGÀY SINH
+          <label for="company-column">WEBSIDE
           </label>
           <input
             type="text"
@@ -67,54 +68,26 @@
             class="form-control"
             name="company-column"
             placeholder="Company"
-            formControlName="birthday"
+            formControlName="website"
           />
         </div>
         
       </div>
-      <div class="col-md-3 col-12">
+      <div class="col-md-4 col-12">
         <div class="form-group">
-          <label for="email-id-column">GIỚI TÍNH</label>
+          <label for="email-id-column">TÊN LÃNH ĐẠO</label>
           <input
             type="email"
             id="email-id-column"
             class="form-control"
             name="email-id-column"
             placeholder="Email"
-            formControlName="gender"
+            formControlName="parentOrganizationId"
           />
         </div>
         
       </div>
-      <div class="col-md-3 col-12">
-        <div class="form-group">
-          <label for="company-column">THƯ ĐIỆN TỬ (EMAIL)
-          </label>
-          <input
-            type="text"
-            id="company-column"
-            class="form-control"
-            name="company-column"
-            placeholder="Thư điện tử"
-            formControlName="email"
-          />
-        </div>
-        
-      </div>
-      <div class="col-md-3 col-12">
-        <div class="form-group">
-          <label for="email-id-column">SỐ ĐIỆN THOẠI
-          </label>
-          <input
-            type="email"
-            id="email-id-column"
-            class="form-control"
-            name="email-id-column"
-            placeholder="Số điện thoại"
-            formControlName="phoneNumber"
-          />
-        </div>
-      </div>
+      
       <div class="col-12 d-flex justify-content-end mt-2">
         <button type="submit" rippleEffect class="btn btn-primary mr-1" (click) = "onEditPersonal()">Cập Nhật</button>
       </div>

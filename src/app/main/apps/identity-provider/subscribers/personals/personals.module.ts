@@ -64,6 +64,7 @@ const materialModules1234 = [
     RouterModule,
     ...materialModules1234,
     
+    
   ],
   exports: [
     PersonalListComponent,

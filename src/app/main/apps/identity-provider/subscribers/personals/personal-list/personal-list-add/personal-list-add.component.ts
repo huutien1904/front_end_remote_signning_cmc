@@ -1,7 +1,7 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { ColumnMode, SelectionType,DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -11,6 +11,8 @@ import { ToastrService } from "ngx-toastr";
 })
 export class PersonalListAddComponent implements OnInit {
   @Input() childData: any;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @Output() toggleTable = new EventEmitter();
   public chkBoxSelected = [];
   public selected:any = [];
   public SelectionType = SelectionType;
@@ -23,7 +25,7 @@ export class PersonalListAddComponent implements OnInit {
   public editingGender = {};
   public editingEmail = {};
   public item: any;
-
+  public rowIndex:any
   constructor(
     private _toastrService: ToastrService,
     private modalService: NgbModal,
@@ -31,8 +33,8 @@ export class PersonalListAddComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.childData)
-    
   }
+
   customCheckboxOnSelect({ selected }) {
     this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
     this.chkBoxSelected.push(...selected);
@@ -71,15 +73,21 @@ export class PersonalListAddComponent implements OnInit {
     var dataTable = {
       listPersonal:""
     }
-    // if(this.selected.length < 0){
-    //   this._toastrService.error(
-    //     "Chọn số lượng phần tử  ",   
-    //     "Thành công",
-    //     { toastClass: "toast ngx-toastr", closeButton: true }
-    //   ) 
-    // }
-    dataTable.listPersonal = this.selected
-    console.log(this.selected);
+
+    if(this.selected.length === 0){
+      console.log("chua chon phan tu");
+      this._toastrService.success(
+        "Chọn số lượng phần tử  ",   
+        "Thất bại",
+        { toastClass: "toast ngx-toastr", closeButton: true }
+      ) 
+    }
+    if(this.selected.length > 0){
+      dataTable.listPersonal = this.selected
+      console.log("selector",this.selected.length);
+      this.toggleTable.emit();
+    }
+    
   }
   // listen user load page
   
@@ -91,13 +99,19 @@ export class PersonalListAddComponent implements OnInit {
   //   event.returnValue = false; // stay on same page
   // }
 
-  openModalEdit(modal,item) {
+  openModalEdit(modal,item,rowIndex) {
     this.item = item
     console.log(item);
-     this.modalService.open(modal, {
-      centered: true,
-      size: "xl",
+    this.rowIndex = rowIndex
+    this.modalService.open(modal, {
+    centered: true,
+    size: "xl",
     });
+  }
+  getEditPersonal(personal){
+    this.childData[this.rowIndex] = personal
+    this.childData =[...this.childData]
+    console.log(this.childData);
   }
   
 }
