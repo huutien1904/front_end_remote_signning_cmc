@@ -1,0 +1,197 @@
+<h1 class="font-weight-bolder mb-2 d-flex justify-content-center align-items-end" >SỬA USERPROFILES {{profileRecent.nameProfile}}</h1>
+<form action="" class="form form-horizontal">
+    <div class="form_content">
+        <div class="row">
+            <div class="col-4 col-md-4">
+              <div class="form-group">
+                <div class="col-sm-12 col-form-label">
+                  <label class="lable">Tên UserProfiles </label>
+                </div>
+                <div class="col-sm-12">
+                  <div
+                    class="input-group input-group-merge ml-1"
+                  >
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i data-feather="user"></i
+                      ></span>
+                    </div>
+                    <input
+                      [value] = "profileRecent.nameProfile"
+                      placeholder="Tên Profile"
+                      type="text"
+                      (change) = "setValueName($event)"
+                      formControlName="nameProfile"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-10 col-md-10">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label class="lable">Subject DN Attributes</label>
+              </div>
+              <div class="col-sm-12 col-md-12 d-flex">
+                <div class="col-md-10">
+                  <ng-select
+                    [items]="SubjectDNA"
+                    bindLabel="value"
+                    bindValue="id"
+                    (change)="selectSubjectAttribute($event)"
+                    placeholder="Subject DNA"
+                    formControlName="subjectDNA"
+                  >
+                  </ng-select>
+                </div>
+                <div class="col-md-3">
+                  <button
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click) = "addSubjectDNA()"
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </div>
+              <div *ngFor = "let subjectDNA of subjectDNARecent" class="d-flex">
+                <div 
+                class="content_DNA d-flex col-md-12 mt-1 rounded"
+                style="background-color: #d3d7e1! important;"
+                >
+                  <div class="col-md-1 pt-1 ml-1 text-dark">
+                    <input 
+                    type="checkbox"
+                    (change)="getValueCheckBox($event,subjectDNA)"
+                    >
+                  </div>
+                  <div class="col-md-4 text-dark">
+                    <p class="pt-1 ml-2">
+                       {{subjectDNA.value}} 
+                    </p>
+                  </div>
+                  <div class="col-md-6 mt-1 text-dark">
+                    <div class="input_DNA">
+                      <input type="text" class="w-100">
+                    </div>
+                    <div class="checkbox_DNA d-flex mt-1">
+                      <div class="col-md-4">
+                        <input type="checkbox" >
+                        <label for="" class="ml-1"> Required</label>
+                      </div>
+                      <div class="col-md-4">
+                        <input type="checkbox">
+                        <label for="" class="ml-1">Modifiable</label>
+                      </div>
+                      <div class="col-md-4">
+                        <input type="checkbox">
+                        <label for="" class="ml-1">Validation</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-sm-12 mt-1" *ngIf = "showRemoveButtonDNA">
+                <div class="col-md-3">
+                  <button
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click) = "removeSubjectDNA()"
+                  >
+                    Xóa
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10 col-md-10">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label class="lable">Other subject attributes</label>
+              </div>
+              <div class="col-sm-12 col-md-12 d-flex">
+                <div class="col-md-10">
+                  <ng-select
+                    [items]="SubjectAttribute"
+                    bindLabel="value"
+                    bindValue="id"
+                    placeholder="Subject Attributes"
+                    formControlName="subjectAttribute"
+                    (change)="selectSubjectAttribute($event)"
+                  >
+                  </ng-select>
+                </div>
+                <div class="col-md-3">
+                  <button
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click) = "addSubjectAttribute()"
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </div>
+              <div *ngFor = "let subjectATT of subjectAttributeRecent" class="d-flex">
+                <div 
+                  class="content_DNA  d-flex col-md-12 mt-1 rounded text-dark"
+                  style="background-color: #d3d7e1! important;"
+                >
+                  <div class="col-md-1 pt-1 ml-1">
+                    <input type="checkbox">
+                  </div>
+                  <div class="col-md-4">
+                    <p class="pt-1 ml-2">
+                       {{subjectATT.value}} 
+                    </p>
+                  </div>
+                  <div class="col-md-6 mt-1">
+                    <div class="input_ATT">
+                      <input type="text" class="w-100">
+                    </div>
+                    <div class="checkbox_DNA d-flex mt-1">
+                      <div class="col-md-4">
+                        <input type="checkbox" >
+                        <label for="" class="ml-1"> Required</label>
+                      </div>
+                      <div class="col-md-4">
+                        <input type="checkbox">
+                        <label for="" class="ml-1">Modifiable</label>
+                      </div>
+                      <div class="col-md-4">
+                        <input type="checkbox">
+                        <label for="" class="ml-1">Validation</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-sm-12 mt-1" *ngIf = "showRemoveButtonATT">
+                <div class="col-md-3">
+                  <button
+                  rippleEffect
+                  class="btn btn-primary"
+                  >
+                    Xóa
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+    </div>
+    <div class="col-12 button_summit d-flex justify-content-end pb-1">
+        <button
+            type="submit"
+            rippleEffect
+            class="btn pl-3 pr-3 btn-primary mr-1"
+            (click)="onSubmit()"
+        >
+            Cập nhật
+        </button>
+    </div>
+</form>

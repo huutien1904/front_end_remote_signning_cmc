@@ -31,7 +31,14 @@ export const menu: CoreMenu[] = [
         type: 'item',
         icon: 'user-plus',
         url: 'apps/ip/subscribers-create',
-        
+      },
+      {
+        id: 'profile-management',
+        title: 'Tạo Profile',
+        translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
+        type: 'item',
+        icon: 'users',
+        url: '/apps/ip/subscribers/profiles/profile-list',
       },
     ]
   },
@@ -56,6 +63,7 @@ export const menu: CoreMenu[] = [
         icon: 'key',
         url: '/apps/tm/keypair/keypair-list'
       },
+      
         /*children: [
           {
             id: 'key-pair-list',
