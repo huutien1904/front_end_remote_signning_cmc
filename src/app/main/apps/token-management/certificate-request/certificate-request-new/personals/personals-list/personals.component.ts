@@ -133,7 +133,7 @@ export class PersonalsComponent implements OnInit {
   toggleSidebar(modalForm, item) {
     this.item = item;
     console.log(item);
-    this.modal.open(modalForm, {size: 'lg'})
+    this.modal.open(modalForm, {size: 'xl'})
   }
 
   onSubmit() {
