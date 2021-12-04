@@ -28,6 +28,11 @@ export class SearchSubscriberComponent implements OnInit {
       id: 2,
       key:"Thuê bao tổ chức",
       name: "Thuê bao tổ chức"
+    },
+    {
+      id: 3,
+      key:"Profiles",
+      name: "Profiles"
     }, 
     
   ]  

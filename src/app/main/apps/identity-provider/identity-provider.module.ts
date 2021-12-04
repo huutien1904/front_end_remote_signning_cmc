@@ -75,7 +75,8 @@ const routes: Routes = [
     CoreSidebarModule,
     ReactiveFormsModule, 
   ],
-  providers: [],
+  providers: [ 
+  ],
 })
 export class IdentityProviderModule {
   constructor() {}
