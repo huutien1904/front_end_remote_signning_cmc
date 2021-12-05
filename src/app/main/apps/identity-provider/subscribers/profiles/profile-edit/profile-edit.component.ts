@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.component.html',
@@ -16,13 +16,15 @@ export class ProfileEditComponent implements OnInit {
   public showRemoveButtonDNA = true;
   public showRemoveButtonATT = true;
   public selectedSubjectDNA:any = [];
-  public getSelectSubjectDNA ={};
   public profileId:any
+  public getSelectSubjectDNA ={};
   public getSelectSubjectAttribute={};
-
+  public indexSelectedDNA = [];
+  public indexSelectedATT = [];
   public editProfile: FormGroup;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private _httpClient: HttpClient,
     private fb: FormBuilder,
   ) {
@@ -36,105 +38,180 @@ export class ProfileEditComponent implements OnInit {
   public SubjectDNA = [
     {
       id:"EMAIL",
-      value:"EmailAddress, E-mail address in DN"
+      value:"EmailAddress, E-mail address in DN",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false,
     },
     {
       id:"UID",
-      value:"UID, Unique Identifier"
+      value:"UID, Unique Identifier",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"CN",
-      value:"CN, Common name"
+      value:"CN, Common name",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"SDN",
-      value:"SerialNumber, Serial number (in DN)"
+      value:"SerialNumber, Serial number (in DN)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"GIVENNAME",
-      value:"GivenName, Given name (first name)"
+      value:"GivenName, Given name (first name)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"INITIALS",
-      value:"Initials, First name abbreviation"
+      value:"Initials, First name abbreviation",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"SUBRNAME",
-      value:"Surname, Surname (last name)"
+      value:"Surname, Surname (last name)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"TITLE",
-      value:"Title, Title"
+      value:"Title, Title",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"OU",
-      value:"OU, Organizational Unit"
+      value:"OU, Organizational Unit",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"O",
-      value:"O, Organization"
+      value:"O, Organization",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"L",
-      value:"L, Locality"
+      value:"L, Locality",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"ST",
-      value:"ST, State or Province"
+      value:"ST, State or Province",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
   ]
   public SubjectAttribute = [
     {
       id:"RFC",
-      value:"RFC 822 Name (e-mail address)"
+      value:"RFC 822 Name (e-mail address)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"DNS",
-      value:"DNS Name"
+      value:"DNS Name",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"IPA",
-      value:"IP Address"
+      value:"IP Address",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"DN",
-      value:"Directory Name (Distinguished Name)"
+      value:"Directory Name (Distinguished Name)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"URI",
-      value:"Uniform Resource Identifier (URI)"
+      value:"Uniform Resource Identifier (URI)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"OID",
-      value:"Registered Identifier (OID)"
+      value:"Registered Identifier (OID)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"MS UPN",
-      value:"MS UPN, User Principal Name"
+      value:"MS UPN, User Principal Name",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"MSG",
-      value:"MS GUID, Globally Unique Identifier"
+      value:"MS GUID, Globally Unique Identifier",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"KPN",
-      value:"Kerberos KPN, Kerberos 5 Principal Name"
+      value:"Kerberos KPN, Kerberos 5 Principal Name",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"PI",
-      value:"Permanent Identifier"
+      value:"Permanent Identifier",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"XA",
-      value:"XmppAddr"
+      value:"XmppAddr",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"SN",
-      value:"Service Name"
+      value:"Service Name",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
     {
       id:"SIM",
-      value:"Subject Identification Method (SIM)"
+      value:"Subject Identification Method (SIM)",
+      "required": false,
+      "Modifiable": true,
+      "Validation": false
     },
 
   ]
@@ -158,6 +235,7 @@ export class ProfileEditComponent implements OnInit {
             }
           })
       })
+      console.log(this.subjectDNARecent);
       this.profileRecent.subjectAttribute.map((item) => {
         this.SubjectAttribute.map((subitem) =>{
             if(item === subitem.id){
@@ -184,23 +262,35 @@ export class ProfileEditComponent implements OnInit {
     console.log(this.subjectDNARecent);
     this.editProfile.controls['subjectDNA'].setValue(this.subjectDNARecent);
   }
-  getValueCheckBox(e,value){
-    
-    if(e.target.checked){
-      this.selectedSubjectDNA.push(value);
-      this.selectedSubjectDNA = [...this.selectedSubjectDNA];
-      console.log(this.selectedSubjectDNA);
-    }
-    
+  getValueCheckBoxDNA(e,value,i){
+    this.indexSelectedDNA.push(i);
   }
   removeSubjectDNA(){
-    this.selectedSubjectDNA.map((item) =>{
-      this.subjectDNARecent = this.subjectDNARecent.filter((val) =>{
-        return val.id !== item.id;
+    
+    this.indexSelectedDNA.map((item) => {
+      
+      this.subjectDNARecent = this.subjectDNARecent.filter((val, index) => {
+        console.log(index)
+        return item !== index;
       })
     })
-    this.selectedSubjectDNA = [];
-    console.log(this.selectedSubjectDNA);
+    this.editProfile.controls['subjectDNA'].setValue(this.subjectDNARecent);
+    
+  }
+  getValueCheckBoxATT(index){
+    this.indexSelectedATT.push(index);
+    console.log(this.indexSelectedATT);
+  }
+  removeSubjectATT(){
+    
+    this.indexSelectedATT.map((item) => {
+      
+      this.subjectAttributeRecent = this.subjectAttributeRecent.filter((val, index) => {
+        console.log(index)
+        return item !== index;
+      })
+    })
+    this.editProfile.controls['subjectAttribute'].setValue(this.subjectAttributeRecent);
   }
   selectSubjectAttribute(e){
     this.getSelectSubjectAttribute = e;
@@ -230,10 +320,18 @@ export class ProfileEditComponent implements OnInit {
     this.editProfile.value.subjectDNA = idSubjectDNA;
     this.editProfile.value.subjectAttribute = idSubjectATT;
     const newProfile = JSON.stringify(this.editProfile.value);
+    console.log(newProfile);
     this._httpClient.put<any>(
       `http://localhost:3000/listProfiles/${this.profileId}`,newProfile,this.option
     ).subscribe((res:any) => {
       console.log(res)
+      this.router.navigateByUrl('/apps/ip/subscribers/profiles/profile-list').then(e => {
+        if (e) {
+          console.log("Navigation is successful!");
+        } else {
+          console.log("Navigation has failed!");
+        }
+      });
     });
     // console.log(this.editProfile.value)
   }
