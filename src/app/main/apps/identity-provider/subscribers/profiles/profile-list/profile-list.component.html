@@ -114,7 +114,7 @@
       {{ rowIndex + 1 }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="TÊN UserProfiles" prop="nameProfile" [width]="300"></ngx-datatable-column>
+  <ngx-datatable-column name="TÊN UserProfiles" prop="nameProfile" [width]="150"></ngx-datatable-column>
   <ngx-datatable-column name="Subject DN Attributes" prop="subjectDNA" [width]="300">
     <!-- <ng-template
       ngx-datatable-cell-template
@@ -158,7 +158,7 @@
               class="d-flex align-items-center"
               ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
             >
-            
+
             <a
               href="/apps/ip/subscribers/profiles/profile-edit/{{value.id}}"
               ngbDropdownItem

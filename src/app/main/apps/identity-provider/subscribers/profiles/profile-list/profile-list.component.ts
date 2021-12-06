@@ -31,7 +31,7 @@ export class ProfileListComponent implements OnInit {
     console.log(this.titleProfile);
   }
   
-  openNewProfile() {
+  openNewProfile(){
     this.showListProfile = false;
     this.showEditProfile = false;
     this.showAddProfile = true;
@@ -65,8 +65,8 @@ export class ProfileListComponent implements OnInit {
           {
             name: 'Danh sách UserProfiles',
             isLink: true,
-            link: '/apps/ip/subscribers/profiles/profile-list',
-            
+            // link: '/apps/ip/subscribers/profiles/profile-list',
+            click: this.showListProfile = true
           },
           {
             name: 'Tạo UserProfiles',
