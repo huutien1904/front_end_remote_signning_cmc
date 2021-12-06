@@ -41,7 +41,7 @@
                     [items]="SubjectDNA"
                     bindLabel="value"
                     bindValue="id"
-                    (change)="selectSubjectAttribute($event)"
+                    (change)="selectSubjectDNA($event)"
                     placeholder="Subject DNA"
                     formControlName="subjectDNA"
                   >
@@ -57,7 +57,7 @@
                   </button>
                 </div>
               </div>
-              <div *ngFor = "let subjectDNA of subjectDNARecent" class="d-flex">
+              <div *ngFor = "let subjectDNA of subjectDNARecent ; let i = index " class="d-flex">
                 <div 
                 class="content_DNA d-flex col-md-12 mt-1 rounded"
                 style="background-color: #d3d7e1! important;"
@@ -65,7 +65,7 @@
                   <div class="col-md-1 pt-1 ml-1 text-dark">
                     <input 
                     type="checkbox"
-                    (change)="getValueCheckBox($event,subjectDNA)"
+                    (change)="getValueCheckBoxDNA($event,subjectDNA,i)"
                     >
                   </div>
                   <div class="col-md-4 text-dark">
@@ -79,11 +79,11 @@
                     </div>
                     <div class="checkbox_DNA d-flex mt-1">
                       <div class="col-md-4">
-                        <input type="checkbox" >
+                        <input type="checkbox" [checked]="subjectDNA.required">
                         <label for="" class="ml-1"> Required</label>
                       </div>
                       <div class="col-md-4">
-                        <input type="checkbox">
+                        <input type="checkbox" [checked]="subjectDNA.Modifiable">
                         <label for="" class="ml-1">Modifiable</label>
                       </div>
                       <div class="col-md-4">
@@ -136,13 +136,15 @@
                   </button>
                 </div>
               </div>
-              <div *ngFor = "let subjectATT of subjectAttributeRecent" class="d-flex">
+              <div *ngFor = "let subjectATT of subjectAttributeRecent ; let i = index " class="d-flex">
                 <div 
                   class="content_DNA  d-flex col-md-12 mt-1 rounded text-dark"
                   style="background-color: #d3d7e1! important;"
                 >
                   <div class="col-md-1 pt-1 ml-1">
-                    <input type="checkbox">
+                    <input 
+                      type="checkbox"
+                      (change)="getValueCheckBoxATT(i)">
                   </div>
                   <div class="col-md-4">
                     <p class="pt-1 ml-2">
@@ -155,15 +157,15 @@
                     </div>
                     <div class="checkbox_DNA d-flex mt-1">
                       <div class="col-md-4">
-                        <input type="checkbox" >
+                        <input type="checkbox" [checked]="subjectATT.required">
                         <label for="" class="ml-1"> Required</label>
                       </div>
                       <div class="col-md-4">
-                        <input type="checkbox">
+                        <input type="checkbox" [checked]="subjectATT.Modifiable">
                         <label for="" class="ml-1">Modifiable</label>
                       </div>
                       <div class="col-md-4">
-                        <input type="checkbox">
+                        <input type="checkbox"[checked]="subjectATT.Validation" >
                         <label for="" class="ml-1">Validation</label>
                       </div>
                     </div>
@@ -175,6 +177,7 @@
                   <button
                   rippleEffect
                   class="btn btn-primary"
+                  (click) = "removeSubjectATT()"
                   >
                     Xóa
                   </button>
