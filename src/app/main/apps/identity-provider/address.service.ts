@@ -67,4 +67,16 @@ export class AddressService {
       this.option
     );
   }
+  public getProvinceName(idProvince): Observable<ResponseData<Province>> {
+    return this._httpClient.get<ResponseData<Province>>(
+      `${environment.apiUrl}/address/province/${idProvince}`,
+      this.option
+    );
+  }
+  public getDistrictName(idDistrict): Observable<ResponseData<District>> {
+    return this._httpClient.get<ResponseData<District>>(
+      `${environment.apiUrl}/address/district/${idDistrict}`,
+      this.option
+    );
+  }
 }

@@ -8,13 +8,15 @@ import {  Subject } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 import { HsmListService } from 'app/main/apps/equipment-management/hsm-management/hsm-list.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { stringify } from 'querystring';
+import { PersonalDetail } from 'app/main/models/Personal';
+import { AddressService } from 'app/main/apps/identity-provider/address.service';
 
 @Component({
   selector: 'app-sidebar-personals',
   templateUrl: './sidebar-personals.component.html',
   styleUrls: ['./sidebar-personals.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [AddressService]
 })
 export class SidebarPersonalsComponent implements OnInit {
   private _unsubscribeAll = new Subject();
@@ -32,226 +34,18 @@ export class SidebarPersonalsComponent implements OnInit {
   public tokenList: Token[];
   public hsmList: Hsm[];
   public strProfile: string = "";
-  // public profileList: any[] = [
-  //   [
-  //     {
-  //         "type": "2.5.4.3",
-  //         "value": "HoangBaNguyen",
-  //         "valueTagClass": 12,
-  //         "name": "commonName",
-  //         "shortName": "CN"
-  //     },
-  //     {
-  //         "type": "2.5.4.6",
-  //         "value": "VN",
-  //         "valueTagClass": 19,
-  //         "name": "countryName",
-  //         "shortName": "C"
-  //     },
-  //     {
-  //         "type": "2.5.4.8",
-  //         "value": "Ha Noi",
-  //         "valueTagClass": 12,
-  //         "name": "stateOrProvinceName",
-  //         "shortName": "ST"
-  //     },
-  //     {
-  //         "type": "2.5.4.7",
-  //         "value": "Ha Dong",
-  //         "valueTagClass": 12,
-  //         "name": "localityName",
-  //         "shortName": "L"
-  //     },
-  //     {
-  //         "type": "2.5.4.11",
-  //         "value": "CMC CIST",
-  //         "valueTagClass": 12,
-  //         "name": "organizationalUnitName",
-  //         "shortName": "OU"
-  //     },
-  //     {
-  //         "type": "2.5.4.10",
-  //         "value": "CMC",
-  //         "valueTagClass": 12,
-  //         "name": "organizationName",
-  //         "shortName": "O"
-  //     },
-  //     {
-  //         "type": "0.9.2342.19200300.100.1.1",
-  //         "value": "145773219",
-  //         "valueTagClass": 12
-  //     },
-  //     {
-  //         "type": "2.5.4.20",
-  //         "value": "0889717422",
-  //         "valueTagClass": 19
-  //     },
-  //     {
-  //         "type": "1.2.840.113549.1.9.1",
-  //         "value": "hunga1k15tv111@gmail.com",
-  //         "valueTagClass": 22,
-  //         "name": "emailAddress",
-  //         "shortName": "E"
-  //     },
-  //     {
-  //         "type": "2.5.4.9",
-  //         "value": "Nguyen Trai",
-  //         "valueTagClass": 12,
-  //         "name": "streetAddress"
-  //     }
-  //   ]
-  // ]
-  // public listProfiles: any[] = [
-  //   {
-  //     "nameProfile": "TIEN",
-  //     "subjectDNA": [
-  //       "EMAIL"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID"
-  //     ],
-  //     "id": 1
-  //   },
-  //   {
-  //     "nameProfile": "TIEN",
-  //     "subjectDNA": [
-  //       "EMAIL"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID"
-  //     ],
-  //     "id": 2
-  //   },
-  //   {
-  //     "nameProfile": "TIEN",
-  //     "subjectDNA": [
-  //       "EMAIL"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID"
-  //     ],
-  //     "id": 3
-  //   },
-  //   {
-  //     "nameProfile": "TIEN",
-  //     "subjectDNA": [
-  //       "EMAIL"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID"
-  //     ],
-  //     "id": 4
-  //   },
-  //   {
-  //     "nameProfile": "ádasd",
-  //     "subjectDNA": [
-  //       "SUBRNAME",
-  //       "SUBRNAME",
-  //       "L",
-  //       "L"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID"
-  //     ],
-  //     "id": 5
-  //   },
-  //   {
-  //     "nameProfile": "CMC",
-  //     "subjectDNA": [
-  //       "EMAIL"
-  //     ],
-  //     "subjectAttribute": [
-  //       "MS UPN"
-  //     ],
-  //     "id": 6
-  //   },
-  //   {
-  //     "nameProfile": null,
-  //     "subjectDNA": [
-  //       "EMAIL",
-  //       "CN",
-  //       "GIVENNAME"
-  //     ],
-  //     "subjectAttribute": [
-  //       "MS UPN",
-  //       "IPA",
-  //       "OID"
-  //     ],
-  //     "id": 7
-  //   },
-  //   {
-  //     "nameProfile": null,
-  //     "subjectDNA": [
-  //       "SUBRNAME",
-  //       "SUBRNAME"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID",
-  //       "MS UPN"
-  //     ],
-  //     "id": 8
-  //   },
-  //   {
-  //     "nameProfile": "CMC CIST",
-  //     "subjectDNA": [
-  //       "UID",
-  //       "UID",
-  //       "UID",
-  //       "INITIALS",
-  //       "C"
-  //     ],
-  //     "subjectAttribute": [
-  //       "URI",
-  //       "DN",
-  //       "DN",
-  //       "XA"
-  //     ],
-  //     "id": 9
-  //   },
-  //   {
-  //     "nameProfile": null,
-  //     "subjectDNA": [
-  //       "SDN"
-  //     ],
-  //     "subjectAttribute": [
-  //       "OID"
-  //     ],
-  //     "id": 10
-  //   }
-  // ]
-
-  public listProfiles: any[] =[
+  public listProfiles: any[] = [
     {
-      "nameProfile": "PROFILE 1",
+      "nameProfile": "PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L",
       "subjectDNA": [
-        {
-          "name": "CN",
-          "value": "Nguyễn Hữu Tiến",
-        },
-        {
-          "name": "C",
-          "value": "VN"
-        },
-        {
-          "name": "ST",
-          "value": "Hà Nội"
-        },
-        {
-          "name": "L",
-          "value": "Cầu Giấy"
-        },
-        {
-          "name": "OU",
-          "value": "CMC CIST"
-        },
-        {
-          "name": "O",
-          "value": "CMC"
-        },
-        {
-          "name": "E",
-          "value": "nguyenhuutien@gmail.com"
-        },
+        "CN",
+        "GIVENNAME",
+        "SURNAME",
+        "EMAIL",
+        "UID",
+        "OU",
+        "ST",
+        "L"
       ],
       "subjectAttribute": [
         "OID"
@@ -259,36 +53,16 @@ export class SidebarPersonalsComponent implements OnInit {
       "id": 1
     },
     {
-      "nameProfile": "PROFILE 2",
+      "nameProfile": "PROFILE 2: CN, EMAIL, UID, OU, ST, L",
       "subjectDNA": [
-        {
-          "name": "CN",
-          "value": "Mạc Duy Tân",
-        },
-        {
-          "name": "C",
-          "value": "VN"
-        },
-        {
-          "name": "ST",
-          "value": "Hà Nội"
-        },
-        {
-          "name": "L",
-          "value": "Hà Đông"
-        },
-        {
-          "name": "OU",
-          "value": "CMC CIST"
-        },
-        {
-          "name": "O",
-          "value": "CMC"
-        },
-        {
-          "name": "E",
-          "value": "macduytan@gmail.com"
-        },
+        "CN",
+        "GIVENNAME",
+        "SURNAME",
+        "EMAIL",
+        "UID",
+        "OU",
+        "ST",
+        "L"
       ],
       "subjectAttribute": [
         "OID"
@@ -296,28 +70,11 @@ export class SidebarPersonalsComponent implements OnInit {
       "id": 2
     },
     {
-      "nameProfile": "PROFILE 3",
+      "nameProfile": "PROFILE 3: CN, UID, OU",
       "subjectDNA": [
-        {
-          "name": "CN",
-          "value": "Lê Quang Huy",
-        },
-        {
-          "name": "C",
-          "value": "VN"
-        },
-        {
-          "name": "OU",
-          "value": "CMC CIST"
-        },
-        {
-          "name": "O",
-          "value": "CMC"
-        },
-        {
-          "name": "E",
-          "value": "lequanghuy@gmail.com"
-        },
+        "CN",
+        "UID",
+        "OU"
       ],
       "subjectAttribute": [
         "OID"
@@ -325,25 +82,40 @@ export class SidebarPersonalsComponent implements OnInit {
       "id": 3
     },
     {
-      "nameProfile": "PROFILE 4",
+      "nameProfile": "PROFILE 4: CN, ST, L",
       "subjectDNA": [
-        {
-          "name": "CN",
-          "value": "Nguyễn Tiến Hải Ninh",
-        },
-        {
-          "name": "E",
-          "value": "lequanghuy@gmail.com"
-        }
+        "CN",
+        "ST",
+        "L"
       ],
       "subjectAttribute": [
         "OID"
       ],
       "id": 4
-    }
+    },
+    {
+      "nameProfile": "PROFILE 5: CN",
+      "subjectDNA": [
+        "CN"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 5
+    },
+    {
+      "nameProfile": "PROFILE 6: UID",
+      "subjectDNA": [
+        "UID"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 6
+    },
   ]
 
-  @Input() personal: any;
+  @Input() personal: PersonalDetail;
   @ViewChild('modalLink') modalLink;
 
   get f() {
@@ -355,7 +127,8 @@ export class SidebarPersonalsComponent implements OnInit {
     private _personalsService: PersonalsService,
     private   toastr: ToastrService,
     private _hsmService: HsmListService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private _addressService: AddressService
   ) { }
 
   ngOnInit(): void {
@@ -425,13 +198,65 @@ export class SidebarPersonalsComponent implements OnInit {
   }
 
   changeProfile() {
-    const profile = this.f.profile.value.subjectDNA;
-    this.strProfile = "";
-    const len = profile.length;
-    for (let i = 0; i < len; i++) {
-      this.strProfile += profile[i].name + " = " + profile[i].value;
-      if (i < len-1)
-        this.strProfile += ", ";
+    const profile: any[] = this.f.profile.value.subjectDNA
+    this.strProfile = ""
+    let firstWord = true
+    profile.map((attribute: string) => {
+      let value = "";
+      switch (attribute) {
+        case "CN":
+          value = this.personal.personalFirstName + " " + this.personal.personalMiddleName + " " + this.personal.personalLastName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "GIVENNAME":
+          value = this.personal.personalMiddleName + " " + this.personal.personalLastName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "SURNAME":
+          value = this.personal.personalFirstName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "EMAIL":
+          value =  this.personal.email
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "UID":
+          value = this.personal.personalCountryId
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "OU":
+          value =  this.personal.organization.organizationName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "ST":
+          this._addressService.getProvinceName(this.personal.address.provinceId).subscribe((res: any) => {
+            value = res.data.provinceName
+            this.displayProfile(attribute, value, firstWord)
+          })
+          firstWord = false
+          break;
+        case "L":
+          this._addressService.getDistrictName(this.personal.address.districtId).subscribe((res: any) => {
+            value = res.data.districtName
+            this.displayProfile(attribute, value, firstWord)
+          })
+          firstWord = false
+          break;
+      }
+    })
+  }
+
+  displayProfile(attribute, value, firstWord) {
+    if(firstWord == false)
+      this.strProfile += ", " + attribute + " = " + value
+    else {
+      this.strProfile += attribute + " = " + value
     }
   }
 

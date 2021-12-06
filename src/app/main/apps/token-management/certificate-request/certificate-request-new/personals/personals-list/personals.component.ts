@@ -99,7 +99,7 @@ export class PersonalsComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((personalList) => ({
           ...personalList,
-          personalFirstName:
+          personalFullName:
             personalList.personalFirstName +
             " " +
             personalList.personalMiddleName +

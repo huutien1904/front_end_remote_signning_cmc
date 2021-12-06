@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực cho thuê bao {{ personal.personalFirstName }} </h4>
+    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực cho thuê bao {{ personal.personalFirstName + " " + personal.personalMiddleName + " " + personal.personalLastName }} </h4>
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
     <form [formGroup]="newRequestForm">
