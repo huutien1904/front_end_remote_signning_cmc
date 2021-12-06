@@ -12,7 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ProfileSidebarComponent implements OnInit {
 
   @Output() submitProfile = new EventEmitter();
-
+  public newProfile: FormGroup;
+  // declare Subject DNA
   public SubjectDNA = [
     {
       id: "EMAIL",
@@ -172,7 +173,7 @@ export class ProfileSidebarComponent implements OnInit {
       "Validation": false,
     },
   ]
-  public newProfile: FormGroup;
+  // declare subject attribute
   public SubjectAttribute = [
     {
       id: "RFC",
@@ -267,23 +268,26 @@ export class ProfileSidebarComponent implements OnInit {
     },
 
   ]
-  public isChecked: boolean;
-  public getSelectSubjectDNA = {};
+  
   public listSubjectDNA = [];
+  public listSubjectAttribute = [];
   public selectedSubjectDNA: any = [];
   public getSelectSubjectAttribute = {};
-  public listSubjectAttribute = [];
+  public getSelectSubjectDNA = {};
+  // save index to delete
   public indexCheckedDNA = [];
   public indexCheckedATT = [];
+  // show this button when the form has an increase
   public showRemoveButtonDNA = false;
   public showRemoveButtonATT = false;
+
+  // get value subjectDNA
   selectSubjectDNA(e) {
     this.getSelectSubjectDNA = e;
-
   }
+  // save list subject DNA when click button
   addSubjectDNA() {
     this.showRemoveButtonDNA = true;
-
     console.log(this.getSelectSubjectDNA)
     this.listSubjectDNA.push(this.getSelectSubjectDNA);
     this.listSubjectDNA = [...this.listSubjectDNA];
@@ -291,9 +295,11 @@ export class ProfileSidebarComponent implements OnInit {
     console.log(this.listSubjectDNA);
     this.newProfile.controls['subjectDNA'].setValue(this.listSubjectDNA);
   }
+  // get value subjectATT
   selectSubjectAttribute(e) {
     this.getSelectSubjectAttribute = e;
   }
+  // save list subject ATT when click button
   addSubjectAttribute() {
     this.showRemoveButtonATT = true;
     this.listSubjectAttribute.push(this.getSelectSubjectAttribute);
@@ -301,14 +307,18 @@ export class ProfileSidebarComponent implements OnInit {
     console.log(this.listSubjectAttribute);
     this.newProfile.controls['subjectAttribute'].setValue(this.listSubjectAttribute);
   }
+
+  // get index checkbox to delete Subject DNA
   getValueCheckBoxDNA( index,e) {
     console.log( e)
     this.indexCheckedDNA.push(index)
   }
+   // get index checkbox to delete Subject ATT
   getValueCheckBoxATT(e, value, index) {
     this.indexCheckedATT.push(index)
   }
 
+  // remove DNA 
   removeSubjectDNA() {
     console.log(this.listSubjectDNA)
     console.log(this.listSubjectDNA[0])
@@ -326,6 +336,7 @@ export class ProfileSidebarComponent implements OnInit {
     console.log(this.selectedSubjectDNA);
 
   }
+  // remove ATT
   removeSubjectATT(){
     this.indexCheckedATT.map((item) => {
       console.log(item)
@@ -342,6 +353,7 @@ export class ProfileSidebarComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
   ) {
+    // declare  formGroup
     this.newProfile = this.fb.group({
       nameProfile: [null, [Validators.required,]],
       subjectDNA: [null, [Validators.required,]],
@@ -351,7 +363,7 @@ export class ProfileSidebarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  // submit form  
   onSubmit() {
     this.submitProfile.emit(this.newProfile.value);
     console.log(this.newProfile.value)

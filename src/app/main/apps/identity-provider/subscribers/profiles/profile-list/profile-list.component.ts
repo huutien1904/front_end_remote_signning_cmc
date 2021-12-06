@@ -23,39 +23,19 @@ export class ProfileListComponent implements OnInit {
     private _httpClient: HttpClient,
   ) { }
   
-  editProfile(){
-    console.log(this.titleProfile)
-  }
-  onChange(deviceValue) {
-    this.titleProfile = deviceValue
-    console.log(this.titleProfile);
-  }
-  
+  //  open form new profile close table list profile
   openNewProfile(){
     this.showListProfile = false;
     this.showEditProfile = false;
     this.showAddProfile = true;
   }
-  openEditProfile(){
-    this.showListProfile = false;
-    this.showEditProfile = true;
-    this.showAddProfile = false;
-  }
+
+  
   listProfile:any 
-  // = [
-  //   {
-  //     nameProfile:"CMC",
-  //     subjectDNA:"A,B,c",
-  //     subjectAttribute:"RFC,DFN,TPA"
-  //   },
-  //   {
-      
-  //     nameProfile:"CMC CIST",
-  //     subjectDNA:"CN,UID,O,C,CN",
-  //     subjectAttribute:"RFC,DFN,TPA"
-  //   },
-  // ]
+  
   ngOnInit(): void {
+
+    // content header profile
     this.contentHeader = {
       headerTitle: 'Tạo UserProfiles',
       actionButton: true,
@@ -76,54 +56,56 @@ export class ProfileListComponent implements OnInit {
         ]
       }
     };
+    // end content header profile
+
+
+    // get data from api
     this._httpClient.get('http://localhost:3000/listProfiles').subscribe((res) => {
       console.log("check get data")
       console.log('data response', res);
       this.listProfile = res
     });
+
   }
+  
   private option = {
     headers: {
       "Content-Type": "application/json",
     },
   };
+
+  // post profile to API
   addProfile(event){
     const idSubjectDNA = [];
     const idSubjectATT = [];
     console.log(event);
-   
+    //  get id subjectDNA
     event.subjectDNA.map((item) =>{
       idSubjectDNA.push(item.id);
       console.log(item.id);
     })
+    //  get id subjectATT
     event.subjectAttribute.map((item) =>{
       idSubjectATT.push(item.id);
     })
+    // add id to data 
     event.subjectDNA = idSubjectDNA;
     event.subjectAttribute = idSubjectATT;
     // console.log(event)
     const newProfile = JSON.stringify(event);
-
+    //  post api
     this._httpClient.post<any>(
       "http://localhost:3000/listProfiles",newProfile,this.option
      
     ).subscribe((res:any) => {
       console.log(res)
     });
-    this.listProfile.push(event);
+    // this.listProfile.push(event);
     this.showListProfile = true;
     this.showAddProfile = false;
     this.listProfile = [...this.listProfile]
     // console.log(this.listProfile);
   }
   
-  openModalEdit(modal,rowIndex,row) {
-    // this.item = item
-    console.log(rowIndex,row);
-    // this.rowIndex = rowIndex
-    this.modalService.open(modal, {
-    centered: true,
-    size: "xl",
-    });
-  }
+  
 }
