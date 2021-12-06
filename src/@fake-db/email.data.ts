@@ -78,8 +78,8 @@ export class EmailFakeData {
           email: 'johndoe@mail.com'
         },
         {
-          name: 'Pixinvent',
-          email: 'hello@pixinvent.net'
+          name: 'hung-hust-97',
+          email: 'hello@hung-hust-97.net'
         }
       ],
       subject: 'Order Delivered',

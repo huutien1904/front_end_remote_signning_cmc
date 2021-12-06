@@ -32,7 +32,7 @@ export class CalendarFakeData {
     },
     {
       id: 4,
-      url: 'https://www.pixinvent.com',
+      url: 'https://www.hung-hust-97.com',
       title: 'URL event',
       start: new Date(new Date().getFullYear(), new Date().getMonth() + 1, -11),
       end: new Date(new Date().getFullYear(), new Date().getMonth() + 1, -10),

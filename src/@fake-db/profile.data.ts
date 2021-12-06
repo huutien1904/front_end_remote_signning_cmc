@@ -12,7 +12,7 @@ export class ProfileFakeData {
         joined: 'November 15, 2015',
         lives: 'New York, USA',
         email: 'bucketful@fiendhead.org',
-        website: 'www.pixinvent.com'
+        website: 'www.hung-hust-97.com'
       },
       suggestedPages: [
         {
