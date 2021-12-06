@@ -38,15 +38,15 @@ export class ProfileListComponent implements OnInit {
     // content header profile
     this.contentHeader = {
       headerTitle: 'Tạo UserProfiles',
-      actionButton: true,
+      // actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
             name: 'Danh sách UserProfiles',
             isLink: true,
-            // link: '/apps/ip/subscribers/profiles/profile-list',
-            click: this.showListProfile = true
+            link: '/apps/ip/subscribers/profiles/profile-list',
+            // click: this.showListProfile = true
           },
           {
             name: 'Tạo UserProfiles',
