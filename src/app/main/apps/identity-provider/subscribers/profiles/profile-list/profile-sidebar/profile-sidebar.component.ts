@@ -301,7 +301,8 @@ export class ProfileSidebarComponent implements OnInit {
     console.log(this.listSubjectAttribute);
     this.newProfile.controls['subjectAttribute'].setValue(this.listSubjectAttribute);
   }
-  getValueCheckBoxDNA( index) {
+  getValueCheckBoxDNA( index,e) {
+    console.log( e)
     this.indexCheckedDNA.push(index)
   }
   getValueCheckBoxATT(e, value, index) {

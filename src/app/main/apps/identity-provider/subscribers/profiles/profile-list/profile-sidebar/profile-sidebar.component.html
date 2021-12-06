@@ -54,7 +54,8 @@
                   </button>
                 </div>
               </div>
-              <div *ngFor = "let subjectDNA of listSubjectDNA ; let i = index " class="d-flex">
+              <div class="col-md-10">
+                <div *ngFor = "let subjectDNA of listSubjectDNA ; let i = index " class="d-flex">
                 <div 
                 class="content_DNA  d-flex col-md-12 mt-1 rounded"
                 style="background-color: #d3d7e1! important;"
@@ -70,13 +71,14 @@
                         <input 
                           class="form-check-input" 
                           type="checkbox"
-                          (click) = "getValueCheckBoxDNA(i)"
+                          [checked]="false"
+                          (click) = "getValueCheckBoxDNA(i,$event)"
                           />
                       </div>
                   </div>
                   <div class="col-md-4 text-dark">
                     <p class="pt-1 ml-2">
-                       {{subjectDNA.value}} 
+                       {{subjectDNA.value}} {{i}}
                     </p>
                   </div>
                   <div class="col-md-6 mt-1 text-dark">
@@ -86,7 +88,7 @@
                     <div class="checkbox_DNA d-flex mt-1">
                       <div class="col-md-4">
                         <input type="checkbox" [checked]="subjectDNA.required">
-                        <label for="" class="ml-1 text-dark "> Required</label>
+                        <label for="" class="ml-1 text-dark "> Required </label>
                       </div>
                       <div class="col-md-4">
                         <input type="checkbox"  [checked]="subjectDNA.Modifiable">
@@ -100,6 +102,8 @@
                   </div>
                 </div>
               </div>
+              </div>
+              
               <div class="col-md-2 col-sm-12 mt-1" *ngIf = "showRemoveButtonDNA">
                 <div class="col-md-3">
                   <button
@@ -144,38 +148,40 @@
                   </button>
                 </div>
               </div>
-              <div *ngFor = "let subjectATT of listSubjectAttribute ; let i = index " class="d-flex">
-                <div 
-                class="content_DNA  d-flex col-md-12 mt-1 rounded text-white"
-                style="background-color: #d3d7e1! important;"
-                >
-                  <div class="col-md-1 pt-1 ml-1">
-                    <input 
-                    type="checkbox"
-                    (change)="getValueCheckBoxATT($event,subjectDNA,i)"
-                    >
-                  </div>
-                  <div class="col-md-4">
-                    <p class="pt-1 ml-2 text-dark">
-                       {{subjectATT.value}} 
-                    </p>
-                  </div>
-                  <div class="col-md-6 mt-1">
-                    <div class="input_ATT">
-                      <input type="text" class="w-100">
+              <div class="col-md-10">
+                <div *ngFor = "let subjectATT of listSubjectAttribute ; let i = index " class="d-flex">
+                  <div 
+                  class="content_DNA  d-flex col-md-12 mt-1 rounded text-white"
+                  style="background-color: #d3d7e1! important;"
+                  >
+                    <div class="col-md-1 pt-1 ml-1">
+                      <input 
+                      type="checkbox"
+                      (change)="getValueCheckBoxATT($event,subjectDNA,i)"
+                      >
                     </div>
-                    <div class="checkbox_DNA d-flex mt-1">
-                      <div class="col-md-4">
-                        <input type="checkbox"  [checked]="subjectATT.required">
-                        <label for="" class="ml-1 text-dark" > Required</label>
+                    <div class="col-md-4">
+                      <p class="pt-1 ml-2 text-dark">
+                         {{subjectATT.value}} 
+                      </p>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                      <div class="input_ATT">
+                        <input type="text" class="w-100">
                       </div>
-                      <div class="col-md-4">
-                        <input type="checkbox"  [checked]="subjectATT.Modifiable">
-                        <label for="" class="ml-1 text-dark">Modifiable</label>
-                      </div>
-                      <div class="col-md-4">
-                        <input type="checkbox"  [checked]="subjectATT.Validation">
-                        <label for="" class="ml-1 text-dark" >Validation</label>
+                      <div class="checkbox_DNA d-flex mt-1">
+                        <div class="col-md-4">
+                          <input type="checkbox"  [checked]="subjectATT.required">
+                          <label for="" class="ml-1 text-dark" > Required</label>
+                        </div>
+                        <div class="col-md-4">
+                          <input type="checkbox"  [checked]="subjectATT.Modifiable">
+                          <label for="" class="ml-1 text-dark">Modifiable</label>
+                        </div>
+                        <div class="col-md-4">
+                          <input type="checkbox"  [checked]="subjectATT.Validation">
+                          <label for="" class="ml-1 text-dark" >Validation</label>
+                        </div>
                       </div>
                     </div>
                   </div>
