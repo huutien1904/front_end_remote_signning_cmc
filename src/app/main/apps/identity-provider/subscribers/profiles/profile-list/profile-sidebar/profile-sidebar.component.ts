@@ -320,12 +320,9 @@ export class ProfileSidebarComponent implements OnInit {
 
   // remove DNA 
   removeSubjectDNA() {
-    console.log(this.listSubjectDNA)
-    console.log(this.listSubjectDNA[0])
-    console.log(this.indexCheckedDNA)
+    
     this.indexCheckedDNA.map((item) => {
-      console.log(item)
-      console.log(this.listSubjectDNA[item])
+      
       this.listSubjectDNA = this.listSubjectDNA.filter((val, index) => {
         console.log(index)
         return item !== index;

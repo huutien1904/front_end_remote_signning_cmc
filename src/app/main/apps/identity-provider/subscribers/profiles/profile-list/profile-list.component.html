@@ -1,35 +1,61 @@
-
 <!-- profile header -->
 <div class="profile-header">
   <app-content-header [contentHeader]="contentHeader"></app-content-header>
-  <h1 class="font-weight-bolder mb-2 d-flex justify-content-center align-items-end" *ngIf="showListProfile">Danh sách các UserProfiles</h1>
-  <h1 class="font-weight-bolder mb-2 d-flex justify-content-center align-items-end" *ngIf = "showAddProfile">Tạo mới UserProfiles</h1>
+  <h1
+    class="
+      font-weight-bolder
+      mb-2
+      d-flex
+      justify-content-center
+      align-items-end
+    "
+    *ngIf="showListProfile"
+  >
+    Danh sách các UserProfiles
+  </h1>
+  <h1
+    class="
+      font-weight-bolder
+      mb-2
+      d-flex
+      justify-content-center
+      align-items-end
+    "
+    *ngIf="showAddProfile"
+  >
+    Tạo mới UserProfiles
+  </h1>
 </div>
 <!-- end profile header -->
 
 <div class="list-profile" *ngIf="showListProfile">
-  
-  
-
   <div class="row d-flex m-2">
-    <button type="button" class="btn btn-primary mt-2" (click)="openNewProfile()" rippleEffect >Tạo UserProfiles</button>
+    <!--btn create profile  -->
+    <button
+      type="button"
+      class="btn btn-primary mt-2"
+      (click)="openNewProfile()"
+      rippleEffect
+    >
+      Tạo UserProfiles
+    </button>
   </div>
 
   <!-- table profile -->
   <ngx-datatable
-  class
-  [rows]="listProfile"
-  [rowHeight]="58"
-  class="bootstrap core-bootstrap"
-  [limit]="10"
-  [columnMode]="ColumnMode.force"
-  [headerHeight]="40"
-  [footerHeight]="50"
-  [scrollbarH]="true"
-  [selectionType]="SelectionType.checkbox"
+    class
+    [rows]="listProfile"
+    [rowHeight]="58"
+    class="bootstrap core-bootstrap"
+    [limit]="10"
+    [columnMode]="ColumnMode.force"
+    [headerHeight]="40"
+    [footerHeight]="50"
+    [scrollbarH]="true"
+    [selectionType]="SelectionType.checkbox"
   >
-  <!-- checkbox -->
-  <ngx-datatable-column
+    <!-- checkbox -->
+    <ngx-datatable-column
       [width]="50"
       [sortable]="false"
       [canAutoResize]="false"
@@ -68,29 +94,40 @@
             (change)="onCheckboxChangeFn($event)"
             id="rowChkbxRef{{ rowIndex }}"
           />
-          <label class="custom-control-label" for="rowChkbxRef{{ rowIndex }}"></label>
+          <label
+            class="custom-control-label"
+            for="rowChkbxRef{{ rowIndex }}"
+          ></label>
         </div>
       </ng-template>
-  </ngx-datatable-column>
-  <!-- end checkbox -->
-  <!-- STT -->
-  <ngx-datatable-column
-    name="TT"
-    [width]="50"
-    [canAutoResize]="false"
-    [sortable]="false"
-  >
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-      {{ rowIndex + 1 }}
-    </ng-template>
-  </ngx-datatable-column>
-  <!--end STT -->
+    </ngx-datatable-column>
+    <!-- end checkbox -->
+    <!-- STT -->
+    <ngx-datatable-column
+      name="TT"
+      [width]="50"
+      [canAutoResize]="false"
+      [sortable]="false"
+    >
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+        {{ rowIndex + 1 }}
+      </ng-template>
+    </ngx-datatable-column>
+    <!--end STT -->
 
-  <!-- full name -->
-  <ngx-datatable-column name="TÊN UserProfiles" prop="nameProfile" [width]="150"></ngx-datatable-column>
-  <!-- subject AND -->
-  <ngx-datatable-column name="Subject DN Attributes" prop="subjectDNA" [width]="300">
-    <!-- <ng-template
+    <!-- full name -->
+    <ngx-datatable-column
+      name="TÊN UserProfiles"
+      prop="nameProfile"
+      [width]="150"
+    ></ngx-datatable-column>
+    <!-- subject AND -->
+    <ngx-datatable-column
+      name="Subject DN Attributes"
+      prop="subjectDNA"
+      [width]="300"
+    >
+      <!-- <ng-template
       ngx-datatable-cell-template
       let-value="value"
       let-row="row"
@@ -101,72 +138,86 @@
         {{ row.subjectDNA.id }}
       </div>
     </ng-template> -->
-  </ngx-datatable-column>
+    </ngx-datatable-column>
 
-  <!-- subject ATT -->
-  <ngx-datatable-column name="SUBJECT DN ALTERNATIVE NAME" prop="subjectAttribute" [width]="300"></ngx-datatable-column>
-  
-  <ngx-datatable-column  name="Hành động" [width]="70" [sortable]="false" prop="" > 
-    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
-      <div class="d-flex align-items-center" >
-        <div ngbDropdown container="body">
-          <a
-            ngbDropdownToggle
-            href="javascript:void(0);"
-            class="hide-arrow"
-            id="dropdownBrowserState"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <i
-              data-feather="more-vertical"
-              class="text-primary cursor-pointer mr-50"
-            ></i>
-          </a>
-          <div
-            ngbDropdownMenu
-            class="dropdown-menu-right"
-            aria-labelledby="dropdownBrowserState"
-          >
-            <a
-              href="/apps/ip/subscribers/personals/personal-view/{{value.personalId}}"
-              ngbDropdownItem
-              class="d-flex align-items-center"
-              ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
-            >
+    <!-- subject ATT -->
+    <ngx-datatable-column
+      name="SUBJECT DN ALTERNATIVE NAME"
+      prop="subjectAttribute"
+      [width]="300"
+    ></ngx-datatable-column>
 
+    <ngx-datatable-column
+      name="Hành động"
+      [width]="70"
+      [sortable]="false"
+      prop=""
+    >
+      <ng-template
+        ngx-datatable-cell-template
+        let-value="value"
+        let-row="row"
+        let-rowIndex="rowIndex"
+      >
+        <div class="d-flex align-items-center">
+          <div ngbDropdown container="body">
             <a
-              href="/apps/ip/subscribers/profiles/profile-edit/{{value.id}}"
-              ngbDropdownItem
-              class="d-flex align-items-center"
-              ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa </a
+              ngbDropdownToggle
+              href="javascript:void(0);"
+              class="hide-arrow"
+              id="dropdownBrowserState"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
-            
-            <a
-              href="javascript:void(0)"
-              ngbDropdownItem
-              class="d-flex align-items-center"
-              ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+              <i
+                data-feather="more-vertical"
+                class="text-primary cursor-pointer mr-50"
+              ></i>
+            </a>
+            <div
+              ngbDropdownMenu
+              class="dropdown-menu-right"
+              aria-labelledby="dropdownBrowserState"
             >
+              <a
+                href="/apps/ip/subscribers/personals/personal-view/{{
+                  value.personalId
+                }}"
+                ngbDropdownItem
+                class="d-flex align-items-center"
+                ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+              >
 
+              <a
+                href="/apps/ip/subscribers/profiles/profile-edit/{{ value.id }}"
+                ngbDropdownItem
+                class="d-flex align-items-center"
+                ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
+              </a>
+
+              <a
+                href="javascript:void(0)"
+                ngbDropdownItem
+                class="d-flex align-items-center"
+                (click) = "removeProfile(value.id)"
+                ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+              >
+            </div>
           </div>
+
+          <i data-feather="edit" class="text-primary cursor-pointer"></i>
         </div>
-  
-        <i data-feather="edit" class="text-primary cursor-pointer"></i>
-      </div>
-    </ng-template>
-  </ngx-datatable-column>
+      </ng-template>
+    </ngx-datatable-column>
   </ngx-datatable>
   <!-- end table profile -->
 </div>
 
 <!-- form add profile -->
-<div class="add-new-profile" *ngIf = "showAddProfile">
-  <app-profile-sidebar (submitProfile) = "addProfile($event)" ></app-profile-sidebar>
+<div class="add-new-profile" *ngIf="showAddProfile">
+  <app-profile-sidebar
+    (submitProfile)="addProfile($event)"
+  ></app-profile-sidebar>
 </div>
 <!-- and form add profile -->
-
-
-
-
