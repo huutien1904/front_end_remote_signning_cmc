@@ -109,10 +109,10 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="TT" [sortable]="false" [canAutoResize]="false" [width]="50">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    {{ rowIndex }}
+                    {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
+            <ngx-datatable-column name="Name" prop="personalFullName" [width]="210">
                 <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                     <div class="d-flex align-items-center">
                         <div *ngIf="

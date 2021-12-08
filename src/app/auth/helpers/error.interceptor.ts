@@ -27,7 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     
     return next.handle(request).pipe(
       catchError(err => {
-        if ([0, 401, 403, 404, 500, 503].indexOf(err.status) !== -1) {
+        if ([0, 403, 404, 500, 503].indexOf(err.status) !== -1) {
           // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
           console.log(err);
           //Lỗi Unknown Error: Hiện toastr báo lỗi, ko đóng modal, form...
@@ -42,9 +42,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           else {
             //Các lỗi khác: Chuyển trang báo lỗi, đóng tất cả form, modal đang mở
             this._modal.dismissAll();
-            if(err.status == 401)
-              this._router.navigate(['/pages/miscellaneous/not-authorized']);
-            else if(err.status == 403 || err.status == 404)
+            // if(err.status == 401)
+            //   this._router.navigate(['/pages/miscellaneous/not-authorized']);
+            if(err.status == 403 || err.status == 404)
               this._router.navigate(['/pages/miscellaneous/error']);
             else if(err.status == 500 || err.status == 503)
               this._router.navigate(['/pages/miscellaneous/maintenance']);

@@ -8,12 +8,15 @@ import {  Subject } from "rxjs";
 import { ToastrService } from 'ngx-toastr';
 import { HsmListService } from 'app/main/apps/equipment-management/hsm-management/hsm-list.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PersonalDetail } from 'app/main/models/Personal';
+import { AddressService } from 'app/main/apps/identity-provider/address.service';
 
 @Component({
   selector: 'app-sidebar-personals',
   templateUrl: './sidebar-personals.component.html',
   styleUrls: ['./sidebar-personals.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [AddressService]
 })
 export class SidebarPersonalsComponent implements OnInit {
   private _unsubscribeAll = new Subject();
@@ -30,8 +33,89 @@ export class SidebarPersonalsComponent implements OnInit {
   'brainpoolIP224r1', 'brainpoolIP224t1', 'brainpoolIP256r1', 'brainpoolIP256t1', 'brainpoolIP384r1', 'brainpoolIP384t1', 'brainpoolIP521r1', 'brainpoolIP521t1']
   public tokenList: Token[];
   public hsmList: Hsm[];
+  public strProfile: string = "";
+  public listProfiles: any[] = [
+    {
+      "nameProfile": "PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L",
+      "subjectDNA": [
+        "CN",
+        "GIVENNAME",
+        "SURNAME",
+        "EMAIL",
+        "UID",
+        "OU",
+        "ST",
+        "L"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 1
+    },
+    {
+      "nameProfile": "PROFILE 2: CN, EMAIL, UID, OU, ST, L",
+      "subjectDNA": [
+        "CN",
+        "GIVENNAME",
+        "SURNAME",
+        "EMAIL",
+        "UID",
+        "OU",
+        "ST",
+        "L"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 2
+    },
+    {
+      "nameProfile": "PROFILE 3: CN, UID, OU",
+      "subjectDNA": [
+        "CN",
+        "UID",
+        "OU"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 3
+    },
+    {
+      "nameProfile": "PROFILE 4: CN, ST, L",
+      "subjectDNA": [
+        "CN",
+        "ST",
+        "L"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 4
+    },
+    {
+      "nameProfile": "PROFILE 5: CN",
+      "subjectDNA": [
+        "CN"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 5
+    },
+    {
+      "nameProfile": "PROFILE 6: UID",
+      "subjectDNA": [
+        "UID"
+      ],
+      "subjectAttribute": [
+        "OID"
+      ],
+      "id": 6
+    },
+  ]
 
-  @Input() personal: any;
+  @Input() personal: PersonalDetail;
   @ViewChild('modalLink') modalLink;
 
   get f() {
@@ -43,7 +127,8 @@ export class SidebarPersonalsComponent implements OnInit {
     private _personalsService: PersonalsService,
     private   toastr: ToastrService,
     private _hsmService: HsmListService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private _addressService: AddressService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +139,8 @@ export class SidebarPersonalsComponent implements OnInit {
         alias: [null, Validators.required],
         tokenId: [{value:null, disabled : true}, Validators.required],
         subscriberId: [this.personal.subscriberId],
-        hsmInformationId: [null, Validators.required]
+        hsmInformationId: [null, Validators.required],
+        profile: [[], Validators.required]
       },
       {
         validators: this.usedAlias('alias')
@@ -109,6 +195,69 @@ export class SidebarPersonalsComponent implements OnInit {
       .subscribe(response => {
         this.tokenList = response;
       });
+  }
+
+  changeProfile() {
+    const profile: any[] = this.f.profile.value.subjectDNA
+    this.strProfile = ""
+    let firstWord = true
+    profile.map((attribute: string) => {
+      let value = "";
+      switch (attribute) {
+        case "CN":
+          value = this.personal.personalFirstName + " " + this.personal.personalMiddleName + " " + this.personal.personalLastName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "GIVENNAME":
+          value = this.personal.personalMiddleName + " " + this.personal.personalLastName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "SURNAME":
+          value = this.personal.personalFirstName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "EMAIL":
+          value =  this.personal.email
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "UID":
+          value = this.personal.personalCountryId
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "OU":
+          value =  this.personal.organization.organizationName
+          this.displayProfile(attribute, value, firstWord)
+          firstWord = false
+          break;
+        case "ST":
+          this._addressService.getProvinceName(this.personal.address.provinceId).subscribe((res: any) => {
+            value = res.data.provinceName
+            this.displayProfile(attribute, value, firstWord)
+          })
+          firstWord = false
+          break;
+        case "L":
+          this._addressService.getDistrictName(this.personal.address.districtId).subscribe((res: any) => {
+            value = res.data.districtName
+            this.displayProfile(attribute, value, firstWord)
+          })
+          firstWord = false
+          break;
+      }
+    })
+  }
+
+  displayProfile(attribute, value, firstWord) {
+    if(firstWord == false)
+      this.strProfile += ", " + attribute + " = " + value
+    else {
+      this.strProfile += attribute + " = " + value
+    }
   }
 
   onSubmit() {

@@ -1,10 +1,52 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel1">Tạo cặp khóa cho thuê bao {{ personal.personalFirstName }} </h4>
+    <h4 class="modal-title" id="myModalLabel1">Tạo yêu cầu chứng thực cho thuê bao {{ personal.personalFirstName + " " + personal.personalMiddleName + " " + personal.personalLastName }} </h4>
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
     <form [formGroup]="newRequestForm">
+        <h6 class="mb-1">1. Chọn Profile</h6>
         <div class="row">
-            <div class="col-6 offset-3">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Profile</label>
+                    <ng-select (change)="changeProfile()" [items]="listProfiles" bindLabel="nameProfile" [clearable]="false" formControlName="profile" [ngClass]="f.profile.errors&&f.profile?.touched || submitted && f.profile?.errors?.required ? 'is-invalid' : ''" ></ng-select>
+                    <div *ngIf="f.profile.errors&&f.profile?.touched || submitted && f.profile?.errors?.required" class="invalid-feedback">
+                        <div *ngIf="f.profile.errors.required">Bạn cần chọn profile</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="strProfile.length > 0">
+                <div class="card shadow-none bg-transparent border-primary">
+                    <div class="card-body">
+                        <h4 class="card-title">Thông tin chi tiết</h4>
+                        <p class="card-text">{{ strProfile }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h6 class="mb-1">2. Tạo cặp khóa</h6>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>HSM</label>
+                    <ng-select [items]="hsmList" bindLabel="hsmName" bindValue="hsmId" [clearable]="false" formControlName="hsmInformationId" [ngClass]="f.hsmInformationId.errors && f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required ? 'is-invalid' : '' "
+                        (change)="changeHsm()">
+                    </ng-select>
+                    <div *ngIf="f.hsmInformationId.errors&&f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required" class="invalid-feedback">
+                        <div *ngIf="f.hsmInformationId.errors.required">Bạn cần chọn HSM</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Token</label>
+                    <ng-select [items]="tokenList" bindLabel="tokenName" bindValue="tokenId" [clearable]="false" formControlName="tokenId" [ngClass]="f.tokenId.errors&&f.tokenId?.touched || submitted && f.tokenId?.errors?.required ? 'is-invalid' : ''" [ngbTooltip]="f.hsmInformationId.value == null ? 'Phải chọn HSM trước khi chọn token' : '' "
+                        placement="top"></ng-select>
+                    <div *ngIf="(f.tokenId.errors&&f.tokenId?.touched) || (submitted && f.tokenId?.errors?.required)" class="invalid-feedback">
+                        <div *ngIf="f.tokenId.errors.required">Bạn cần chọn token</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="">Hệ mật</label>
                     <ng-select [items]="cryptoSelect" [clearable]="false" formControlName="cryptoSystem" [ngClass]="f.cryptoSystem.errors&&f.cryptoSystem?.touched || submitted && f.cryptoSystem?.errors?.required ? 'is-invalid' : ''" (change)="changeCrypto($event)"></ng-select>
@@ -13,9 +55,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 offset-3">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="">Độ dài khóa</label>
+                    <label for="">Tham số khóa</label>
                     <ng-select [items]="lengthSelect" [clearable]="false" formControlName="keypairLength" [ngClass]="f.keypairLength.errors&&f.keypairLength?.touched || submitted && f.keypairLength?.errors?.required ? 'is-invalid' : ''" [ngbTooltip]="f.cryptoSystem.value == null ? 'Phải chọn hệ mật trước khi chọn độ dài khóa' : '' "
                         placement="top"></ng-select>
                     <div *ngIf="f.keypairLength.errors&&f.keypairLength?.touched || submitted && f.keypairLength?.errors?.required" class="invalid-feedback">
@@ -23,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 offset-3">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label>Alias</label>
                     <input type="text" formControlName="alias" class="form-control" [ngClass]="{
@@ -36,27 +78,6 @@
                     </div>
                     <div *ngIf="f.alias.errors == null" class="valid-feedback">
                         Alias hợp lệ
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 offset-3">
-                <div class="form-group">
-                    <label>HSM</label>
-                    <ng-select [items]="hsmList" bindLabel="hsmName" bindValue="hsmId" [clearable]="false" formControlName="hsmInformationId" [ngClass]="f.hsmInformationId.errors && f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required ? 'is-invalid' : '' "
-                        (change)="changeHsm()">
-                    </ng-select>
-                    <div *ngIf="f.hsmInformationId.errors&&f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required" class="invalid-feedback">
-                        <div *ngIf="f.hsmInformationId.errors.required">Bạn cần chọn HSM</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 offset-3">
-                <div class="form-group">
-                    <label for="">Token</label>
-                    <ng-select [items]="tokenList" bindLabel="tokenName" bindValue="tokenId" [clearable]="false" formControlName="tokenId" [ngClass]="f.tokenId.errors&&f.tokenId?.touched || submitted && f.tokenId?.errors?.required ? 'is-invalid' : ''" [ngbTooltip]="f.hsmInformationId.value == null ? 'Phải chọn HSM trước khi chọn token' : '' "
-                        placement="top"></ng-select>
-                    <div *ngIf="(f.tokenId.errors&&f.tokenId?.touched) || (submitted && f.tokenId?.errors?.required)" class="invalid-feedback">
-                        <div *ngIf="f.tokenId.errors.required">Bạn cần chọn token</div>
                     </div>
                 </div>
             </div>
