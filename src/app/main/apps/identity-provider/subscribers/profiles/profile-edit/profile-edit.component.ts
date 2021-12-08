@@ -22,12 +22,15 @@ export class ProfileEditComponent implements OnInit {
   public indexSelectedDNA = [];
   public indexSelectedATT = [];
   public editProfile: FormGroup;
+
   constructor(
+    // get active route
     private route: ActivatedRoute,
     private router: Router,
     private _httpClient: HttpClient,
     private fb: FormBuilder,
   ) {
+    //  declare form group
     this.editProfile = this.fb.group({
       nameProfile: [null, [Validators.required,]],
       subjectDNA :[null, [Validators.required,]],
@@ -35,6 +38,8 @@ export class ProfileEditComponent implements OnInit {
     })
    }
   public ListSubjectDNA:any = [];
+
+  // declare subject DNA
   public SubjectDNA = [
     {
       id:"EMAIL",
@@ -121,6 +126,8 @@ export class ProfileEditComponent implements OnInit {
       "Validation": false
     },
   ]
+
+  // declare subject ATT
   public SubjectAttribute = [
     {
       id:"RFC",
@@ -215,14 +222,21 @@ export class ProfileEditComponent implements OnInit {
     },
 
   ]
+
+  //  header 
   private option = {
     headers: {
       "Content-Type": "application/json",
     },
   };
+
+  
   ngOnInit(): void {
+    //  get id profile
     const routerParams = this.route.snapshot.paramMap
     this.profileId = routerParams.get('id');
+
+    // get content profile
     this._httpClient.get(`http://localhost:3000/listProfiles/${this.profileId}`).subscribe((res:any) => {
       console.log('data response', res);
        this.profileRecent = res;
@@ -235,6 +249,8 @@ export class ProfileEditComponent implements OnInit {
             }
           })
       })
+
+      // get list id 
       console.log(this.subjectDNARecent);
       this.profileRecent.subjectAttribute.map((item) => {
         this.SubjectAttribute.map((subitem) =>{
@@ -243,6 +259,8 @@ export class ProfileEditComponent implements OnInit {
             }
           })
       })
+
+      // set value to form group
     this.editProfile.controls['nameProfile'].setValue(this.profileRecent.nameProfile);
     this.editProfile.controls['subjectDNA'].setValue(this.subjectDNARecent);
     this.editProfile.controls['subjectAttribute'].setValue(this.subjectAttributeRecent);
@@ -250,10 +268,12 @@ export class ProfileEditComponent implements OnInit {
     
     
   }
+  // select subject DNA
   selectSubjectDNA(e){
     console.log(e)
     this.getSelectSubjectDNA = e;
   }
+  //  add subject DNA 
   addSubjectDNA(){
     console.log(this.getSelectSubjectDNA);
     this.subjectDNARecent.push(this.getSelectSubjectDNA);
@@ -262,9 +282,11 @@ export class ProfileEditComponent implements OnInit {
     console.log(this.subjectDNARecent);
     this.editProfile.controls['subjectDNA'].setValue(this.subjectDNARecent);
   }
+  // get index checkbox DNA to delete
   getValueCheckBoxDNA(e,value,i){
     this.indexSelectedDNA.push(i);
   }
+  // remove suject DNA
   removeSubjectDNA(){
     
     this.indexSelectedDNA.map((item) => {
@@ -277,10 +299,25 @@ export class ProfileEditComponent implements OnInit {
     this.editProfile.controls['subjectDNA'].setValue(this.subjectDNARecent);
     
   }
+  
+  // get select subject att
+  selectSubjectAttribute(e){
+    this.getSelectSubjectAttribute = e;
+  }
+  //  add subject attribute
+  addSubjectAttribute(){
+    this.subjectAttributeRecent.push(this.getSelectSubjectAttribute);
+    this.subjectAttributeRecent = [...this.subjectAttributeRecent];
+    console.log(this.subjectAttributeRecent);
+    this.editProfile.controls['subjectAttribute'].setValue(this.subjectAttributeRecent);
+  }
+  // get index checkbox ATT
   getValueCheckBoxATT(index){
     this.indexSelectedATT.push(index);
     console.log(this.indexSelectedATT);
   }
+
+  // remove subject ATT
   removeSubjectATT(){
     
     this.indexSelectedATT.map((item) => {
@@ -292,19 +329,12 @@ export class ProfileEditComponent implements OnInit {
     })
     this.editProfile.controls['subjectAttribute'].setValue(this.subjectAttributeRecent);
   }
-  selectSubjectAttribute(e){
-    this.getSelectSubjectAttribute = e;
-  }
-  addSubjectAttribute(){
-    this.subjectAttributeRecent.push(this.getSelectSubjectAttribute);
-    this.subjectAttributeRecent = [...this.subjectAttributeRecent];
-    console.log(this.subjectAttributeRecent);
-    this.editProfile.controls['subjectAttribute'].setValue(this.subjectAttributeRecent);
-  }
+  // set name when change name
   setValueName(e){
     this.editProfile.controls['nameProfile'].setValue(e.target.value);
     console.log(e.target.value)
   }
+  // submit 
   onSubmit(){
     const idSubjectDNA = [];
     const idSubjectATT = [];
@@ -321,6 +351,7 @@ export class ProfileEditComponent implements OnInit {
     this.editProfile.value.subjectAttribute = idSubjectATT;
     const newProfile = JSON.stringify(this.editProfile.value);
     console.log(newProfile);
+    // post data after edit
     this._httpClient.put<any>(
       `http://localhost:3000/listProfiles/${this.profileId}`,newProfile,this.option
     ).subscribe((res:any) => {
