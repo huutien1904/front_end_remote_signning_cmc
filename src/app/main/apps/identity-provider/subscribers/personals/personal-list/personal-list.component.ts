@@ -106,7 +106,9 @@ export class PersonalListComponent implements OnInit {
     this.pagedData.size = this.formListPersonal.get("sizePage").value;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
-
+  getBirthDay(e){
+    console.log(e);
+  }
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
@@ -168,7 +170,7 @@ export class PersonalListComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formListPersonal);
+    console.log(this.formListPersonal.value);
   }
   updateTableOnDelete(){
     this.pagedData.size = this.sizePage[3];
