@@ -1,3 +1,4 @@
+<app-content-header [contentHeader]="contentHeader"></app-content-header>
 <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
         <!-- Certificate request List -->
@@ -69,6 +70,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Danh sách chứng thư số</h4>
+                            <div class="">
+                                <a href="/apps/tm/subscriber-certificate/subscriber-certificate-create">
+                                    <button type="button" rippleEffect class="btn btn-primary">
+                                    Tạo chứng thư số
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table">

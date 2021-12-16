@@ -115,7 +115,12 @@ export class SubscriberCertificateCreateComponent implements OnInit {
             isLink: false
           },
           {
-            name: 'Nhập chứng thư số',
+            name: 'Danh sách chưng thư số',
+            isLink: true,
+            link: '/apps/equipment-management/subscriber-certificate-list'
+          },
+          {
+            name: 'Tạo chứng thư số',
             isLink: true,
             link: '/apps/equipment-management/subscriber-certificate-create'
           }

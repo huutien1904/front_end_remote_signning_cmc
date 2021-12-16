@@ -41,14 +41,14 @@
                             <div *ngIf="f.email.errors.email">Địa chỉ email không hợp lệ</div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Vai trò</label>
                         <ng-select [items]="roles" [clearable]="false" formControlName="role" [ngClass]="{ 'is-invalid': f.role.errors && (f.role.touched || submitted ) }">
                         </ng-select>
                         <div *ngIf="f.role.errors && (f.role.touched || submitted )" class="invalid-feedback">
                             <div *ngIf="f.role.errors.required">Bạn cần chọn vai trò</div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="register-password" class="form-label">Mật khẩu</label>
                         <div class="input-group input-group-merge form-password-toggle">

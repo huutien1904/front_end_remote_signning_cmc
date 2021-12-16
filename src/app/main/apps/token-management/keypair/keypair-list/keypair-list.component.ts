@@ -92,7 +92,7 @@ export class KeypairListComponent implements OnInit {
             isLink: false
           },
           {
-            name: 'Danh sách',
+            name: 'Danh sách cặp khóa',
             isLink: true,
             link: '/apps/tm/keypair/keypair-list'
           }

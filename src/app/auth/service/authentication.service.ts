@@ -11,7 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthenticationService {
   //public
   public currentUser: Observable<User>;
-
+  public token:any
+  public getUser:any
   //private
   private currentUserSubject: BehaviorSubject<User>;
 
@@ -57,7 +58,7 @@ export class AuthenticationService {
       password: password,
     };
     console.log("login with " + email + " and " + password);
-
+    // var getUser:any = {};
     return this._http
       .post<any>(`${environment.apiUrl}/authenticate`, bodyRequest, {
         headers: {
@@ -86,8 +87,109 @@ export class AuthenticationService {
             this.currentUserSubject.next(user);
           }
           return user;
-        })
-      );
+        }))
+      
+      // .subscribe()
+      // .unsubscribe
+      // .pipe(
+      //    map( user => {
+      //     console.log(user);
+      //     // login successful if there's a jwt token in the response
+      //     this._http
+      //     .get<any>(`${environment.apiUrl}/user/self-user`, {
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         "Authorization": "Bearer " + user.token,
+      //       },
+      //     })
+      //     .subscribe(  res =>{
+      //       this.getUser = res.data;
+      //       console.log(" 1 check",res.data);
+      //       localStorage.setItem('currentUser', JSON.stringify(this.getUser));
+      //       return this.getUser;
+      //     })
+      //     if (this.getUser && user.token) {
+      //         console.log("2",this.getUser);
+              
+      //         // store user details and jwt token in local storage to keep user logged in between page refreshes
+              
+      //         // Display welcome toast!
+      //         // setTimeout(() => {
+      //         //   this._toastrService.success(
+      //         //     'Đăng nhập thành công với quyền ' +
+      //         //     user.role +
+      //         //     ' trên SSA Server. Bạn có thể sử dụng ứng dụng ngay bây giờ! 🎉',
+      //         //     '👋 Chào mừng, ' + user.firstName + '!',
+      //         //     { toastClass: 'toast ngx-toastr', closeButton: true }
+      //         //   );
+      //         // }, 2500);
+      //         // // notify
+      //         // this.currentUserSubject.next(this.getUser);
+      //       }
+      //     console.log("3",this.getUser);
+      //     return this.getUser;
+      //   })
+      // );
+    
+    // return this._http
+    // .get<any>(`${environment.apiUrl}/user/self-user`, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "Bearer " + this.token,
+    //   },
+    // })
+    // // .pipe()
+    // .pipe((res:any) =>{
+      
+    //   this.getUser = res.data
+    //   console.log("subcrise",this.getUser);
+    //   setTimeout(() => {
+    //     if (this.getUser && this.token) {
+    //     console.log("ìf")
+    //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //     localStorage.setItem('currentUser', JSON.stringify(this.getUser));
+    //     // Display welcome toast!
+    //     setTimeout(() => {
+    //       this._toastrService.success(
+    //         'Đăng nhập thành công với quyền ' 
+    //         // +
+    //         // currentUser.role +
+    //         // ' trên SSA Server. Bạn có thể sử dụng ứng dụng ngay bây giờ! 🎉',
+    //         // '👋 Chào mừng, ' + user.firstName + '!',
+    //         // { toastClass: 'toast ngx-toastr', closeButton: true },
+    //       );
+    //     }, 2500);
+    //     // notify
+    //     this.currentUserSubject.next(this.getUser);
+    //     }
+    //     }, 3000);
+    //     return this.getUser;
+    // })
+    // // login successful if there's a jwt token in the response
+    //   setTimeout(() => {
+    //   if (this.getUser && user.token) {
+    //   console.log("ìf")
+    //   // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //   localStorage.setItem('currentUser', JSON.stringify(this.getUser));
+    //   // Display welcome toast!
+    //   setTimeout(() => {
+    //     this._toastrService.success(
+    //       'Đăng nhập thành công với quyền ' 
+    //       // +
+    //       // currentUser.role +
+    //       // ' trên SSA Server. Bạn có thể sử dụng ứng dụng ngay bây giờ! 🎉',
+    //       // '👋 Chào mừng, ' + user.firstName + '!',
+    //       // { toastClass: 'toast ngx-toastr', closeButton: true },
+    //     );
+    //   }, 2500);
+    //   // notify
+    //   this.currentUserSubject.next(this.getUser);
+    //   }
+    //   }, 3000);
+    //   console.log(this.getUser);
+    //   return this.getUser;
+      
+
   }
 
   /**
@@ -99,5 +201,19 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     // notify
     this.currentUserSubject.next(null);
+  }
+  getData(token){
+    this._http
+          .get<any>(`${environment.apiUrl}/user/self-user`, {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token,
+            },
+          })
+          .subscribe( res =>{   
+            console.log(" 1 check",res.data);
+            // localStorage.setItem('currentUser', JSON.stringify(this.getUser));
+            return res.data;
+          })
   }
 }

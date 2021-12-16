@@ -24,6 +24,7 @@ import { FormsModule } from "@angular/forms";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule
@@ -51,7 +52,8 @@ const materialModules1234 = [
       }
     }),
     CorePipesModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    ContentHeaderModule
   ],
   exports: [
     CertificateRequestListComponent,

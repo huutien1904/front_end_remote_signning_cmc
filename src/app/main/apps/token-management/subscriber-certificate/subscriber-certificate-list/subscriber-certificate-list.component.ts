@@ -26,6 +26,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   public toDate: NgbDate | null;
   public today = this.calendar.getToday();
   public rows: any[];
+  public contentHeader: object;
   minDate: Date;
   constructor(
     private fb: FormBuilder,
@@ -38,6 +39,25 @@ export class SubscriberCertificateListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.contentHeader = {
+      headerTitle: 'Danh sách',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý cặp khóa',
+            isLink: false
+          },
+          {
+            name: 'Danh sách chứng thư số',
+            isLink: true,
+            link: 'apps/tm/subscriber-certificate/subscriber-certificate-list'
+          }
+        ]
+      }
+    };
 
     this._subscriberCertificateService.getData(this.page,this.itemOnPage).subscribe((res:any) =>{
       this.totalPages = res.data.totalPages * 10;

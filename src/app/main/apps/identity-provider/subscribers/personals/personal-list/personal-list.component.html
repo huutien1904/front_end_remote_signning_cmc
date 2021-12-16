@@ -7,7 +7,7 @@
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">
           <div class="col-md-4">
-            <label class="lable">HỌ TÊN,THƯ ĐIỆN TỬ,ĐỊA CHỈ</label>
+            <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
             <input
               name="distinguishedName"
               id="distinguishedName"
@@ -18,7 +18,7 @@
             />
           </div>
           <div class="col-md-2">
-            <label class="lable">GIỚI TÍNH</label>
+            <label class="lable">Giới tính</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="gender"
@@ -31,7 +31,7 @@
             </fieldset>
           </div>
           <div class="col-md-2">
-            <label class="label">NGÀY SINH</label>
+            <label class="label">Ngày sinh</label>
             <div class="input-group input-group-merge">
               <div class="input-group-prepend">
                 <span class="input-group-text" (click)="birthday.open()"
@@ -171,14 +171,14 @@
           >
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button>
-        <a href="/apps/ip/subscribers/profiles/profile-list">
+        <!-- <a href="/apps/ip/subscribers/profiles/profile-list">
           <button
               class="btn btn-primary ml-1"
               rippleEffect
             >
             <span class="d-none d-sm-inline-block">Thêm Profile</span>
           </button>
-        </a>
+        </a> -->
         <ng-template #newPersonal let-modal>
           <div class="modal-header">
             <h2 class="modal-title" id="myModalLabel160">
@@ -441,6 +441,33 @@
             </span>
             {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
           </div>
+          <div class="col-md-5">
+            <button
+                class="btn btn-primary ml-1"
+                rippleEffect
+                (click)="openNewPersonalModal(newPersonal)"
+              >
+                <i
+                  data-feather="plus"
+                  class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                ></i
+                ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+              </button>
+              <input
+                  #fileInput
+                  type="file"
+                  style="display: none"
+                  (change) = "onInputExcel($event)" 
+                  multiple="false"
+              />
+              <button
+                  class="btn btn-primary ml-1"
+                  rippleEffect
+                  (click)="fileInput.click()"
+                >
+                <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+              </button>
+          </div>
           <datatable-pager
             [pagerLeftArrowIcon]="'datatable-icon-left'"
             [pagerRightArrowIcon]="'datatable-icon-right'"
@@ -451,11 +478,15 @@
             [count]="rowCount"
             [hidden]="!(rowCount / pageSize > 1)"
             (change)="table.onFooterPage($event)"
+            class="col-md-2"
           >
           </datatable-pager>
+          
         </ng-template>
+        
       </ngx-datatable-footer>
     </ngx-datatable>
+        
   </div>
   <!-- <div class="selected-column col-12 mt-1">
     <hr class="w-100" />

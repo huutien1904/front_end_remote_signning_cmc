@@ -11,30 +11,30 @@ export const menu: CoreMenu[] = [
   },
   {
     id: 'identity-provider',
-    title: 'Quản lý người dùng',
+    title: 'Quản lý thuê bao',
     translate: 'MENU.SUBSCRIPTION_MANAGEMENT.SECTION',
     type: 'section',
     children: [
       {
         id: 'subscriber-management',
-        title: 'Tìm kiếm',
+        title: 'Thuê bao',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.SEARCH',
         type: 'item',
-        icon: 'search',
-        url: 'apps/ip/subscribers-search',
+        icon: 'user-plus',
+        url: 'apps/ip/subscribers-list',
         
       },
-      {
-        id: 'subscriber-management',
-        title: 'Tạo thuê bao',
-        translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
-        type: 'item',
-        icon: 'user-plus',
-        url: 'apps/ip/subscribers-create',
-      },
+      // {
+      //   id: 'subscriber-management',
+      //   title: 'Tạo thuê bao',
+      //   translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
+      //   type: 'item',
+      //   icon: 'user-plus',
+      //   url: 'apps/ip/subscribers-create',
+      // },
       {
         id: 'profile-management',
-        title: 'Tạo Profile',
+        title: 'Profile',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
         type: 'item',
         icon: 'users',
@@ -48,13 +48,13 @@ export const menu: CoreMenu[] = [
     translate: 'MENU.TOKEN_MANAGEMENT.SECTION',
     type: 'section',
     children: [
-      {
-        id: 'search',
-        title: 'Tìm kiếm',
-        type: 'item',
-        icon: 'search',
-        url: '/apps/tm/search'
-      },
+      // {
+      //   id: 'search',
+      //   title: 'Tìm kiếm',
+      //   type: 'item',
+      //   icon: 'search',
+      //   url: '/apps/tm/search'
+      // },
       {
         id: 'key-pair-list',
         title: 'Cặp khóa',
@@ -97,7 +97,7 @@ export const menu: CoreMenu[] = [
         type: 'item',
         translate: 'MENU.TOKEN_MANAGEMENT.CERTIFICATE_REQUEST.CREATE',
         icon: 'file-text',
-        url: '/apps/tm/certificate-request/certificate-request-new'
+        url: '/apps/tm/certificate-request/certificate-request-list'
       },
         /*children: [
           {
@@ -123,7 +123,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.CREATE',
         icon: 'file-text',
         type: 'item',
-        url: '/apps/tm/subscriber-certificate/subscriber-certificate-create'
+        url: '/apps/tm/subscriber-certificate/subscriber-certificate-list'
       }
         /*children: [
           {
@@ -149,28 +149,36 @@ export const menu: CoreMenu[] = [
     translate: 'MENU.EQUIPMENT_MANAGEMENT.SECTION',
     type: 'section',
     children: [
-      {
-        id: 'search',
-        title: 'Tìm kiếm',
-        type: 'item',
-        icon: 'search',
-        url: '/apps/equipment-management/search'
-      },
+      // {
+      //   id: 'search',
+      //   title: 'Tìm kiếm',
+      //   type: 'item',
+      //   icon: 'search',
+      //   url: '/apps/equipment-management/search'
+      // },
       {
         id: "hsm-management",
-        title: 'Tạo Thiết bị HSM',
+        title: 'Kết nối HSM',
         translate: 'MENU.EQUIPMENT_MANAGEMENT.HSM',
         type: 'item',
         icon: 'tool',
-        url: '/apps/equipment-management/new-hsm'
+        url: '/apps/equipment-management/hsm'
       },
       {
         id: "token-management",
-        title: 'Tạo Token',
+        title: 'Tokens',
         translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
         type: 'item',
         icon: 'tablet',
-        url: '/apps/equipment-management/new-token'
+        url: '/apps/equipment-management/token'
+      },
+      {
+        id: "template-management",
+        title: 'Template',
+        translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
+        type: 'item',
+        icon: 'speaker',
+        url: 'apps/system-management/monitorlog'
       },
     ]
   },
@@ -195,7 +203,24 @@ export const menu: CoreMenu[] = [
         type: 'item',
         icon: 'monitor',
         url: 'apps/system-management/monitorlog'
+      },
+      {
+        id: 'monitorlog',
+        title: 'Trợ giúp',
+        translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
+        type: 'item',
+        icon: 'plus',
+        url: 'apps/system-management/monitorlog'
+      },
+      {
+        id: 'monitorlog',
+        title: 'Giới thiệu',
+        translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
+        type: 'item',
+        icon: 'user-plus',
+        url: 'apps/system-management/monitorlog'
       }
+
     ]
   }
 ]

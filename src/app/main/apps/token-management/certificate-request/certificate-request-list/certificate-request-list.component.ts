@@ -36,6 +36,7 @@ export class CertificateRequestListComponent implements OnInit {
   public SelectionType = SelectionType;
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
+  public contentHeader: object;
 
   constructor(
     private fb: FormBuilder,
@@ -64,7 +65,25 @@ export class CertificateRequestListComponent implements OnInit {
     });
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size })
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    this.contentHeader = {
+      headerTitle: 'Danh sách',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý cặp khóa',
+            isLink: false
+          },
+          {
+            name: 'Danh sách yêu cầu chứng thực',
+            isLink: true,
+            link: '/apps/tm/certificate-request/certificate-request-list'
+          }
+        ]
+      }
+    };
   }
 
   getOrganization(item): any {

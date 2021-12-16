@@ -10,7 +10,7 @@
           <div class="row">
             <div class="col-md-4">
               <!-- formControlName="inputPersonal" -->
-              <label class="lable">HỌ TÊN, THƯ ĐIỆN TỬ , ĐỊA CHỈ , WEBSIDE</label>
+              <label class="lable">Họ tên, thư điện tử, địa chỉ, webside</label>
               <input
                 formControlName="inputOrganization"
                 name="findName"
@@ -21,7 +21,7 @@
               />
             </div>
             <div class="col-md-2">
-              <label class="lable">LOẠI TỔ CHỨC</label>
+              <label class="lable">Loại tổ chức</label>
               <fieldset class="form-group">
                 <ng-select
                   [items]="typeOrganization"
@@ -35,7 +35,7 @@
               </fieldset>
             </div>
             <div class="col-md-2">
-              <label class="lable">NGƯỜI ĐẠI DIỆN</label>
+              <label class="lable">Người đại diện</label>
               <input
                 name="findRepresentative"
                 id="findRepresentative"
@@ -353,6 +353,39 @@
                     </span>
                     {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
                   </div>
+                  <div class="col-md-5">
+                    <button
+                      class="btn btn-primary ml-1"
+                      rippleEffect
+                      (click)="openNewOrganizationModal(newOrganization)"
+                    >
+                      <i
+                        data-feather="plus"
+                        class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                      ></i
+                      ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+                    </button>
+                    <input
+                      #fileInput
+                      type="file"
+                      style="display: none"
+                      (change) = "onInputExcel($event)" 
+                      multiple="false"
+                  />
+                    <button
+                      class="btn btn-primary ml-1"
+                      rippleEffect
+                      (click)="fileInput.click()" 
+                    >
+                      <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+                    </button>
+                    <!-- <a
+                      csvLink
+                      class="btn btn-outline-secondary float-right mr-1"
+                      rippleEffect
+                      >Xuất dữ liệu CSV</a
+                    > -->
+                  </div>
                   <datatable-pager
                     [pagerLeftArrowIcon]="'datatable-icon-left'"
                     [pagerRightArrowIcon]="'datatable-icon-right'"
@@ -361,12 +394,52 @@
                     [page]="curPage"
                     [size]="pageSize"
                     [count]="rowCount"
+                    [hidden]="!(rowCount / pageSize > 1)"
                     (change)="table.onFooterPage($event)"
+                    class="col-md-2"
                   >
-                  
                   </datatable-pager>
+                  
                 </ng-template>
+                
+                
         </ngx-datatable-footer>
+        <ng-template>
+                  <div class="">
+                  <button
+                    class="btn btn-primary ml-1"
+                    rippleEffect
+                    (click)="openNewOrganizationModal(newOrganization)"
+                  >
+                    <i
+                      data-feather="plus"
+                      class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                    ></i
+                    ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+                  </button>
+                  <input
+                    #fileInput
+                    type="file"
+                    style="display: none"
+                    (change) = "onInputExcel($event)" 
+                    multiple="false"
+                />
+                  <button
+                    class="btn btn-primary ml-1"
+                    rippleEffect
+                    (click)="fileInput.click()" 
+                  >
+                    <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+                  </button>
+                  <a
+                    csvLink
+                    class="btn btn-outline-secondary float-right mr-1"
+                    rippleEffect
+                    >Xuất dữ liệu CSV</a
+                  >
+                </div>
+                </ng-template>
+        
       </ngx-datatable>
       <!-- end table -->  
     </div>

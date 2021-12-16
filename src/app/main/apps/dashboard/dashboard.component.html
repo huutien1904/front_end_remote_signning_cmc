@@ -1,12 +1,13 @@
 <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
         <!--Số liệu-->
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 col-12">
+          <div class="row">
+            
+            <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
                   <div>
-                    <p class="card-text">Tổng số thuê bao</p>
+                    <p class="card-text">Số lượng thuê bao</p>
                     <h2 class="font-weight-bolder mb-0">385</h2>
                   </div>
                   <div class="avatar bg-light-primary p-50 m-0">
@@ -17,7 +18,52 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-sm-6 col-12">
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text"> Số lượng chứng thư số</p>
+                    <h2 class="font-weight-bolder mb-0">412</h2>
+                  </div>
+                  <div class="avatar bg-light-success p-50 m-0">
+                    <div class="avatar-content">
+                      <span class="feather icon-award font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Số lần ký số</p>
+                    <h2 class="font-weight-bolder mb-0">300</h2>
+                  </div>
+                  <div class="avatar bg-light-warning p-50 m-0">
+                    <div class="avatar-content">
+                        <span class="feather icon-edit-2 font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <p class="card-text">Trạng thái kết nối HSM</p>
+                    <h2 class="font-weight-bolder mb-0">360</h2>
+                  </div>
+                  <div class="avatar bg-light-secondary p-50 m-0">
+                    <div class="avatar-content">
+                        <span class="feather icon-smartphone font-medium-5"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
                   <div>
@@ -32,37 +78,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-sm-6 col-12">
-              <div class="card">
-                <div class="card-header">
-                  <div>
-                    <p class="card-text">Tần suất kí số</p>
-                    <h2 class="font-weight-bolder mb-0">300</h2>
-                  </div>
-                  <div class="avatar bg-light-warning p-50 m-0">
-                    <div class="avatar-content">
-                        <span class="feather icon-edit-2 font-medium-5"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 col-12">
-              <div class="card">
-                <div class="card-header">
-                  <div>
-                    <p class="card-text">Chứng thư số</p>
-                    <h2 class="font-weight-bolder mb-0">412</h2>
-                  </div>
-                  <div class="avatar bg-light-success p-50 m-0">
-                    <div class="avatar-content">
-                      <span class="feather icon-award font-medium-5"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 col-12">
+            <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
                   <div>
@@ -76,26 +92,77 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 col-12">
-              <div class="card">
-                <div class="card-header">
-                  <div>
-                    <p class="card-text">Thiết bị HSM</p>
-                    <h2 class="font-weight-bolder mb-0">360</h2>
-                  </div>
-                  <div class="avatar bg-light-secondary p-50 m-0">
-                    <div class="avatar-content">
-                        <span class="feather icon-smartphone font-medium-5"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </div> -->
+            
         </div>
         <!--Biểu đồ-->
         <section id="apex-line-charts">
           <div class="row">
+            <!--Yêu cầu kí số theo tháng-->
+            <div class="col-6">
+              <div class="card">
+                <div
+                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+                >
+                  <div>
+                    <h4 class="card-title mb-25">Tần suất kí số</h4>
+                    <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
+                  </div>
+                  <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div id="line-chart" #apexLineChartRef>
+                    <apx-chart
+                      [series]="requestChart1.series"
+                      [chart]="{
+                        height: 400,
+                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : requestChart1.chart.width,
+                        type: 'line',
+                        zoom: {
+                          enabled: false
+                        },
+                        toolbar: {
+                          show: false
+                        }
+                      }"
+                      [xaxis]="requestChart1.xaxis"
+                      [stroke]="requestChart1.stroke"
+                      [tooltip]="requestChart1.tooltip"
+                      [colors]="requestChart1.colors"
+                      [dataLabels]="requestChart1.dataLabels"
+                      [grid]="requestChart1.grid"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Trạng thái xử lí-->
+            <div class="col-xl-6 col-12">
+              <div class="card">
+                <div class="card-header flex-column align-items-start">
+                  <h4 class="card-title mb-75">Trạng thái</h4>
+                  <span class="card-subtitle text-muted">Kí số</span>
+                </div>
+                <div class="card-body">
+                  <div id="donut-chart" #apexDonutChartRef>
+                    <apx-chart
+                      [series]="requestChart2.series"
+                      [chart]="{
+                        height: 450,
+                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : requestChart2.chart.width,
+                        type: 'donut'
+                      }"
+                      [labels]="requestChart2.labels"
+                      [plotOptions]="requestChart2.plotOptions"
+                      [responsive]="requestChart2.responsive"
+                      [colors]="requestChart2.colors"
+                      [legend]="requestChart2.legend"
+                    ></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!--Tổng số thuê bao-->
             <div class="col-6">
               <div class="card">
@@ -118,7 +185,7 @@
                         width: isMenuToggled === false ? apexLineChartRef.offsetWidth : subcriberChart1.chart.width,
                         type: 'line',
                         zoom: {
-                          enabled: false
+                          enabled: true
                         },
                         toolbar: {
                           show: false
@@ -239,71 +306,8 @@
                 </div>
               </div>
             </div>
-            <!--Yêu cầu kí số theo tháng-->
-            <div class="col-6">
-              <div class="card">
-                <div
-                  class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
-                >
-                  <div>
-                    <h4 class="card-title mb-25">Tần suất kí số</h4>
-                    <span class="card-subtitle text-muted">Dữ liệu 6 tháng gần nhất</span>
-                  </div>
-                  <div class="d-flex align-items-center flex-wrap mt-sm-0 mt-1">
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div id="line-chart" #apexLineChartRef>
-                    <apx-chart
-                      [series]="requestChart1.series"
-                      [chart]="{
-                        height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : requestChart1.chart.width,
-                        type: 'line',
-                        zoom: {
-                          enabled: false
-                        },
-                        toolbar: {
-                          show: false
-                        }
-                      }"
-                      [xaxis]="requestChart1.xaxis"
-                      [stroke]="requestChart1.stroke"
-                      [tooltip]="requestChart1.tooltip"
-                      [colors]="requestChart1.colors"
-                      [dataLabels]="requestChart1.dataLabels"
-                      [grid]="requestChart1.grid"
-                    ></apx-chart>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--Trạng thái xử lí-->
-            <div class="col-xl-6 col-12">
-              <div class="card">
-                <div class="card-header flex-column align-items-start">
-                  <h4 class="card-title mb-75">Trạng thái</h4>
-                  <span class="card-subtitle text-muted">Kí số</span>
-                </div>
-                <div class="card-body">
-                  <div id="donut-chart" #apexDonutChartRef>
-                    <apx-chart
-                      [series]="requestChart2.series"
-                      [chart]="{
-                        height: 450,
-                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : requestChart2.chart.width,
-                        type: 'donut'
-                      }"
-                      [labels]="requestChart2.labels"
-                      [plotOptions]="requestChart2.plotOptions"
-                      [responsive]="requestChart2.responsive"
-                      [colors]="requestChart2.colors"
-                      [legend]="requestChart2.legend"
-                    ></apx-chart>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
+            
             <!--Yêu cầu chứng thực-->
             <div class="col-6">
               <div class="card">

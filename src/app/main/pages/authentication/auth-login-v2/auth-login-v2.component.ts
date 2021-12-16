@@ -85,6 +85,7 @@ export class AuthLoginV2Component implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          console.log("check data",data);
           this._router.navigate([this.returnUrl]);
         },
         error => {
@@ -92,7 +93,6 @@ export class AuthLoginV2Component implements OnInit {
           this.loading = false;
         }
       );
-
   }
 
   // Lifecycle Hooks
@@ -104,7 +104,7 @@ export class AuthLoginV2Component implements OnInit {
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
       email: ['hunga1k15tv@gmail.com', [Validators.required, Validators.email]],
-      password: ['1', Validators.required],
+      password: ['cmcPass97', Validators.required],
       rememberMe: [false],
     });
 

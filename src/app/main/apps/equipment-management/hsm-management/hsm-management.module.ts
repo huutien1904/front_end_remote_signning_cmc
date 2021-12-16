@@ -24,12 +24,18 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
+import { RouterModule, Routes } from "@angular/router";
 
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule
 ];
-
+const routes: Routes = [
+  {
+    path: '',
+    component: HsmManagementComponent
+  }
+]
 @NgModule({
   declarations: [HsmManagementComponent],
   imports: [
@@ -46,7 +52,8 @@ const materialModules1234 = [
       }
     }),
     CorePipesModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    RouterModule.forChild(routes),
   ],
   exports: [HsmManagementComponent],
   providers: [

@@ -43,6 +43,11 @@ export class CertificateRequestNewComponent implements OnInit {
             isLink: false
           },
           {
+            name: 'Danh sách yêu cầu chứng thực',
+            isLink: true,
+            link: '/apps/tm/certificate-request/certificate-request-list'
+          },
+          {
             name: 'Tạo yêu cầu',
             isLink: true,
             link: '/apps/tm/certificate-request-new'

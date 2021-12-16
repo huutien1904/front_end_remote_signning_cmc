@@ -29,11 +29,11 @@ export class SearchSubscriberComponent implements OnInit {
       key:"Thuê bao tổ chức",
       name: "Thuê bao tổ chức"
     },
-    {
-      id: 3,
-      key:"Profiles",
-      name: "Profiles"
-    }, 
+    // {
+    //   id: 3,
+    //   key:"Profiles",
+    //   name: "Profiles"
+    // }, 
     
   ]  
   ngOnInit(): void {

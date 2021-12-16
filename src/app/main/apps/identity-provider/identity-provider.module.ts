@@ -20,7 +20,7 @@ import { UserModule } from './users/user/user.module';
 
 const routes: Routes = [
   {
-    path: "subscribers-search",
+    path: "subscribers-list",
     loadChildren: () =>
       import("./search-subscribers/search-subscriber.module").then(
         (m) => m.SearchSubscribersModule
