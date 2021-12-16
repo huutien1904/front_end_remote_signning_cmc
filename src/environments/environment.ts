@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiUrl: 'http://183.91.3.60:8080/csignremote-0.2'
+  apiUrl: 'http://183.91.3.60:8080/csignremote-0.3'
 };
 
 /*

@@ -76,9 +76,7 @@ export class AuthenticationService {
             // Display welcome toast!
             setTimeout(() => {
               this._toastrService.success(
-                'Đăng nhập thành công với quyền ' +
-                user.role +
-                ' trên SSA Server. Bạn có thể sử dụng ứng dụng ngay bây giờ! 🎉',
+                'Đăng nhập thành công trên SSA Server. Bạn có thể sử dụng ứng dụng ngay bây giờ! 🎉',
                 '👋 Chào mừng, ' + user.firstName + '!',
                 { toastClass: 'toast ngx-toastr', closeButton: true }
               );
