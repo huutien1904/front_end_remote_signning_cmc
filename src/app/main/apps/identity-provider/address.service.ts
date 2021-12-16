@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Commune, District, Province, Street } from "../../models/Address";
 
 @Injectable({
@@ -63,7 +62,8 @@ export class AddressService {
   }
   public createStreet(body): Observable<ResponseData<Street>> {
     return this._httpClient.post<ResponseData<Street>>(
-      `${environment.apiUrl}/address/street/create`,body,
+      `${environment.apiUrl}/address/street/create`,
+      body,
       this.option
     );
   }

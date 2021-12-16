@@ -48,6 +48,7 @@
     "core-js": "3.14.0",
     "feather-icons": "4.28.0",
     "hammerjs": "2.0.8",
+    "json-server": "^0.17.0",
     "katex": "0.13.11",
     "lodash": "4.17.21",
     "moment": "^2.29.1",

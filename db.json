@@ -1,0 +1,69 @@
+{
+  "listProfiles": [
+    {
+      "nameProfile": "CMC CIST TIEN",
+      "subjectDNA": [
+        "UID",
+        "UID",
+        "INITIALS"
+      ],
+      "subjectAttribute": [
+        "URI",
+        "DN",
+        "DN",
+        "XA"
+      ],
+      "id": 4
+    },
+    {
+      "nameProfile": "CMCC",
+      "subjectDNA": [
+        "EMAIL"
+      ],
+      "subjectAttribute": [
+        "MS UPN"
+      ],
+      "id": 5
+    },
+    {
+      "nameProfile": "TIEN",
+      "subjectDNA": [
+        "EMAIL"
+      ],
+      "subjectAttribute": [
+        "MS UPN",
+        "MS UPN"
+      ],
+      "id": 6
+    },
+    {
+      "nameProfile": "CMCC",
+      "subjectDNA": [
+        "EMAIL"
+      ],
+      "subjectAttribute": [
+        "MS UPN"
+      ],
+      "id": 7
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

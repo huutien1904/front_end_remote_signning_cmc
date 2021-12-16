@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
+import { ProfileService } from "../profile.service";
 
 @Component({
   selector: "app-profile-list",
@@ -20,7 +21,8 @@ export class ProfileListComponent implements OnInit {
   public contentHeader: object;
   constructor(
     private modalService: NgbModal,
-    private _httpClient: HttpClient
+    private _httpClient: HttpClient,
+    private _profileService:ProfileService
   ) {}
 
   //  open form new profile close table list profile
