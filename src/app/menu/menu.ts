@@ -38,7 +38,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
         type: 'item',
         icon: 'users',
-        url: '/apps/ip/subscribers/profiles/profile-list',
+        url: '/apps/ip/profiles/profile-list',
       },
     ]
   },

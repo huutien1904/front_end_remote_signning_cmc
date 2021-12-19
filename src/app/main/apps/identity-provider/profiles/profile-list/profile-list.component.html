@@ -1,0 +1,280 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- profile header -->
+    <section id="profile-header">
+      <div class="profile-header">
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      <!-- search profile -->
+    </div>
+    </section>
+    <section id="search-profile">
+      <div class="card">
+        <!-- search -->
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body pb-1">
+          <form class="form form-vertical" [formGroup]="formListProfile">
+            <div class="row">
+              <div class="col-md-4">
+                <label class="lable">Profile</label>
+                <input
+                  name="contains"
+                  id="contains"
+                  formControlName="contains"
+                  type="search"
+                  class="form-control"
+                  placeholder="Nhập tên profile"
+                />
+              </div>
+
+              <div class="col-md-2 mt-2">
+                <div class="input-group col-12">
+                  <input
+                    class="
+                      form-control
+                      btn btn-secondary btn-outline-secondary
+                    "
+                    value="Tùy chọn"
+                    type="button"
+                    (click)="moreOption = !moreOption"
+                  />
+                </div>
+              </div>
+              <div class="col-md-2 mt-2">
+                <button
+                  type="button"
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click)="onSubmit()"
+                  [disabled]="!formListProfile.valid"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
+            </div>
+            <div class="row" [ngbCollapse]="moreOption">
+              <div class="col-md-2">
+                <label for="">Số dòng:</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="sizePage"
+                    bindValue="sizePage"
+                    [clearable]="false"
+                    formControlName="sizePage"
+                    (change)="changePage()"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="lable">Từ ngày:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span
+                          class="input-group-text"
+                          (click)="fromDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
+                      </div>
+                      <input
+                        [matDatepicker]="fromDate"
+                        formControlName="fromDate"
+                        class="form-control"
+                        type="text"
+                        [min]="minDate"
+                        [max]="formListProfile.controls.toDate.value"
+                        placeholder="13/09/2021"
+                      />
+                    </div>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="lable">Đến ngày:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="toDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
+                      </div>
+                      <input
+                        [matDatepicker]="toDate"
+                        formControlName="toDate"
+                        class="form-control"
+                        type="text"
+                        [min]="formListProfile.controls.fromDate.value"
+                        placeholder="13/09/2021"
+                      />
+                    </div>
+
+                    <mat-datepicker #toDate></mat-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section id="table-profile-list">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Danh sách Profile</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-50">
+            <button class="btn btn-primary ml-2" rippleEffect>
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i
+              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+            </button>
+          </div>
+        </div>
+        <mat-progress-bar
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+        <ngx-datatable
+        #tableRowDetails
+          [rows]="rowsData"
+          class="bootstrap core-bootstrap cursor"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [scrollbarH]="true"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [externalPaging]="true"
+          [limit]="pagedData.size"
+          [count]="pagedData.totalItems"
+          [offset]="pagedData.currentPage"
+          [loadingIndicator]="isLoading"
+          (page)="setPage($event)"
+        >
+          <ngx-datatable-column
+            name="TT"
+            [width]="20"
+            [canAutoResize]="false"
+            [sortable]="false"
+          >
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- full name -->
+          <ngx-datatable-column
+            name="TÊN EntityProfile"
+            prop="endEntityProfileName"
+            [width]="150"
+          ></ngx-datatable-column>
+          <!-- subject AND -->
+          <ngx-datatable-column
+            name="Dn Attribute"
+            prop="subjectDnAttribute"
+            [width]="300"
+          >
+          </ngx-datatable-column>
+          <!-- subject ATT -->
+          <ngx-datatable-column
+            name="Dn Alternative"
+            prop="subjectDnAlternative"
+            [width]="300"
+          ></ngx-datatable-column>
+
+          <ngx-datatable-column
+            name="Hành động"
+            [width]="70"
+            [sortable]="false"
+            prop=""
+          >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+              let-rowIndex="rowIndex"
+            >
+              <div class="d-flex align-items-center">
+                <div ngbDropdown container="body">
+                  <a
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    class="hide-arrow"
+                    id="dropdownBrowserState"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i
+                      data-feather="more-vertical"
+                      class="text-primary cursor-pointer mr-50"
+                    ></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right"
+                    aria-labelledby="dropdownBrowserState"
+                  >
+                    <a
+                    [routerLink]="['../', 'profile-view', value.endEntityProfileId]"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      ><i data-feather="file-text" class="mr-50"></i> Chi
+                      tiết</a
+                    >
+
+                    <a
+                    [routerLink]="['../', 'profile-edit', value.endEntityProfileId]"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="removeProfile(value.endEntityProfileId)"
+                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                    >
+                  </div>
+                </div>
+                <i
+                  data-feather="edit"
+                  class="text-primary cursor-pointer"
+                ></i>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+              let-isVisible="isVisible"
+            >
+              <div class="page-count" *ngIf="!isLoading">
+                  Có tổng số
+                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+              </div>
+              <datatable-pager
+                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'"
+                [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'"
+                [page]="curPage"
+                [size]="pageSize"
+                [count]="rowCount"
+                [hidden]="!(rowCount / pageSize > 1)"
+                (change)="table.onFooterPage($event)"
+              >
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+</div>

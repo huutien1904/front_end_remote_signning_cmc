@@ -58,7 +58,7 @@
     "
     *ngIf="showListProfile"
   >
-    Danh sách các UserProfiles
+    Danh sách các EntityProfile
   </h1>
   <h1
     class="
@@ -70,7 +70,7 @@
     "
     *ngIf="showAddProfile"
   >
-    Tạo mới UserProfiles
+    Tạo mới EntityProfile
   </h1>
 </div>
 <!-- end profile header -->
@@ -84,7 +84,7 @@
       (click)="openNewProfile()"
       rippleEffect
     >
-      Tạo UserProfiles
+      Tạo EntityProfile
     </button>
   </div>
 
@@ -164,7 +164,7 @@
 
     <!-- full name -->
     <ngx-datatable-column
-      name="TÊN UserProfiles"
+      name="TÊN EntityProfile"
       prop="nameProfile"
       [width]="150"
     ></ngx-datatable-column>

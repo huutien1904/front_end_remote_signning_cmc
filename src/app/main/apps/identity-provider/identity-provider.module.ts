@@ -9,6 +9,7 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ProfileModule } from './profiles/profile.module';
 
 import { SearchSubscribersModule } from './search-subscribers/search-subscriber.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
@@ -40,6 +41,9 @@ const routes: Routes = [
       import("./subscribers/subscribers-routing.module").then(
         (m) => m.SubscribersRoutingModule
       ),
+  },{ 
+    path : 'profiles',
+    loadChildren:()=> import('./profiles/profile-routing.module').then(m => m.ProfileRoutingModule)
   },
   {
     path: "**",
@@ -49,8 +53,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    
-  
+
   ],
   imports: [
     CommonModule,
@@ -58,6 +61,7 @@ const routes: Routes = [
     NgbModule,
     CoreCommonModule,
     UserModule,
+    ProfileModule,
     SearchSubscribersModule,
     OrganizationsModule,
     FormsModule,

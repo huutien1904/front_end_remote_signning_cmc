@@ -8,7 +8,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { PersonalsModule } from '../subscribers/personals/personals.module';
 import { OrganizationsModule } from '../subscribers/organizations/organizations.module';
-import { ProfileModule } from '../subscribers/profiles/profile.module';
 const routes:Routes = [
     {
       path:'',
@@ -29,7 +28,6 @@ const routes:Routes = [
       CoreCommonModule,
       PersonalsModule,
       OrganizationsModule,
-      ProfileModule
     ],
     exports:[SearchSubscriberComponent]
     

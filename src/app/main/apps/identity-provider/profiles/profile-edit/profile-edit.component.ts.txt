@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileEditComponent implements OnInit {
+  public contentHeader: object;
   public profileRecent:any = {};
   public subjectDNARecent:any = [];
   public subjectAttributeRecent:any = [];
@@ -266,7 +267,26 @@ export class ProfileEditComponent implements OnInit {
     this.editProfile.controls['subjectAttribute'].setValue(this.subjectAttributeRecent);
     });
     
-    
+    this.contentHeader = {
+      headerTitle: "EntityProfile",
+      // actionButton: true,
+      breadcrumb: {
+        type: "chevron",
+        links: [
+          {
+            name: "Danh sách",
+            isLink: true,
+            link: "/apps/ip/profiles/profile-list",
+            // click: this.showListProfile = true
+          },
+          {
+            name: "Chỉnh sửa",
+            isLink: false,
+            link: "",
+          },
+        ],
+      },
+    };
   }
   // select subject DNA
   selectSubjectDNA(e){
