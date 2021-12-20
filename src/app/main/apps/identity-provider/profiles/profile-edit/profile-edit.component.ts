@@ -1,8 +1,5 @@
-import {
-  Component, OnDestroy,
-  OnInit, ViewEncapsulation
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -19,11 +16,11 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   public lastValue;
   public data;
 
+  public nameProfile: string;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
   public profileRecent: any = {};
   public subjectDNARecent: any = [];
-  public subjectAttributeRecent: any = [];
   public showRemoveButtonDNA = true;
   public showRemoveButtonATT = true;
   public selectedSubjectDNA: any = [];
@@ -33,26 +30,98 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   public indexSelectedDNA = [];
   public indexSelectedATT = [];
   public formEditProfile: FormGroup;
-  
+  public formDistinguishedName: FormGroup;
+  public formAlternativeName: FormGroup;
+  public checkTest=true;
   constructor(
     private router: Router,
     private _profileService: ProfileService,
     private fb: FormBuilder
   ) {
-    this._unsubscribeAll = new Subject();
-    this.lastValue = this.url.substr(this.url.lastIndexOf("/") + 1);
-    console.log(this.lastValue);
-    this._profileService.getProfileId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).subscribe(profile => {
-      console.log(profile);
-      
-    });
     //  declare form group
     this.formEditProfile = this.fb.group({
       nameProfile: [null, [Validators.required]],
-      subjectDNA: [null, [Validators.required]],
-      subjectAttribute: [null, [Validators.required]],
+      distinguishedName: this.fb.array([]),
+      alternativeName: this.fb.array([]),
+    });
+    this.formDistinguishedName = this.fb.group({
+      name: [null, Validators.required],
+      required: [false, Validators.required],
+      modifiable: [true, Validators.required],
+      validation: [false, Validators.required],
+    });
+    this.formAlternativeName = this.fb.group({
+      name: [null, Validators.required],
+      required: [false, Validators.required],
+      modifiable: [true, Validators.required],
+      validation: [false, Validators.required],
+    });
+
+    this._unsubscribeAll = new Subject();
+    this.lastValue = this.url.substr(this.url.lastIndexOf("/") + 1);
+    console.log(this.lastValue);
+    this._profileService
+      .getProfileId(this.lastValue)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((profile) => {
+        console.log(profile);
+        this.nameProfile = profile.data.endEntityProfileName;
+        this.formEditProfile
+          .get("nameProfile")
+          .patchValue(profile.data.endEntityProfileName);
+        profile.data.distinguishedName.forEach((dn) => {
+          this.distinguishedName.push(
+            this.createDistinguishedName(
+              dn.name,
+              dn.required,
+              dn.modifiable,
+              dn.validation
+            )
+          );
+        });
+        profile.data.alternativeName.forEach((dn) => {
+          this.alternativeName.push(
+            this.createAlternativeName(
+              dn.name,
+              dn.required,
+              dn.modifiable,
+              dn.validation
+            )
+          );
+          console.log(this.formEditProfile.get("alternativeName").value);
+        });
+        console.log(typeof(this.formEditProfile.get("distinguishedName").value[1].required));
+        console.log(this.formEditProfile.get("distinguishedName").value[1].required==true);
+      });
+  }
+
+  createDistinguishedName(name, required:boolean, modifiable:boolean, validation:boolean): FormGroup {
+    console.log(modifiable);
+    
+    return this.fb.group({
+      name: [name, Validators.required],
+      required: [required, Validators.requiredTrue],
+      modifiable: [modifiable, Validators.requiredTrue],
+      validation: [validation, Validators.requiredTrue],
     });
   }
+
+  createAlternativeName(name, required, modifiable, validation): FormGroup {
+    return this.fb.group({
+      name: [name, Validators.required],
+      required: [required, Validators.requiredTrue],
+      modifiable: [modifiable, Validators.requiredTrue],
+      validation: [validation, Validators.requiredTrue],
+    });
+  }
+
+  get distinguishedName(): FormArray {
+    return this.formEditProfile.get("distinguishedName") as FormArray;
+  }
+  get alternativeName(): FormArray {
+    return this.formEditProfile.get("alternativeName") as FormArray;
+  }
+
   public ListSubjectDNA: any = [];
 
   // declare subject DNA
@@ -259,6 +328,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       },
     };
   }
+  get f() {
+    return this.formEditProfile.controls;
+  }
+
   // select subject DNA
   selectSubjectDNA(e) {}
   //  add subject DNA
