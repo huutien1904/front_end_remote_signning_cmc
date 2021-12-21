@@ -11,7 +11,7 @@
     <section id="edit-profile">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Chỉnh sửa profile : {{ nameProfile }}</h4>
+          <h4 class="card-title">Chỉnh sửa profile : {{ endEntityProfileName }}</h4>
         </div>
         <div class="card-body pb-1">
           <!-- form edit -->
@@ -30,7 +30,7 @@
                     <input
                       placeholder="Tên Profile"
                       type="text"
-                      formControlName="nameProfile"
+                      formControlName="endEntityProfileName"
                       class="form-control"
                     />
                   </div>
@@ -317,10 +317,11 @@
                 type="submit"
                 rippleEffect
                 class="btn btn-primary mr-n1 mr-md-4 float-right"
-                (click)="onSubmit()"
+                [swal]="SweetAlertConfirm" rippleEffect
               >
                 Cập nhật
               </button>
+              <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
             </div>
           </form>
         </div>

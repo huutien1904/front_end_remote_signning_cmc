@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './entity-profile-edit.component.html',
@@ -16,7 +17,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   public lastValue;
   public data;
 
-  public nameProfile: string;
+  public endEntityProfileName: string;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
   public formEditProfile: FormGroup;
@@ -225,7 +226,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   ) {
     //  declare form group
     this.formEditProfile = this.fb.group({
-      nameProfile: [null, [Validators.required]],
+      endEntityProfileName: [null, [Validators.required]],
       distinguishedName: this.fb.array([]),
       alternativeName: this.fb.array([]),
     });
@@ -238,9 +239,9 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((profile) => {
         console.log(profile);
-        this.nameProfile = profile.data.endEntityProfileName;
+        this.endEntityProfileName = profile.data.endEntityProfileName;
         this.formEditProfile
-          .get('nameProfile')
+          .get('endEntityProfileName')
           .patchValue(profile.data.endEntityProfileName);
         profile.data.distinguishedName.forEach((dn) => {
           this.distinguishedName.push(
@@ -388,8 +389,49 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
   }
   // submit
-  onSubmit() {
-    console.log(this.formEditProfile);
+  confirmOpen() {
+    console.log(JSON.stringify(this.formEditProfile.value));
+    Swal.fire({
+      title: 'Bạn có chắc muốn cập nhật?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: (inputValue: any) => {
+        return this._entityProfileService
+      .getProfileId(this.lastValue)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(profile => {
+        if(profile.result==true)
+        {return JSON.stringify(profile.data);}
+        else(
+          function (error) {
+            Swal.showValidationMessage('Request failed:  ' + error + '');
+          }
+        )
+      })
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn cập nhật!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: 'Your file has been deleted.',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
   }
   /**
    * On destroy

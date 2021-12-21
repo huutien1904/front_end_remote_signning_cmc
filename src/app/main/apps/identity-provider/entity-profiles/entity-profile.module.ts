@@ -26,6 +26,7 @@ import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
 import { LoadingService } from 'app/main/loading/loading.service';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -54,11 +55,12 @@ const materialModules1234 = [
     FormsModule,
     CorePipesModule,
     ReactiveFormsModule,
+    SweetAlert2Module.forRoot()
   ],
-  schemas :[
-    NO_ERRORS_SCHEMA,
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
+  // schemas :[
+  //   NO_ERRORS_SCHEMA,
+  //   CUSTOM_ELEMENTS_SCHEMA
+  // ],
   providers: [
     {
       provide: DateAdapter,
