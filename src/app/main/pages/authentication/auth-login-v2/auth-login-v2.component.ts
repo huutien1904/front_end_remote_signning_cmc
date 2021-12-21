@@ -11,7 +11,7 @@ import { AuthenticationService } from 'app/auth/service';
   selector: 'app-auth-login-v2',
   templateUrl: './auth-login-v2.component.html',
   styleUrls: ['./auth-login-v2.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class AuthLoginV2Component implements OnInit {
   //  Public
@@ -36,7 +36,7 @@ export class AuthLoginV2Component implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _authenticationService: AuthenticationService,
+    private _authenticationService: AuthenticationService
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -44,17 +44,17 @@ export class AuthLoginV2Component implements OnInit {
     this._coreConfigService.config = {
       layout: {
         navbar: {
-          hidden: true
+          hidden: true,
         },
         menu: {
-          hidden: true
+          hidden: true,
         },
         footer: {
-          hidden: true
+          hidden: true,
         },
         customizer: false,
-        enableLocalStorage: false
-      }
+        enableLocalStorage: false,
+      },
     };
   }
 
@@ -84,12 +84,13 @@ export class AuthLoginV2Component implements OnInit {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        data => {
-          console.log("check data",data);
+        (data) => {
+          console.log('check data', data);
           this._router.navigate([this.returnUrl]);
         },
-        error => {
-          this.error = "Email hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.";
+        (error) => {
+          this.error =
+            'Email hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.';
           this.loading = false;
         }
       );
@@ -112,9 +113,11 @@ export class AuthLoginV2Component implements OnInit {
     this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 
     // Subscribe to config changes
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
+    this._coreConfigService.config
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config) => {
+        this.coreConfig = config;
+      });
   }
 
   /**

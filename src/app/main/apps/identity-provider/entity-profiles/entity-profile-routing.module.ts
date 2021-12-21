@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfileListComponent } from './profile-list/profile-list.component';
-import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { ProfileListComponent } from './entity-profile-list/entity-profile-list.component';
+import { ProfileEditComponent } from './entity-profile-edit/entity-profile-edit.component';
 
 
 const routes: Routes = [

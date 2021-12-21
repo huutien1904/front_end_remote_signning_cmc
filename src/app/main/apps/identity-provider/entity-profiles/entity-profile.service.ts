@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { PagedData } from "app/main/models/PagedData";
-import { Profile } from "app/main/models/Profile";
+import { EntityProfile } from "app/main/models/EntityProfile";
 import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
 import { Observable } from "rxjs";
@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class ProfileService {
+export class EntityProfileService {
   constructor(private _httpClient: HttpClient) {}
   private readonly currentUser = JSON.parse(
     localStorage.getItem("currentUser")
@@ -21,7 +21,7 @@ export class ProfileService {
       Authorization: "Bearer " + this.token,
     },
   };
-  public getListProfiles(form, page:PagedData<Profile>): Observable<ResponseData<PagedData<Profile>>> {
+  public getListProfiles(form, page:PagedData<EntityProfile>): Observable<ResponseData<PagedData<EntityProfile>>> {
     const body ={
         page : page.currentPage,
         size : page.size,
@@ -31,20 +31,20 @@ export class ProfileService {
         toDate : form.toDate
     }
     ;
-    return this._httpClient.post<ResponseData<PagedData<Profile>>>(
+    return this._httpClient.post<ResponseData<PagedData<EntityProfile>>>(
       `${environment.apiUrl}/entity-profile/list`,body,
       this.option
     );
   }
 
-  public createProfile(body): Observable<ResponseData<Profile[]>> {
-    return this._httpClient.post<ResponseData<Profile[]>>(
+  public createProfile(body): Observable<ResponseData<EntityProfile[]>> {
+    return this._httpClient.post<ResponseData<EntityProfile[]>>(
       `${environment.apiUrl}/entity-profile/create`,body,
       this.option
     );
   }
-  public getProfileId(id): Observable<ResponseData<Profile>> {
-    return this._httpClient.get<ResponseData<Profile>>(
+  public getProfileId(id): Observable<ResponseData<EntityProfile>> {
+    return this._httpClient.get<ResponseData<EntityProfile>>(
       `${environment.apiUrl}/entity-profile/${id}`,
       this.option
     );

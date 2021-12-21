@@ -9,7 +9,7 @@ import { CorePipesModule } from '@core/pipes/pipes.module';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ProfileModule } from './profiles/profile.module';
+import { ProfileModule } from './entity-profiles/entity-profile.module';
 
 import { SearchSubscribersModule } from './search-subscribers/search-subscriber.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
@@ -43,7 +43,7 @@ const routes: Routes = [
       ),
   },{ 
     path : 'profiles',
-    loadChildren:()=> import('./profiles/profile-routing.module').then(m => m.ProfileRoutingModule)
+    loadChildren:()=> import('./entity-profiles/entity-profile-routing.module').then(m => m.ProfileRoutingModule)
   },
   {
     path: "**",

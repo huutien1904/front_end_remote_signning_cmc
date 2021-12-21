@@ -4,15 +4,15 @@ import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
 import { ColumnMode, DatatableComponent, SelectionType } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/PagedData";
-import { Profile } from "app/main/models/Profile";
+import { EntityProfile } from "app/main/models/EntityProfile";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { ProfileService } from "../profile.service";
+import { EntityProfileService } from "../entity-profile.service";
 
 @Component({
   selector: "app-profile-list",
-  templateUrl: "./profile-list.component.html",
-  styleUrls: ["./profile-list.component.scss"],
+  templateUrl: "./entity-profile-list.component.html",
+  styleUrls: ["./entity-profile-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class ProfileListComponent implements OnInit, OnDestroy {
@@ -30,8 +30,8 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
-  public pagedData = new PagedData<Profile>();
-  public rowsData = new Array<Profile>();
+  public pagedData = new PagedData<EntityProfile>();
+  public rowsData = new Array<EntityProfile>();
   public isLoading: boolean = false;
   //Table of personal data
   public totalItems: any = 0;
@@ -41,7 +41,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   constructor(
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
-    private _profileService: ProfileService,
+    private _entityProfileService: EntityProfileService,
     private dateAdapter: DateAdapter<any>
   ) {
     this._unsubscribeAll = new Subject();
@@ -104,7 +104,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
-    this._profileService
+    this._entityProfileService
       .getListProfiles(this.formListProfile, this.pagedData)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {

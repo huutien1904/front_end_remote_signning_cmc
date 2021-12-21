@@ -29,6 +29,7 @@
         "đúng",
         "được",
         "Đường",
+        "EMAILADDRESS",
         "ficon",
         "flatpickr",
         "Gi",
@@ -73,6 +74,7 @@
         "resizeable",
         "s",
         "sách",
+        "SERIALNUMBER",
         "t",
         "thái",
         "Thành",
@@ -97,5 +99,8 @@
         "Xuất",
         "y"
     ],
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }

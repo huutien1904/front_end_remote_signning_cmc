@@ -4,9 +4,49 @@
 @import '@core/scss/base/colors';
 @import '@core/scss/base/components/include';
 
-.subject-DNA{
-    background-color: #d3d7e1! important;
+
+.form-custom{
+    // background-color: #283046;
+    border: 1px solid #d8d6de;
+}
+
+.dark-layout{
+    .form-custom{
+        // background-color: #283046;
+        border: 1px solid #d8d6de;
+    }
 }
 .subject-ATT{
     background-color: #d3d7e1! important;
 }
+
+  
+  .ml-0-25 {
+    margin-left: (1rem * .25) ;
+  }
+  .mr-0-25 {
+    margin-right: (1rem * .25) ;
+  }
+  .mt-0-25 {
+    margin-top: (1rem * .25) ;
+  }
+  .mb-0-25 {
+    margin-bottom: (1rem * .25) ;
+  }
+  .ml-0-5 {
+    margin-left: (1rem * .5) ;
+  }
+  .mt-0-5 {
+    margin-top: (1rem * .5) ;
+  }
+  .mb-0-5 {
+    margin-bottom: (1rem * .5) ;
+  }
+  .mr-0-5 {
+    margin-right: (1rem * .5) ;
+  }
+  .px-0-5 {
+    padding-left: (1rem * .5) ;
+    padding-right: (1rem * .5) ;
+  }
+  

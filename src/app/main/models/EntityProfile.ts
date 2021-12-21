@@ -1,4 +1,4 @@
-export class Profile{
+export class EntityProfile{
      endEntityProfileId : number;
      endEntityProfileName : string;
      distinguishedName : Attribute[];
@@ -7,6 +7,7 @@ export class Profile{
 }
 export class Attribute{
     name:String;
+    defaultValue:string;
     required:boolean;
     modifiable:boolean;
     validation:boolean;
