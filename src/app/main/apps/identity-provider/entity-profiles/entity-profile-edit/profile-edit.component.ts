@@ -339,7 +339,9 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   // get index checkbox DNA to delete
   getValueCheckBoxDNA(e, value, i) {}
   // remove suject DNA
-  removeSubjectDNA() {}
+  removeSubjectDNA(index:number) {
+    this.distinguishedName.removeAt(index);
+  }
 
   // get select subject att
   selectSubjectAttribute(e) {
