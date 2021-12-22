@@ -14,6 +14,7 @@ import { SearchSubscribersModule } from './search-subscribers/search-subscriber.
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
 import { UserModule } from './users/user/user.module';
 
+
 /**
  * Routing
  */
@@ -42,6 +43,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: "users",
+    loadChildren: () =>
+      import("./users/users-routing.module").then(
+        (m) => m.UsersRoutingModule
+      ),
+  },
+  {
     path: "**",
     redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
   },
@@ -49,8 +57,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    
-  
+
   ],
   imports: [
     CommonModule,

@@ -1,39 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
-import { RouterModule, Routes } from '@angular/router';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CoreCommonModule } from '@core/common.module';
+import { NgbNavConfig, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { CoreDirectivesModule } from '@core/directives/directives';
+import { CoreSidebarModule } from '@core/components';
+import { CorePipesModule } from '@core/pipes/pipes.module';
 
 /**
  * Routing
  */
 
-const routes: Routes= [
-  {
-    path: 'user',
-    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
-  },
-  {
-    path:'profile',
-    component: ProfileComponent,
-  },
-  // {
-  //   path:'profile',
-  //   component: ProfileComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {roles: [Role.SuperAdmin], animation: "UserListComponent" },
-  // }
-  {
-    path: "**",
-    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
-  },
-]
 @NgModule({
   declarations: [
     ProfileComponent
   ],
   imports: [
-    CommonModule, RouterModule.forChild(routes),
-  ]
+    CoreCommonModule,
+    CommonModule, 
+    NgbNavModule,
+    CoreDirectivesModule,
+    NgbModule,
+    CorePipesModule,
+    CoreSidebarModule
+  ],
+  exports: [
+    ProfileComponent
+  ],
 })
 export class UsersModule { }
