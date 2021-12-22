@@ -12,7 +12,6 @@ import { BrowserModule } from '@angular/platform-browser';
     CommonModule, 
     PersonalsModule,
     SubscribersRoutingModule,
-    // RouterModule.forChild(routes),
   ],
   providers: [
   ]
