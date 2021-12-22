@@ -49,4 +49,10 @@ export class EntityProfileService {
       this.option
     );
   }
+  public updateProfileId(id, body): Observable<ResponseData<EntityProfile>> {
+    return this._httpClient.post<ResponseData<EntityProfile>>(
+      `${environment.apiUrl}/entity-profile/${id}`,body,
+      this.option
+    );
+  }
 }

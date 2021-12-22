@@ -278,7 +278,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     modifiable: boolean,
     validation: boolean
   ): FormGroup {
-    console.log(modifiable);
     return this.fb.group({
       name: [name, Validators.required],
       isSelected: [isSelected, Validators.requiredTrue],
@@ -390,26 +389,26 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   }
   // submit
   confirmOpen() {
-    console.log(JSON.stringify(this.formEditProfile.value));
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
-      preConfirm: (inputValue: any) => {
-        return this._entityProfileService
-      .getProfileId(this.lastValue)
+      preConfirm:   async () => {
+      return await this._entityProfileService
+      .updateProfileId(this.lastValue, JSON.stringify(this.formEditProfile.value))
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(profile => {
-        if(profile.result==true)
-        {return JSON.stringify(profile.data);}
-        else(
-          function (error) {
-            Swal.showValidationMessage('Request failed:  ' + error + '');
-          }
-        )
-      })
+      .toPromise().then(res=>{
+        if(res.result==false){
+          throw new Error(res.message);
+        }
+        return res;
+      }).catch(
+        function (error) {
+          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+        }
+      );
      },
       cancelButtonColor: '#E42728',
       cancelButtonText: "Thoát",
@@ -417,13 +416,16 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       customClass: {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
       }
     }).then(function (result) {
       if (result.value) {
         Swal.fire({
           icon: 'success',
-          title: 'Deleted!',
-          text: 'Your file has been deleted.',
+          title: 'Thành công!',
+          text: 'EntityProfile đã được cập nhật.',
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -433,6 +435,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     
     );
   }
+
   /**
    * On destroy
    */

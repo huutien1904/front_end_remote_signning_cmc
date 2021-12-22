@@ -44,10 +44,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             this._modal.dismissAll();
             // if(err.status == 401)
             //   this._router.navigate(['/pages/miscellaneous/not-authorized']);
-            if(err.status == 403 || err.status == 404)
-              this._router.navigate(['/pages/miscellaneous/error']);
-            else if(err.status == 500 || err.status == 503)
-              this._router.navigate(['/pages/miscellaneous/maintenance']);
+            // if(err.status == 403 || err.status == 404)
+            //   this._router.navigate(['/pages/miscellaneous/error']);
+            // else if(err.status == 500 || err.status == 503)
+            //   this._router.navigate(['/pages/miscellaneous/maintenance']);
           }
 
           // ? Can also logout and reload if needed
