@@ -1,47 +1,91 @@
 <div class="auth-wrapper auth-v2">
-    <div class="auth-inner row m-0">
-        <!-- Brand logo-->
-        <a class="brand-logo" href="javascript:void(0);">
-            <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
-            <h2 class="brand-text text-primary ml-1">{{ coreConfig.app.appTitle}}</h2>
-        </a>
-        <!-- /Brand logo-->
-        <!-- Left Text-->
-        <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
-                <img class="img-fluid" [src]="
+  <div class="auth-inner row m-0">
+    <!-- Brand logo-->
+    <a class="brand-logo" href="javascript:void(0);">
+      <img
+        src="{{ coreConfig.app.appLogoImage }}"
+        alt="brand-logo"
+        height="28"
+      />
+      <h2 class="brand-text text-primary ml-1">
+        {{ coreConfig.app.appTitle }}
+      </h2>
+    </a>
+    <!-- /Brand logo-->
+    <!-- Left Text-->
+    <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
+      <div
+        class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+      >
+        <img
+          class="img-fluid"
+          [src]="
             coreConfig.layout.skin === 'dark'
               ? 'assets/images/pages/register-v2-dark.svg'
               : 'assets/images/pages/register-v2.svg'
-          " alt="Register V2" />
+          "
+          alt="Register V2"
+        />
+      </div>
+    </div>
+    <!-- /Left Text-->
+    <!-- Register-->
+    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+        <h2 class="card-title font-weight-bold mb-1">Đăng ký tài khoản</h2>
+        <p class="text-danger" *ngIf = "notifiFalse">Tài khoản email đã tồn tại</p>
+        <form
+          class="auth-register-form mt-2"
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit(popupSuccess)"
+        >
+          <div class="form-group">
+            <label for="register-username" class="form-label">Username</label>
+            <input
+              type="text"
+              formControlName="username"
+              class="form-control"
+              placeholder="johndoe"
+              aria-describedby="register-username"
+              tabindex="1"
+              [ngClass]="{
+                'is-invalid':
+                  f.username.errors && (f.username.touched || submitted)
+              }"
+            />
+            <div
+              *ngIf="f.username.errors && (f.username.touched || submitted)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.username.errors.required">
+                Bạn cần nhập tên tài khoản
+              </div>
             </div>
-        </div>
-        <!-- /Left Text-->
-        <!-- Register-->
-        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                <h2 class="card-title font-weight-bold mb-1">Đăng ký tài khoản</h2>
-                <form class="auth-register-form mt-2" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
-                        <label for="register-username" class="form-label">Username</label>
-                        <input type="text" formControlName="username" class="form-control" placeholder="johndoe"
-                            aria-describedby="register-username" tabindex="1"
-                            [ngClass]="{ 'is-invalid': f.username.errors && (f.username.touched || submitted ) }" />
-                        <div *ngIf="f.username.errors && (f.username.touched || submitted )" class="invalid-feedback">
-                            <div *ngIf="f.username.errors.required">Bạn cần nhập tên tài khoản</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-email" class="form-label">Email</label>
-                        <input type="text" formControlName="email" class="form-control" placeholder="john@example.com"
-                            aria-describedby="register-email" tabindex="2"
-                            [ngClass]="{ 'is-invalid': (submitted || f.email.touched) && f.email.errors }" />
-                        <div *ngIf="(submitted || f.email.touched) && f.email.errors" class="invalid-feedback">
-                            <div *ngIf="f.email.errors.required">Bạn cần nhập địa chỉ email</div>
-                            <div *ngIf="f.email.errors.email">Địa chỉ email không hợp lệ</div>
-                        </div>
-                    </div>
-                    <!-- <div class="form-group">
+          </div>
+          <div class="form-group">
+            <label for="register-email" class="form-label">Email</label>
+            <input
+              type="text"
+              formControlName="email"
+              class="form-control"
+              placeholder="john@example.com"
+              aria-describedby="register-email"
+              tabindex="2"
+              [ngClass]="{
+                'is-invalid': (submitted || f.email.touched) && f.email.errors
+              }"
+            />
+            <div
+              *ngIf="(submitted || f.email.touched) && f.email.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.email.errors.required">
+                Bạn cần nhập địa chỉ email
+              </div>
+              <div *ngIf="f.email.errors.email">Địa chỉ email không hợp lệ</div>
+            </div>
+          </div>
+          <!-- <div class="form-group">
                         <label>Vai trò</label>
                         <ng-select [items]="roles" [clearable]="false" formControlName="role" [ngClass]="{ 'is-invalid': f.role.errors && (f.role.touched || submitted ) }">
                         </ng-select>
@@ -49,78 +93,178 @@
                             <div *ngIf="f.role.errors.required">Bạn cần chọn vai trò</div>
                         </div>
                     </div> -->
-                    <div class="form-group">
-                        <label for="register-password" class="form-label">Mật khẩu</label>
-                        <div class="input-group input-group-merge form-password-toggle">
-                            <input [type]="passwordTextType ? 'text' : 'password'" formControlName="password"
-                                class="form-control form-control-merge" placeholder="············"
-                                aria-describedby="register-password" tabindex="3"
-                                [ngClass]="{ 'is-invalid error': (submitted || f.password.touched) && f.password.errors }" />
-                            <div class="input-group-append">
-                                <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
+          <div class="form-group">
+            <label for="register-password" class="form-label">Mật khẩu</label>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                [type]="passwordTextType ? 'text' : 'password'"
+                formControlName="password"
+                class="form-control form-control-merge"
+                placeholder="············"
+                aria-describedby="register-password"
+                tabindex="3"
+                [ngClass]="{
+                  'is-invalid error':
+                    (submitted || f.password.touched) && f.password.errors
+                }"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"
+                  ><i
+                    class="feather font-small-4"
+                    [ngClass]="{
                       'icon-eye-off': passwordTextType,
                       'icon-eye': !passwordTextType
-                    }" (click)="togglePasswordTextType()"></i></span>
-                            </div>
-                        </div>
-                        <div *ngIf="(submitted || f.password.touched) && f.password.errors" class="invalid-feedback"
-                            [ngClass]="{ 'd-block': (submitted || f.password.touched) && f.password.errors }">
-                            <div *ngIf="f.password.errors.required">Bạn cần nhập mật khẩu</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-password" class="form-label">Xác nhận mật khẩu</label>
-                        <div class="">
-                            <input [type]="'password'" formControlName="confPassword"
-                                class="form-control form-control-merge" placeholder="············"
-                                aria-describedby="register-password" tabindex="3"
-                                [ngClass]="{
-                                    'is-invalid error': (submitted || f.confPassword.dirty) && f.confPassword.errors,
-                                    'is-valid': !f.confPassword.errors?.mustMatch && f.confPassword.dirty
-                                }" />
-                            <div *ngIf="(submitted || f.confPassword.dirty) && f.confPassword.errors" class="invalid-feedback"
-                                [ngClass]="{ 'd-block': (submitted || f.confPassword.dirty) && f.confPassword.errors }">
-                                <div *ngIf="f.confPassword.errors.required">Bạn cần xác nhận mật khẩu</div>
-                                <div *ngIf="f.confPassword.errors.mustMatch">Xác nhận mật khẩu không hợp lệ</div>
-                            </div>
-                            <div *ngIf="f.confPassword.errors == null" class="valid-feedback">
-                                Xác nhận mật khẩu hợp lệ
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" id="register-privacy-policy"
-                                tabindex="4" formControlName="agree" [ngClass]="{ 'is-invalid': f.agree.errors && (f.agree.touched || submitted )}" />
-                            <label class="custom-control-label" for="register-privacy-policy">
-                                Tôi đồng ý với <a href="javascript:void(0);">Chính sách bảo mật và điều khoản</a>
-                            </label>
-                            <div *ngIf="f.agree.errors && (f.agree.touched || submitted )" class="invalid-feedback">
-                                <div *ngIf="f.agree.errors.required">Bạn cần đồng ý với Chính sách bảo mật và điều khoản</div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-block" tabindex="5" [disabled]="loading" rippleEffect>
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                        Đăng ký
-                    </button>
-                </form>
-                <p class="text-center mt-2">
-                    <span>Bạn đã có tài khoản? </span><a routerLink="/pages/authentication/login"><span>&nbsp;Vui lòng
-                            đăng
-                            nhập</span></a>
-                </p>
-                <div class="divider my-2">
-                    <div class="divider-text">Hoặc</div>
-                </div>
-                <div class="auth-footer-btn d-flex justify-content-center">
-                    <a class="btn btn-facebook" href="javascript:void(0)"><i data-feather="facebook"></i></a><a
-                        class="btn btn-twitter white" href="javascript:void(0)"><i data-feather="twitter"></i></a>
-                    <a class="btn btn-google" href="javascript:void(0)"><i data-feather="mail"></i></a><a
-                        class="btn btn-github" href="javascript:void(0)"><i data-feather="github"></i></a>
-                </div>
+                    }"
+                    (click)="togglePasswordTextType()"
+                  ></i
+                ></span>
+              </div>
             </div>
+            <div
+              *ngIf="(submitted || f.password.touched) && f.password.errors"
+              class="invalid-feedback"
+              [ngClass]="{
+                'd-block':
+                  (submitted || f.password.touched) && f.password.errors
+              }"
+            >
+              <div *ngIf="f.password.errors.required">
+                Bạn cần nhập mật khẩu
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-password" class="form-label"
+              >Xác nhận mật khẩu</label
+            >
+            <div class="">
+              <input
+                [type]="'password'"
+                formControlName="confPassword"
+                class="form-control form-control-merge"
+                placeholder="············"
+                aria-describedby="register-password"
+                tabindex="3"
+                [ngClass]="{
+                  'is-invalid error':
+                    (submitted || f.confPassword.dirty) &&
+                    f.confPassword.errors,
+                  'is-valid':
+                    !f.confPassword.errors?.mustMatch && f.confPassword.dirty
+                }"
+              />
+              <div
+                *ngIf="
+                  (submitted || f.confPassword.dirty) && f.confPassword.errors
+                "
+                class="invalid-feedback"
+                [ngClass]="{
+                  'd-block':
+                    (submitted || f.confPassword.dirty) && f.confPassword.errors
+                }"
+              >
+                <div *ngIf="f.confPassword.errors.required">
+                  Bạn cần xác nhận mật khẩu
+                </div>
+                <div *ngIf="f.confPassword.errors.mustMatch">
+                  Xác nhận mật khẩu không hợp lệ
+                </div>
+              </div>
+              <div *ngIf="f.confPassword.errors == null" class="valid-feedback">
+                Xác nhận mật khẩu hợp lệ
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input
+                class="custom-control-input"
+                type="checkbox"
+                id="register-privacy-policy"
+                tabindex="4"
+                formControlName="agree"
+                [ngClass]="{
+                  'is-invalid': f.agree.errors && (f.agree.touched || submitted)
+                }"
+              />
+              <label class="custom-control-label" for="register-privacy-policy">
+                Tôi đồng ý với
+                <a href="javascript:void(0);"
+                  >Chính sách bảo mật và điều khoản</a
+                >
+              </label>
+              <div
+                *ngIf="f.agree.errors && (f.agree.touched || submitted)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.agree.errors.required">
+                  Bạn cần đồng ý với Chính sách bảo mật và điều khoản
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="btn btn-primary btn-block"
+            tabindex="5"
+            [disabled]="loading"
+            rippleEffect
+            type="submit"
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Đăng ký
+          </button>
+        </form>
+        <p class="text-center mt-2">
+          <span>Bạn đã có tài khoản? </span
+          ><a routerLink="/pages/authentication/login"
+            ><span>&nbsp; Vui lòng đăng nhập</span></a
+          >
+        </p>
+        <div class="divider my-2">
+          <div class="divider-text">Hoặc</div>
         </div>
-        <!-- /Register-->
+        <div class="auth-footer-btn d-flex justify-content-center">
+          <a class="btn btn-facebook" href="javascript:void(0)"
+            ><i data-feather="facebook"></i></a
+          ><a class="btn btn-twitter white" href="javascript:void(0)"
+            ><i data-feather="twitter"></i
+          ></a>
+          <a class="btn btn-google" href="javascript:void(0)"
+            ><i data-feather="mail"></i></a
+          ><a class="btn btn-github" href="javascript:void(0)"
+            ><i data-feather="github"></i
+          ></a>
+        </div>
+      </div>
     </div>
+    <!-- /Register-->
+  </div>
+
+  <!-- popup when register successs -->
+  <ng-template #popupSuccess let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title" id="myModalLabel160">
+        Xác nhận đăng ký thành công
+      </h2>
+      <button
+        type="button"
+        class="close btn-primary"
+        (click)="modal.close()"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      Kiểm tra email của bạn và kích hoạt tài khoản đăng ký .
+    <a routerLink="/pages/authentication/login" (click)="modal.close()"
+        ><span>&nbsp; Đi đến trang đăng nhập</span></a
+    >
+    </div>
+    
+  </ng-template>
 </div>

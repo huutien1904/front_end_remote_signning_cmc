@@ -316,7 +316,7 @@ export class ProfileSidebarComponent implements OnInit {
   getValueCheckBoxDNA(index, e) {
     console.log(this.listSubjectDNA);
     console.log(index);
-    console.log(this.listSubjectDNA[index])
+    console.log(this.listSubjectDNA[index]);
     // this.indexCheckedDNA.push(index);
     // setTimeout(() => {
     //   .checked =! this.listSubjectDNA[index].checked;

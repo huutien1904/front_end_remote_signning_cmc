@@ -17,7 +17,7 @@ import { CoreConfig } from '@core/types';
 export const coreConfig: CoreConfig = {
   app: {
     appName     : 'CSign',                                        // App Name
-    appTitle    : '', // App Title
+    appTitle    : 'Quản trị dịch vụ ký số từ xa (SSA) - CSign', // App Title
     appLogoImage: 'assets/images/logo/logo.png',                  // App Logo
     appLanguage : 'vi',                                           // App Default Language (en, fr, de, pt etc..)
   },

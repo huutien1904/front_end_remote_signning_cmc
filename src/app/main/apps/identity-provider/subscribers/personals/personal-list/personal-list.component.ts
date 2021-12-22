@@ -46,16 +46,27 @@ export class PersonalListComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
+  
   public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
   public parentData:any[]=[];
   public openTable:boolean = true;
   public openTableUpdate:boolean = false;
+  public contentHeader: object;
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
-
+  public body = {
+    "page" : 0,
+    "size" : 15,
+    "sort" : ["staffId,asc"],
+    "contains" : "",
+    "gender" : "",
+    "dateOfBirth" : "",
+    "fromDate" : "",
+    "toDate" : ""
+  }
   /**
    *
    * @param _personalListService
@@ -90,6 +101,24 @@ export class PersonalListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    this.contentHeader = {
+      headerTitle: 'Tạo thuê bao',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý người dùng',
+            isLink: false,
+          },
+          {
+            name: 'Tạo thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-create'
+          }
+        ]
+      }
+    };
     this.formListPersonal = this.fb.group({
       inputPersonal: [null, Validators.required],
       fromDate: [null],
@@ -100,6 +129,9 @@ export class PersonalListComponent implements OnInit {
     });
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
+    console.log("tien check");
+    
+    
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
   changePage() {
@@ -119,19 +151,19 @@ export class PersonalListComponent implements OnInit {
       .getListPersonals(this.pagedData)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        
+        console.log(pagedData)
         this.totalItems = pagedData.data.totalItems
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList) => ({
+        this.rowsData = pagedData.data.data.map((personalList:any) => ({
           ...personalList,
           personalFirstName:
-            personalList.personalFirstName +
+            personalList.firstName +
             " " +
-            personalList.personalMiddleName +
+            personalList.middleName +
             " " +
-            personalList.personalLastName,
+            personalList.lastName,
         }));
-        console.log(this.rowsData);
+        console.log("check",this.rowsData);
         console.log(this.totalItems);
         this.isLoading=false;
       });
@@ -164,13 +196,41 @@ export class PersonalListComponent implements OnInit {
     });
     console.log(this.flag)
   }
-
   closeModal(name) {
     this.modalService.dismissAll();
   }
 
   onSubmit() {
+    // console.log(this.formListPersonal.value)
+    if(this.formListPersonal.value.birthday !== null){
+      let birthday = this.formListPersonal.value.birthday._i.date + "/" + this.formListPersonal.value.birthday._i.month + "/" + this.formListPersonal.value.birthday._i.year
+      this.formListPersonal.controls['birthday'].setValue(birthday);
+    }
+    if(this.formListPersonal.value.gender !== null){
+      this.body.contains = this.formListPersonal.value.gender
+    }
     console.log(this.formListPersonal.value);
+    this.body.contains = this.formListPersonal.value.inputPersonal
+    this._personalListService
+      .searchPersonal(this.pagedData,this.body)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data.map((personalList:any) => ({
+          ...personalList,
+          personalFirstName:
+            personalList.firstName +
+            " " +
+            personalList.middleName +
+            " " +
+            personalList.lastName,
+        }));
+        console.log("check1",this.rowsData);
+        console.log(this.totalItems);
+        this.isLoading=false;
+    });
   }
   updateTableOnDelete(){
     this.pagedData.size = this.sizePage[3];

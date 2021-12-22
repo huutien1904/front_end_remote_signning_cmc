@@ -120,19 +120,14 @@ export class NewPersonalSidebarComponent implements OnInit {
   }
 
 getOrganizationId(){
-  this._personalListService
-    .getOrganizationId()
-    .subscribe((res) => {
-      this.organizationId = res.data.data
-      console.log(this.organizationId)
-      // this.organizationId = listOrganization.filter(function(item, pos) {
-      //   console.log(listOrganization.indexOf("item",item))
-      //   console.log(listOrganization.indexOf("pop",pos))
-        
-      //       return listOrganization.indexOf(item) == pos;
-      //   });
-      // console.log(this.organizationId)
-    }); 
+  // this._personalListService
+  //   .getOrganizationId()
+  //   .subscribe((res) => {
+  //     this.organizationId = res.data.data
+  //     console.log(this.organizationId)
+
+      
+  //   }); 
 }
 
 selectOrganization(e){

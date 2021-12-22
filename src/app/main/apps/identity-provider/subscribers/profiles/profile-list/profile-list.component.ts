@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClient } from "@angular/common/http";
+import { ProfileListService } from "./profile-list.service";
 
 @Component({
   selector: "app-profile-list",
@@ -19,6 +20,7 @@ export class ProfileListComponent implements OnInit {
   public showEditProfile = false;
   public contentHeader: object;
   constructor(
+    private _profileListService: ProfileListService,
     private modalService: NgbModal,
     private _httpClient: HttpClient
   ) {}
@@ -63,6 +65,12 @@ export class ProfileListComponent implements OnInit {
         console.log("data response", res);
         this.listProfile = res;
       });
+    this._profileListService
+          .getListProfiles()
+            .subscribe(res => {
+              // this.listProfile = res.data.data;
+              console.log(res.data.data)
+            })
   }
 
   // header post api

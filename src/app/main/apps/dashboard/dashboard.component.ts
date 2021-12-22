@@ -599,6 +599,7 @@ export class DashboardComponent implements OnInit {
   getNumberPersonal() {
     const pagedData = new PagedData<Personal>();
     pagedData.size = 1;
+    
     pagedData.currentPage = 0;
     this._personalListService
     .getListPersonals(pagedData)
