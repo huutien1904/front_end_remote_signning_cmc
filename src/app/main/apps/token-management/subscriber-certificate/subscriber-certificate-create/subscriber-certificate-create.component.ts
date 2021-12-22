@@ -137,6 +137,16 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   setPage(pageInfo) {
     console.log("lololo");
     console.log(pageInfo);
+    let body = {
+      "page" : 0,
+      "size" : 15,
+      "sort" : ["staffId,asc"],
+      "contains" : "",
+      "gender" : "",
+      "dateOfBirth" : "",
+      "fromDate" : "",
+      "toDate" : ""
+    }
     this.isLoading = true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;

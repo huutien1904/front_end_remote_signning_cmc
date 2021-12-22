@@ -50,24 +50,7 @@ export class CreateSubscribersComponent implements OnInit {
       // myTagOgn.classList.add('create-orgnization');
   }
   ngOnInit(): void {
-    this.contentHeader = {
-      headerTitle: 'Tạo thuê bao',
-      actionButton: true,
-      breadcrumb: {
-        type: 'chevron',
-        links: [
-          {
-            name: 'Quản lý người dùng',
-            isLink: false,
-          },
-          {
-            name: 'Tạo thuê bao',
-            isLink: true,
-            link: '/apps/ip/subscribers-create'
-          }
-        ]
-      }
-    };
+    
     this.formSelectSearch = this.fb.group({
       searchType : [this.searchType[0], Validators.required]
     })

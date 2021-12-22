@@ -109,6 +109,7 @@ export class KeypairListComponent implements OnInit {
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading=true;
+    
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
     this._userListService
@@ -117,14 +118,14 @@ export class KeypairListComponent implements OnInit {
       .subscribe((pagedData) => {
         console.log(pagedData);
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList) => ({
+        this.rowsData = pagedData.data.data.map((personalList:any) => ({
           ...personalList,
           personalFirstName:
-            personalList.personalFirstName +
-            " " +
-            personalList.personalMiddleName +
-            " " +
-            personalList.personalLastName,
+              personalList.firstName +
+              " " +
+              personalList.middleName +
+              " " +
+              personalList.lastName,
         }));
         this.isLoading=false;
       });

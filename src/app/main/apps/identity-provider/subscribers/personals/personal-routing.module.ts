@@ -23,7 +23,7 @@ const routes: Routes = [
     data: { animation: "PersonalViewComponent" },
   },
   {
-    path: "personal-edit/id",
+    path: "personal-edit",
     component: PersonalEditComponent,
     // resolve: { data: PersonalEditService },
     data: {

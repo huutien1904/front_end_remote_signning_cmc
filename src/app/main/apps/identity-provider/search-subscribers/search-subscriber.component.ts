@@ -38,17 +38,17 @@ export class SearchSubscriberComponent implements OnInit {
   ]  
   ngOnInit(): void {
     this.contentHeader = {
-      headerTitle: 'Tìm kiếm',
+      headerTitle: 'Thuê Bao',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Quản lý người dùng',
+            name: 'Quản lý thuê bao',
             isLink: false
           },
           {
-            name: 'Tìm kiếm',
+            name: 'Thuê bao',
             isLink: true,
             link: '/apps/ip/subscribers-search'
           }

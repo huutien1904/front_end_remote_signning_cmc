@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { CoreConfigService } from '@core/services/config.service';
 import { AuthRegisterV2Service } from './auth-register-v2.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -22,7 +23,7 @@ export class AuthRegisterV2Component implements OnInit {
   public submitted = false;
   public roles = ['USER'];
   public loading = false;
-
+  public notifiFalse = false;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -37,7 +38,8 @@ export class AuthRegisterV2Component implements OnInit {
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
     private _registerService: AuthRegisterV2Service,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
   ) {
       this._unsubscribeAll = new Subject();
 
@@ -74,9 +76,9 @@ export class AuthRegisterV2Component implements OnInit {
   /**
    * On Submit
    */
-  onSubmit() {
+  onSubmit(popupSuccess) {
     this.submitted = true;
-
+    console.log("check submit")
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
@@ -88,20 +90,36 @@ export class AuthRegisterV2Component implements OnInit {
       email: this.f.email.value,
       role: this.f.role.value
     })
+    console.log(request);
     this._registerService
       .registerReq(request)
       .pipe(first())
       .subscribe(
         (response: any) => {
           console.log(response);
-          if ((response.result = true)) {
+          if ((response.result === true)) {
             this.toastr.success('👋 Bạn đã đăng kí tài khoản mới', 'Thành công', {
-              positionClass: 'toast-top-center',
+              positionClass: 'toast-top-right',
               toastClass: 'toast ngx-toastr',
               closeButton: true
             });
             this.submitted = false;
             this.registerForm.reset();
+            this.loading = false;
+            this.modalService.open(popupSuccess, {
+              centered: true,
+              size: "s",
+            });
+          }
+          if(response.result === false){
+            // this.toastr.error('👋 Tài khoản đã tồn tại', 'Thất bại', {
+            //   positionClass: 'toast-top-center',
+            //   toastClass: 'toast ngx-toastr',
+            //   closeButton: true
+            // });
+            this.notifiFalse = true;
+            this.submitted = false;
+            // this.registerForm.reset();
             this.loading = false;
           }
         },
@@ -124,7 +142,7 @@ export class AuthRegisterV2Component implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confPassword: ['', Validators.required],
-      role: ['', Validators.required],
+      role: ['USER', Validators.required],
       agree: [false, Validators.requiredTrue]
      },
      {

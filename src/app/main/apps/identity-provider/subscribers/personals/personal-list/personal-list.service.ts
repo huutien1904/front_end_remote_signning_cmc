@@ -27,6 +27,7 @@ export class PersonalListService{
   );
 
   private readonly token = this.currentUser.token;
+  
   private option = {
     headers: {
       "Content-Type": "application/json",
@@ -61,26 +62,48 @@ export class PersonalListService{
     };
     return this._httpClient.get<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/personal/list`,option);
   }
-  // }     
+  
 
   public getListPersonals(page:PagedData<Personal>) :Observable<ResponseData<PagedData<Personal>>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser.token;
+    console.log(token)
+    const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
+    console.log("service personal list");
+    const body = {
+      "page" : 0,
+      "size" : 15,
+      "sort" : ["staffId,asc"],
+      "contains" : "",
+      "gender" : "",
+      "dateOfBirth" : "",
+      "fromDate" : "",
+      "toDate" : ""
+    }
+    const option = {
+      headers :{
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      // params:param
+    };
+    
+     return this._httpClient.post<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/staff/search`,body,option);
+  }
+  public searchPersonal(page:PagedData<Personal>,body) :Observable<ResponseData<PagedData<Personal>>>{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    console.log(token)
     const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
     console.log("service personal list");
     const option = {
       headers :{
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
+        Authorization: "Bearer " + token,
       },
-      params:param
+      // params:param
     };
-     return this._httpClient.get<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/personal/list`,option);
-    //  .pipe(
-    //   delay(new Date(Date.now() + 0)),
-    //   map(d =>  d )
-    // );
-    
+     return this._httpClient.post<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/staff/search`,body,option);
   }
   public deletePersonal(personalId):Observable<Object>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -94,5 +117,5 @@ export class PersonalListService{
     };
      return this._httpClient.delete(`${environment.apiUrl}/personal/delete/${personalId}`,option);
   }
-
+  
 }

@@ -1,500 +1,510 @@
-<!-- search filter -->
-<section id="search-personal-list">
-  <div class="card">
-    <!-- search -->
-    <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-    <div class="card-body">
-      <form class="form form-vertical" [formGroup]="formListPersonal">
-        <div class="row">
-          <div class="col-md-4">
-            <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
-            <input
-              name="distinguishedName"
-              id="distinguishedName"
-              type="search"
-              class="form-control"
-              formControlName="inputPersonal"
-              placeholder="Nhập họ tên, thư điện tử, địa chỉ"
-            />
-          </div>
-          <div class="col-md-2">
-            <label class="lable">Giới tính</label>
-            <fieldset class="form-group">
-              <ng-select
-                [items]="gender"
-                [clearable]="true"
-                bindLabel="name"
-                bindValue="name"
-                placeholder="Giới tính"
-              >
-              </ng-select>
-            </fieldset>
-          </div>
-          <div class="col-md-2">
-            <label class="label">Ngày sinh</label>
-            <div class="input-group input-group-merge">
-              <div class="input-group-prepend">
-                <span class="input-group-text" (click)="birthday.open()"
-                  ><i data-feather="calendar"></i
-                ></span>
-              </div>
+  <!-- search filter -->
+  <section id="search-personal-list">
+    <div class="card">
+      <!-- search -->
+      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+      <div class="card-body">
+        <form class="form form-vertical" [formGroup]="formListPersonal">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
               <input
-                [matDatepicker]="birthday"
-                formControlName="birthday"
+                name="distinguishedName"
+                id="distinguishedName"
+                type="search"
                 class="form-control"
-                type="text"
-                placeholder="19/04/1992"
+                formControlName="inputPersonal"
+                placeholder="Nhập họ tên, thư điện tử, địa chỉ"
               />
             </div>
-            <mat-datepicker #birthday></mat-datepicker>
-          </div>
-          <div class="col-md-2 mt-2">
-            <button
-              class="
-                btn btn-secondary btn-lighten-2 btn-outline-secondary
-                col-12
-              "
-              rippleEffect
-              (click)="moreOption = !moreOption"
-            >
-              <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
-              <i data-feather="plus" class="d-sm-none d-inline-block"></i
-              ><span class="d-none d-sm-inline-block">Tùy chọn</span>
-            </button>
-          </div>
-          <div class="col-md-2 mt-2">
-            <button
-              type="button"
-              rippleEffect
-              class="btn btn-primary"
-              (click)="onSubmit()"
-              [disabled]="!formListPersonal.valid"
-            >
-              Tìm kiếm
-            </button>
-          </div>
-        </div>
-        <div class="row" [ngbCollapse]="moreOption">
-          <div class="col-md-2">
-            <label for="">SỐ DÒNG:</label>
-            <fieldset class="form-group">
-              <ng-select
-                [items]="sizePage"
-                bindValue="sizePage"
-                [clearable]="false"
-                formControlName="sizePage"
-                (change)="changePage()"
-              ></ng-select>
-            </fieldset>
-          </div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-3">
-                <label class="lable">TỪ NGÀY:</label>
-                <div class="input-group input-group-merge">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" (click)="fromDate.open()"
-                      ><i data-feather="calendar"></i
-                    ></span>
-                  </div>
-                  <input
-                    [matDatepicker]="fromDate"
-                    formControlName="fromDate"
-                    class="form-control"
-                    type="text"
-                    [min]="minDate"
-                    [max]="formListPersonal.controls.toDate.value"
-                    placeholder="13/09/2021"
-                  />
+            <div class="col-md-2">
+              <label class="lable">Giới tính</label>
+              <fieldset class="form-group">
+                <ng-select
+                  [items]="gender"
+                  formControlName="gender"
+                  [clearable]="true"
+                  bindLabel="name"
+                  bindValue="name"
+                  placeholder="Giới tính"
+                >
+                </ng-select>
+              </fieldset>
+            </div>
+            <div class="col-md-2">
+              <label class="label">Ngày sinh</label>
+              <div class="input-group input-group-merge">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" (click)="birthday.open()"
+                    ><i data-feather="calendar"></i
+                  ></span>
                 </div>
-                <mat-datepicker #fromDate></mat-datepicker>
+                <input
+                  [matDatepicker]="birthday"
+                  formControlName="birthday"
+                  class="form-control"
+                  (change) = "getBirthDay($event)"
+                  type="text"
+                  placeholder="19/04/1992"
+                />
               </div>
-              <div class="col-md-3">
-                <label class="lable">ĐẾN NGÀY:</label>
-                <div class="input-group input-group-merge">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" (click)="toDate.open()"
-                      ><i data-feather="calendar"></i
-                    ></span>
+              <mat-datepicker #birthday></mat-datepicker>
+            </div>
+            <div class="col-md-2 mt-2">
+              <button
+                class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
+                rippleEffect
+                (click)="moreOption = !moreOption"
+              >
+                <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
+                <i
+                  data-feather="plus"
+                  class="d-sm-none d-inline-block "
+                ></i
+                ><span class="d-none d-sm-inline-block">Tùy chọn</span>
+              </button>
+            </div>
+            <div class="col-md-2 mt-2">
+              
+              <button
+                type="button"
+                rippleEffect
+                class="btn btn-primary"
+                (click)="onSubmit()"
+                [disabled]="!formListPersonal.valid"
+              >
+                Tìm kiếm
+              </button>
+            </div>
+          </div>
+          <div class="row" [ngbCollapse]="moreOption">
+            <div class="col-md-2">
+              <label for="">SỐ DÒNG:</label>
+              <fieldset class="form-group">
+                <ng-select
+                  [items]="sizePage"
+                  bindValue="sizePage"
+                  [clearable]="false"
+                  formControlName="sizePage"
+                  (change)="changePage()"
+                ></ng-select>
+              </fieldset>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="lable">TỪ NGÀY:</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" (click)="fromDate.open()"
+                        ><i data-feather="calendar"></i
+                      ></span>
+                    </div>
+                    <input
+                      [matDatepicker]="fromDate"
+                      formControlName="fromDate"
+                      class="form-control"
+                      type="text"
+                      [min]="minDate"
+                      [max]="formListPersonal.controls.toDate.value"
+                      placeholder="13/09/2021"
+                    />
                   </div>
-                  <input
-                    [matDatepicker]="toDate"
-                    formControlName="toDate"
-                    class="form-control"
-                    type="text"
-                    [min]="formListPersonal.controls.fromDate.value"
-                    placeholder="13/09/2021"
-                  />
+                  <mat-datepicker #fromDate></mat-datepicker>
                 </div>
-
-                <mat-datepicker #toDate></mat-datepicker>
+                <div class="col-md-3">
+                  <label class="lable">ĐẾN NGÀY:</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" (click)="toDate.open()"
+                        ><i data-feather="calendar"></i
+                      ></span>
+                    </div>
+                    <input
+                      [matDatepicker]="toDate"
+                      formControlName="toDate"
+                      class="form-control"
+                      type="text"
+                      [min]="formListPersonal.controls.fromDate.value"
+                      placeholder="13/09/2021"
+                    />
+                  </div>
+  
+                  <mat-datepicker #toDate></mat-datepicker>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-<!-- end search filter -->
-
-<section id="table-personal-list">
-  <div class="card">
-    <div class="card-header">
-      <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
-    </div>
-    <div class="row">
-      <div class="col-md-12 mb-50">
-        <button
-          class="btn btn-primary ml-2"
-          rippleEffect
-          (click)="openNewPersonalModal(newPersonal)"
-        >
-          <i
-            data-feather="plus"
-            class="d-sm-none d-inline-block mr-0 mr-sm-1"
-          ></i
-          ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-        </button>
-        <input
-          #fileInput
-          type="file"
-          style="display: none"
-          (change)="onInputExcel($event)"
-          multiple="false"
-        />
-        <button
-          class="btn btn-primary ml-2"
-          rippleEffect
-          (click)="fileInput.click()"
-        >
-          <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-        </button>
-        <ng-template #newPersonal let-modal>
-          <div class="modal-header">
-            <h2 class="modal-title" id="myModalLabel160">
-              Đăng ký thuê bao cá nhân
-            </h2>
-            <button
-              type="button"
-              class="close btn-primary"
-              (click)="modal.close()"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" tabindex="0" ngbAutofocus>
-            <app-new-personal-sidebar
-              (onUpdate)="updateTableOnAdd()"
-              (onClose)="closeModel()"
-            ></app-new-personal-sidebar>
-          </div>
-        </ng-template>
-        <a
-          csvLink
-          class="btn btn-outline-secondary float-right mr-1"
-          rippleEffect
-          >Xuất dữ liệu CSV</a
-        >
+        </form>
       </div>
     </div>
-
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <!-- (addListToTable)=addListToTable() -->
-    <app-personal-list-add
-      *ngIf="openTableUpdate"
-      [childData]="parentData"
-      (toggleTable)="toggleTable()"
-    ></app-personal-list-add>
-    <ngx-datatable
-      [rows]="rowsData"
-      *ngIf="openTable"
-      class="bootstrap core-bootstrap cursor"
-      [selected]="chkBoxSelected"
-      (select)="customCheckboxOnSelect($event)"
-      (select)="onSelect($event)"
-      [selectionType]="SelectionType.checkbox"
-      [columnMode]="ColumnMode.force"
-      [headerHeight]="50"
-      rowHeight="auto"
-      [scrollbarH]="true"
-      [footerHeight]="50"
-      [rowHeight]="50"
-      [externalPaging]="true"
-      [limit]="pagedData.size"
-      [count]="pagedData.totalItems"
-      [offset]="pagedData.currentPage"
-      [loadingIndicator]="isLoading"
-      (page)="setPage($event)"
-    >
-      <ngx-datatable-column
-        [width]="40"
-        [sortable]="false"
-        [canAutoResize]="false"
-        [draggable]="false"
-        [resizeable]="false"
-        class="ml-1"
-      >
-        <ng-template
-          ngx-datatable-header-template
-          let-value="value"
-          let-allRowsSelected="allRowsSelected"
-          let-selectFn="selectFn"
-        >
-          <div class="custom-control custom-control-primary custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="allRowsSelected"
-              (change)="selectFn(!allRowsSelected)"
-              id="headerCustomChkbxRef"
-            />
-            <label
-              class="custom-control-label"
-              for="headerCustomChkbxRef"
-            ></label>
-          </div>
-        </ng-template>
-
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-isSelected="isSelected"
-          let-onCheckboxChangeFn="onCheckboxChangeFn"
-        >
-          <div class="custom-control custom-control-primary custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="isSelected"
-              (change)="onCheckboxChangeFn($event)"
-              id="rowCustomChkbxRef{{ rowIndex }}"
-            />
-            <label
-              class="custom-control-label"
-              for="rowCustomChkbxRef{{ rowIndex }}"
-            ></label>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="TT"
-        [width]="20"
-        [canAutoResize]="false"
-        [sortable]="false"
-      >
-        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-          {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column
-        name="HỌ VÀ TÊN"
-        prop="personalFirstName"
-        [width]="210"
-      >
-        <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-          <div class="d-flex align-items-center">
-            <div
-              *ngIf="
-                rowsData.avatar != null && rowsData.avatar.length > 0;
-                else customAvatar
-              "
-            >
-              <img
-                class="rounded-circle mr-1"
-                src="assets/images/portrait/small/{{ row.avatar }}"
-                height="32"
-                width="32"
-                alt="datatable-avatar"
-              />
-            </div>
-            <ng-template #customAvatar>
-              <!-- Không có giao diện thì check theo status để tô màu -->
-              <div
-                class="avatar mr-1 ml-0"
-                [ngClass]="{
-                  'bg-light-primary': row.isActive == false,
-                  'bg-light-success': row.isActive == true,
-                  'bg-light-danger': row.status == '3',
-                  'bg-light-warning': row.status == '4',
-                  'bg-light-info': row.status == '5'
-                }"
-              >
-                <div class="avatar-content">{{ name | initials }}</div>
-              </div>
-            </ng-template>
-            <div class="cell-line-height">
-              <p class="font-medium-1 font-weight-bold line-height-1 mb-25">
-                {{ name }}
-              </p>
-            </div>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="CCCD/PASSPORT"
-        prop="personalCountryId"
-        [width]="130"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          {{ value | date: "dd/MM/YYYY" }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Giới tính"
-        prop="gender"
-        [width]="80"
-      ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="THƯ ĐIỆN TỬ"
-        prop="email"
-        [width]="200"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
-        <ng-template
-          ngx-datatable-cell-template
-          let-value="value"
-          let-row="row"
-        >
-          <div *ngIf="value != ''; else noneOrganization">
-            {{ value.organizationName | lowercase }}
-          </div>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template #noneOrganization>
-          <div>Cá nhân</div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Hành động"
-        [width]="70"
-        [sortable]="false"
-        prop=""
-      >
-        <ng-template ngx-datatable-cell-template let-value="value">
-          <div class="d-flex align-items-center">
-            <div ngbDropdown container="body">
-              <a
-                ngbDropdownToggle
-                href="javascript:void(0);"
-                class="hide-arrow"
-                id="dropdownBrowserState"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i
-                  data-feather="more-vertical"
-                  class="text-primary cursor-pointer mr-50"
-                ></i>
-              </a>
-              <div
-                ngbDropdownMenu
-                class="dropdown-menu-right"
-                aria-labelledby="dropdownBrowserState"
-              >
-                <a
-                  href="/apps/ip/subscribers/personals/personal-view/{{
-                    value.personalId
-                  }}"
-                  ngbDropdownItem
-                  class="d-flex align-items-center"
-                  ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
-                >
-                <a
-                  href="javascript:void(0)"
-                  ngbDropdownItem
-                  class="d-flex align-items-center"
-                  ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
-                >
-                <a
-                  href="javascript:void(0)"
-                  (click)="deletePersonal(value.personalId)"
-                  ngbDropdownItem
-                  class="d-flex align-items-center"
-                  ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                >
-              </div>
-            </div>
-
-            <i data-feather="edit" class="text-primary cursor-pointer"></i>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-footer>
-        <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-selectedCount="selectedCount"
-          let-curPage="curPage"
-          let-offset="offset"
-          let-isVisible="isVisible"
-        >
-          <div class="page-count" *ngIf="!isLoading">
-            <span *ngIf="chkBoxSelected">
-              Đã chọn {{ chkBoxSelected.length }} /
-            </span>
-            {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-          </div>
-          <div class="col-md-5">
-            <button
-              class="btn btn-primary ml-2"
-              rippleEffect
-              (click)="openNewPersonalModal(newPersonal)"
-            >
-              <i
-                data-feather="plus"
-                class="d-sm-none d-inline-block mr-0 mr-sm-1"
-              ></i
-              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-            </button>
-            <input
+  </section>
+  <!-- end search filter -->
+  
+  <section id="table-personal-list">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-12  mb-50">
+          <button
+            class="btn btn-primary ml-1"
+            rippleEffect
+            (click)="openNewPersonalModal(newPersonal)"
+          >
+            <i
+              data-feather="plus"
+              class="d-sm-none d-inline-block mr-0 mr-sm-1"
+            ></i
+            ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+          </button>
+          <input
               #fileInput
               type="file"
               style="display: none"
-              (change)="onInputExcel($event)"
+              (change) = "onInputExcel($event)" 
               multiple="false"
-            />
-            <button
-              class="btn btn-primary ml-2"
+          />
+          <button
+              class="btn btn-primary ml-1"
               rippleEffect
               (click)="fileInput.click()"
             >
-              <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-            </button>
-          </div>
-          <datatable-pager
-            [pagerLeftArrowIcon]="'datatable-icon-left'"
-            [pagerRightArrowIcon]="'datatable-icon-right'"
-            [pagerPreviousIcon]="'datatable-icon-prev'"
-            [pagerNextIcon]="'datatable-icon-skip'"
-            [page]="curPage"
-            [size]="pageSize"
-            [count]="rowCount"
-            [hidden]="!(rowCount / pageSize > 1)"
-            (change)="table.onFooterPage($event)"
-            class="col-md-2"
+            <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+          </button>
+          
+          <a
+            csvLink
+            class="btn btn-outline-secondary float-right mr-1"
+            rippleEffect
+            >Xuất dữ liệu CSV</a
           >
-          </datatable-pager>
-        </ng-template>
-      </ngx-datatable-footer>
-    </ngx-datatable>
+        </div>
+      </div>
+  
+      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+      <!-- (addListToTable)=addListToTable() -->
+      <app-personal-list-add 
+        *ngIf = "openTableUpdate" 
+        [childData]="parentData"
+        (toggleTable) = "toggleTable()"
+      ></app-personal-list-add>
+      <ngx-datatable
+        [rows]="rowsData"
+        *ngIf = "openTable"
+        class="bootstrap core-bootstrap cursor"
+        [selected]="chkBoxSelected"
+        (select)="customCheckboxOnSelect($event)"
+        (select)="onSelect($event)"
+        [selectionType]="SelectionType.checkbox"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [externalPaging]="true"
+        [limit]="pagedData.size"
+        [count]="pagedData.totalItems"
+        [offset]="pagedData.currentPage"
+        [loadingIndicator]="isLoading"
+        (page)="setPage($event)"
+      >
+        <ngx-datatable-column
+          [width]="40"
+          [sortable]="false"
+          [canAutoResize]="false"
+          [draggable]="false"
+          [resizeable]="false"
+          class="ml-1"
+        >
+          <ng-template
+            ngx-datatable-header-template
+            let-value="value"
+            let-allRowsSelected="allRowsSelected"
+            let-selectFn="selectFn"
+          >
+            <div class="custom-control custom-control-primary custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                [checked]="allRowsSelected"
+                (change)="selectFn(!allRowsSelected)"
+                id="headerCustomChkbxRef"
+              />
+              <label
+                class="custom-control-label"
+                for="headerCustomChkbxRef"
+              ></label>
+            </div>
+          </ng-template>
+          
+          <ng-template
+            ngx-datatable-cell-template
+            let-rowIndex="rowIndex"
+            let-value="value"
+            let-isSelected="isSelected"
+            let-onCheckboxChangeFn="onCheckboxChangeFn"
+          >
+            <div class="custom-control custom-control-primary custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                [checked]="isSelected"
+                (change)="onCheckboxChangeFn($event)"
+                id="rowCustomChkbxRef{{ rowIndex }}"
+              />
+              <label
+                class="custom-control-label"
+                for="rowCustomChkbxRef{{ rowIndex }}"
+              ></label>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name="TT"
+          [width]="20"
+          [canAutoResize]="false"
+          [sortable]="false"
+        >
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+            {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column name="HỌ VÀ TÊN" prop="personalFirstName" [width]="210">
+          <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+            <div class="d-flex align-items-center">
+              <div
+                *ngIf="
+                  rowsData.avatar != null && rowsData.avatar.length > 0;
+                  else customAvatar
+                "
+              >
+                <img
+                  class="rounded-circle mr-1"
+                  src="assets/images/portrait/small/{{ row.avatar }}"
+                  height="32"
+                  width="32"
+                  alt="datatable-avatar"
+                />
+              </div>
+              <ng-template #customAvatar>
+                <!-- Không có giao diện thì check theo status để tô màu -->
+                <div
+                  class="avatar mr-1 ml-0"
+                  [ngClass]="{
+                    'bg-light-primary': row.isActive == false,
+                    'bg-light-success': row.isActive == true,
+                    'bg-light-danger': row.status == '3',
+                    'bg-light-warning': row.status == '4',
+                    'bg-light-info': row.status == '5'
+                  }"
+                >
+                  <div class="avatar-content">{{ name | initials }}</div>
+                </div>
+              </ng-template>
+              <div class="cell-line-height">
+                <p class="font-medium-1 font-weight-bold line-height-1 mb-25">
+                  {{ name }}
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name="CCCD/PASSPORT"
+          prop="personalCountryId"
+          [width]="130"
+        ></ngx-datatable-column>
+        <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
+          <!-- <ng-template ngx-datatable-cell-template let-value="value">
+            {{ value | date: "dd/MM/YYYY" }}
+          </ng-template> -->
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name="Giới tính"
+          prop="gender"
+          [width]="80"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="THƯ ĐIỆN TỬ"
+          prop="email"
+          [width]="200"
+        ></ngx-datatable-column>
+        <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
+          <ng-template
+            ngx-datatable-cell-template
+            let-value="value"
+            let-row="row"
+          >
+            <div
+              *ngIf="value != ''; else noneOrganization"
+            >
+              {{ value.organizationName | lowercase  }}
+            </div>
+          </ng-template>
+          <ng-template ngx-datatable-cell-template #noneOrganization>
+            <div>Cá nhân</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  name="Hành động" [width]="70" [sortable]="false" prop=""> 
+          <ng-template ngx-datatable-cell-template let-value="value">
+            <div class="d-flex align-items-center" >
+              <div ngbDropdown container="body">
+                <a
+                  ngbDropdownToggle
+                  href="javascript:void(0);"
+                  class="hide-arrow"
+                  id="dropdownBrowserState"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i
+                    data-feather="more-vertical"
+                    class="text-primary cursor-pointer mr-50"
+                  ></i>
+                </a>
+                <div
+                  ngbDropdownMenu
+                  class="dropdown-menu-right"
+                  aria-labelledby="dropdownBrowserState"
+                >
+                  <a
+                    href="/apps/ip/subscribers/personals/personal-view/{{value.personalId}}"
+                    ngbDropdownItem
+                    class="d-flex align-items-center"
+                    ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+                  >
+                  <a  
+                    
+                    href="/apps/ip/subscribers/personals/personal-edit"
+                    ngbDropdownItem
+                    class="d-flex align-items-center"
+                    ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
+                  >
+                  <a
+                    href="javascript:void(0)"
+                    (click) = "deletePersonal(value.personalId)"
+                    ngbDropdownItem
+                    class="d-flex align-items-center"
+                    ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                  >
+                </div>
+              </div>
+  
+              <i data-feather="edit" class="text-primary cursor-pointer"></i>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-footer>
+          <ng-template
+            ngx-datatable-footer-template
+            let-rowCount="rowCount"
+            let-pageSize="pageSize"
+            let-selectedCount="selectedCount"
+            let-curPage="curPage"
+            let-offset="offset"
+            let-isVisible="isVisible"
+          >
+            <div class="page-count" *ngIf="!isLoading">
+              <span *ngIf="chkBoxSelected">
+                Đã chọn {{ chkBoxSelected.length }} /
+              </span>
+              {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+            </div>
+            <div class="col-md-5 d-flex justify-content-end">
+                <button
+                  class="btn btn-primary ml-1"
+                  rippleEffect
+                  (click)="openNewPersonalModal(newPersonal)"
+                >
+                  <i
+                    data-feather="plus"
+                    class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                  ></i
+                  ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+                </button>
+                <input
+                    #fileInput
+                    type="file"
+                    style="display: none"
+                    (change) = "onInputExcel($event)" 
+                    multiple="false"
+                />
+                <button
+                    class="btn btn-primary ml-1"
+                    rippleEffect
+                    (click)="fileInput.click()"
+                  >
+                  <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+                </button>
+                
+            </div>
+            <div class="">
+              <a
+                csvLink
+                class="btn btn-outline-secondary float-right mr-1"
+                rippleEffect
+                >Xuất dữ liệu CSV</a
+              >
+            </div>
+            <datatable-pager
+              [pagerLeftArrowIcon]="'datatable-icon-left'"
+              [pagerRightArrowIcon]="'datatable-icon-right'"
+              [pagerPreviousIcon]="'datatable-icon-prev'"
+              [pagerNextIcon]="'datatable-icon-skip'"
+              [page]="curPage"
+              [size]="pageSize"
+              [count]="rowCount"
+              [hidden]="!(rowCount / pageSize > 1)"
+              (change)="table.onFooterPage($event)"
+              class="col-md-2"
+            >
+            </datatable-pager>
+            
+          </ng-template>
+          
+        </ngx-datatable-footer>
+      </ngx-datatable>
+          
+    </div>
+    <!-- <div class="selected-column col-12 mt-1">
+      <hr class="w-100" />
+      <h5 class="mx-1">
+        Selections <small>({{ chkBoxSelected?.length }})</small>
+      </h5>
+      <ul>
+        <li *ngFor="let sel of chkBoxSelected">
+          {{ sel.email }}
+        </li>
+        <li *ngIf="!chkBoxSelected?.length">No Selections</li>
+      </ul>
+    </div> -->
+  </section>
+
+<!-- form thêm mới -->
+<ng-template #newPersonal let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="myModalLabel160">
+      Đăng ký thuê bao cá nhân
+    </h2>
+    <button
+      type="button"
+      class="close btn-primary"
+      (click)="modal.close()"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <!-- <div class="selected-column col-12 mt-1">
-    <hr class="w-100" />
-    <h5 class="mx-1">
-      Selections <small>({{ chkBoxSelected?.length }})</small>
-    </h5>
-    <ul>
-      <li *ngFor="let sel of chkBoxSelected">
-        {{ sel.email }}
-      </li>
-      <li *ngIf="!chkBoxSelected?.length">No Selections</li>
-    </ul>
-  </div> -->
-</section>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <app-new-personal-sidebar
+      (onUpdate)="updateTableOnAdd()"
+      (onClose) = "closeModel()"
+    ></app-new-personal-sidebar>
+  </div>
+</ng-template>
