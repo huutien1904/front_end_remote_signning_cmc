@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterModule } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { CoreSidebarModule } from '@core/components';
@@ -9,7 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ProfileComponent } from './profile/profile.component';
-
+import { DateAdapter } from '@angular/material/core';
+const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { ProfileComponent } from './profile/profile.component';
     NgxDatatableModule,
     CorePipesModule,
     RouterModule,
-    CoreSidebarModule
+    CoreSidebarModule,
+    ...materialModules1234,
+    
   ],
   exports: [
     ProfileComponent
