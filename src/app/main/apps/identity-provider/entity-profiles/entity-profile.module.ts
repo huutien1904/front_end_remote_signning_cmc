@@ -27,6 +27,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
 import { LoadingService } from 'app/main/loading/loading.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { EntityProfileCreateComponent } from './entity-profile-create/entity-profile-create.component';
+import { EntityProfileViewComponent } from './entity-profile-view/entity-profile-view.component';
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -37,6 +39,8 @@ const materialModules1234 = [
   declarations: [
     ProfileListComponent,
     ProfileEditComponent,
+    EntityProfileCreateComponent,
+    EntityProfileViewComponent,
   ],
   exports: [
     ProfileEditComponent,

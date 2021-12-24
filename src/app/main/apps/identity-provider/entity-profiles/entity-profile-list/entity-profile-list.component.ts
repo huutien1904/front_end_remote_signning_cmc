@@ -80,7 +80,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     };
     // end content header profile
 
-    this.pagedData.size = this.sizePage[0];
+    this.pagedData.size = this.sizePage[1];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }

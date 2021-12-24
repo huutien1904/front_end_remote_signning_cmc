@@ -97,14 +97,14 @@ export class PersonalsComponent implements OnInit {
       .subscribe((pagedData) => {
         console.log(pagedData);
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList) => ({
+        this.rowsData = pagedData.data.data.map((personalList:any) => ({
           ...personalList,
           personalFullName:
-            personalList.personalFirstName +
+            personalList.firstName +
             " " +
-            personalList.personalMiddleName +
+            personalList.middleName +
             " " +
-            personalList.personalLastName,
+            personalList.lastName,
         }));
         this.isLoading=false;
       });
