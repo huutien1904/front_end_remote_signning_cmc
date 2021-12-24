@@ -24,7 +24,6 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
-import { HsmManagementComponent } from "../hsm-management/hsm-management.component";
 import { RouterModule, Routes } from "@angular/router";
 
 
@@ -32,12 +31,7 @@ const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule
 ];
-const routes: Routes = [
-  {
-    path: '',
-    component: HsmManagementComponent
-  }
-]
+
 @NgModule({
   declarations: [TokenManagementComponent],
   imports: [
@@ -55,7 +49,6 @@ const routes: Routes = [
     }),
     CorePipesModule,
     MatProgressBarModule,
-    RouterModule.forChild(routes),
   ],
   exports: [TokenManagementComponent],
   providers: [

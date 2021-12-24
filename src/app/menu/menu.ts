@@ -162,7 +162,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.EQUIPMENT_MANAGEMENT.HSM',
         type: 'item',
         icon: 'tool',
-        url: '/apps/equipment-management/hsm'
+        url: '/apps/equipment-management/hsm/hsm-list'
       },
       {
         id: "token-management",

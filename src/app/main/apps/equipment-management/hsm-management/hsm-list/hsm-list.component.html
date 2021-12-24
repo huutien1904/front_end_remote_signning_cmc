@@ -1,51 +1,48 @@
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
-    <!-- profile header -->
     <section id="profile-header">
       <div class="profile-header">
-      <app-content-header [contentHeader]="contentHeader"></app-content-header>
-      <!-- search profile -->
-    </div>
+        <app-content-header
+          [contentHeader]="contentHeader"
+        ></app-content-header>
+        <!-- search profile -->
+      </div>
     </section>
-    <section id="search-profile">
-      <div class="card">
-        <!-- search -->
+    <section>
+      <div class="card pb-1">
         <h5 class="card-header">Bộ lọc tìm kiếm</h5>
         <div class="card-body pb-1">
-          <form class="form form-vertical" [formGroup]="formListProfile">
+          <form class="form form-vertical" [formGroup]="formListHsm">
             <div class="row">
               <div class="col-md-4">
-                <label class="lable">Profile</label>
-                <input
-                  name="contains"
-                  id="contains"
-                  formControlName="contains"
-                  type="search"
-                  class="form-control"
-                  placeholder="Nhập tên profile"
-                />
-              </div>
-
-              <div class="col-md-2 mt-2">
-                <div class="input-group col-12">
+                <fieldset class="form-group">
                   <input
-                    class="
-                      form-control
-                      btn btn-secondary btn-outline-secondary
-                    "
-                    value="Tùy chọn"
-                    type="button"
-                    (click)="moreOption = !moreOption"
+                    name="contains"
+                    id="contains"
+                    type="search"
+                    class="form-control"
+                    formControlName="contains"
+                    placeholder="Một phần tên hãng, tên model"
                   />
-                </div>
+                </fieldset>
               </div>
-              <div class="col-md-2 mt-2">
+              <div class="col-md-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
+                  (click)="moreOption = !moreOption"
+                  rippleEffect
+                >
+                  Tùy chọn
+                </button>
+              </div>
+              <div class="col-md-2">
                 <button
                   type="button"
                   rippleEffect
                   class="btn btn-primary"
-                  (click)="setPage({ offset: 0, pageSize:  formListProfile.controls.size  })"
-                  [disabled]="!formListProfile.valid"
+                  (click)="setPage({ offset: 0, pageSize:  formListHsm.controls.size  })"
+                  [disabled]="!formListHsm.valid"
                 >
                   Tìm kiếm
                 </button>
@@ -57,10 +54,9 @@
                 <fieldset class="form-group">
                   <ng-select
                     [items]="sizePage"
-                    bindValue="sizePage"
                     [clearable]="false"
                     formControlName="size"
-                    (change)="setPage({ offset: 0, pageSize:  formListProfile.controls.size  })"
+                    (change)="setPage({ offset: 0, pageSize:  formListHsm.controls.size  })"
                   ></ng-select>
                 </fieldset>
               </div>
@@ -70,9 +66,7 @@
                     <label class="lable">Từ ngày:</label>
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span
-                          class="input-group-text"
-                          (click)="fromDate.open()"
+                        <span class="input-group-text" (click)="fromDate.open()"
                           ><i data-feather="calendar"></i
                         ></span>
                       </div>
@@ -82,7 +76,7 @@
                         class="form-control"
                         type="text"
                         [min]="minDate"
-                        [max]="formListProfile.controls.toDate.value"
+                        [max]="formListHsm.controls.toDate.value"
                         placeholder="13/09/2021"
                       />
                     </div>
@@ -101,7 +95,7 @@
                         formControlName="toDate"
                         class="form-control"
                         type="text"
-                        [min]="formListProfile.controls.fromDate.value"
+                        [min]="formListHsm.controls.fromDate.value"
                         placeholder="13/09/2021"
                       />
                     </div>
@@ -115,10 +109,11 @@
         </div>
       </div>
     </section>
-    <section id="table-profile-list">
+
+    <section id="table-hsm-list">
       <div class="card">
         <div class="card-header py-1">
-          <h4 class="card-title">Danh sách Profile</h4>
+          <h4 class="card-title">Danh sách HSM</h4>
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
@@ -136,9 +131,9 @@
           mode="indeterminate"
         ></mat-progress-bar>
         <ngx-datatable
-        #tableRowDetails
-          [rows]="rowsData"
+          #tableRowDetails
           class="bootstrap core-bootstrap cursor"
+          [rows]="rowsData"
           [columnMode]="ColumnMode.force"
           [headerHeight]="50"
           rowHeight="auto"
@@ -154,34 +149,34 @@
         >
           <ngx-datatable-column
             name="TT"
-            [width]="20"
-            [canAutoResize]="false"
             [sortable]="false"
+            [canAutoResize]="false"
+            [width]="50"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
               {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
             </ng-template>
           </ngx-datatable-column>
-          <!-- full name -->
           <ngx-datatable-column
-            name="TÊN EntityProfile"
-            prop="endEntityProfileName"
-            [width]="150"
+            name="Tên HSM"
+            prop="hsmName"
+            [width]="130"
           ></ngx-datatable-column>
-          <!-- subject AND -->
           <ngx-datatable-column
-            name="Dn Attribute"
-            prop="subjectDnAttribute"
-            [width]="300"
-          >
-          </ngx-datatable-column>
-          <!-- subject ATT -->
-          <ngx-datatable-column
-            name="Dn Alternative"
-            prop="subjectDnAlternative"
-            [width]="300"
+            name="Hãng sản xuất"
+            prop="hsmManufacturer"
+            [width]="130"
           ></ngx-datatable-column>
-
+          <ngx-datatable-column
+            name="Tên model"
+            prop="hsmModel"
+            [width]="130"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Đường dẫn file thư viện"
+            prop="hsmLibraryPath"
+            [width]="400"
+          ></ngx-datatable-column>
           <ngx-datatable-column
             name="Hành động"
             [width]="70"
@@ -216,7 +211,6 @@
                     aria-labelledby="dropdownBrowserState"
                   >
                     <a
-                    [routerLink]="['../', 'profile-view', value.endEntityProfileId]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
                       ><i data-feather="file-text" class="mr-50"></i> Chi
@@ -224,7 +218,6 @@
                     >
 
                     <a
-                    [routerLink]="['../', 'profile-edit', value.endEntityProfileId]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
                       ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
