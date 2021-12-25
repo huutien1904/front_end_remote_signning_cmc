@@ -1,8 +1,11 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, SelectionType,DatatableComponent } from '@swimlane/ngx-datatable';
+import { Console } from 'console';
 import { ToastrService } from "ngx-toastr";
+import { PersonalListService } from '../personal-list.service';
 
 @Component({
   selector: 'app-personal-list-add',
@@ -29,6 +32,8 @@ export class PersonalListAddComponent implements OnInit {
   constructor(
     private _toastrService: ToastrService,
     private modalService: NgbModal,
+    private router: Router,
+    private _personalListService: PersonalListService, 
     ) {}
 
   ngOnInit(): void {
@@ -71,9 +76,13 @@ export class PersonalListAddComponent implements OnInit {
   }
   updateTable(){
     var dataTable = {
-      listPersonal:""
-    }
+      "staffList":[
 
+      ],
+      "organizationId": 1,
+      "subscriberCategoryId": 3
+    }
+    
     if(this.selected.length === 0){
       console.log("chua chon phan tu");
       this._toastrService.success(
@@ -83,9 +92,17 @@ export class PersonalListAddComponent implements OnInit {
       ) 
     }
     if(this.selected.length > 0){
-      dataTable.listPersonal = this.selected
-      console.log("selector",this.selected.length);
-      this.toggleTable.emit();
+      JSON.stringify(this.selected)
+      dataTable.staffList = this.selected
+      JSON.stringify(dataTable)
+      console.log("selector",dataTable);
+      this._personalListService
+      .createListPersonal(dataTable)
+      .subscribe((res) =>{
+        console.log(res);
+      })
+      // this.toggleTable.emit();
+      this.router.navigate(['/apps/ip/subscribers-list']);
     }
     
   }

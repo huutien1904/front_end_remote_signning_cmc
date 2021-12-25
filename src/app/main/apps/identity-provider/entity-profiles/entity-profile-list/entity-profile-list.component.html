@@ -122,13 +122,17 @@
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
-            <button class="btn btn-primary ml-2" rippleEffect>
+             <a [routerLink]="['../', 'profile-create']">
+                <button class="btn btn-primary ml-2" rippleEffect>
+             
               <i
-                data-feather="plus"
-                class="d-sm-none d-inline-block mr-0 mr-sm-1"
-              ></i
-              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-            </button>
+              data-feather="plus"
+              class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i>
+              <span class="d-none d-sm-inline-block">Thêm Mới</span>
+            </button>  
+              </a>
+            
           </div>
         </div>
         <mat-progress-bar
@@ -238,10 +242,12 @@
                     >
                   </div>
                 </div>
-                <i
-                  data-feather="edit"
-                  class="text-primary cursor-pointer"
-                ></i>
+                <a [routerLink]="['../', 'profile-edit', value.endEntityProfileId]">
+                  <i  
+                    data-feather="edit"
+                    class="text-primary cursor-pointer"
+                  ></i>
+                </a>
               </div>
             </ng-template>
           </ngx-datatable-column>

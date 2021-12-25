@@ -46,7 +46,16 @@ export class PersonalListComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
-  
+  public body ={
+    "page" : null,
+    "size" : null,
+    "sort" : ["staffId,asc"],
+    "contains" : "",
+    "gender" : "",
+    "dateOfBirth" : "",
+    "fromDate" : "",
+    "toDate" : ""
+  }
   public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
@@ -57,16 +66,6 @@ export class PersonalListComponent implements OnInit {
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
-  public body = {
-    "page" : 0,
-    "size" : 15,
-    "sort" : ["staffId,asc"],
-    "contains" : "",
-    "gender" : "",
-    "dateOfBirth" : "",
-    "fromDate" : "",
-    "toDate" : ""
-  }
   /**
    *
    * @param _personalListService
@@ -134,8 +133,10 @@ export class PersonalListComponent implements OnInit {
     
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
-  changePage() {
+  changePage(event) {
+    console.log(event);
     this.pagedData.size = this.formListPersonal.get("sizePage").value;
+    console.log(this.pagedData.size);
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
   getBirthDay(e){
@@ -201,7 +202,7 @@ export class PersonalListComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log(this.formListPersonal.value)
+    console.log(this.formListPersonal.value)
     if(this.formListPersonal.value.birthday !== null){
       let birthday = this.formListPersonal.value.birthday._i.date + "/" + this.formListPersonal.value.birthday._i.month + "/" + this.formListPersonal.value.birthday._i.year
       this.formListPersonal.controls['birthday'].setValue(birthday);
@@ -298,18 +299,18 @@ export class PersonalListComponent implements OnInit {
           'gender':"",
           'email':"",
           'phoneNumber':"",
-          "organizationId":"organization_02004",
-          "streetBirthPlace":28,
-          "countryBirthPlace":237,
-          "provinceBirthPlace":11,
-          "districtBirthPlace":100,
-          "communeBirthPlace":3331,
+          
+          "streetBirthPlace":"28",
+          "countryBirthPlace":"237",
+          "provinceBirthPlace":"11",
+          "districtBirthPlace":"100",
+          "communeBirthPlace":"3331",
           "homeNumberBirthPlace":"12",
-          "countryResidencePlace":237,
-          "provinceResidencePlace":11,
-          "districtResidencePlace":99,
-          "communeResidencePlace":3274,
-          "streetResidencePlace":20,
+          "countryResidencePlace":"237",
+          "provinceResidencePlace":"11",
+          "districtResidencePlace":"99",
+          "communeResidencePlace":"3274",
+          "streetResidencePlace":"20",
           "homeNumberResidencePlace":"12"
         }
         item.map((value,index) =>{
@@ -345,6 +346,7 @@ export class PersonalListComponent implements OnInit {
   toggleTable(){
     this.openTableUpdate = false;
     this.openTable = true;
+    this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
   
   /**

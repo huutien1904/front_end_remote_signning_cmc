@@ -6,6 +6,7 @@ import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalViewService } from "./personal-view/personal-view.service";
+import { PersonalListAddComponent } from "./personal-list/personal-list-add/personal-list-add.component";
 
 const routes: Routes = [
   {
@@ -16,7 +17,14 @@ const routes: Routes = [
     },
     data: { animation: "PersonalListComponent" },
   },
-
+  {
+    path: "personal-add-list",
+    component: PersonalListAddComponent,
+    // resolve: {
+    //   uls: PersonalListService,
+    // },
+    data: { animation: "PersonalListAddComponent" },
+  },
   {
     path: "personal-view/:id",
     component: PersonalViewComponent,
