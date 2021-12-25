@@ -110,6 +110,156 @@
       </div>
     </section>
 
+    <section id="table-hsm-list">
+      <div class="card">
+        <div class="card-header py-1">
+          <h4 class="card-title">Danh sách HSM</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-50">
+            <button class="btn btn-primary ml-2" [routerLink]="['../', 'token-create']" rippleEffect>
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i
+              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+            </button>
+          </div>
+        </div>
+        <mat-progress-bar
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+        <ngx-datatable
+        #tableRowDetails
+        [rows]="rowsData"
+        class="bootstrap core-bootstrap cursor"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [externalPaging]="true"
+        [limit]="pagedData.size"
+        [count]="pagedData.totalItems"
+        [offset]="pagedData.currentPage"
+        [loadingIndicator]="isLoading"
+        (page)="setPage($event)"
+        >
+          <ngx-datatable-column
+            name="TT"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [width]="50"
+          >
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Tên Token"
+            prop="tokenName"
+            [width]="130"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Slot number"
+            prop="slotNumber"
+            [width]="130"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Hành động"
+            [width]="70"
+            [sortable]="false"
+            prop=""
+          >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+              let-rowIndex="rowIndex"
+            >
+              <div class="d-flex align-items-center">
+                <div ngbDropdown container="body">
+                  <a
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    class="hide-arrow"
+                    id="dropdownBrowserState"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i
+                      data-feather="more-vertical"
+                      class="text-primary cursor-pointer mr-50"
+                    ></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right"
+                    aria-labelledby="dropdownBrowserState"
+                  >
+                    <a
+                      ngbDropdownItem
+                      [routerLink]="['../', 'token-view', value.tokenId]"
+                      class="d-flex align-items-center"
+                      ><i data-feather="file-text" class="mr-50"></i> Chi
+                      tiết</a
+                    >
 
+                    <a
+                      ngbDropdownItem
+                      [routerLink]="['../', 'token-edit', value.tokenId]"
+                      class="d-flex align-items-center"
+                      ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
+                    </a>
+                    <a
+                      href="javascript:void(0)"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="removeProfile(value.tokenId)"
+                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                    >
+                  </div>
+                </div>
+                <i
+                  data-feather="edit"
+                  class="text-primary cursor-pointer"
+                ></i>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+              let-isVisible="isVisible"
+            >
+              <div class="page-count" *ngIf="!isLoading">
+                  Có tổng số
+                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+              </div>
+              <datatable-pager
+                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'"
+                [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'"
+                [page]="curPage"
+                [size]="pageSize"
+                [count]="rowCount"
+                [hidden]="!(rowCount / pageSize > 1)"
+                (change)="table.onFooterPage($event)"
+              >
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </section>
   </div>
 </div>
