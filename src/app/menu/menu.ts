@@ -170,7 +170,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
         type: 'item',
         icon: 'tablet',
-        url: '/apps/equipment-management/token'
+        url: '/apps/equipment-management/token/token-list'
       },
       {
         id: "template-management",

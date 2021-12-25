@@ -58,7 +58,7 @@ const materialModules1234 = [
     ContentHeaderModule,
     MatProgressBarModule,
   ],
-  exports: [[HsmListComponent, HsmEditComponent, HsmViewComponent]],
+  exports: [HsmListComponent, HsmEditComponent, HsmViewComponent],
   providers: [
     
     HsmListService,

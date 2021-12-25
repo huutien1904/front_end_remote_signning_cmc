@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule, Routes } from '@angular/router';
-import { TokenManagementModule } from '../token-management/token-management.module';
+
 import { HsmManagementModule } from './hsm-management/hsm-management.module';
+import { TokenManagementModule } from './token-management/token-management.module';
 
 const routes: Routes = [
   {
