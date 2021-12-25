@@ -11,12 +11,24 @@ import { PagedData } from 'app/main/models/PagedData';
   providedIn: 'root'
 })
 export class CertificateRequestListService{
+  // public
+
   public onUserListChanged: BehaviorSubject<any>;
   /**
    * Constructor
-   *
    * @param {HttpClient} _httpClient
    */
+
+  private readonly currentUser = JSON.parse(
+    localStorage.getItem("currentUser")
+  );
+  private readonly token = this.currentUser.token;
+  private option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + this.token,
+    },
+  };
   constructor(private _httpClient: HttpClient) {
     this.onUserListChanged = new BehaviorSubject({});
   }
@@ -33,19 +45,8 @@ export class CertificateRequestListService{
     return res;
   }
 
-  public getData(page:PagedData<CertificateRequest>) :Observable<ResponseData<PagedData<CertificateRequest>>>{
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const token = currentUser.token;
-    const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
-    console.log("service personal list");
-    const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      },
-      params:param
-    };
-     return this._httpClient.get<ResponseData<PagedData<CertificateRequest>>>(`${environment.apiUrl}/certificate-request/list`,option);
+  public getData(body) :Observable<ResponseData<PagedData<CertificateRequest>>>{
+     return this._httpClient.get<ResponseData<PagedData<CertificateRequest>>>
+     (`${environment.apiUrl}/certificate-request/list`,this.option);
   }
-
 }
