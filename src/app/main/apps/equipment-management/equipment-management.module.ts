@@ -1,46 +1,35 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoadingInterceptor } from './../../loading/loading.interceptor';
-import { LoadingService } from './../../loading/loading.service';
+import { NgModule } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterModule, Routes } from '@angular/router';
+import { TokenManagementModule } from '../token-management/token-management.module';
 import { HsmManagementModule } from './hsm-management/hsm-management.module';
 
-
-const routes : Routes = [
-  { 
-    path : 'hsm',
-    loadChildren:()=> import('./hsm-management/hsm-management.routing').then(m => m.HsmManagementRoutingRoutes)
+const routes: Routes = [
+  {
+    path: 'hsm',
+    loadChildren: () =>
+      import('./hsm-management/hsm-management.routing').then(
+        (m) => m.HsmManagementRoutes
+      ),
   },
   {
     path: 'token',
-    loadChildren: () => import('./token-management/token-management.module').then(m => m.TokenManagementModule)
+    loadChildren: () =>
+      import('./token-management/token-management.routing').then(
+        (m) => m.TokenManagementRoutes
+      ),
   },
-  {
-    path: 'search',
-    loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
-  },
-  {
-    path: 'new-token',
-    loadChildren: () => import('./new-token/new-token.module').then(m => m.NewTokenModule)
-  },
-  
-  
-]
+];
 @NgModule({
-  declarations: [
-  
-  ],
+  declarations: [],
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule.forChild(routes),
     MatProgressSpinnerModule,
-    HsmManagementModule
+    HsmManagementModule,
+    TokenManagementModule
   ],
-  providers: [
-    
-  ],
-
+  providers: [],
 })
-export class EquipmentManagementModule { }
+export class EquipmentManagementModule {}

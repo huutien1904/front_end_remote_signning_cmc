@@ -12,7 +12,7 @@
       <div class="card pb-1">
         <h5 class="card-header">Bộ lọc tìm kiếm</h5>
         <div class="card-body pb-1">
-          <form class="form form-vertical" [formGroup]="formListHsm">
+          <form class="form form-vertical" [formGroup]="formListToken">
             <div class="row">
               <div class="col-md-4">
                 <fieldset class="form-group">
@@ -41,8 +41,8 @@
                   type="button"
                   rippleEffect
                   class="btn btn-primary"
-                  (click)="setPage({ offset: 0, pageSize:  formListHsm.controls.size  })"
-                  [disabled]="!formListHsm.valid"
+                  (click)="setPage({ offset: 0, pageSize:  formListToken.controls.size  })"
+                  [disabled]="!formListToken.valid"
                 >
                   Tìm kiếm
                 </button>
@@ -56,7 +56,7 @@
                     [items]="sizePage"
                     [clearable]="false"
                     formControlName="size"
-                    (change)="setPage({ offset: 0, pageSize:  formListHsm.controls.size  })"
+                    (change)="setPage({ offset: 0, pageSize:  formListToken.controls.size  })"
                   ></ng-select>
                 </fieldset>
               </div>
@@ -76,7 +76,7 @@
                         class="form-control"
                         type="text"
                         [min]="minDate"
-                        [max]="formListHsm.controls.toDate.value"
+                        [max]="formListToken.controls.toDate.value"
                         placeholder="13/09/2021"
                       />
                     </div>
@@ -95,7 +95,7 @@
                         formControlName="toDate"
                         class="form-control"
                         type="text"
-                        [min]="formListHsm.controls.fromDate.value"
+                        [min]="formListToken.controls.fromDate.value"
                         placeholder="13/09/2021"
                       />
                     </div>
@@ -117,7 +117,7 @@
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
-            <button class="btn btn-primary ml-2" [routerLink]="['../', 'hsm-create']" rippleEffect>
+            <button class="btn btn-primary ml-2" [routerLink]="['../', 'token-create']" rippleEffect>
               <i
                 data-feather="plus"
                 class="d-sm-none d-inline-block mr-0 mr-sm-1"
@@ -212,7 +212,7 @@
                   >
                     <a
                       ngbDropdownItem
-                      [routerLink]="['../', 'hsm-view', value.hsmId]"
+                      [routerLink]="['../', 'token-view', value.hsmId]"
                       class="d-flex align-items-center"
                       ><i data-feather="file-text" class="mr-50"></i> Chi
                       tiết</a
@@ -220,7 +220,7 @@
 
                     <a
                       ngbDropdownItem
-                      [routerLink]="['../', 'hsm-edit', value.hsmId]"
+                      [routerLink]="['../', 'token-edit', value.hsmId]"
                       class="d-flex align-items-center"
                       ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
                     </a>

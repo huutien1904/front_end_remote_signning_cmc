@@ -14,6 +14,7 @@ import {
 } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { CorePipesModule } from "@core/pipes/pipes.module";
@@ -23,6 +24,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
+import { HsmCreateComponent } from "./hsm-create/hsm-create.component";
 import { HsmEditComponent } from "./hsm-edit/hsm-edit.component";
 import { HsmListService } from "./hsm-list.service";
 import { HsmListComponent } from "./hsm-list/hsm-list.component";
@@ -35,11 +37,12 @@ const materialModules1234 = [
 ];
 
 @NgModule({
-  declarations: [HsmListComponent, HsmEditComponent, HsmViewComponent],
+  declarations: [HsmListComponent, HsmEditComponent, HsmViewComponent, HsmCreateComponent],
   imports: [
     CommonModule,
     CoreCommonModule,
     NgSelectModule,
+    RouterModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,

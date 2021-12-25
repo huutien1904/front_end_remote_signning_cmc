@@ -1,21 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Hsm } from 'app/main/models/Equipment';
-import { PagedData } from 'app/main/models/PagedData';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
+import { Token } from 'app/main/models/Equipment';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { PagedData } from 'app/main/models/PagedData';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HsmService {
-  public onHsmListChanged: BehaviorSubject<any>;
+export class TokenService {
+  public onUserListChanged: BehaviorSubject<any>;
+  public page = 0;
 
-  constructor(private _httpClient: HttpClient) {
-    this.onHsmListChanged = new BehaviorSubject({});
-  }
-
+  constructor(private _httpClient: HttpClient) {}
   private readonly currentUser = JSON.parse(
     localStorage.getItem('currentUser')
   );
@@ -27,9 +25,9 @@ export class HsmService {
     },
   };
 
-  public getListHsm(body): Observable<ResponseData<PagedData<Hsm>>> {
-    return this._httpClient.post<ResponseData<PagedData<Hsm>>>(
-      `${environment.apiUrl}/hsm/search`,
+  public getListToken(body): Observable<ResponseData<PagedData<Token>>> {
+    return this._httpClient.post<ResponseData<PagedData<Token>>>(
+      `${environment.apiUrl}/token/search`,
       body,
       this.option
     );

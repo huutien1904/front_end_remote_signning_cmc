@@ -1,50 +1,45 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
-import { Hsm } from 'app/main/models/Equipment';
+import { Token } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HsmService } from '../hsm.service';
+import { TokenService } from '../token.service';
 
 @Component({
-  selector: 'app-hsm-list',
-  templateUrl: './hsm-list.component.html',
-  styleUrls: ['./hsm-list.component.scss'],
+  selector: 'app-token-list',
+  templateUrl: './token-list.component.html',
+  styleUrls: ['./token-list.component.scss'],
   encapsulation: ViewEncapsulation.None
-
 })
-export class HsmListComponent implements OnInit {
+export class TokenListComponent implements OnInit {
 
   minDate: Date;
   maxDate: Date;
   public moreOption = true;
-  public formListHsm: FormGroup
+  public formListToken: FormGroup;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
-
 
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
-  public pagedData = new PagedData<Hsm>();
-  public rowsData = new Array<Hsm>();
-
+  public rowsData = new Array<Token>();
+  public pagedData = new PagedData<Token>();
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public page: number = 0;
   public totalPages: number = 0;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
-  public chkBoxSelected = [];
   public SelectionType = SelectionType;
   public totalItems: any = 0;
 
   constructor(
     private fb: FormBuilder,
-    private _hsmService: HsmService,
+    private _tokenService: TokenService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
   ) {
@@ -61,7 +56,7 @@ export class HsmListComponent implements OnInit {
 
   ngOnInit(): void {
     this.contentHeader = {
-      headerTitle: "Kết nối HSM",
+      headerTitle: "Token",
       // actionButton: true,
       breadcrumb: {
         type: "chevron",
@@ -73,8 +68,7 @@ export class HsmListComponent implements OnInit {
         ],
       },
     };
-
-    this.formListHsm = this.fb.group({
+    this.formListToken = this.fb.group({
       page : [null],
       size : [this.sizePage[0]],
       sort: [null],
@@ -82,32 +76,33 @@ export class HsmListComponent implements OnInit {
       fromDate: [null],
       toDate: [null]
     });
-    this.setPage({ offset: 0, pageSize: this.formListHsm.get("size").value });
-
+    this.setPage({ offset: 0, pageSize: this.formListToken.get("size").value });
   }
+
 
   setPage(pageInfo) {
     
     this.isLoading = true;
-    this.formListHsm.patchValue({"page":pageInfo.offset});
-    console.log(pageInfo);
-    console.log(this.formListHsm.value);
-    
-    this._hsmService
-      .getListHsm(JSON.stringify(this.formListHsm.value))
+    this.formListToken.patchValue({"page":pageInfo.offset});
+
+    this._tokenService
+      .getListToken(JSON.stringify(this.formListToken.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.totalItems = pagedData.data.totalItems;
-        console.log(pagedData);
         this.pagedData = pagedData.data;
         this.rowsData= pagedData.data.data;
         this.isLoading = false;
       });
   }
 
+  onSubmit() {
+    console.log(this.formListToken);
+  }
+
+
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
-
 }
