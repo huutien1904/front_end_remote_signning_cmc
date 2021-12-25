@@ -131,21 +131,21 @@
           mode="indeterminate"
         ></mat-progress-bar>
         <ngx-datatable
-          #tableRowDetails
-          class="bootstrap core-bootstrap cursor"
-          [rows]="rowsData"
-          [columnMode]="ColumnMode.force"
-          [headerHeight]="50"
-          rowHeight="auto"
-          [scrollbarH]="true"
-          [footerHeight]="50"
-          [rowHeight]="50"
-          [externalPaging]="true"
-          [limit]="pagedData.size"
-          [count]="pagedData.totalItems"
-          [offset]="pagedData.currentPage"
-          [loadingIndicator]="isLoading"
-          (page)="setPage($event)"
+        #tableRowDetails
+        [rows]="rowsData"
+        class="bootstrap core-bootstrap cursor"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [externalPaging]="true"
+        [limit]="pagedData.size"
+        [count]="pagedData.totalItems"
+        [offset]="pagedData.currentPage"
+        [loadingIndicator]="isLoading"
+        (page)="setPage($event)"
         >
           <ngx-datatable-column
             name="TT"

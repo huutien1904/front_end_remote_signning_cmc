@@ -24,7 +24,6 @@ export class HsmListComponent implements OnInit {
   public moreOption = true;
   public formListHsm: FormGroup
   private _unsubscribeAll: Subject<any>;
-
   public contentHeader: object;
 
 
@@ -90,15 +89,22 @@ export class HsmListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    console.log(pageInfo);
+    
     this.isLoading = true;
     this.formListHsm.patchValue({"page":pageInfo.offset});
+    console.log(pageInfo);
+    console.log(this.formListHsm.value);
+    
     this._hsmService
       .getListHsm(JSON.stringify(this.formListHsm.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData);
+        
         this.pagedData = pagedData.data;
+        console.log(this.pagedData);
+        
         this.rowsData= pagedData.data.data;
         this.isLoading = false;
       });
