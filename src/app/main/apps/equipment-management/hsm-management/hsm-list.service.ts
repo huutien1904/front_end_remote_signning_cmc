@@ -27,6 +27,14 @@ export class HsmListService {
   };
 
   public getAllHsm(): Observable<ResponseData<Hsm[]>> {
+    const body = {
+      "page" : null,
+      "size" : 4,
+      "sort" : ["hsmId,asc"],
+      "contains" : "",
+      "fromDate" : "",
+      "toDate" : ""
+    }
     return this._httpClient.get<ResponseData<Hsm[]>>(
       `${environment.apiUrl}/hsm/list`,
       this.option

@@ -115,7 +115,7 @@ export class SidebarPersonalsComponent implements OnInit {
     },
   ]
 
-  @Input() personal: PersonalDetail;
+  @Input() personal: any;
   @ViewChild('modalLink') modalLink;
 
   get f() {

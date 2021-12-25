@@ -133,8 +133,8 @@ export class PersonalListComponent implements OnInit {
     
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
-  changePage(event) {
-    console.log(event);
+  changePage() {
+
     this.pagedData.size = this.formListPersonal.get("sizePage").value;
     console.log(this.pagedData.size);
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
@@ -147,7 +147,9 @@ export class PersonalListComponent implements OnInit {
     console.log(pageInfo);
     this.isLoading=true;
     this.pagedData.currentPage = pageInfo.offset;
+    
     this.pagedData.size = pageInfo.pageSize;
+    console.log(this.pagedData.currentPage,this.pagedData.size);
     this._personalListService
       .getListPersonals(this.pagedData)
       .pipe(takeUntil(this._unsubscribeAll))

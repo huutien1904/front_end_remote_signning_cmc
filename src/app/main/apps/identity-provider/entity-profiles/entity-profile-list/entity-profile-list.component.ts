@@ -84,6 +84,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
+  
   changePage() {
     this.pagedData.size = this.formListProfile.get("sizePage").value;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
