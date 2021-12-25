@@ -13,7 +13,7 @@
               id="distinguishedName"
               type="search"
               class="form-control"
-              formControlName="inputPersonal"
+              formControlName="contains"
               placeholder="Nhập họ tên, thư điện tử, địa chỉ"
             />
           </div>
@@ -41,9 +41,9 @@
               </div>
               <input
                 [matDatepicker]="birthday"
-                formControlName="birthday"
+                formControlName="dateOfBirth"
                 class="form-control"
-                (change)="getBirthDay($event)"
+                
                 type="text"
                 placeholder="19/04/1992"
               />
@@ -81,8 +81,8 @@
                 [items]="sizePage"
                 bindValue="sizePage"
                 [clearable]="false"
-                formControlName="sizePage"
-                (change)="changePage()"
+                formControlName="size"
+                (change)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
               ></ng-select>
             </fieldset>
           </div>

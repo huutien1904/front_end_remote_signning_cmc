@@ -59,8 +59,10 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     this.formListProfile = this.fb.group({
       contains: [null],
       fromDate: [null],
+      sort:[null],
       toDate: [null],
-      sizePage: [this.sizePage[0]],
+      page: [null],
+      size: [this.sizePage[0]]
     });
     // content header profile
     this.contentHeader = {
@@ -71,42 +73,23 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         links: [
           {
             name: "Danh sách",
-            isLink: true,
-            link: "/apps/ip/subscribers/profiles/profile-list",
-            // click: this.showListProfile = true
+            isLink: false,
           }
         ],
       },
     };
     // end content header profile
 
-    this.pagedData.size = this.sizePage[1];
-    this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
-  
-  changePage() {
-    this.pagedData.size = this.formListProfile.get("sizePage").value;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    this.setPage({ offset: 0, pageSize:  this.formListProfile.get("size").value  });
   }
 
-  onSubmit() {
-    this.pagedData.size = this.formListProfile.get("sizePage").value;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
-  onSelect({ selected }) {
-    console.log("Select Event", selected, this.selected);
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading = true;
-    this.pagedData.currentPage = pageInfo.offset;
-    this.pagedData.size = pageInfo.pageSize;
+    this.formListProfile.patchValue({"page":pageInfo.offset});    
     this._entityProfileService
-      .getListProfiles(this.formListProfile, this.pagedData)
+      .getListProfiles(JSON.stringify(this.formListProfile.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.totalItems = pagedData.data.totalItems;
@@ -116,8 +99,6 @@ export class ProfileListComponent implements OnInit, OnDestroy {
           subjectDnAttribute: profileList.distinguishedName.map((d) => d.name),
           subjectDnAlternative: profileList.alternativeName.map((d) => d.name),
         }));
-        console.log(this.rowsData);
-        console.log(this.totalItems);
         this.isLoading = false;
       });
   }

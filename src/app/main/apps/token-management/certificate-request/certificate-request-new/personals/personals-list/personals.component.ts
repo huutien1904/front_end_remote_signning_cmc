@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
-import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
@@ -11,14 +11,15 @@ import {
   DatatableComponent,
   SelectionType,
 } from "@swimlane/ngx-datatable";
-import { PagedData } from "app/main/models/PagedData"
+import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
+import { threadId } from "worker_threads";
 
 @Component({
-  selector: 'app-personals',
-  templateUrl: './personals.component.html',
-  styleUrls: ['./personals.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-personals",
+  templateUrl: "./personals.component.html",
+  styleUrls: ["./personals.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PersonalsComponent implements OnInit {
   minDate: Date;
@@ -30,6 +31,7 @@ export class PersonalsComponent implements OnInit {
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
+
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
@@ -39,7 +41,7 @@ export class PersonalsComponent implements OnInit {
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
-
+  public rowDataSelected = [];
   /**
    *
    * @param _userListService
@@ -52,10 +54,11 @@ export class PersonalsComponent implements OnInit {
   constructor(
     private _userListService: PersonalListService,
     private _coreConfigService: CoreConfigService,
+    private modalService: NgbModal,
     private fb: FormBuilder,
     private modal: NgbModal,
-    private dateAdapter: DateAdapter<any>,
-  ) { 
+    private dateAdapter: DateAdapter<any>
+  ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 4, 0, 1);
@@ -88,7 +91,7 @@ export class PersonalsComponent implements OnInit {
 
   setPage(pageInfo) {
     console.log(pageInfo);
-    this.isLoading=true;
+    this.isLoading = true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
     this._userListService
@@ -106,7 +109,7 @@ export class PersonalsComponent implements OnInit {
             " " +
             personalList.lastName,
         }));
-        this.isLoading=false;
+        this.isLoading = false;
       });
   }
 
@@ -114,7 +117,7 @@ export class PersonalsComponent implements OnInit {
    * Custom Checkbox On Select
    *
    * @param { selected }
-  */
+   */
   customCheckboxOnSelect({ selected }) {
     this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
     this.chkBoxSelected.push(...selected);
@@ -138,6 +141,19 @@ export class PersonalsComponent implements OnInit {
 
   onSubmit() {
     console.log(this.formListCertificateRequest);
+  }
+
+  openNewSelectModal(modal) {
+    this.rowDataSelected = this.selected;
+    this.modalService.open(modal, {
+      centered: true,
+      size: "xl",
+    });
+  }
+
+  acceptSelected(modal){
+    modal.close('Accept click');
+    alert('Gửi yêu cầu chứng thực thành công');
   }
 
   /**

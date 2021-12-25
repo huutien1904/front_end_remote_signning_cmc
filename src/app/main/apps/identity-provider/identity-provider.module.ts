@@ -14,6 +14,8 @@ import { ProfileModule } from './entity-profiles/entity-profile.module';
 import { SearchSubscribersModule } from './search-subscribers/search-subscriber.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
 import { UserModule } from './users/user/user.module';
+import { UsersModule } from './users/users.module';
+
 
 /**
  * Routing
@@ -46,6 +48,13 @@ const routes: Routes = [
     loadChildren:()=> import('./entity-profiles/entity-profile-routing.module').then(m => m.ProfileRoutingModule)
   },
   {
+    path: "users",
+    loadChildren: () =>
+      import("./users/users-routing.module").then(
+        (m) => m.UsersRoutingModule
+      ),
+  },
+  {
     path: "**",
     redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
   },
@@ -58,14 +67,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    NgbModule,
     CoreCommonModule,
     UserModule,
     ProfileModule,
     SearchSubscribersModule,
     OrganizationsModule,
+    UsersModule,
     FormsModule,
-    NgbModule,
     NgSelectModule,
     NgxDatatableModule.forRoot({
       messages: {

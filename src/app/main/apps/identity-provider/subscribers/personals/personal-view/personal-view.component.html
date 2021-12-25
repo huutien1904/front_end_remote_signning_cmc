@@ -1,109 +1,139 @@
-
-<section class="app-user-view">   
-        <div class="col-md-12">
-            <div class="card user-card">
-                <div class="card-body"> 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="user-info-wrapper">
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h2>Chi tiết thông tin thuê bao</h2>
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Họ và Tên :  </span>
-                                            </div>
-                                            <p class="card-text mb-0">{{ data.personalFirstName }} {{data.personalMiddleName}} {{data.personalLastName}}</p>
-                                        </div>
-            
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Ngày sinh : </span>
-                                            </div>
-                                            <p class="card-text mb-0">{{ data.birthday | date: "dd/MM/YYYY" }}</p>
-                                        </div>
-            
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Số điện thoại :</span>
-                                            </div>
-                                            <p class="card-text mb-0">{{ data.phoneNumber }} </p>
-                                        </div>
-            
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Số căn cước : </span>
-                                            </div>
-                                            <p class="card-text mb-0">{{ data.personalCountryId }} </p>
-                                        </div>
-            
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Id tổ chức : </span>
-                                            </div>
-                                            <p class="card-text mb-0">{{ data.subscriberId }} </p>
-                                        </div>
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Email : </span>
-                                            </div>
-                                            <p class="card-text mb-0">{{ data.email }} </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- địa chỉ nơi sinh -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h2>Địa chỉ đăng ký theo hộ khẩu</h2>
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Nước: </span>
-                                            </div>
-                                            <!-- <p class="card-text mb-0">{{ data.birthPlace.addressId }} </p> -->
-                                        </div>  
-            
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="info" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">chi tiết : </span>
-                                            </div>
-                                            <!-- <p class="card-text mb-0">{{ data.birthPlace.streetId }},{{ data.birthPlace.houseNumber }},{{ data.birthPlace.communeId }},{{ data.birthPlace.districtId }},{{ data.birthPlace.provinceId }} </p> -->
-                                        </div>
-            
-                                          
-                                    </div>
-                                    <div class="col-md-12">
-                                        <h2>Nơi cư trú</h2>
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="user" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">Nước   : </span>
-                                            </div>
-                                            <!-- <p class="card-text mb-0">{{ data.address.addressId }} </p> -->
-                                        </div>  
-                                        <div class="d-flex flex-wrap my-50">
-                                            <div class="user-info-title">
-                                                <i data-feather="info" class="mr-1"></i>
-                                                <span class="card-text user-info-title font-weight-bold mb-0">chi tiết : </span>
-                                            </div>
-                                            <!-- <p class="card-text mb-0">{{ data.address.streetId }},{{ data.address.houseNumber }},{{ data.address.communeId }},{{ data.address.districtId }},{{ data.address.provinceId }} </p> -->
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <!-- Nơi cư trú   -->
-                            </div>
-                        </div>
+<section class="app-user-view">
+  <div class="col-md-12">
+    <div class="card user-card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="user-info-wrapper">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2>Chi tiết thông tin thuê bao</h2>
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Họ và Tên :
+                      </span>
                     </div>
+                    <p class="card-text mb-0">
+                      {{ data.personalFirstName }}
+                      {{ data.personalMiddleName }} {{ data.personalLastName }}
+                    </p>
+                  </div>
+
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Ngày sinh :
+                      </span>
+                    </div>
+                    <p class="card-text mb-0">
+                      {{ data.birthday | date: "dd/MM/YYYY" }}
+                    </p>
+                  </div>
+
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Số điện thoại :</span
+                      >
+                    </div>
+                    <p class="card-text mb-0">{{ data.phoneNumber }}</p>
+                  </div>
+
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Số căn cước :
+                      </span>
+                    </div>
+                    <p class="card-text mb-0">{{ data.personalCountryId }}</p>
+                  </div>
+
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Id tổ chức :
+                      </span>
+                    </div>
+                    <p class="card-text mb-0">{{ data.subscriberId }}</p>
+                  </div>
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Email :
+                      </span>
+                    </div>
+                    <p class="card-text mb-0">{{ data.email }}</p>
+                  </div>
                 </div>
+              </div>
+              <!-- địa chỉ nơi sinh -->
+              <div class="row">
+                <div class="col-md-12">
+                  <h2>Địa chỉ đăng ký theo hộ khẩu</h2>
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Nước:
+                      </span>
+                    </div>
+                    <!-- <p class="card-text mb-0">{{ data.birthPlace.addressId }} </p> -->
+                  </div>
+
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="info" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >chi tiết :
+                      </span>
+                    </div>
+                    <!-- <p class="card-text mb-0">{{ data.birthPlace.streetId }},{{ data.birthPlace.houseNumber }},{{ data.birthPlace.communeId }},{{ data.birthPlace.districtId }},{{ data.birthPlace.provinceId }} </p> -->
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <h2>Nơi cư trú</h2>
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="user" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >Nước :
+                      </span>
+                    </div>
+                    <!-- <p class="card-text mb-0">{{ data.address.addressId }} </p> -->
+                  </div>
+                  <div class="d-flex flex-wrap my-50">
+                    <div class="user-info-title">
+                      <i data-feather="info" class="mr-1"></i>
+                      <span
+                        class="card-text user-info-title font-weight-bold mb-0"
+                        >chi tiết :
+                      </span>
+                    </div>
+                    <!-- <p class="card-text mb-0">{{ data.address.streetId }},{{ data.address.houseNumber }},{{ data.address.communeId }},{{ data.address.districtId }},{{ data.address.provinceId }} </p> -->
+                  </div>
+                </div>
+              </div>
+              <!-- Nơi cư trú   -->
             </div>
-        </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

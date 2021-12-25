@@ -1,49 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import { Personal } from 'app/main/models/Personal';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class ProfileComponent implements OnInit {
+  minDate: Date;
+  maxDate: Date;
+  public rows;
+  public tempRow;
+  public currentRow = new Array<Personal>()
+  public avatarImage: string;
+  fullName = 'Nguyễn Việt Hưng';
 
-  constructor(private toastr: ToastrService) { }
 
-  ngOnInit(): void {
+  @ViewChild('accountForm') accountForm: NgForm;
+
+  constructor(private dateAdapter: DateAdapter<any>,) {
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 4, 0, 1);
+    this.maxDate = new Date(currentYear + 2, 11, 31);
+   }
+
+  ngOnInit() {
   }
-
-  // Success
-  toastrSuccess() {
-    this.toastr.success('👋 Jelly-o macaroon brownie tart ice cream croissant jelly-o apple pie.', 'Success!', {
-      toastClass: 'toast ngx-toastr',
-      closeButton: true
-    });
-  }
-
-  // Info
-  toastrInfo() {
-    this.toastr.info('👋 Chupa chups biscuit brownie gummi sugar plum caramels.', 'Info!', {
-      toastClass: 'toast ngx-toastr',
-      closeButton: true
-    });
-  }
-
-  // Warning
-  toastrWarning() {
-    this.toastr.warning('👋 Icing cake pudding carrot cake jujubes tiramisu chocolate cake.', 'Warning!', {
-      toastClass: 'toast ngx-toastr',
-      closeButton: true
-    });
-  }
-
-  // Error
-  toastrError() {
-    this.toastr.error('👋 Jelly-o marshmallow marshmallow cotton candy dessert candy.', 'Danger!', {
-      toastClass: 'toast ngx-toastr',
-      closeButton: true
-    });
-  }
-
 
 }

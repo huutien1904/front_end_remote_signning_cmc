@@ -1,48 +1,51 @@
 import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { CoreCommonModule } from "@core/common.module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { CorePipesModule } from "@core/pipes/pipes.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { MatDatepickerModule } from "@angular/material/datepicker";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
+  MomentDateAdapter
 } from "@angular/material-moment-adapter";
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE
 } from "@angular/material/core";
-import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
-
-import { HsmManagementComponent } from './hsm-management.component';
-import { HsmListService } from "./hsm-list.service";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { RouterModule } from "@angular/router";
+import { CoreCommonModule } from "@core/common.module";
+import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
+import { CorePipesModule } from "@core/pipes/pipes.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
-import { RouterModule, Routes } from "@angular/router";
+import { HsmCreateComponent } from "./hsm-create/hsm-create.component";
+import { HsmEditComponent } from "./hsm-edit/hsm-edit.component";
+import { HsmListService } from "./hsm-list.service";
+import { HsmListComponent } from "./hsm-list/hsm-list.component";
+import { HsmViewComponent } from "./hsm-view/hsm-view.component";
+
 
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule
 ];
-const routes: Routes = [
-  {
-    path: '',
-    component: HsmManagementComponent
-  }
-]
+
 @NgModule({
-  declarations: [HsmManagementComponent],
+  declarations: [HsmListComponent, HsmEditComponent, HsmViewComponent, HsmCreateComponent],
   imports: [
     CommonModule,
     CoreCommonModule,
     NgSelectModule,
+    RouterModule,
     NgbModule,
+    ReactiveFormsModule,
+    FormsModule,
     ...materialModules1234,
     NgxDatatableModule.forRoot({
       messages: {
@@ -52,10 +55,10 @@ const routes: Routes = [
       }
     }),
     CorePipesModule,
+    ContentHeaderModule,
     MatProgressBarModule,
-    RouterModule.forChild(routes),
   ],
-  exports: [HsmManagementComponent],
+  exports: [HsmListComponent, HsmEditComponent, HsmViewComponent],
   providers: [
     
     HsmListService,

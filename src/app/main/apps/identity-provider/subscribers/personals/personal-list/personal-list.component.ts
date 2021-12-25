@@ -34,7 +34,7 @@ export class PersonalListComponent implements OnInit {
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
   fileName: string = 'SheetJS.xlsx';
 
-  //Table of personal data
+  //public
   public totalItems:any = 0;
   public pagedData = new PagedData<Personal>();
   public rowsData = new Array<Personal>();
@@ -47,8 +47,8 @@ export class PersonalListComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public moreOption = true;
   public body ={
-    "page" : null,
-    "size" : null,
+    "page" : 0,
+    "size" : 5,
     "sort" : ["staffId,asc"],
     "contains" : "",
     "gender" : "",
@@ -69,7 +69,6 @@ export class PersonalListComponent implements OnInit {
   /**
    *
    * @param _personalListService
-   * @param _coreSidebarService
    * @param _coreConfigService
    * @param modalService
    * @param fb
@@ -78,7 +77,6 @@ export class PersonalListComponent implements OnInit {
    */
   constructor(
     private _personalListService: PersonalListService,
-    private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -119,39 +117,30 @@ export class PersonalListComponent implements OnInit {
       }
     };
     this.formListPersonal = this.fb.group({
-      inputPersonal: [null, Validators.required],
-      fromDate: [null],
-      toDate: [null],
-      sizePage: [this.sizePage[3]],
-      gender: [],
-      birthday: [],
+      page: [""],
+      size: [this.sizePage[0]],
+      sort: [["staffId,asc"]],
+      contains: ["", Validators.required],
+      gender: [""],
+      dateOfBirth: [""],
+      fromDate: [""],
+      toDate: [""],
     });
-    this.pagedData.size = this.sizePage[3];
-    this.pagedData.currentPage = 0;
-    console.log("tien check");
     
-    
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
   }
-  changePage() {
-
-    this.pagedData.size = this.formListPersonal.get("sizePage").value;
-    console.log(this.pagedData.size);
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
-  getBirthDay(e){
-    console.log(e);
-  }
+  
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading=true;
-    this.pagedData.currentPage = pageInfo.offset;
+    this.formListPersonal.patchValue({"page":pageInfo.offset}); 
     
-    this.pagedData.size = pageInfo.pageSize;
-    console.log(this.pagedData.currentPage,this.pagedData.size);
+    // this.pagedData.size = pageInfo.pageSize;
+    console.log(JSON.stringify(this.formListPersonal.value));
+    console.log(JSON.stringify(this.body));
     this._personalListService
-      .getListPersonals(this.pagedData)
+      .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         console.log(pagedData)
@@ -204,36 +193,36 @@ export class PersonalListComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formListPersonal.value)
-    if(this.formListPersonal.value.birthday !== null){
-      let birthday = this.formListPersonal.value.birthday._i.date + "/" + this.formListPersonal.value.birthday._i.month + "/" + this.formListPersonal.value.birthday._i.year
-      this.formListPersonal.controls['birthday'].setValue(birthday);
-    }
-    if(this.formListPersonal.value.gender !== null){
-      this.body.contains = this.formListPersonal.value.gender
-    }
-    console.log(this.formListPersonal.value);
-    this.body.contains = this.formListPersonal.value.inputPersonal
-    this._personalListService
-      .searchPersonal(this.pagedData,this.body)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log(pagedData)
-        this.totalItems = pagedData.data.totalItems
-        this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList:any) => ({
-          ...personalList,
-          personalFirstName:
-            personalList.firstName +
-            " " +
-            personalList.middleName +
-            " " +
-            personalList.lastName,
-        }));
-        console.log("check1",this.rowsData);
-        console.log(this.totalItems);
-        this.isLoading=false;
-    });
+    // console.log(this.formListPersonal.value)
+    // if(this.formListPersonal.value.birthday !== null){
+    //   let birthday = this.formListPersonal.value.birthday._i.date + "/" + this.formListPersonal.value.birthday._i.month + "/" + this.formListPersonal.value.birthday._i.year
+    //   this.formListPersonal.controls['birthday'].setValue(birthday);
+    // }
+    // if(this.formListPersonal.value.gender !== null){
+    //   this.body.contains = this.formListPersonal.value.gender
+    // }
+    // console.log(this.formListPersonal.value);
+    // this.body.contains = this.formListPersonal.value.inputPersonal
+    // this._personalListService
+    //   .searchPersonal(this.pagedData,this.body)
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((pagedData) => {
+    //     console.log(pagedData)
+    //     this.totalItems = pagedData.data.totalItems
+    //     this.pagedData = pagedData.data;
+    //     this.rowsData = pagedData.data.data.map((personalList:any) => ({
+    //       ...personalList,
+    //       personalFirstName:
+    //         personalList.firstName +
+    //         " " +
+    //         personalList.middleName +
+    //         " " +
+    //         personalList.lastName,
+    //     }));
+    //     console.log("check1",this.rowsData);
+    //     console.log(this.totalItems);
+    //     this.isLoading=false;
+    // });
   }
   updateTableOnDelete(){
     this.pagedData.size = this.sizePage[3];

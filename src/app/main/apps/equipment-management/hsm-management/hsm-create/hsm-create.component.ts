@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HsmListService } from '../hsm-management/hsm-list.service';
 import { ToastrService } from 'ngx-toastr';
+import { HsmListService } from '../hsm-list.service';
 
 @Component({
-  selector: 'app-new-hsm',
-  templateUrl: './new-hsm.component.html',
-  styleUrls: ['./new-hsm.component.scss'],
+  selector: 'app-hsm-create',
+  templateUrl: './hsm-create.component.html',
+  styleUrls: ['./hsm-create.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NewHsmComponent implements OnInit {
+export class HsmCreateComponent implements OnInit {
   public HsmForm: FormGroup;
   public contentHeader: object;
   public submitted = false;

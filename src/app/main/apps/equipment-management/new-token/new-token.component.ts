@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TokenlistService } from '../token-management/tokenlist.service';
+import { TokenService } from '../token-management/token.service';
 import { Hsm } from 'app/main/models/Equipment'
 import { HsmListService } from '../hsm-management/hsm-list.service';
 import {  Subject } from "rxjs";
@@ -29,7 +29,7 @@ export class NewTokenComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private _tokenService: TokenlistService,
+    private _tokenService: TokenService,
     private _hsmService: HsmListService,
     private   toastr: ToastrService
   ) { }
@@ -96,18 +96,7 @@ export class NewTokenComponent implements OnInit {
       tokenPassword: this.f.tokenPassword.value,
       hsmInformationId: this.f.hsmInformationId.value
     });
-    this._tokenService.submitForm(newRequest).subscribe((res: any) => {
-      console.log(res);
-      if ((res.result = true)) {
-        this.toastr.success('👋 Bạn đã tạo token mới', 'Thành công', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
-        this.submitted = false;
-        this.tokenForm.reset();
-      }
-    });
+
   }
 
   exit() {

@@ -1,77 +1,85 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { CoreCommonModule } from "@core/common.module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatDatepickerModule } from "@angular/material/datepicker";
+import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter,
-} from "@angular/material-moment-adapter";
+} from '@angular/material-moment-adapter';
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
-} from "@angular/material/core";
-import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
+} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterModule } from '@angular/router';
+import { CoreCommonModule } from '@core/common.module';
+import { MY_DATE_FORMATS } from '@core/format-data/my-date-formats';
+import { CorePipesModule } from '@core/pipes/pipes.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
+import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
+import { LoadingService } from 'app/main/loading/loading.service';
+import { TokenCreateComponent } from './token-create/token-create.component';
+import { TokenEditComponent } from './token-edit/token-edit.component';
+import { TokenListComponent } from './token-list/token-list.component';
+import { TokenViewComponent } from './token-view/token-view.component';
+import { TokenService } from './token.service';
 
-import { TokenManagementComponent } from './token-management.component';
-import { TokenlistService } from "./tokenlist.service";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { CorePipesModule } from "@core/pipes/pipes.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
-import { LoadingService } from "app/main/loading/loading.service";
-import { HsmManagementComponent } from "../hsm-management/hsm-management.component";
-import { RouterModule, Routes } from "@angular/router";
+const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
-
-const materialModules1234 = [
-  MatDatepickerModule,
-  MatNativeDateModule
-];
-const routes: Routes = [
-  {
-    path: '',
-    component: HsmManagementComponent
-  }
-]
 @NgModule({
-  declarations: [TokenManagementComponent],
+  declarations: [
+    TokenViewComponent,
+    TokenListComponent,
+    TokenCreateComponent,
+    TokenEditComponent,
+  ],
   imports: [
     CommonModule,
     CoreCommonModule,
     NgSelectModule,
     NgbModule,
     ...materialModules1234,
+    ReactiveFormsModule,
+    RouterModule,
+    CorePipesModule,
+    MatProgressBarModule,
+    FormsModule,
+    ContentHeaderModule,
     NgxDatatableModule.forRoot({
       messages: {
         emptyMessage: 'Không có dữ liệu', // Message to show when array is presented, but contains no values
         totalMessage: 'tổng', // Footer total message
-        selectedMessage: 'selected' // Footer selected message
-      }
+        selectedMessage: 'selected', // Footer selected message
+      },
     }),
-    CorePipesModule,
-    MatProgressBarModule,
-    RouterModule.forChild(routes),
   ],
-  exports: [TokenManagementComponent],
+  exports: [
+    TokenViewComponent,
+    TokenListComponent,
+    TokenCreateComponent,
+    TokenEditComponent,
+  ],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [
-    TokenlistService,
+    TokenService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    // LoadingService,
-    //   {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: LoadingInterceptor,
-    //     multi: true
-    //   }
-  ]
+    LoadingService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
+  ],
 })
-export class TokenManagementModule { }
+export class TokenManagementModule {}

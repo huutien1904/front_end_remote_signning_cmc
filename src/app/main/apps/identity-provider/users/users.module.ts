@@ -1,39 +1,38 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { RouterModule } from '@angular/router';
+import { CoreCommonModule } from '@core/common.module';
+import { CoreSidebarModule } from '@core/components';
+import { CorePipesModule } from '@core/pipes/pipes.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ProfileComponent } from './profile/profile.component';
-import { RouterModule, Routes } from '@angular/router';
+import { DateAdapter } from '@angular/material/core';
+const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
-
-/**
- * Routing
- */
-
-const routes: Routes= [
-  {
-    path: 'user',
-    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
-  },
-  {
-    path:'profile',
-    component: ProfileComponent,
-  },
-  // {
-  //   path:'profile',
-  //   component: ProfileComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {roles: [Role.SuperAdmin], animation: "UserListComponent" },
-  // }
-  {
-    path: "**",
-    redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
-  },
-]
 @NgModule({
   declarations: [
     ProfileComponent
   ],
   imports: [
-    CommonModule, RouterModule.forChild(routes),
-  ]
+    CommonModule,
+    CoreCommonModule,
+    FormsModule,
+    NgbModule,
+    NgSelectModule,
+    NgxDatatableModule,
+    CorePipesModule,
+    RouterModule,
+    CoreSidebarModule,
+    ...materialModules1234,
+    
+  ],
+  exports: [
+    ProfileComponent
+  ],
 })
 export class UsersModule { }

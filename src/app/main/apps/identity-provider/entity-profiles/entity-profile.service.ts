@@ -21,16 +21,7 @@ export class EntityProfileService {
       Authorization: "Bearer " + this.token,
     },
   };
-  public getListProfiles(form, page:PagedData<EntityProfile>): Observable<ResponseData<PagedData<EntityProfile>>> {
-    const body ={
-        page : page.currentPage,
-        size : page.size,
-        sort : [],
-        contains : form.contains,
-        fromDate : form.fromDate,
-        toDate : form.toDate
-    }
-    ;
+  public getListProfiles(body): Observable<ResponseData<PagedData<EntityProfile>>> {
     return this._httpClient.post<ResponseData<PagedData<EntityProfile>>>(
       `${environment.apiUrl}/entity-profile/list`,body,
       this.option

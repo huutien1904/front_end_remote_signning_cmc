@@ -14,8 +14,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "format" : "prettier --check \"**/*.{ts,js,json,html,css,scss,md}\""
-
+    "format": "prettier --check \"**/*.{ts,js,json,html,css,scss,md}\""
   },
   "private": true,
   "dependencies": {
