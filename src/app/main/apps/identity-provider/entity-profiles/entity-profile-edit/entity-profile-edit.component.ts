@@ -243,7 +243,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.formEditProfile
           .get('endEntityProfileName')
           .patchValue(profile.data.endEntityProfileName);
-        profile.data.distinguishedName.forEach((dn) => {
+          profile.data.distinguishedName.forEach((dn) => {
           this.distinguishedName.push(
             this.createDistinguishedName(
               dn.name,

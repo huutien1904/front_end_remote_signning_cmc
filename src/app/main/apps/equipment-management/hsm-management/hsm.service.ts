@@ -27,8 +27,8 @@ export class HsmService {
     },
   };
 
-  public getListHsm(body): Observable<ResponseData<PagedData<Hsm>>> {
-    return this._httpClient.post<ResponseData<PagedData<Hsm>>>(
+  public getListHsm(body): Observable<ResponseData<PagedData<Hsm[]>>> {
+    return this._httpClient.post<ResponseData<PagedData<Hsm[]>>>(
       `${environment.apiUrl}/hsm/search`,
       body,
       this.option

@@ -8,10 +8,10 @@ export interface Token {
 }
 
 export interface Hsm {
-    hsmId: string,
-    hsmName: string,
     hardwareId: string,
+    hsmName: string,
     hsmManufacturer: string,
+    hsmType: string,
     hsmModel: string,
     hsmLibraryPath: string
 }

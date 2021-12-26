@@ -29,8 +29,8 @@ export class HsmListComponent implements OnInit {
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild("tableRowDetails") tableRowDetails: any;
-  public pagedData = new PagedData<Hsm>();
-  public rowsData = new Array<Hsm>();
+  public pagedData = new PagedData<Hsm[]>();
+  public rowsData = new Array<Hsm[]>();
 
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;

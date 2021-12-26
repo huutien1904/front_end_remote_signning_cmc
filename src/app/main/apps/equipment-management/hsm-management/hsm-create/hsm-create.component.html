@@ -18,6 +18,15 @@
                             </div>
                             <div class="col-md-6 offset-3">
                                 <div class="form-group">
+                                    <label for="UDUserName">ID HSM</label>
+                                    <input type="text" formControlName="hardwareId" class="form-control" [ngClass]="f.hardwareId.errors&&f.hsm?.touched || submitted && f.hardwareId?.errors?.required ? 'is-invalid' : ''" />
+                                    <div *ngIf="f.hardwareId.errors&&f.hardwareId?.touched || submitted && f.hardwareId?.errors?.required" class="invalid-feedback">
+                                        <div *ngIf="f.hardwareId.errors.required">Bạn cần nhập tên ID HSM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-3">
+                                <div class="form-group">
                                     <label for="UDUserName">Hãng sản xuất</label>
                                     <input type="text" formControlName="hsmManufacturer" class="form-control" [ngClass]="f.hsmManufacturer.errors&&f.hsmManufacturer?.touched || submitted && f.hsmManufacturer?.errors?.required ? 'is-invalid' : ''" />
                                     <div *ngIf="f.hsmManufacturer.errors&&f.hsmManufacturer?.touched || submitted && f.hsmManufacturer?.errors?.required" class="invalid-feedback">

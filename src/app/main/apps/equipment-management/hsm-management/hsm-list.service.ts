@@ -40,7 +40,7 @@ export class HsmListService {
       this.option
     );
   }
-  public submitForm(body): Observable<any> {
+  public submitForm(body): Observable<ResponseData<Hsm>> {
     return this._httpClient.post<any>(
       `${environment.apiUrl}/hsm/create`,body,
       this.option
@@ -57,6 +57,21 @@ export class HsmListService {
     };
     return this._httpClient.get<any>(`${environment.apiUrl}/hsm/list?page=${page}&size=${Item}`, option);
   }
+
+  public getHSMId(id): Observable<ResponseData<Hsm>> {
+    return this._httpClient.get<ResponseData<Hsm>>(
+      `${environment.apiUrl}/hsm/${id}`,
+      this.option
+    );
+  }
+  
+  public updateHSMId(id, body): Observable<ResponseData<Hsm>> {
+    return this._httpClient.post<ResponseData<Hsm>>(
+      `${environment.apiUrl}/hsm/${id}`,body,
+      this.option
+    );
+  }
+
   getHsmDetail(hsmId: string): Observable<ResponseData<Token[]>>{
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser.token;

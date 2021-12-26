@@ -32,4 +32,13 @@ export class TokenService {
       this.option
     );
   }
+  public createToken(body): Observable<ResponseData<PagedData<Token>>> {
+    return this._httpClient.post<ResponseData<PagedData<Token>>>(
+      `${environment.apiUrl}/token/create`,body,
+      this.option
+    );
+  }
+
+  
+
 }

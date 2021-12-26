@@ -1,3 +1,202 @@
-<p>
-  hsm-edit works!
-</p>
+<app-content-header [contentHeader]="contentHeader"> </app-content-header>
+<div class="content-body">
+  <section>
+    <div class="card">
+      <div class="card-body">
+        <h3>Chỉnh sửa HSM {{ HSMname }}</h3>
+        <form [formGroup]="HsmFormEdit" class="form form-horizontal">
+          <div class="form_content">
+            <div class="row">
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Tên HSM</label>
+                  <input
+                    type="text"
+                    formControlName="hsmName"
+                    class="form-control"
+                    [ngClass]="
+                      (f.hsmName.errors && f.hsm?.touched) ||
+                      (submitted && f.hsmName?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.hsmName.errors && f.hsmName?.touched) ||
+                      (submitted && f.hsmName?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmName.errors.required">
+                      Bạn cần nhập tên HSM
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">ID HSM</label>
+                  <input
+                    type="text"
+                    formControlName="hardwareId"
+                    class="form-control"
+                    [ngClass]="
+                      (f.hardwareId.errors && f.hsm?.touched) ||
+                      (submitted && f.hardwareId?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.hardwareId.errors && f.hardwareId?.touched) ||
+                      (submitted && f.hardwareId?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hardwareId.errors.required">
+                      Bạn cần nhập tên ID HSM
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Hãng sản xuất</label>
+                  <input
+                    type="text"
+                    formControlName="hsmManufacturer"
+                    class="form-control"
+                    [ngClass]="
+                      (f.hsmManufacturer.errors &&
+                        f.hsmManufacturer?.touched) ||
+                      (submitted && f.hsmManufacturer?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.hsmManufacturer.errors &&
+                        f.hsmManufacturer?.touched) ||
+                      (submitted && f.hsmManufacturer?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmManufacturer.errors.required">
+                      Bạn cần nhập hãng sản xuất
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Model</label>
+                  <input
+                    type="text"
+                    formControlName="hsmModel"
+                    class="form-control"
+                    [ngClass]="
+                      (f.hsmModel.errors && f.hsmModel?.touched) ||
+                      (submitted && f.hsmModel?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.hsmModel.errors && f.hsmModel?.touched) ||
+                      (submitted && f.hsmModel?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmModel.errors.required">
+                      Bạn cần nhập model
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label>Loại HSM</label>
+                  <ng-select
+                    [items]="hsmType"
+                    [clearable]="false"
+                    formControlName="hsmType"
+                    [ngClass]="
+                      (f.hsmType.errors && f.hsmType?.touched) ||
+                      (submitted && f.hsmType?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  >
+                  </ng-select>
+                  <div
+                    *ngIf="
+                      (f.hsmType.errors && f.hsmType?.touched) ||
+                      (submitted && f.hsmType?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmType.errors.required">
+                      Bạn cần chọn loại HSM
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Đường dẫn file thư viện</label>
+                  <input
+                    type="text"
+                    formControlName="hsmLibraryPath"
+                    class="form-control"
+                    [ngClass]="
+                      (f.hsmLibraryPath.errors && f.hsmLibraryPath?.touched) ||
+                      (submitted && f.hsmLibraryPath?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.hsmLibraryPath.errors && f.hsmLibraryPath?.touched) ||
+                      (submitted && f.hsmLibraryPath?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmLibraryPath.errors.required">
+                      Bạn cần nhập đường dẫn file thư viện
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 offset-3">
+                <div class="d-flex justify-content-md-end m-1">
+                  <button
+                    class="btn btn-primary mr-1"
+                    [swal]="SweetAlertConfirm"
+                    rippleEffect
+                  >
+                    Cập nhật
+                  </button>
+                  <swal #SweetAlertConfirm (open)="onSubmit()"></swal>
+                  <button
+                    (click)="exit()"
+                    rippleEffect
+                    class="btn btn-outline-primary"
+                  >
+                    Thoát
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

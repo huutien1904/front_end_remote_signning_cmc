@@ -126,7 +126,6 @@ export class PersonalListComponent implements OnInit {
       fromDate: [""],
       toDate: [""],
     });
-    
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
   }
   

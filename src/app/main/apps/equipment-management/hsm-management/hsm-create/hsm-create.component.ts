@@ -32,6 +32,7 @@ export class HsmCreateComponent implements OnInit {
   ngOnInit(): void {
     this.HsmForm = this.formBuilder.group({
       hsmName: [null, Validators.required],
+      hardwareId: [null, Validators.required],
       hsmManufacturer: [null, Validators.required],
       hsmModel: [null, Validators.required],
       hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
@@ -46,12 +47,13 @@ export class HsmCreateComponent implements OnInit {
         links: [
           {
             name: 'Quản lý thiết bị',
-            isLink: false,
+            isLink: true,
+            link: '/apps/equipment-management/hsm/hsm-list'
           },
           {
             name: 'Tạo Thiết bị HSM',
-            isLink: true,
-            link: '/apps/equipment-management/new-hsm'
+            isLink: false,
+            // link: '/apps/equipment-management/new-hsm'
           }
         ]
       }
@@ -60,7 +62,7 @@ export class HsmCreateComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.HsmForm)
+    console.log(this.HsmForm.value)
     // stop here if form is invalid
     if (this.HsmForm.invalid) {
       return;
@@ -72,7 +74,7 @@ export class HsmCreateComponent implements OnInit {
       hsmLibraryPath: this.f.hsmLibraryPath.value,
       hardwareId: 'CP5TdVI'
     });
-    this._hsmService.submitForm(newRequest).subscribe((res: any) => {
+    this._hsmService.submitForm(JSON.stringify(this.HsmForm.value)).subscribe((res: any) => {
       console.log(res);
       if ((res.result = true)) {
         this.toastr.success('👋 Bạn đã tạo HSM mới', 'Thành công', {
@@ -81,6 +83,7 @@ export class HsmCreateComponent implements OnInit {
           closeButton: true
         });
         this.submitted = false;
+        this.router.navigate(['/apps/equipment-management/hsm/hsm-list']);
         this.HsmForm.reset();
       }
     });
