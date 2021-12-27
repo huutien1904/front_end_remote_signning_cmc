@@ -7,11 +7,12 @@
         <div class="row mb-1">
           <div class="col-md-4">
             <input
-              name="distinguishedName"
+              name="contains"
+              id="contains"
               type="search"
               class="form-control"
-              formControlName="inputSearch"
-              placeholder="Một phần tên doanh nghiệp"
+              formControlName="contains"
+              placeholder="Một phần tên, email, alias"
             />
           </div>
           <div class="col-md-2">
@@ -29,7 +30,7 @@
               type="button"
               rippleEffect
               class="btn btn-primary"
-              (click)="onSubmit()"
+              (click)="setPage({ offset: 0, pageSize:  formListCertificateRequest.controls.size  })"
               [disabled]="!formListCertificateRequest.valid"
             >
               Tìm kiếm
@@ -45,8 +46,8 @@
                 suffix=" dòng"
                 [clearable]="false"
                 bindValue="sizePage"
-                formControlName="sizePage"
-                (change)="changePage()"
+                formControlName="size"
+                (change)="setPage({ offset: 0, pageSize:  formListCertificateRequest.controls.size  })"
               ></ng-select>
             </fieldset>
           </div>
@@ -195,8 +196,8 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
-        name="Mã yêu cầu chứng thực"
-        prop="certificateRequestId"
+        name="Keypair Alias"
+        prop="keypairAlias"
         [width]="200"
       ></ngx-datatable-column>
       <ngx-datatable-column
@@ -208,21 +209,6 @@
         name="Common name"
         prop="subscribeName"
         [width]="160"
-      ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="Thuật toán kí"
-        prop="keypairInformation.cryptoSystem"
-        [width]="120"
-      ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="Độ dài khóa"
-        prop="keypairInformation.keypairLength"
-        [width]="120"
-      ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="Trạng thái"
-        prop="keypairInformation.keypairStatus.keypairStatus"
-        [width]="200"
       ></ngx-datatable-column>
       <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
@@ -293,184 +279,4 @@
       </ngx-datatable-footer>
     </ngx-datatable>
   </div>
-  <!-- <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar> -->
-  <!-- <ngx-datatable
-    #tableRowDetails
-    class="bootstrap core-bootstrap cursor"
-    [rows]="rowsData"
-    [selected]="chkBoxSelected"
-    (select)="customCheckboxOnSelect($event)"
-    (select)="onSelect($event)"
-    [selectionType]="SelectionType.checkbox"
-    [columnMode]="ColumnMode.force"
-    [headerHeight]="50"
-    rowHeight="auto"
-    [scrollbarH]="true"
-    [footerHeight]="50"
-    [rowHeight]="50"
-    [externalPaging]="true"
-    [limit]="pagedData.size"
-    [count]="pagedData.totalItems"
-    [offset]="pagedData.currentPage"
-    [loadingIndicator]="isLoading"
-    (page)="setPage($event)"
-  >
-    <ngx-datatable-column
-      [width]="50"
-      [sortable]="false"
-      [canAutoResize]="false"
-      [draggable]="false"
-      [resizeable]="false"
-      class="ml-1"
-    >
-      <ng-template
-        ngx-datatable-header-template
-        let-value="value"
-        let-allRowsSelected="allRowsSelected"
-        let-selectFn="selectFn"
-      >
-        <div class="custom-control custom-control-primary custom-checkbox">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            [checked]="allRowsSelected"
-            (change)="selectFn(!allRowsSelected)"
-            id="headerCustomChkbxRef"
-          />
-          <label
-            class="custom-control-label"
-            for="headerCustomChkbxRef"
-          ></label>
-        </div>
-      </ng-template>
-      <ng-template
-        ngx-datatable-cell-template
-        let-rowIndex="rowIndex"
-        let-value="value"
-        let-isSelected="isSelected"
-        let-onCheckboxChangeFn="onCheckboxChangeFn"
-      >
-        <div class="custom-control custom-control-primary custom-checkbox">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            [checked]="isSelected"
-            (change)="onCheckboxChangeFn($event)"
-            id="rowCustomChkbxRef{{ rowIndex }}"
-          />
-          <label
-            class="custom-control-label"
-            for="rowCustomChkbxRef{{ rowIndex }}"
-          ></label>
-        </div>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column
-      name="TT"
-      [sortable]="false"
-      [canAutoResize]="false"
-      [width]="50"
-    >
-      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-        {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column
-      name="Mã yêu cầu chứng thực"
-      prop="certificateRequestId"
-      [width]="200"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Doanh nghiệp"
-      prop="organizationName"
-      [width]="150"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Common name"
-      prop="subscribeName"
-      [width]="160"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Thuật toán kí"
-      prop="keypairInformation.cryptoSystem"
-      [width]="120"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Độ dài khóa"
-      prop="keypairInformation.keypairLength"
-      [width]="120"
-    ></ngx-datatable-column>
-    <ngx-datatable-column
-      name="Trạng thái"
-      prop="keypairInformation.keypairStatus.keypairStatus"
-      [width]="200"
-    ></ngx-datatable-column>
-    <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
-      <ng-template ngx-datatable-cell-template let-row="row">
-        <div class="d-flex align-items-center">
-          <div ngbDropdown container="body">
-            <a
-              ngbDropdownToggle
-              href="javascript:void(0);"
-              class="hide-arrow"
-              id="dropdownBrowserState"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i
-                data-feather="more-vertical"
-                class="text-primary cursor-pointer mr-50"
-              ></i>
-            </a>
-            <div
-              ngbDropdownMenu
-              class="dropdown-menu-right"
-              aria-labelledby="dropdownBrowserState"
-            >
-              <a
-                [href]="row.fileUrl"
-                [download]="row.fileName"
-                ngbDropdownItem
-                class="d-flex align-items-center"
-                (click)="downloadSidebar(row)"
-                ><i data-feather="download" class="mr-50"></i>Tải dữ liệu</a
-              >
-            </div>
-          </div>
-          <i data-feather="edit" class="text-primary cursor-pointer"></i>
-        </div>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-footer>
-      <ng-template
-        ngx-datatable-footer-template
-        let-rowCount="rowCount"
-        let-pageSize="pageSize"
-        let-selectedCount="selectedCount"
-        let-curPage="curPage"
-        let-offset="offset"
-        let-isVisible="isVisible"
-      >
-        <div class="page-count" *ngIf="!isLoading">
-          <span *ngIf="chkBoxSelected">
-            Đã chọn {{ chkBoxSelected.length }} /
-          </span>
-          {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-        </div>
-        <datatable-pager
-          [pagerLeftArrowIcon]="'datatable-icon-left'"
-          [pagerRightArrowIcon]="'datatable-icon-right'"
-          [pagerPreviousIcon]="'datatable-icon-prev'"
-          [pagerNextIcon]="'datatable-icon-skip'"
-          [page]="curPage"
-          [size]="pageSize"
-          [count]="rowCount"
-          [hidden]="!(rowCount / pageSize > 1)"
-          (change)="table.onFooterPage($event)"
-        >
-        </datatable-pager>
-      </ng-template>
-    </ngx-datatable-footer>
-  </ngx-datatable> -->
 </section>

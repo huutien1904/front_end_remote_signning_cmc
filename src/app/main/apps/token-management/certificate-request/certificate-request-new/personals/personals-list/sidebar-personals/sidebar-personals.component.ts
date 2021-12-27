@@ -1,22 +1,28 @@
-import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalsService } from '../personals.service';
-import { Hsm, Token } from 'app/main/models/Equipment'
-import { map, takeUntil } from "rxjs/operators";
-import {  Subject } from "rxjs";
+import { Hsm, Token } from 'app/main/models/Equipment';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { HsmListService } from 'app/main/apps/equipment-management/hsm-management/hsm-list.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PersonalDetail } from 'app/main/models/Personal';
 import { AddressService } from 'app/main/apps/identity-provider/address.service';
+import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
 
 @Component({
   selector: 'app-sidebar-personals',
   templateUrl: './sidebar-personals.component.html',
   styleUrls: ['./sidebar-personals.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [AddressService]
+  providers: [AddressService],
 })
 export class SidebarPersonalsComponent implements OnInit {
   private _unsubscribeAll = new Subject();
@@ -27,93 +33,76 @@ export class SidebarPersonalsComponent implements OnInit {
   public fileName;
 
   //form data
-  public cryptoSelect: any[] = [ 'RSA', 'ECDSA'];
-  public rsaKeyLength: any[] = ['1024', '1536', '2048', '3072', '4096', '6144', '8192'];
-  public ecdsaKeyLength: any[] = ['brainpoolIP160r1', 'brainpoolIP160t1', 'brainpoolIP192r1', 'brainpoolIP192t1',
-  'brainpoolIP224r1', 'brainpoolIP224t1', 'brainpoolIP256r1', 'brainpoolIP256t1', 'brainpoolIP384r1', 'brainpoolIP384t1', 'brainpoolIP521r1', 'brainpoolIP521t1']
+  public cryptoSelect: any[] = ['RSA', 'ECDSA'];
+  public rsaKeyLength: any[] = [
+    '1024',
+    '1536',
+    '2048',
+    '3072',
+    '4096',
+    '6144',
+    '8192',
+  ];
+  public ecdsaKeyLength: any[] = ['secp224r1', 'secp384r1', 'secp521r1'];
   public tokenList: Token[];
-  public hsmList: Hsm[];
-  public strProfile: string = "";
+  public hsmList = new Array<Hsm>();
+  public strProfile: string = '';
   public listProfiles: any[] = [
     {
-      "nameProfile": "PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L",
-      "subjectDNA": [
-        "CN",
-        "GIVENNAME",
-        "SURNAME",
-        "EMAIL",
-        "UID",
-        "OU",
-        "ST",
-        "L"
+      nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
+      subjectDNA: [
+        'CN',
+        'GIVENNAME',
+        'SURNAME',
+        'EMAIL',
+        'UID',
+        'OU',
+        'ST',
+        'L',
       ],
-      "subjectAttribute": [
-        "OID"
-      ],
-      "id": 1
+      subjectAttribute: ['OID'],
+      id: 1,
     },
     {
-      "nameProfile": "PROFILE 2: CN, EMAIL, UID, OU, ST, L",
-      "subjectDNA": [
-        "CN",
-        "GIVENNAME",
-        "SURNAME",
-        "EMAIL",
-        "UID",
-        "OU",
-        "ST",
-        "L"
+      nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
+      subjectDNA: [
+        'CN',
+        'GIVENNAME',
+        'SURNAME',
+        'EMAIL',
+        'UID',
+        'OU',
+        'ST',
+        'L',
       ],
-      "subjectAttribute": [
-        "OID"
-      ],
-      "id": 2
+      subjectAttribute: ['OID'],
+      id: 2,
     },
     {
-      "nameProfile": "PROFILE 3: CN, UID, OU",
-      "subjectDNA": [
-        "CN",
-        "UID",
-        "OU"
-      ],
-      "subjectAttribute": [
-        "OID"
-      ],
-      "id": 3
+      nameProfile: 'PROFILE 3: CN, UID, OU',
+      subjectDNA: ['CN', 'UID', 'OU'],
+      subjectAttribute: ['OID'],
+      id: 3,
     },
     {
-      "nameProfile": "PROFILE 4: CN, ST, L",
-      "subjectDNA": [
-        "CN",
-        "ST",
-        "L"
-      ],
-      "subjectAttribute": [
-        "OID"
-      ],
-      "id": 4
+      nameProfile: 'PROFILE 4: CN, ST, L',
+      subjectDNA: ['CN', 'ST', 'L'],
+      subjectAttribute: ['OID'],
+      id: 4,
     },
     {
-      "nameProfile": "PROFILE 5: CN",
-      "subjectDNA": [
-        "CN"
-      ],
-      "subjectAttribute": [
-        "OID"
-      ],
-      "id": 5
+      nameProfile: 'PROFILE 5: CN',
+      subjectDNA: ['CN'],
+      subjectAttribute: ['OID'],
+      id: 5,
     },
     {
-      "nameProfile": "PROFILE 6: UID",
-      "subjectDNA": [
-        "UID"
-      ],
-      "subjectAttribute": [
-        "OID"
-      ],
-      "id": 6
+      nameProfile: 'PROFILE 6: UID',
+      subjectDNA: ['UID'],
+      subjectAttribute: ['OID'],
+      id: 6,
     },
-  ]
+  ];
 
   @Input() personal: any;
   @ViewChild('modalLink') modalLink;
@@ -125,35 +114,51 @@ export class SidebarPersonalsComponent implements OnInit {
     private fb: FormBuilder,
     private modal: NgbModal,
     private _personalsService: PersonalsService,
-    private   toastr: ToastrService,
-    private _hsmService: HsmListService,
+    private toastr: ToastrService,
+    private _hsmService: HsmService,
     private sanitizer: DomSanitizer,
     private _addressService: AddressService
-  ) { }
-
-  ngOnInit(): void {
+  ) {}
+  public hsmListSub = new Subject();
+  async ngOnInit() {
+    await this._hsmService
+      .getListHsm({
+        page: 0,
+        size: 100,
+      })
+      .pipe(takeUntil(this._unsubscribeAll))
+      .toPromise()
+      .then((pagedData) => {
+        this.hsmList = pagedData.data.data;
+        this.tokenList = this.hsmList[0].tokens;
+      });
     this.newRequestForm = this.fb.group(
       {
-        cryptoSystem: [null, Validators.required],
-        keypairLength: [{value:null, disabled : true}, Validators.required],
+        cryptoAlgorithm: this.fb.group({
+          cryptoSystem : [null, Validators.required],
+          keypairLength: [null, Validators.required]
+        }),
         alias: [null, Validators.required],
-        tokenId: [{value:null, disabled : true}, Validators.required],
-        subscriberId: [this.personal.subscriberId],
-        hsmInformationId: [null, Validators.required],
-        profile: [[], Validators.required]
+        tokenId: [this.tokenList[0], Validators.required],
+        userId: [this.personal.userId],
+        hsmList: [this.hsmList[0]],
+        profile: [null, Validators.required],
       },
       {
-        validators: this.usedAlias('alias')
+        validators: this.usedAlias('alias'),
       }
-    )
-    this.getHsmList();
+    );
+    console.log("aloalo");
+    console.log(this.newRequestForm.value);
+    
+    
   }
 
-  toggleSidebar(){
+  toggleSidebar() {
     this.modal.dismissAll();
   }
 
-  downloadSidebar(res){
+  downloadSidebar(res) {
     this.modal.open(this.modalLink);
     const data = res.data.certificateRequest;
     const blob = new Blob([data], { type: 'application/octet-stream' });
@@ -164,9 +169,8 @@ export class SidebarPersonalsComponent implements OnInit {
   }
   changeCrypto(event) {
     this.newRequestForm.patchValue({
-      keypairLength: null
-    })
-    this.newRequestForm.get('keypairLength').enable();
+      keypairLength: null,
+    });
     switch (event) {
       case 'RSA':
         this.lengthSelect = this.rsaKeyLength;
@@ -179,84 +183,82 @@ export class SidebarPersonalsComponent implements OnInit {
 
   changeHsm() {
     this.newRequestForm.patchValue({
-      tokenId: null
-    })
+      tokenId: null,
+    });
     this.newRequestForm.get('tokenId').enable();
-    this._hsmService.getHsmDetail(this.f.hsmInformationId.value)
-      .pipe(
-        map(response => {
-          const data = response.data.map(tokenId => ({
-            ...tokenId
-          }))
-          return data;
-        }),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe(response => {
-        this.tokenList = response;
-      });
   }
 
   changeProfile() {
-    const profile: any[] = this.f.profile.value.subjectDNA
-    this.strProfile = ""
-    let firstWord = true
+    const profile: any[] = this.f.profile.value.subjectDNA;
+    this.strProfile = '';
+    let firstWord = true;
     profile.map((attribute: string) => {
-      let value = "";
+      let value = '';
       switch (attribute) {
-        case "CN":
-          value = this.personal.personalFirstName + " " + this.personal.personalMiddleName + " " + this.personal.personalLastName
-          this.displayProfile(attribute, value, firstWord)
-          firstWord = false
+        case 'CN':
+          value =
+            this.personal.personalFirstName +
+            ' ' +
+            this.personal.personalMiddleName +
+            ' ' +
+            this.personal.personalLastName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
           break;
-        case "GIVENNAME":
-          value = this.personal.personalMiddleName + " " + this.personal.personalLastName
-          this.displayProfile(attribute, value, firstWord)
-          firstWord = false
+        case 'GIVENNAME':
+          value =
+            this.personal.personalMiddleName +
+            ' ' +
+            this.personal.personalLastName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
           break;
-        case "SURNAME":
-          value = this.personal.personalFirstName
-          this.displayProfile(attribute, value, firstWord)
-          firstWord = false
+        case 'SURNAME':
+          value = this.personal.personalFirstName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
           break;
-        case "EMAIL":
-          value =  this.personal.email
-          this.displayProfile(attribute, value, firstWord)
-          firstWord = false
+        case 'EMAIL':
+          value = this.personal.email;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
           break;
-        case "UID":
-          value = this.personal.personalCountryId
-          this.displayProfile(attribute, value, firstWord)
-          firstWord = false
+        case 'UID':
+          value = this.personal.personalCountryId;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
           break;
-        case "OU":
-          value =  this.personal.organization.organizationName
-          this.displayProfile(attribute, value, firstWord)
-          firstWord = false
+        case 'OU':
+          value = this.personal.organization.organizationName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
           break;
-        case "ST":
-          this._addressService.getProvinceName(this.personal.address.provinceId).subscribe((res: any) => {
-            value = res.data.provinceName
-            this.displayProfile(attribute, value, firstWord)
-          })
-          firstWord = false
+        case 'ST':
+          this._addressService
+            .getProvinceName(this.personal.address.provinceId)
+            .subscribe((res: any) => {
+              value = res.data.provinceName;
+              this.displayProfile(attribute, value, firstWord);
+            });
+          firstWord = false;
           break;
-        case "L":
-          this._addressService.getDistrictName(this.personal.address.districtId).subscribe((res: any) => {
-            value = res.data.districtName
-            this.displayProfile(attribute, value, firstWord)
-          })
-          firstWord = false
+        case 'L':
+          this._addressService
+            .getDistrictName(this.personal.address.districtId)
+            .subscribe((res: any) => {
+              value = res.data.districtName;
+              this.displayProfile(attribute, value, firstWord);
+            });
+          firstWord = false;
           break;
       }
-    })
+    });
   }
 
   displayProfile(attribute, value, firstWord) {
-    if(firstWord == false)
-      this.strProfile += ", " + attribute + " = " + value
+    if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
     else {
-      this.strProfile += attribute + " = " + value
+      this.strProfile += attribute + ' = ' + value;
     }
   }
 
@@ -277,37 +279,24 @@ export class SidebarPersonalsComponent implements OnInit {
       console.log(res);
       if ((res.result = true)) {
         this.toggleSidebar();
-        this.toastr.success('👋 Bạn đã tạo yêu cầu chứng thực mới', 'Thành công', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
+        this.toastr.success(
+          '👋 Bạn đã tạo yêu cầu chứng thực mới',
+          'Thành công',
+          {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          }
+        );
         this.downloadSidebar(res);
       }
     });
   }
 
-  getHsmList() {
-    this._hsmService.getAllHsm()
-      .pipe(
-        map(response => {
-          const data = response.data.map(hsmId => ({
-            ...hsmId
-          }))
-          return data;
-        }),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe(response => {
-        this.hsmList = response;
-      });
-  }
-
   usedAlias(alias: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[alias];
-      if(control.errors)
-        return;
+      if (control.errors) return;
       this._personalsService.checkAlias(control.value).subscribe((res: any) => {
         console.log(res);
         let check: boolean = res.data;
@@ -320,4 +309,3 @@ export class SidebarPersonalsComponent implements OnInit {
     };
   }
 }
-

@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { HsmListService } from '../hsm-list.service';
+import { HsmService } from '../hsm.service';
 
 @Component({
   selector: 'app-hsm-edit',
@@ -29,7 +29,7 @@ export class HsmEditComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private _hsmService: HsmListService,
+    private _hsmService: HsmService,
     private   toastr: ToastrService
   ) { 
 

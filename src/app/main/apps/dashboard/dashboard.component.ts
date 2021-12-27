@@ -622,12 +622,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getNumberSubcriberCertificate() {
-    this._subscriberCertificateService
-      .getData(0, 1)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((response: any) => {
-        this.numberSubscriberCertificate = response.data.totalItems
-      })
+    // this._subscriberCertificateService
+    //   .getListSubscriberCertificates(0, 1)
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((response: any) => {
+    //     this.numberSubscriberCertificate = response.data.totalItems
+    //   })
+    this.numberSubscriberCertificate =100;
   }
 
   ngAfterViewInit() {

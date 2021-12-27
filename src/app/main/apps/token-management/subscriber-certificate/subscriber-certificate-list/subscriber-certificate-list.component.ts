@@ -1,159 +1,159 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import { CoreConfigService } from '@core/services/config.service';
 import {
   NgbDate,
   NgbCalendar,
   NgbDateParserFormatter,
-} from "@ng-bootstrap/ng-bootstrap";
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  SelectionType,
+  DatatableComponent,
+  ColumnMode,
+} from '@swimlane/ngx-datatable';
+import { EntityProfile } from 'app/main/models/EntityProfile';
+import { PagedData } from 'app/main/models/PagedData';
+import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
 @Component({
-  selector: "app-subscriber-certificate-list",
-  templateUrl: "./subscriber-certificate-list.component.html",
-  styleUrls: ["./subscriber-certificate-list.component.scss"],
+  selector: 'app-subscriber-certificate-list',
+  templateUrl: './subscriber-certificate-list.component.html',
+  styleUrls: ['./subscriber-certificate-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class SubscriberCertificateListComponent implements OnInit {
+  minDate: Date;
+  maxDate: Date;
+  private _unsubscribeAll: Subject<any>;
+  public SelectionType = SelectionType;
+  public chkBoxSelected = [];
+  public selected = [];
+
+
   //Public Properties
   formListSubscriberCertificate: FormGroup;
-  public sizePage = [5, 10, 15, 20];
-  public page:number = 0;
-  public itemOnPage = 10;
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public pageAdvancedEllipses = 1;
-  public totalPages:number
   public moreOption = true;
-  public hoveredDate: NgbDate | null = null;
-  public fromDate: NgbDate | null;
-  public toDate: NgbDate | null;
-  public today = this.calendar.getToday();
-  public rows: any[];
   public contentHeader: object;
-  minDate: Date;
+  //page setup
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
+  public pagedData = new PagedData<SubscriberCertificate>();
+  public rowsData = new Array<SubscriberCertificate>();
+  public isLoading: boolean = false;
+  //Table of personal data
+  public totalItems: any = 0;
+  public ColumnMode = ColumnMode;
   constructor(
+    private _coreConfigService : CoreConfigService,
     private fb: FormBuilder,
-    private calendar: NgbCalendar,
     public formatter: NgbDateParserFormatter,
-    public _subscriberCertificateService:SubscriberCertificateListService
+    public _subscriberCertificateService: SubscriberCertificateListService,
+    private dateAdapter: DateAdapter<any>
   ) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
+    this._unsubscribeAll = new Subject();
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 4, 0, 1);
+    this.maxDate = new Date(currentYear + 2, 11, 31);
+    this._coreConfigService.config
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config) => {
+        this.dateAdapter.setLocale(config.app.appLanguage);
+      });
   }
 
   ngOnInit(): void {
-
     this.contentHeader = {
-      headerTitle: 'Danh sách',
+      headerTitle: 'Chứng thư số',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Quản lý cặp khóa',
-            isLink: false
+            name: 'Danh sách',
+            isLink: false,
           },
-          {
-            name: 'Danh sách chứng thư số',
-            isLink: true,
-            link: 'apps/tm/subscriber-certificate/subscriber-certificate-list'
-          }
-        ]
-      }
+        ],
+      },
     };
 
-    this._subscriberCertificateService.getData(this.page,this.itemOnPage).subscribe((res:any) =>{
-      this.totalPages = res.data.totalPages * 10;
-      console.log(res.data.data)
-      this.rows = res.data.data;
-      this.rows.forEach(item => {
-        item.organizationName = this.getOrganization(item);
-        item.subscriberName = this.getSubscriber(item);
-      })
-    })
-    
     this.formListSubscriberCertificate = this.fb.group({
-      distinguishedName: ["", Validators.required],
-      sizePage: [this.sizePage[1]],
+      contains: [null],
       fromDate: [null],
+      sort: [null],
       toDate: [null],
+      page: [null],
+      size: [this.sizePage[0]],
+    });
+
+    this.setPage({
+      offset: 0,
+      pageSize: this.formListSubscriberCertificate.get('size').value,
     });
   }
+
+  //Set Table View
+  setPage(pageInfo) {
+    console.log(pageInfo);
+    this.isLoading = true;
+    this.formListSubscriberCertificate.patchValue({ page: pageInfo.offset });
+    this._subscriberCertificateService
+      .getListSubscriberCertificates(
+        JSON.stringify(this.formListSubscriberCertificate.value)
+      )
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        this.totalItems = pagedData.data.totalItems;
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data;
+        this.isLoading = false;
+      });
+  }
+
   getOrganization(item): any {
-    let info = this._subscriberCertificateService.readCertificate(item.certificate);
-    let rs = info.find(obj => obj.name === 'organizationalUnitName');
-    if(rs == undefined)
-      return;
+    let info = this._subscriberCertificateService.readCertificate(
+      item.certificate
+    );
+    let rs = info.find((obj) => obj.name === 'organizationalUnitName');
+    if (rs == undefined) return;
     return rs.value;
   }
   getSubscriber(item): any {
-    let info = this._subscriberCertificateService.readCertificate(item.certificate);
-    console.log(info)
-    return info.find(obj => obj.name === "commonName").value;
+    let info = this._subscriberCertificateService.readCertificate(
+      item.certificate
+    );
+    console.log(info);
+    return info.find((obj) => obj.name === 'commonName').value;
   }
-  changePage(e){
-
-  }
+  changePage(e) {}
   onSubmit() {
     console.log(this.formListSubscriberCertificate.value);
-    console.log(this.formListSubscriberCertificate.get("toDate").value);
+    console.log(this.formListSubscriberCertificate.get('toDate').value);
   }
 
-  /**
-   * Range selection Date Picker
+    /**
+   * Custom Checkbox On Select
    *
-   * @param date
+   * @param { selected }
    */
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (
-      this.fromDate &&
-      !this.toDate &&
-      date &&
-      date.after(this.fromDate)
-    ) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
+     customCheckboxOnSelect({ selected }) {
+      this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+      this.chkBoxSelected.push(...selected);
     }
-    this.formListSubscriberCertificate.get("fromDate").setValue(this.fromDate);
-    this.formListSubscriberCertificate.get("toDate").setValue(this.toDate);
-  }
 
-  /**
-   * Is Hovered
+      /**
+   * For ref only, log selected values
    *
-   * @param date
+   * @param selected
    */
-  isHovered(date: NgbDate) {
-    return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
-    );
+  onSelect({ selected }) {
+    console.log('Select Event', selected, this.selected);
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
   }
-
-  /**
-   * Is Inside
-   *
-   * @param date
-   */
-  isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  /**
-   *  Is Range
-   *
-   * @param date
-   */
-  isRange(date: NgbDate) {
-    return (
-      date.equals(this.fromDate) ||
-      (this.toDate && date.equals(this.toDate)) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
-  }
+  
 }

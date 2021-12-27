@@ -26,7 +26,8 @@ export class PersonalsComponent implements OnInit {
   maxDate: Date;
   public rowsData = new Array<Personal>();
   private _unsubscribeAll: Subject<any>;
-  public formListCertificateRequest: FormGroup;
+  public formListPersonal: FormGroup;
+  public totalItems:any = 0;
   public item: any;
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -44,7 +45,7 @@ export class PersonalsComponent implements OnInit {
   public rowDataSelected = [];
   /**
    *
-   * @param _userListService
+   * @param _personalListService
    * @param _coreSidebarService
    * @param modalService
    * @param fb
@@ -52,7 +53,7 @@ export class PersonalsComponent implements OnInit {
    * @param _coreSidebarService
    */
   constructor(
-    private _userListService: PersonalListService,
+    private _personalListService: PersonalListService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -71,48 +72,45 @@ export class PersonalsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formListCertificateRequest = this.fb.group({
-      inputPersonal: [null, Validators.required],
-      fromDate: [null],
-      toDate: [null],
-      sizePage: [this.sizePage[3]],
-      gender: [],
-      birthday: [],
+    this.formListPersonal = this.fb.group({
+      page: [""],
+      size: [this.sizePage[0]],
+      sort: [["staffId,asc"]],
+      contains: ["", Validators.required],
+      gender: [null],
+      dateOfBirth: [""],
+      fromDate: [""],
+      toDate: [""],
     });
-    this.pagedData.size = this.sizePage[3];
-    this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
   }
 
-  changePage() {
-    this.pagedData.size = this.formListCertificateRequest.get("sizePage").value;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
 
+
+  //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
-    this.isLoading = true;
-    this.pagedData.currentPage = pageInfo.offset;
-    this.pagedData.size = pageInfo.pageSize;
-    this._userListService
-      .getListPersonals(this.pagedData)
+    this.isLoading=true;
+    this.formListPersonal.patchValue({"page":pageInfo.offset}); 
+    this._personalListService
+      .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData);
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((personalList:any) => ({
           ...personalList,
-          personalFullName:
+          personalFirstName:
             personalList.firstName +
             " " +
             personalList.middleName +
             " " +
             personalList.lastName,
         }));
-        this.isLoading = false;
+        this.isLoading=false;
       });
   }
-
   /**
    * Custom Checkbox On Select
    *
@@ -137,10 +135,6 @@ export class PersonalsComponent implements OnInit {
     this.item = item;
     console.log(item);
     this.modal.open(modalForm, {size: 'xl'})
-  }
-
-  onSubmit() {
-    console.log(this.formListCertificateRequest);
   }
 
   openNewSelectModal(modal) {

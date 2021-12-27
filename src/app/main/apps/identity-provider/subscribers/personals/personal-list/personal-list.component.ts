@@ -121,7 +121,7 @@ export class PersonalListComponent implements OnInit {
       size: [this.sizePage[0]],
       sort: [["staffId,asc"]],
       contains: ["", Validators.required],
-      gender: [""],
+      gender: [null],
       dateOfBirth: [""],
       fromDate: [""],
       toDate: [""],

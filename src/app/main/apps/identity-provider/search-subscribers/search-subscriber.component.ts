@@ -44,13 +44,8 @@ export class SearchSubscriberComponent implements OnInit {
         type: 'chevron',
         links: [
           {
-            name: 'Quản lý thuê bao',
+            name: 'Danh sách thuê bao',
             isLink: false
-          },
-          {
-            name: 'Thuê bao',
-            isLink: true,
-            link: '/apps/ip/subscribers-search'
           }
         ]
       }

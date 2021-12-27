@@ -15,11 +15,8 @@ import {
   MAT_DATE_LOCALE,
 } from "@angular/material/core";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
-import { CertificateRequestCreateComponent } from "./certificate-request-create/certificate-request-create.component";
 import { CertificateRequestListComponent } from "./certificate-request-list/certificate-request-list.component";
 import { CertificateRequestListService} from './certificate-request-list/certificate-request-list.service'
-import { CertificateRequestViewComponent } from "./certificate-request-view/certificate-request-view.component";
-import { CertificateRequestEditComponent } from "./certificate-request-edit/certificate-request-edit.component";
 import { FormsModule } from "@angular/forms";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { CorePipesModule } from "@core/pipes/pipes.module";
@@ -33,9 +30,6 @@ const materialModules1234 = [
 @NgModule({
   declarations: [
     CertificateRequestListComponent,
-    //CertificateRequestViewComponent,
-    //CertificateRequestEditComponent,
-    //CertificateRequestCreateComponent,
   ],
   imports: [
     CommonModule,
@@ -57,9 +51,6 @@ const materialModules1234 = [
   ],
   exports: [
     CertificateRequestListComponent,
-    //CertificateRequestViewComponent,
-    // CertificateRequestEditComponent,
-    //CertificateRequestCreateComponent,
     
   ],
   providers: [

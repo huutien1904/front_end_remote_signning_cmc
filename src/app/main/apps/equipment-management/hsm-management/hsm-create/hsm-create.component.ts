@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { HsmListService } from '../hsm-list.service';
+import { HsmService } from '../hsm.service';
 
 @Component({
   selector: 'app-hsm-create',
@@ -24,7 +24,7 @@ export class HsmCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private _hsmService: HsmListService,
+    private _hsmService: HsmService,
     private   toastr: ToastrService
     
   ) { }

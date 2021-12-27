@@ -3,24 +3,25 @@
     <!-- search -->
     <h5 class="card-header">Bộ lọc tìm kiếm</h5>
     <div class="card-body">
-      <form class="form form-vertical" [formGroup]="formListCertificateRequest">
+      <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">
           <div class="col-md-4">
-            <label class="label">Họ tên, email, địa chỉ</label>
+            <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
             <input
               name="distinguishedName"
               id="distinguishedName"
               type="search"
               class="form-control"
-              formControlName="inputPersonal"
-              placeholder="Nhập họ tên, email, địa chỉ"
+              formControlName="contains"
+              placeholder="Nhập họ tên, thư điện tử, địa chỉ"
             />
           </div>
           <div class="col-md-2">
-            <label class="label">Giới tính</label>
+            <label class="lable">Giới tính</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="gender"
+                formControlName="gender"
                 [clearable]="true"
                 bindLabel="name"
                 bindValue="name"
@@ -39,8 +40,9 @@
               </div>
               <input
                 [matDatepicker]="birthday"
-                formControlName="birthday"
+                formControlName="dateOfBirth"
                 class="form-control"
+                
                 type="text"
                 placeholder="19/04/1992"
               />
@@ -48,45 +50,45 @@
             <mat-datepicker #birthday></mat-datepicker>
           </div>
           <div class="col-md-2 mt-2">
-            <div class="input-group col-12">
-              <input
-                class="form-control btn btn-secondary btn-outline-secondary"
-                value="Tùy chọn"
-                type="button"
-                (click)="moreOption = !moreOption"
-              />
-            </div>
+            <button
+              class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
+              rippleEffect
+              (click)="moreOption = !moreOption"
+            >
+              <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
+              <i data-feather="plus" class="d-sm-none d-inline-block"></i
+              ><span class="d-none d-sm-inline-block">Tùy chọn</span>
+            </button>
           </div>
           <div class="col-md-2 mt-2">
             <button
               type="button"
               rippleEffect
               class="btn btn-primary"
-              (click)="onSubmit()"
-              [disabled]="!formListCertificateRequest.valid"
+              (click)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
+              [disabled]="!formListPersonal.valid"
             >
               Tìm kiếm
             </button>
           </div>
         </div>
-
         <div class="row" [ngbCollapse]="moreOption">
           <div class="col-md-2">
-            <label for="">Số dòng:</label>
+            <label for="">SỐ DÒNG:</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="sizePage"
                 bindValue="sizePage"
                 [clearable]="false"
-                formControlName="sizePage"
-                (change)="changePage()"
+                formControlName="size"
+                (change)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
               ></ng-select>
             </fieldset>
           </div>
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-3">
-                <label class="lable">Từ ngày:</label>
+                <label class="lable">TỪ NGÀY:</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
                     <span class="input-group-text" (click)="fromDate.open()"
@@ -99,14 +101,14 @@
                     class="form-control"
                     type="text"
                     [min]="minDate"
-                    [max]="formListCertificateRequest.controls.toDate.value"
+                    [max]="formListPersonal.controls.toDate.value"
                     placeholder="13/09/2021"
                   />
                 </div>
                 <mat-datepicker #fromDate></mat-datepicker>
               </div>
               <div class="col-md-3">
-                <label class="lable">Đến ngày:</label>
+                <label class="lable">ĐẾN NGÀY:</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
                     <span class="input-group-text" (click)="toDate.open()"
@@ -118,7 +120,7 @@
                     formControlName="toDate"
                     class="form-control"
                     type="text"
-                    [min]="formListCertificateRequest.controls.fromDate.value"
+                    [min]="formListPersonal.controls.fromDate.value"
                     placeholder="13/09/2021"
                   />
                 </div>
@@ -220,7 +222,7 @@
           {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="personalFullName" [width]="210">
+      <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
             <div
@@ -266,9 +268,9 @@
         [width]="100"
       ></ngx-datatable-column>
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
-        <ng-template ngx-datatable-cell-template let-value="value">
+        <!-- <ng-template ngx-datatable-cell-template let-value="value">
           {{ value | date: "dd/MM/YYYY" }}
-        </ng-template>
+        </ng-template> -->
       </ngx-datatable-column>
       <ngx-datatable-column
         name="Giới tính"
@@ -369,53 +371,3 @@
   </ng-template>
 </section>
 
-<!--
-        <div class="table_content-wrap">
-        <div class="card">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-header">
-                        <h5 class="card-title">Chọn một thuê bao để tạo yêu cầu chứng thực</h5>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>TT</th>
-                                    <th>CMND/CCCD</th>
-                                    <th>HỌ VÀ TÊN</th>
-                                    <th>NGÀY SINH</th>
-                                    <th>GIỚI TÍNH</th>
-                                    <th>EMAIL</th>
-                                    <th>TỔ CHỨC</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of rows; let i = index" >
-                                    <td>{{ i + 1 }}</td>
-                                    <td>{{item.personalCountryId}}</td>
-                                    <td>{{ item.personalLastName }} {{ item.personalMiddleName }} {{ item.personalFirstName }}</td>
-                                    <td>{{ item.birthday }}</td>
-                                    <td>{{ item.gender }}</td>
-                                    <td>{{ item.email | limitTo: 20 }}{{ item.email.length > 20 ? "..." : "" }}</td>
-                                    <td>{{ item.organizationId == null ? "Không có" : "" }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-xl-2 ml-1">
-                    <div class="total_item">{{ rows.length }} dòng</div>
-                </div>
-                <div class="col-xl-6 mt-1 mr-1">
-                    <ngb-pagination [collectionSize]="totalPages" [pageSize]="formListCertificateRequest.controls.sizePage.value" [(page)]="pageAdvancedEllipses" [maxSize]="3" [rotate]="true" [boundaryLinks]="true" (pageChange)="changePage($event)" class="d-flex justify-content-end">
-                        <ng-template ngbPaginationFirst>Đầu</ng-template>
-                        <ng-template ngbPaginationLast>Cuối</ng-template>
-                    </ngb-pagination>
-                </div>
-            </div>
-        </div>
-    </div>
--->

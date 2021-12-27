@@ -5,7 +5,6 @@ import { Hsm } from 'app/main/models/Equipment';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { HsmListService } from '../../hsm-management/hsm-list.service';
 import { HsmService } from '../../hsm-management/hsm.service';
 import { TokenService } from '../token.service';
 

@@ -3,7 +3,6 @@ export interface Token {
     tokenName: string,
     slotNumber: string,
     keypairNumber: string,
-    tokenPassword: string,
     hsmInformation: Hsm
 }
 
@@ -13,5 +12,6 @@ export interface Hsm {
     hsmManufacturer: string,
     hsmType: string,
     hsmModel: string,
+    tokens:Array<Token>;
     hsmLibraryPath: string
 }

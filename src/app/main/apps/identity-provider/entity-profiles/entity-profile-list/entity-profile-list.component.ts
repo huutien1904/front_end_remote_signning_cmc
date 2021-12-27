@@ -1,18 +1,28 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { DateAdapter } from "@angular/material/core";
-import { CoreConfigService } from "@core/services/config.service";
-import { ColumnMode, DatatableComponent, SelectionType } from "@swimlane/ngx-datatable";
-import { PagedData } from "app/main/models/PagedData";
-import { EntityProfile } from "app/main/models/EntityProfile";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { EntityProfileService } from "../entity-profile.service";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import { CoreConfigService } from '@core/services/config.service';
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType,
+} from '@swimlane/ngx-datatable';
+import { PagedData } from 'app/main/models/PagedData';
+import { EntityProfile } from 'app/main/models/EntityProfile';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { EntityProfileService } from '../entity-profile.service';
 
 @Component({
-  selector: "app-profile-list",
-  templateUrl: "./entity-profile-list.component.html",
-  styleUrls: ["./entity-profile-list.component.scss"],
+  selector: 'app-profile-list',
+  templateUrl: './entity-profile-list.component.html',
+  styleUrls: ['./entity-profile-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class ProfileListComponent implements OnInit, OnDestroy {
@@ -29,7 +39,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
 
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild("tableRowDetails") tableRowDetails: any;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
   public pagedData = new PagedData<EntityProfile>();
   public rowsData = new Array<EntityProfile>();
   public isLoading: boolean = false;
@@ -59,35 +69,38 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     this.formListProfile = this.fb.group({
       contains: [null],
       fromDate: [null],
-      sort:[null],
+      sort: [null],
       toDate: [null],
       page: [null],
-      size: [this.sizePage[0]]
+      size: [this.sizePage[0]],
     });
     // content header profile
     this.contentHeader = {
-      headerTitle: "EntityProfile",
+      headerTitle: 'EntityProfile',
       // actionButton: true,
       breadcrumb: {
-        type: "chevron",
+        type: 'chevron',
         links: [
           {
-            name: "Danh sách",
+            name: 'Danh sách',
             isLink: false,
-          }
+          },
         ],
       },
     };
     // end content header profile
 
-    this.setPage({ offset: 0, pageSize:  this.formListProfile.get("size").value  });
+    this.setPage({
+      offset: 0,
+      pageSize: this.formListProfile.get('size').value,
+    });
   }
 
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading = true;
-    this.formListProfile.patchValue({"page":pageInfo.offset});    
+    this.formListProfile.patchValue({ page: pageInfo.offset });
     this._entityProfileService
       .getListProfiles(JSON.stringify(this.formListProfile.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -103,14 +116,12 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       });
   }
 
-    /**
+  /**
    * On destroy
    */
-     ngOnDestroy(): void {
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-    }
-
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
 }
-

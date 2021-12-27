@@ -27,7 +27,7 @@ import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
 import { HsmCreateComponent } from "./hsm-create/hsm-create.component";
 import { HsmEditComponent } from "./hsm-edit/hsm-edit.component";
-import { HsmListService } from "./hsm-list.service";
+import { HsmService } from "./hsm.service";
 import { HsmListComponent } from "./hsm-list/hsm-list.component";
 import { HsmViewComponent } from "./hsm-view/hsm-view.component";
 
@@ -63,7 +63,7 @@ const materialModules1234 = [
   exports: [HsmListComponent, HsmEditComponent, HsmViewComponent],
   providers: [
     
-    HsmListService,
+    HsmService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
