@@ -22,7 +22,7 @@ export class PersonalsService {
   constructor(private _httpClient: HttpClient) { }
 
   checkAlias(alias) {
-    return this._httpClient.get(`${environment.apiUrl}/certificate-request/check?alias=${alias}`, this.option);
+    return this._httpClient.get(`${environment.apiUrl}/keypair/check?alias=${alias}`, this.option);
   }
 
   public submitForm(body): Observable<any> {

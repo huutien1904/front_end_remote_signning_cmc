@@ -28,6 +28,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
 import { PersonalsService } from "./personals.service";
+import { CoreDirectivesModule } from "@core/directives/directives";
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -52,7 +53,8 @@ const materialModules1234 = [
     }),
     CorePipesModule,
     CoreSidebarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    CoreDirectivesModule
   ],
   exports: [PersonalsComponent],
   providers: [

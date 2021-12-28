@@ -28,22 +28,31 @@ export class SidebarPersonalsComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   public newRequestForm: FormGroup;
   public submitted = false;
-  public lengthSelect: any[] = [];
+
   public fileUrl;
   public fileName;
 
   //form data
   public cryptoSelect: any[] = ['RSA', 'ECDSA'];
-  public rsaKeyLength: any[] = [
-    '1024',
-    '1536',
-    '2048',
-    '3072',
-    '4096',
-    '6144',
-    '8192',
-  ];
+  public rsaKeyLength: any[] = [];
   public ecdsaKeyLength: any[] = ['secp224r1', 'secp384r1', 'secp521r1'];
+  public lengthSelect = this.rsaKeyLength;
+
+  // public cryptoAlgorithm = {
+  //   RSA: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+  //   ECDSA: ['secp224r1', 'secp384r1', 'secp521r1'],
+  // };
+  public cryptoAlgorithm = [
+    {
+      cryptoSystem: "RSA",
+      keypairLength : ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+    },
+    {
+      cryptoSystem: "ECDSA",
+      keypairLength : ['secp224r1', 'secp384r1', 'secp521r1'],
+    }
+  ];
+  public keypairLengthList=this.cryptoAlgorithm[0].keypairLength;
   public tokenList: Token[];
   public hsmList = new Array<Hsm>();
   public strProfile: string = '';
@@ -126,32 +135,39 @@ export class SidebarPersonalsComponent implements OnInit {
         page: 0,
         size: 100,
       })
-      .pipe(takeUntil(this._unsubscribeAll))
+      .pipe(
+        map((res) => {
+          res.data.data.forEach((element, index) => {
+            if (element.tokens.length == 0) {
+              delete res.data.data[index];
+            }
+          });
+          return res.data.data.filter((x) => x !== null);
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
       .toPromise()
-      .then((pagedData) => {
-        this.hsmList = pagedData.data.data;
+      .then((hsmList) => {
+        console.log(hsmList);
+        this.hsmList = hsmList;
         this.tokenList = this.hsmList[0].tokens;
       });
     this.newRequestForm = this.fb.group(
       {
         cryptoAlgorithm: this.fb.group({
-          cryptoSystem : [null, Validators.required],
-          keypairLength: [null, Validators.required]
+          cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
+          keypairLength: [this.keypairLengthList[0], Validators.required],
         }),
-        alias: [null, Validators.required],
+        alias: [this.personal.firstName + ' ' + this.personal.middleName + ' ' + this.personal.lastName + , Validators.required],
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personal.userId],
-        hsmList: [this.hsmList[0]],
+        hsm: [this.hsmList[0]],
         profile: [null, Validators.required],
       },
       {
         validators: this.usedAlias('alias'),
       }
     );
-    console.log("aloalo");
-    console.log(this.newRequestForm.value);
-    
-    
   }
 
   toggleSidebar() {
@@ -167,25 +183,14 @@ export class SidebarPersonalsComponent implements OnInit {
     );
     this.fileName = res.data.certificateRequestId + '.csr';
   }
-  changeCrypto(event) {
-    this.newRequestForm.patchValue({
-      keypairLength: null,
-    });
-    switch (event) {
-      case 'RSA':
-        this.lengthSelect = this.rsaKeyLength;
-        break;
-      case 'ECDSA':
-        this.lengthSelect = this.ecdsaKeyLength;
-        break;
-    }
+  changeCrypto() {
+    this.keypairLengthList = this.newRequestForm.get("cryptoAlgorithm").get("cryptoSystem").value.keypairLength;
+    this.newRequestForm.get("cryptoAlgorithm").patchValue({keypairLength:this.keypairLengthList[0]});
   }
 
   changeHsm() {
-    this.newRequestForm.patchValue({
-      tokenId: null,
-    });
-    this.newRequestForm.get('tokenId').enable();
+    this.tokenList = this.newRequestForm.get('hsm').value.tokens;
+    this.newRequestForm.patchValue({ tokenId: this.tokenList[0] });
   }
 
   changeProfile() {
@@ -267,30 +272,32 @@ export class SidebarPersonalsComponent implements OnInit {
     if (this.newRequestForm.invalid) {
       return;
     }
-    const newRequest = JSON.stringify({
-      cryptoSystem: this.f.cryptoSystem.value,
-      keypairLength: this.f.keypairLength.value,
-      alias: this.f.alias.value,
-      tokenId: this.f.tokenId.value,
-      templateKeyId: 'keypairtemplate_00001',
-      subscriberId: this.f.subscriberId.value,
-    });
-    this._personalsService.submitForm(newRequest).subscribe((res: any) => {
-      console.log(res);
-      if ((res.result = true)) {
-        this.toggleSidebar();
-        this.toastr.success(
-          '👋 Bạn đã tạo yêu cầu chứng thực mới',
-          'Thành công',
-          {
-            positionClass: 'toast-top-center',
-            toastClass: 'toast ngx-toastr',
-            closeButton: true,
-          }
-        );
-        this.downloadSidebar(res);
-      }
-    });
+    console.log(this.newRequestForm.value);
+    
+    // const newRequest = JSON.stringify({
+    //   cryptoSystem: this.f.cryptoSystem.value,
+    //   keypairLength: this.f.keypairLength.value,
+    //   alias: this.f.alias.value,
+    //   tokenId: this.f.tokenId.value,
+    //   templateKeyId: 'keypairtemplate_00001',
+    //   subscriberId: this.f.subscriberId.value,
+    // });
+    // this._personalsService.submitForm(newRequest).subscribe((res: any) => {
+    //   console.log(res);
+    //   if ((res.result = true)) {
+    //     this.toggleSidebar();
+    //     this.toastr.success(
+    //       '👋 Bạn đã tạo yêu cầu chứng thực mới',
+    //       'Thành công',
+    //       {
+    //         positionClass: 'toast-top-center',
+    //         toastClass: 'toast ngx-toastr',
+    //         closeButton: true,
+    //       }
+    //     );
+    //     this.downloadSidebar(res);
+    //   }
+    // });
   }
 
   usedAlias(alias: string) {

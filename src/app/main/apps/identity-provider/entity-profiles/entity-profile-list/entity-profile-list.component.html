@@ -3,9 +3,11 @@
     <!-- profile header -->
     <section id="profile-header">
       <div class="profile-header">
-      <app-content-header [contentHeader]="contentHeader"></app-content-header>
-      <!-- search profile -->
-    </div>
+        <app-content-header
+          [contentHeader]="contentHeader"
+        ></app-content-header>
+        <!-- search profile -->
+      </div>
     </section>
     <section id="search-profile">
       <div class="card">
@@ -29,10 +31,7 @@
               <div class="col-md-2 mt-2">
                 <div class="input-group col-12">
                   <input
-                    class="
-                      form-control
-                      btn btn-secondary btn-outline-secondary
-                    "
+                    class="form-control btn btn-secondary btn-outline-secondary"
                     value="Tùy chọn"
                     type="button"
                     (click)="moreOption = !moreOption"
@@ -44,7 +43,12 @@
                   type="button"
                   rippleEffect
                   class="btn btn-primary"
-                  (click)="setPage({ offset: 0, pageSize:  formListProfile.controls.size  })"
+                  (click)="
+                    setPage({
+                      offset: 0,
+                      pageSize: formListProfile.controls.size
+                    })
+                  "
                   [disabled]="!formListProfile.valid"
                 >
                   Tìm kiếm
@@ -60,7 +64,12 @@
                     bindValue="sizePage"
                     [clearable]="false"
                     formControlName="size"
-                    (change)="setPage({ offset: 0, pageSize:  formListProfile.controls.size  })"
+                    (change)="
+                      setPage({
+                        offset: 0,
+                        pageSize: formListProfile.controls.size
+                      })
+                    "
                   ></ng-select>
                 </fieldset>
               </div>
@@ -70,9 +79,7 @@
                     <label class="lable">Từ ngày:</label>
                     <div class="input-group input-group-merge">
                       <div class="input-group-prepend">
-                        <span
-                          class="input-group-text"
-                          (click)="fromDate.open()"
+                        <span class="input-group-text" (click)="fromDate.open()"
                           ><i data-feather="calendar"></i
                         ></span>
                       </div>
@@ -122,17 +129,15 @@
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
-             <a [routerLink]="['../', 'profile-create']">
-                <button class="btn btn-primary ml-2" rippleEffect>
-             
-              <i
-              data-feather="plus"
-              class="d-sm-none d-inline-block mr-0 mr-sm-1"
-              ></i>
-              <span class="d-none d-sm-inline-block">Thêm Mới</span>
-            </button>  
-              </a>
-            
+            <a [routerLink]="['../', 'profile-create']">
+              <button class="btn btn-primary ml-2" rippleEffect>
+                <i
+                  data-feather="plus"
+                  class="d-sm-none d-inline-block mr-0 mr-sm-1"
+                ></i>
+                <span class="d-none d-sm-inline-block">Thêm Mới</span>
+              </button>
+            </a>
           </div>
         </div>
         <mat-progress-bar
@@ -140,7 +145,7 @@
           mode="indeterminate"
         ></mat-progress-bar>
         <ngx-datatable
-        #tableRowDetails
+          #tableRowDetails
           [rows]="rowsData"
           class="bootstrap core-bootstrap cursor"
           [columnMode]="ColumnMode.force"
@@ -220,7 +225,11 @@
                     aria-labelledby="dropdownBrowserState"
                   >
                     <a
-                    [routerLink]="['../', 'profile-view', value.endEntityProfileId]"
+                      [routerLink]="[
+                        '../',
+                        'profile-view',
+                        value.endEntityProfileId
+                      ]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
                       ><i data-feather="file-text" class="mr-50"></i> Chi
@@ -228,7 +237,11 @@
                     >
 
                     <a
-                    [routerLink]="['../', 'profile-edit', value.endEntityProfileId]"
+                      [routerLink]="[
+                        '../',
+                        'profile-edit',
+                        value.endEntityProfileId
+                      ]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
                       ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
@@ -242,8 +255,14 @@
                     >
                   </div>
                 </div>
-                <a [routerLink]="['../', 'profile-edit', value.endEntityProfileId]">
-                  <i  
+                <a
+                  [routerLink]="[
+                    '../',
+                    'profile-edit',
+                    value.endEntityProfileId
+                  ]"
+                >
+                  <i
                     data-feather="edit"
                     class="text-primary cursor-pointer"
                   ></i>
@@ -262,7 +281,7 @@
               let-isVisible="isVisible"
             >
               <div class="page-count" *ngIf="!isLoading">
-                  Có tổng số
+                Có tổng số
                 {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
               </div>
               <datatable-pager
