@@ -31,7 +31,7 @@ const routes: Routes = [
     data: { animation: "PersonalViewComponent" },
   },
   {
-    path: "personal-edit",
+    path: "personal-edit/:id",
     component: PersonalEditComponent,
     // resolve: { data: PersonalEditService },
     data: {

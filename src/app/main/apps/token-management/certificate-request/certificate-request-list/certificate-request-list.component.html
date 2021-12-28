@@ -10,7 +10,7 @@
               name="distinguishedName"
               type="search"
               class="form-control"
-              formControlName="inputSearch"
+              formControlName="contains"
               placeholder="Một phần tên doanh nghiệp"
             />
           </div>
@@ -45,8 +45,8 @@
                 suffix=" dòng"
                 [clearable]="false"
                 bindValue="sizePage"
-                formControlName="sizePage"
-                (change)="changePage()"
+                formControlName="size"
+                
               ></ng-select>
             </fieldset>
           </div>

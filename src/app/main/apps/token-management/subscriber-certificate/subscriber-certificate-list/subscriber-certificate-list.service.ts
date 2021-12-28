@@ -4,6 +4,9 @@ import { environment } from "environments/environment";
 import { Observable } from "rxjs";
 import * as forge from "node-forge";
 import { FormGroup } from "@angular/forms";
+import { ResponseData } from "app/main/models/ResponseData";
+import { PagedData } from "app/main/models/PagedData";
+import { CertificateRequest } from "app/main/models/CertificateRequest";
 
 @Injectable({
   providedIn: "root",
@@ -11,10 +14,17 @@ import { FormGroup } from "@angular/forms";
 export class SubscriberCertificateListService {
   constructor(private _httpClient: HttpClient) {}
 
+  // option
   private readonly currentUser = JSON.parse(
     localStorage.getItem("currentUser")
   );
   private readonly token = this.currentUser.token;
+  private option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + this.token,
+    },
+  };
   readCertificate(cer): any[] {
     //decode
     let read: any = forge.pki.certificateFromPem(
@@ -30,21 +40,14 @@ export class SubscriberCertificateListService {
     let res: any[] = JSON.parse(forge.util.decodeUtf8(JSON.stringify(read)));
     return res;
   }
-  getData(page: number, Item: number): Observable<any[]> {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const token = currentUser.token;
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    };
-    return this._httpClient.get<any>(
-      `${environment.apiUrl}/subscriber-certificate/list?page=${page}&size=${Item}`,
-      option
+  getData(body): Observable<ResponseData<PagedData<CertificateRequest>>>{
+    return this._httpClient.post<ResponseData<PagedData<CertificateRequest>>>(
+      `${environment.apiUrl}/subscriber-certificate/search`,body,
+      this.option
     );
   }
-  updateCert(form: FormGroup): Observable<any> {
+
+  updateCert(form: FormGroup): Observable<ResponseData<PagedData<CertificateRequest>>> {
     const formData = new FormData();
     formData.append("keypairId", form.get("keypairId").value);
     formData.append("certificate", form.get("fileSource").value);

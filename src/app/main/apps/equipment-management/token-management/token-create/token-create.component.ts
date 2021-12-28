@@ -92,6 +92,7 @@ export class TokenCreateComponent implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .subscribe(response => {
+        console.log(response)
         this.hsmList = response;
       });
 

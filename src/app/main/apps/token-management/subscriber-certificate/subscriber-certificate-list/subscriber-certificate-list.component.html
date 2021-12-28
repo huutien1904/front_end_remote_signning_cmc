@@ -10,7 +10,7 @@
                     <form class="form form-vertical" [formGroup]="formListSubscriberCertificate">
                         <div class="row pb-1">
                             <div class="col-md-4">
-                                <input name="distinguishedName" id="distinguishedName" type="search" class="form-control" formControlName="distinguishedName" placeholder="Một phần DN" />
+                                <input name="distinguishedName" id="distinguishedName" type="search" class="form-control" formControlName="contains" placeholder="Một phần DN" />
                             </div>
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-secondary btn-outline-secondary col-12" (click)="moreOption = !moreOption" rippleEffect>
@@ -28,7 +28,7 @@
                             <div class="col-md-1 mr-2">
                                 <label for="">Số dòng:</label>
                                 <fieldset class="form-group">
-                                    <ng-select [items]="sizePage" suffix=" dòng" [clearable]="false" formControlName="sizePage"></ng-select>
+                                    <ng-select [items]="sizePage" suffix=" dòng" [clearable]="false" formControlName="size"></ng-select>
                                 </fieldset>
                             </div>
                             <div class="col-md-8">

@@ -89,6 +89,7 @@ export class TokenListComponent implements OnInit {
       .getListToken(JSON.stringify(this.formListToken.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
+        console.log(pagedData.data )
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
         this.rowsData= pagedData.data.data;

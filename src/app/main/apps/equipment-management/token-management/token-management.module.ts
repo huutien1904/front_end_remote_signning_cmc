@@ -20,6 +20,7 @@ import { MY_DATE_FORMATS } from '@core/format-data/my-date-formats';
 import { CorePipesModule } from '@core/pipes/pipes.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
@@ -58,6 +59,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
         selectedMessage: 'selected', // Footer selected message
       },
     }),
+    SweetAlert2Module.forRoot()
   ],
   exports: [
     TokenViewComponent,

@@ -60,9 +60,9 @@ export class NewPersonalSidebarComponent implements OnInit {
   ];
   public provinceResidencePlace: Province[];
   public districtResidencePlace: District[];
-  communeResidencePlace: Commune[];
-  streetResidencePlace: Street[];
-  organizationId: any[] = [];
+  public communeResidencePlace: Commune[];
+  public streetResidencePlace: Street[];
+  public organizationId: any[] = [];
   gender: any[] = ["Nam", "Nữ"];
   @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
@@ -92,9 +92,11 @@ export class NewPersonalSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.newPersonal = this.fb.group({
-      personalFirstName: [null, [Validators.required,]],
-      personalMiddleName: [null, [Validators.required,]],
-      personalLastName: [null, [Validators.required,]],
+      username: ["", [Validators.required,]],
+      subscriberCategoryId: ["1", [Validators.required,]],
+      firstName: [null, [Validators.required,]],
+      middleName: [null, [Validators.required,]],
+      lastName: [null, [Validators.required,]],
       phoneNumber: [null, [Validators.required, Validators.minLength(10),Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),]],
       personalCountryId: [null, [Validators.required,Validators.minLength(8),Validators.pattern(/^[0-9]\d*$/),]],
       organizationId: [null, Validators.required],
@@ -120,22 +122,32 @@ export class NewPersonalSidebarComponent implements OnInit {
   }
 
 getOrganizationId(){
-  // this._personalListService
-  //   .getOrganizationId()
-  //   .subscribe((res) => {
-  //     this.organizationId = res.data.data
-  //     console.log(this.organizationId)
+  this._personalListService
+    .getOrganizationId()
+    .subscribe((res) => {
+      this.organizationId = res.data
+      console.log(res)
 
       
-  //   }); 
+    }); 
 }
 
 selectOrganization(e){
   this.newPersonal.controls['organizationId'].setValue(e.organizationId);       
 }
+ randomUser(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+charactersLength));
+ }
+ return this.newPersonal.controls['username'].setValue(result);
+}
 initAddress() {
     this._addressService
-      .getProvince(237)
+      .getProvince()
       .pipe(
         map((res) => {
           console.log(res);
@@ -423,16 +435,24 @@ onSubmitCreateStreet(type, streetName) {
     // overlayRef.attach(new ComponentPortal(ProgressContainerComponent))
   }
   onSubmit() {
+    this.randomUser(5);
+    let data = this.newPersonal.value
+    console.log(data.birthday._i.date);
+    // if(data.birthday._i.date){
+    // const birthday = data.birthday._i.date + "/" + data.birthday._i.month + "/" + data.birthday._i.year;
+    // this.newPersonal.controls['birthday'].setValue(data.birthday._i.date + " " + data.birthday._i.month + " " + data.birthday._i.year);
+    // }
+    
     this.submitted = true;
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const token = currentUser.token;
     this.showGlobalOverlay();
     // stop here if form is invalid
     if (this.newPersonal.invalid) {
       return;
     }
-    console.log(this.newPersonal);
-    const newPersonal = JSON.stringify(this.newPersonal.value);
+    
+    console.log(this.newPersonal.value);
+    const newPersonal = JSON.stringify(data);
+    
     this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res)
       
@@ -455,7 +475,7 @@ onSubmitCreateStreet(type, streetName) {
         );
       }
     });
-    console.log(newPersonal);
+    // console.log(newPersonal);
     // const option = {
     //   headers: {
     //     "Content-Type": "application/json",

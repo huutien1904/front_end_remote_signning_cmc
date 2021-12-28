@@ -11,8 +11,8 @@
             <div
               class="input-group input-group-merge"
               [ngClass]="
-                (f.personalFirstName.errors && f.personalFirstName?.touched) ||
-                (submitted && f.personalFirstName?.errors?.required)
+                (f.firstName.errors && f.firstName?.touched) ||
+                (submitted && f.firstName?.errors?.required)
                   ? 'is-invalid'
                   : ''
               "
@@ -23,14 +23,14 @@
                 ></span>
               </div>
               <input
-                formControlName="personalFirstName"
+                formControlName="firstName"
                 placeholder="Họ"
                 type="text"
                 class="form-control"
                 [ngClass]="
-                  (f.personalFirstName.errors &&
-                    f.personalFirstName?.touched) ||
-                  (submitted && f.personalFirstName?.errors?.required)
+                  (f.firstName.errors &&
+                    f.firstName?.touched) ||
+                  (submitted && f.firstName?.errors?.required)
                     ? 'is-invalid'
                     : ''
                 "
@@ -40,15 +40,15 @@
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.personalFirstName?.errors?.required &&
-                  f.personalFirstName?.touched) ||
-                (submitted && f.personalFirstName?.errors?.required)
+                (f.firstName?.errors?.required &&
+                  f.firstName?.touched) ||
+                (submitted && f.firstName?.errors?.required)
               "
               class="invalid-form"
             >
               <small
                 class="form-text text-danger"
-                *ngIf="f.personalFirstName.errors.required"
+                *ngIf="f.firstName.errors.required"
               >
                 Không được bỏ trống
               </small>
@@ -65,9 +65,9 @@
             <div
               class="input-group input-group-merge"
               [ngClass]="
-                (f.personalMiddleName.errors &&
-                  f.personalMiddleName?.touched) ||
-                (submitted && f.personalMiddleName?.errors?.required)
+                (f.middleName.errors &&
+                  f.middleName?.touched) ||
+                (submitted && f.middleName?.errors?.required)
                   ? 'is-invalid'
                   : ''
               "
@@ -78,14 +78,14 @@
                 ></span>
               </div>
               <input
-                formControlName="personalMiddleName"
+                formControlName="middleName"
                 type="text"
                 class="form-control"
                 placeholder="Tên đệm"
                 [ngClass]="
-                  (f.personalMiddleName.errors &&
-                    f.personalMiddleName?.touched) ||
-                  (submitted && f.personalMiddleName?.errors?.required)
+                  (f.middleName.errors &&
+                    f.middleName?.touched) ||
+                  (submitted && f.middleName?.errors?.required)
                     ? 'is-invalid'
                     : ''
                 "
@@ -95,9 +95,9 @@
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.personalMiddleName.errors?.required &&
-                  f.personalMiddleName.touched) ||
-                (submitted && f.personalMiddleName?.errors?.required)
+                (f.middleName.errors?.required &&
+                  f.middleName.touched) ||
+                (submitted && f.middleName?.errors?.required)
               "
               class="invalid-form"
             >
@@ -115,8 +115,8 @@
             <div
               class="input-group input-group-merge"
               [ngClass]="
-                (f.personalLastName.errors && f.personalLastName?.touched) ||
-                (submitted && f.personalLastName?.errors?.required)
+                (f.lastName.errors && f.lastName?.touched) ||
+                (submitted && f.lastName?.errors?.required)
                   ? 'is-invalid'
                   : ''
               "
@@ -127,13 +127,13 @@
                 ></span>
               </div>
               <input
-                formControlName="personalLastName"
+                formControlName="lastName"
                 type="text"
                 class="form-control"
                 placeholder="Tên"
                 [ngClass]="
-                  (f.personalLastName.errors && f.personalLastName?.touched) ||
-                  (submitted && f.personalLastName?.errors?.required)
+                  (f.lastName.errors && f.lastName?.touched) ||
+                  (submitted && f.lastName?.errors?.required)
                     ? 'is-invalid'
                     : ''
                 "
@@ -143,8 +143,8 @@
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.personalLastName.errors && f.personalLastName?.touched) ||
-                (submitted && f.personalLastName?.errors?.required)
+                (f.lastName.errors && f.lastName?.touched) ||
+                (submitted && f.lastName?.errors?.required)
               "
               class="invalid-form"
             >

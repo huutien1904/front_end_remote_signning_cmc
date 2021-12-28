@@ -5,6 +5,8 @@ import {
   NgbCalendar,
   NgbDateParserFormatter,
 } from "@ng-bootstrap/ng-bootstrap";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
 @Component({
   selector: "app-subscriber-certificate-list",
@@ -27,6 +29,9 @@ export class SubscriberCertificateListComponent implements OnInit {
   public today = this.calendar.getToday();
   public rows: any[];
   public contentHeader: object;
+  public isLoading: boolean = false;
+  private _unsubscribeAll: Subject<any>;
+
   minDate: Date;
   constructor(
     private fb: FormBuilder,
@@ -59,22 +64,53 @@ export class SubscriberCertificateListComponent implements OnInit {
       }
     };
 
-    this._subscriberCertificateService.getData(this.page,this.itemOnPage).subscribe((res:any) =>{
-      this.totalPages = res.data.totalPages * 10;
-      console.log(res.data.data)
-      this.rows = res.data.data;
-      this.rows.forEach(item => {
-        item.organizationName = this.getOrganization(item);
-        item.subscriberName = this.getSubscriber(item);
-      })
-    })
+    // this._subscriberCertificateService.getData(body).subscribe((res:any) =>{
+    //   this.totalPages = res.data.totalPages * 10;
+    //   console.log(res.data.data)
+    //   this.rows = res.data.data;
+    //   this.rows.forEach(item => {
+    //     item.organizationName = this.getOrganization(item);
+    //     item.subscriberName = this.getSubscriber(item);
+    //   })
+    // })
     
+    // page: [null],
+    //   size: [this.sizePage[1]],
+    //   sort : [null],
+    //   contains: [null],
+    //   fromDate: [null],
+    //   toDate: [null],
     this.formListSubscriberCertificate = this.fb.group({
-      distinguishedName: ["", Validators.required],
-      sizePage: [this.sizePage[1]],
+      page: [null],
+      size: [this.sizePage[1]],
+      sort : [null],
+      contains: ["", Validators.required],
       fromDate: [null],
       toDate: [null],
     });
+    this.setPage({ offset: 0, pageSize: this.formListSubscriberCertificate.get('size').value });
+  }
+  setPage(pageInfo) {
+    
+    console.log(pageInfo);
+    this.isLoading = true;
+    this.formListSubscriberCertificate.patchValue({"page":pageInfo.offset});
+    console.log(JSON.stringify(this.formListSubscriberCertificate.value))
+    this._subscriberCertificateService
+      .getData(JSON.stringify(this.formListSubscriberCertificate.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        // this.pagedData = pagedData.data;
+        // this.rowsData = pagedData.data.data;
+        // console.log(this.rowsData)
+        // this.rowsData = pagedData.data.data.map(item => ({
+        //   ...item,
+        //   organizationName: this.getOrganization(item),
+        //   subscribeName: this.getSubscribe(item)
+        // }))
+        // this.isLoading=false;
+      });
   }
   getOrganization(item): any {
     let info = this._subscriberCertificateService.readCertificate(item.certificate);

@@ -57,15 +57,7 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formListCertificateRequest = this.fb.group({
-      inputSearch: ["", Validators.required],
-      sizePage: [this.sizePage[3]],
-      fromDate: [null],
-      toDate: [null],
-    });
-    this.pagedData.size = this.sizePage[3];
-    this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+
     this.contentHeader = {
       headerTitle: 'Danh sách',
       actionButton: true,
@@ -84,6 +76,19 @@ export class CertificateRequestListComponent implements OnInit {
         ]
       }
     };
+
+    this.formListCertificateRequest = this.fb.group({
+
+      page: [null],
+      size: [this.sizePage[1]],
+      sort : [null],
+      contains: [null],
+      fromDate: [null],
+      toDate: [null],
+    });
+    
+    this.setPage({ offset: 0, pageSize: this.formListCertificateRequest.get('size').value });
+    
   }
 
   getOrganization(item): any {
@@ -97,20 +102,16 @@ export class CertificateRequestListComponent implements OnInit {
     let info = this._listCerReqService.readCertificate(item.certificateRequest);
     return info.find(obj => obj.name === 'commonName').value;
   }
-
-  changePage() {
-    this.pagedData.size = this.formListCertificateRequest.get("sizePage").value;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
   
   setPage(pageInfo) {
-    this.isLoading=true;
-    this.pagedData.currentPage = pageInfo.offset;
-    this.pagedData.size = pageInfo.pageSize;
+    console.log(pageInfo);
+    this.isLoading = true;
+    this.formListCertificateRequest.patchValue({"page":pageInfo.offset});
     this._listCerReqService
-      .getData(this.pagedData)
+      .getData(JSON.stringify(this.formListCertificateRequest.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
+        console.log(pagedData)
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         console.log(this.rowsData)

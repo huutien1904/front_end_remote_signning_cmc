@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { HsmService } from '../../hsm-management/hsm.service';
 import { TokenService } from '../token.service';
 
@@ -15,7 +16,8 @@ import { TokenService } from '../token.service';
 
 })
 export class TokenEditComponent implements OnInit {
-
+  public url = this.router.url;
+  public lastValue;
   private _unsubscribeAll = new Subject();
   public tokenForm: FormGroup;
   public contentHeader: object;
@@ -30,7 +32,7 @@ export class TokenEditComponent implements OnInit {
     "fromDate" : "",
     "toDate" : ""
   }
-
+  public HSMname = ""
   get f() {
     return this.tokenForm.controls;
   }
@@ -49,12 +51,9 @@ export class TokenEditComponent implements OnInit {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
-        confPassword: ['', Validators.required],
-        hsmInformationId: [null, Validators.required],
+        hsmInformationId: [{value:null}, Validators.required],
       },
-      {
-        validator: MustMatch('tokenPassword', 'confPassword')
-      }
+      
     );
     this.getHsmList();
     this.contentHeader = {
@@ -76,6 +75,49 @@ export class TokenEditComponent implements OnInit {
         ]
       }
     };
+
+    this._unsubscribeAll = new Subject();
+    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
+    this._tokenService.getTokenId(this.lastValue)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((token:any) => {
+      console.log(token.data);
+      const data = token.data ;
+      this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
+      this.tokenForm.controls.tokenName.patchValue(data.tokenName);
+      this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
+      this.tokenForm.controls.hsmInformationId.patchValue(data.hsm.hsmName);
+      this.HSMname = data.hsm.hsmName
+
+      // this.endEntityProfileName = profile.data.endEntityProfileName;
+      // this.formEditProfile
+      //   .get('endEntityProfileName')
+      //   .patchValue(profile.data.endEntityProfileName);
+      //   profile.data.distinguishedName.forEach((dn) => {
+      //   this.distinguishedName.push(
+      //     this.createDistinguishedName(
+      //       dn.name,
+      //       false,
+      //       dn.defaultValue,
+      //       dn.required,
+      //       dn.modifiable,
+      //       dn.validation
+      //     )
+      //   );
+      // });
+      // profile.data.alternativeName.forEach((dn) => {
+      //   this.alternativeName.push(
+      //     this.createAlternativeName(
+      //       dn.name,
+      //       false,
+      //       dn.defaultValue,
+      //       dn.required,
+      //       dn.modifiable,
+      //       dn.validation
+      //     )
+      //   );
+      // });
+    });
   }
   getHsmList() {
     console.log("check")
@@ -96,11 +138,12 @@ export class TokenEditComponent implements OnInit {
 
   }
   onSubmit() {
+    console.log("check")
     this.submitted = true;
     // stop here if form is invalid
-    if (this.tokenForm.invalid) {
-      return;
-    }
+    // if (this.tokenForm.invalid) {
+    //   return;
+    // }
     console.log(this.tokenForm.value);
     const newRequest = JSON.stringify({
       slotNumber: this.f.slotNumber.value,
@@ -108,21 +151,67 @@ export class TokenEditComponent implements OnInit {
       tokenPassword: this.f.tokenPassword.value,
       hsmId: this.f.hsmInformationId.value
     });
-    console.log(newRequest)
-    this._tokenService.createToken(newRequest)
-    .subscribe((res) => {
-      console.log(res);
-      if ((res.result = true)) {
-        this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
-        this.submitted = false;
-        this.router.navigate(['/apps/equipment-management/token/token-list']);
-        this.tokenForm.reset();
+    // console.log(newRequest)
+    // this._tokenService.createToken(newRequest)
+    // .subscribe((res) => {
+    //   console.log(res);
+    //   if ((res.result = true)) {
+    //     this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
+    //       positionClass: 'toast-top-center',
+    //       toastClass: 'toast ngx-toastr',
+    //       closeButton: true
+    //     });
+    //     this.submitted = false;
+    //     this.router.navigate(['/apps/equipment-management/token/token-list']);
+    //     this.tokenForm.reset();
+    //   }
+    // })
+
+    Swal.fire({
+      title: 'Bạn có chắc muốn cập nhật?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return await this._tokenService
+      .updateTokenId(this.lastValue,newRequest )
+      .pipe(takeUntil(this._unsubscribeAll))
+      .toPromise().then(res=>{
+        if(res.result==false){
+          throw new Error(res.message);
+        }
+        return res;
+      }).catch(
+        function (error) {
+          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+        }
+      );
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn cập nhật!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
       }
-    })
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'TOKEN đã được cập nhật.',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
   }
 
   exit() {
@@ -130,19 +219,4 @@ export class TokenEditComponent implements OnInit {
   }
 
 }
-export function MustMatch(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
-    const control = formGroup.controls[controlName];
-    const matchingControl = formGroup.controls[matchingControlName];
-    if (matchingControl?.errors && !matchingControl?.errors?.mustMatch) {
-      // return if another validator has already found an error on the matchingControl
-      return;
-    }
-    // set error on matchingControl if validation fails
-    if (control.value !== matchingControl.value) {
-      matchingControl.setErrors({ mustMatch: true });
-    } else {
-      matchingControl.setErrors(null);
-    }
-  };
-}
+

@@ -70,7 +70,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
   }
   initAddress() {
     this._addressService
-      .getProvince(237)
+      .getProvince()
       .pipe(
         map((res) => {
           const data = res.data.map((city) => ({

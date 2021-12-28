@@ -613,22 +613,22 @@ export class DashboardComponent implements OnInit {
     const pagedData = new PagedData<Keypair>();
     pagedData.size = 1;
     pagedData.currentPage = 0;
-    this._keypairService
-      .getData(pagedData, '')
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((response: any) => {
-        this.numberKeypair = response.data.length
-      });
+    // this._keypairService
+    //   .getData(pagedData, '')
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((response: any) => {
+    //     this.numberKeypair = response.data.length
+    //   });
   }
 
-  getNumberSubcriberCertificate() {
-    this._subscriberCertificateService
-      .getData(0, 1)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((response: any) => {
-        this.numberSubscriberCertificate = response.data.totalItems
-      })
-  }
+  // getNumberSubcriberCertificate() {
+  //   this._subscriberCertificateService
+  //     .getData(0, 1)
+  //     .pipe(takeUntil(this._unsubscribeAll))
+  //     .subscribe((response: any) => {
+  //       this.numberSubscriberCertificate = response.data.totalItems
+  //     })
+  // }
 
   ngAfterViewInit() {
     // Subscribe to core config changes

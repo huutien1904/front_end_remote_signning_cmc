@@ -47,6 +47,6 @@ export class CertificateRequestListService{
 
   public getData(body) :Observable<ResponseData<PagedData<CertificateRequest>>>{
      return this._httpClient.post<ResponseData<PagedData<CertificateRequest>>>
-     (`${environment.apiUrl}/certificate-request/list`,this.option);
+     (`${environment.apiUrl}/certificate-request/search`,body,this.option);
   }
 }

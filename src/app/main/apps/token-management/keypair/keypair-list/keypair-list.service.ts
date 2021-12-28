@@ -18,18 +18,19 @@ export class KeypairListService {
       this.onUserListChanged = new BehaviorSubject({});
     }
 
-  public getData(page:PagedData<Keypair>, subscriberId) :Observable<ResponseData<PagedData<Keypair>>>{
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const token = currentUser.token;
-    const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
-    console.log("service personal list");
-    const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      },
-      params:param
-    };
-     return this._httpClient.get<ResponseData<PagedData<Keypair>>>(`${environment.apiUrl}/keypair/list/${subscriberId}`,option);
+    // option
+  private readonly currentUser = JSON.parse(
+    localStorage.getItem("currentUser")
+  );
+  private readonly token = this.currentUser.token;
+  private option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + this.token,
+    },
+  };
+  public getData(body) :Observable<ResponseData<PagedData<Keypair>>>{
+    return this._httpClient.post<ResponseData<PagedData<Keypair>>>
+    (`${environment.apiUrl}/keypair/search`,body,this.option);
   }
 }
