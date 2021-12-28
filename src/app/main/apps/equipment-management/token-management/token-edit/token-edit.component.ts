@@ -51,7 +51,9 @@ export class TokenEditComponent implements OnInit {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
-        hsmInformationId: [{value:null}, Validators.required],
+        hsmInformationId: [{
+          
+        }, Validators.required],
       },
       
     );
@@ -86,41 +88,16 @@ export class TokenEditComponent implements OnInit {
       this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
       this.tokenForm.controls.tokenName.patchValue(data.tokenName);
       this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
-      this.tokenForm.controls.hsmInformationId.patchValue(data.hsm.hsmName);
-      this.HSMname = data.hsm.hsmName
-
-      // this.endEntityProfileName = profile.data.endEntityProfileName;
-      // this.formEditProfile
-      //   .get('endEntityProfileName')
-      //   .patchValue(profile.data.endEntityProfileName);
-      //   profile.data.distinguishedName.forEach((dn) => {
-      //   this.distinguishedName.push(
-      //     this.createDistinguishedName(
-      //       dn.name,
-      //       false,
-      //       dn.defaultValue,
-      //       dn.required,
-      //       dn.modifiable,
-      //       dn.validation
-      //     )
-      //   );
-      // });
-      // profile.data.alternativeName.forEach((dn) => {
-      //   this.alternativeName.push(
-      //     this.createAlternativeName(
-      //       dn.name,
-      //       false,
-      //       dn.defaultValue,
-      //       dn.required,
-      //       dn.modifiable,
-      //       dn.validation
-      //     )
-      //   );
-      // });
+      const hsmSelected =  this.hsmList.filter((item) =>{
+        return token.data.hsmId == item.hsmId
+      })
+      console.log(hsmSelected)
+      
+      
     });
   }
   getHsmList() {
-    console.log("check")
+   
     this._hsmService.getListHsm(this.body)
       .pipe(
         map(response => {
@@ -134,6 +111,7 @@ export class TokenEditComponent implements OnInit {
       )
       .subscribe(response => {
         this.hsmList = response;
+        console.log(this.hsmList);
       });
 
   }

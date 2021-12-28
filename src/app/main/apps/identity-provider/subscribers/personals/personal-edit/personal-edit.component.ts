@@ -28,6 +28,7 @@ export class PersonalEditComponent implements OnInit {
       countryType: "Independent State",
     },
   ];
+  public selectedCityName = "tien"
   public selectBasic:any = [
     {
       organizationName :"CMC",
@@ -38,6 +39,7 @@ export class PersonalEditComponent implements OnInit {
       organizationId :"2"
     },
   ]
+  // public selectedOrganizationId = []
   public countryResidencePlace: [any] = [
     {
       countryId: 237,
@@ -47,6 +49,7 @@ export class PersonalEditComponent implements OnInit {
     },
     
   ];
+  gender: string[] = ["Nam", "Nữ"];
   private readonly currentUser = JSON.parse(
     localStorage.getItem("currentUser")
   );
@@ -59,6 +62,8 @@ export class PersonalEditComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.getOrganizationId();
+    this.getPersonalDetail();
     this.formPersonalEdit = this.formBuilder.group({
       username: ["", [Validators.required,]],
       subscriberCategoryId: ["1", [Validators.required,]],
@@ -104,8 +109,7 @@ export class PersonalEditComponent implements OnInit {
       }
     };
     
-    this.getPersonalDetail();
-    this.getOrganizationId();
+    
     // this._personalEditService.getPersonalById()
   }
 
@@ -126,10 +130,26 @@ export class PersonalEditComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((personal:any) => {
         const data = personal.data
+        console.log(data);
         this.formPersonalEdit.controls['username'].setValue(data.username);
         this.formPersonalEdit.controls['email'].setValue(data.email);
-        this.formPersonalEdit.controls['organizationId'].setValue(data.organizationName);
-        console.log(personal);
+        this.formPersonalEdit.controls['firstName'].setValue(data.firstName);
+        this.formPersonalEdit.controls['middleName'].setValue(data.middleName);
+        this.formPersonalEdit.controls['lastName'].setValue(data.lastName);
+        this.formPersonalEdit.controls['personalCountryId'].setValue(data.personalCountryId);
+        this.formPersonalEdit.controls['birthday'].setValue(data.birthday);
+        console.log(this.organizationId);
+        console.log(data.organizationName);
+        const organizationName = this.organizationId.filter((value,index) =>{
+          return data.organizationName == value .organizationName
+        })
+        console.log(organizationName);
+        // this.formPersonalEdit.controls['organizationId'].setValue("CMC")
+        this.formPersonalEdit.controls.organizationId.patchValue("CMC");
+        // this.formPersonalEdit.patchValue({
+        //   formControlName1: myValue1, 
+        //   // formControlName2: myValue2 (can be omitted)
+        // });
       });
   }
 

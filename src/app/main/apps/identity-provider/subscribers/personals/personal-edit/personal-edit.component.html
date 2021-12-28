@@ -401,32 +401,6 @@
                       </table>
                     </div>
                   </div>
-                  <!-- <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="last-name-column">TÊN ĐỆM</label>
-                      <input
-                        type="text"
-                        id="last-name-column"
-                        class="form-control"
-                        placeholder="Last Name"
-                        name="lname-column"
-                        formControlName="personalMiddleName"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="city-column">TÊN</label>
-                      <input
-                        type="text"
-                        id="city-column"
-                        class="form-control"
-                        placeholder="City"
-                        name="city-column"
-                        formControlName="personalLastName"
-                      />
-                    </div>
-                  </div> -->
                 </div>
 
                 <div class="col-12 d-flex justify-content-end mt-2">
@@ -510,10 +484,10 @@
                           [items]="organizationId"
                           bindLabel="organizationName"
                           bindValue="organizationId"
-                          placeholder = "CMC"
                           [searchable]="false"
                           [clearable]="false"
                           formControlName="organizationId"
+                          [(ngModel)]="selectedCityName"
                         >
                         </ng-select>
                       </div>
@@ -528,7 +502,7 @@
                         class="form-control"
                         placeholder="03520001170"
                         name="city-column"
-                        formControlName="organizationId"
+                        formControlName="personalCountryId"
                       />
                     </div>
                   </div>
@@ -552,30 +526,19 @@
                       <label class="lable">GIỚI TÍNH</label>
                       <div class="">
                         <ng-select
-                          [items]="countryResidencePlace"
-                          bindLabel="countryName"
-                          bindValue="countryId"
+                          [items]="gender"
+                          bindLabel="name"
+                          bindValue="name"
                           [searchable]="false"
                           [clearable]="false"
-                          placeholder="Nam"
-                          formControlName="countryResidencePlace"
+                          
+                          formControlName="gender"
                         >
                         </ng-select>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="email-id-column">THƯ ĐIỆN TỬ (EMAIL)</label>
-                      <input
-                        type="email"
-                        id="email-id-column"
-                        class="form-control"
-                        name="email-id-column"
-                        placeholder="huutienn36@gmail.com"
-                      />
-                    </div>
-                  </div>
+                  
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="email-id-column">SỐ ĐIỆN THOẠI</label>
