@@ -21,7 +21,7 @@ export class PersonalsService {
    */
   constructor(private _httpClient: HttpClient) { }
 
-  checkAlias(alias) {
+  checkAlias(alias):Observable<any> {
     return this._httpClient.get(`${environment.apiUrl}/keypair/check?alias=${alias}`, this.option);
   }
 

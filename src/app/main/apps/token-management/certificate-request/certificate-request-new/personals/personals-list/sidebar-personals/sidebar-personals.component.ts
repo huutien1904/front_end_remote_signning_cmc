@@ -5,7 +5,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalsService } from '../personals.service';
 import { Hsm, Token } from 'app/main/models/Equipment';
@@ -158,14 +158,14 @@ export class SidebarPersonalsComponent implements OnInit {
           cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
           keypairLength: [this.keypairLengthList[0], Validators.required],
         }),
-        alias: [this.personal.firstName + ' ' + this.personal.middleName + ' ' + this.personal.lastName + , Validators.required],
+        alias: [this.personal.firstName + ' ' + this.personal.middleName + ' ' + this.personal.lastName + ' '+ Math.floor((Math.random() * 1000) + 1), [Validators.required]],
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personal.userId],
         hsm: [this.hsmList[0]],
         profile: [null, Validators.required],
       },
       {
-        validators: this.usedAlias('alias'),
+        validators: [this.checkAlias("alias")]
       }
     );
   }
@@ -300,19 +300,22 @@ export class SidebarPersonalsComponent implements OnInit {
     // });
   }
 
-  usedAlias(alias: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[alias];
-      if (control.errors) return;
-      this._personalsService.checkAlias(control.value).subscribe((res: any) => {
-        console.log(res);
-        let check: boolean = res.data;
-        if (check == true) {
-          control.setErrors({ used: true });
-        } else {
-          control.setErrors(null);
-        }
-      });
-    };
+  checkAlias(alias: string) :ValidatorFn {
+    return async (controls: AbstractControl) => {
+      const control = controls.get(alias);
+      const check =  await this._personalsService.checkAlias(control.value).toPromise().then(res => {
+        return res.data;
+      })
+      if (control.errors) {
+        return null;
+      }
+      if (check) {
+        control.setErrors({ used: true });
+        return { used: true };
+      } else {
+        control.setErrors(null);
+        return null;
+      }
+    }
   }
 }
