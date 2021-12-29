@@ -39,7 +39,7 @@ export class PersonalListService {
   
   public submitForm(body): Observable<any> {
     return this._httpClient.post<any>(
-      `${environment.apiUrl}/personal/create`, body,
+      `${environment.apiUrl}/staff/create`, body,
       this.option
     );
   }
@@ -52,7 +52,7 @@ export class PersonalListService {
   }
   public getOrganizationId(): Observable<any> {
     return this._httpClient.get<ResponseData<PagedData<Organization>>>(
-      `${environment.apiUrl}/organization/list?page=0&size=1000`,
+      `${environment.apiUrl}/organization/getall`,
       this.option
     );
   }
@@ -76,20 +76,9 @@ export class PersonalListService {
     (`${environment.apiUrl}/staff/search`,body, this.option);
   }
   
-  public searchPersonal(page: PagedData<Personal>, body): Observable<ResponseData<PagedData<Personal>>> {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const token = currentUser.token;
-    console.log(token)
-    const param = new HttpParams({ fromObject: { page: page.currentPage, size: page.size } });
-    console.log("service personal list");
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      // params:param
-    };
-    return this._httpClient.post<ResponseData<PagedData<Personal>>>(`${environment.apiUrl}/staff/search`, body, option);
+  public searchPersonal(body): Observable<ResponseData<PagedData<Personal>>> {
+    return this._httpClient.post<ResponseData<PagedData<Personal>>>
+    (`${environment.apiUrl}/staff/search`, body);
   }
   public deletePersonal(personalId): Observable<Object> {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));

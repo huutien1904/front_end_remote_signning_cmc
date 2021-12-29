@@ -319,9 +319,9 @@
         [width]="130"
       ></ngx-datatable-column>
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
-        <!-- <ng-template ngx-datatable-cell-template let-value="value">
+        <ng-template ngx-datatable-cell-template let-value="value">
             {{ value | date: "dd/MM/YYYY" }}
-          </ng-template> -->
+          </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column
         name="Giới tính"
@@ -384,7 +384,7 @@
                   ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
                 >
                 <a
-                  href="/apps/ip/subscribers/personals/personal-edit"
+                  href="/apps/ip/subscribers/personals/personal-edit/{{value.staffId}}"
                   ngbDropdownItem
                   class="d-flex align-items-center"
                   ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a

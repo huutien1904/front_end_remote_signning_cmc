@@ -83,6 +83,19 @@ export class CertificateRequestListComponent implements OnInit {
         ],
       },
     };
+
+    this.formListCertificateRequest = this.fb.group({
+
+      page: [null],
+      size: [this.sizePage[1]],
+      sort : [null],
+      contains: [null],
+      fromDate: [null],
+      toDate: [null],
+    });
+    
+    this.setPage({ offset: 0, pageSize: this.formListCertificateRequest.get('size').value });
+    
   }
 
   getOrganization(item): any {

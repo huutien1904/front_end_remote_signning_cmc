@@ -71,16 +71,19 @@ export class KeypairListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.formListPersonal = this.fb.group({
-      inputPersonal: [null, Validators.required],
+
+      page: [null],
+      size: [this.sizePage[2]],
+      sort : [null],
+      contains: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
-      sizePage: [this.sizePage[3]],
       gender: [],
       birthday: [],
     });
-    this.pagedData.size = this.sizePage[3];
-    this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    // this.pagedData.size = this.sizePage[3];
+    // this.pagedData.currentPage = 0;
+    this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
     this.contentHeader = {
       headerTitle: 'Danh sách',
       actionButton: true,
@@ -101,19 +104,24 @@ export class KeypairListComponent implements OnInit {
     };
   }
 
-  changePage() {
-    this.pagedData.size = this.formListPersonal.get("sizePage").value;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
-  }
 
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading=true;
     
-    this.pagedData.currentPage = pageInfo.offset;
-    this.pagedData.size = pageInfo.pageSize;
+    console.log(this.formListPersonal.value)
+
+    const body = {
+      page : this.formListPersonal.value.page,
+      size : this.formListPersonal.value.size,
+      sort : this.formListPersonal.value.sort,
+      contains : this.formListPersonal.value.contains,
+      fromDate: this.formListPersonal.value.fromDate,
+      toDate: this.formListPersonal.value.toDate,
+
+    }
     this._userListService
-      .getListPersonals(this.pagedData)
+      .getListPersonals(JSON.stringify(body))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         console.log(pagedData);

@@ -46,16 +46,7 @@ export class PersonalListComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
-  public body ={
-    "page" : 0,
-    "size" : 5,
-    "sort" : ["staffId,asc"],
-    "contains" : "",
-    "gender" : "",
-    "dateOfBirth" : "",
-    "fromDate" : "",
-    "toDate" : ""
-  }
+  
   public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
@@ -131,13 +122,14 @@ export class PersonalListComponent implements OnInit {
   
   //Set Table View
   setPage(pageInfo) {
+    console.log("check");
     console.log(pageInfo);
     this.isLoading=true;
     this.formListPersonal.patchValue({"page":pageInfo.offset}); 
     
     // this.pagedData.size = pageInfo.pageSize;
     console.log(JSON.stringify(this.formListPersonal.value));
-    console.log(JSON.stringify(this.body));
+    
     this._personalListService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -192,7 +184,9 @@ export class PersonalListComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log(this.formListPersonal.value)
+    console.log(this.formListPersonal.value)
+    this.formListPersonal.patchValue({"size":null}); 
+    this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
     // if(this.formListPersonal.value.birthday !== null){
     //   let birthday = this.formListPersonal.value.birthday._i.date + "/" + this.formListPersonal.value.birthday._i.month + "/" + this.formListPersonal.value.birthday._i.year
     //   this.formListPersonal.controls['birthday'].setValue(birthday);
@@ -203,7 +197,7 @@ export class PersonalListComponent implements OnInit {
     // console.log(this.formListPersonal.value);
     // this.body.contains = this.formListPersonal.value.inputPersonal
     // this._personalListService
-    //   .searchPersonal(this.pagedData,this.body)
+    //   .searchPersonal(JSON.stringify(this.formListPersonal.value))
     //   .pipe(takeUntil(this._unsubscribeAll))
     //   .subscribe((pagedData) => {
     //     console.log(pagedData)

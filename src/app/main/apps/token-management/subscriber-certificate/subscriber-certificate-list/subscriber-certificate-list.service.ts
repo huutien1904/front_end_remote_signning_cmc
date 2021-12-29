@@ -7,6 +7,7 @@ import { FormGroup } from '@angular/forms';
 import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
 import { PagedData } from 'app/main/models/PagedData';
 import { ResponseData } from 'app/main/models/ResponseData';
+import { CertificateRequest } from 'app/main/models/CertificateRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,17 @@ import { ResponseData } from 'app/main/models/ResponseData';
 export class SubscriberCertificateListService {
   constructor(private _httpClient: HttpClient) {}
 
+  // option
   private readonly currentUser = JSON.parse(
     localStorage.getItem('currentUser')
   );
   private readonly token = this.currentUser.token;
+  private option = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + this.token,
+    },
+  };
   readCertificate(cer): any[] {
     //decode
     let read: any = forge.pki.certificateFromPem(
@@ -48,7 +56,8 @@ export class SubscriberCertificateListService {
       ResponseData<PagedData<SubscriberCertificate>>
     >(`${environment.apiUrl}/subscriber-certificate/search`, body, option);
   }
-  updateCert(form: FormGroup): Observable<any> {
+
+  updateCert(form: FormGroup): Observable<ResponseData<PagedData<CertificateRequest>>> {
     const formData = new FormData();
     formData.append('keypairId', form.get('keypairId').value);
     formData.append('certificate', form.get('fileSource').value);

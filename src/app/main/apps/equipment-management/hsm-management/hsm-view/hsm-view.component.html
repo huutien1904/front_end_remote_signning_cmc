@@ -1,3 +1,94 @@
-<p>
-  hsm-view works!
-</p>
+<app-content-header [contentHeader]="contentHeader"> </app-content-header>
+<div class="content-body">
+  <section>
+    <div class="card">
+      <div class="card-body">
+        <h3>Chi tiết HSM</h3>
+        <form [formGroup]="HsmFormView" class="form form-horizontal">
+          <div class="form_content">
+            <div class="row">
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Tên HSM</label>
+                  <input
+                    type="text"
+                    formControlName="hsmName"
+                    class="form-control"
+                    readonly
+                    
+                  />
+                  
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">ID HSM</label>
+                  <input
+                    type="text"
+                    formControlName="hardwareId"
+                    class="form-control"
+                    readonly
+                    
+                  />
+                  
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Hãng sản xuất</label>
+                  <input
+                    type="text"
+                    formControlName="hsmManufacturer"
+                    class="form-control"
+                    readonly
+                    
+                  />
+                  
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Model</label>
+                  <input
+                    type="text"
+                    formControlName="hsmModel"
+                    class="form-control"
+                    readonly
+                    
+                  />
+                  
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label>Loại HSM</label>
+                  <ng-select
+                    
+                    formControlName="hsmType"
+                    readonly
+                    
+                  >
+                  </ng-select>
+                  
+                </div>
+              </div>
+              <div class="col-md-6 offset-3">
+                <div class="form-group">
+                  <label for="UDUserName">Đường dẫn file thư viện</label>
+                  <input
+                    type="text"
+                    formControlName="hsmLibraryPath"
+                    class="form-control"
+                    readonly
+                  />
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

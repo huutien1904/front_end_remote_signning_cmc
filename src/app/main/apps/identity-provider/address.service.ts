@@ -25,9 +25,9 @@ export class AddressService {
     },
   };
 
-  public getProvince(idCountry): Observable<ResponseData<Province[]>> {
+  public getProvince(): Observable<ResponseData<Province[]>> {
     return this._httpClient.get<ResponseData<Province[]>>(
-      `${environment.apiUrl}/address/province/list/${idCountry}`,
+      `${environment.apiUrl}/address/allProvince`,
       this.option
     );
     /**
@@ -44,19 +44,19 @@ export class AddressService {
   }
   public getDistrict(idProvince): Observable<ResponseData<District[]>> {
     return this._httpClient.get<ResponseData<District[]>>(
-      `${environment.apiUrl}/address/district/list/${idProvince}`,
+      `${environment.apiUrl}/address/districtByProvince/${idProvince}`,
       this.option
     );
   }
   public getCommune(idDistrict): Observable<ResponseData<Commune[]>> {
     return this._httpClient.get<ResponseData<Commune[]>>(
-      `${environment.apiUrl}/address/commune/list/${idDistrict}`,
+      `${environment.apiUrl}/address/communeByDistrict/${idDistrict}`,
       this.option
     );
   }
   public getStreet(idCommune): Observable<ResponseData<Street[]>> {
     return this._httpClient.get<ResponseData<Street[]>>(
-      `${environment.apiUrl}/address/street/list/${idCommune}`,
+      `${environment.apiUrl}/address/streetByCommune/${idCommune}`,
       this.option
     );
   }

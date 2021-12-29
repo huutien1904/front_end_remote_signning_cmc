@@ -21,14 +21,7 @@
               <div class="media mb-2">
                 <div *ngIf="currentUser.avatar.length > 0; else customAvatar">
                   <img
-                    class="
-                      user-avatar
-                      users-avatar-shadow
-                      rounded
-                      mr-2
-                      my-25
-                      cursor-pointer
-                    "
+                    class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
                     src="assets/images/portrait/small/avatar-s-11.jpg"
                     height="90"
                     width="90"
@@ -88,14 +81,14 @@
                         class="form-control"
                         placeholder="tien1904"
                         name="fname-column"
-                        formControlName="personalFirstName"
+                        formControlName="username"
                       />
                     </div>
                   </div>
                   <!-- email -->
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="first-name-column">Email</label>
+                      <label for="first-name-column">EMAIL</label>
                       <input
                         type="text"
                         id="first-name-column"
@@ -408,84 +401,6 @@
                       </table>
                     </div>
                   </div>
-                  <!-- <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="last-name-column">TÊN ĐỆM</label>
-                      <input
-                        type="text"
-                        id="last-name-column"
-                        class="form-control"
-                        placeholder="Last Name"
-                        name="lname-column"
-                        formControlName="personalMiddleName"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="city-column">TÊN</label>
-                      <input
-                        type="text"
-                        id="city-column"
-                        class="form-control"
-                        placeholder="City"
-                        name="city-column"
-                        formControlName="personalLastName"
-                      />
-                    </div>
-                  </div> -->
-                </div>
-                <div class="row">
-                  <!-- <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="country-floating">SỐ CCCD/PASSPORT </label>
-                            <input
-                            type="text"
-                            id="country-floating"
-                            class="form-control"
-                            name="country-floating"
-                            placeholder="Country"
-                            formControlName="personalCountryId"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="company-column">NGÀY SINH </label>
-                            <input
-                            type="text"
-                            id="company-column"
-                            class="form-control"
-                            name="company-column"
-                            placeholder="Company"
-                            formControlName="birthday"
-                            />
-                        </div>
-                    </div> -->
-                  <!-- <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="email-id-column">GIỚI T</label>
-                            <input
-                            type="email"
-                            id="email-id-column"
-                            class="form-control"
-                            name="email-id-column"
-                            placeholder="Email"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="email-id-column">THƯ ĐIỆN TỬ</label>
-                            <input
-                            type="email"
-                            id="email-id-column"
-                            class="form-control"
-                            name="email-id-column"
-                            placeholder="Email"
-                            />
-                        </div>
-                    </div> -->
                 </div>
 
                 <div class="col-12 d-flex justify-content-end mt-2">
@@ -532,8 +447,8 @@
                         type="text"
                         id="first-name-column"
                         class="form-control"
-                        placeholder="Nguyễn"
                         name="fname-column"
+                        formControlName="firstName"
                       />
                     </div>
                   </div>
@@ -544,8 +459,8 @@
                         type="text"
                         id="first-name-column"
                         class="form-control"
-                        placeholder="Hữu"
                         name="fname-column"
+                        formControlName="middleName"
                       />
                     </div>
                   </div>
@@ -556,8 +471,8 @@
                         type="text"
                         id="last-name-column"
                         class="form-control"
-                        placeholder="Tiến"
                         name="lname-column"
+                        formControlName="lastName"
                       />
                     </div>
                   </div>
@@ -566,13 +481,13 @@
                       <label class="lable">TỔ CHỨC</label>
                       <div class="">
                         <ng-select
-                          [items]="countryResidencePlace"
-                          bindLabel="countryName"
-                          bindValue="countryId"
+                          [items]="organizationId"
+                          bindLabel="organizationName"
+                          bindValue="organizationId"
                           [searchable]="false"
                           [clearable]="false"
-                          placeholder="CMC"
-                          formControlName="countryResidencePlace"
+                          formControlName="organizationId"
+                          [(ngModel)]="selectedCityName"
                         >
                         </ng-select>
                       </div>
@@ -587,6 +502,7 @@
                         class="form-control"
                         placeholder="03520001170"
                         name="city-column"
+                        formControlName="personalCountryId"
                       />
                     </div>
                   </div>
@@ -610,30 +526,19 @@
                       <label class="lable">GIỚI TÍNH</label>
                       <div class="">
                         <ng-select
-                          [items]="countryResidencePlace"
-                          bindLabel="countryName"
-                          bindValue="countryId"
+                          [items]="gender"
+                          bindLabel="name"
+                          bindValue="name"
                           [searchable]="false"
                           [clearable]="false"
-                          placeholder="Nam"
-                          formControlName="countryResidencePlace"
+                          
+                          formControlName="gender"
                         >
                         </ng-select>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="email-id-column">THƯ ĐIỆN TỬ (EMAIL)</label>
-                      <input
-                        type="email"
-                        id="email-id-column"
-                        class="form-control"
-                        name="email-id-column"
-                        placeholder="huutienn36@gmail.com"
-                      />
-                    </div>
-                  </div>
+                  
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="email-id-column">SỐ ĐIỆN THOẠI</label>

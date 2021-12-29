@@ -97,19 +97,19 @@ export class ListSidebarComponent implements OnInit {
     this.isLoading=true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
-    this._keypairService
-      .getData(this.pagedData, this.personal.subscriberId)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log(pagedData)
-        this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data;
-        console.log(this.rowsData)
-        this.rowsData = pagedData.data.data.map(item => ({
-          ...item,
-        }))
-        this.isLoading=false;
-      });
+    // this._keypairService
+    //   .getData(this.pagedData, this.personal.subscriberId)
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((pagedData) => {
+    //     console.log(pagedData)
+    //     this.pagedData = pagedData.data;
+    //     this.rowsData = pagedData.data.data;
+    //     console.log(this.rowsData)
+    //     this.rowsData = pagedData.data.data.map(item => ({
+    //       ...item,
+    //     }))
+    //     this.isLoading=false;
+    //   });
   }
 
   /**
