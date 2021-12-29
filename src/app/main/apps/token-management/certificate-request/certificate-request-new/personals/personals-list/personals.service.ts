@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
+import { Keypair } from 'app/main/models/Keypair';
+import { ResponseData } from 'app/main/models/ResponseData';
+import { CertificateRequest } from 'app/main/models/CertificateRequest';
 
 @Injectable()
 export class PersonalsService {
@@ -25,8 +28,14 @@ export class PersonalsService {
     return this._httpClient.get(`${environment.apiUrl}/keypair/check?alias=${alias}`, this.option);
   }
 
-  public submitForm(body): Observable<any> {
-    return this._httpClient.post<any>(
+  public createKeypair(body): Observable<ResponseData<Keypair>> {
+    return this._httpClient.post<ResponseData<Keypair>>(
+      `${environment.apiUrl}/keypair/create`,body,
+      this.option
+    );
+  }
+  public createCertificateRequest(body): Observable<ResponseData<CertificateRequest>> {
+    return this._httpClient.post<ResponseData<CertificateRequest>>(
       `${environment.apiUrl}/certificate-request/create`,body,
       this.option
     );

@@ -240,11 +240,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     this.formUploadCert
       .get("keypairId")
       .patchValue(this.keypairSelected.keypairId);
-    this.formUploadCert
-      .get("certificateRequestId")
-      .patchValue(
-        this.keypairSelected.certificateRequests[0].certificateRequestId
-      );
+   
     this.formUploadCert.get("caId").patchValue("cacertificate_00001");
     if (this.formUploadCert.invalid) {
       return;
@@ -265,7 +261,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
               }
             );
             this.modalRef.close();
-            this.keypairSelected.keypairStatus.keypairStatus =
+            this.keypairSelected.keypairStatus =
               "Đã được lưu trữ chứng thực";
           } else {
             this.toastr.error("👋Chứng thư số cập nhật", "Thất bại", {

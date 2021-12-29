@@ -1,19 +1,18 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DateAdapter } from "@angular/material/core";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { DateAdapter } from "@angular/material/core";
 import {
   ColumnMode,
   DatatableComponent,
-  SelectionType,
+  SelectionType
 } from "@swimlane/ngx-datatable";
+import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
-import { threadId } from "worker_threads";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-personals",

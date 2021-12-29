@@ -5,7 +5,13 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalsService } from '../personals.service';
 import { Hsm, Token } from 'app/main/models/Equipment';
@@ -16,6 +22,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { PersonalDetail } from 'app/main/models/Personal';
 import { AddressService } from 'app/main/apps/identity-provider/address.service';
 import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
+import { controllers } from 'chart.js';
 
 @Component({
   selector: 'app-sidebar-personals',
@@ -44,15 +51,15 @@ export class SidebarPersonalsComponent implements OnInit {
   // };
   public cryptoAlgorithm = [
     {
-      cryptoSystem: "RSA",
-      keypairLength : ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+      cryptoSystem: 'RSA',
+      keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
     },
     {
-      cryptoSystem: "ECDSA",
-      keypairLength : ['secp224r1', 'secp384r1', 'secp521r1'],
-    }
+      cryptoSystem: 'ECDSA',
+      keypairLength: ['secp224r1', 'secp384r1', 'secp521r1'],
+    },
   ];
-  public keypairLengthList=this.cryptoAlgorithm[0].keypairLength;
+  public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
   public tokenList: Token[];
   public hsmList = new Array<Hsm>();
   public strProfile: string = '';
@@ -158,14 +165,18 @@ export class SidebarPersonalsComponent implements OnInit {
           cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
           keypairLength: [this.keypairLengthList[0], Validators.required],
         }),
-        alias: [this.personal.firstName + ' ' + this.personal.middleName + ' ' + this.personal.lastName + ' '+ Math.floor((Math.random() * 1000) + 1), [Validators.required]],
+        alias: [
+          this.personal.username +
+            Math.floor(Math.random() * 1000 + 1),
+          [Validators.required],
+        ],
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personal.userId],
         hsm: [this.hsmList[0]],
         profile: [null, Validators.required],
       },
       {
-        validators: [this.checkAlias("alias")]
+        asyncValidators: [this.checkAlias('alias')],
       }
     );
   }
@@ -176,16 +187,21 @@ export class SidebarPersonalsComponent implements OnInit {
 
   downloadSidebar(res) {
     this.modal.open(this.modalLink);
-    const data = res.data.certificateRequest;
+    const data = res.data.certificateRequestContent;
     const blob = new Blob([data], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    this.fileName = res.data.certificateRequestId + '.csr';
+    // this.fileName = res.data.certificateRequestId + '.csr';
+    this.fileName = res.data.keypairAlias + '.csr';
   }
   changeCrypto() {
-    this.keypairLengthList = this.newRequestForm.get("cryptoAlgorithm").get("cryptoSystem").value.keypairLength;
-    this.newRequestForm.get("cryptoAlgorithm").patchValue({keypairLength:this.keypairLengthList[0]});
+    this.keypairLengthList = this.newRequestForm
+      .get('cryptoAlgorithm')
+      .get('cryptoSystem').value.keypairLength;
+    this.newRequestForm
+      .get('cryptoAlgorithm')
+      .patchValue({ keypairLength: this.keypairLengthList[0] });
   }
 
   changeHsm() {
@@ -266,46 +282,62 @@ export class SidebarPersonalsComponent implements OnInit {
       this.strProfile += attribute + ' = ' + value;
     }
   }
-
-  onSubmit() {
+  async onSubmit() {
     this.submitted = true;
     if (this.newRequestForm.invalid) {
       return;
     }
-    console.log(this.newRequestForm.value);
-    
-    // const newRequest = JSON.stringify({
-    //   cryptoSystem: this.f.cryptoSystem.value,
-    //   keypairLength: this.f.keypairLength.value,
-    //   alias: this.f.alias.value,
-    //   tokenId: this.f.tokenId.value,
-    //   templateKeyId: 'keypairtemplate_00001',
-    //   subscriberId: this.f.subscriberId.value,
-    // });
-    // this._personalsService.submitForm(newRequest).subscribe((res: any) => {
-    //   console.log(res);
-    //   if ((res.result = true)) {
-    //     this.toggleSidebar();
-    //     this.toastr.success(
-    //       '👋 Bạn đã tạo yêu cầu chứng thực mới',
-    //       'Thành công',
-    //       {
-    //         positionClass: 'toast-top-center',
-    //         toastClass: 'toast ngx-toastr',
-    //         closeButton: true,
-    //       }
-    //     );
-    //     this.downloadSidebar(res);
-    //   }
-    // });
+
+    const newRequest = JSON.stringify({
+      cryptoAlgorithm: [this.newRequestForm
+        .get('cryptoAlgorithm')
+        .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+        .get('cryptoAlgorithm')
+        .get('keypairLength').value],
+      alias: this.f.alias.value,
+      tokenId: this.f.tokenId.value.tokenId,
+      templateKeyId: '1',
+      userId: this.f.userId.value,
+    });
+    console.log(newRequest);
+    let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res=>
+      {
+        return res.data.keypairId;
+      }
+      );
+      if(keypairId==null){
+        return;
+      }
+
+    this._personalsService.createCertificateRequest(JSON.stringify({keypairId: keypairId})).subscribe((res: any) => {
+      console.log(res);
+      if ((res.result = true)) {
+        this.toggleSidebar();
+        this.toastr.success(
+          '👋 Bạn đã tạo yêu cầu chứng thực mới',
+          'Thành công',
+          {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          }
+        );
+        this.downloadSidebar(res);
+      }
+    });
   }
 
-  checkAlias(alias: string) :ValidatorFn {
+  checkAlias(alias: string): ValidatorFn {
     return async (controls: AbstractControl) => {
       const control = controls.get(alias);
-      const check =  await this._personalsService.checkAlias(control.value).toPromise().then(res => {
-        return res.data;
-      })
+      console.log(control);
+      console.log(controls);
+      const check = await this._personalsService
+        .checkAlias(control.value)
+        .toPromise()
+        .then((res) => {
+          return res.data;
+        });
       if (control.errors) {
         return null;
       }
@@ -313,9 +345,10 @@ export class SidebarPersonalsComponent implements OnInit {
         control.setErrors({ used: true });
         return { used: true };
       } else {
+        console.log('check false');
         control.setErrors(null);
         return null;
       }
-    }
+    };
   }
 }

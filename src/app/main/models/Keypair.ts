@@ -2,14 +2,14 @@ import { CertificateRequest } from "./CertificateRequest";
 
 export class Keypair {
   keypairId: string;
+  userId:string;
   cryptoSystem: string;
   keypairLength: string;
-  keypairStatus: KeypairStatus;
-  KeypairTemplate: KeypairTemplate;
-  subscriberId: string;
-  slotNumber: string;
-  keypairAccessRight:KeypairAccessRight[];
-  certificateRequests:CertificateRequest[];
+  keypairAlias: string;
+  keypairTemplate: string;
+  keypairStatus: string;
+  updatedAt:string;
+  createdAt:string
 }
 export class KeypairAccessRight{
   keyAlias:string;
