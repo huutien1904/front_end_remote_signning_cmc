@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
+  AsyncValidatorFn,
   FormBuilder,
   FormGroup,
   ValidatorFn,
@@ -16,7 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalsService } from '../personals.service';
 import { Hsm, Token } from 'app/main/models/Equipment';
 import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PersonalDetail } from 'app/main/models/Personal';
@@ -167,16 +168,12 @@ export class SidebarPersonalsComponent implements OnInit {
         }),
         alias: [
           this.personal.username +
-            Math.floor(Math.random() * 1000 + 1),
-          [Validators.required],
-        ],
+            Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
+        ,
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personal.userId],
         hsm: [this.hsmList[0]],
         profile: [null, Validators.required],
-      },
-      {
-        asyncValidators: [this.checkAlias('alias')],
       }
     );
   }
@@ -308,7 +305,6 @@ export class SidebarPersonalsComponent implements OnInit {
       if(keypairId==null){
         return;
       }
-
     this._personalsService.createCertificateRequest(JSON.stringify({keypairId: keypairId})).subscribe((res: any) => {
       console.log(res);
       if ((res.result = true)) {
@@ -327,28 +323,17 @@ export class SidebarPersonalsComponent implements OnInit {
     });
   }
 
-  checkAlias(alias: string): ValidatorFn {
-    return async (controls: AbstractControl) => {
-      const control = controls.get(alias);
-      console.log(control);
-      console.log(controls);
-      const check = await this._personalsService
+  checkAlias(): AsyncValidatorFn  {
+    return  (control: AbstractControl) : Observable<{ [key: string]: any } | null> => {
+      return this._personalsService
         .checkAlias(control.value)
-        .toPromise()
-        .then((res) => {
-          return res.data;
-        });
-      if (control.errors) {
-        return null;
-      }
-      if (check) {
-        control.setErrors({ used: true });
-        return { used: true };
-      } else {
-        console.log('check false');
-        control.setErrors(null);
-        return null;
-      }
-    };
+        .pipe(map((res) => {
+          if(res.data) {
+            return { used: true }
+          }else {
+            return null;
+          }
+        }));
+    }
   }
 }
