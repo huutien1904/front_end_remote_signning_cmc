@@ -16,6 +16,7 @@ import { TokenService } from '../token.service';
 
 })
 export class TokenEditComponent implements OnInit {
+  // public 
   public url = this.router.url;
   public lastValue;
   private _unsubscribeAll = new Subject();
@@ -33,9 +34,9 @@ export class TokenEditComponent implements OnInit {
     "toDate" : ""
   }
   public HSMname = ""
-  get f() {
-    return this.tokenForm.controls;
-  }
+
+  // end public
+  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,9 +52,7 @@ export class TokenEditComponent implements OnInit {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
-        hsmInformationId: [{
-          
-        }, Validators.required],
+        hsmInformationId: ["", Validators.required],
       },
       
     );
@@ -92,10 +91,18 @@ export class TokenEditComponent implements OnInit {
         return token.data.hsmId == item.hsmId
       })
       console.log(hsmSelected)
-      
+      this.hsmList = hsmSelected
+    //   this.tokenForm.patchValue({
+    //     hsmInformationId: "token",
+    // });
+    // this.tokenForm
+    //       .get('hsmInformationId')
+    //       .patchValue(hsmSelected);
       
     });
   }
+
+  // function
   getHsmList() {
    
     this._hsmService.getListHsm(this.body)
@@ -195,6 +202,9 @@ export class TokenEditComponent implements OnInit {
   exit() {
     this.router.navigateByUrl("/apps/equipment-management/search")
   }
-
+  get f() {
+    return this.tokenForm.controls;
+  }
+  // end function
 }
 
