@@ -9,7 +9,7 @@ import { PersonalListService } from '../../identity-provider/subscribers/persona
 
 const routes: Routes = [
   {
-    path: "subscriber-certificate-create",
+    path: "update",
     component: SubscriberCertificateCreateComponent,
     
   },

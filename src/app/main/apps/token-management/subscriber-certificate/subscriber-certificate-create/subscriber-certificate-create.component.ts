@@ -45,15 +45,17 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
-  public keypairSelected: Keypair;
+  public totalItems:any = 0;
+  public personalSelected: Personal;
   public modalRef;
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
   public formUploadCert: FormGroup;
+  public fileUploaded = true;
   /**
    *
-   * @param _userListService
+   * @param _personalListService
    * @param _coreSidebarService
    * @param _coreConfigService
    * @param modalService
@@ -61,7 +63,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
    * @param dateAdapter
    */
   constructor(
-    private _userListService: PersonalListService,
+    private _personalListService: PersonalListService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private _subscriberCertificateService: SubscriberCertificateListService,
@@ -87,42 +89,37 @@ export class SubscriberCertificateCreateComponent implements OnInit {
    */
   ngOnInit(): void {
     this.formListPersonal = this.fb.group({
-      inputPersonal: [null, Validators.required],
-      fromDate: [null],
-      toDate: [null],
-      sizePage: [this.sizePage[3]],
-      gender: [],
-      birthday: [],
+      page: [""],
+      size: [this.sizePage[0]],
+      sort: null,
+      contains: ["", Validators.required],
+      gender: [null],
+      dateOfBirth: [""],
+      fromDate: [""],
+      toDate: [""],
     });
     this.formUploadCert = this.fb.group({
-      fileSource: [null, Validators.required],
-      certificate: ["", Validators.required],
-      keypairId: [null, Validators.required],
-      certificateRequestId: [null, Validators.required],
-      caId: [null],
+      certificateContent: ['', Validators.required],
+      userId: [null, Validators.required],
+      
     });
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
     this.contentHeader = {
-      headerTitle: 'Nhập chứng thư số',
+      headerTitle: 'Chứng thư số',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Quản lý cặp khóa',
-            isLink: false
-          },
-          {
-            name: 'Danh sách chưng thư số',
+            name: 'Danh sách',
             isLink: true,
             link: '/apps/equipment-management/subscriber-certificate-list'
           },
           {
-            name: 'Tạo chứng thư số',
-            isLink: true,
-            link: '/apps/equipment-management/subscriber-certificate-create'
+            name: 'Cập nhật chứng thư số',
+            isLink: false
           }
         ]
       }
@@ -135,25 +132,15 @@ export class SubscriberCertificateCreateComponent implements OnInit {
 
   //Set Table View
   setPage(pageInfo) {
-    console.log("lololo");
     console.log(pageInfo);
-    let body = {
-      "page" : 0,
-      "size" : 15,
-      "sort" : ["staffId,asc"],
-      "contains" : "",
-      "gender" : "",
-      "dateOfBirth" : "",
-      "fromDate" : "",
-      "toDate" : ""
-    }
-    this.isLoading = true;
-    this.pagedData.currentPage = pageInfo.offset;
-    this.pagedData.size = pageInfo.pageSize;
-    this._userListService
-      .getListPersonals(this.pagedData)
+    this.isLoading=true;
+    this.formListPersonal.patchValue({"page":pageInfo.offset}); 
+    this._personalListService
+      .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((personalList:any) => ({
           ...personalList,
@@ -164,7 +151,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
             " " +
             personalList.lastName,
         }));
-        this.isLoading = false;
+        this.isLoading=false;
       });
   }
 
@@ -174,47 +161,17 @@ export class SubscriberCertificateCreateComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }, modal) {
-    this.openKeypairList(modal);
     console.log(selected);
-    this.pagedKeypairData.size = this.sizePage[0];
-    this.pagedKeypairData.currentPage = 0;
-    console.log(selected[0].subscriberId);
-
-    this.setKeypairListPage(selected[0].subscriberId, {
-      offset: 0,
-      pageSize: 5,
-    });
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
-  setKeypairListPage(subscriberId: string, pageInfo) {
-    console.log(pageInfo);
-    this.isKeypairListLoading = true;
-    this.pagedKeypairData.currentPage = pageInfo.offset;
-    this.pagedKeypairData.size = pageInfo.pageSize;
-    this._keypairService
-      .getKeypairList(subscriberId, this.pagedKeypairData)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log("pagedData", pagedData);
-        this.pagedKeypairData = pagedData.data;
-        this.rowsKeypairData = pagedData.data.data;
-        this.isKeypairListLoading = false;
-      });
+    this.openUploadCert(modal);
+    this.personalSelected= selected[0];
+    this.formUploadCert.get("userId").setValue(this.personalSelected.userId);
   }
 
-  openUploadCert(modal, row) {
+  openUploadCert(modal) {
     this.formUploadCert.reset();
-    this.keypairSelected = row;
     this.modalRef = this.modalService.open(modal, {
       centered: true,
       size: "lg",
-    });
-  }
-  openKeypairList(modal) {
-    this.modalService.open(modal, {
-      centered: true,
-      size: "xl",
     });
   }
 
@@ -226,23 +183,19 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     console.log(this.formListPersonal);
   }
   onFileChange(event) {
+    this.fileUploaded = true;
     console.log(event);
     if (event.target.files.length > 0) {
       console.log(event.target.files);
       const file = event.target.files[0];
-      this.formUploadCert.patchValue({
-        fileSource: file,
-      });
-      console.log(this.formUploadCert.get("fileSource"));
+      this.formUploadCert.get("certificateContent").setValue(file);
+      console.log(this.formUploadCert.get("certificateContent"));
     }
   }
   onSubmitCert(): boolean {
-    this.formUploadCert
-      .get("keypairId")
-      .patchValue(this.keypairSelected.keypairId);
-   
-    this.formUploadCert.get("caId").patchValue("cacertificate_00001");
+  
     if (this.formUploadCert.invalid) {
+      this.fileUploaded = false
       return;
     }
     this._subscriberCertificateService
@@ -261,8 +214,6 @@ export class SubscriberCertificateCreateComponent implements OnInit {
               }
             );
             this.modalRef.close();
-            this.keypairSelected.keypairStatus =
-              "Đã được lưu trữ chứng thực";
           } else {
             this.toastr.error("👋Chứng thư số cập nhật", "Thất bại", {
               positionClass: "toast-top-center",

@@ -15,8 +15,8 @@ export class KeypairAccessRight{
   keyAlias:string;
 }
 export class KeypairStatus {
-  keypairStatusId: string;
-  keypairStatus: string;
+  keypairStatusId: number;
+  keypairStatusName: string;
 }
 export class KeypairTemplate {
   keypairTemplateId: string;

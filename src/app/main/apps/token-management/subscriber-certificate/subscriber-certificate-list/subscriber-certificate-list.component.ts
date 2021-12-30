@@ -1,18 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { CoreConfigService } from '@core/services/config.service';
 import {
-  NgbDate,
-  NgbCalendar,
-  NgbDateParserFormatter,
+  NgbDateParserFormatter
 } from '@ng-bootstrap/ng-bootstrap';
 import {
-  SelectionType,
-  DatatableComponent,
-  ColumnMode,
+  ColumnMode, DatatableComponent, SelectionType
 } from '@swimlane/ngx-datatable';
-import { EntityProfile } from 'app/main/models/EntityProfile';
 import { PagedData } from 'app/main/models/PagedData';
 import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
 import { Subject } from 'rxjs';
@@ -32,7 +27,6 @@ export class SubscriberCertificateListComponent implements OnInit {
   public chkBoxSelected = [];
   public selected = [];
 
-
   //Public Properties
   formListSubscriberCertificate: FormGroup;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
@@ -49,7 +43,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   public totalItems: any = 0;
   public ColumnMode = ColumnMode;
   constructor(
-    private _coreConfigService : CoreConfigService,
+    private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
     public formatter: NgbDateParserFormatter,
     public _subscriberCertificateService: SubscriberCertificateListService,
@@ -135,17 +129,17 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log(this.formListSubscriberCertificate.get('toDate').value);
   }
 
-    /**
+  /**
    * Custom Checkbox On Select
    *
    * @param { selected }
    */
-     customCheckboxOnSelect({ selected }) {
-      this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
-      this.chkBoxSelected.push(...selected);
-    }
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
 
-      /**
+  /**
    * For ref only, log selected values
    *
    * @param selected
@@ -155,5 +149,4 @@ export class SubscriberCertificateListComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
-  
 }
