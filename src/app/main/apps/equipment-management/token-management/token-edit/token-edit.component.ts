@@ -7,8 +7,6 @@ import { map, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { HsmService } from '../../hsm-management/hsm.service';
 import { TokenService } from '../token.service';
-import { Token } from 'app/main/models/Equipment';
-
 
 @Component({
   selector: 'app-token-edit',
@@ -18,20 +16,18 @@ import { Token } from 'app/main/models/Equipment';
 
 })
 export class TokenEditComponent implements OnInit {
-  private _unsubscribeAll = new Subject();
-  public tokenForm: FormGroup;
   // public 
   public url = this.router.url;
   public lastValue;
-  public tokeInfo:Token;
-  
+  private _unsubscribeAll = new Subject();
+  public tokenForm: FormGroup;
   public contentHeader: object;
   public submitted = false;
   public hsmList: any[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
-    "size" : 100,
+    "size" : 4,
     "sort" : ["hsmId,asc"],
     "contains" : "",
     "fromDate" : "",
@@ -42,44 +38,25 @@ export class TokenEditComponent implements OnInit {
   // end public
   
 
-  
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router,
     private _tokenService: TokenService,
     private _hsmService: HsmService,
     private   toastr: ToastrService
-  ) { 
-    this._unsubscribeAll = new Subject();
-    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
-    this.tokenForm = this.fb.group(
+  ) { }
+
+  ngOnInit() {
+    this.tokenForm = this.formBuilder.group(
       {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
-        tokenPassword: [null, Validators.required],
-        hsmId: [null, Validators.required],
-      }
+        tokenPassword: ['', Validators.required],
+        hsmInformationId: ["", Validators.required],
+      },
+      
     );
-  }
-
-  async ngOnInit() {
-
-    this.hsmList = await this._hsmService.getListHsm(this.body)
-    .pipe(takeUntil(this._unsubscribeAll))
-    .toPromise().then(res => {
-      return res.data.data;
-    });
-    console.log(this.hsmList);
-    this.tokeInfo = await this._tokenService.getTokenId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).toPromise().then(res=>{
-       return res.data;
-     });
-     console.log(this.tokeInfo);
-     this.tokenForm.patchValue({
-       tokenName: this.tokeInfo.tokenName,
-       slotNumber : this.tokeInfo.slotNumber
-     });
-
-    
+    this.getHsmList();
     this.contentHeader = {
       headerTitle: 'Tạo Token',
       actionButton: true,
@@ -100,18 +77,55 @@ export class TokenEditComponent implements OnInit {
       }
     };
 
+    this._unsubscribeAll = new Subject();
+    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
+    this._tokenService.getTokenId(this.lastValue)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((token:any) => {
+      console.log(token.data);
+      const data = token.data ;
+      this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
+      this.tokenForm.controls.tokenName.patchValue(data.tokenName);
+      this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
+      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmName);
+      
+      // const hsmSelected =  this.hsmList.filter((item) =>{
+      //   return token.data.hsmId == item.hsmId
+      // })
+
+      // console.log(hsmSelected)
+      // this.hsmList = hsmSelected
+      
+    });
   }
 
-  get f() {
-    return this.tokenForm.controls;
+  // function
+  getHsmList() {
+   
+    this._hsmService.getListHsm(this.body)
+      .pipe(
+        map(response => {
+          console.log(response)
+          const data = response.data.data.map(hsmId => ({
+            ...hsmId
+          }))
+          return data;
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe(response => {
+        this.hsmList = response;
+        console.log(this.hsmList);
+      });
+
   }
   onSubmit() {
     console.log("check")
     this.submitted = true;
     // stop here if form is invalid
-    // if (this.tokenForm.invalid) {
-    //   return;
-    // }
+    if (this.tokenForm.invalid) {
+      return;
+    }
     console.log(this.tokenForm.value);
     const newRequest = JSON.stringify({
       slotNumber: this.f.slotNumber.value,
@@ -119,21 +133,8 @@ export class TokenEditComponent implements OnInit {
       tokenPassword: this.f.tokenPassword.value,
       hsmId: this.f.hsmInformationId.value
     });
-    // console.log(newRequest)
-    // this._tokenService.createToken(newRequest)
-    // .subscribe((res) => {
-    //   console.log(res);
-    //   if ((res.result = true)) {
-    //     this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
-    //       positionClass: 'toast-top-center',
-    //       toastClass: 'toast ngx-toastr',
-    //       closeButton: true
-    //     });
-    //     this.submitted = false;
-    //     this.router.navigate(['/apps/equipment-management/token/token-list']);
-    //     this.tokenForm.reset();
-    //   }
-    // })
+    
+
 
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
@@ -185,11 +186,9 @@ export class TokenEditComponent implements OnInit {
   exit() {
     this.router.navigateByUrl("/apps/equipment-management/search")
   }
-
+  get f() {
+    return this.tokenForm.controls;
+  }
   // end function
-}
-
-function asyncValidators(arg0: { slotNumber: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; tokenName: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; tokenPassword: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; hsmId: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; }, asyncValidators: any): FormGroup {
-  throw new Error('Function not implemented.');
 }
 

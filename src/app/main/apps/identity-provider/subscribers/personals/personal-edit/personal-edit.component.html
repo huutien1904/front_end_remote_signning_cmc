@@ -481,13 +481,14 @@
                       <label class="lable">TỔ CHỨC</label>
                       <div class="">
                         <ng-select
+                          [(ngModel)]="selectedCityName"
                           [items]="organizationId"
                           bindLabel="organizationName"
                           bindValue="organizationId"
                           [searchable]="false"
                           [clearable]="false"
                           formControlName="organizationId"
-                          [(ngModel)]="selectedCityName"
+                          
                         >
                         </ng-select>
                       </div>

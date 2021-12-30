@@ -85,11 +85,12 @@ export class TokenViewComponent implements OnInit {
       this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
       this.tokenForm.controls.tokenName.patchValue(data.tokenName);
       this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
-      const hsmSelected =  this.hsmList.filter((item) =>{
-        return token.data.hsmId == item.hsmId
-      })
-      console.log(hsmSelected)
-      this.hsmList = hsmSelected
+      this.HSMname = data.hsmName
+      // const hsmSelected =  this.hsmList.filter((item) =>{
+      //   return token.data.hsmId == item.hsmId
+      // })
+      // console.log(hsmSelected)
+      // this.hsmList = hsmSelected
       
     });
   }
