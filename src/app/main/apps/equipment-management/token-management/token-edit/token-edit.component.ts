@@ -7,7 +7,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { HsmService } from '../../hsm-management/hsm.service';
 import { TokenService } from '../token.service';
-import { Token } from 'app/main/models/Equipment';
+import { Hsm, Token } from 'app/main/models/Equipment';
 
 
 @Component({
@@ -23,11 +23,11 @@ export class TokenEditComponent implements OnInit {
   // public 
   public url = this.router.url;
   public lastValue;
-  public tokeInfo:Token;
+  public tokenInfo:Token;
   
   public contentHeader: object;
   public submitted = false;
-  public hsmList: any[];
+  public hsmList: Hsm[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
@@ -70,13 +70,19 @@ export class TokenEditComponent implements OnInit {
       return res.data.data;
     });
     console.log(this.hsmList);
-    this.tokeInfo = await this._tokenService.getTokenId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).toPromise().then(res=>{
+    this.tokenInfo = await this._tokenService.getTokenId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).toPromise().then(res=>{
        return res.data;
      });
-     console.log(this.tokeInfo);
+     this.hsmList.forEach(hsm => {
+       console.log(hsm.hsmId);
+       if(hsm.hsmId==this.tokenInfo.hsmId){
+        this.tokenForm.get("hsmId").setValue(hsm);
+       }
+     })
+     console.log(this.tokenInfo);
      this.tokenForm.patchValue({
-       tokenName: this.tokeInfo.tokenName,
-       slotNumber : this.tokeInfo.slotNumber
+       tokenName: this.tokenInfo.tokenName,
+       slotNumber : this.tokenInfo.slotNumber
      });
 
     
