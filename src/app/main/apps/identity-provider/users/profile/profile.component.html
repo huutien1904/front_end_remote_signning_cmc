@@ -42,7 +42,9 @@
                       </div>
                     </ng-template>
                     <div class="media-body mt-50">
-                      <h4></h4>
+                      <h4>
+                        {{ firstName + ' ' + middleName + ' ' + lastName }}
+                      </h4>
                       <div class="col-12 d-flex mt-1 px-0">
                         <label
                           class="btn btn-primary mr-75 mb-0"
@@ -79,24 +81,105 @@
                   <!--Account form start-->
                   <form class="form">
                     <div class="row">
-                      <div class="col-md-2">
+                      <div class="col-md-4">
                         <div class="form-group">
-                          <label for="first-name-column">HỌ</label>
+                          <label for="username">Tên tài khoản</label>
                           <input
-                            
+                            [value]="userName"
+                            disabled
                             type="text"
-                            id="first-name-column"
+                            id="username"
                             class="form-control"
-                            placeholder="Nguyễn"
+                            placeholder="hungnv123"
                             name="fname-column"
-                            
                           />
                         </div>
                       </div>
-
-                   </div>
-
-
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="name">Họ và tên</label>
+                          <input
+                            [value]="fullName"
+                            disabled
+                            type="text"
+                            id="name"
+                            class="form-control"
+                            placeholder="Nguyễn Việt Hưng"
+                            name="fullName"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">E-mail</label>
+                          <input
+                            [value]="email"
+                            disabled
+                            type="email"
+                            id="email"
+                            class="form-control"
+                            placeholder="Email"
+                            name="email"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="status">Trạng thái</label>
+                          <select
+                            disabled
+                            class="form-control"
+                            name="status"
+                            id="status"
+                          >
+                            <option selected>Hoạt động</option>
+                            <option>Không hoạt động</option>
+                            <option>Chờ duyệt</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="role">Vai trò</label>
+                          <select
+                            class="form-control"
+                            disabled
+                            name="role"
+                            id="role"
+                          >
+                            <option selected>Quản trị cấp cao</option>
+                            <option>Quản trị viên</option>
+                            <option>Người sử dụng</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Tổ chức</label>
+                          <input
+                            [value]="subscriberCategoryName"
+                            disabled
+                            type="text"
+                            class="form-control"
+                            placeholder="CMC"
+                            id="company"
+                            name="company"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                        <button
+                          type="submit"
+                          class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+                          rippleEffect
+                        >
+                          Lưu thay đổi
+                        </button>
+                        <button class="btn btn-outline-secondary" rippleEffect>
+                          Thiết lập lại
+                        </button>
+                      </div>
+                    </div>
                   </form>
                   <!--Accont form end-->
                 </div>
@@ -262,7 +345,6 @@
                               [clearable]="false"
                               placeholder="Việt Nam"
                               formControlName="countryBirthPlace"
-
                             >
                             </ng-select>
                           </div>
@@ -292,7 +374,6 @@
                               [clearable]="false"
                               placeholder="Lý Nhân"
                               formControlName="districtBirthPlace"
-
                             >
                             </ng-select>
                           </div>
@@ -361,7 +442,7 @@
                               [searchable]="false"
                               [clearable]="false"
                               placeholder="Quốc gia"
-                              formControlName='countryResidencePlace'
+                              formControlName="countryResidencePlace"
                             >
                             </ng-select>
                           </div>
@@ -377,7 +458,6 @@
                               [clearable]="false"
                               placeholder="Hà Nam"
                               formControlName="provinceResidencePlace"
-
                             >
                             </ng-select>
                           </div>

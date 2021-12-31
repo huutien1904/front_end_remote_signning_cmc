@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Personal } from 'app/main/models/Personal';
 import { ProfileService } from './profile.service';
@@ -16,6 +16,13 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit {
+  public firstName;
+  public middleName;
+  public lastName;
+  public userName
+  public fullName;
+  public email;
+  public subscriberCategoryName;
   minDate: Date;
   maxDate: Date;
   public rows;
@@ -175,6 +182,7 @@ export class ProfileComponent implements OnInit {
   getProfileData() {
     this._unsubscribeAll = new Subject();
     this._profileService.getPersonalById().subscribe((personal: any) => {
+      // console.log(personal);
       const data = personal.data;
       const provinceBirthId = data.birthPlace.provinceId;
       const provinceResidenceId = data.address.provinceId;
@@ -184,7 +192,14 @@ export class ProfileComponent implements OnInit {
       const communeResidenceId = data.address.communeId;
       const streetBirthId = data.birthPlace.streetId;
       const streetResidenceId = data.address.streetId;
-      console.log(data);
+      this.firstName = data.firstName;
+      this.middleName = data.middleName;
+      this.lastName = data.lastName;
+      this.userName = data.username;
+      this.fullName = data.firstName + " " + data.middleName + " " + data.lastName;
+      this.email = data.email;
+      this.subscriberCategoryName = data.subscriberCategoryName;
+      console.log(this.firstName);
       this.formInfoEdit.controls['personalFirstName'].setValue(data.firstName);
       // this.formProfile.controls['personalFirstName'].setValue(data.firstName);
       this.formInfoEdit.controls['personalMiddleName'].setValue(
@@ -210,7 +225,6 @@ export class ProfileComponent implements OnInit {
       this.formInfoEdit.controls['homeNumberBirthPlace'].setValue(data.birthPlace.houseNumber);
       this.formInfoEdit.controls['homeNumberResidencePlace'].setValue(data.address.houseNumber);
 
-      console.log(districtBirthId);
       console.log(personal);
       this.getProviceBirth(provinceBirthId);
       this.getProvinceAddres(provinceResidenceId);
@@ -252,7 +266,7 @@ export class ProfileComponent implements OnInit {
   }
   getDistrictAddress(id) {
     this._profileService.getDistrictById(id).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       const districtResidencePlace = res.data.districtName;
       this.formInfoEdit.controls['districtResidencePlace'].setValue(
         districtResidencePlace
@@ -262,7 +276,7 @@ export class ProfileComponent implements OnInit {
 
   getCommuneBirth(id) {
     this._profileService.getCommuneById(id).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       const communeBirthPlace = res.data.communeName;
       this.formInfoEdit.controls['communeBirthPlace'].setValue(
         communeBirthPlace
@@ -272,7 +286,7 @@ export class ProfileComponent implements OnInit {
 
   getCommuneAddress(id) {
     this._profileService.getCommuneById(id).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       const communeResidencePlace = res.data.communeName;
       this.formInfoEdit.controls['communeResidencePlace'].setValue(
         communeResidencePlace
@@ -281,7 +295,7 @@ export class ProfileComponent implements OnInit {
   }
   getStreetBirth(id) {
     this._profileService.getStreetById(id).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       const streetBirthPlace = res.data.streetName;
       this.formInfoEdit.controls['streetBirthPlace'].setValue(
         streetBirthPlace
@@ -291,7 +305,7 @@ export class ProfileComponent implements OnInit {
 
   getStreetAddress(id) {
     this._profileService.getStreetById(id).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       const streetResidencePlace = res.data.streetName;
       this.formInfoEdit.controls['streetResidencePlace'].setValue(
         streetResidencePlace
