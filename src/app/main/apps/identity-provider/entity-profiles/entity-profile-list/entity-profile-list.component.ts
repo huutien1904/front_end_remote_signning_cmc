@@ -77,7 +77,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     // content header profile
     this.contentHeader = {
       headerTitle: 'EntityProfile',
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [

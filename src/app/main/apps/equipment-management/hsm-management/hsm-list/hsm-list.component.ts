@@ -61,7 +61,7 @@ export class HsmListComponent implements OnInit {
   ngOnInit(): void {
     this.contentHeader = {
       headerTitle: "Kết nối HSM",
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: "chevron",
         links: [

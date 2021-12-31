@@ -231,7 +231,7 @@ export class EntityProfileCreateComponent implements OnInit {
   ngOnInit(): void {
     this.contentHeader = {
       headerTitle: 'EntityProfile',
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [

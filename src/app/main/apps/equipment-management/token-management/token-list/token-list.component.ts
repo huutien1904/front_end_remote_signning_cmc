@@ -57,7 +57,7 @@ export class TokenListComponent implements OnInit {
   ngOnInit(): void {
     this.contentHeader = {
       headerTitle: "Token",
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: "chevron",
         links: [

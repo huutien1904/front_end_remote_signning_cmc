@@ -316,7 +316,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.contentHeader = {
       headerTitle: 'EntityProfile',
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
