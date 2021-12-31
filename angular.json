@@ -31,7 +31,13 @@
                             "chart.js",
                             "contra/emitter",
                             "crossvent",
-                            "highlight.js"
+                            "highlight.js",
+                            "rxjs-compat",
+                            "node-forge",
+                            "rxjs/add/operator/do",
+                            "xlsx",
+                            "rxjs/add/operator/catch",
+                            "rxjs/add/observable/throw"
                         ],
                         "outputPath": "dist/Csign",
                         "index": "src/index.html",

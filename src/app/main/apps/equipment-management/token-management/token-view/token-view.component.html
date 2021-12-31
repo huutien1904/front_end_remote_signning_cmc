@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-body">
         <h3>Chi tiết Token</h3>
-        <form [formGroup]="tokenForm" >
+        <form [formGroup]="tokenForm">
           <div class="row">
             <div class="col-md-6 offset-3">
               <div class="form-group">
@@ -14,23 +14,18 @@
                   formControlName="tokenName"
                   class="form-control"
                   readonly
-                  
                 />
-                
               </div>
             </div>
             <div class="col-md-6 offset-3">
               <div class="form-group">
                 <label>HSM</label>
                 <ng-select
-                  placeholder="{{HSMname}}"
+                  placeholder="{{ HSMname }}"
                   [clearable]="false"
-                  
                   readonly
-                  
                 >
                 </ng-select>
-                
               </div>
             </div>
             <div class="col-6 offset-3">
@@ -42,7 +37,6 @@
                   formControlName="slotNumber"
                   readonly
                 ></ng-select>
-                
               </div>
             </div>
             <div class="col-md-6 offset-3">
@@ -52,14 +46,10 @@
                   type="password"
                   formControlName="tokenPassword"
                   class="form-control"
-                  
                 />
-
               </div>
             </div>
-            
           </div>
-          
         </form>
       </div>
     </div>

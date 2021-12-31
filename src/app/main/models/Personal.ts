@@ -3,8 +3,8 @@ import { Address } from "./Address";
 import { Organization } from "./Organization";
 
 export class Personal {
-    personalId:string;
-    subscriberId:string;
+    personalId:number;
+    userId:number;
     personalFirstName:string;
     personalMiddleName:string;
     personalLastName:string;

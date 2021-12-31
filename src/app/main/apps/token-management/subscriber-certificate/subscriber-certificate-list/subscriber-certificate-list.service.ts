@@ -59,15 +59,9 @@ export class SubscriberCertificateListService {
 
   updateCert(form: FormGroup): Observable<ResponseData<PagedData<CertificateRequest>>> {
     const formData = new FormData();
-    formData.append('keypairId', form.get('keypairId').value);
-    formData.append('certificate', form.get('fileSource').value);
-    formData.append(
-      'certificateRequestId',
-      form.get('certificateRequestId').value
-    );
+    formData.append('userId', form.get('userId').value);
+    formData.append('certificateContent', form.get('certificateContent').value);
 
-    formData.append('caId', form.get('caId').value);
-    console.log(formData.get('keypairId'));
     console.log(formData);
     console.log(form.value);
     const option = {

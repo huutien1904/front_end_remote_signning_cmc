@@ -10,8 +10,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OrganizationListService {
+  // public
   public rows: any;
   public onUserListChanged: BehaviorSubject<any>;
+
    /**
    * Constructor
    *
@@ -21,6 +23,8 @@ export class OrganizationListService {
       // Set the defaults
       this.onUserListChanged = new BehaviorSubject({});
     }
+
+    // option
     private readonly currentUser = JSON.parse(
       localStorage.getItem("currentUser")
     );
@@ -32,19 +36,10 @@ export class OrganizationListService {
         Authorization: "Bearer " + this.token,
       },
     };
-    public getListOrganizations(page:PagedData<Organization>) :Observable<ResponseData<PagedData<Organization>>>{
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      const token = currentUser.token;
-      const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
-      console.log("service organization list");
-      const option = {
-        headers :{
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + token,
-        },
-        params:param
-      };
-       return this._httpClient.get<ResponseData<PagedData<Organization>>>(`${environment.apiUrl}/organization/list`,option);
+
+    public getListOrganizations(body) :Observable<ResponseData<PagedData<Organization>>>{
+       return this._httpClient
+       .post<ResponseData<PagedData<Organization>>>(`${environment.apiUrl}/organization/search`,body,this.option);
     }
     public submitForm(body): Observable<any> {
       return this._httpClient.post<any>(

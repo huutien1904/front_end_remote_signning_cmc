@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Province } from 'app/main/models/Address';
 import { Personal } from 'app/main/models/Personal';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
@@ -27,10 +28,15 @@ public getPersonalById(id): Observable<ResponseData<Personal>> {
     this.option
   );
 }
+
 // public updateProfileId(id, body): Observable<ResponseData<Personal>> {
 //   return this._httpClient.post<ResponseData<Personal>>(
 //     `${environment.apiUrl}/entity-profile/${id}`,body,
 //     this.option
 //   );
 // }
+
+// get adress by id 
+
+
 }

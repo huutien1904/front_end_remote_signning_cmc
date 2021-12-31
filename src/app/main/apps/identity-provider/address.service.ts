@@ -60,6 +60,12 @@ export class AddressService {
       this.option
     );
   }
+  public getAllStreet(): Observable<ResponseData<Street[]>> {
+    return this._httpClient.get<ResponseData<Street[]>>(
+      `${environment.apiUrl}/address/allStreet`,
+      this.option
+    );
+  }
   public createStreet(body): Observable<ResponseData<Street>> {
     return this._httpClient.post<ResponseData<Street>>(
       `${environment.apiUrl}/address/street/create`,
@@ -76,6 +82,13 @@ export class AddressService {
   public getDistrictName(idDistrict): Observable<ResponseData<District>> {
     return this._httpClient.get<ResponseData<District>>(
       `${environment.apiUrl}/address/district/${idDistrict}`,
+      this.option
+    );
+  }
+
+  public getProviceById(id):Observable<ResponseData<Province>>{
+    return this._httpClient.get<ResponseData<Province>>(
+      `${environment.apiUrl}/address/province/${id}`,
       this.option
     );
   }

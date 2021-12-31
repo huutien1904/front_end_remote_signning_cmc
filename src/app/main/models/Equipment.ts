@@ -1,5 +1,7 @@
 export interface Token {
     tokenId: string,
+    hsmId:number;
+    hsmName: string,
     tokenName: string,
     slotNumber: string,
     keypairNumber: string,
@@ -7,6 +9,7 @@ export interface Token {
 }
 
 export interface Hsm {
+    hsmId:number;
     hardwareId: string,
     hsmName: string,
     hsmManufacturer: string,

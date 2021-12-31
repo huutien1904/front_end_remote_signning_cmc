@@ -41,11 +41,11 @@
                   bindLabel="hsmName"
                   bindValue="hsmId"
                   [clearable]="false"
-                  formControlName="hsmInformationId"
+                  formControlName="hsmId"
                   [ngClass]="
-                    (f.hsmInformationId.errors &&
-                      f.hsmInformationId?.touched) ||
-                    (submitted && f.hsmInformationId?.errors?.required)
+                    (f.hsmId.errors &&
+                      f.hsmId?.touched) ||
+                    (submitted && f.hsmId?.errors?.required)
                       ? 'is-invalid'
                       : ''
                   "
@@ -53,9 +53,9 @@
                 </ng-select>
                 <div
                   *ngIf="
-                    (f.hsmInformationId.errors &&
-                      f.hsmInformationId?.touched) ||
-                    (submitted && f.hsmInformationId?.errors?.required)
+                    (f.hsmId.errors &&
+                      f.hsmId?.touched) ||
+                    (submitted && f.hsmId?.errors?.required)
                   "
                   class="invalid-feedback"
                 >
@@ -119,6 +119,7 @@
                 </div>
               </div>
             </div>
+            
           </div>
           <div class="row">
             <div class="col-md-6 offset-3">

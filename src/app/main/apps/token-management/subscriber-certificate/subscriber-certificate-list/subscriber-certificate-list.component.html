@@ -112,6 +112,13 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">Danh sách chứng thứ số</h4>
+            <div class="">
+              <a href="/apps/tm/subscriber-certificate/update">
+                <button type="button" rippleEffect class="btn btn-primary">
+                  Cập nhật chứng thư số
+                </button>
+              </a>
+            </div>
           </div>
           <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
           <ngx-datatable
@@ -207,12 +214,16 @@
             ></ngx-datatable-column>
             <ngx-datatable-column
               name="Token Name"
+              prop="keypairStatus.keypairStatusName"
+              [width]="120"
+            ></ngx-datatable-column>
+            <ngx-datatable-column
+              name="Token Name"
               prop="tokenName"
               [width]="120"
             ></ngx-datatable-column>
-
-            <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
-              <ng-template ngx-datatable-cell-template let-row="row">
+            <ngx-datatable-column name="Nhập/Xuất" [width]="80" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
                 <div class="d-flex align-items-center">
                   <div ngbDropdown container="body">
                     <a
@@ -234,16 +245,25 @@
                       class="dropdown-menu-right"
                       aria-labelledby="dropdownBrowserState"
                     >
-                      <a
-                        [href]="row.fileUrl"
-                        [download]="row.fileName"
+                      <div *ngIf="row.keypairStatus.keypairStatusId == 1">
+                        <a
                         ngbDropdownItem
                         class="d-flex align-items-center"
-                        (click)="downloadSidebar(row)"
-                        ><i data-feather="download" class="mr-50"></i>Tải dữ liệu</a
+                        (click)="openUploadCert(modalUploadCert, row)"
+                        ><i data-feather="file-text" class="mr-50"></i> Nhập</a
                       >
+                      </div>
+                      <div *ngIf="row.keypairStatus.keypairStatusId == 3">
+                        <a
+                        href="javascript:void(0)"
+                        ngbDropdownItem
+                        class="d-flex align-items-center"
+                        ><i data-feather="edit" class="mr-50"></i> Xuất</a
+                      >
+                      </div>
                     </div>
                   </div>
+      
                   <i data-feather="edit" class="text-primary cursor-pointer"></i>
                 </div>
               </ng-template>
@@ -284,3 +304,58 @@
     <!--/ Certificate request List -->
   </div>
 </div>
+<!-- Modal Upload file -->
+<ng-template #modalUploadCert let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click');"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="formUploadCert">
+          <div class="form-group custom-file">
+            <input
+              #certificate
+              formControlName="certificate"
+              type="file"
+              class="form-control custom-file-input"
+              name="file"
+              id="file"
+              (change)="onFileChange($event)"
+            />
+            <label for="certificate" class="custom-file-label">Chọn chứng thư số</label>
+            <span *ngIf="formUploadCert.controls.certificate.valid && formUploadCert.controls.fileSource.value !=null "><i data-feather="check"></i>{{formUploadCert.controls.fileSource.value.name}}-Đã được chọn</span>
+            <div
+              *ngIf="
+                formUploadCert.controls.certificate.touched &&
+                formUploadCert.controls.certificate.invalid
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="formUploadCert.controls.certificate.errors.required">
+                Cần chọn chứng thư số.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onSubmitCert()"
+    >
+      Cập nhật
+    </button>
+  </div>
+</ng-template>
