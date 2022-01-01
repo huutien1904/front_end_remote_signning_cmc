@@ -5,7 +5,7 @@ export const locale = {
         DASHBOARD: "Dashboard",
         SUBSCRIPTION_MANAGEMENT  :{
           SECTION : "QUẢN LÝ NGƯỜI DÙNG",
-          SEARCH: "Tìm kiếm",
+          SEARCH: "Danh sách",
           CREATE_NEW_SUBSCRIPTIONS : "Tạo thuê bao"
         },
         TOKEN_MANAGEMENT :{

@@ -20,7 +20,7 @@ export const menu: CoreMenu[] = [
         title: 'Thuê bao',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.SEARCH',
         type: 'item',
-        icon: 'user-plus',
+        icon: 'users',
         url: 'apps/ip/subscribers-list',
         
       },
@@ -37,7 +37,7 @@ export const menu: CoreMenu[] = [
         title: 'Profile',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
         type: 'item',
-        icon: 'users',
+        icon: 'user',
         url: '/apps/ip/profiles/profile-list',
       },
     ]
@@ -114,14 +114,14 @@ export const menu: CoreMenu[] = [
             translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.VIEW',
             icon: 'circle',
             type: 'item',
-            url: '/apps/tm/certificate-request/certificate-request-view'
+            url: '/apps/tm/certificate -request/certificate-request-view'
           }
         ]*/
       {
         id: 'subscriber-certificate-list',
         title: 'Chứng thư số',
         translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.CREATE',
-        icon: 'file-text',
+        icon: 'file',
         type: 'item',
         url: '/apps/tm/subscriber-certificate/subscriber-certificate-list'
       }
@@ -161,7 +161,7 @@ export const menu: CoreMenu[] = [
         title: 'Kết nối HSM',
         translate: 'MENU.EQUIPMENT_MANAGEMENT.HSM',
         type: 'item',
-        icon: 'tool',
+        icon: 'rss',
         url: '/apps/equipment-management/hsm/hsm-list'
       },
       {
@@ -205,19 +205,19 @@ export const menu: CoreMenu[] = [
         url: 'apps/system-management/monitorlog'
       },
       {
-        id: 'monitorlog',
+        id: 'help-circle',
         title: 'Trợ giúp',
         translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
         type: 'item',
-        icon: 'plus',
+        icon: 'help-circle',
         url: 'apps/system-management/monitorlog'
       },
       {
-        id: 'monitorlog',
+        id: 'info',
         title: 'Giới thiệu',
         translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
         type: 'item',
-        icon: 'user-plus',
+        icon: 'info',
         url: 'apps/system-management/monitorlog'
       }
 

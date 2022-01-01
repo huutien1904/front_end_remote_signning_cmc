@@ -84,8 +84,11 @@ export class AuthLoginV2Component implements OnInit {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
-          console.log('check data', data);
+        (user) => {
+          console.log('check data', user);
+          if(!user.isSetSubscriber){
+            this._router.navigate(['/apps/ip/users/set-user']);
+          }else
           this._router.navigate([this.returnUrl]);
         },
         (error) => {
