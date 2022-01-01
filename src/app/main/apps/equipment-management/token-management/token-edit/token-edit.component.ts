@@ -60,30 +60,42 @@ export class TokenEditComponent implements OnInit {
         hsmId: [null, Validators.required],
       }
     );
+    // this.asyncValidators()
   }
 
   async ngOnInit() {
 
+    // get list HSM
     this.hsmList = await this._hsmService.getListHsm(this.body)
     .pipe(takeUntil(this._unsubscribeAll))
     .toPromise().then(res => {
       return res.data.data;
     });
     console.log(this.hsmList);
-    this.tokenInfo = await this._tokenService.getTokenId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).toPromise().then(res=>{
-       return res.data;
-     });
+
+    // get token
+    this.tokenInfo = await this._tokenService.getTokenId(this.lastValue)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .toPromise()
+                    .then(res=>{
+                      return res.data;
+                    });
+     console.log(this.tokenInfo)
      this.hsmList.forEach(hsm => {
-       console.log(hsm.hsmId);
+       console.log(hsm);
        if(hsm.hsmId==this.tokenInfo.hsmId){
-        this.tokenForm.get("hsmId").setValue(hsm);
+        console.log(hsm)
+        this.tokenForm.get("hsmId").setValue(hsm.hsmId);
        }
+       
      })
      console.log(this.tokenInfo);
      this.tokenForm.patchValue({
        tokenName: this.tokenInfo.tokenName,
-       slotNumber : this.tokenInfo.slotNumber
+       slotNumber : this.tokenInfo.slotNumber,
+      //  tokenPassword: this.tokenInfo.tokenName,
      });
+     console.log(this.tokenForm.value)
 
     
     this.contentHeader = {
@@ -123,23 +135,9 @@ export class TokenEditComponent implements OnInit {
       slotNumber: this.f.slotNumber.value,
       tokenName: this.f.tokenName.value,
       tokenPassword: this.f.tokenPassword.value,
-      hsmId: this.f.hsmInformationId.value
+      hsmId: this.f.hsmId.value
     });
-    // console.log(newRequest)
-    // this._tokenService.createToken(newRequest)
-    // .subscribe((res) => {
-    //   console.log(res);
-    //   if ((res.result = true)) {
-    //     this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
-    //       positionClass: 'toast-top-center',
-    //       toastClass: 'toast ngx-toastr',
-    //       closeButton: true
-    //     });
-    //     this.submitted = false;
-    //     this.router.navigate(['/apps/equipment-management/token/token-list']);
-    //     this.tokenForm.reset();
-    //   }
-    // })
+    console.log(newRequest);
 
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
