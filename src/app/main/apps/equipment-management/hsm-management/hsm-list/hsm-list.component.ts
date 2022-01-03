@@ -77,7 +77,7 @@ export class HsmListComponent implements OnInit {
 
     this.formListHsm = this.fb.group({
       page : [null],
-      size : [this.sizePage[0]],
+      size : [this.sizePage[3]],
       sort: [null],
       contains:[""],
       fromDate: [null],
