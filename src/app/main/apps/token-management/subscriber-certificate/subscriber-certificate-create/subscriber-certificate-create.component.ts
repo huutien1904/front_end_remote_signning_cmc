@@ -90,7 +90,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   ngOnInit(): void {
     this.formListPersonal = this.fb.group({
       page: [""],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
       sort: null,
       contains: ["", Validators.required],
       gender: [null],

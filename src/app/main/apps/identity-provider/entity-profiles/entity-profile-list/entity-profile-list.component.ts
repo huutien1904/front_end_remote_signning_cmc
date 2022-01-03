@@ -76,7 +76,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       sort: [null],
       toDate: [null],
       page: [null],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
     });
     // content header profile
     this.contentHeader = {

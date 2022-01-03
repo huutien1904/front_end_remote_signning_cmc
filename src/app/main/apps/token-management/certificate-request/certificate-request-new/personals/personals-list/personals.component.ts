@@ -73,7 +73,7 @@ export class PersonalsComponent implements OnInit {
   ngOnInit(): void {
     this.formListPersonal = this.fb.group({
       page: [""],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
       sort: [["staffId,asc"]],
       contains: ["", Validators.required],
       gender: [null],

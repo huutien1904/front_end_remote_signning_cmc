@@ -72,7 +72,7 @@ export class TokenListComponent implements OnInit {
     };
     this.formListToken = this.fb.group({
       page : [null],
-      size : [this.sizePage[0]],
+      size : [this.sizePage[3]],
       sort: [null],
       contains:[""],
       fromDate: [null],
