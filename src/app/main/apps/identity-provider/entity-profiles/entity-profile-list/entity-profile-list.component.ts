@@ -18,6 +18,7 @@ import { EntityProfile } from 'app/main/models/EntityProfile';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-list',
@@ -52,7 +53,8 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
     private _entityProfileService: EntityProfileService,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private _router: Router,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -114,6 +116,12 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         }));
         this.isLoading = false;
       });
+  }
+
+  onActivate(event) {
+    if(event.event.type === 'click' && event.column.name!="Hành động") {
+      this._router.navigate(['/apps/ip/profiles/profile-view', event.row.endEntityProfileId]);
+    }
   }
 
   /**

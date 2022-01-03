@@ -18,7 +18,7 @@ import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 
 import { PersonalsComponent } from './personals.component';
 import { SidebarPersonalsComponent } from './sidebar-personals/sidebar-personals.component';
-import { PersonalListService } from 'app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service';
+import { PersonalService } from 'app/main/apps/identity-provider/subscribers/personals/personal.service';
 import { FormsModule } from "@angular/forms";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { CoreSidebarModule } from "@core/components";
@@ -58,7 +58,7 @@ const materialModules1234 = [
   ],
   exports: [PersonalsComponent],
   providers: [
-    PersonalListService,
+    PersonalService,
     PersonalsService,
     {
       provide: DateAdapter,

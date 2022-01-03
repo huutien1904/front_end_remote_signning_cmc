@@ -22,7 +22,7 @@ import { ContentHeaderModule } from "app/layout/components/content-header/conten
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
 import { FileUploadModule } from 'ng2-file-upload';
-import { PersonalListService } from "../../identity-provider/subscribers/personals/personal-list/personal-list.service";
+import { PersonalService } from "../../identity-provider/subscribers/personals/personal.service";
 import { KeypairService } from "../keypair/keypair.service";
 import { SubscriberCertificateCreateComponent } from "./subscriber-certificate-create/subscriber-certificate-create.component";
 import { SubscriberCertificateEditComponent } from "./subscriber-certificate-edit/subscriber-certificate-edit.component";
@@ -67,7 +67,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
   ],
   providers: [
     SubscriberCertificateListService,
-    PersonalListService,
+    PersonalService,
     KeypairService,
     {
       provide: DateAdapter,

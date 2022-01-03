@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, SelectionType,DatatableComponent } from '@swimlane/ngx-datatable';
 import { Console } from 'console';
 import { ToastrService } from "ngx-toastr";
-import { PersonalListService } from '../personal-list.service';
+import { PersonalService } from '../../personal.service';
 
 @Component({
   selector: 'app-personal-list-add',
@@ -33,7 +33,7 @@ export class PersonalListAddComponent implements OnInit {
     private _toastrService: ToastrService,
     private modalService: NgbModal,
     private router: Router,
-    private _personalListService: PersonalListService, 
+    private _personalService: PersonalService, 
     ) {}
 
   ngOnInit(): void {
@@ -96,7 +96,7 @@ export class PersonalListAddComponent implements OnInit {
       dataTable.staffList = this.selected
       JSON.stringify(dataTable)
       console.log("selector",dataTable);
-      this._personalListService
+      this._personalService
       .createListPersonal(dataTable)
       .subscribe((res) =>{
         console.log(res);

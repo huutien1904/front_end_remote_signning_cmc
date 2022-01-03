@@ -4,13 +4,13 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
+  MomentDateAdapter
 } from "@angular/material-moment-adapter";
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE
 } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { RouterModule } from "@angular/router";
@@ -21,17 +21,18 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
 import { LoadingService } from "app/main/loading/loading.service";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
-import { PersonalEditService } from "./personal-edit/personal-edit.service";
 import { NewPersonalSidebarComponent } from "./personal-list/new-personal-sidebar/new-personal-sidebar.component";
 import { PersonalListAddComponent } from "./personal-list/personal-list-add/personal-list-add.component";
 import { PersonalListComponent } from "./personal-list/personal-list.component";
-import { PersonalListService } from "./personal-list/personal-list.service";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
-import { PersonalViewService } from "./personal-view/personal-view.service";
-import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
+import { PersonalService } from "./personal.service";
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
 @NgModule({
@@ -60,6 +61,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     RouterModule,
     ...materialModules1234,
     ContentHeaderModule,
+    SweetAlert2Module.forRoot(),
   ],
   exports: [
     PersonalListComponent,
@@ -68,9 +70,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     NewPersonalSidebarComponent,
   ],
   providers: [
-    PersonalEditService,
-    PersonalListService,
-    PersonalViewService,
+    PersonalService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

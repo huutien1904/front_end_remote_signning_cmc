@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
+import { PersonalService } from "app/main/apps/identity-provider/subscribers/personals/personal.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { DateAdapter } from "@angular/material/core";
@@ -19,7 +19,6 @@ import { Personal } from "app/main/models/Personal";
   templateUrl: "./keypair-list.component.html",
   styleUrls: ["./keypair-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  providers: [PersonalListService]
 })
 export class KeypairListComponent implements OnInit {
   minDate: Date;
@@ -44,7 +43,7 @@ export class KeypairListComponent implements OnInit {
 
     /**
    *
-   * @param _userListService
+   * @param _personalService
    * @param _coreSidebarService
    * @param modalService
    * @param fb
@@ -53,7 +52,7 @@ export class KeypairListComponent implements OnInit {
    */
   constructor(
     private fb: FormBuilder,
-    private _userListService: PersonalListService,
+    private _personalService: PersonalService,
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
@@ -120,7 +119,7 @@ export class KeypairListComponent implements OnInit {
       toDate: this.formListPersonal.value.toDate,
 
     }
-    this._userListService
+    this._personalService
       .getListPersonals(JSON.stringify(body))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {

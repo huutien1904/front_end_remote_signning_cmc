@@ -9,7 +9,7 @@ import {
   DatatableComponent,
   ColumnMode,
 } from "@swimlane/ngx-datatable";
-import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
+import { PersonalService } from "app/main/apps/identity-provider/subscribers/personals/personal.service";
 import { Keypair } from "app/main/models/Keypair";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
@@ -24,7 +24,7 @@ import { SubscriberCertificateListService } from "../subscriber-certificate-list
   templateUrl: "./subscriber-certificate-create.component.html",
   styleUrls: ["./subscriber-certificate-create.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  // providers: [KeypairService, PersonalListService],
+  // providers: [KeypairService, PersonalService],
 })
 export class SubscriberCertificateCreateComponent implements OnInit {
   public contentHeader: object;
@@ -55,7 +55,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   public fileUploaded = true;
   /**
    *
-   * @param _personalListService
+   * @param _personalService
    * @param _coreSidebarService
    * @param _coreConfigService
    * @param modalService
@@ -63,7 +63,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
    * @param dateAdapter
    */
   constructor(
-    private _personalListService: PersonalListService,
+    private _personalService: PersonalService,
     private _coreSidebarService: CoreSidebarService,
     private _coreConfigService: CoreConfigService,
     private _subscriberCertificateService: SubscriberCertificateListService,
@@ -135,7 +135,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     console.log(pageInfo);
     this.isLoading=true;
     this.formListPersonal.patchValue({"page":pageInfo.offset}); 
-    this._personalListService
+    this._personalService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {

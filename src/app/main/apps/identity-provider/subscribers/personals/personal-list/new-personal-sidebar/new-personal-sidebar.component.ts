@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import { PersonalListService } from './../personal-list.service';
+import { PersonalService } from '../../personal.service';
 
 @Component({
   selector: "app-new-personal-sidebar",
@@ -81,7 +81,7 @@ export class NewPersonalSidebarComponent implements OnInit {
     private _toastrService: ToastrService,
     private dateAdapter: DateAdapter<any>,
     private _coreConfigService: CoreConfigService,
-    private _personalListService:PersonalListService,
+    private _personalService:PersonalService,
     private overlay: Overlay,
     private _spinner: NgxSpinnerService
   ) {
@@ -122,7 +122,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   }
 
 getOrganizationId(){
-  this._personalListService
+  this._personalService
     .getOrganizationId()
     .subscribe((res) => {
       this.organizationId = res.data
@@ -453,7 +453,7 @@ onSubmitCreateStreet(type, streetName) {
     console.log(this.newPersonal.value);
     const newPersonal = JSON.stringify(data);
     
-    this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+    this._personalService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res)
       
       if (res.result === true) {

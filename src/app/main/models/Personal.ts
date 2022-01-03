@@ -3,19 +3,20 @@ import { Address } from "./Address";
 import { Organization } from "./Organization";
 
 export class Personal {
-    personalId:number;
+    staffId:number;
     userId:number;
-    personalFirstName:string;
-    personalMiddleName:string;
-    personalLastName:string;
+    username:string;
+    firstName:string;
+    middleName:string;
+    lastName:string;
     birthday:string;
+    subscriberCategoryName:string;
     address:Address;
     birthPlace:Address;
     phoneNumber:string;
     email:string;
-    organization:string;
+    organizationName:string;
     personalCountryId:string;
-    isActive:boolean;
     gender:string;
     
 }

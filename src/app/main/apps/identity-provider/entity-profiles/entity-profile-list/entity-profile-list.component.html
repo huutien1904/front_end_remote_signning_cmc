@@ -153,6 +153,7 @@
           rowHeight="auto"
           [scrollbarH]="true"
           [footerHeight]="50"
+          (activate)="onActivate($event)"
           [rowHeight]="50"
           [externalPaging]="true"
           [limit]="pagedData.size"
