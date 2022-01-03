@@ -32,11 +32,13 @@ export const locale = {
         EQUIPMENT_MANAGEMENT :{
           SECTION : "Quản lý thiết bị",
           HSM: "Tạo Thiết bị HSM",
-          TOKEN : "Tạo TOKEN"
+          TOKEN : "Tạo TOKEN",
+          TEMPLATE:"Template"
         },
         SYSTEM_MANAGEMENT : {
           SECTION : "Quản lý hệ thống",
           SYSTEM : "Thiết lập cấu hình",
+          HELP:"Trợ giúp",
           LOG : "Nhật ký"
         }
       }

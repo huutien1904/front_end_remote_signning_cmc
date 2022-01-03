@@ -32,19 +32,19 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  /**
-   *  Confirms if user is superadmin
-   */
-  get isAdmin() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.SuperAdmin;
-  }
+  // /**
+  //  *  Confirms if user is superadmin
+  //  */
+  // get isAdmin() {
+  //   return this.currentUser && this.currentUserSubject.value.role === Role.SuperAdmin;
+  // }
 
-  /**
-   *  Confirms if user is admin
-   */
-  get isClient() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
-  }
+  // /**
+  //  *  Confirms if user is admin
+  //  */
+  // get isClient() {
+  //   return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
+  // }
 
   /**
    * User login
@@ -68,7 +68,6 @@ export class AuthenticationService {
       })
       .pipe(
         map(user => {
-          console.log(user);
           // login successful if there's a jwt token in the response
           if (user && user.token) {
 

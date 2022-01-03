@@ -173,12 +173,12 @@ export const menu: CoreMenu[] = [
         url: '/apps/equipment-management/token/token-list'
       },
       {
-        id: "template-management",
+        id: "template",
         title: 'Template',
-        translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
+        translate: 'MENU.EQUIPMENT_MANAGEMENT.TEMPLATE',
         type: 'item',
         icon: 'speaker',
-        url: 'apps/system-management/monitorlog'
+        url: '/apps/equipment-management/template'
       },
     ]
   },
@@ -205,12 +205,12 @@ export const menu: CoreMenu[] = [
         url: 'apps/system-management/monitorlog'
       },
       {
-        id: 'help-circle',
+        id: 'help',
         title: 'Trợ giúp',
-        translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
+        translate: 'MENU.SYSTEM_MANAGEMENT.HELP',
         type: 'item',
         icon: 'help-circle',
-        url: 'apps/system-management/monitorlog'
+        url: 'apps/system-management/help-center'
       },
       {
         id: 'info',
@@ -218,7 +218,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
         type: 'item',
         icon: 'info',
-        url: 'apps/system-management/monitorlog'
+        url: 'apps/system-management/introduction'
       }
 
     ]

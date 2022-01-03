@@ -2,7 +2,7 @@
   // Admin = 'Admin',
   // Client = 'Client',
   // User = 'User',
-  SuperAdmin = 'ROLE_SUPERADMIN',
+  SuperAdmin = 'ROLE_SUPER_ADMIN',
   UserPersonal ='USER-PERSONAL',
   UserOrganization ='USER-ORGANIZATION',
   Admin = 'ROLE_ADMIN',
