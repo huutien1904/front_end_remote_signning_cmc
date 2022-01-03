@@ -80,17 +80,8 @@ export class PersonalService {
     return this._httpClient.post<ResponseData<PagedData<Personal>>>
     (`${environment.apiUrl}/staff/search`, body);
   }
-  public deletePersonal(personalId): Observable<Object> {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const token = currentUser.token;
-    console.log("service personal list");
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      },
-    };
-    return this._httpClient.delete(`${environment.apiUrl}/personal/delete/${personalId}`, option);
+  public deletePersonal(staffId): Observable<ResponseData<Personal>> {
+    return this._httpClient.delete<ResponseData<Personal>>(`${environment.apiUrl}/staff/${staffId}`,  this.option);
   }
 
   public getPersonalById(id): Observable<ResponseData<Personal>> {
@@ -117,6 +108,10 @@ export class PersonalService {
     console.log(body);
     
     return this._httpClient.put<ResponseData<Personal>>(`${environment.apiUrl}/staff/update`, body, this.option);
+
+  }
+  createPersonalSelf(body):Observable<ResponseData<Personal>>{
+    return this._httpClient.post<ResponseData<Personal>>(`${environment.apiUrl}/staff/create-self`, body, this.option);
 
   }
 }

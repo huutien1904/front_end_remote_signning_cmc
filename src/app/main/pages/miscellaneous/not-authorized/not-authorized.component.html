@@ -1,16 +1,18 @@
 <!-- Not authorized-->
 <div class="misc-wrapper">
-    <a class="brand-logo" href="javascript:void(0);">
-        <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
-        <h2 class="brand-text text-primary ml-1">{{ coreConfig.app.appTitle}}</h2>
-    </a>
-    <div class="misc-inner p-2 p-sm-3">
-        <div class="w-100 text-center">
-            <h2 class="mb-1">Bạn không được ủy quyền! 🔐</h2>
-            <p class="mb-2">
-              Bạn không được phép truy cập ứng dụng này.
-            </p>
-            <a class="btn btn-primary mb-1 btn-sm-block" routerLink="/" rippleEffect>Quay lại trang chủ</a
+  <a class="brand-logo" href="javascript:void(0);">
+    <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+    <h2 class="brand-text text-primary ml-1">{{ coreConfig.app.appTitle }}</h2>
+  </a>
+  <div class="misc-inner p-2 p-sm-3">
+    <div class="w-100 text-center">
+      <h2 class="mb-1">Bạn không được ủy quyền! 🔐</h2>
+      <p class="mb-2">Bạn không được phép truy cập chức năng này.</p>
+      <a
+        class="btn btn-primary mb-1 btn-sm-block"
+        routerLink="/apps/ip/users/profile"
+        rippleEffect
+        >Quay lại trang chủ</a
       ><img
         class="img-fluid"
         [src]="

@@ -109,7 +109,7 @@ export class PersonalListComponent implements OnInit {
     };
     this.formListPersonal = this.fb.group({
       page: [""],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
       sort: [["staffId,asc"]],
       contains: ["", Validators.required],
       gender: [null],
@@ -172,7 +172,6 @@ export class PersonalListComponent implements OnInit {
     this.selected.push(...selected);
   }
   onActivate(event) {
-    console.log('Activate Event', event);
     if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động") {
       this._router.navigate(['/apps/ip/subscribers/personals/personal-edit', event.row.staffId]);
       
@@ -238,12 +237,11 @@ export class PersonalListComponent implements OnInit {
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
-  deletePersonal(personalID){
+  deletePersonal(staffId){
     this._personalService
-        .deletePersonal(personalID)
+        .deletePersonal(staffId)
         .subscribe((res) =>{
-          const result = res
-            this.updateTableOnDelete();
+            // this.updateTableOnDelete();
             this._toastrService.success(
               "Xóa Thuê Bao cá nhân thành công ",   
               "Thành công",

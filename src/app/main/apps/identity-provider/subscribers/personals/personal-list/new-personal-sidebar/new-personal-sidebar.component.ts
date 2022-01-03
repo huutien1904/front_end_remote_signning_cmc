@@ -74,7 +74,6 @@ export class NewPersonalSidebarComponent implements OnInit {
    * @param {HttpClient} _httpClient
    */
   constructor(
-    private _httpClient: HttpClient,
     private fb: FormBuilder,
     private modalService: NgbModal,
     private _addressService: AddressService,
@@ -83,7 +82,6 @@ export class NewPersonalSidebarComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private _personalService:PersonalService,
     private overlay: Overlay,
-    private _spinner: NgxSpinnerService
   ) {
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.dateAdapter.setLocale(config.app.appLanguage); 
@@ -155,7 +153,6 @@ initAddress() {
             ...city,
             provinceDisplay: city.provinceType + " " + city.provinceName,
           }));
-          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
