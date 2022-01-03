@@ -81,7 +81,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((err) => {
         console.log(err);
 
-        if ([0, 403, 404, 500, 503].indexOf(err.status) !== -1) {
+        if ([0, 400, 403, 404, 500, 503].indexOf(err.status) !== -1) {
           // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
           console.log(err);
           //Lỗi Unknown Error: Hiện toastr báo lỗi, ko đóng modal, form...
@@ -108,8 +108,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
 
           // ? Can also logout and reload if needed
-          // this._authenticationService.logout();
-          // location.reload(true);
+          this._authenticationService.logout();
+          location.reload();
         }
         // throwError
         const error = err.error.message || err.statusText;

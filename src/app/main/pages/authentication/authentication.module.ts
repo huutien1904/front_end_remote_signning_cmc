@@ -12,6 +12,7 @@ import { AuthRegisterV2Component } from 'app/main/pages/authentication/auth-regi
 import { AuthForgotPasswordV2Component } from 'app/main/pages/authentication/auth-forgot-password-v2/auth-forgot-password-v2.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FooterModule } from 'app/layout/components/footer/footer.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 
@@ -46,7 +47,8 @@ const routes: Routes = [
         ReactiveFormsModule, 
         CoreCommonModule, 
         NgSelectModule,
-        FooterModule
+        FooterModule,
+        SweetAlert2Module.forRoot(),
       ]
 })
 export class AuthenticationModule {}

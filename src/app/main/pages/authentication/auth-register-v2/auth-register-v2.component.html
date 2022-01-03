@@ -37,7 +37,7 @@
         <form
           class="auth-register-form mt-2"
           [formGroup]="registerForm"
-          (ngSubmit)="onSubmit(popupSuccess)"
+          (ngSubmit)="onSubmit()"
         >
           <div class="form-group">
             <label for="register-username" class="form-label">Username</label>
@@ -45,7 +45,7 @@
               type="text"
               formControlName="username"
               class="form-control"
-              placeholder="johndoe"
+              placeholder="demo"
               aria-describedby="register-username"
               tabindex="1"
               [ngClass]="{
@@ -68,7 +68,7 @@
               type="text"
               formControlName="email"
               class="form-control"
-              placeholder="john@example.com"
+              placeholder="demo@cmc.com.vn"
               aria-describedby="register-email"
               tabindex="2"
               [ngClass]="{
@@ -165,14 +165,14 @@
                 }"
               >
                 <div *ngIf="f.confPassword.errors.required">
-                  Bạn cần xác nhận mật khẩu
+                  Mật khẩu không được trống
                 </div>
                 <div *ngIf="f.confPassword.errors.mustMatch">
-                  Xác nhận mật khẩu không hợp lệ
+                  Mật khẩu không khớp
                 </div>
               </div>
               <div *ngIf="f.confPassword.errors == null" class="valid-feedback">
-                Xác nhận mật khẩu hợp lệ
+                Xác nhận mật khẩu không được trống
               </div>
             </div>
           </div>
@@ -207,14 +207,10 @@
           <button
             class="btn btn-primary btn-block"
             tabindex="5"
-            [disabled]="loading"
             rippleEffect
-            type="submit"
+            (click)="onSubmit()"
           >
-            <span
-              *ngIf="loading"
-              class="spinner-border spinner-border-sm mr-1"
-            ></span>
+          <swal (open)="confirmOpen()"></swal>
             Đăng ký
           </button>
         </form>
@@ -244,27 +240,4 @@
     <!-- /Register-->
   </div>
 
-  <!-- popup when register successs -->
-  <ng-template #popupSuccess let-modal>
-    <div class="modal-header">
-      <h2 class="modal-title" id="myModalLabel160">
-        Xác nhận đăng ký thành công
-      </h2>
-      <button
-        type="button"
-        class="close btn-primary"
-        (click)="modal.close()"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      Kiểm tra email của bạn và kích hoạt tài khoản đăng ký .
-    <a routerLink="/pages/authentication/login" (click)="modal.close()"
-        ><span>&nbsp; Đi đến trang đăng nhập</span></a
-    >
-    </div>
-    
-  </ng-template>
 </div>

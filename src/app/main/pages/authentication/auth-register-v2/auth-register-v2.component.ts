@@ -8,6 +8,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { AuthRegisterV2Service } from './auth-register-v2.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-auth-register-v2',
@@ -22,7 +23,6 @@ export class AuthRegisterV2Component implements OnInit {
   public registerForm: FormGroup;
   public submitted = false;
   public roles = ['USER'];
-  public loading = false;
   public notifiFalse = false;
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -76,59 +76,70 @@ export class AuthRegisterV2Component implements OnInit {
   /**
    * On Submit
    */
-  onSubmit(popupSuccess) {
+  onSubmit() {
     this.submitted = true;
     console.log("check submit")
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
-    this.loading = true;
+    this.confirmOpen();
+  }
+
+  confirmOpen(){
     const request = JSON.stringify({
       username: this.f.username.value,
       password: this.f.password.value,
       email: this.f.email.value,
       role: this.f.role.value
     })
-    console.log(request);
-    this._registerService
+    Swal.fire({
+      title: 'Các thông tin không thể sửa đổi khi tạo tài khoản?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return await      this._registerService
       .registerReq(request)
-      .pipe(first())
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          if ((response.result === true)) {
-            this.toastr.success('👋 Bạn đã đăng kí tài khoản mới', 'Thành công', {
-              positionClass: 'toast-top-right',
-              toastClass: 'toast ngx-toastr',
-              closeButton: true
-            });
-            this.submitted = false;
-            this.registerForm.reset();
-            this.loading = false;
-            this.modalService.open(popupSuccess, {
-              centered: true,
-              size: "s",
-            });
-          }
-          if(response.result === false){
-            // this.toastr.error('👋 Tài khoản đã tồn tại', 'Thất bại', {
-            //   positionClass: 'toast-top-center',
-            //   toastClass: 'toast ngx-toastr',
-            //   closeButton: true
-            // });
-            this.notifiFalse = true;
-            this.submitted = false;
-            // this.registerForm.reset();
-            this.loading = false;
-          }
-        },
-        error => {
-          this.loading = false;
+      .pipe(first()).pipe(takeUntil(this._unsubscribeAll))
+      .toPromise().then(res=>{
+        if(res.result==false){
+          throw new Error(res.message);
         }
-      )
+        return res;
+      }).catch(
+        function (error) {
+          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+        }
+      );
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, thông tin chính xác!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thông tin tài khoản đã được cập nhật. Vui lòng kiểm tra email để kích hoạt tài khoản.',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+        
+      }
+    }
+    
+    );
   }
-
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
