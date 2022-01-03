@@ -241,12 +241,15 @@ export class PersonalListComponent implements OnInit {
     this._personalService
         .deletePersonal(staffId)
         .subscribe((res) =>{
-            // this.updateTableOnDelete();
             this._toastrService.success(
               "Xóa Thuê Bao cá nhân thành công ",   
               "Thành công",
               { toastClass: "toast ngx-toastr", closeButton: true }
-            )
+            );
+            this.setPage({
+              offset: 0,
+              pageSize: this.formListPersonal.controls.size
+            })
         })
   }
 

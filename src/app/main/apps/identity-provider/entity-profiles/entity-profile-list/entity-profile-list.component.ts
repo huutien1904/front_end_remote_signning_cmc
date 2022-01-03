@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile-list',
@@ -55,6 +56,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     private _entityProfileService: EntityProfileService,
     private dateAdapter: DateAdapter<any>,
     private _router: Router,
+    private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -123,7 +125,23 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       this._router.navigate(['/apps/ip/profiles/profile-view', event.row.endEntityProfileId]);
     }
   }
-
+  removeProfile(entityId){
+    console.log(entityId);
+    this._entityProfileService
+    .deleteProfileId(entityId)
+    .subscribe((res) =>{
+        // this.updateTableOnDelete();
+        this._toastrService.success(
+          "Xóa Entity Profile thành công ",   
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+        this.setPage({
+          offset: 0,
+          pageSize: this.formListProfile.controls.size
+        })
+    })
+  }
   /**
    * On destroy
    */
