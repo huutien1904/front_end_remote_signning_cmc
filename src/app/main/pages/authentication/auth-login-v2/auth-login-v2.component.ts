@@ -92,8 +92,8 @@ export class AuthLoginV2Component implements OnInit {
           this._router.navigate([this.returnUrl]);
         },
         (error) => {
-          this.error =
-            'Email hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.';
+          console.log(error);
+          this.error = error;
           this.loading = false;
         }
       );

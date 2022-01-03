@@ -80,14 +80,13 @@ export class ErrorInterceptor implements HttpInterceptor {
       }),
       catchError((err) => {
         console.log(err);
-
-        if ([0, 400, 403, 404, 500, 503].indexOf(err.status) !== -1) {
+        // if ([0, 401, 400, 403, 404, 500, 503].indexOf(err.status) !== -1) {
           // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
           console.log(err);
           //Lỗi Unknown Error: Hiện toastr báo lỗi, ko đóng modal, form...
-          if (err.status == 0) {
+            console.log("?????");
             this._toastr.error(
-              'Đã có lỗi xảy ra. Chúng tôi đang cố gắng khắc phục sự cố.',
+              err.error.message,
               err.statusText,
               {
                 positionClass: 'toast-top-center',
@@ -96,21 +95,40 @@ export class ErrorInterceptor implements HttpInterceptor {
                 timeOut: 8000,
               }
             );
-          } else {
-            //Các lỗi khác: Chuyển trang báo lỗi, đóng tất cả form, modal đang mở
-            this._modal.dismissAll();
-            if (err.status == 401)
-              this._router.navigate(['/pages/miscellaneous/not-authorized']);
-            // if(err.status == 403 || err.status == 404)
-            //   this._router.navigate(['/pages/miscellaneous/error']);
-            // else if(err.status == 500 || err.status == 503)
-            //   this._router.navigate(['/pages/miscellaneous/maintenance']);
-          }
+          
+        // }
+        // if ([0, 401, 400, 403, 404, 500, 503].indexOf(err.status) !== -1) {
+        //   // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+        //   console.log(err);
+        //   //Lỗi Unknown Error: Hiện toastr báo lỗi, ko đóng modal, form...
+        //   if (err.status == 0) {
+        //     console.log("?????");
+            
+        //     this._toastr.error(
+        //       'Đã có lỗi xảy ra. Chúng tôi đang cố gắng khắc phục sự cố.',
+        //       err.statusText,
+        //       {
+        //         positionClass: 'toast-top-center',
+        //         toastClass: 'toast ngx-toastr',
+        //         closeButton: true,
+        //         timeOut: 8000,
+        //       }
+        //     );
+        //   } else {
+        //     //Các lỗi khác: Chuyển trang báo lỗi, đóng tất cả form, modal đang mở
+        //     this._modal.dismissAll();
+        //     // if (err.status == 401)
+        //       // this._router.navigate(['/pages/miscellaneous/not-authorized']);
+        //     // if(err.status == 403 || err.status == 404)
+        //     //   this._router.navigate(['/pages/miscellaneous/error']);
+        //     // else if(err.status == 500 || err.status == 503)
+        //     //   this._router.navigate(['/pages/miscellaneous/maintenance']);
+        //   }
 
-          // ? Can also logout and reload if needed
-          this._authenticationService.logout();
-          location.reload();
-        }
+        //   // ? Can also logout and reload if needed
+        //   // this._authenticationService.logout();
+        //   // location.reload();
+        // }
         // throwError
         const error = err.error.message || err.statusText;
         return throwError(error);
