@@ -5,6 +5,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { Hsm } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HsmService } from '../hsm.service';
@@ -46,6 +47,7 @@ export class HsmListComponent implements OnInit {
     private _hsmService: HsmService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
+    private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -86,7 +88,6 @@ export class HsmListComponent implements OnInit {
   }
 
   setPage(pageInfo) {
-    
     this.isLoading = true;
     this.formListHsm.patchValue({"page":pageInfo.offset});
     console.log(pageInfo);
@@ -103,7 +104,22 @@ export class HsmListComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
+  removeProfile(hsmId){
+    this._hsmService
+    .deleteHSMId(hsmId)
+    .subscribe((res) =>{
+        // this.updateTableOnDelete();
+        this._toastrService.success(
+          "Xóa kết nối Hsm thành công ",   
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+        this.setPage({
+          offset: 0,
+          pageSize: this.formListHsm.controls.size
+        })
+    })
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
