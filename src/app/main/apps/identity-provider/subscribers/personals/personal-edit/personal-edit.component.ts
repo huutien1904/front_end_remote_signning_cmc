@@ -107,6 +107,28 @@ export class PersonalEditComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    this.getPersonalDetail();
+    this.contentHeader = {
+      headerTitle: 'Thuê Bao',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-list'
+          },
+          {
+            name: 'Chỉnh sửa thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-search'
+          }
+        ]
+      }
+    };
+
     // get organizationID
     this.organizationId = await this._organizationListService.getListOrganizations(this.body)
       .pipe(takeUntil(this._unsubscribeAll))
@@ -303,7 +325,13 @@ export class PersonalEditComponent implements OnInit {
 
       this.streetBirthPlace.forEach(street => {
         if (street.streetId == data.birthPlace.streetId) {
+          alert("run")
           this.formPersonalEdit.get("streetBirthPlace").setValue(street.streetId);
+          console.log(street.streetId);
+          console.log( this.formPersonalEdit.get("streetBirthPlace").value);
+          
+          console.log(this.formPersonalEdit.value);
+          
         }
       })
       this.streetResidencePlace.forEach(street => {
@@ -311,26 +339,7 @@ export class PersonalEditComponent implements OnInit {
           this.formPersonalEdit.get("streetResidencePlace").setValue(street.streetId);
         }
       })
-    this.getPersonalDetail();
-    this.contentHeader = {
-      headerTitle: 'Thuê Bao',
-      actionButton: true,
-      breadcrumb: {
-        type: 'chevron',
-        links: [
-          {
-            name: 'Quản lý thuê bao',
-            isLink: true,
-            link: '/apps/ip/subscribers-list'
-          },
-          {
-            name: 'Chỉnh sửa thuê bao',
-            isLink: true,
-            link: '/apps/ip/subscribers-search'
-          }
-        ]
-      }
-    };
+    
 
     
 
