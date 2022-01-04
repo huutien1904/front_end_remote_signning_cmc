@@ -37,10 +37,16 @@ export class OrganizationListService {
       },
     };
 
-    public getListOrganizations(body) :Observable<ResponseData<PagedData<Organization>>>{
+    public searchOrganizations(body) :Observable<ResponseData<PagedData<Organization>>>{
        return this._httpClient
        .post<ResponseData<PagedData<Organization>>>(`${environment.apiUrl}/organization/search`,body,this.option);
     }
+
+    public getAllOrganizations() :Observable<ResponseData<Organization[]>>{
+      return this._httpClient
+      .get<ResponseData<Organization[]>>(`${environment.apiUrl}/organization/get-all`,this.option);
+   }
+
     public submitForm(body): Observable<any> {
       return this._httpClient.post<any>(
         `${environment.apiUrl}/organization/create`,body,

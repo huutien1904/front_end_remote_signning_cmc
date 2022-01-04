@@ -152,7 +152,7 @@ export class CreateSelfComponent implements OnInit {
       .then((res) => {
          return res;
       }); 
-      this.organizationId = await this._organizationListService.getListOrganizations({
+      this.organizationId = await this._organizationListService.searchOrganizations({
         "page": null,
         "size": null,
         "sort": [],
