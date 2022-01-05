@@ -146,6 +146,7 @@
         [offset]="pagedData.currentPage"
         [loadingIndicator]="isLoading"
         (page)="setPage($event)"
+        (activate)="onActivate($event)"
         >
           <ngx-datatable-column
             name="TT"
@@ -158,10 +159,15 @@
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
-            name="Tên HSM"
+            name="Tên kết nối HSM"
             prop="hsmName"
             [width]="130"
           ></ngx-datatable-column>
+          <ngx-datatable-column
+          name="Trạng Thái"
+          prop="hsmName"
+          [width]="130"
+        ></ngx-datatable-column>
           <ngx-datatable-column
             name="Hãng sản xuất"
             prop="hsmManufacturer"
@@ -175,7 +181,7 @@
           <ngx-datatable-column
             name="Đường dẫn file thư viện"
             prop="hsmLibraryPath"
-            [width]="400"
+            [width]="350"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Hành động"

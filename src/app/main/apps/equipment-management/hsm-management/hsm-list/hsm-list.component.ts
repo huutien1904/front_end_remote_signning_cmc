@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { Hsm } from 'app/main/models/Equipment';
@@ -48,6 +49,7 @@ export class HsmListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
     private _toastrService: ToastrService,
+    private _router: Router
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -104,6 +106,12 @@ export class HsmListComponent implements OnInit {
         this.isLoading = false;
       });
   }
+  onActivate(event) {
+    if (event.type ==="click" && event.column.name !="Hành động"){
+      this._router.navigate(["/apps/equipment-management/hsm/hsm-view/",event.row.hsmId])
+    }
+    console.log(event);
+}
   removeProfile(hsmId){
     this._hsmService
     .deleteHSMId(hsmId)
