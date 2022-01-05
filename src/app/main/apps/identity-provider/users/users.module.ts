@@ -19,11 +19,15 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingService } from 'app/main/loading/loading.service';
 import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
 import { HttpClientModule } from '@angular/common/http'; 
+import { CreateSelfComponent } from './create-self/create-self.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,CreateSelfComponent
   ],
   imports: [
     CommonModule,
@@ -37,10 +41,11 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     CoreSidebarModule,
     ...materialModules1234,
     HttpClientModule,
+    SweetAlert2Module,
     
   ],
   exports: [
-    ProfileComponent
+    ProfileComponent,CreateSelfComponent
   ],
   providers : [
     {

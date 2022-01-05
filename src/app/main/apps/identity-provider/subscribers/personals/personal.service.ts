@@ -2,13 +2,13 @@ import { Organization } from 'app/main/models/Organization';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagedData } from 'app/main/models/PagedData';
-import { Personal } from 'app/main/models/Personal';
+import { Personal, PersonalDetail } from 'app/main/models/Personal';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
 
-export class PersonalListService {
+export class PersonalService {
   // public 
   public onUserListChanged: BehaviorSubject<any>;
 
@@ -80,17 +80,38 @@ export class PersonalListService {
     return this._httpClient.post<ResponseData<PagedData<Personal>>>
     (`${environment.apiUrl}/staff/search`, body);
   }
-  public deletePersonal(personalId): Observable<Object> {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const token = currentUser.token;
-    console.log("service personal list");
-    const option = {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      },
-    };
-    return this._httpClient.delete(`${environment.apiUrl}/personal/delete/${personalId}`, option);
+  public deletePersonal(staffId): Observable<ResponseData<Personal>> {
+    return this._httpClient.delete<ResponseData<Personal>>(`${environment.apiUrl}/staff/${staffId}`,  this.option);
   }
 
+  public getPersonalById(id): Observable<ResponseData<Personal>> {
+    return this._httpClient.get<ResponseData<Personal>>(
+      `${environment.apiUrl}/staff/${id}`,
+      this.option
+    );
+  }
+
+  getDetailPersonal(id:string):Observable<ResponseData<PersonalDetail>>{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const token = currentUser.token;
+    const option = {
+      headers :{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token,
+      }, 
+    };
+    return this._httpClient.get<ResponseData<PersonalDetail>>(`${environment.apiUrl}/personal/view/${id}`,option);
+  }
+  
+  updatePersonal(body):Observable<ResponseData<Personal>>{
+    console.log("test");
+    console.log(body);
+    
+    return this._httpClient.put<ResponseData<Personal>>(`${environment.apiUrl}/staff/update`, body, this.option);
+
+  }
+  createPersonalSelf(body):Observable<ResponseData<Personal>>{
+    return this._httpClient.post<ResponseData<Personal>>(`${environment.apiUrl}/staff/create-self`, body, this.option);
+
+  }
 }

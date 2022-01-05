@@ -7,7 +7,7 @@ import { Personal } from 'app/main/models/Personal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrganizationListService } from '../identity-provider/subscribers/organizations/organization-list/organization-list.service';
-import { PersonalListService } from '../identity-provider/subscribers/personals/personal-list/personal-list.service';
+import { PersonalService } from '../identity-provider/subscribers/personals/personal.service';
 import { KeypairListService } from '../token-management/keypair/keypair-list/keypair-list.service';
 import { SubscriberCertificateListService } from '../token-management/subscriber-certificate/subscriber-certificate-list/subscriber-certificate-list.service';
 import {
@@ -74,7 +74,7 @@ export interface ChartOptions2 {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [OrganizationListService, PersonalListService, KeypairListService, SubscriberCertificateListService]
+  providers: [OrganizationListService, PersonalService, KeypairListService, SubscriberCertificateListService]
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('apexLineChartRef') apexLineChartRef: any;
@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private _organizationListService: OrganizationListService,
-    private _personalListService: PersonalListService,
+    private _personalService: PersonalService,
     private _keypairService: KeypairListService,
     private _subscriberCertificateService: SubscriberCertificateListService,
     private _coreConfigService: CoreConfigService
@@ -601,7 +601,7 @@ export class DashboardComponent implements OnInit {
     pagedData.size = 1;
     
     pagedData.currentPage = 0;
-    this._personalListService
+    this._personalService
     .getListPersonals(pagedData)
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((response) => {

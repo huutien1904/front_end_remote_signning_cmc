@@ -1,33 +1,33 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileListComponent } from './entity-profile-list/entity-profile-list.component';
-import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { CoreCommonModule } from '@core/common.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-import { CoreSidebarModule } from "@core/components";
-import { CorePipesModule } from '@core/pipes/pipes.module';
-import { ProfileEditComponent } from './entity-profile-edit/entity-profile-edit.component';
-import { MatDatepickerModule } from "@angular/material/datepicker";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
+  MomentDateAdapter
 } from "@angular/material-moment-adapter";
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE
 } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { RouterModule } from '@angular/router';
+import { CoreCommonModule } from '@core/common.module';
+import { CoreSidebarModule } from "@core/components";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CorePipesModule } from '@core/pipes/pipes.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
 import { LoadingService } from 'app/main/loading/loading.service';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { EntityProfileCreateComponent } from './entity-profile-create/entity-profile-create.component';
+import { ProfileEditComponent } from './entity-profile-edit/entity-profile-edit.component';
+import { ProfileListComponent } from './entity-profile-list/entity-profile-list.component';
 import { EntityProfileViewComponent } from './entity-profile-view/entity-profile-view.component';
 
 const materialModules1234 = [

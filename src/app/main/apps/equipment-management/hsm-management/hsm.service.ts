@@ -55,5 +55,11 @@ export class HsmService {
       this.option
     );
   }
+  public deleteHSMId(id): Observable<any> {
+    return this._httpClient.delete<any>(
+      `${environment.apiUrl}/hsm/${id}`,
+      this.option
+    );
+  }
 
 }

@@ -1,11 +1,9 @@
-import { AddressService } from 'app/main/apps/identity-provider/address.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Address } from './../../../../../models/Address'
+import { ActivatedRoute, Router } from '@angular/router';
+import { AddressService } from 'app/main/apps/identity-provider/address.service';
 import { Subject } from 'rxjs';
-import { PersonalViewService } from './personal-view.service';
-import { ActivatedRoute } from '@angular/router';
-import { map, takeUntil } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
+import { PersonalService } from '../personal.service';
 
 @Component({
   selector: 'app-personal-view',
@@ -34,7 +32,7 @@ export class PersonalViewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private _addressService: AddressService,
-    private _personalViewService: PersonalViewService) {
+    private _personalService: PersonalService) {
     this._unsubscribeAll = new Subject();
   }
 
@@ -45,7 +43,7 @@ export class PersonalViewComponent implements OnInit {
   getPersonalView() {
     const routerParams = this.route.snapshot.paramMap
     const personalDeatailId = routerParams.get('id')
-    this._personalViewService
+    this._personalService
       .getDetailPersonal(personalDeatailId)
       .pipe(takeUntil(this._unsubscribeAll))
 

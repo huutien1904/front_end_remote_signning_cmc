@@ -81,7 +81,7 @@ export class SubscriberCertificateListComponent implements OnInit {
       sort: [null],
       toDate: [null],
       page: [null],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
     });
 
     this.setPage({

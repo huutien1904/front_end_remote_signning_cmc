@@ -7,7 +7,8 @@ export class User {
   firstName: string;
   lastName: string;
   avatar: string;
-  role: Role;
+  isSetSubscriber:boolean;
+  role: Role[];
   token?: string;
   username: string;
 }

@@ -143,7 +143,7 @@ export class EntityProfileCreateComponent implements OnInit {
     },
   ];
 
-  // declare subject ATT
+  // // declare subject ATT
   public SubjectAlterAttrs = [
     {
       name: 'rfc822Name',
@@ -190,28 +190,151 @@ export class EntityProfileCreateComponent implements OnInit {
       value: 'otherName',
       
     },
-    // {
-    //   name: 'PI',
-    //   value: 'Permanent Identifier',
+    {
+      name: 'PI',
+      value: 'Permanent Identifier',
 
-    // },
-    // {
-    //   id: 'XA',
-    //   value: 'XmppAddr',
+    },
+    {
+      id: 'XA',
+      value: 'XmppAddr',
 
-    // },
-    // {
-    //   id: 'SN',
-    //   value: 'Service Name',
+    },
+    {
+      id: 'SN',
+      value: 'Service Name',
 
-    // },
-    // {
-    //   id: 'SIM',
-    //   value: 'Subject Identification Method (SIM)',
+    },
+    {
+      id: 'SIM',
+      value: 'Subject Identification Method (SIM)',
 
-    // },
+    },
   ];
+  // declare subject ATT
+  // public SubjectAlterAttrs = [
+  //   {
+  //     name: 'CN',
+  //     value: 'CN, Common name',
+      
+  //   },
+  //   {
+  //     name: 'C',
+  //     value: 'C, Country (ISO 3166)',
+      
+  //   },
+  //   {
+  //     name: 'EMAILADDRESS',
+  //     value: 'EmailAddress, E-mail address in DN',
+      
+  //   },
+  //   {
+  //     name: 'UID',
+  //     value: 'UID, Unique Identifier',
+      
+  //   },
+  //   {
+  //     name: 'TELEPHONE_NUMBER',
+  //     value: 'telephoneNumber',
+      
+  //   },
 
+  //   {
+  //     name: 'OU',
+  //     value: 'OU, Organizational Unit',
+      
+  //   },
+  //   {
+  //     name: 'O',
+  //     value: 'O, Organization',
+      
+  //   },
+  //   {
+  //     name: 'L',
+  //     value: 'L, Locality',
+      
+  //   },
+  //   {
+  //     name: 'ST',
+  //     value: 'ST, State or Province',
+      
+  //   },
+  //   {
+  //     name: 'STREET',
+  //     value: 'streetAddress',
+      
+  //   },
+  //   {
+  //     name: 'SERIALNUMBER',
+  //     value: 'SerialNumber, Serial number (in DN)',
+      
+  //   },
+  //   {
+  //     name: 'DN_QUALIFIER',
+  //     value: 'dnQualifier, DN Qualifier',
+      
+  //   },
+  //   {
+  //     name: 'GIVENNAME',
+  //     value: 'GivenName, Given name (first name)',
+      
+  //   },
+  //   {
+  //     name: 'INITIALS',
+  //     value: 'Initials, First name abbreviation',
+      
+  //   },
+  //   {
+  //     name: 'SURNAME',
+  //     value: 'Surname, Surname (last name)',
+      
+  //   },
+  //   {
+  //     name: 'T',
+  //     value: 'Title, Title',
+      
+  //   },
+  //   {
+  //     name: 'POSTAL_ADDRESS',
+  //     value: 'postalAddress',
+      
+  //   },
+  //   {
+  //     name: 'PSEUDONYM',
+  //     value: 'pseudonym',
+      
+  //   },
+  //   {
+  //     name: 'DESCRIPTION',
+  //     value: 'description, Description',
+      
+  //   },
+  //   {
+  //     name: 'UnstructuredAddress',
+  //     value: 'unstructuredAddress, IP address',
+      
+  //   },
+  //   {
+  //     name: 'UnstructuredName',
+  //     value: 'unstructuredName, Domain name (FQDN)',
+      
+  //   },
+  //   {
+  //     name: 'POSTAL_CODE',
+  //     value: 'postalCode',
+      
+  //   },
+  //   {
+  //     name: 'DC',
+  //     value: 'DC, Domain Component',
+      
+  //   },
+  //   {
+  //     name: 'BUSINESS_CATEGORY',
+  //     value: 'businessCategory, Organization type',
+      
+  //   },
+  // ];
   public selectedDnA: any = this.SubjectDnAttrs[0];
   public selectedAlterA: any = this.SubjectAlterAttrs[0];
 
@@ -231,7 +354,7 @@ export class EntityProfileCreateComponent implements OnInit {
   ngOnInit(): void {
     this.contentHeader = {
       headerTitle: 'EntityProfile',
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
@@ -348,7 +471,7 @@ export class EntityProfileCreateComponent implements OnInit {
 
   // submit
   confirmOpen() {
-    
+    console.log(this.formCreateProfile.value);
     if(this.formCreateProfile.value.endEntityProfileName == null || this.formCreateProfile.value.alternativeName.length === 0 || this.formCreateProfile.value.distinguishedName.length === 0 ){
       
       Swal.fire({

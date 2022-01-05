@@ -8,7 +8,7 @@ import {
   DatatableComponent,
   SelectionType
 } from "@swimlane/ngx-datatable";
-import { PersonalListService } from "app/main/apps/identity-provider/subscribers/personals/personal-list/personal-list.service";
+import { PersonalService } from "app/main/apps/identity-provider/subscribers/personals/personal.service";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
 import { Subject } from "rxjs";
@@ -44,7 +44,7 @@ export class PersonalsComponent implements OnInit {
   public rowDataSelected = [];
   /**
    *
-   * @param _personalListService
+   * @param _personalService
    * @param _coreSidebarService
    * @param modalService
    * @param fb
@@ -52,7 +52,7 @@ export class PersonalsComponent implements OnInit {
    * @param _coreSidebarService
    */
   constructor(
-    private _personalListService: PersonalListService,
+    private _personalService: PersonalService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -73,7 +73,7 @@ export class PersonalsComponent implements OnInit {
   ngOnInit(): void {
     this.formListPersonal = this.fb.group({
       page: [""],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
       sort: [["staffId,asc"]],
       contains: ["", Validators.required],
       gender: [null],
@@ -91,7 +91,7 @@ export class PersonalsComponent implements OnInit {
     console.log(pageInfo);
     this.isLoading=true;
     this.formListPersonal.patchValue({"page":pageInfo.offset}); 
-    this._personalListService
+    this._personalService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {

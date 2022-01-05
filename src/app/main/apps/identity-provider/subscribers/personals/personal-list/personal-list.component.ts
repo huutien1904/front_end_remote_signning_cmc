@@ -1,22 +1,21 @@
-import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
-import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
+import { Router } from "@angular/router";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   ColumnMode,
   DatatableComponent,
-  SelectionType,
+  SelectionType
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
-import { ifError } from "assert";
+import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { PersonalListService } from "./personal-list.service";
-import { ToastrService } from "ngx-toastr";
 import * as XLSX from 'xlsx';
+import { PersonalService } from "../personal.service";
 
 type EXCEL = any[][];
 
@@ -59,7 +58,7 @@ export class PersonalListComponent implements OnInit {
   public formListPersonal: FormGroup;
   /**
    *
-   * @param _personalListService
+   * @param _personalService
    * @param _coreConfigService
    * @param modalService
    * @param fb
@@ -67,10 +66,11 @@ export class PersonalListComponent implements OnInit {
    * @param dateAdapter
    */
   constructor(
-    private _personalListService: PersonalListService,
+    private _personalService: PersonalService,
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
+    private _router: Router,
     private dateAdapter: DateAdapter<any>,
     private _toastrService: ToastrService,
   ) {
@@ -109,7 +109,7 @@ export class PersonalListComponent implements OnInit {
     };
     this.formListPersonal = this.fb.group({
       page: [""],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
       sort: [["staffId,asc"]],
       contains: ["", Validators.required],
       gender: [null],
@@ -130,7 +130,7 @@ export class PersonalListComponent implements OnInit {
     // this.pagedData.size = pageInfo.pageSize;
     console.log(JSON.stringify(this.formListPersonal.value));
     
-    this._personalListService
+    this._personalService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
@@ -171,6 +171,13 @@ export class PersonalListComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
+  onActivate(event) {
+    console.log(event);
+    if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+      this._router.navigate(['/apps/ip/subscribers/personals/personal-edit', event.row.staffId]);
+      
+    }
+  }
   // Public Methods
   openNewPersonalModal(modal) {
     this.flag = this.modalService.open(modal, {
@@ -196,7 +203,7 @@ export class PersonalListComponent implements OnInit {
     // }
     // console.log(this.formListPersonal.value);
     // this.body.contains = this.formListPersonal.value.inputPersonal
-    // this._personalListService
+    // this._personalService
     //   .searchPersonal(JSON.stringify(this.formListPersonal.value))
     //   .pipe(takeUntil(this._unsubscribeAll))
     //   .subscribe((pagedData) => {
@@ -231,17 +238,19 @@ export class PersonalListComponent implements OnInit {
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
-  deletePersonal(personalID){
-    this._personalListService
-        .deletePersonal(personalID)
+  deletePersonal(staffId){
+    this._personalService
+        .deletePersonal(staffId)
         .subscribe((res) =>{
-          const result = res
-            this.updateTableOnDelete();
             this._toastrService.success(
               "Xóa Thuê Bao cá nhân thành công ",   
               "Thành công",
               { toastClass: "toast ngx-toastr", closeButton: true }
-            )
+            );
+            this.setPage({
+              offset: 0,
+              pageSize: this.formListPersonal.controls.size
+            })
         })
   }
 
@@ -317,7 +326,7 @@ export class PersonalListComponent implements OnInit {
       //   const token = currentUser.token;
       //   const newPersonal = JSON.stringify(item);
       //   console.log(newPersonal);
-        // this._personalListService.submitForm(newPersonal).subscribe((res: any) => {
+        // this._personalService.submitForm(newPersonal).subscribe((res: any) => {
         //   if(res.result === true){
         //     this.updateTableOnAdd();
         //   }

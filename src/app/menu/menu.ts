@@ -20,7 +20,7 @@ export const menu: CoreMenu[] = [
         title: 'Thuê bao',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.SEARCH',
         type: 'item',
-        icon: 'user-plus',
+        icon: 'users',
         url: 'apps/ip/subscribers-list',
         
       },
@@ -37,7 +37,7 @@ export const menu: CoreMenu[] = [
         title: 'Profile',
         translate: 'MENU.SUBSCRIPTION_MANAGEMENT.CREATE_NEW_SUBSCRIPTIONS',
         type: 'item',
-        icon: 'users',
+        icon: 'user',
         url: '/apps/ip/profiles/profile-list',
       },
     ]
@@ -114,14 +114,14 @@ export const menu: CoreMenu[] = [
             translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.VIEW',
             icon: 'circle',
             type: 'item',
-            url: '/apps/tm/certificate-request/certificate-request-view'
+            url: '/apps/tm/certificate -request/certificate-request-view'
           }
         ]*/
       {
         id: 'subscriber-certificate-list',
         title: 'Chứng thư số',
         translate: 'MENU.TOKEN_MANAGEMENT.SUBSCRIBER_CERTIFICATE.CREATE',
-        icon: 'file-text',
+        icon: 'file',
         type: 'item',
         url: '/apps/tm/subscriber-certificate/subscriber-certificate-list'
       }
@@ -161,7 +161,7 @@ export const menu: CoreMenu[] = [
         title: 'Kết nối HSM',
         translate: 'MENU.EQUIPMENT_MANAGEMENT.HSM',
         type: 'item',
-        icon: 'tool',
+        icon: 'rss',
         url: '/apps/equipment-management/hsm/hsm-list'
       },
       {
@@ -173,12 +173,12 @@ export const menu: CoreMenu[] = [
         url: '/apps/equipment-management/token/token-list'
       },
       {
-        id: "template-management",
+        id: "template",
         title: 'Template',
-        translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
+        translate: 'MENU.EQUIPMENT_MANAGEMENT.TEMPLATE',
         type: 'item',
         icon: 'speaker',
-        url: 'apps/system-management/monitorlog'
+        url: '/apps/equipment-management/template'
       },
     ]
   },
@@ -205,20 +205,20 @@ export const menu: CoreMenu[] = [
         url: 'apps/system-management/monitorlog'
       },
       {
-        id: 'monitorlog',
+        id: 'help',
         title: 'Trợ giúp',
-        translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
+        translate: 'MENU.SYSTEM_MANAGEMENT.HELP',
         type: 'item',
-        icon: 'plus',
-        url: 'apps/system-management/monitorlog'
+        icon: 'help-circle',
+        url: 'apps/system-management/help-center'
       },
       {
-        id: 'monitorlog',
+        id: 'info',
         title: 'Giới thiệu',
         translate: 'MENU.SYSTEM_MANAGEMENT.LOG',
         type: 'item',
-        icon: 'user-plus',
-        url: 'apps/system-management/monitorlog'
+        icon: 'info',
+        url: 'apps/system-management/introduction'
       }
 
     ]

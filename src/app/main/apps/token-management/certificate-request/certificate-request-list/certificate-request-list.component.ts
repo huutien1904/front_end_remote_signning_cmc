@@ -64,7 +64,7 @@ export class CertificateRequestListComponent implements OnInit {
       sort: [null],
       toDate: [null],
       page: [null],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
     });
     this.setPage({
       offset: 0,
@@ -87,7 +87,7 @@ export class CertificateRequestListComponent implements OnInit {
     this.formListCertificateRequest = this.fb.group({
 
       page: [null],
-      size: [this.sizePage[1]],
+      size: [this.sizePage[3]],
       sort : [null],
       contains: [null],
       fromDate: [null],

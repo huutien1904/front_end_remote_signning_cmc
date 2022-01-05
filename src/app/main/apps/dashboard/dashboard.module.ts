@@ -7,11 +7,15 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AuthGuard } from 'app/auth/helpers';
+import { Role } from 'app/auth/models';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+    canActivate : [AuthGuard], 
+    data: {roles: [Role.SuperAdmin], animation:''}
     
   },
   {

@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Province, District, Commune, Street } from 'app/main/models/Address';
 import { Organization } from 'app/main/models/Organization';
+import { Personal } from 'app/main/models/Personal';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 import { AddressService } from '../../../address.service';
 import { OrganizationListService } from '../../organizations/organization-list/organization-list.service';
-import { PersonalListService } from '../personal-list/personal-list.service';
-import { PersonalEditService } from './personal-edit.service';
+import { PersonalService } from '../personal.service';
 
 @Component({
   selector: 'app-personal-edit',
@@ -20,6 +21,7 @@ import { PersonalEditService } from './personal-edit.service';
 })
 export class PersonalEditComponent implements OnInit {
   private _unsubscribeAll = new Subject();
+  private personal :Personal;
   formPersonalEdit: FormGroup;
   public contentHeader: object;
   public url = this.router.url;
@@ -32,6 +34,8 @@ export class PersonalEditComponent implements OnInit {
     "fromDate": "",
     "toDate": ""
   }
+  submitted= false;
+
 
 
   public organizationId: Organization[];
@@ -70,16 +74,36 @@ export class PersonalEditComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private _personalEditService: PersonalEditService,
-    private _personalListService: PersonalListService,
+    private _personalService: PersonalService,
     private _organizationListService: OrganizationListService,
     private _addressService: AddressService,
     private modalService: NgbModal,
     private _toastrService: ToastrService,
   ) {
+    this.contentHeader = {
+      headerTitle: 'Thuê Bao',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-list'
+          },
+          {
+            name: 'Chỉnh sửa thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-search'
+          }
+        ]
+      }
+    };
+
     // this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this.formPersonalEdit = this.formBuilder.group({
+      userId: [null, Validators.required],
       username: ["", [Validators.required,]],
       subscriberCategoryId: ["1", [Validators.required,]],
       firstName: [null, [Validators.required,]],
@@ -87,19 +111,19 @@ export class PersonalEditComponent implements OnInit {
       lastName: [null, [Validators.required,]],
       phoneNumber: [null, [Validators.required, Validators.minLength(10), Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),]],
       personalCountryId: [null, [Validators.required, Validators.minLength(8), Validators.pattern(/^[0-9]\d*$/),]],
-      organizationId: [null, Validators.required],
-      streetBirthPlace: [{ value: null, disabled: true }, Validators.required],
+      organizationId: [null],
+      streetBirthPlace: [null, Validators.required],
       countryBirthPlace: [this.countryBirthPlace[0].countryId, Validators.required],
       provinceBirthPlace: [null, Validators.required],
-      districtBirthPlace: [{ value: null, disabled: true }, Validators.required],
-      communeBirthPlace: [{ value: null, disabled: true }, Validators.required],
-      homeNumberBirthPlace: [{ value: null, disabled: true }, Validators.required],
+      districtBirthPlace: [null, Validators.required],
+      communeBirthPlace: [null, Validators.required],
+      homeNumberBirthPlace: [null, Validators.required],
       countryResidencePlace: [this.countryResidencePlace[0].countryId, Validators.required],
       provinceResidencePlace: [null, Validators.required],
-      districtResidencePlace: [{ value: null, disabled: true }, Validators.required],
-      communeResidencePlace: [{ value: null, disabled: true }, Validators.required],
-      streetResidencePlace: [{ value: null, disabled: true }, Validators.required],
-      homeNumberResidencePlace: [{ value: null, disabled: true }, Validators.required],
+      districtResidencePlace: [null, Validators.required],
+      communeResidencePlace: [null, Validators.required],
+      streetResidencePlace: [null, Validators.required],
+      homeNumberResidencePlace: [null, Validators.required],
       gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email,]],
@@ -108,7 +132,7 @@ export class PersonalEditComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.getPersonalDetail();
+    // this.getPersonalDetail();
     this.contentHeader = {
       headerTitle: 'Thuê Bao',
       actionButton: true,
@@ -137,15 +161,30 @@ export class PersonalEditComponent implements OnInit {
       });
     console.log(this.organizationId)
     
-    const data:any = await this._personalEditService.getPersonalById(this.lastValue)
+    this.personal = await this._personalService.getPersonalById(this.lastValue)
       .pipe(takeUntil(this._unsubscribeAll))
       .toPromise()
       .then(res => {
         return res.data;
       });
-      console.log(data);
+      this.formPersonalEdit.patchValue({
+        userId:this.personal.userId,
+        username:this.personal.username,
+        firstName:this.personal.firstName,
+        middleName:this.personal.middleName,
+        lastName:this.personal.lastName,
+        phoneNumber:this.personal.phoneNumber,
+        personalCountryId:this.personal.personalCountryId,
+        birthday:this.personal.birthday,
+        gender:this.personal.gender,
+        email:this.personal.email,
+        homeNumberBirthPlace:this.personal.birthPlace.houseNumber,
+        homeNumberResidencePlace:this.personal.address.houseNumber
+      })
+
+
     this.organizationId.forEach(organization => {
-      if (organization.organizationName == data.organizationName) {
+      if (organization.organizationName == this.personal.organizationName) {
         this.formPersonalEdit.get("organizationId").setValue(organization.organizationId);
       }
 
@@ -153,104 +192,90 @@ export class PersonalEditComponent implements OnInit {
     // end get organizationId
 
     // set provice
-    await this._addressService
+    this.provinceBirthPlace = this.provinceResidencePlace = await this._addressService
       .getProvince()
       .pipe(
         map((res) => {
-          console.log(res);
           const data = res.data.map((city) => ({
             ...city,
             provinceDisplay: city.provinceType + " " + city.provinceName,
           }));
-          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
       )
       .toPromise().then((res) => {
-        this.provinceResidencePlace = res;
-        this.provinceBirthPlace = res;
-        console.log(this.provinceResidencePlace)
+         return res;
       });
-
     
     // set province birth place
     this.provinceBirthPlace.forEach(province => {
-      if (province.provinceId == data.birthPlace.provinceId) {
+      if (province.provinceId == this.personal.birthPlace.provinceId) {
         this.formPersonalEdit.get("provinceBirthPlace").setValue(province.provinceId);
       }
-
     })
-    // set province residen place
+
     this.provinceResidencePlace.forEach(province => {
-      if (province.provinceId == data.address.provinceId) {
+      if (province.provinceId == this.personal.address.provinceId) {
         this.formPersonalEdit.get("provinceResidencePlace").setValue(province.provinceId);
       }
-
     })
 
     // get list district birth place
-    await this._addressService
-      .getDistrict(data.birthPlace.provinceId)
+    this.districtBirthPlace = await this._addressService
+      .getDistrict(this.personal.birthPlace.provinceId)
       .pipe(
         map((res) => {
-          console.log(res);
           const data = res.data.map((district) => ({
             ...district,
                     districtDisplay:
                       district.districtType + " " + district.districtName,
           }));
-          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
       )
       .toPromise().then((res) => {
-        this.districtBirthPlace = res;
-        
-        console.log(this.districtBirthPlace)
+         return res;
       });
 
       this.districtBirthPlace.forEach(district => {
-        if (district.districtId == data.birthPlace.districtId) {
+        if (district.districtId == this.personal.birthPlace.districtId) {
           this.formPersonalEdit.get("districtBirthPlace").setValue(district.districtId);
         }
       })
     
       // get list district resident place
-      await this._addressService
-      .getDistrict(data.address.provinceId)
+      this.districtResidencePlace = await this._addressService
+      .getDistrict(this.personal.address.provinceId)
       .pipe(
         map((res) => {
-          console.log(res);
+          
           const data = res.data.map((district) => ({
             ...district,
                     districtDisplay:
                       district.districtType + " " + district.districtName,
           }));
-          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
       )
       .toPromise().then((res) => {
-        this.districtResidencePlace = res;
-        
-        console.log(this.districtResidencePlace)
+         return res;
       });
 
       this.districtResidencePlace.forEach(district => {
-        if (district.districtId == data.address.districtId) {
+        if (district.districtId == this.personal.address.districtId) {
           this.formPersonalEdit.get("districtResidencePlace").setValue(district.districtId);
         }
       })
       // get list commune addresss
 
-      await this._addressService
-      .getCommune(data.birthPlace.districtId)
+      this.communeBirthPlace = await this._addressService
+      .getCommune(this.personal.birthPlace.districtId)
       .pipe(
         map((res) => {
-          console.log(res);
+          
           const data = res.data.map((commune) => ({
             ...commune,
             communeDisplay:
@@ -262,50 +287,45 @@ export class PersonalEditComponent implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .toPromise().then((res) => {
-        this.communeBirthPlace = res;
-        
-        console.log(this.communeBirthPlace)
+        return res;
       });
 
       this.communeBirthPlace.forEach(commune => {
-        if (commune.communeId == data.birthPlace.communeId) {
+        if (commune.communeId == this.personal.birthPlace.communeId) {
           this.formPersonalEdit.get("communeBirthPlace").setValue(commune.communeId);
         }
       })
 
       // get list commune residen place
-      await this._addressService
-      .getCommune(data.address.districtId)
+      this.communeResidencePlace = await this._addressService
+      .getCommune(this.personal.address.districtId)
       .pipe(
         map((res) => {
-          console.log(res);
+          
           const data = res.data.map((commune) => ({
             ...commune,
             communeDisplay:
                       commune.communeType + " " + commune.communeName,
           }));
-          console.log(data);
           return data;
         }),
         takeUntil(this._unsubscribeAll)
       )
       .toPromise().then((res) => {
-        this.communeResidencePlace = res;
-        
-        console.log(this.communeBirthPlace)
+        return res;
       });
 
       this.communeResidencePlace.forEach(commune => {
-        if (commune.communeId == data.address.communeId) {
+        if (commune.communeId == this.personal.address.communeId) {
           this.formPersonalEdit.get("communeResidencePlace").setValue(commune.communeId);
         }
       })
       // get list street
-      await this._addressService
-      .getAllStreet()
+     this.streetBirthPlace =  await this._addressService
+      .getStreet(this.personal.birthPlace.communeId)
       .pipe(
         map((res) => {
-          console.log(res);
+          
           const data = res.data.map((commune) => ({
             ...commune,
             communeDisplay:
@@ -317,15 +337,30 @@ export class PersonalEditComponent implements OnInit {
         takeUntil(this._unsubscribeAll)
       )
       .toPromise().then((res) => {
-        this.streetResidencePlace = res;
-        this.streetBirthPlace = res;
-        
-        console.log(this.communeBirthPlace)
+         return res;
+      });
+
+      this.streetResidencePlace =  await this._addressService
+      .getStreet(this.personal.address.communeId)
+      .pipe(
+        map((res) => {
+          
+          const data = res.data.map((commune) => ({
+            ...commune,
+            communeDisplay:
+                      commune.streetType + " " + commune.streetName,
+          }));
+          console.log(data);
+          return data;
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .toPromise().then((res) => {
+         return res;
       });
 
       this.streetBirthPlace.forEach(street => {
-        if (street.streetId == data.birthPlace.streetId) {
-          alert("run")
+        if (street.streetId == this.personal.birthPlace.streetId) {
           this.formPersonalEdit.get("streetBirthPlace").setValue(street.streetId);
           console.log(street.streetId);
           console.log( this.formPersonalEdit.get("streetBirthPlace").value);
@@ -334,41 +369,22 @@ export class PersonalEditComponent implements OnInit {
           
         }
       })
+      console.log(this.streetResidencePlace);
+      
       this.streetResidencePlace.forEach(street => {
-        if (street.streetId == data.address.streetId) {
+        if (street.streetId == this.personal.address.streetId) {
           this.formPersonalEdit.get("streetResidencePlace").setValue(street.streetId);
         }
       })
-    
+
+
 
     
 
   }
 
 
-  
 
-  getPersonalDetail() {
-    this._unsubscribeAll = new Subject();
-    this._personalEditService
-      .getPersonalById(this.lastValue)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((personal: any) => {
-        const data = personal.data
-        console.log(data);
-        this.formPersonalEdit.controls['username'].setValue(data.username);
-        this.formPersonalEdit.controls['email'].setValue(data.email);
-        this.formPersonalEdit.controls['firstName'].setValue(data.firstName);
-        this.formPersonalEdit.controls['middleName'].setValue(data.middleName);
-        this.formPersonalEdit.controls['lastName'].setValue(data.lastName);
-        this.formPersonalEdit.controls['personalCountryId'].setValue(data.personalCountryId);
-        this.formPersonalEdit.controls['birthday'].setValue(data.birthday);
-        this.formPersonalEdit.controls['phoneNumber'].setValue(data.phoneNumber);
-        this.formPersonalEdit.controls['homeNumberBirthPlace'].setValue(data.birthPlace.houseNumber);
-        this.formPersonalEdit.get("gender").setValue(data.gender);
-        this.formPersonalEdit.get("homeNumberResidencePlace").setValue(data.address.houseNumber);
-      });
-  }
   selectProvince(type){
     switch (type) {
       case 2: {
@@ -618,13 +634,55 @@ export class PersonalEditComponent implements OnInit {
     return this.formPersonalEdit.controls;
   }
   onSubmit(){
-    console.log(this.formPersonalEdit.value)
+    if(!this.formPersonalEdit.valid){
+      this.submitted = true;
+      return;
+    }
+    this.confirmOpen();
+  }
+  confirmOpen(){
+    Swal.fire({
+      title: 'Bạn có chắc muốn cập nhật?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return await  this._personalService.updatePersonal(JSON.stringify(this.formPersonalEdit.value)).pipe(takeUntil(this._unsubscribeAll))
+      .toPromise().then(res=>{
+        if(res.result==false){
+          throw new Error(res.message);
+        }
+        return res;
+      }).catch(
+        function (error) {
+          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+        }
+      );
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn cập nhật!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Thông tin tài khoản đã được cập nhật.',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
   }
 }
-// {
-  
-//   "districtBirthPlace": "76",
-//   "communeBirthPlace": "2551",
-//   "streetBirthPlace": "1",
-//   "homeNumberBirthPlace": "hoang+mai+nhi",
-// }

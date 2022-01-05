@@ -5,6 +5,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { Token } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenService } from '../token.service';
@@ -42,6 +43,7 @@ export class TokenListComponent implements OnInit {
     private _tokenService: TokenService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
+    private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -57,7 +59,7 @@ export class TokenListComponent implements OnInit {
   ngOnInit(): void {
     this.contentHeader = {
       headerTitle: "Token",
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: "chevron",
         links: [
@@ -70,7 +72,7 @@ export class TokenListComponent implements OnInit {
     };
     this.formListToken = this.fb.group({
       page : [null],
-      size : [this.sizePage[0]],
+      size : [this.sizePage[3]],
       sort: [null],
       contains:[""],
       fromDate: [null],
@@ -95,6 +97,23 @@ export class TokenListComponent implements OnInit {
         this.rowsData= pagedData.data.data;
         this.isLoading = false;
       });
+  }
+
+  removeProfile(hsmId){
+    this._tokenService
+    .deleteTokenId(hsmId)
+    .subscribe((res) =>{
+        // this.updateTableOnDelete();
+        this._toastrService.success(
+          "Xóa kết nối Token thành công ",   
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+        this.setPage({
+          offset: 0,
+          pageSize: this.formListToken.controls.size
+        })
+    })
   }
 
   onSubmit() {

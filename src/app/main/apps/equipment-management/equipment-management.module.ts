@@ -4,6 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HsmManagementModule } from './hsm-management/hsm-management.module';
+import { TemplateComponent } from './template/template.component';
 import { TokenManagementModule } from './token-management/token-management.module';
 
 const routes: Routes = [
@@ -21,6 +22,14 @@ const routes: Routes = [
         (m) => m.TokenManagementRoutes
       ),
   },
+  {
+    path: 'template',
+    component: TemplateComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '/pages/miscellaneous/error', //Error 404 - Page not found
+  },
 ];
 @NgModule({
   declarations: [],
@@ -29,7 +38,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatProgressSpinnerModule,
     HsmManagementModule,
-    TokenManagementModule
+    TokenManagementModule,
   ],
   providers: [],
 })

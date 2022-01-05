@@ -18,6 +18,8 @@ import { EntityProfile } from 'app/main/models/EntityProfile';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile-list',
@@ -52,7 +54,9 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
     private _entityProfileService: EntityProfileService,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private _router: Router,
+    private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -72,12 +76,12 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       sort: [null],
       toDate: [null],
       page: [null],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[3]],
     });
     // content header profile
     this.contentHeader = {
       headerTitle: 'EntityProfile',
-      // actionButton: true,
+      actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
@@ -116,6 +120,28 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       });
   }
 
+  onActivate(event) {
+    if(event.event.type === 'click' && event.column.name!="Hành động") {
+      this._router.navigate(['/apps/ip/profiles/profile-view', event.row.endEntityProfileId]);
+    }
+  }
+  removeProfile(entityId){
+    console.log(entityId);
+    this._entityProfileService
+    .deleteProfileId(entityId)
+    .subscribe((res) =>{
+        // this.updateTableOnDelete();
+        this._toastrService.success(
+          "Xóa Entity Profile thành công ",   
+          "Thành công",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+        this.setPage({
+          offset: 0,
+          pageSize: this.formListProfile.controls.size
+        })
+    })
+  }
   /**
    * On destroy
    */

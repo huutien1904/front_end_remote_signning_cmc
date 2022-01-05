@@ -5,7 +5,6 @@ import { SubscriberCertificateEditComponent } from './subscriber-certificate-edi
 import { SubscriberCertificateListComponent } from './subscriber-certificate-list/subscriber-certificate-list.component';
 import { SubscriberCertificateViewComponent } from './subscriber-certificate-view/subscriber-certificate-view.component';
 import { SubscriberCertificateCreateComponent } from './subscriber-certificate-create/subscriber-certificate-create.component';
-import { PersonalListService } from '../../identity-provider/subscribers/personals/personal-list/personal-list.service';
 
 const routes: Routes = [
   {
