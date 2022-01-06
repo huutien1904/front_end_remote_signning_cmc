@@ -343,6 +343,11 @@ selectStreet(type:number){
     };
     case 1: {
       if(this.checkStreet === false){
+        this.newPersonal.get('districtResidencePlace').enable();
+        this.newPersonal.get('communeResidencePlace').enable();
+        this.newPersonal.get('streetResidencePlace').enable();
+        this.newPersonal.get('homeNumberResidencePlace').enable();
+       
         this.newPersonal.patchValue({
           provinceResidencePlace : this.newPersonal.get('provinceBirthPlace').value,
           districtResidencePlace : this.newPersonal.get('districtBirthPlace').value,
