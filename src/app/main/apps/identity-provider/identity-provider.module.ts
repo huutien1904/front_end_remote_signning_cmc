@@ -13,7 +13,6 @@ import { ProfileModule } from './entity-profiles/entity-profile.module';
 
 import { SearchSubscribersModule } from './search-subscribers/search-subscriber.module';
 import { OrganizationsModule } from './subscribers/organizations/organizations.module';
-import { UserModule } from './users/user/user.module';
 import { UsersModule } from './users/users.module';
 
 
@@ -68,7 +67,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     CoreCommonModule,
-    UserModule,
+    
     ProfileModule,
     SearchSubscribersModule,
     OrganizationsModule,

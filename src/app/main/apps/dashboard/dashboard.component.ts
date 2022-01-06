@@ -589,7 +589,7 @@ export class DashboardComponent implements OnInit {
     pagedData.size = 1;
     pagedData.currentPage = 0;
     this._organizationListService
-    .getListOrganizations(pagedData)
+    .searchOrganizations(pagedData)
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((response) => {
       this.numberOrganization = response.data.totalItems;

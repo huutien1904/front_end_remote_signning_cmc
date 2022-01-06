@@ -482,11 +482,7 @@ export class EntityProfileCreateComponent implements OnInit {
         confirmButtonColor: '#7367F0',
         
        },
-       
-      
       );
-
-      
     }
     if(this.formCreateProfile.value.endEntityProfileName !== null && this.formCreateProfile.value.alternativeName.length > 0 && this.formCreateProfile.value.distinguishedName.length > 0 ){
       Swal.fire({

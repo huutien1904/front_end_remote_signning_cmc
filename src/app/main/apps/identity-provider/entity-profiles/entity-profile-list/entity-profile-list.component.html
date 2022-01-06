@@ -137,7 +137,14 @@
                 ></i>
                 <span class="d-none d-sm-inline-block">Thêm Mới</span>
               </button>
+              
             </a>
+            <button class="btn btn-outline-secondary ml-1" rippleEffect>
+              <span class="d-none d-sm-inline-block">Xóa</span>
+            </button>
+            <a csvLink class="btn btn-outline-secondary float-right mr-1" rippleEffect
+              >Xuất dữ liệu CSV</a
+            >
           </div>
         </div>
         <mat-progress-bar
@@ -162,6 +169,57 @@
           [loadingIndicator]="isLoading"
           (page)="setPage($event)"
         >
+        <ngx-datatable-column
+        [width]="50"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        class="ml-1"
+        name="checkbox"
+        >
+        <ng-template
+          ngx-datatable-header-template
+          let-value="value"
+          let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn"
+        >
+          <div class="custom-control custom-control-primary custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="allRowsSelected"
+              (change)="selectFn(!allRowsSelected)"
+              id="headerCustomChkbxRef"
+            />
+            <label
+              class="custom-control-label"
+              for="headerCustomChkbxRef"
+            ></label>
+          </div>
+        </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-rowIndex="rowIndex"
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+          <div class="custom-control custom-control-primary custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+              id="rowCustomChkbxRef{{ rowIndex }}"
+            />
+            <label
+              class="custom-control-label"
+              for="rowCustomChkbxRef{{ rowIndex }}"
+            ></label>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
           <ngx-datatable-column
             name="TT"
             [width]="20"
@@ -180,14 +238,14 @@
           ></ngx-datatable-column>
           <!-- subject AND -->
           <ngx-datatable-column
-            name="Dn Attribute"
+            name="Thuộc tính DN chính"
             prop="subjectDnAttribute"
             [width]="300"
           >
           </ngx-datatable-column>
           <!-- subject ATT -->
           <ngx-datatable-column
-            name="Dn Alternative"
+            name="Thuộc tính DN thêm"
             prop="subjectDnAlternative"
             [width]="300"
           ></ngx-datatable-column>
@@ -300,6 +358,24 @@
             </ng-template>
           </ngx-datatable-footer>
         </ngx-datatable>
+        <div class="d-flex mb-1">
+          <a [routerLink]="['../', 'profile-create']">
+            <button class="btn btn-primary ml-2" rippleEffect>
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i>
+              <span class="d-none d-sm-inline-block">Thêm Mới</span>
+            </button>
+            
+          </a>
+          <button class="btn btn-outline-secondary ml-1" rippleEffect>
+            <span class="d-none d-sm-inline-block">Xóa</span>
+          </button>
+          <a csvLink class="btn btn-outline-secondary float-right ml-1" rippleEffect
+            >Xuất dữ liệu CSV</a
+          >
+        </div>
       </div>
     </section>
   </div>

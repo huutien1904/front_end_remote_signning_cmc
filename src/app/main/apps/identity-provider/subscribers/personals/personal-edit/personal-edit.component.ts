@@ -48,7 +48,7 @@ export class PersonalEditComponent implements OnInit {
       countryType: "Independent State",
     },
   ];
-  provinceBirthPlace: any[];
+  provinceBirthPlace: Province[];
   districtBirthPlace: District[];
   communeBirthPlace: Commune[];
   streetBirthPlace: Street[];
@@ -154,12 +154,11 @@ export class PersonalEditComponent implements OnInit {
     };
 
     // get organizationID
-    this.organizationId = await this._organizationListService.getListOrganizations(this.body)
+    this.organizationId = await this._organizationListService.searchOrganizations(this.body)
       .pipe(takeUntil(this._unsubscribeAll))
       .toPromise().then(res => {
         return res.data.data;
       });
-    console.log(this.organizationId)
     
     this.personal = await this._personalService.getPersonalById(this.lastValue)
       .pipe(takeUntil(this._unsubscribeAll))
@@ -369,7 +368,6 @@ export class PersonalEditComponent implements OnInit {
           
         }
       })
-      console.log(this.streetResidencePlace);
       
       this.streetResidencePlace.forEach(street => {
         if (street.streetId == this.personal.address.streetId) {
@@ -634,6 +632,7 @@ export class PersonalEditComponent implements OnInit {
     return this.formPersonalEdit.controls;
   }
   onSubmit(){
+    console.log(this.formPersonalEdit.value)
     if(!this.formPersonalEdit.valid){
       this.submitted = true;
       return;

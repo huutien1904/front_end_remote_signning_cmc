@@ -121,7 +121,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   }
 
   onActivate(event) {
-    if(event.event.type === 'click' && event.column.name!="Hành động") {
+    if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
       this._router.navigate(['/apps/ip/profiles/profile-view', event.row.endEntityProfileId]);
     }
   }

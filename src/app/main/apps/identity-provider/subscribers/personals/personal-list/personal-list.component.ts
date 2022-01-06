@@ -167,13 +167,14 @@ export class PersonalListComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
-    console.log("Select Event", selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+    console.log("Select Event", selected, this.selected);
+
   }
   onActivate(event) {
     console.log(event);
-    if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
       this._router.navigate(['/apps/ip/subscribers/personals/personal-edit', event.row.staffId]);
       
     }

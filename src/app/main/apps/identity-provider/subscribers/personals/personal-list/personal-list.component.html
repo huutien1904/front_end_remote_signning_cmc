@@ -175,7 +175,7 @@
         >
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button>
-        <button class="btn btn-primary ml-1" rippleEffect>
+        <button class="btn btn-outline-secondary ml-1" rippleEffect>
           <span class="d-none d-sm-inline-block">Xóa</span>
         </button>
         <a
@@ -403,9 +403,11 @@
                 aria-labelledby="dropdownBrowserState"
               >
                 <a
-                  href="/apps/ip/subscribers/personals/personal-view/{{
+                    [routerLink]="[
+                    '/apps/ip/subscribers/personals/',
+                    'personal-edit',
                     value.staffId
-                  }}"
+                  ]"
                   ngbDropdownItem
                   class="d-flex align-items-center"
                   ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
@@ -491,7 +493,7 @@
       >
         <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
       </button>
-      <button class="btn btn-primary ml-1" rippleEffect>
+      <button class="btn btn-outline-secondary ml-1" rippleEffect>
         <span class="d-none d-sm-inline-block">Xóa</span>
       </button>
       <a csvLink class="btn btn-outline-secondary float-right ml-1" rippleEffect

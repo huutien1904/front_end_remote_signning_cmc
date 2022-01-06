@@ -109,7 +109,7 @@ export class OrganizationListComponent implements OnInit {
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
     this._organizationListService
-      .getListOrganizations(this.pagedData)
+      .searchOrganizations(this.pagedData)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.pagedData = pagedData.data;

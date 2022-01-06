@@ -152,7 +152,7 @@ export class CreateSelfComponent implements OnInit {
       .then((res) => {
          return res;
       }); 
-      this.organizationId = await this._organizationListService.getListOrganizations({
+      this.organizationId = await this._organizationListService.searchOrganizations({
         "page": null,
         "size": null,
         "sort": [],
@@ -227,8 +227,11 @@ export class CreateSelfComponent implements OnInit {
           localStorage.getItem("currentUser")
         );
         currentUser.isSetSubscriber=true;
+        currentUser.firstName = this.newPersonal.firstName
+        currentUser.middleName = this.newPersonal.middleName
+        currentUser.lastName = this.newPersonal.lastName
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        
+        console.log(currentUser)
 
       }
     }).then(function(){

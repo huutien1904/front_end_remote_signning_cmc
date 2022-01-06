@@ -52,7 +52,7 @@ export class PersonalService {
   }
   public getOrganizationId(): Observable<any> {
     return this._httpClient.get<ResponseData<PagedData<Organization>>>(
-      `${environment.apiUrl}/organization/getall`,
+      `${environment.apiUrl}/organization/get-all`,
       this.option
     );
   }

@@ -559,7 +559,9 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     
     );
   }
-
+  exit() {
+    this.router.navigateByUrl("/apps/ip/profiles/profile-list")
+  }
   /**
    * On destroy
    */

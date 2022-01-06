@@ -46,6 +46,10 @@ export class AuthenticationService {
   //   return this.currentUser && this.currentUserSubject.value.role === Role.Admin;
   // }
 
+    get isStaff() {
+    return this.currentUser && this.currentUserSubject.value.isStaff == true;
+  }
+
   /**
    * User login
    *

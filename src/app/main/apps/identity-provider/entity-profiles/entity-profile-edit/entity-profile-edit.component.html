@@ -11,7 +11,9 @@
     <section id="edit-profile">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Chỉnh sửa profile : {{ endEntityProfileName }}</h4>
+          <h4 class="card-title">
+            Chỉnh sửa profile : {{ endEntityProfileName }}
+          </h4>
         </div>
         <div class="card-body pb-1">
           <!-- form edit -->
@@ -53,7 +55,7 @@
                       [(ngModel)]="selectedDnA"
                       [clearable]="false"
                       [searchable]="true"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                     >
                     </ng-select>
                   </div>
@@ -98,7 +100,11 @@
                             <p>{{ dn.value.name }}</p>
                           </div>
                           <div class="col-9 pl-0 col-md-9 mt-0-5">
-                            <input type="text" class="form-control" formControlName="defaultValue" />
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="defaultValue"
+                            />
                             <div class="d-md-flex mt-0-25 mb-0-25">
                               <div
                                 class="col-md-4 custom-control custom-checkbox"
@@ -191,7 +197,7 @@
                       [(ngModel)]="selectedAlterA"
                       [clearable]="false"
                       [searchable]="true"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                     >
                     </ng-select>
                   </div>
@@ -221,8 +227,8 @@
                             type="checkbox"
                             [checked]="al.value.checked"
                             (change)="
-                            al.value.isSelected = !al.value.isSelected
-                          "
+                              al.value.isSelected = !al.value.isSelected
+                            "
                             class="custom-control-input"
                             id="alternativeNameCheckBox{{ i }}"
                           />
@@ -233,10 +239,14 @@
                         </div>
                         <div class="col-11 col-md-9 d-flex p-0">
                           <div class="col-3 mt-0-5 pr-0 col-md-3">
-                            <p >{{ al.value.name }}</p>
+                            <p>{{ al.value.name }}</p>
                           </div>
                           <div class="col-9 pl-0 col-md-9 mt-0-5">
-                            <input type="text" class="form-control" formControlName="defaultValue" />
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="defaultValue"
+                            />
                             <div class="d-md-flex mt-0-25 mb-0-25">
                               <div
                                 class="col-md-4 custom-control custom-checkbox"
@@ -305,21 +315,34 @@
                     class="col-md-2 p-0"
                     *ngIf="alternativeName.controls.length != 0"
                   >
-                    <button rippleEffect class="btn btn-primary" (click)="removeAlternativeName()">Xóa</button>
+                    <button
+                      rippleEffect
+                      class="btn btn-primary"
+                      (click)="removeAlternativeName()"
+                    >
+                      Xóa
+                    </button>
                   </div>
                 </ng-container>
               </div>
             </div>
             <!-- end Subject DN Alternative Name -->
             <!-- submit -->
-            <div class="col-12 col-md-11 justify-content-center pl-0 pt-1">
+            <div class="col-12 col-md-11 d-flex justify-content-md-end">
               <button
                 type="submit"
                 rippleEffect
-                class="btn btn-primary mr-n1 mr-md-4 float-right"
-                [swal]="SweetAlertConfirm" 
+                class="btn btn-primary  "
+                [swal]="SweetAlertConfirm"
               >
                 Cập nhật
+              </button>
+              <button
+                (click)="exit()"
+                rippleEffect
+                class="btn btn-outline-primary ml-1"
+              >
+                Quay Lại
               </button>
               <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
             </div>
