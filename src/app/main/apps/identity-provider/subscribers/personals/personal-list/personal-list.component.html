@@ -175,9 +175,10 @@
         >
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button>
-        <button class="btn btn-outline-secondary ml-1" rippleEffect>
+        <button class="btn btn-outline-secondary ml-1" (click) = "removeListPersonal()">
           <span class="d-none d-sm-inline-block">Xóa</span>
         </button>
+        
         <a
           csvLink
           class="btn btn-outline-secondary float-right mr-1"
@@ -224,7 +225,7 @@
     [resizeable]="false"
     class="ml-1"
     name="checkbox"
-  >
+    >
     <ng-template
       ngx-datatable-header-template
       let-value="value"

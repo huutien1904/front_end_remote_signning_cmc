@@ -16,6 +16,7 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import * as XLSX from 'xlsx';
 import { PersonalService } from "../personal.service";
+import Swal from 'sweetalert2';
 
 type EXCEL = any[][];
 
@@ -254,7 +255,61 @@ export class PersonalListComponent implements OnInit {
             })
         })
   }
-
+  removeListPersonal(){
+    if(this.selected.length > 0){
+      // this.confirmOpen();
+    }
+  }
+  // confirmOpen(){
+  //   Swal.fire({
+  //     title: 'Bạn có chắc muốn cập nhật?',
+  //     text: "Bạn sẽ không thể hoàn tác điều này!",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#7367F0',
+  //     preConfirm:   async () => {
+  //     return await  this._personalService.updatePersonal(JSON.stringify(this.formPersonalEdit.value)).pipe(takeUntil(this._unsubscribeAll))
+  //     .toPromise().then(res=>{
+  //       if(res.result==false){
+  //         throw new Error(res.message);
+  //       }
+  //       return res;
+  //     }).catch(
+  //       function (error) {
+  //         Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+  //       }
+  //     );
+  //    },
+  //     cancelButtonColor: '#E42728',
+  //     cancelButtonText: "Thoát",
+  //     confirmButtonText: 'Đúng, tôi muốn cập nhật!',
+  //     customClass: {
+  //       confirmButton: 'btn btn-primary',
+  //       cancelButton: 'btn btn-danger ml-1'
+  //     },
+  //     allowOutsideClick:  () => {
+  //       return !Swal.isLoading();
+  //     }
+  //   }).then(function (result) {
+  //     if (result.value) {
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: 'Thành công!',
+  //         text: 'Thông tin tài khoản đã được cập nhật.',
+  //         customClass: {
+  //           confirmButton: 'btn btn-success'
+  //         }
+  //       });
+  //     }
+  //   }
+    
+  //   );
+  // }
+  // removeListPersonal(){
+  //   this.selected.map((pesonal) =>{
+  //     this.deletePersonal(pesonal.staffId)
+  //   })
+  // }
   onInputExcel(event:any){
     const targetFileExcel:DataTransfer = <DataTransfer>(event.target);
     const reader:FileReader = new FileReader();
