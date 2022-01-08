@@ -92,4 +92,7 @@ export class AddressService {
       this.option
     );
   }
+  checkAlias(alias):Observable<any> {
+    return this._httpClient.get(`${environment.apiUrl}/keypair/check?alias=${alias}`, this.option);
+  }
 }

@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Commune, District, Province, Street } from 'app/main/models/Address';
+import { PagedData } from 'app/main/models/PagedData';
 import { Personal } from 'app/main/models/Personal';
 import { ResponseData } from 'app/main/models/ResponseData';
+import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -37,6 +39,21 @@ export class UsersService {
   updateSelfStaff(body):Observable<ResponseData<Personal>>{
     return this._httpClient.put<ResponseData<Personal>>(`${environment.apiUrl}/staff/update-self`, body, this.option);
 
+  }
+  getListSubscriberCertificates(
+    body
+  ): Observable<ResponseData<PagedData<SubscriberCertificate>>> {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const option = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return this._httpClient.post<
+      ResponseData<PagedData<SubscriberCertificate>>
+    >(`${environment.apiUrl}/subscriber-certificate/search`, body, option);
   }
 
 }
