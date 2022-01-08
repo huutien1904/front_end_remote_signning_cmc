@@ -15,7 +15,7 @@ export class HsmCreateComponent implements OnInit {
   public contentHeader: object;
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
-
+  public hsmForm: any[]=["FIPS","CP5"]
 
   get f() {
     return this.HsmForm.controls;
@@ -32,11 +32,12 @@ export class HsmCreateComponent implements OnInit {
   ngOnInit(): void {
     this.HsmForm = this.formBuilder.group({
       hsmName: [null, Validators.required],
-      hardwareId: [null, Validators.required],
+      hardwareId: ["1", Validators.required],
       hsmManufacturer: [null, Validators.required],
       hsmModel: [null, Validators.required],
       hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
       hsmType: [null, Validators.required],
+      hsmForm: ["FIPS", Validators.required],
     });
 
     this.contentHeader = {
@@ -90,7 +91,7 @@ export class HsmCreateComponent implements OnInit {
   }
 
   exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
+    this.router.navigateByUrl("/apps/equipment-management/hsm/hsm-list")
   }
 
 }
