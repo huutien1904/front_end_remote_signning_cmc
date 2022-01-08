@@ -1,3 +1,4 @@
+import { EntityProfileService } from './../../../../../../identity-provider/entity-profiles/entity-profile.service';
 import {
   Component,
   OnInit,
@@ -65,62 +66,69 @@ export class SidebarPersonalsComponent implements OnInit {
   public hsmList = new Array<Hsm>();
   public strProfile: string = '';
   public listProfiles: any[] = [
-    {
-      nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
-      subjectDNA: [
-        'CN',
-        'GIVENNAME',
-        'SURNAME',
-        'EMAIL',
-        'UID',
-        'OU',
-        'ST',
-        'L',
-      ],
-      subjectAttribute: ['OID'],
-      id: 1,
-    },
-    {
-      nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
-      subjectDNA: [
-        'CN',
-        'GIVENNAME',
-        'SURNAME',
-        'EMAIL',
-        'UID',
-        'OU',
-        'ST',
-        'L',
-      ],
-      subjectAttribute: ['OID'],
-      id: 2,
-    },
-    {
-      nameProfile: 'PROFILE 3: CN, UID, OU',
-      subjectDNA: ['CN', 'UID', 'OU'],
-      subjectAttribute: ['OID'],
-      id: 3,
-    },
-    {
-      nameProfile: 'PROFILE 4: CN, ST, L',
-      subjectDNA: ['CN', 'ST', 'L'],
-      subjectAttribute: ['OID'],
-      id: 4,
-    },
-    {
-      nameProfile: 'PROFILE 5: CN',
-      subjectDNA: ['CN'],
-      subjectAttribute: ['OID'],
-      id: 5,
-    },
-    {
-      nameProfile: 'PROFILE 6: UID',
-      subjectDNA: ['UID'],
-      subjectAttribute: ['OID'],
-      id: 6,
-    },
+    // {
+    //   nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
+    //   subjectDNA: [
+    //     'CN',
+    //     'GIVENNAME',
+    //     'SURNAME',
+    //     'EMAIL',
+    //     'UID',
+    //     'OU',
+    //     'ST',
+    //     'L',
+    //   ],
+    //   subjectAttribute: ['OID'],
+    //   id: 1,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
+    //   subjectDNA: [
+    //     'CN',
+    //     'GIVENNAME',
+    //     'SURNAME',
+    //     'EMAIL',
+    //     'UID',
+    //     'OU',
+    //     'ST',
+    //     'L',
+    //   ],
+    //   subjectAttribute: ['OID'],
+    //   id: 2,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 3: CN, UID, OU',
+    //   subjectDNA: ['CN', 'UID', 'OU'],
+    //   subjectAttribute: ['OID'],
+    //   id: 3,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 4: CN, ST, L',
+    //   subjectDNA: ['CN', 'ST', 'L'],
+    //   subjectAttribute: ['OID'],
+    //   id: 4,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 5: CN',
+    //   subjectDNA: ['CN'],
+    //   subjectAttribute: ['OID'],
+    //   id: 5,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 6: UID',
+    //   subjectDNA: ['UID'],
+    //   subjectAttribute: ['OID'],
+    //   id: 6,
+    // },
   ];
-
+  public bodyGetListProfile ={
+    "page" : 0,
+    "size" : 10,
+    "sort" : [],
+    "contains" : "",
+    "fromDate":"",
+    "toDate":""
+}
   @Input() personal: any;
   @ViewChild('modalLink') modalLink;
 
@@ -134,7 +142,8 @@ export class SidebarPersonalsComponent implements OnInit {
     private toastr: ToastrService,
     private _hsmService: HsmService,
     private sanitizer: DomSanitizer,
-    private _addressService: AddressService
+    private _addressService: AddressService,
+    private _entityProfileService:EntityProfileService
   ) {}
   public hsmListSub = new Subject();
   async ngOnInit() {
@@ -176,6 +185,7 @@ export class SidebarPersonalsComponent implements OnInit {
         profile: [null, Validators.required],
       }
     );
+    this.getListProfiles();
   }
 
   toggleSidebar() {
@@ -208,6 +218,7 @@ export class SidebarPersonalsComponent implements OnInit {
 
   changeProfile() {
     const profile: any[] = this.f.profile.value.subjectDNA;
+    console.log(profile);
     this.strProfile = '';
     let firstWord = true;
     profile.map((attribute: string) => {
@@ -274,11 +285,13 @@ export class SidebarPersonalsComponent implements OnInit {
   }
 
   displayProfile(attribute, value, firstWord) {
+    console.log(value);
     if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
     else {
       this.strProfile += attribute + ' = ' + value;
     }
   }
+
   async onSubmit() {
     this.submitted = true;
     if (this.newRequestForm.invalid) {
@@ -322,7 +335,25 @@ export class SidebarPersonalsComponent implements OnInit {
       }
     });
   }
-
+  getListProfiles() {
+    this._entityProfileService.getListProfiles(this.bodyGetListProfile)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((res) => {
+      
+      this.listProfiles = res.data.data.map((profile) =>({
+        ...profile,
+         subjectAttribute: profile.alternativeName.map(item =>{
+          return item.name
+        }),
+        subjectDNA :profile.distinguishedName.map(item =>{
+          return item.name
+        }),
+        id:profile.endEntityProfileId,
+        nameProfile:profile.endEntityProfileName
+      }))
+      console.log(this.listProfiles);
+    })
+  }
   checkAlias(): AsyncValidatorFn  {
     return  (control: AbstractControl) : Observable<{ [key: string]: any } | null> => {
       return this._personalsService

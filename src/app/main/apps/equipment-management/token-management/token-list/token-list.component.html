@@ -113,16 +113,25 @@
     <section id="table-hsm-list">
       <div class="card">
         <div class="card-header py-1">
-          <h4 class="card-title">Danh sách HSM</h4>
+          <h4 class="card-title">Danh sách TOKEN</h4>
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
-            <button class="btn btn-primary ml-2" [routerLink]="['../', 'token-create']" rippleEffect>
+            <button class="btn btn-primary ml-1" [routerLink]="['../', 'token-create']" rippleEffect>
               <i
                 data-feather="plus"
                 class="d-sm-none d-inline-block mr-0 mr-sm-1"
               ></i
-              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+              ><span class="d-none d-sm-inline-block">Thêm mới Slot</span>
+            </button>
+            <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <span class="d-none d-sm-inline-block">Xóa Slot </span>
+            </button>
+            
+            <button class="btn btn-outline-secondary mr-1 float-right" rippleEffect>
+              <span class="d-none d-sm-inline-block"
+                >Xuất danh sách Slot </span
+              >
             </button>
           </div>
         </div>
@@ -132,6 +141,8 @@
         ></mat-progress-bar>
         <ngx-datatable
         #tableRowDetails
+        (activate)="onActivate($event)"
+        [selectionType]="SelectionType.checkbox"
         [rows]="rowsData"
         class="bootstrap core-bootstrap cursor"
         [columnMode]="ColumnMode.force"
@@ -147,6 +158,61 @@
         [loadingIndicator]="isLoading"
         (page)="setPage($event)"
         >
+        <ngx-datatable-column
+        [width]="50"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        class="ml-1"
+        name = "checkbox"
+      >
+        <ng-template
+          ngx-datatable-header-template
+          let-value="value"
+          let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn"
+        >
+          <div
+            class="custom-control custom-control-primary custom-checkbox"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="allRowsSelected"
+              (change)="selectFn(!allRowsSelected)"
+              id="headerCustomChkbxRef"
+            />
+            <label
+              class="custom-control-label"
+              for="headerCustomChkbxRef"
+            ></label>
+          </div>
+        </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-rowIndex="rowIndex"
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+          <div
+            class="custom-control custom-control-primary custom-checkbox"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+              id="rowCustomChkbxRef{{ rowIndex }}"
+            />
+            <label
+              class="custom-control-label"
+              for="rowCustomChkbxRef{{ rowIndex }}"
+            ></label>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
           <ngx-datatable-column
             name="TT"
             [sortable]="false"
@@ -223,7 +289,7 @@
                       href="javascript:void(0)"
                       ngbDropdownItem
                       class="d-flex align-items-center"
-                      (click)="removeProfile(value.tokenId)"
+                      (click)="removeToken(value.tokenId)"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
                   </div>
@@ -264,6 +330,24 @@
             </ng-template>
           </ngx-datatable-footer>
         </ngx-datatable>
+        <div class="col-md-12 mb-50">
+          <button class="btn btn-primary" [routerLink]="['../', 'token-create']" rippleEffect>
+            <i
+              data-feather="plus"
+              class="d-sm-none d-inline-block mr-0 mr-sm-1"
+            ></i
+            ><span class="d-none d-sm-inline-block">Thêm mới Slot</span>
+          </button>
+          <button class="btn btn-outline-secondary ml-50" rippleEffect>
+            <span class="d-none d-sm-inline-block">Xóa Slot </span>
+          </button>
+          
+          <button class="btn btn-outline-secondary mr-1 float-right" rippleEffect>
+            <span class="d-none d-sm-inline-block"
+              >Xuất danh sách Slot </span
+            >
+          </button>
+        </div>
       </div>
     </section>
   </div>

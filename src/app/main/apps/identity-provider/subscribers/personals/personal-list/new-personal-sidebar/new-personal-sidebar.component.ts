@@ -347,7 +347,6 @@ selectStreet(type:number){
         this.newPersonal.get('communeResidencePlace').enable();
         this.newPersonal.get('streetResidencePlace').enable();
         this.newPersonal.get('homeNumberResidencePlace').enable();
-       
         this.newPersonal.patchValue({
           provinceResidencePlace : this.newPersonal.get('provinceBirthPlace').value,
           districtResidencePlace : this.newPersonal.get('districtBirthPlace').value,
@@ -356,7 +355,7 @@ selectStreet(type:number){
           homeNumberResidencePlace:null,
         })
         this.checkStreet = true;
-        console.log(this.newPersonal.get('districtResidencePlace').value)
+        console.log(this.newPersonal.get('districtResidencePlace').value);
       }
       this.newPersonal.patchValue({
         homeNumberBirthPlace:null,
@@ -464,38 +463,38 @@ getHomeBirthDay(event){
     let data = this.newPersonal.value
     console.log(data);
     
-    // this.submitted = true;
-    // this.showGlobalOverlay();
+    this.submitted = true;
+    this.showGlobalOverlay();
     // stop here if form is invalid
-    // if (this.newPersonal.invalid) {
-    //   return;
-    // }
+    if (this.newPersonal.invalid) {
+      return;
+    }
     
     
-    // const newPersonal = JSON.stringify(data);
+    const newPersonal = JSON.stringify(data);
     
-    // this._personalService.submitForm(newPersonal).subscribe((res: any) => {
-    //   console.log(res)
+    this._personalService.submitForm(newPersonal).subscribe((res: any) => {
+      console.log(res)
       
-    //   if (res.result === true) {
-    //     this.updateTable();
-    //     this.toggleSidebar();
-    //     this._toastrService.success(
-    //       "Đăng ký thuê bao cá nhân thành công ",
-    //       "Thành công",
-    //       { 
-    //         toastClass: "toast ngx-toastr",
-    //         positionClass: "toast-top-center", closeButton: true }
-    //     );
-    //   }
-    //   if(res.result === false){
-    //     this._toastrService.error(
-    //       "Email này đã tồn tại",
-    //       "Thất Bại",
-    //       { toastClass: "toast ngx-toastr", closeButton: true }
-    //     );
-    //   }
-    // });
+      if (res.result === true) {
+        this.updateTable();
+        this.toggleSidebar();
+        this._toastrService.success(
+          "Đăng ký thuê bao cá nhân thành công ",
+          "Thành công",
+          { 
+            toastClass: "toast ngx-toastr",
+            positionClass: "toast-top-center", closeButton: true }
+        );
+      }
+      if(res.result === false){
+        this._toastrService.error(
+          "Email này đã tồn tại",
+          "Thất Bại",
+          { toastClass: "toast ngx-toastr", closeButton: true }
+        );
+      }
+    });
     // console.log(newPersonal);
     // const option = {
     //   headers: {
@@ -523,7 +522,3 @@ getHomeBirthDay(event){
     this._unsubscribeAll.complete();
   }
 }
-// this.newPersonal.get("provinceResidencePlace").setValue(this.newPersonal.get('provinceBirthPlace').value);
-// this.newPersonal.controls['districtResidencePlace'].setValue(this.newPersonal.get('districtBirthPlace').value);
-// this.newPersonal.get("communeResidencePlace").setValue(this.newPersonal.get('communeBirthPlace').value);
-// this.newPersonal.get("streetResidencePlace").setValue(this.newPersonal.get('streetBirthPlace').value);

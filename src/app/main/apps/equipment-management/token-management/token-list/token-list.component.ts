@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { Token } from 'app/main/models/Equipment';
@@ -43,6 +44,7 @@ export class TokenListComponent implements OnInit {
     private _tokenService: TokenService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
+    private _router: Router,
     private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
@@ -99,13 +101,14 @@ export class TokenListComponent implements OnInit {
       });
   }
 
-  removeProfile(hsmId){
+  removeToken(tokenId){
+    console.log(tokenId)
     this._tokenService
-    .deleteTokenId(hsmId)
+    .deleteTokenId(tokenId)
     .subscribe((res) =>{
         // this.updateTableOnDelete();
         this._toastrService.success(
-          "Xóa kết nối Token thành công ",   
+          "Xóa Token thành công ",   
           "Thành công",
           { toastClass: "toast ngx-toastr", closeButton: true }
         );
@@ -120,7 +123,13 @@ export class TokenListComponent implements OnInit {
     console.log(this.formListToken);
   }
 
-
+  onActivate(event) {
+    console.log(event);
+    if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+      this._router.navigate(['/apps/equipment-management/token/token-view', event.row.tokenId]);
+      
+    }
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

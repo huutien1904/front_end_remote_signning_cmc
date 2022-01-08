@@ -45,7 +45,7 @@ export class TokenService {
       this.option
     );
   }
-  public deleteTokenId(id): Observable<any> {
+  public deleteTokenId(id): Observable<ResponseData<Token>> {
     return this._httpClient.delete<any>(
       `${environment.apiUrl}/token/${id}`,
       this.option

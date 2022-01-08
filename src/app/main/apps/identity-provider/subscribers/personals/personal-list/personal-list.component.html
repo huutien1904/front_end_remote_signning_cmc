@@ -169,21 +169,22 @@
           multiple="false"
         />
         <button
-          class="btn btn-primary ml-1"
+          class="btn btn-primary ml-50"
           rippleEffect
           (click)="fileInput.click()"
         >
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button>
-        <button class="btn btn-outline-secondary ml-1" (click) = "removeListPersonal()">
+        <button class="btn btn-outline-secondary ml-50" (click) = "removeListPersonal()">
           <span class="d-none d-sm-inline-block">Xóa</span>
+          <swal (open)="confirmOpenDeleteListPersonal()"></swal>
         </button>
         
         <a
           csvLink
           class="btn btn-outline-secondary float-right mr-1"
           rippleEffect
-          >Xuất dữ liệu CSV</a
+          >Xuất danh sách</a
         >
       </div>
     </div>
@@ -284,7 +285,7 @@
       <ngx-datatable-column
         name="TÊN TÀI KHOẢN"
         prop="username"
-        [width]="100"
+        [width]="120"
       ></ngx-datatable-column>
       <!-- email -->
       <ngx-datatable-column
@@ -425,10 +426,12 @@
                 >
                 <a
                   href="javascript:void(0)"
-                  (click)="deletePersonal(value.staffId)"
                   ngbDropdownItem
                   class="d-flex align-items-center"
-                  ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                  (click) = "openConfirmDelete(value.staffId)"
+                  ><i data-feather="trash-2" class="mr-50"></i> Xóa
+                  <swal (open)="confirmRemovePersonal(value.staffId)"></swal>
+                  </a
                 >
               </div>
             </div>
@@ -471,35 +474,37 @@
         </ng-template>
       </ngx-datatable-footer>
     </ngx-datatable>
-    <div class="d-flex mb-1">
-      <button
-        class="btn btn-primary ml-1"
-        rippleEffect
-        (click)="openNewPersonalModal(newPersonal)"
-      >
-        <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
-        ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-      </button>
-      <input
-        #fileInput
-        type="file"
-        style="display: none"
-        (change)="onInputExcel($event)"
-        multiple="false"
-      />
-      <button
-        class="btn btn-primary ml-1"
-        rippleEffect
-        (click)="fileInput.click()"
-      >
-        <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-      </button>
-      <button class="btn btn-outline-secondary ml-1" rippleEffect>
-        <span class="d-none d-sm-inline-block">Xóa</span>
-      </button>
-      <a csvLink class="btn btn-outline-secondary float-right ml-1" rippleEffect
-        >Xuất dữ liệu CSV</a
-      >
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <button
+          class="btn btn-primary ml-1"
+          rippleEffect
+          (click)="openNewPersonalModal(newPersonal)"
+        >
+          <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+          ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+        </button>
+        <input
+          #fileInput
+          type="file"
+          style="display: none"
+          (change)="onInputExcel($event)"
+          multiple="false"
+        />
+        <button
+          class="btn btn-primary ml-50"
+          rippleEffect
+          (click)="fileInput.click()"
+        >
+          <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+        </button>
+        <button class="btn btn-outline-secondary ml-50" rippleEffect>
+          <span class="d-none d-sm-inline-block">Xóa</span>
+        </button>
+        <a csvLink class="btn btn-outline-secondary float-right mr-1" rippleEffect
+          >Xuất danh sách</a
+        >
+      </div>
     </div>
   </div>
   <!-- <div class="selected-column col-12 mt-1">

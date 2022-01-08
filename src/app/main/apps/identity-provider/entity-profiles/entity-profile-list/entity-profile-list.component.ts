@@ -20,6 +20,7 @@ import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile-list',
@@ -119,14 +120,16 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       });
   }
-
+  // set active row
   onActivate(event) {
     if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
       this._router.navigate(['/apps/ip/profiles/profile-view', event.row.endEntityProfileId]);
     }
   }
+  // remove profile item
   removeProfile(entityId){
     console.log(entityId);
+    // this.confirmRemoveProfile(entityId)
     this._entityProfileService
     .deleteProfileId(entityId)
     .subscribe((res) =>{
@@ -142,6 +145,65 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         })
     })
   }
+  confirmRemoveProfile(entityId){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+        console.log("checy cai nay chua")
+      this._entityProfileService
+      .deleteProfileId(entityId)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .toPromise().then(res=>{
+        if(res.result==false){
+          throw new Error(res.message);
+        }
+        return res;
+      }).catch(
+        function (error) {
+          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+        }
+      );
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result:any) {
+      console.log(result);
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+        // this.setPage({
+        //   offset: 0,
+        //   pageSize: this.formListProfile.controls.size
+        // })
+      }
+    }
+    
+    );
+  }
+  // end remove profile item
+  // remove list profile
+  removeListProfile(){
+    
+  }
+  // end remove list profile
   /**
    * On destroy
    */

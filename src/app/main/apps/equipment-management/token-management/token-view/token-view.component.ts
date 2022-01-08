@@ -46,7 +46,8 @@ export class TokenViewComponent implements OnInit {
 
   ngOnInit() {
     this.tokenForm = this.formBuilder.group(
-      {
+      { 
+        tokenId : [null, Validators.required],
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
@@ -84,8 +85,9 @@ export class TokenViewComponent implements OnInit {
       const data = token.data ;
       this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
       this.tokenForm.controls.tokenName.patchValue(data.tokenName);
+      this.tokenForm.controls.tokenId.patchValue(data.tokenId);
+      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmName);
       this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
-      this.HSMname = data.hsmName
       // const hsmSelected =  this.hsmList.filter((item) =>{
       //   return token.data.hsmId == item.hsmId
       // })

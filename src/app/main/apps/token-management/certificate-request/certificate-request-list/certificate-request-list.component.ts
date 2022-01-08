@@ -85,7 +85,6 @@ export class CertificateRequestListComponent implements OnInit {
     };
 
     this.formListCertificateRequest = this.fb.group({
-
       page: [null],
       size: [this.sizePage[3]],
       sort : [null],
@@ -127,6 +126,7 @@ export class CertificateRequestListComponent implements OnInit {
           subscribeName: this.getSubscribe(item),
         }));
         this.isLoading = false;
+        console.log(this.rowsData)
       });
   }
 

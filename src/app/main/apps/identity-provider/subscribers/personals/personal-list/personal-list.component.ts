@@ -255,56 +255,89 @@ export class PersonalListComponent implements OnInit {
             })
         })
   }
+  confirmRemovePersonal(staffId){
+     Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+        this.deletePersonal(staffId)
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result:any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
+    console.log("check")
+  }
   removeListPersonal(){
     if(this.selected.length > 0){
-      // this.confirmOpen();
+      this.confirmOpenDeleteListPersonal();
     }
   }
-  // confirmOpen(){
-  //   Swal.fire({
-  //     title: 'Bạn có chắc muốn cập nhật?',
-  //     text: "Bạn sẽ không thể hoàn tác điều này!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#7367F0',
-  //     preConfirm:   async () => {
-  //     return await  this._personalService.updatePersonal(JSON.stringify(this.formPersonalEdit.value)).pipe(takeUntil(this._unsubscribeAll))
-  //     .toPromise().then(res=>{
-  //       if(res.result==false){
-  //         throw new Error(res.message);
-  //       }
-  //       return res;
-  //     }).catch(
-  //       function (error) {
-  //         Swal.showValidationMessage('Mã lỗi:  ' + error + '');
-  //       }
-  //     );
-  //    },
-  //     cancelButtonColor: '#E42728',
-  //     cancelButtonText: "Thoát",
-  //     confirmButtonText: 'Đúng, tôi muốn cập nhật!',
-  //     customClass: {
-  //       confirmButton: 'btn btn-primary',
-  //       cancelButton: 'btn btn-danger ml-1'
-  //     },
-  //     allowOutsideClick:  () => {
-  //       return !Swal.isLoading();
-  //     }
-  //   }).then(function (result) {
-  //     if (result.value) {
-  //       Swal.fire({
-  //         icon: 'success',
-  //         title: 'Thành công!',
-  //         text: 'Thông tin tài khoản đã được cập nhật.',
-  //         customClass: {
-  //           confirmButton: 'btn btn-success'
-  //         }
-  //       });
-  //     }
-  //   }
+  openConfirmDelete(staffId){
+    console.log(staffId);
+    this.confirmRemovePersonal(staffId);
+  }
+  confirmOpenDeleteListPersonal(){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return this.selected.map((pesonal) =>{
+            this.deletePersonal(pesonal.staffId)
+          });
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
     
-  //   );
-  // }
+    );
+  }
   // removeListPersonal(){
   //   this.selected.map((pesonal) =>{
   //     this.deletePersonal(pesonal.staffId)
