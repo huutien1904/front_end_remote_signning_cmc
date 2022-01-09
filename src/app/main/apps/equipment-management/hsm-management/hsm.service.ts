@@ -5,7 +5,7 @@ import { environment } from "environments/environment";
 import { Hsm, Token } from 'app/main/models/Equipment'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PagedData } from "app/main/models/PagedData";
-
+import { catchError, retry } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
