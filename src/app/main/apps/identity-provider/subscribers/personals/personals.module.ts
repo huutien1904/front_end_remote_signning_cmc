@@ -1,5 +1,4 @@
 import { CommonModule } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
@@ -20,17 +19,15 @@ import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
-import { LoadingService } from "app/main/loading/loading.service";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { NewPersonalSidebarComponent } from "./personal-list/new-personal-sidebar/new-personal-sidebar.component";
 import { PersonalListAddComponent } from "./personal-list/personal-list-add/personal-list-add.component";
 import { PersonalListComponent } from "./personal-list/personal-list.component";
 import { PersonalViewComponent } from "./personal-view/personal-view.component";
 import { PersonalService } from "./personal.service";
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
@@ -77,12 +74,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    LoadingService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true,
-    },
+    
   ],
 })
 export class PersonalsModule {}
