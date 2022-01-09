@@ -23,11 +23,12 @@ import { CreateSelfComponent } from './create-self/create-self.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
+
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
 @NgModule({
   declarations: [
-    ProfileComponent,CreateSelfComponent
+    ProfileComponent,CreateSelfComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +49,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     ProfileComponent,CreateSelfComponent
   ],
   providers : [
+    
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

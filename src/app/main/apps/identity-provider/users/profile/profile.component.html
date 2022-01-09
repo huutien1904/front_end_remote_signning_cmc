@@ -74,7 +74,7 @@
                   </div>
 
                   <!--Account form start-->
-                  <form class="form" [formGroup]="formInfoEdit">
+                  <form class="form" [formGroup]="formProfile">
                     <div class="row">
                       <!-- user name -->
                       <div class="col-md-3">
@@ -432,7 +432,9 @@
             <li ngbNavItem>
               <a ngbNavLink class="d-flex align-items-center">
                 <i data-feather="info" class="mr-sm-50"></i
-                ><span class="d-none d-sm-block">Thông tin tài khoản</span></a
+                ><span class="d-none d-sm-block" (click)="loadProfile()"
+                  >Thông tin tài khoản</span
+                ></a
               >
               <ng-template ngbNavContent>
                 <!-- Information Tab starts -->
@@ -765,7 +767,7 @@
                                   class="invalid-form"
                                 >
                                   <small class="form-text text-danger">
-                                    không được bỏ trống</small
+                                    Không được bỏ trống</small
                                   >
                                 </span>
                               </div>
@@ -888,7 +890,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -932,7 +934,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1025,7 +1027,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1076,7 +1078,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1311,7 +1313,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1353,7 +1355,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1405,7 +1407,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1457,7 +1459,7 @@
                                 class="invalid-form"
                               >
                                 <small class="form-text text-danger">
-                                  không được bỏ trống</small
+                                  Không được bỏ trống</small
                                 >
                               </span>
                             </div>
@@ -1679,351 +1681,499 @@
             </li>
             <li ngbNavItem>
               <a ngbNavLink class="d-flex align-items-center"
-                ><i data-feather="file-text" class="mr-sm-50"></i
-                ><span class="d-none d-sm-block"
-                  >Danh sách chứng thư số</span
-                ></a
-              >
+                ><i data-feather="file" class="mr-sm-50"></i
+                ><span class="d-none d-sm-block">Danh sách chứng thư số</span>
+              </a>
               <ng-template ngbNavContent>
-                <!-- Social Tab starts -->
-                <div
-                  class="tab-pane"
-                  id="certificate-list"
-                  aria-labelledby="certificate"
-                  role="tabpanel"
-                >
-                  <!-- users edit social form start -->
-                  <form class="form-validate">
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="table-responsive border rounded mt-1">
-                          <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                <div class="col -12">
+                  <div class="table-responsive border rounded mt-1">
+                    <section>
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">
                             <i
-                              data-feather="user"
+                              data-feather="file"
                               [size]="20"
                               class="mr-25"
                             ></i>
                             <span class="align-middle"
-                              >Danh sách tài khoản</span
+                              >Danh sách chứng thư số</span
                             >
-                          </h6>
-                          <table class="table table-striped table-borderless">
-                            <thead class="thead-light">
-                              <tr>
-                                <th>Module</th>
-                                <th>Read</th>
-                                <th>Write</th>
-                                <th>Create</th>
-                                <th>Delete</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Admin</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-read"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Staff</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-read"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-write"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Author</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-read"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-create"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Contributor</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-read"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>User</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-read"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-delete"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          </h4>
+                          <div class="">
+                            <button
+                              type="button"
+                              rippleEffect
+                              class="btn btn-primary ml-1"
+                              (click)="openNewCertModal(modalUploadCert)"
+                              [rowDataSelected]="selected"
+                            >
+                              Cập nhật chứng thư số
+                            </button>
+                          </div>
                         </div>
-                      </div>
+                        <mat-progress-bar
+                          *ngIf="isLoading"
+                          mode="indeterminate"
+                        ></mat-progress-bar>
+                        <ngx-datatable
+                          #tableRowDetails
+                          class="bootstrap core-bootstrap cursor"
+                          [rows]="rowsData"
+                          [selected]="chkBoxSelected"
+                          (select)="customCheckboxOnSelect($event)"
+                          (select)="onSelect($event, modalUploadCert)"
+                          [selectionType]="SelectionType.checkbox"
+                          [columnMode]="ColumnMode.force"
+                          [headerHeight]="50"
+                          rowHeight="auto"
+                          [scrollbarH]="true"
+                          [footerHeight]="50"
+                          [rowHeight]="50"
+                          [externalPaging]="true"
+                          [limit]="pagedData.size"
+                          [count]="pagedData.totalItems"
+                          [offset]="pagedData.currentPage"
+                          [loadingIndicator]="isLoading"
+                          (page)="setPage($event)"
+                        >
+                          <ngx-datatable-column
+                            [width]="50"
+                            [sortable]="false"
+                            [canAutoResize]="false"
+                            [draggable]="false"
+                            [resizeable]="false"
+                            class="ml-1"
+                          >
+                            <ng-template
+                              ngx-datatable-header-template
+                              let-value="value"
+                              let-allRowsSelected="allRowsSelected"
+                              let-selectFn="selectFn"
+                            >
+                              <div
+                                class="custom-control custom-control-primary custom-checkbox"
+                              >
+                                <input
+                                  type="checkbox"
+                                  class="custom-control-input"
+                                  [checked]="allRowsSelected"
+                                  (change)="selectFn(!allRowsSelected)"
+                                  id="headerCustomChkbxRef"
+                                />
+                                <label
+                                  class="custom-control-label"
+                                  for="headerCustomChkbxRef"
+                                ></label>
+                              </div>
+                            </ng-template>
+                            <ng-template
+                              ngx-datatable-cell-template
+                              let-rowIndex="rowIndex"
+                              let-value="value"
+                              let-isSelected="isSelected"
+                              let-onCheckboxChangeFn="onCheckboxChangeFn"
+                            >
+                              <div
+                                class="custom-control custom-control-primary custom-checkbox"
+                              >
+                                <input
+                                  type="checkbox"
+                                  class="custom-control-input"
+                                  [checked]="isSelected"
+                                  (change)="onCheckboxChangeFn($event)"
+                                  id="rowCustomChkbxRef{{ rowIndex }}"
+                                />
+                                <label
+                                  class="custom-control-label"
+                                  for="rowCustomChkbxRef{{ rowIndex }}"
+                                ></label>
+                              </div>
+                            </ng-template>
+                          </ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="TT"
+                            [sortable]="false"
+                            [canAutoResize]="false"
+                            [width]="50"
+                          >
+                            <ng-template
+                              ngx-datatable-cell-template
+                              let-rowIndex="rowIndex"
+                            >
+                              {{
+                                pagedData.currentPage * pagedData.size +
+                                  rowIndex +
+                                  1
+                              }}
+                            </ng-template>
+                          </ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="KeypairAlias"
+                            prop="keypairAlias"
+                            [width]="150"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="email"
+                            prop="email"
+                            [width]="160"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Token Name"
+                            prop="keypairStatus.keypairStatusName"
+                            [width]="120"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Token Name"
+                            prop="tokenName"
+                            [width]="120"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Nhập/Xuất"
+                            [width]="80"
+                            [sortable]="false"
+                          >
+                            <ng-template
+                              ngx-datatable-cell-template
+                              let-row="row"
+                              let-value="value"
+                            >
+                              <div class="d-flex align-items-center">
+                                <div ngbDropdown container="body">
+                                  <a
+                                    ngbDropdownToggle
+                                    href="javascript:void(0);"
+                                    class="hide-arrow"
+                                    id="dropdownBrowserState"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                  >
+                                    <i
+                                      data-feather="more-vertical"
+                                      class="text-primary cursor-pointer mr-50"
+                                    ></i>
+                                  </a>
+                                  <div
+                                    ngbDropdownMenu
+                                    class="dropdown-menu-right"
+                                    aria-labelledby="dropdownBrowserState"
+                                  >
+                                    <div
+                                      *ngIf="
+                                        row.keypairStatus.keypairStatusId == 1
+                                      "
+                                    >
+                                      <a
+                                        ngbDropdownItem
+                                        class="d-flex align-items-center"
+                                        (click)="
+                                          openUploadCert(modalUploadCert, row)
+                                        "
+                                        ><i
+                                          data-feather="file-text"
+                                          class="mr-50"
+                                        ></i>
+                                        Nhập</a
+                                      >
+                                    </div>
+                                    <div
+                                      *ngIf="
+                                        row.keypairStatus.keypairStatusId == 3
+                                      "
+                                    >
+                                      <a
+                                        href="javascript:void(0)"
+                                        ngbDropdownItem
+                                        class="d-flex align-items-center"
+                                        ><i
+                                          data-feather="edit"
+                                          class="mr-50"
+                                        ></i>
+                                        Xuất</a
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
 
-                      <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                        <button
-                          type="submit"
-                          class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
-                          rippleEffect
-                        >
-                          Lưu thay đổi
-                        </button>
-                        <button
-                          type="reset"
-                          class="btn btn-outline-secondary"
-                          rippleEffect
-                        >
-                          Thiết lập lại
-                        </button>
+                                <i
+                                  data-feather="edit"
+                                  class="text-primary cursor-pointer"
+                                ></i>
+                              </div>
+                            </ng-template>
+                          </ngx-datatable-column>
+                          <ngx-datatable-footer>
+                            <ng-template
+                              ngx-datatable-footer-template
+                              let-rowCount="rowCount"
+                              let-pageSize="pageSize"
+                              let-selectedCount="selectedCount"
+                              let-curPage="curPage"
+                              let-offset="offset"
+                              let-isVisible="isVisible"
+                            >
+                              <div class="page-count" *ngIf="!isLoading">
+                                <span *ngIf="chkBoxSelected">
+                                  Đã chọn {{ chkBoxSelected.length }} /
+                                </span>
+                                {{ rowCount.toLocaleString() }}
+                                {{ totalMessage }} hàng.
+                              </div>
+                              <datatable-pager
+                                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                                [pagerRightArrowIcon]="'datatable-icon-right'"
+                                [pagerPreviousIcon]="'datatable-icon-prev'"
+                                [pagerNextIcon]="'datatable-icon-skip'"
+                                [page]="curPage"
+                                [size]="pageSize"
+                                [count]="rowCount"
+                                [hidden]="!(rowCount / pageSize > 1)"
+                                (change)="table.onFooterPage($event)"
+                              >
+                              </datatable-pager>
+                            </ng-template>
+                          </ngx-datatable-footer>
+                        </ngx-datatable>
                       </div>
-                    </div>
-                  </form>
-                  <!-- users edit socail form ends -->
+                    </section>
+                  </div>
                 </div>
-                <!-- Social Tab ends -->
+              </ng-template>
+            </li>
+            <li ngbNavItem>
+              <a ngbNavLink class="d-flex align-items-center"
+                ><i data-feather="file-text" class="mr-sm-50"></i
+                ><span class="d-none d-sm-block"
+                  >Danh sách yêu cầu chứng thực</span
+                ></a
+              >
+              <ng-template ngbNavContent>
+                <div class="col -12">
+                  <div class="table-responsive border rounded mt-1">
+                    <section>
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">
+                            <i
+                              data-feather="file-text"
+                              [size]="20"
+                              class="mr-25"
+                            ></i>
+                            <span class="align-middle"
+                              >Danh sách yêu cầu chứng thực</span
+                            >
+                          </h4>
+                          <div class="">
+                            <button
+                              type="button"
+                              rippleEffect
+                              class="btn btn-primary ml-1"
+                              rippleEffect
+                              (click)="openToggleSidebar(modalForm)"
+                            >
+                              Tạo yêu cầu chứng thực
+                            </button>
+                          </div>
+                        </div>
+                        <mat-progress-bar
+                          *ngIf="isLoading"
+                          mode="indeterminate"
+                        ></mat-progress-bar>
+                        <ngx-datatable
+                          #tableRowDetails
+                          class="bootstrap core-bootstrap cursor"
+                          [rows]="rowsDataCRL"
+                          [selected]="chkBoxSelected"
+                          (select)="customCheckboxOnSelect($event)"
+                          (select)="onSelect($event)"
+                          [selectionType]="SelectionType.checkbox"
+                          [columnMode]="ColumnMode.force"
+                          [headerHeight]="50"
+                          rowHeight="auto"
+                          [scrollbarH]="true"
+                          [footerHeight]="50"
+                          [rowHeight]="50"
+                          [externalPaging]="true"
+                          [limit]="pagedDataCRL.size"
+                          [count]="pagedDataCRL.totalItems"
+                          [offset]="pagedDataCRL.currentPage"
+                          [loadingIndicator]="isLoading"
+                          (page)="setPageCRL($event)"
+                        >
+                          <ngx-datatable-column
+                            [width]="50"
+                            [sortable]="false"
+                            [canAutoResize]="false"
+                            [draggable]="false"
+                            [resizeable]="false"
+                            class="ml-1"
+                          >
+                            <ng-template
+                              ngx-datatable-header-template
+                              let-value="value"
+                              let-allRowsSelected="allRowsSelected"
+                              let-selectFn="selectFn"
+                            >
+                              <div
+                                class="custom-control custom-control-primary custom-checkbox"
+                              >
+                                <input
+                                  type="checkbox"
+                                  class="custom-control-input"
+                                  [checked]="allRowsSelected"
+                                  (change)="selectFn(!allRowsSelected)"
+                                  id="headerCustomChkbxRef"
+                                />
+                                <label
+                                  class="custom-control-label"
+                                  for="headerCustomChkbxRef"
+                                ></label>
+                              </div>
+                            </ng-template>
+                            <ng-template
+                              ngx-datatable-cell-template
+                              let-rowIndex="rowIndex"
+                              let-value="value"
+                              let-isSelected="isSelected"
+                              let-onCheckboxChangeFn="onCheckboxChangeFn"
+                            >
+                              <div
+                                class="custom-control custom-control-primary custom-checkbox"
+                              >
+                                <input
+                                  type="checkbox"
+                                  class="custom-control-input"
+                                  [checked]="isSelected"
+                                  (change)="onCheckboxChangeFn($event)"
+                                  id="rowCustomChkbxRef{{ rowIndex }}"
+                                />
+                                <label
+                                  class="custom-control-label"
+                                  for="rowCustomChkbxRef{{ rowIndex }}"
+                                ></label>
+                              </div>
+                            </ng-template>
+                          </ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="TT"
+                            [sortable]="false"
+                            [canAutoResize]="false"
+                            [width]="50"
+                          >
+                            <ng-template
+                              ngx-datatable-cell-template
+                              let-rowIndex="rowIndex"
+                            >
+                              {{
+                                pagedData.currentPage * pagedData.size +
+                                  rowIndex +
+                                  1
+                              }}
+                            </ng-template>
+                          </ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Keypair Alias"
+                            prop="keypairAlias"
+                            [width]="200"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Doanh nghiệp"
+                            prop="organizationName"
+                            [width]="150"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Common name"
+                            prop="subscribeName"
+                            [width]="160"
+                          ></ngx-datatable-column>
+                          <ngx-datatable-column
+                            name="Hành động"
+                            [width]="100"
+                            [sortable]="false"
+                          >
+                            <ng-template
+                              ngx-datatable-cell-template
+                              let-row="row"
+                            >
+                              <div class="d-flex align-items-center">
+                                <div ngbDropdown container="body">
+                                  <a
+                                    ngbDropdownToggle
+                                    href="javascript:void(0);"
+                                    class="hide-arrow"
+                                    id="dropdownBrowserState"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                  >
+                                    <i
+                                      data-feather="more-vertical"
+                                      class="text-primary cursor-pointer mr-50"
+                                    ></i>
+                                  </a>
+                                  <div
+                                    ngbDropdownMenu
+                                    class="dropdown-menu-right"
+                                    aria-labelledby="dropdownBrowserState"
+                                  >
+                                    <a
+                                      [href]="row.fileUrl"
+                                      [download]="row.fileName"
+                                      ngbDropdownItem
+                                      class="d-flex align-items-center"
+                                      (click)="downloadSidebar(row)"
+                                      ><i
+                                        data-feather="download"
+                                        class="mr-50"
+                                      ></i
+                                      >Tải dữ liệu</a
+                                    >
+                                  </div>
+                                </div>
+                                <i
+                                  data-feather="edit"
+                                  class="text-primary cursor-pointer"
+                                ></i>
+                              </div>
+                            </ng-template>
+                          </ngx-datatable-column>
+                          <ngx-datatable-footer>
+                            <ng-template
+                              ngx-datatable-footer-template
+                              let-rowCount="rowCount"
+                              let-pageSize="pageSize"
+                              let-selectedCount="selectedCount"
+                              let-curPage="curPage"
+                              let-offset="offset"
+                              let-isVisible="isVisible"
+                            >
+                              <div class="page-count" *ngIf="!isLoading">
+                                <span *ngIf="chkBoxSelected">
+                                  Đã chọn {{ chkBoxSelected.length }} /
+                                </span>
+                                {{ rowCount.toLocaleString() }}
+                                {{ totalMessage }} hàng.
+                              </div>
+                              <datatable-pager
+                                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                                [pagerRightArrowIcon]="'datatable-icon-right'"
+                                [pagerPreviousIcon]="'datatable-icon-prev'"
+                                [pagerNextIcon]="'datatable-icon-skip'"
+                                [page]="curPage"
+                                [size]="pageSize"
+                                [count]="rowCount"
+                                [hidden]="!(rowCount / pageSize > 1)"
+                                (change)="table.onFooterPage($event)"
+                              >
+                              </datatable-pager>
+                            </ng-template>
+                          </ngx-datatable-footer>
+                        </ngx-datatable>
+                      </div>
+                    </section>
+                  </div>
+                </div>
               </ng-template>
             </li>
           </ul>
@@ -2033,3 +2183,219 @@
     </section>
   </div>
 </div>
+
+ <!-- form modal chứng thư số  -->
+<ng-template #modalUploadCert let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="formInfoEdit">
+          <div class="form-group custom-file">
+            <input
+              #certificate
+              formControlName="certificate"
+              type="file"
+              class="form-control custom-file-input"
+              name="file"
+              id="file"
+              (change)="onFileChange($event)"
+            />
+            <label for="certificate" class="custom-file-label"
+              >Chọn chứng thư số</label
+            >
+            <span
+              *ngIf="
+                formInfoEdit.controls.certificate.valid &&
+                formInfoEdit.controls.fileSource.value != null
+              "
+              ><i data-feather="check"></i
+              >{{ formInfoEdit.controls.fileSource.value.name }}Đã được
+              chọn</span
+            >
+            <div
+              *ngIf="
+              formInfoEdit.controls.certificate.touched &&
+              formInfoEdit.controls.certificate.invalid
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="formInfoEdit.controls.certificate.errors.required">
+                Cần chọn chứng thư số.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" (click)="onSubmitCert()">
+      Cập nhật
+    </button>
+  </div>
+</ng-template>
+
+ <!-- form modal yêu cầu chứng thực -->
+<ng-template #modalForm let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">
+      Tạo yêu cầu chứng thực cho thuê bao
+      {{
+        personal.firstName + ' ' + personal.middleName + ' ' + personal.lastName
+      }}
+    </h4>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form [formGroup]="newRequestForm" *ngIf="newRequestForm">
+      <h6 class="mb-1">1. Chọn Profile</h6>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="">Profile</label>
+            <ng-select
+              (change)="changeProfile()"
+              [items]="listProfiles"
+              bindLabel="nameProfile"
+              [clearable]="false"
+              formControlName="profile"
+              [ngClass]="
+                (fa.profile.errors && fa.profile?.touched) ||
+                (submitted && fa.profile?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            ></ng-select>
+            <div
+              *ngIf="
+                (fa.profile.errors && fa.profile?.touched) ||
+                (submitted && fa.profile?.errors?.required)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="fa.profile.errors.required">Bạn cần chọn profile</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="strProfile.length > 0">
+          <div class="card shadow-none bg-transparent border-primary">
+            <div class="card-body">
+              <h4 class="card-title">Thông tin chi tiết</h4>
+              <p class="card-text">{{ strProfile }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h6 class="mb-1">2. Tạo cặp khóa</h6>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>HSM</label>
+            <ng-select
+              [items]="hsmList"
+              bindLabel="hsmName"
+              [clearable]="false"
+              formControlName="hsm"
+              [ngClass]="
+                (fa.hsm.errors && fa.hsm?.touched) ||
+                (submitted && fa.hsm?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+              (change)="changeHsm()"
+            >
+            </ng-select>
+            <div
+              *ngIf="
+                (fa.hsm.errors && fa.hsm?.touched) ||
+                (submitted && fa.hsm?.errors?.required)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="fa.hsm.errors.required">Bạn cần chọn HSM</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Token</label>
+            <ng-select
+              [items]="tokenList"
+              bindLabel="tokenName"
+              [clearable]="false"
+              formControlName="tokenId"
+            ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Hệ mật</label>
+            <ng-container formGroupName="cryptoAlgorithm">
+              <ng-select
+                [items]="cryptoAlgorithm"
+                bindLabel="cryptoSystem"
+                [clearable]="false"
+                formControlName="cryptoSystem"
+                (change)="changeCrypto($event)"
+              ></ng-select>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="">Tham số khóa</label>
+            <ng-container formGroupName="cryptoAlgorithm">
+              <ng-select
+                [items]="keypairLengthList"
+                bindLabel="keypairLength"
+                [clearable]="false"
+                formControlName="keypairLength"
+              ></ng-select>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Alias</label>
+            <input
+              type="text"
+              formControlName="alias"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  (fa.alias.errors && fa.alias?.dirty) ||
+                  (submitted && f.alias?.errors?.required),
+                'is-valid': !fa.alias?.errors?.used && fa.alias?.dirty
+              }"
+            />
+            <div
+              *ngIf="
+                (fa.alias.errors && fa.alias?.dirty) ||
+                (submitted && f.alias?.errors?.required)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="fa.alias.errors.required">Bạn cần nhập alias</div>
+              <div *ngIf="fa.alias.errors.used">
+                Alias đã tồn tại. Vui lòng nhập alias khác
+              </div>
+            </div>
+            <div *ngIf="fa.alias.errors == null" class="valid-feedback">
+              Alias hợp lệ
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

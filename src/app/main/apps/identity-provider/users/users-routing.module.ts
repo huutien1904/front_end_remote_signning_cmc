@@ -20,6 +20,7 @@ const routes: Routes = [
       animation: "CreateSelfComponent",
     },
   },
+
   {
     path: "**",
     redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
