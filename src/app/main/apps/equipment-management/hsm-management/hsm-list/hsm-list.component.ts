@@ -117,7 +117,7 @@ export class HsmListComponent implements OnInit {
         this.rowsData = pagedData.data.data;
         this.isLoading = false;
       });
-    }
+  }
   onActivate(event) {
     if (
       event.type === 'click' &&
@@ -135,28 +135,25 @@ export class HsmListComponent implements OnInit {
     this.selected = event.selected;
   }
   deleteHSM() {
-    this.confirmOpen()
-  }
-  confirmOpen() {
     Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
       text: 'Bạn sẽ không thể hoàn tác điều này!',
       icon: 'warning',
       showCancelButton: true,
       preConfirm: async () => {
-        console.log(this.selected.length)
-        this.testSyn()
-        // for (let i = 0; i < this.selected.length; i++) {
-        //   console.log(this.selected[i].hsmId)
-        //   this._hsmService
-        //   .deleteHSMId((this.selected[i].hsmId))
-        //   .subscribe((res) => {
-        //     console.log(res)
-        //   })
-        //   // .catch(function (error) {
-        //   //   //Swal.showValidationMessage('Mã lỗi:  ' + error + '');
-        //   // });
-        // }
+        console.log(this.selected.length);
+        for (let i = 0; i < this.selected.length; i++) {
+          console.log(this.selected[i].hsmId);
+          this._hsmService
+            .deleteHSMId(this.selected[i].hsmId)
+            .subscribe((res) => {
+              console.log(res);
+              this.setPage({
+                offset: 0,
+                pageSize: this.formListHsm.controls.size,
+              });
+            });
+        }
       },
       cancelButtonColor: '#E42728',
       cancelButtonText: 'Thoát',
@@ -166,9 +163,9 @@ export class HsmListComponent implements OnInit {
         cancelButton: 'btn btn-danger ml-1',
       },
     }).then(function (result) {
-      console.log(result)
-      console.log(result.value)
-      if (result.isDismissed==false) {
+      console.log(result);
+      console.log(result.value);
+      if (result.isDismissed == false) {
         Swal.fire({
           icon: 'success',
           title: 'Xóa thành công!',
@@ -180,18 +177,16 @@ export class HsmListComponent implements OnInit {
       }
     });
   }
-  testSyn(){
+  testSyn() {
     for (let i = 0; i < this.selected.length; i++) {
-      console.log(this.selected[i].hsmId)
-      this._hsmService
-      .deleteHSMId((this.selected[i].hsmId))
-      .subscribe((res) => {
-        console.log(res)
+      console.log(this.selected[i].hsmId);
+      this._hsmService.deleteHSMId(this.selected[i].hsmId).subscribe((res) => {
+        console.log(res);
         this.setPage({
           offset: 0,
           pageSize: this.formListHsm.controls.size,
         });
-      })
+      });
       // .catch(function (error) {
       //   //Swal.showValidationMessage('Mã lỗi:  ' + error + '');
       // });
@@ -200,8 +195,8 @@ export class HsmListComponent implements OnInit {
   // customCheckboxOnSelect({ selected }) {
   //   console.log({ selected });
   // }
-  onCheckboxChangeFn(event,{ selected }) {
-    console.log({selected})
+  onCheckboxChangeFn(event, { selected }) {
+    console.log({ selected });
     console.log(event);
     console.log('test');
   }
@@ -214,10 +209,14 @@ export class HsmListComponent implements OnInit {
       preConfirm: () => {
         this._hsmService.deleteHSMId(hsmId).subscribe((res) => {
           // this.updateTableOnDelete();
-          this._toastrService.success('Xóa kết nối HSM thành công ', 'Thành công', {
-            toastClass: 'toast ngx-toastr',
-            closeButton: true,
-          });
+          this._toastrService.success(
+            'Xóa kết nối HSM thành công ',
+            'Thành công',
+            {
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
           this.setPage({
             offset: 0,
             pageSize: this.formListHsm.controls.size,
@@ -233,7 +232,7 @@ export class HsmListComponent implements OnInit {
       },
     }).then(function (result) {
       console.log(result);
-      if (result.isDismissed==false) {
+      if (result.isDismissed == false) {
         Swal.fire({
           icon: 'success',
           title: 'Xóa thành công!',
@@ -245,8 +244,8 @@ export class HsmListComponent implements OnInit {
       }
     });
   }
-  exportCSV(){
-    console.log(this.formListHsm.value)
+  exportCSV() {
+    console.log(this.formListHsm2.value);
     this._hsmService
       .getListHsm(JSON.stringify(this.formListHsm2.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -262,30 +261,36 @@ export class HsmListComponent implements OnInit {
         const csvData =
           keys.join(separator) +
           '\n' +
-          pagedData.data.data.map(row => {
-            return keys.map(k => {
-              let cell = row[k] === null || row[k] === undefined ? '' : row[k];
-              cell = cell instanceof Date
-                ? cell.toLocaleString()
-                : cell.toString().replace(/"/g, '""');
-              if (cell.search(/("|,|\n)/g) >= 0) {
-                cell = `"${cell}"`;
-              }
-              return cell;
-            }).join(separator);
-          }).join('\n');
-    
+          pagedData.data.data
+            .map((row) => {
+              return keys
+                .map((k) => {
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-          const link = document.createElement('a');
-          if (link.download !== undefined) {
-            // Browsers that support HTML5 download attribute
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', "Danh Sách HSM");
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh Sách HSM');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
       });
   }

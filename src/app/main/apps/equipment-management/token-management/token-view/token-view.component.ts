@@ -113,7 +113,10 @@ export class TokenViewComponent implements OnInit {
         this.hsmList = response;
         console.log(this.hsmList);
       });
+  }
 
+  exit() {
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
   get f() {
     return this.tokenForm.controls;

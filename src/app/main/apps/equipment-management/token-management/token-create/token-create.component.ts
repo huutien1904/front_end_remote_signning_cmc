@@ -22,6 +22,7 @@ export class TokenCreateComponent implements OnInit {
   public submitted = false;
   public hsmList: any[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+  public lockQuantity:any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
     "size" : 4,
@@ -51,6 +52,7 @@ export class TokenCreateComponent implements OnInit {
         tokenPassword: ['', Validators.required],
         confPassword: ['', Validators.required],
         hsmInformationId: [null, Validators.required],
+        lockQuantity: [null, Validators.required],
       },
       {
         validator: MustMatch('tokenPassword', 'confPassword')
@@ -127,7 +129,7 @@ export class TokenCreateComponent implements OnInit {
   }
 
   exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
 
 }

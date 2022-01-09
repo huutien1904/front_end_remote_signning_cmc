@@ -29,6 +29,7 @@ export class TokenEditComponent implements OnInit {
   public submitted = false;
   public hsmList: Hsm[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+  public lockQuantity:any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
     "size" : 100,
@@ -58,6 +59,7 @@ export class TokenEditComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: [null, Validators.required],
         hsmId: [null, Validators.required],
+        lockQuantity:[null, Validators.required]
       }
     );
     // this.asyncValidators()
@@ -187,7 +189,7 @@ export class TokenEditComponent implements OnInit {
   }
 
   exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
 
   // end function
