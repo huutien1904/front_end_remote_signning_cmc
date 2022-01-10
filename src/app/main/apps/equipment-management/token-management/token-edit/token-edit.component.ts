@@ -29,6 +29,7 @@ export class TokenEditComponent implements OnInit {
   public submitted = false;
   public hsmList: Hsm[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+  public lockQuantity:any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
     "size" : 100,
@@ -59,9 +60,8 @@ export class TokenEditComponent implements OnInit {
         tokenPassword: [null, Validators.required],
         confPassword: ['', Validators.required],
         hsmId: [null, Validators.required],
-      },
-      {
-        validator: MustMatch('tokenPassword', 'confPassword')
+        lockQuantity:[null, Validators.required],
+        tokenId: [null, Validators.required],
       }
     );
     // this.asyncValidators()
@@ -76,7 +76,7 @@ export class TokenEditComponent implements OnInit {
       return res.data.data;
     });
     console.log(this.hsmList);
-
+    console.log(this.lastValue)
     // get token
     this.tokenInfo = await this._tokenService.getTokenId(this.lastValue)
                     .pipe(takeUntil(this._unsubscribeAll))
@@ -97,6 +97,7 @@ export class TokenEditComponent implements OnInit {
      this.tokenForm.patchValue({
        tokenName: this.tokenInfo.tokenName,
        slotNumber : this.tokenInfo.slotNumber,
+       tokenId  : this.tokenInfo.tokenId
       //  tokenPassword: this.tokenInfo.tokenName,
      });
      console.log(this.tokenForm.value)
@@ -194,7 +195,7 @@ export class TokenEditComponent implements OnInit {
   }
 
   exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
 
   // end function
