@@ -435,12 +435,14 @@ export class PersonalListComponent implements OnInit {
             .map((row) => {
               return keys
                 .map((k) => {
+                  console.log("k",k);
                   let cell =
                       row[k] === null || row[k] === undefined ? '' : row[k];
                     cell =
                       cell instanceof Date
                         ? cell.toLocaleString()
                         : cell.toString().replace(/"/g, '""');
+                    console.log("cell",cell);
                     if (cell.search(/("|,|\n)/g) >= 0) {
                       cell = `"${cell}"`;
                     }
