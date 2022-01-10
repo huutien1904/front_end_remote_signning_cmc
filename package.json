@@ -14,7 +14,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "format": "prettier --check \"**/*.{ts,js,json,html,css,scss,md}\""
+    "format": "prettier --check \"**/*.{ts,js,json,html,css,scss,md}\"",
+      "deploy" : "ng s --host 0.0.0.0 --port 8000 --disable-host-check --base-href /ssa/ --deploy-url /ssa/"
   },
   "private": true,
   "dependencies": {
