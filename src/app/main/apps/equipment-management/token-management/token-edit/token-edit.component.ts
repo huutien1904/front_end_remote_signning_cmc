@@ -59,7 +59,8 @@ export class TokenEditComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: [null, Validators.required],
         hsmId: [null, Validators.required],
-        lockQuantity:[null, Validators.required]
+        lockQuantity:[null, Validators.required],
+        tokenId: [null, Validators.required],
       }
     );
     // this.asyncValidators()
@@ -74,7 +75,7 @@ export class TokenEditComponent implements OnInit {
       return res.data.data;
     });
     console.log(this.hsmList);
-
+    console.log(this.lastValue)
     // get token
     this.tokenInfo = await this._tokenService.getTokenId(this.lastValue)
                     .pipe(takeUntil(this._unsubscribeAll))
@@ -95,6 +96,7 @@ export class TokenEditComponent implements OnInit {
      this.tokenForm.patchValue({
        tokenName: this.tokenInfo.tokenName,
        slotNumber : this.tokenInfo.slotNumber,
+       tokenId  : this.tokenInfo.tokenId
       //  tokenPassword: this.tokenInfo.tokenName,
      });
      console.log(this.tokenForm.value)

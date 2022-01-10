@@ -280,7 +280,7 @@ export class HsmListComponent implements OnInit {
             })
             .join('\n');
 
-        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         if (link.download !== undefined) {
           // Browsers that support HTML5 download attribute

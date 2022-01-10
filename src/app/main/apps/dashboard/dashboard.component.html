@@ -6,7 +6,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
-                  <div>
+                  <div class="w-100">
                     <p class="card-text">Số lượng thuê bao</p>
                     <h2 class="font-weight-bolder mb-0">385</h2>
                   </div>
@@ -21,7 +21,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
-                  <div>
+                  <div class="w-100">
                     <p class="card-text"> Số lượng chứng thư số</p>
                     <h2 class="font-weight-bolder mb-0">412</h2>
                   </div>
@@ -36,7 +36,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
-                  <div>
+                  <div class="w-100">
                     <p class="card-text">Số lần ký số</p>
                     <h2 class="font-weight-bolder mb-0">300</h2>
                   </div>
@@ -51,7 +51,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
               <div class="card">
                 <div class="card-header">
-                  <div>
+                  <div class="w-100">
                     <p class="card-text">Trạng thái kết nối HSM</p>
                     <h2 class="font-weight-bolder mb-0">360</h2>
                   </div>
@@ -99,7 +99,7 @@
         <section id="apex-line-charts">
           <div class="row">
             <!--Yêu cầu kí số theo tháng-->
-            <div class="col-6">
+            <div class="col-xl-6 col-12">
               <div class="card">
                 <div
                   class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
@@ -117,7 +117,6 @@
                       [series]="requestChart1.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : requestChart1.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: false
@@ -150,7 +149,6 @@
                       [series]="requestChart2.series"
                       [chart]="{
                         height: 450,
-                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : requestChart2.chart.width,
                         type: 'donut'
                       }"
                       [labels]="requestChart2.labels"
@@ -164,7 +162,7 @@
               </div>
             </div>
             <!--Tổng số thuê bao-->
-            <div class="col-6">
+            <div class="col-xl-6 col-12">
               <div class="card">
                 <div
                   class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
@@ -182,7 +180,6 @@
                       [series]="subcriberChart1.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : subcriberChart1.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: true
@@ -215,7 +212,6 @@
                       [series]="subcriberChart2.series"
                       [chart]="{
                         height: 450,
-                        width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : subcriberChart2.chart.width,
                         type: 'donut'
                       }"
                       [labels]="subcriberChart2.labels"
@@ -229,7 +225,7 @@
               </div>
             </div>
             <!--Chứng thư số-->
-            <div class="col-6">
+            <div class="col-xl-6 col-12">
               <div class="card">
                 <div
                   class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
@@ -247,7 +243,6 @@
                       [series]="subscriberCertificateChart.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : subscriberCertificateChart.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: false
@@ -268,7 +263,7 @@
               </div>
             </div>
             <!--Tổng số cặp khóa-->
-            <div class="col-6">
+            <div class="col-xl-6 col-12">
               <div class="card">
                 <div
                   class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
@@ -286,7 +281,6 @@
                       [series]="keypairChart.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : keypairChart.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: false
@@ -309,7 +303,7 @@
             
             
             <!--Yêu cầu chứng thực-->
-            <div class="col-6">
+            <div class="col-xl-6 col-12">
               <div class="card">
                 <div
                   class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
@@ -327,7 +321,6 @@
                       [series]="certificateRequestChart.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : certificateRequestChart.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: false
@@ -348,7 +341,7 @@
               </div>
             </div>
             <!--HSM-->
-            <div class="col-6">
+            <div class="col-xl-6 col-12">
               <div class="card">
                 <div
                   class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
@@ -366,7 +359,6 @@
                       [series]="hsmChart.series"
                       [chart]="{
                         height: 400,
-                        width: isMenuToggled === false ? apexLineChartRef.offsetWidth : hsmChart.chart.width,
                         type: 'line',
                         zoom: {
                           enabled: false

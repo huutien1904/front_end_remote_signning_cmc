@@ -123,7 +123,7 @@
     <section id="table-hsm-list">
       <div class="card">
         <div class="card-header py-1">
-          <h4 class="card-title">Danh sách HSM</h4>
+          <h4 class="card-title">Danh sách Token</h4>
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
@@ -138,7 +138,7 @@
               ></i
               ><span class="d-none d-sm-inline-block">Thêm Mới</span>
             </button>
-            <button
+            <!-- <button
               csvLink
               class="btn btn-outline-secondary ml-1"
               rippleEffect
@@ -146,7 +146,7 @@
               [disabled]="selected.length === 0"
             >
               Xóa
-            </button>
+            </button> -->
             <a
               csvLink
               class="btn btn-outline-secondary float-right mr-1"
@@ -306,13 +306,13 @@
                       class="d-flex align-items-center"
                       ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
                     </a>
-                    <a
+                    <!-- <a
                       href="javascript:void(0)"
                       ngbDropdownItem
                       class="d-flex align-items-center"
                       (click)="removeProfile(value.tokenId)"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                    >
+                    > xóa token -->
                   </div>
                 </div>
                 <i data-feather="edit" class="text-primary cursor-pointer"></i>
@@ -361,15 +361,15 @@
               ></i
               ><span class="d-none d-sm-inline-block">Thêm Mới</span>
             </button>
-            <button
+            <!-- <button
               csvLink
               class="btn btn-outline-secondary ml-1"
               rippleEffect
               (click)="deleteToken()"
               [disabled]="selected.length === 0"
             >
-              Xóa
-            </button>
+              Xóa token
+            </button> -->
             <a
               csvLink
               class="btn btn-outline-secondary float-right mr-1"

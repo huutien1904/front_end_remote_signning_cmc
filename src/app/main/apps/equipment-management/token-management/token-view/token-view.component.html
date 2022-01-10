@@ -22,29 +22,34 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Mã Token</label>
-                    <ng-select placeholder="KPI" [clearable]="false" readonly>
-                    </ng-select>
+                    <input type="text"
+                    formControlName="tokenId"
+                    class="form-control"
+                    readonly>
                   </div>
                 </div>
               </div>
 
               <div class="d-flex">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Số lượng cặp khóa</label>
-                    <ng-select placeholder="2" [clearable]="false" readonly>
-                    </ng-select>
-                  </div>
-                </div>
+
                 <div class="col-6">
                   <div class="form-group">
                     <label for="">Số hiệu slot</label>
-                    <ng-select
-                      [items]="slotOption"
-                      [clearable]="false"
-                      formControlName="slotNumber"
+                    <input type="text"
+                    formControlName="slotNumber"
+                    class="form-control"
+                    readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Số lượng cặp khóa</label>
+                    <input
+                      type="password"
+                      formControlName="tokenPassword"
+                      class="form-control"
                       readonly
-                    ></ng-select>
+                    />
                   </div>
                 </div>
               </div>
@@ -53,22 +58,19 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>HSM</label>
-                    <ng-select
-                      placeholder="{{ HSMname }}"
-                      [clearable]="false"
-                      readonly
-                    >
-                    </ng-select>
+                    <input type="text"
+                    formControlName="hsmName"
+                    class="form-control"
+                    readonly>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Mật khẩu</label>
-                    <input
-                      type="password"
-                      formControlName="tokenPassword"
-                      class="form-control"
-                    />
+                    <label>HSM id</label>
+                    <input type="text"
+                    formControlName="hsmInformationId"
+                    class="form-control"
+                    readonly>
                   </div>
                 </div>
               </div>

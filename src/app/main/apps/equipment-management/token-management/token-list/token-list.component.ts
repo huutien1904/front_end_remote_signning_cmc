@@ -111,9 +111,10 @@ export class TokenListComponent implements OnInit {
       event.column.name != 'Hành động' &&
       event.column.name != 'checkbox'
     ) {
+      console.log(event.row)
       this._router.navigate([
         '/apps/equipment-management/token/token-view/',
-        event.row.hsmId,
+        event.row.tokenId,
       ]);
     }
   }
@@ -199,7 +200,7 @@ export class TokenListComponent implements OnInit {
     //   .subscribe((pagedData)=>{
     //     console.log(pagedData);
     //   })
-    this._tokenService.getListToken(JSON.stringify)
+    this._tokenService.getListToken(JSON.stringify);
     this._tokenService
       .getListToken(JSON.stringify(this.formListToken.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -219,6 +220,10 @@ export class TokenListComponent implements OnInit {
             .map((row) => {
               return keys
                 .map((k) => {
+                  if (k !== 'createdAt') {
+
+                    console.log("Test")
+                  }
                   let cell =
                     row[k] === null || row[k] === undefined ? '' : row[k];
                   cell =
@@ -234,7 +239,9 @@ export class TokenListComponent implements OnInit {
             })
             .join('\n');
 
-        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(['\ufeff' + csvData], {
+          type: 'text/csv;charset=utf-8;',
+        });
         const link = document.createElement('a');
         if (link.download !== undefined) {
           // Browsers that support HTML5 download attribute

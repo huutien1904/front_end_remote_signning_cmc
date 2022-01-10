@@ -51,6 +51,8 @@ export class TokenViewComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
         hsmInformationId: ["", Validators.required],
+        hsmName:["", Validators.required],
+        tokenId:["", Validators.required]
       },
       
     );
@@ -85,6 +87,10 @@ export class TokenViewComponent implements OnInit {
       this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
       this.tokenForm.controls.tokenName.patchValue(data.tokenName);
       this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
+      this.tokenForm.controls.hsmName.patchValue(data.hsmName);
+      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmId);
+      this.tokenForm.controls.tokenId.patchValue(this.lastValue);
+      console.log(this.tokenForm.value)
       this.HSMname = data.hsmName
       // const hsmSelected =  this.hsmList.filter((item) =>{
       //   return token.data.hsmId == item.hsmId
