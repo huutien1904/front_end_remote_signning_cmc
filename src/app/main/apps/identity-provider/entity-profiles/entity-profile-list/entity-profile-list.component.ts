@@ -50,7 +50,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   public totalItems: any = 0;
   public selected = [];
   public ColumnMode = ColumnMode;
-
+  public chkBoxSelected = [];
   constructor(
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
@@ -100,7 +100,17 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       pageSize: this.formListProfile.get('size').value,
     });
   }
+  // get seleted item
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+    console.log("Select Event", selected, this.selected);
 
+  }
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
@@ -129,7 +139,6 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   // remove profile item
   removeProfile(entityId){
     console.log(entityId);
-    // this.confirmRemoveProfile(entityId)
     this._entityProfileService
     .deleteProfileId(entityId)
     .subscribe((res) =>{
@@ -145,6 +154,9 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         })
     })
   }
+  deleteProfile(entityId){
+    this.confirmRemoveProfile(entityId)
+  }
   confirmRemoveProfile(entityId){
     Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
@@ -153,20 +165,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
       preConfirm:   async () => {
-        console.log("checy cai nay chua")
-      this._entityProfileService
-      .deleteProfileId(entityId)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .toPromise().then(res=>{
-        if(res.result==false){
-          throw new Error(res.message);
-        }
-        return res;
-      }).catch(
-        function (error) {
-          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
-        }
-      );
+      return this.removeProfile(entityId)
      },
       cancelButtonColor: '#E42728',
       cancelButtonText: "Thoát",
@@ -179,7 +178,6 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         return !Swal.isLoading();
       }
     }).then(function (result:any) {
-      console.log(result);
       if (result.value) {
         Swal.fire({
           icon: 'success',
@@ -189,10 +187,6 @@ export class ProfileListComponent implements OnInit, OnDestroy {
             confirmButton: 'btn btn-success'
           }
         });
-        // this.setPage({
-        //   offset: 0,
-        //   pageSize: this.formListProfile.controls.size
-        // })
       }
     }
     
@@ -201,7 +195,44 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   // end remove profile item
   // remove list profile
   removeListProfile(){
+    this.confirmRemoveListProfile();
+  }
+  confirmRemoveListProfile(){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return this.selected.map((profile) =>{
+            this.removeProfile(profile.endEntityProfileId)
+          });
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
     
+    );
   }
   // end remove list profile
   /**
