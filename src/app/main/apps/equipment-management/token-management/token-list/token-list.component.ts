@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenService } from '../token.service';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -51,7 +50,6 @@ export class TokenListComponent implements OnInit {
     private _tokenService: TokenService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
-    private _router: Router,
     private _toastrService: ToastrService,
     private _router: Router
   ) {

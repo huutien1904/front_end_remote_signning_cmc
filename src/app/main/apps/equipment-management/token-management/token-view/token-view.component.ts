@@ -53,7 +53,6 @@ export class TokenViewComponent implements OnInit {
         tokenPassword: ['', Validators.required],
         hsmInformationId: ["", Validators.required],
         hsmName:["", Validators.required],
-        tokenId:["", Validators.required]
       },
       
     );
