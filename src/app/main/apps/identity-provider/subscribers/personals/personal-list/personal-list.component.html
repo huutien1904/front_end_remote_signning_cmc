@@ -184,6 +184,7 @@
           csvLink
           class="btn btn-outline-secondary float-right mr-1"
           rippleEffect
+          (click) = "exportCSV()"
           >Xuất danh sách</a
         >
       </div>
@@ -357,7 +358,7 @@
         prop="gender"
         [width]="80"
       ></ngx-datatable-column>
-
+      <!--  orgnaization -->
       <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
         <ng-template
           ngx-datatable-cell-template

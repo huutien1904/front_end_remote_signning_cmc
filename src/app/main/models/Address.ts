@@ -7,6 +7,20 @@ export interface Address {
     countryId: number;
     houseNumber:string;
 }
+export interface AddressFull {
+    addressId: number;
+    houseNumber:string;
+    streetId: number;
+    streetName:string;
+    communeId: number;
+    communeName:string;
+    districtId: number;
+    districtName:string;
+    provinceId: number;
+    provinceName:string;
+    countryId: number;
+    countryName:string
+}
 export interface Province {
     provinceId:number;
     provinceName:string;

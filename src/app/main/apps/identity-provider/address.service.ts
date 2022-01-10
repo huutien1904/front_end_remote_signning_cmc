@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
 import { Observable } from "rxjs";
-import { Commune, District, Province, Street } from "../../models/Address";
+import { AddressFull, Commune, District, Province, Street } from "../../models/Address";
 
 @Injectable({
   providedIn: "root",
@@ -92,7 +92,11 @@ export class AddressService {
       this.option
     );
   }
-  checkAlias(alias):Observable<any> {
-    return this._httpClient.get(`${environment.apiUrl}/keypair/check?alias=${alias}`, this.option);
+
+  public getAddressById(id):Observable<ResponseData<AddressFull>>{
+    return this._httpClient.get<ResponseData<AddressFull>>(
+      `${environment.apiUrl}/address/${id}`,
+      this.option
+    ); 
   }
 }

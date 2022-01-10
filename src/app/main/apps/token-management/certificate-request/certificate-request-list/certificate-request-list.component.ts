@@ -119,6 +119,7 @@ export class CertificateRequestListComponent implements OnInit {
 
   downloadSidebar(row) {
     const data = row.certificateRequest;
+    // console.log(data)
     const blob = new Blob([data], { type: 'application/octet-stream' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
