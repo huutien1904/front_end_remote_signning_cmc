@@ -16,6 +16,7 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import * as XLSX from 'xlsx';
 import { PersonalService } from "../personal.service";
+import Swal from 'sweetalert2';
 
 type EXCEL = any[][];
 
@@ -167,12 +168,14 @@ export class PersonalListComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
-    console.log("Select Event", selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+    console.log("Select Event", selected, this.selected);
+
   }
   onActivate(event) {
-    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động") {
+    // console.log(event);
+    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
       this._router.navigate(['/apps/ip/subscribers/personals/personal-edit', event.row.staffId]);
       
     }
@@ -193,35 +196,7 @@ export class PersonalListComponent implements OnInit {
     console.log(this.formListPersonal.value)
     this.formListPersonal.patchValue({"size":null}); 
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
-    // if(this.formListPersonal.value.birthday !== null){
-    //   let birthday = this.formListPersonal.value.birthday._i.date + "/" + this.formListPersonal.value.birthday._i.month + "/" + this.formListPersonal.value.birthday._i.year
-    //   this.formListPersonal.controls['birthday'].setValue(birthday);
-    // }
-    // if(this.formListPersonal.value.gender !== null){
-    //   this.body.contains = this.formListPersonal.value.gender
-    // }
-    // console.log(this.formListPersonal.value);
-    // this.body.contains = this.formListPersonal.value.inputPersonal
-    // this._personalService
-    //   .searchPersonal(JSON.stringify(this.formListPersonal.value))
-    //   .pipe(takeUntil(this._unsubscribeAll))
-    //   .subscribe((pagedData) => {
-    //     console.log(pagedData)
-    //     this.totalItems = pagedData.data.totalItems
-    //     this.pagedData = pagedData.data;
-    //     this.rowsData = pagedData.data.data.map((personalList:any) => ({
-    //       ...personalList,
-    //       personalFirstName:
-    //         personalList.firstName +
-    //         " " +
-    //         personalList.middleName +
-    //         " " +
-    //         personalList.lastName,
-    //     }));
-    //     console.log("check1",this.rowsData);
-    //     console.log(this.totalItems);
-    //     this.isLoading=false;
-    // });
+    
   }
   updateTableOnDelete(){
     this.pagedData.size = this.sizePage[3];
@@ -252,7 +227,94 @@ export class PersonalListComponent implements OnInit {
             })
         })
   }
-
+  confirmRemovePersonal(staffId){
+     Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+        this.deletePersonal(staffId)
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result:any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
+    
+  }
+  removeListPersonal(){
+    if(this.selected.length > 0){
+      this.confirmOpenDeleteListPersonal();
+    }
+  }
+  openConfirmDelete(staffId){
+    console.log(staffId);
+    this.confirmRemovePersonal(staffId);
+  }
+  confirmOpenDeleteListPersonal(){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return this.selected.map((pesonal) =>{
+            this.deletePersonal(pesonal.staffId)
+          });
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
+  }
+  // removeListPersonal(){
+  //   this.selected.map((pesonal) =>{
+  //     this.deletePersonal(pesonal.staffId)
+  //   })
+  // }
   onInputExcel(event:any){
     const targetFileExcel:DataTransfer = <DataTransfer>(event.target);
     const reader:FileReader = new FileReader();
@@ -341,6 +403,120 @@ export class PersonalListComponent implements OnInit {
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
   
+  
+  exportCSV() {
+    // const body = {
+    //   page: [""],
+    //   size: "20",
+    //   sort: [["staffId,asc"]],
+    //   contains: ["", Validators.required],
+    //   gender: [null],
+    //   dateOfBirth: [""],
+    //   fromDate: [""],
+    //   toDate: [""],
+    // }
+    // console.log(this.formListPersonal.value)
+    this._personalService
+      .getListPersonals(JSON.stringify(this.formListPersonal.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData);
+        console.log(pagedData.data.data);
+        if (!pagedData.data.data || !pagedData.data.data.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(pagedData.data.data[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          pagedData.data.data
+            .map((row) => {
+              return keys
+                .map((k) => {
+                  console.log("k",k);
+                  let cell =
+                      row[k] === null || row[k] === undefined ? '' : row[k];
+                    cell =
+                      cell instanceof Date
+                        ? cell.toLocaleString()
+                        : cell.toString().replace(/"/g, '""');
+                    console.log("cell",cell);
+                    if (cell.search(/("|,|\n)/g) >= 0) {
+                      cell = `"${cell}"`;
+                    }
+                    return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff' + csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh Sách người dùng');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
+  }
+  downloadFile(data, filename = 'data') {
+    let csvData = this.ConvertToCSV(data, [
+      'name',
+      'age',
+      'average',
+      'approved',
+      'description',
+      'tien',
+    ]);
+    console.log(csvData);
+    let blob = new Blob(['\ufeff' + csvData], {
+      type: 'text/csv;charset=utf-8;',
+    });
+    let dwldLink = document.createElement('a');
+    let url = URL.createObjectURL(blob);
+    let isSafariBrowser =
+      navigator.userAgent.indexOf('Safari') != -1 &&
+      navigator.userAgent.indexOf('Chrome') == -1;
+    if (isSafariBrowser) {
+      //if Safari open in new window to save file with random filename.
+      dwldLink.setAttribute('target', '_blank');
+    }
+    dwldLink.setAttribute('href', url);
+    dwldLink.setAttribute('download', filename + '.csv');
+    dwldLink.style.visibility = 'hidden';
+    document.body.appendChild(dwldLink);
+    dwldLink.click();
+    document.body.removeChild(dwldLink);
+  }
+
+  ConvertToCSV(objArray, headerList) {
+    let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    let str = '';
+    let row = 'S.No,';
+
+    for (let index in headerList) {
+      row += headerList[index] + ',';
+    }
+    row = row.slice(0, -1);
+    str += row + '\r\n';
+    for (let i = 0; i < array.length; i++) {
+      let line = i + 1 + '';
+      for (let index in headerList) {
+        let head = headerList[index];
+
+        line += ',' + array[i][head];
+      }
+      str += line + '\r\n';
+    }
+    return str;
+  }
   /**
    * On destroy
    */

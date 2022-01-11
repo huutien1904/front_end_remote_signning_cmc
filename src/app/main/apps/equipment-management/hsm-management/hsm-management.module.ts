@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter
@@ -23,13 +22,11 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
-import { LoadingService } from "app/main/loading/loading.service";
 import { HsmCreateComponent } from "./hsm-create/hsm-create.component";
 import { HsmEditComponent } from "./hsm-edit/hsm-edit.component";
-import { HsmService } from "./hsm.service";
 import { HsmListComponent } from "./hsm-list/hsm-list.component";
 import { HsmViewComponent } from "./hsm-view/hsm-view.component";
+import { HsmService } from "./hsm.service";
 
 
 const materialModules1234 = [
@@ -70,12 +67,7 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    LoadingService,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true
-      }
+    
         
   ]
 })

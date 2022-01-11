@@ -46,11 +46,13 @@ export class TokenViewComponent implements OnInit {
 
   ngOnInit() {
     this.tokenForm = this.formBuilder.group(
-      {
+      { 
+        tokenId : [null, Validators.required],
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
         hsmInformationId: ["", Validators.required],
+        hsmName:["", Validators.required],
       },
       
     );
@@ -84,7 +86,13 @@ export class TokenViewComponent implements OnInit {
       const data = token.data ;
       this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
       this.tokenForm.controls.tokenName.patchValue(data.tokenName);
+      this.tokenForm.controls.tokenId.patchValue(data.tokenId);
+      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmName);
       this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
+      this.tokenForm.controls.hsmName.patchValue(data.hsmName);
+      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmId);
+      this.tokenForm.controls.tokenId.patchValue(this.lastValue);
+      console.log(this.tokenForm.value)
       this.HSMname = data.hsmName
       // const hsmSelected =  this.hsmList.filter((item) =>{
       //   return token.data.hsmId == item.hsmId
@@ -113,7 +121,10 @@ export class TokenViewComponent implements OnInit {
         this.hsmList = response;
         console.log(this.hsmList);
       });
+  }
 
+  exit() {
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
   get f() {
     return this.tokenForm.controls;

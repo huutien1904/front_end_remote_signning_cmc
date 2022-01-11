@@ -29,6 +29,7 @@ export class TokenEditComponent implements OnInit {
   public submitted = false;
   public hsmList: Hsm[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+  public lockQuantity:any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
     "size" : 100,
@@ -57,7 +58,10 @@ export class TokenEditComponent implements OnInit {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: [null, Validators.required],
+        confPassword: ['', Validators.required],
         hsmId: [null, Validators.required],
+        lockQuantity:[null, Validators.required],
+        tokenId: [null, Validators.required],
       }
     );
     // this.asyncValidators()
@@ -72,7 +76,7 @@ export class TokenEditComponent implements OnInit {
       return res.data.data;
     });
     console.log(this.hsmList);
-
+    console.log(this.lastValue)
     // get token
     this.tokenInfo = await this._tokenService.getTokenId(this.lastValue)
                     .pipe(takeUntil(this._unsubscribeAll))
@@ -93,6 +97,7 @@ export class TokenEditComponent implements OnInit {
      this.tokenForm.patchValue({
        tokenName: this.tokenInfo.tokenName,
        slotNumber : this.tokenInfo.slotNumber,
+       tokenId  : this.tokenInfo.tokenId
       //  tokenPassword: this.tokenInfo.tokenName,
      });
      console.log(this.tokenForm.value)
@@ -127,67 +132,70 @@ export class TokenEditComponent implements OnInit {
     console.log("check")
     this.submitted = true;
     // stop here if form is invalid
-    // if (this.tokenForm.invalid) {
-    //   return;
-    // }
-    console.log(this.tokenForm.value);
-    const newRequest = JSON.stringify({
-      slotNumber: this.f.slotNumber.value,
-      tokenName: this.f.tokenName.value,
-      tokenPassword: this.f.tokenPassword.value,
-      hsmId: this.f.hsmId.value
-    });
-    console.log(newRequest);
-
-    Swal.fire({
-      title: 'Bạn có chắc muốn cập nhật?',
-      text: "Bạn sẽ không thể hoàn tác điều này!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7367F0',
-      preConfirm:   async () => {
-      return await this._tokenService
-      .updateTokenId(this.lastValue,newRequest )
-      .pipe(takeUntil(this._unsubscribeAll))
-      .toPromise().then(res=>{
-        if(res.result==false){
-          throw new Error(res.message);
-        }
-        return res;
-      }).catch(
-        function (error) {
-          Swal.showValidationMessage('Mã lỗi:  ' + error + '');
-        }
-      );
-     },
-      cancelButtonColor: '#E42728',
-      cancelButtonText: "Thoát",
-      confirmButtonText: 'Đúng, tôi muốn cập nhật!',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      allowOutsideClick:  () => {
-        return !Swal.isLoading();
-      }
-    }).then(function (result) {
-      if (result.value) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'TOKEN đã được cập nhật.',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      }
+    console.log(this.tokenForm.invalid)
+    if (this.tokenForm.invalid) {
+      return;
     }
-    
-    );
+    if(this.tokenForm.valid){
+      console.log(this.tokenForm.value);
+      const newRequest = JSON.stringify({
+        slotNumber: this.f.slotNumber.value,
+        tokenName: this.f.tokenName.value,
+        tokenPassword: this.f.tokenPassword.value,
+        hsmId: this.f.hsmId.value
+      });
+      console.log(newRequest);
+  
+      Swal.fire({
+        title: 'Bạn có chắc muốn cập nhật?',
+        text: "Bạn sẽ không thể hoàn tác điều này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#7367F0',
+        preConfirm:   async () => {
+        return await this._tokenService
+        .updateTokenId(this.lastValue,newRequest )
+        .pipe(takeUntil(this._unsubscribeAll))
+        .toPromise().then(res=>{
+          if(res.result==false){
+            throw new Error(res.message);
+          }
+          return res;
+        }).catch(
+          function (error) {
+            Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+          }
+        );
+       },
+        cancelButtonColor: '#E42728',
+        cancelButtonText: "Thoát",
+        confirmButtonText: 'Đúng, tôi muốn cập nhật!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        allowOutsideClick:  () => {
+          return !Swal.isLoading();
+        }
+      }).then(function (result) {
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'TOKEN đã được cập nhật.',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
+      }
+      
+      );
+    }
   }
 
   exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
 
   // end function
@@ -196,4 +204,19 @@ export class TokenEditComponent implements OnInit {
 function asyncValidators(arg0: { slotNumber: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; tokenName: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; tokenPassword: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; hsmId: ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors)[]; }, asyncValidators: any): FormGroup {
   throw new Error('Function not implemented.');
 }
-
+export function MustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl?.errors && !matchingControl?.errors?.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return;
+    }
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
+}

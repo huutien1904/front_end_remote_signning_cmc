@@ -1,97 +1,132 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="myModalLabel1">Danh sách cặp khóa của thuê bao {{ personal.personalFirstName }} </h4>
+  <h4 class="modal-title" id="myModalLabel1">
+    Danh sách cặp khóa của thuê bao {{ personal.personalFirstName }}
+  </h4>
 </div>
 
 <div class="modal-body" tabindex="0" ngbAutofocus>
   <section>
-        <div class="card">
-            <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-            <div class="card-body">
-              <form class="form form-vertical" [formGroup]="formListKeypair">
-                <div class="row mb-1">
-                  <div class="col-md-6">
-                    <label>Mã cặp khóa, alias</label>
+    <div class="card">
+      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+      <div class="card-body">
+        <form class="form form-vertical" [formGroup]="formListKeypair">
+          <div class="row mb-1">
+            <div class="col-md-6">
+              <label>Mã cặp khóa, alias</label>
+              <input
+                name="aliasKeypair"
+                id="aliasKeypair"
+                type="search"
+                class="form-control"
+                formControlName="aliasKeypair"
+                placeholder="Nhập một phần hoặc toàn bộ mã cặp khóa, alias"
+              />
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Hệ mật</label>
+                <ng-select
+                  [items]="cryptoSelect"
+                  [clearable]="false"
+                  formControlName="cryptoSystem"
+                  (change)="changeCrypto($event)"
+                ></ng-select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Độ dài khóa</label>
+                <ng-select
+                  [items]="lengthSelect"
+                  [clearable]="false"
+                  formControlName="keypairLength"
+                  placement="top"
+                ></ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-outline-secondary mr-1"
+                (click)="moreOption = !moreOption"
+                rippleEffect
+              >
+                Thêm tùy chọn
+              </button>
+              <button
+                type="button"
+                rippleEffect
+                class="btn btn-primary"
+                (click)="onSubmit()"
+                [disabled]="!formListKeypair.valid"
+              >
+                Tìm kiếm
+              </button>
+            </div>
+          </div>
+          <div class="row" [ngbCollapse]="moreOption">
+            <div class="col-md-2">
+              <label for="">Số dòng:</label>
+              <fieldset class="form-group">
+                <ng-select
+                  [items]="sizePage"
+                  bindValue="sizePage"
+                  [clearable]="false"
+                  formControlName="sizePage"
+                  (change)="changePage()"
+                ></ng-select>
+              </fieldset>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="lable">Từ ngày:</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" (click)="fromDate.open()"
+                        ><i data-feather="calendar"></i
+                      ></span>
+                    </div>
                     <input
-                      name="aliasKeypair"
-                      id="aliasKeypair"
-                      type="search"
+                      [matDatepicker]="fromDate"
+                      formControlName="fromDate"
                       class="form-control"
-                      formControlName="aliasKeypair"
-                      placeholder="Nhập một phần hoặc toàn bộ mã cặp khóa, alias"
+                      type="text"
+                      [min]="minDate"
+                      [max]="formListKeypair.controls.toDate.value"
+                      placeholder="13/09/2021"
                     />
                   </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Hệ mật</label>
-                        <ng-select [items]="cryptoSelect" [clearable]="false" formControlName="cryptoSystem" (change)="changeCrypto($event)"></ng-select>
-                    </div>
+                  <mat-datepicker #fromDate></mat-datepicker>
                 </div>
                 <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Độ dài khóa</label>
-                        <ng-select [items]="lengthSelect" [clearable]="false" formControlName="keypairLength" placement="top"></ng-select>
+                  <label class="lable">Đến ngày:</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" (click)="toDate.open()"
+                        ><i data-feather="calendar"></i
+                      ></span>
                     </div>
-                </div>
-                </div>
-                <div class="row mb-1">
-                  <div class="col-12">
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary mr-1"
-                      (click)="moreOption = !moreOption"
-                      rippleEffect
-                    >
-                      Thêm tùy chọn
-                    </button>
-                    <button
-                      type="button"
-                      rippleEffect
-                      class="btn btn-primary"
-                      (click)="onSubmit()"
-                      [disabled]="!formListKeypair.valid"
-                    >
-                      Tìm kiếm
-                    </button>
+                    <input
+                      [matDatepicker]="toDate"
+                      formControlName="toDate"
+                      class="form-control"
+                      type="text"
+                      [min]="formListKeypair.controls.fromDate.value"
+                      placeholder="13/09/2021"
+                    />
                   </div>
-                </div>
-                <div class="row" [ngbCollapse]="moreOption">
-                    <div class="col-md-2">
-                        <label for="">Số dòng:</label>
-                        <fieldset class="form-group">
-                            <ng-select [items]="sizePage" bindValue="sizePage" [clearable]="false" formControlName="sizePage" (change)="changePage()"></ng-select>
-                        </fieldset>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="lable">Từ ngày:</label>
-                                <div class="input-group input-group-merge">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" (click)="fromDate.open()"><i data-feather="calendar"></i
-                      ></span>
-                                    </div>
-                                    <input [matDatepicker]="fromDate" formControlName="fromDate" class="form-control" type="text" [min]="minDate" [max]="formListKeypair.controls.toDate.value" placeholder="13/09/2021" />
-                                </div>
-                                <mat-datepicker #fromDate></mat-datepicker>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="lable">Đến ngày:</label>
-                                <div class="input-group input-group-merge">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" (click)="toDate.open()"><i data-feather="calendar"></i
-                      ></span>
-                                    </div>
-                                    <input [matDatepicker]="toDate" formControlName="toDate" class="form-control" type="text" [min]="formListKeypair.controls.fromDate.value" placeholder="13/09/2021" />
-                                </div>
 
-                                <mat-datepicker #toDate></mat-datepicker>
-                            </div>
-                        </div>
-                    </div>
+                  <mat-datepicker #toDate></mat-datepicker>
                 </div>
-              </form>
+              </div>
             </div>
-        </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -191,11 +226,13 @@
   </section>
 </div>
 
-<div class="modal-footer" style="text-align: right;">
-  <button type="button" class="btn btn-secondary" (click)="toggleSidebar()" rippleEffect>
-      Thoát
+<div class="modal-footer" style="text-align: right">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="toggleSidebar()"
+    rippleEffect
+  >
+    Thoát
   </button>
 </div>
-
-
-

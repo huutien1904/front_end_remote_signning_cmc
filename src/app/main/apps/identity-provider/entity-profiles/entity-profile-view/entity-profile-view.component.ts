@@ -453,5 +453,7 @@ export class EntityProfileViewComponent implements OnInit {
       },
     };
   }
-  
+  exit() {
+    this.router.navigateByUrl("/apps/ip/profiles/profile-list")
+  }
 }

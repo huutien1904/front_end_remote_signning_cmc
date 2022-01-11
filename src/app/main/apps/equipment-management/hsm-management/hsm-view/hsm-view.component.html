@@ -1,71 +1,93 @@
-<app-content-header [contentHeader]="contentHeader"> </app-content-header>
-<div class="content-body">
-  <section>
-    <div class="card">
-      <div class="card-body">
-        <h3>Chi tiết HSM</h3>
-        <form [formGroup]="HsmFormView" class="form form-horizontal">
-          <div class="form_content">
-            <div class="">
-              <div class="d-flex">
-                <div class="form-group col-md-6">
-                  <label for="UDUserName">Tên HSM</label>
-                  <input
-                    type="text"
-                    formControlName="hsmName"
-                    class="form-control"
-                    readonly
-                  />
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"> </app-content-header>
+    <div class="content-body">
+      <section>
+        <div class="card">
+          <div class="card-body">
+            <h3>Chi tiết kết nối HSM {{ HSMname }}</h3>
+            <form [formGroup]="HsmFormView" class="form form-horizontal">
+              <div class="form_content">
+                <div class="">
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Tên HSM</label>
+                      <input
+                        type="text"
+                        formControlName="hsmName"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Hãng sản xuất</label>
+                      <input
+                        type="text"
+                        formControlName="hsmManufacturer"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Model</label>
+                      <input
+                        type="text"
+                        formControlName="hsmModel"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Đường dẫn file thư viện</label>
+                      <input
+                        type="text"
+                        formControlName="hsmLibraryPath"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label>Loại HSM</label>
+                      <input
+                        type="text"
+                        formControlName="hsmType"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Chuẩn HSM</label>
+                      <input
+                        type="text"
+                        formControlName="hsmForm"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group col-md-6">
-                  <label for="UDUserName">ID HSM</label>
-                  <input
-                    type="text"
-                    formControlName="hardwareId"
-                    class="form-control"
-                    readonly
-                  />
+                <div class="row">
+                  <div class="col-md-6 offset-6">
+                    <div class="d-flex justify-content-md-end m-1">
+                      <button
+                        (click)="exit()"
+                        rippleEffect
+                        class="btn btn-outline-primary"
+                      >
+                        Quay Lại
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="d-flex">
-                <div class="form-group col-md-6">
-                  <label for="UDUserName">Hãng sản xuất</label>
-                  <input
-                    type="text"
-                    formControlName="hsmManufacturer"
-                    class="form-control"
-                    readonly
-                  />
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="UDUserName">Model</label>
-                  <input
-                    type="text"
-                    formControlName="hsmModel"
-                    class="form-control"
-                    readonly
-                  />
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group col-md-6">
-                  <label>Loại HSM</label>
-                  <ng-select formControlName="hsmType" readonly> </ng-select>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="UDUserName">Đường dẫn file thư viện</label>
-                  <input
-                    type="text"
-                    formControlName="hsmLibraryPath"
-                    class="form-control"
-                    readonly
-                  />
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
-        </form>
-      </div>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </div>

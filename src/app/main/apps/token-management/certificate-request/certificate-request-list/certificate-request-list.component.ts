@@ -58,18 +58,6 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formListCertificateRequest = this.fb.group({
-      contains: [null],
-      fromDate: [null],
-      sort: [null],
-      toDate: [null],
-      page: [null],
-      size: [this.sizePage[3]],
-    });
-    this.setPage({
-      offset: 0,
-      pageSize: this.formListCertificateRequest.get('size').value,
-    });
     this.contentHeader = {
       headerTitle: 'Yêu cầu chứng thực',
       actionButton: true,
@@ -83,11 +71,9 @@ export class CertificateRequestListComponent implements OnInit {
         ],
       },
     };
-
     this.formListCertificateRequest = this.fb.group({
-
       page: [null],
-      size: [this.sizePage[1]],
+      size: [this.sizePage[3]],
       sort : [null],
       contains: [null],
       fromDate: [null],
@@ -127,11 +113,13 @@ export class CertificateRequestListComponent implements OnInit {
           subscribeName: this.getSubscribe(item),
         }));
         this.isLoading = false;
+        console.log(this.rowsData)
       });
   }
 
   downloadSidebar(row) {
     const data = row.certificateRequest;
+    // console.log(data)
     const blob = new Blob([data], { type: 'application/octet-stream' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)

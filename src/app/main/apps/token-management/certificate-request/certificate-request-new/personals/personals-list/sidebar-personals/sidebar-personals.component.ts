@@ -1,3 +1,5 @@
+import { async } from '@angular/core/testing';
+import { EntityProfileService } from './../../../../../../identity-provider/entity-profiles/entity-profile.service';
 import {
   Component,
   OnInit,
@@ -64,63 +66,71 @@ export class SidebarPersonalsComponent implements OnInit {
   public tokenList: Token[];
   public hsmList = new Array<Hsm>();
   public strProfile: string = '';
+  public address: any
   public listProfiles: any[] = [
-    {
-      nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
-      subjectDNA: [
-        'CN',
-        'GIVENNAME',
-        'SURNAME',
-        'EMAIL',
-        'UID',
-        'OU',
-        'ST',
-        'L',
-      ],
-      subjectAttribute: ['OID'],
-      id: 1,
-    },
-    {
-      nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
-      subjectDNA: [
-        'CN',
-        'GIVENNAME',
-        'SURNAME',
-        'EMAIL',
-        'UID',
-        'OU',
-        'ST',
-        'L',
-      ],
-      subjectAttribute: ['OID'],
-      id: 2,
-    },
-    {
-      nameProfile: 'PROFILE 3: CN, UID, OU',
-      subjectDNA: ['CN', 'UID', 'OU'],
-      subjectAttribute: ['OID'],
-      id: 3,
-    },
-    {
-      nameProfile: 'PROFILE 4: CN, ST, L',
-      subjectDNA: ['CN', 'ST', 'L'],
-      subjectAttribute: ['OID'],
-      id: 4,
-    },
-    {
-      nameProfile: 'PROFILE 5: CN',
-      subjectDNA: ['CN'],
-      subjectAttribute: ['OID'],
-      id: 5,
-    },
-    {
-      nameProfile: 'PROFILE 6: UID',
-      subjectDNA: ['UID'],
-      subjectAttribute: ['OID'],
-      id: 6,
-    },
+    // {
+    //   nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
+    //   subjectDNA: [
+    //     'CN',
+    //     'GIVENNAME',
+    //     'SURNAME',
+    //     'EMAIL',
+    //     'UID',
+    //     'OU',
+    //     'ST',
+    //     'L',
+    //   ],
+    //   subjectAttribute: ['OID'],
+    //   id: 1,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
+    //   subjectDNA: [
+    //     'CN',
+    //     'GIVENNAME',
+    //     'SURNAME',
+    //     'EMAIL',
+    //     'UID',
+    //     'OU',
+    //     'ST',
+    //     'L',
+    //   ],
+    //   subjectAttribute: ['OID'],
+    //   id: 2,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 3: CN, UID, OU',
+    //   subjectDNA: ['CN', 'UID', 'OU'],
+    //   subjectAttribute: ['OID'],
+    //   id: 3,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 4: CN, ST, L',
+    //   subjectDNA: ['CN', 'ST', 'L'],
+    //   subjectAttribute: ['OID'],
+    //   id: 4,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 5: CN',
+    //   subjectDNA: ['CN'],
+    //   subjectAttribute: ['OID'],
+    //   id: 5,
+    // },
+    // {
+    //   nameProfile: 'PROFILE 6: UID',
+    //   subjectDNA: ['UID'],
+    //   subjectAttribute: ['OID'],
+    //   id: 6,
+    // },
   ];
-
+  public bodyGetListProfile = {
+    "page": 0,
+    "size": 10,
+    "sort": [],
+    "contains": "",
+    "fromDate": "",
+    "toDate": ""
+  }
   @Input() personal: any;
   @ViewChild('modalLink') modalLink;
 
@@ -134,8 +144,9 @@ export class SidebarPersonalsComponent implements OnInit {
     private toastr: ToastrService,
     private _hsmService: HsmService,
     private sanitizer: DomSanitizer,
-    private _addressService: AddressService
-  ) {}
+    private _addressService: AddressService,
+    private _entityProfileService: EntityProfileService
+  ) { }
   public hsmListSub = new Subject();
   async ngOnInit() {
     await this._hsmService
@@ -168,7 +179,7 @@ export class SidebarPersonalsComponent implements OnInit {
         }),
         alias: [
           this.personal.username +
-            Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
+          Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
         ,
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personal.userId],
@@ -176,6 +187,7 @@ export class SidebarPersonalsComponent implements OnInit {
         profile: [null, Validators.required],
       }
     );
+    this.getListProfiles();
   }
 
   toggleSidebar() {
@@ -206,79 +218,95 @@ export class SidebarPersonalsComponent implements OnInit {
     this.newRequestForm.patchValue({ tokenId: this.tokenList[0] });
   }
 
-  changeProfile() {
+  async changeProfile() {
     const profile: any[] = this.f.profile.value.subjectDNA;
+    console.log(profile);
     this.strProfile = '';
     let firstWord = true;
-    profile.map((attribute: string) => {
+    profile.map(async (attribute: string) => {
       let value = '';
+      this.address = await this._addressService.getAddressById(283)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .toPromise().then(res => {
+          return res.data;
+        });
+      console.log(this.address)
+
+      var commonName = this.personal.personalFirstName;
+      var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
+      var countryCode = this.personal.personalCountryId;
+      var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
+      var localityName = "Huyện " + this.address.districtName;
+      var personalCountryId = this.personal.personalCountryId;
+      var phoneNumber = this.personal.phoneNumber;
+      var email = this.personal.email;
+      
+      // console.log(address)
       switch (attribute) {
         case 'CN':
-          value =
-            this.personal.personalFirstName +
-            ' ' +
-            this.personal.personalMiddleName +
-            ' ' +
-            this.personal.personalLastName;
+          value = commonName
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
           break;
-        case 'GIVENNAME':
-          value =
-            this.personal.personalMiddleName +
-            ' ' +
-            this.personal.personalLastName;
+        case 'C':
+          value = countryCode
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
-          break;
-        case 'SURNAME':
-          value = this.personal.personalFirstName;
+        break;
+        case 'ST':
+          value = stateOrProvinceName
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
-          break;
-        case 'EMAIL':
-          value = this.personal.email;
+        break;
+        case 'L':
+          value = localityName
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+        break;
+        case 'OU':
+          value = "CMC CIST"
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+        break;
+        case 'O':
+          value = "CMC "
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+        break;
+        case 'TELEPHONE_NUMBER':
+          value = phoneNumber
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+        break;
+        
+        case 'EmailAddress':
+          value = email;
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
           break;
         case 'UID':
-          value = this.personal.personalCountryId;
+          value = personalCountryId;
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
           break;
-        case 'OU':
-          value = this.personal.organization.organizationName;
+        case 'STREET':
+          value = streetAddress;
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
-          break;
-        case 'ST':
-          this._addressService
-            .getProvinceName(this.personal.address.provinceId)
-            .subscribe((res: any) => {
-              value = res.data.provinceName;
-              this.displayProfile(attribute, value, firstWord);
-            });
-          firstWord = false;
-          break;
-        case 'L':
-          this._addressService
-            .getDistrictName(this.personal.address.districtId)
-            .subscribe((res: any) => {
-              value = res.data.districtName;
-              this.displayProfile(attribute, value, firstWord);
-            });
-          firstWord = false;
-          break;
+          break; 
       }
     });
   }
 
   displayProfile(attribute, value, firstWord) {
+    console.log(value);
+    console.log(attribute);
     if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
     else {
       this.strProfile += attribute + ' = ' + value;
     }
   }
+
   async onSubmit() {
     this.submitted = true;
     if (this.newRequestForm.invalid) {
@@ -289,23 +317,22 @@ export class SidebarPersonalsComponent implements OnInit {
       cryptoAlgorithm: [this.newRequestForm
         .get('cryptoAlgorithm')
         .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
-        .get('cryptoAlgorithm')
-        .get('keypairLength').value],
+          .get('cryptoAlgorithm')
+          .get('keypairLength').value],
       alias: this.f.alias.value,
       tokenId: this.f.tokenId.value.tokenId,
       templateKeyId: '1',
       userId: this.f.userId.value,
     });
     console.log(newRequest);
-    let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res=>
-      {
-        return res.data.keypairId;
-      }
-      );
-      if(keypairId==null){
-        return;
-      }
-    this._personalsService.createCertificateRequest(JSON.stringify({keypairId: keypairId})).subscribe((res: any) => {
+    let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res => {
+      return res.data.keypairId;
+    }
+    );
+    if (keypairId == null) {
+      return;
+    }
+    this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId })).subscribe((res: any) => {
       console.log(res);
       if ((res.result = true)) {
         this.toggleSidebar();
@@ -322,18 +349,43 @@ export class SidebarPersonalsComponent implements OnInit {
       }
     });
   }
+  getListProfiles() {
+    this._entityProfileService.getListProfiles(this.bodyGetListProfile)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res) => {
 
-  checkAlias(): AsyncValidatorFn  {
-    return  (control: AbstractControl) : Observable<{ [key: string]: any } | null> => {
+        this.listProfiles = res.data.data.map((profile) => ({
+          ...profile,
+          subjectAttribute: profile.alternativeName.map(item => {
+            return item.name
+          }),
+          subjectDNA: profile.distinguishedName.map(item => {
+            return item.name
+          }),
+          id: profile.endEntityProfileId,
+          nameProfile: profile.endEntityProfileName
+        }))
+        console.log(this.listProfiles);
+      })
+  }
+  checkAlias(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
       return this._personalsService
         .checkAlias(control.value)
         .pipe(map((res) => {
-          if(res.data) {
+          if (res.data) {
             return { used: true }
-          }else {
+          } else {
             return null;
           }
         }));
     }
   }
+  // getAddressById(id){
+  //   this._addressService.getAddressById(id)
+  //     .pipe(takeUntil(this._unsubscribeAll))
+  //     .subscribe((res) =>{
+  //       this.address = res.data
+  //     })
+  // }
 }

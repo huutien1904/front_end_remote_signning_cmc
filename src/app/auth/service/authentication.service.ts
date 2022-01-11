@@ -72,6 +72,7 @@ export class AuthenticationService {
       })
       .pipe(
         map(user => {
+          console.log(user)
           // login successful if there's a jwt token in the response
           if (user && user.token) {
 

@@ -64,6 +64,7 @@ export class NewPersonalSidebarComponent implements OnInit {
   public streetResidencePlace: Street[];
   public organizationId: any[] = [];
   gender: any[] = ["Nam", "Nữ"];
+  public checkStreet = false;
   @Output() onClose = new EventEmitter<any>();
   @Output() onUpdate = new EventEmitter<any>();
 
@@ -167,6 +168,7 @@ initAddress() {
 selectProvince(type){
   switch (type) {
     case 2: {
+      
       this.newPersonal.patchValue({
         districtResidencePlace : null,
         communeResidencePlace : null, 
@@ -193,6 +195,7 @@ selectProvince(type){
       break;
     };
     case 1: {
+      
       this.newPersonal.patchValue({
         districtBirthPlace : null,
         communeBirthPlace : null, 
@@ -214,13 +217,14 @@ selectProvince(type){
                 takeUntil(this._unsubscribeAll)
               ).subscribe((res) => {
                 this.districtBirthPlace =res;
+                this.districtResidencePlace =res;
+                console.log(res);
                 this.newPersonal.get('districtBirthPlace').enable();
               })
               break;
     };
   }
 }
-
 selectDistrict(type:number){
   switch (type) {
     case 2: {
@@ -267,8 +271,10 @@ selectDistrict(type:number){
                 takeUntil(this._unsubscribeAll)
               ).subscribe((res) => {
                 this.communeBirthPlace =res;
+                this.communeResidencePlace =res;
                 this.newPersonal.get('communeBirthPlace').enable();
               })
+      
     };
     break;
   }
@@ -300,6 +306,7 @@ selectCommune(type:number){
 
     };
     case 1: {
+      
       this.newPersonal.patchValue({
         streetBirthPlace : null, 
         homeNumberBirthPlace:null,
@@ -318,6 +325,7 @@ selectCommune(type:number){
                 takeUntil(this._unsubscribeAll)
               ).subscribe((res) => {
                 this.streetBirthPlace =res;
+                this.streetResidencePlace =res;
                 this.newPersonal.get('streetBirthPlace').enable();
               });
               break;
@@ -334,6 +342,21 @@ selectStreet(type:number){
               break;
     };
     case 1: {
+      if(this.checkStreet === false){
+        this.newPersonal.get('districtResidencePlace').enable();
+        this.newPersonal.get('communeResidencePlace').enable();
+        this.newPersonal.get('streetResidencePlace').enable();
+        this.newPersonal.get('homeNumberResidencePlace').enable();
+        this.newPersonal.patchValue({
+          provinceResidencePlace : this.newPersonal.get('provinceBirthPlace').value,
+          districtResidencePlace : this.newPersonal.get('districtBirthPlace').value,
+          communeResidencePlace : this.newPersonal.get('communeBirthPlace').value, 
+          streetResidencePlace : this.newPersonal.get('streetBirthPlace').value, 
+          homeNumberResidencePlace:null,
+        })
+        this.checkStreet = true;
+        console.log(this.newPersonal.get('districtResidencePlace').value);
+      }
       this.newPersonal.patchValue({
         homeNumberBirthPlace:null,
       })
@@ -389,6 +412,7 @@ onSubmitCreateStreet(type, streetName) {
       this._addressService.createStreet(body).subscribe((res) => {
         //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
         this.streetBirthPlace = [...this.streetBirthPlace, res.data];
+        this.streetResidencePlace = [...this.streetBirthPlace, res.data];
         if(this.newPersonal.get("communeResidencePlace").value!=null&&communeId==this.newPersonal.get("communeResidencePlace").value){
           this.streetResidencePlace = [...this.streetResidencePlace, res.data];
         }
@@ -409,7 +433,10 @@ onSubmitCreateStreet(type, streetName) {
     }
   }
 }
-
+getHomeBirthDay(event){
+  console.log(event.target.value)
+  this.newPersonal.get("homeNumberResidencePlace").setValue(this.newPersonal.get('homeNumberBirthPlace').value);
+}
   toggleSidebar() {
     this.modalService.dismissAll();
   }
@@ -434,11 +461,7 @@ onSubmitCreateStreet(type, streetName) {
   onSubmit() {
     this.randomUser(5);
     let data = this.newPersonal.value
-    console.log(data.birthday._i.date);
-    // if(data.birthday._i.date){
-    // const birthday = data.birthday._i.date + "/" + data.birthday._i.month + "/" + data.birthday._i.year;
-    // this.newPersonal.controls['birthday'].setValue(data.birthday._i.date + " " + data.birthday._i.month + " " + data.birthday._i.year);
-    // }
+    console.log(data);
     
     this.submitted = true;
     this.showGlobalOverlay();
@@ -447,7 +470,7 @@ onSubmitCreateStreet(type, streetName) {
       return;
     }
     
-    console.log(this.newPersonal.value);
+    
     const newPersonal = JSON.stringify(data);
     
     this._personalService.submitForm(newPersonal).subscribe((res: any) => {

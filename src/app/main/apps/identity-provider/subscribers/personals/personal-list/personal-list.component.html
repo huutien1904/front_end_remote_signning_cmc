@@ -43,7 +43,6 @@
                 [matDatepicker]="birthday"
                 formControlName="dateOfBirth"
                 class="form-control"
-                
                 type="text"
                 placeholder="19/04/1992"
               />
@@ -66,7 +65,9 @@
               type="button"
               rippleEffect
               class="btn btn-primary"
-              (click)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
+              (click)="
+                setPage({ offset: 0, pageSize: formListPersonal.controls.size })
+              "
               [disabled]="!formListPersonal.valid"
             >
               Tìm kiếm
@@ -82,7 +83,12 @@
                 bindValue="sizePage"
                 [clearable]="false"
                 formControlName="size"
-                (change)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
+                (change)="
+                  setPage({
+                    offset: 0,
+                    pageSize: formListPersonal.controls.size
+                  })
+                "
               ></ng-select>
             </fieldset>
           </div>
@@ -163,18 +169,23 @@
           multiple="false"
         />
         <button
-          class="btn btn-primary ml-1"
+          class="btn btn-primary ml-50"
           rippleEffect
           (click)="fileInput.click()"
         >
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button>
-
+        <button class="btn btn-outline-secondary ml-50" (click) = "removeListPersonal()">
+          <span class="d-none d-sm-inline-block">Xóa</span>
+          <swal (open)="confirmOpenDeleteListPersonal()"></swal>
+        </button>
+        
         <a
           csvLink
           class="btn btn-outline-secondary float-right mr-1"
           rippleEffect
-          >Xuất dữ liệu CSV</a
+          (click) = "exportCSV()"
+          >Xuất danh sách</a
         >
       </div>
     </div>
@@ -193,7 +204,8 @@
       [selected]="chkBoxSelected"
       (select)="onSelect($event)"
       (activate)="onActivate($event)"
-      [selectionType]="SelectionType.multi"
+      (select)="customCheckboxOnSelect($event)"
+      [selectionType]="SelectionType.checkbox"
       [columnMode]="ColumnMode.force"
       [headerHeight]="50"
       rowHeight="auto"
@@ -207,58 +219,58 @@
       [loadingIndicator]="isLoading"
       (page)="setPage($event)"
     >
-      <ngx-datatable-column
-        [width]="40"
-        [sortable]="false"
-        [canAutoResize]="false"
-        [draggable]="false"
-        [resizeable]="false"
-        class="ml-1"
-      >
-        <ng-template
-          ngx-datatable-header-template
-          let-value="value"
-          let-allRowsSelected="allRowsSelected"
-          let-selectFn="selectFn"
-        >
-          <div class="custom-control custom-control-primary custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="allRowsSelected"
-              (change)="selectFn(!allRowsSelected)"
-              id="headerCustomChkbxRef"
-            />
-            <label
-              class="custom-control-label"
-              for="headerCustomChkbxRef"
-            ></label>
-          </div>
-        </ng-template>
-
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-isSelected="isSelected"
-          let-onCheckboxChangeFn="onCheckboxChangeFn"
-        >
-          <div class="custom-control custom-control-primary custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="isSelected"
-              disabled
-              (change)="onCheckboxChangeFn($event)"
-              id="rowCustomChkbxRef{{ rowIndex }}"
-            />
-            <label
-              class="custom-control-label"
-              for="rowCustomChkbxRef{{ rowIndex }}"
-            ></label>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
+    <ngx-datatable-column
+    [width]="50"
+    [sortable]="false"
+    [canAutoResize]="false"
+    [draggable]="false"
+    [resizeable]="false"
+    class="ml-1"
+    name="checkbox"
+    >
+    <ng-template
+      ngx-datatable-header-template
+      let-value="value"
+      let-allRowsSelected="allRowsSelected"
+      let-selectFn="selectFn"
+    >
+      <div class="custom-control custom-control-primary custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [checked]="allRowsSelected"
+          (change)="selectFn(!allRowsSelected)"
+          id="headerCustomChkbxRef"
+        />
+        <label
+          class="custom-control-label"
+          for="headerCustomChkbxRef"
+        ></label>
+      </div>
+    </ng-template>
+    <ng-template
+      ngx-datatable-cell-template
+      let-rowIndex="rowIndex"
+      let-value="value"
+      let-isSelected="isSelected"
+      let-onCheckboxChangeFn="onCheckboxChangeFn"
+    >
+      <div class="custom-control custom-control-primary custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [checked]="isSelected"
+          (change)="onCheckboxChangeFn($event)"
+          id="rowCustomChkbxRef{{ rowIndex }}"
+        />
+        <label
+          class="custom-control-label"
+          for="rowCustomChkbxRef{{ rowIndex }}"
+        ></label>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+      <!-- TT -->
       <ngx-datatable-column
         name="TT"
         [width]="20"
@@ -270,6 +282,19 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <!-- user name -->
+      <ngx-datatable-column
+        name="TÊN TÀI KHOẢN"
+        prop="username"
+        [width]="120"
+      ></ngx-datatable-column>
+      <!-- email -->
+      <ngx-datatable-column
+        name="THƯ ĐIỆN TỬ"
+        prop="email"
+        [width]="200"
+      ></ngx-datatable-column>
+      <!-- full name -->
       <ngx-datatable-column
         name="HỌ VÀ TÊN"
         prop="personalFirstName"
@@ -314,26 +339,26 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
+
+      <!-- CCCD/CMT -->
       <ngx-datatable-column
         name="CCCD/PASSPORT"
         prop="personalCountryId"
         [width]="130"
       ></ngx-datatable-column>
+      <!-- birthday -->
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
         <ng-template ngx-datatable-cell-template let-value="value">
-            {{ value | date: "dd/MM/YYYY" }}
-          </ng-template>
+          {{ value | date: 'dd/MM/YYYY' }}
+        </ng-template>
       </ngx-datatable-column>
+      <!-- gender -->
       <ngx-datatable-column
         name="Giới tính"
         prop="gender"
         [width]="80"
       ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="THƯ ĐIỆN TỬ"
-        prop="email"
-        [width]="200"
-      ></ngx-datatable-column>
+      <!--  orgnaization -->
       <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
         <ng-template
           ngx-datatable-cell-template
@@ -354,7 +379,11 @@
         [sortable]="false"
         prop=""
       >
-        <ng-template ngx-datatable-cell-template let-value="value" let-selected="false">
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-selected="false"
+        >
           <div class="d-flex align-items-center">
             <div ngbDropdown container="body">
               <a
@@ -376,30 +405,34 @@
                 class="dropdown-menu-right"
                 aria-labelledby="dropdownBrowserState"
               >
-                <!-- <a
-                  href="/apps/ip/subscribers/personals/personal-view/{{
+                <a
+                    [routerLink]="[
+                    '/apps/ip/subscribers/personals/',
+                    'personal-edit',
                     value.staffId
-                  }}"
+                  ]"
                   ngbDropdownItem
                   class="d-flex align-items-center"
                   ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
-                > -->
+                >
                 <a
-                [routerLink]="[
-                '/apps/ip/subscribers/personals/',
-                'personal-edit',
-                value.staffId
-              ]"
+                  [routerLink]="[
+                    '/apps/ip/subscribers/personals/',
+                    'personal-edit',
+                    value.staffId
+                  ]"
                   ngbDropdownItem
                   class="d-flex align-items-center"
-                  ><i data-feather="edit" class="mr-50"></i> Chi tiết</a
+                  ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
                 >
                 <a
                   href="javascript:void(0)"
-                  (click)="deletePersonal(value.staffId)"
                   ngbDropdownItem
                   class="d-flex align-items-center"
-                  ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                  (click) = "openConfirmDelete(value.staffId)"
+                  ><i data-feather="trash-2" class="mr-50"></i> Xóa
+                  <swal (open)="confirmRemovePersonal(value.staffId)"></swal>
+                  </a
                 >
               </div>
             </div>
@@ -442,35 +475,37 @@
         </ng-template>
       </ngx-datatable-footer>
     </ngx-datatable>
-    <div class="d-flex mb-1">
-      <button
-        class="btn btn-primary ml-1"
-        rippleEffect
-        (click)="openNewPersonalModal(newPersonal)"
-      >
-        <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
-        ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-      </button>
-      <input
-        #fileInput
-        type="file"
-        style="display: none"
-        (change)="onInputExcel($event)"
-        multiple="false"
-      />
-      <button
-        class="btn btn-primary ml-1"
-        rippleEffect
-        (click)="fileInput.click()"
-      >
-        <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-      </button>
-      <a
-          csvLink
-          class="btn btn-outline-secondary float-right ml-1"
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <button
+          class="btn btn-primary ml-1"
           rippleEffect
-          >Xuất dữ liệu CSV</a
+          (click)="openNewPersonalModal(newPersonal)"
         >
+          <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+          ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+        </button>
+        <input
+          #fileInput
+          type="file"
+          style="display: none"
+          (change)="onInputExcel($event)"
+          multiple="false"
+        />
+        <button
+          class="btn btn-primary ml-50"
+          rippleEffect
+          (click)="fileInput.click()"
+        >
+          <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
+        </button>
+        <button class="btn btn-outline-secondary ml-50" rippleEffect>
+          <span class="d-none d-sm-inline-block">Xóa</span>
+        </button>
+        <a csvLink class="btn btn-outline-secondary float-right mr-1" rippleEffect
+          >Xuất danh sách</a
+        >
+      </div>
     </div>
   </div>
   <!-- <div class="selected-column col-12 mt-1">

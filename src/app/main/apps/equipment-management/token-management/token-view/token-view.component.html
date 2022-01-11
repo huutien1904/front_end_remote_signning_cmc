@@ -1,57 +1,96 @@
-<app-content-header [contentHeader]="contentHeader"></app-content-header>
-<div class="content-body">
-  <section>
-    <div class="card">
-      <div class="card-body">
-        <h3>Chi tiết Token</h3>
-        <form [formGroup]="tokenForm">
-          <div class="row">
-            <div class="col-md-6 offset-3">
-              <div class="form-group">
-                <label>Tên token</label>
-                <input
-                  type="text"
-                  formControlName="tokenName"
-                  class="form-control"
-                  readonly
-                />
+<div class="content-wrapper container-xxl p-0">
+  <app-content-header [contentHeader]="contentHeader"></app-content-header>
+  <div class="content-body">
+    <section>
+      <div class="card">
+        <div class="card-body">
+          <h3>Chi tiết Token</h3>
+          <form [formGroup]="tokenForm">
+            <div class="">
+              <div class="d-flex">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Tên token</label>
+                    <input
+                      type="text"
+                      formControlName="tokenName"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Mã Token</label>
+                    <input type="text"
+                    formControlName="tokenId"
+                    class="form-control"
+                    readonly>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex">
+
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Số hiệu slot</label>
+                    <input type="text"
+                    formControlName="slotNumber"
+                    class="form-control"
+                    readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Số lượng cặp khóa</label>
+                    <input
+                      type="password"
+                      formControlName="tokenPassword"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Tên kết nối HSM</label>
+                    <input type="text"
+                    formControlName="hsmName"
+                    class="form-control"
+                    readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>HSM ID</label>
+                    <input type="text"
+                    formControlName="hsmInformationId"
+                    class="form-control"
+                    readonly>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-6 offset-3">
-              <div class="form-group">
-                <label>HSM</label>
-                <ng-select
-                  placeholder="{{ HSMname }}"
-                  [clearable]="false"
-                  readonly
-                >
-                </ng-select>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-md-end m-1">
+                  <button
+                    (click)="exit()"
+                    rippleEffect
+                    class="btn btn-outline-primary"
+                  >
+                    Quay lại
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="col-6 offset-3">
-              <div class="form-group">
-                <label for="">Số hiệu slot</label>
-                <ng-select
-                  [items]="slotOption"
-                  [clearable]="false"
-                  formControlName="slotNumber"
-                  readonly
-                ></ng-select>
-              </div>
-            </div>
-            <div class="col-md-6 offset-3">
-              <div class="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  formControlName="tokenPassword"
-                  class="form-control"
-                />
-              </div>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
