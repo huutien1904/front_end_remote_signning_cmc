@@ -66,13 +66,13 @@ export class HsmViewComponent implements OnInit {
 
     });
     this.contentHeader = {
-      headerTitle: 'Tạo Thiết bị HSM',
+      headerTitle: 'Tạo kết nối HSM',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách thiết bị HSM',
+            name: 'Danh sách kết nối bị HSM',
             isLink: true,
             link: '/apps/equipment-management/hsm/hsm-list'
           },

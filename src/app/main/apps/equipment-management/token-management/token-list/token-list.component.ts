@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   ColumnMode,
   DatatableComponent,
@@ -25,12 +26,11 @@ import Swal from 'sweetalert2';
 export class TokenListComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
-
   public moreOption = true;
   public formListToken: FormGroup;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
-
+  item
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
@@ -51,7 +51,9 @@ export class TokenListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
     private _toastrService: ToastrService,
-    private _router: Router
+    private _router: Router,
+    private modal: NgbModal,
+
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -126,7 +128,12 @@ export class TokenListComponent implements OnInit {
   selectFn() {
     console.log('fn');
   }
-
+  toggleSidebar(modalTokenPassWordForm, item) {
+    this.item = item;
+    console.log(item);
+    console.log(modalTokenPassWordForm)
+    this.modal.open(modalTokenPassWordForm, {size: 'lg'})
+  }
   removeProfile(hsmId) {
     this._tokenService.deleteTokenId(hsmId).subscribe((res) => {
       // this.updateTableOnDelete();
@@ -188,7 +195,6 @@ export class TokenListComponent implements OnInit {
       }
     });
   }
-  confirmOpen() {}
   onSubmit() {
     console.log(this.formListToken);
   }

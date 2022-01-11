@@ -7,34 +7,7 @@
         <form [formGroup]="tokenForm">
           <div class="">
             <div class="d-flex">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Tên token</label>
-                  <input
-                    type="text"
-                    formControlName="tokenName"
-                    class="form-control"
-                    [ngClass]="
-                      (f.tokenName.errors && f.tokenName?.touched) ||
-                      (submitted && f.tokenName?.errors?.required)
-                        ? 'is-invalid'
-                        : ''
-                    "
-                  />
-                  <div
-                    *ngIf="
-                      (f.tokenName.errors && f.tokenName?.touched) ||
-                      (submitted && f.tokenName?.errors?.required)
-                    "
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="f.tokenName?.errors?.required">
-                      Bạn cần nhập tên token
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="form-group">
                   <label>HSM</label>
                   <ng-select
@@ -70,32 +43,29 @@
             <div class="d-flex">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Số lượng cặp khóa</label>
-                  <ng-select
-                    [items]="lockQuantity"
-                    [clearable]="false"
-                    formControlName="lockQuantity"
+                  <label>Tên token</label>
+                  <input
+                    type="text"
+                    formControlName="tokenName"
+                    class="form-control"
                     [ngClass]="
-                      (f.lockQuantity.errors && f.lockQuantity?.touched) ||
-                      (submitted && f.lockQuantity?.errors?.required)
+                      (f.tokenName.errors && f.tokenName?.touched) ||
+                      (submitted && f.tokenName?.errors?.required)
                         ? 'is-invalid'
                         : ''
                     "
-                    [clearable]="false"
-                    readonly
-                  >
-                  </ng-select>
+                  />
                   <div
-                  *ngIf="
-                    (f.lockQuantity.errors && f.lockQuantity?.touched) ||
-                    (submitted && f.lockQuantity?.errors?.required)
-                  "
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="f.slotNumber?.errors?.required">
-                    Bạn cần nhập số lượng cặp khoá
+                    *ngIf="
+                      (f.tokenName.errors && f.tokenName?.touched) ||
+                      (submitted && f.tokenName?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.tokenName?.errors?.required">
+                      Bạn cần nhập tên token
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
               <div class="col-6">
