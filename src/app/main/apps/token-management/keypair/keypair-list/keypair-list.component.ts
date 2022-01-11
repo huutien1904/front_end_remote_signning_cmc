@@ -13,6 +13,8 @@ import {
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/PagedData"
 import { Personal } from "app/main/models/Personal";
+import { KeypairListService } from './keypair-list.service';
+import { Keypair } from 'app/main/models/Keypair';
 
 @Component({
   selector: "app-keypair-list",
@@ -23,9 +25,9 @@ import { Personal } from "app/main/models/Personal";
 export class KeypairListComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
-  public rowsData = new Array<Personal>();
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
+  public formListKeypair: FormGroup;
   public item: any;
   public contentHeader: object;
   //page setup
@@ -36,7 +38,9 @@ export class KeypairListComponent implements OnInit {
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
-  public pagedData = new PagedData<Personal>();
+  public pagedData = new PagedData<Keypair>();
+  public rowsData = new Array<Keypair>();
+
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
@@ -51,6 +55,7 @@ export class KeypairListComponent implements OnInit {
    * @param _coreSidebarService
    */
   constructor(
+    private _keypairService: KeypairListService,
     private fb: FormBuilder,
     private _personalService: PersonalService,
     private _coreConfigService: CoreConfigService,
@@ -69,6 +74,14 @@ export class KeypairListComponent implements OnInit {
       });
   }
   ngOnInit(): void {
+    this.formListKeypair = this.fb.group({
+      aliasKeypair: [null, Validators.required],
+      cryptoSystem: [null, Validators.required],
+      keypairLength: [null, Validators.required],
+      fromDate: [null],
+      toDate: [null],
+      sizePage: [this.sizePage[3]],
+    });
     this.formListPersonal = this.fb.group({
       page: [null],
       size: [this.sizePage[2]],
@@ -89,12 +102,8 @@ export class KeypairListComponent implements OnInit {
         type: 'chevron',
         links: [
           {
-            name: 'Quản lý cặp khóa',
-            isLink: false
-          },
-          {
             name: 'Danh sách cặp khóa',
-            isLink: true,
+            isLink: false,
             link: '/apps/tm/keypair/keypair-list'
           }
         ]
@@ -105,34 +114,25 @@ export class KeypairListComponent implements OnInit {
 
   setPage(pageInfo) {
     console.log(pageInfo);
-    this.isLoading=true;
-    
-    console.log(this.formListPersonal.value)
-
     const body = {
-      page : this.formListPersonal.value.page,
-      size : this.formListPersonal.value.size,
-      sort : this.formListPersonal.value.sort,
-      contains : this.formListPersonal.value.contains,
-      fromDate: this.formListPersonal.value.fromDate,
-      toDate: this.formListPersonal.value.toDate,
-
-    }
-    this._personalService
-      .getListPersonals(JSON.stringify(body))
+      page: null,
+      size: null,
+      sort: null,
+      contains: null,
+      fromDate: null,
+      toDate: null,
+    };
+      this._keypairService
+      .getData(body)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData);
+         console.log(pagedData)
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList:any) => ({
-          ...personalList,
-          personalFirstName:
-              personalList.firstName +
-              " " +
-              personalList.middleName +
-              " " +
-              personalList.lastName,
-        }));
+        this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
+        this.rowsData = pagedData.data.data.map(item => ({
+          ...item,
+        }))
         this.isLoading=false;
       });
   }
@@ -166,7 +166,9 @@ export class KeypairListComponent implements OnInit {
   onSubmit() {
     console.log(this.formListPersonal);
   }
-
+  console(row){
+    console.log(row)
+  }
   /**
    * On destroy
    */
