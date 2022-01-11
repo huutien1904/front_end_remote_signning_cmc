@@ -30,6 +30,7 @@ export class KeypairListService {
     },
   };
   public getData(body) :Observable<ResponseData<PagedData<Keypair>>>{
+    console.log(body)
     return this._httpClient.post<ResponseData<PagedData<Keypair>>>
     (`${environment.apiUrl}/keypair/search`,body,this.option);
   }
