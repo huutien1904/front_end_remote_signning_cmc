@@ -5,7 +5,7 @@
     <div class="content-body">
       <!-- Certificate request List -->
       <section class="users-list-wrapper">
-        <div class="card">
+        <div class="card ">
           <h5 class="card-header">Bộ lọc tìm kiếm</h5>
           <div class="card-body">
             <form
@@ -13,7 +13,7 @@
               [formGroup]="formListSubscriberCertificate"
             >
               <div class="row pb-1">
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mt-1">
                   <input
                     name="contains"
                     id="contains"
@@ -23,17 +23,18 @@
                     placeholder="Một phần DN"
                   />
                 </div>
-                <div class="col-md-2">
+                <div class="col-4 col-md-2 mt-1">
                   <button
                     type="button"
                     class="btn btn-secondary btn-outline-secondary col-12"
                     (click)="moreOption = !moreOption"
                     rippleEffect
                   >
-                    Tùy chọn
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i
+                    ><span class="d-none d-sm-inline-block">Tùy chọn</span>
                   </button>
                 </div>
-                <div class="col-md-2">
+                <div class="col-6 col-md-2 mt-1">
                   <button
                     type="button"
                     rippleEffect
@@ -113,14 +114,16 @@
       <section>
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Danh sách chứng thứ số</h4>
-              <div class="">
+              <h4 class="card-title col-6 col-md-8">Danh sách chứng thư số</h4>
+              <div class="col-6 col-md-3">
                 <a href="/apps/tm/subscriber-certificate/update">
                   <button type="button" rippleEffect class="btn btn-primary">
-                    Cập nhật chứng thư số
+                      <span class="d-sm-none d-inline-block">Cập nhật</span>
+                      <span class="d-none d-sm-inline-block">Cập nhật chứng thư số</span>
                   </button>
                 </a>
               </div>
+            
             </div>
             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
             <ngx-datatable

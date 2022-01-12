@@ -1,287 +1,319 @@
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
-  <section>
-    <div class="card">
-      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-      <div class="card-body">
-        <form class="form form-vertical" [formGroup]="formListCertificateRequest">
-          <div class="row mb-1">
-            <div class="col-md-4">
-              <input
-                name="contains"
-                id="contains"
-                type="search"
-                class="form-control"
-                formControlName="contains"
-                placeholder="Một phần tên, email, alias"
-              />
+    <section>
+      <div class="card">
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+          <form
+            class="form form-vertical"
+            [formGroup]="formListCertificateRequest"
+          >
+            <div class="row mb-1">
+              <div class="col-md-4 mt-1">
+                <input
+                  name="contains"
+                  id="contains"
+                  type="search"
+                  class="form-control"
+                  formControlName="contains"
+                  placeholder="Một phần tên, email, alias"
+                />
+              </div>
+              <div class="col-4 col-md-2 mt-1">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-outline-secondary col-12"
+                  (click)="moreOption = !moreOption"
+                  rippleEffect
+                >
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i
+                  ><span class="d-none d-sm-inline-block">Tùy chọn</span>
+                </button>
+              </div>
+              <div class="col-6 col-md-2 mt-1">
+                <button
+                  type="button"
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click)="
+                    setPage({
+                      offset: 0,
+                      pageSize: formListCertificateRequest.controls.size
+                    })
+                  "
+                  [disabled]="!formListCertificateRequest.valid"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
             </div>
-            <div class="col-md-2">
-              <button
-                type="button"
-                class="btn btn-secondary btn-outline-secondary col-12"
-                (click)="moreOption = !moreOption"
-                rippleEffect
-              >
-                Tùy chọn
-              </button>
-            </div>
-            <div class="col-md-2">
-              <button
-                type="button"
-                rippleEffect
-                class="btn btn-primary"
-                (click)="setPage({ offset: 0, pageSize:  formListCertificateRequest.controls.size  })"
-                [disabled]="!formListCertificateRequest.valid"
-              >
-                Tìm kiếm
-              </button>
-            </div>
-          </div>
-          <div class="row" [ngbCollapse]="moreOption">
-            <div class="col-md-2">
-              <label for="">Số dòng:</label>
-              <fieldset class="form-group">
-                <ng-select
-                  [items]="sizePage"
-                  suffix=" dòng"
-                  [clearable]="false"
-                  bindValue="sizePage"
-                  formControlName="size"
-                  (change)="setPage({ offset: 0, pageSize:  formListCertificateRequest.controls.size  })"
-                ></ng-select>
-              </fieldset>
-            </div>
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col-md-3">
-                  <label class="lable">Từ ngày:</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" (click)="fromDate.open()"
-                        ><i data-feather="calendar"></i
-                      ></span>
+            <div class="row" [ngbCollapse]="moreOption">
+              <div class="col-md-2">
+                <label for="">Số dòng:</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="sizePage"
+                    suffix=" dòng"
+                    [clearable]="false"
+                    bindValue="sizePage"
+                    formControlName="size"
+                    (change)="
+                      setPage({
+                        offset: 0,
+                        pageSize: formListCertificateRequest.controls.size
+                      })
+                    "
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="lable">Từ ngày:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="fromDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
+                      </div>
+                      <input
+                        [matDatepicker]="fromDate"
+                        formControlName="fromDate"
+                        class="form-control"
+                        type="text"
+                        [min]="minDate"
+                        [max]="formListCertificateRequest.controls.toDate.value"
+                        placeholder="13/09/2021"
+                      />
                     </div>
-                    <input
-                      [matDatepicker]="fromDate"
-                      formControlName="fromDate"
-                      class="form-control"
-                      type="text"
-                      [min]="minDate"
-                      [max]="formListCertificateRequest.controls.toDate.value"
-                      placeholder="13/09/2021"
-                    />
+                    <mat-datepicker #fromDate></mat-datepicker>
                   </div>
-                  <mat-datepicker #fromDate></mat-datepicker>
-                </div>
-                <div class="col-md-3">
-                  <label class="lable">Đến ngày:</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" (click)="toDate.open()"
-                        ><i data-feather="calendar"></i
-                      ></span>
+                  <div class="col-md-3">
+                    <label class="lable">Đến ngày:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="toDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
+                      </div>
+                      <input
+                        [matDatepicker]="toDate"
+                        formControlName="toDate"
+                        class="form-control"
+                        type="text"
+                        [min]="
+                          formListCertificateRequest.controls.fromDate.value
+                        "
+                        placeholder="13/09/2021"
+                      />
                     </div>
-                    <input
-                      [matDatepicker]="toDate"
-                      formControlName="toDate"
-                      class="form-control"
-                      type="text"
-                      [min]="formListCertificateRequest.controls.fromDate.value"
-                      placeholder="13/09/2021"
-                    />
+
+                    <mat-datepicker #toDate></mat-datepicker>
                   </div>
-  
-                  <mat-datepicker #toDate></mat-datepicker>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
-  
-  <section>
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">Danh sách yêu cầu chứng thực</h4>
-        <div class="">
-          <a href="/apps/tm/certificate-request/certificate-request-new">
-            <button type="button" rippleEffect class="btn btn-primary">
-              Tạo yêu cầu chứng thực
-            </button>
-          </a>
+          </form>
         </div>
       </div>
-      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-      <ngx-datatable
-        #tableRowDetails
-        class="bootstrap core-bootstrap cursor"
-        [rows]="rowsData"
-        [selected]="chkBoxSelected"
-        (select)="customCheckboxOnSelect($event)"
-        (select)="onSelect($event)"
-        [selectionType]="SelectionType.checkbox"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        [footerHeight]="50"
-        [rowHeight]="50"
-        [externalPaging]="true"
-        [limit]="pagedData.size"
-        [count]="pagedData.totalItems"
-        [offset]="pagedData.currentPage"
-        [loadingIndicator]="isLoading"
-        (page)="setPage($event)"
-      >
-        <ngx-datatable-column
-          [width]="50"
-          [sortable]="false"
-          [canAutoResize]="false"
-          [draggable]="false"
-          [resizeable]="false"
-          class="ml-1"
-        >
-          <ng-template
-            ngx-datatable-header-template
-            let-value="value"
-            let-allRowsSelected="allRowsSelected"
-            let-selectFn="selectFn"
-          >
-            <div class="custom-control custom-control-primary custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                [checked]="allRowsSelected"
-                (change)="selectFn(!allRowsSelected)"
-                id="headerCustomChkbxRef"
-              />
-              <label
-                class="custom-control-label"
-                for="headerCustomChkbxRef"
-              ></label>
-            </div>
-          </ng-template>
-          <ng-template
-            ngx-datatable-cell-template
-            let-rowIndex="rowIndex"
-            let-value="value"
-            let-isSelected="isSelected"
-            let-onCheckboxChangeFn="onCheckboxChangeFn"
-          >
-            <div class="custom-control custom-control-primary custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                [checked]="isSelected"
-                (change)="onCheckboxChangeFn($event)"
-                id="rowCustomChkbxRef{{ rowIndex }}"
-              />
-              <label
-                class="custom-control-label"
-                for="rowCustomChkbxRef{{ rowIndex }}"
-              ></label>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          name="TT"
-          [sortable]="false"
-          [canAutoResize]="false"
-          [width]="50"
-        >
-          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-            {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          name="Keypair Alias"
-          prop="keypairAlias"
-          [width]="200"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Doanh nghiệp"
-          prop="organizationName"
-          [width]="150"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Common name"
-          prop="subscribeName"
-          [width]="160"
-        ></ngx-datatable-column>
-        <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            <div class="d-flex align-items-center">
-              <div ngbDropdown container="body">
-                <a
-                  ngbDropdownToggle
-                  href="javascript:void(0);"
-                  class="hide-arrow"
-                  id="dropdownBrowserState"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
+    </section>
+
+    <section>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title col-6 col-md-8">
+            Danh sách yêu cầu chứng thực
+          </h4>
+          <div class="col-6 col-md-3">
+            <a href="/apps/tm/certificate-request/certificate-request-new">
+              <button type="button" rippleEffect class="btn btn-primary">
+                <span class="d-sm-none d-inline-block">Tạo yêu cầu</span>
+                <span class="d-none d-sm-inline-block"
+                  >Tạo yêu cầu chứng thực</span
                 >
-                  <i
-                    data-feather="more-vertical"
-                    class="text-primary cursor-pointer mr-50"
-                  ></i>
-                </a>
-                <div
-                  ngbDropdownMenu
-                  class="dropdown-menu-right"
-                  aria-labelledby="dropdownBrowserState"
-                >
-                  <a
-                    [href]="row.fileUrl"
-                    [download]="row.fileName"
-                    ngbDropdownItem
-                    class="d-flex align-items-center"
-                    (click)="downloadSidebar(row)"
-                    ><i data-feather="download" class="mr-50"></i>Tải dữ liệu</a
-                  >
-                </div>
-              </div>
-              <i data-feather="edit" class="text-primary cursor-pointer"></i>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-footer>
-          <ng-template
-            ngx-datatable-footer-template
-            let-rowCount="rowCount"
-            let-pageSize="pageSize"
-            let-selectedCount="selectedCount"
-            let-curPage="curPage"
-            let-offset="offset"
-            let-isVisible="isVisible"
+              </button>
+            </a>
+          </div>
+        </div>
+        <mat-progress-bar
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+        <ngx-datatable
+          #tableRowDetails
+          class="bootstrap core-bootstrap cursor"
+          [rows]="rowsData"
+          [selected]="chkBoxSelected"
+          (select)="customCheckboxOnSelect($event)"
+          (select)="onSelect($event)"
+          [selectionType]="SelectionType.checkbox"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [scrollbarH]="true"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [externalPaging]="true"
+          [limit]="pagedData.size"
+          [count]="pagedData.totalItems"
+          [offset]="pagedData.currentPage"
+          [loadingIndicator]="isLoading"
+          (page)="setPage($event)"
+        >
+          <ngx-datatable-column
+            [width]="50"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false"
+            class="ml-1"
           >
-            <div class="page-count" *ngIf="!isLoading">
-              <span *ngIf="chkBoxSelected">
-                Đã chọn {{ chkBoxSelected.length }} /
-              </span>
-              {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-            </div>
-            <datatable-pager
-              [pagerLeftArrowIcon]="'datatable-icon-left'"
-              [pagerRightArrowIcon]="'datatable-icon-right'"
-              [pagerPreviousIcon]="'datatable-icon-prev'"
-              [pagerNextIcon]="'datatable-icon-skip'"
-              [page]="curPage"
-              [size]="pageSize"
-              [count]="rowCount"
-              [hidden]="!(rowCount / pageSize > 1)"
-              (change)="table.onFooterPage($event)"
+            <ng-template
+              ngx-datatable-header-template
+              let-value="value"
+              let-allRowsSelected="allRowsSelected"
+              let-selectFn="selectFn"
             >
-            </datatable-pager>
-          </ng-template>
-        </ngx-datatable-footer>
-      </ngx-datatable>
-    </div>
-  </section>
-  
+              <div
+                class="custom-control custom-control-primary custom-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [checked]="allRowsSelected"
+                  (change)="selectFn(!allRowsSelected)"
+                  id="headerCustomChkbxRef"
+                />
+                <label
+                  class="custom-control-label"
+                  for="headerCustomChkbxRef"
+                ></label>
+              </div>
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-rowIndex="rowIndex"
+              let-value="value"
+              let-isSelected="isSelected"
+              let-onCheckboxChangeFn="onCheckboxChangeFn"
+            >
+              <div
+                class="custom-control custom-control-primary custom-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [checked]="isSelected"
+                  (change)="onCheckboxChangeFn($event)"
+                  id="rowCustomChkbxRef{{ rowIndex }}"
+                />
+                <label
+                  class="custom-control-label"
+                  for="rowCustomChkbxRef{{ rowIndex }}"
+                ></label>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="TT"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [width]="50"
+          >
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Keypair Alias"
+            prop="keypairAlias"
+            [width]="200"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Doanh nghiệp"
+            prop="organizationName"
+            [width]="150"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Common name"
+            prop="subscribeName"
+            [width]="160"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Hành động"
+            [width]="100"
+            [sortable]="false"
+          >
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center">
+                <div ngbDropdown container="body">
+                  <a
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    class="hide-arrow"
+                    id="dropdownBrowserState"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i
+                      data-feather="more-vertical"
+                      class="text-primary cursor-pointer mr-50"
+                    ></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right"
+                    aria-labelledby="dropdownBrowserState"
+                  >
+                    <a
+                      [href]="row.fileUrl"
+                      [download]="row.fileName"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="downloadSidebar(row)"
+                      ><i data-feather="download" class="mr-50"></i>Tải dữ
+                      liệu</a
+                    >
+                  </div>
+                </div>
+                <i data-feather="edit" class="text-primary cursor-pointer"></i>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+              let-isVisible="isVisible"
+            >
+              <div class="page-count" *ngIf="!isLoading">
+                <span *ngIf="chkBoxSelected">
+                  Đã chọn {{ chkBoxSelected.length }} /
+                </span>
+                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+              </div>
+              <datatable-pager
+                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'"
+                [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'"
+                [page]="curPage"
+                [size]="pageSize"
+                [count]="rowCount"
+                [hidden]="!(rowCount / pageSize > 1)"
+                (change)="table.onFooterPage($event)"
+              >
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </section>
   </div>
 </div>
