@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -54,7 +55,8 @@ const materialModules1234 = [
     CorePipesModule,
     CoreSidebarModule,
     MatProgressBarModule,
-    CoreDirectivesModule
+    CoreDirectivesModule,
+    RouterModule
   ],
   exports: [PersonalsComponent],
   providers: [

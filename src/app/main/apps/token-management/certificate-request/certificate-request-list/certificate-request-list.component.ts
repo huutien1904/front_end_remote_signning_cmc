@@ -107,6 +107,8 @@ export class CertificateRequestListComponent implements OnInit {
     // console.log(item)
     let info = this._listCerReqService.readCertificate(item.certificateRequestContent);
     console.log(info)
+    console.log(info.find((obj) => obj.name === 'commonName').value)
+
     return info.find((obj) => obj.name === 'commonName').value;
   }
 
@@ -125,7 +127,7 @@ export class CertificateRequestListComponent implements OnInit {
         this.rowsData = pagedData.data.data;
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
-          // organizationName: this.getOrganization(item),
+          organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item),
         }));
         this.isLoading = false;
