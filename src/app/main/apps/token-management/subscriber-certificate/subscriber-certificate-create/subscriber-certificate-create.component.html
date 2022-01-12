@@ -1,344 +1,341 @@
-<app-content-header [contentHeader]="contentHeader"></app-content-header>
-<section id="search-personal-list">
-  <div class="card">
-    <!-- search -->
-    <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-    <div class="card-body">
-      <form class="form form-vertical" [formGroup]="formListPersonal">
-        <div class="row">
-          <div class="col-md-4">
-            <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
-            <input
-              name="distinguishedName"
-              id="distinguishedName"
-              type="search"
-              class="form-control"
-              formControlName="contains"
-              placeholder="Nhập họ tên, thư điện tử, địa chỉ"
-            />
-          </div>
-          <div class="col-md-2">
-            <label class="lable">Giới tính</label>
-            <fieldset class="form-group">
-              <ng-select
-                [items]="gender"
-                formControlName="gender"
-                [clearable]="true"
-                bindLabel="name"
-                bindValue="name"
-                placeholder="Giới tính"
-              >
-              </ng-select>
-            </fieldset>
-          </div>
-          <div class="col-md-2">
-            <label class="label">Ngày sinh</label>
-            <div class="input-group input-group-merge">
-              <div class="input-group-prepend">
-                <span class="input-group-text" (click)="birthday.open()"
-                  ><i data-feather="calendar"></i
-                ></span>
-              </div>
-              <input
-                [matDatepicker]="birthday"
-                formControlName="dateOfBirth"
-                class="form-control"
-                type="text"
-                placeholder="19/04/1992"
-              />
-            </div>
-            <mat-datepicker #birthday></mat-datepicker>
-          </div>
-          <div class="col-md-2 mt-2">
-            <button
-              class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
-              rippleEffect
-              (click)="moreOption = !moreOption"
-            >
-              <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
-              <i data-feather="plus" class="d-sm-none d-inline-block"></i
-              ><span class="d-none d-sm-inline-block">Tùy chọn</span>
-            </button>
-          </div>
-          <div class="col-md-2 mt-2">
-            <button
-              type="button"
-              rippleEffect
-              class="btn btn-primary"
-              (click)="
-                setPage({ offset: 0, pageSize: formListPersonal.controls.size })
-              "
-              [disabled]="!formListPersonal.valid"
-            >
-              Tìm kiếm
-            </button>
-          </div>
-        </div>
-        <div class="row" [ngbCollapse]="moreOption">
-          <div class="col-md-2">
-            <label for="">SỐ DÒNG:</label>
-            <fieldset class="form-group">
-              <ng-select
-                [items]="sizePage"
-                bindValue="sizePage"
-                [clearable]="false"
-                formControlName="size"
-                (change)="
-                  setPage({
-                    offset: 0,
-                    pageSize: formListPersonal.controls.size
-                  })
-                "
-              ></ng-select>
-            </fieldset>
-          </div>
-          <div class="col-md-8">
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <section id="search-personal-list">
+      <div class="card">
+        <!-- search -->
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body">
+          <form class="form form-vertical" [formGroup]="formListPersonal">
             <div class="row">
-              <div class="col-md-3">
-                <label class="lable">TỪ NGÀY:</label>
-                <div class="input-group input-group-merge">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" (click)="fromDate.open()"
-                      ><i data-feather="calendar"></i
-                    ></span>
-                  </div>
-                  <input
-                    [matDatepicker]="fromDate"
-                    formControlName="fromDate"
-                    class="form-control"
-                    type="text"
-                    [min]="minDate"
-                    [max]="formListPersonal.controls.toDate.value"
-                    placeholder="13/09/2021"
-                  />
-                </div>
-                <mat-datepicker #fromDate></mat-datepicker>
+              <div class="col-md-4">
+                <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
+                <input
+                  name="distinguishedName"
+                  id="distinguishedName"
+                  type="search"
+                  class="form-control"
+                  formControlName="contains"
+                  placeholder="Nhập họ tên, thư điện tử, địa chỉ"
+                />
               </div>
-              <div class="col-md-3">
-                <label class="lable">ĐẾN NGÀY:</label>
+              <div class="col-md-2">
+                <label class="lable">Giới tính</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="gender"
+                    formControlName="gender"
+                    [clearable]="true"
+                    bindLabel="name"
+                    bindValue="name"
+                    placeholder="Giới tính"
+                  >
+                  </ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-2">
+                <label class="label">Ngày sinh</label>
                 <div class="input-group input-group-merge">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" (click)="toDate.open()"
+                    <span class="input-group-text" (click)="birthday.open()"
                       ><i data-feather="calendar"></i
                     ></span>
                   </div>
                   <input
-                    [matDatepicker]="toDate"
-                    formControlName="toDate"
+                    [matDatepicker]="birthday"
+                    formControlName="dateOfBirth"
                     class="form-control"
                     type="text"
-                    [min]="formListPersonal.controls.fromDate.value"
-                    placeholder="13/09/2021"
+                    placeholder="19/04/1992"
                   />
                 </div>
-
-                <mat-datepicker #toDate></mat-datepicker>
+                <mat-datepicker #birthday></mat-datepicker>
+              </div>
+              <div class="col-md-2 mt-2">
+                <button
+                  class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
+                  rippleEffect
+                  (click)="moreOption = !moreOption"
+                >
+                  <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i
+                  ><span class="d-none d-sm-inline-block">Tùy chọn</span>
+                </button>
+              </div>
+              <div class="col-md-2 mt-2">
+                <button
+                  type="button"
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click)="
+                    setPage({ offset: 0, pageSize: formListPersonal.controls.size })
+                  "
+                  [disabled]="!formListPersonal.valid"
+                >
+                  Tìm kiếm
+                </button>
               </div>
             </div>
-          </div>
+            <div class="row" [ngbCollapse]="moreOption">
+              <div class="col-md-2">
+                <label for="">SỐ DÒNG:</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="sizePage"
+                    bindValue="sizePage"
+                    [clearable]="false"
+                    formControlName="size"
+                    (change)="
+                      setPage({
+                        offset: 0,
+                        pageSize: formListPersonal.controls.size
+                      })
+                    "
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="lable">TỪ NGÀY:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="fromDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
+                      </div>
+                      <input
+                        [matDatepicker]="fromDate"
+                        formControlName="fromDate"
+                        class="form-control"
+                        type="text"
+                        [min]="minDate"
+                        [max]="formListPersonal.controls.toDate.value"
+                        placeholder="13/09/2021"
+                      />
+                    </div>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="lable">ĐẾN NGÀY:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="toDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
+                      </div>
+                      <input
+                        [matDatepicker]="toDate"
+                        formControlName="toDate"
+                        class="form-control"
+                        type="text"
+                        [min]="formListPersonal.controls.fromDate.value"
+                        placeholder="13/09/2021"
+                      />
+                    </div>
+    
+                    <mat-datepicker #toDate></mat-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<section id="table-personal-list">
-  <div class="card">
-    <div class="card-header">
-      <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
-    </div>
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <ngx-datatable
-      #tableRowDetails
-      class="bootstrap core-bootstrap cursor"
-      [rows]="rowsData"
-      [columnMode]="ColumnMode.force"
-      [headerHeight]="50"
-      rowHeight="auto"
-      [selected]="selected"
-      (select)="onSelect($event, modalUploadCert)"
-      [selectionType]="SelectionType.single"
-      [scrollbarH]="true"
-      [footerHeight]="50"
-      [rowHeight]="50"
-      [externalPaging]="true"
-      [limit]="pagedData.size"
-      [count]="pagedData.totalItems"
-      [offset]="pagedData.currentPage"
-      [loadingIndicator]="isLoading"
-      (page)="setPage($event)"
-    >
-      <ngx-datatable-column
-        name="TT"
-        [sortable]="false"
-        [canAutoResize]="false"
-        [width]="50"
-      >
-        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-          {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
-        <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-          <div class="d-flex align-items-center">
-            <div
-              *ngIf="
-                rowsData.avatar != null && rowsData.avatar.length > 0;
-                else customAvatar
-              "
-            >
-              <img
-                class="rounded-circle mr-1"
-                src="assets/images/portrait/small/{{ row.avatar }}"
-                height="32"
-                width="32"
-                alt="datatable-avatar"
-              />
-            </div>
-            <ng-template #customAvatar>
-              <!-- Không có giao diện thì check theo status để tô màu -->
-              <div
-                class="avatar mr-1 ml-0"
-                [ngClass]="{
-                  'bg-light-primary': row.isActive == false,
-                  'bg-light-success': row.isActive == true,
-                  'bg-light-danger': row.status == '3',
-                  'bg-light-warning': row.status == '4',
-                  'bg-light-info': row.status == '5'
-                }"
-              >
-                <div class="avatar-content">{{ name | initials }}</div>
+      </div>
+    </section>
+    
+    <section id="table-personal-list">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
+        </div>
+        <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+        <ngx-datatable
+          #tableRowDetails
+          class="bootstrap core-bootstrap cursor"
+          [rows]="rowsData"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [selected]="selected"
+          (select)="onSelect($event, modalUploadCert)"
+          [selectionType]="SelectionType.single"
+          [scrollbarH]="true"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [externalPaging]="true"
+          [limit]="pagedData.size"
+          [count]="pagedData.totalItems"
+          [offset]="pagedData.currentPage"
+          [loadingIndicator]="isLoading"
+          (page)="setPage($event)"
+        >
+          <ngx-datatable-column
+            name="TT"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [width]="50"
+          >
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
+            <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div
+                  *ngIf="
+                    rowsData.avatar != null && rowsData.avatar.length > 0;
+                    else customAvatar
+                  "
+                >
+                  <img
+                    class="rounded-circle mr-1"
+                    src="assets/images/portrait/small/{{ row.avatar }}"
+                    height="32"
+                    width="32"
+                    alt="datatable-avatar"
+                  />
+                </div>
+                <ng-template #customAvatar>
+                  <!-- Không có giao diện thì check theo status để tô màu -->
+                  <div
+                    class="avatar mr-1 ml-0"
+                    [ngClass]="{
+                      'bg-light-primary': row.isActive == false,
+                      'bg-light-success': row.isActive == true,
+                      'bg-light-danger': row.status == '3',
+                      'bg-light-warning': row.status == '4',
+                      'bg-light-info': row.status == '5'
+                    }"
+                  >
+                    <div class="avatar-content">{{ name | initials }}</div>
+                  </div>
+                </ng-template>
+                <div class="cell-line-height">
+                  <p class="font-medium-1 font-weight-bold line-height-1 mb-25">
+                    {{ name }}
+                  </p>
+                </div>
               </div>
             </ng-template>
-            <div class="cell-line-height">
-              <p class="font-medium-1 font-weight-bold line-height-1 mb-25">
-                {{ name }}
-              </p>
-            </div>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="CCCD/PASSPORT"
-        prop="personalCountryId"
-        [width]="100"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          {{ value | date: 'dd/MM/YYYY' }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Giới tính"
-        prop="gender"
-        [width]="80"
-      ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="Email"
-        prop="email"
-        [width]="200"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Tổ chức" prop="organization" [width]="70">
-        <ng-template
-          ngx-datatable-cell-template
-          let-value="value"
-          let-row="row"
-        >
-          <div *ngIf="value != ''; else noneOrganization">
-            {{ value.organizationName | lowercase }}
-          </div>
-        </ng-template>
-        <ng-template ngx-datatable-cell-template #noneOrganization>
-          <div>Cá nhân</div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-footer>
-        <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-selectedCount="selectedCount"
-          let-curPage="curPage"
-          let-offset="offset"
-          let-isVisible="isVisible"
-        >
-          <div class="page-count" *ngIf="!isLoading">
-            <span *ngIf="chkBoxSelected">
-              Đã chọn {{ chkBoxSelected.length }} /
-            </span>
-            {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-          </div>
-          <datatable-pager
-            [pagerLeftArrowIcon]="'datatable-icon-left'"
-            [pagerRightArrowIcon]="'datatable-icon-right'"
-            [pagerPreviousIcon]="'datatable-icon-prev'"
-            [pagerNextIcon]="'datatable-icon-skip'"
-            [page]="curPage"
-            [size]="pageSize"
-            [count]="rowCount"
-            [hidden]="!(rowCount / pageSize > 1)"
-            (change)="table.onFooterPage($event)"
-          >
-          </datatable-pager>
-        </ng-template>
-      </ngx-datatable-footer>
-    </ngx-datatable>
-  </div>
-</section>
-
-<!-- Modal Upload file -->
-<ng-template #modalUploadCert let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
-    <button
-      type="button"
-      class="close"
-      (click)="modal.dismiss('Cross click')"
-      aria-label="Close"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" tabindex="0" ngbAutofocus>
-    <div class="row">
-      <div class="col-md-12">
-        <form [formGroup]="formUploadCert">
-          <div class="form-group custom-file">
-            <input
-              #certificate
-              type="file"
-              class="form-control custom-file-input"
-              name="file"
-              id="file"
-              (change)="onFileChange($event)"
-            />
-            <label for="certificate" class="custom-file-label"
-              >Chọn chứng thư số</label
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="CCCD/PASSPORT"
+            prop="personalCountryId"
+            [width]="100"
+          ></ngx-datatable-column>
+          <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{ value | date: 'dd/MM/YYYY' }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Giới tính"
+            prop="gender"
+            [width]="80"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Email"
+            prop="email"
+            [width]="200"
+          ></ngx-datatable-column>
+          <ngx-datatable-column name="Tổ chức" prop="organization" [width]="70">
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
             >
-            <span
-              *ngIf="
-                formUploadCert.controls.certificateContent.value != null
-              "
-              ><i data-feather="check"></i
-              >{{ formUploadCert.controls.certificateContent.value.name }}-Đã được
-              chọn</span
+              <div *ngIf="value != ''; else noneOrganization">
+                {{ value.organizationName | lowercase }}
+              </div>
+            </ng-template>
+            <ng-template ngx-datatable-cell-template #noneOrganization>
+              <div>Cá nhân</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+              let-isVisible="isVisible"
             >
-            <div
-              *ngIf=" !fileUploaded
-              "
-              class="alert alert-danger"
-            >
-                Cần chọn chứng thư số.
-              
-            </div>
-          </div>
-        </form>
+              <div class="page-count" *ngIf="!isLoading">
+                <span *ngIf="chkBoxSelected">
+                  Đã chọn {{ chkBoxSelected.length }} /
+                </span>
+                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+              </div>
+              <datatable-pager
+                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'"
+                [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'"
+                [page]="curPage"
+                [size]="pageSize"
+                [count]="rowCount"
+                [hidden]="!(rowCount / pageSize > 1)"
+                (change)="table.onFooterPage($event)"
+              >
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
       </div>
-    </div>
+    </section>
+    
+    <!-- Modal Upload file -->
+    <ng-template #modalUploadCert let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="row">
+          <div class="col-md-12">
+            <form [formGroup]="formUploadCert">
+              <div class="form-group custom-file">
+                <input
+                  #certificate
+                  type="file"
+                  class="form-control custom-file-input"
+                  name="file"
+                  id="file"
+                  (change)="onFileChange($event)"
+                />
+                <label for="certificate" class="custom-file-label"
+                  >Chọn chứng thư số</label
+                >
+                <span
+                  *ngIf="formUploadCert.controls.certificateContent.value != null"
+                  ><i data-feather="check"></i
+                  >{{ formUploadCert.controls.certificateContent.value.name }}-Đã
+                  được chọn</span
+                >
+                <div *ngIf="!fileUploaded" class="alert alert-danger">
+                  Cần chọn chứng thư số.
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="onSubmitCert()">
+          Cập nhật
+        </button>
+      </div>
+    </ng-template>
   </div>
-  <div class="modal-footer">
-    <button type="submit" class="btn btn-primary" (click)="onSubmitCert()" >
-      Cập nhật
-    </button>
-  </div>
-</ng-template>
+</div>

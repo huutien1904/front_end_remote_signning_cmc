@@ -34,14 +34,22 @@ export class CertificateRequestListService{
   }
 
   readCertificate(cer): any[] {
+      // const cert = e.target.result;
+      // //console.log(cert);
+    // let getCertString = cer
+    //   .replace("-----BEGIN CERTIFICATE REQUEST-----", "")
+    //   .replace(/\r?\n|\r/g, "")
+    //   .replace("-----END CERTIFICATE REQUEST-----", "");
+    //   console.log(getCertString)
     //decode
     let read: any = forge.pki.certificationRequestFromPem(cer);
+    console.log(read)
     //get attributes
     read = read.subject.attributes;
 
     //dich tieng Viet 
     let res: any[] = JSON.parse( forge.util.decodeUtf8( JSON.stringify(read)));
- 
+    console.log(res)
     return res;
   }
 

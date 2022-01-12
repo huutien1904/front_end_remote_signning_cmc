@@ -94,7 +94,7 @@ export class CertificateRequestListComponent implements OnInit {
     });
     
     this.setPage({ offset: 0, pageSize: this.formListCertificateRequest.get('size').value });
-    
+    console.log(this.rowsData);
   }
 
   getOrganization(item): any {
@@ -104,7 +104,9 @@ export class CertificateRequestListComponent implements OnInit {
     return rs.value;
   }
   getSubscribe(item): any {
+    // console.log(item)
     let info = this._listCerReqService.readCertificate(item.certificateRequestContent);
+    console.log(info)
     return info.find((obj) => obj.name === 'commonName').value;
   }
 
@@ -117,12 +119,13 @@ export class CertificateRequestListComponent implements OnInit {
       .getListCertificateRequests(JSON.stringify(this.formListCertificateRequest.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
+        console.log(pagedData)
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
-          organizationName: this.getOrganization(item),
+          // organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item),
         }));
         this.isLoading = false;
@@ -140,6 +143,16 @@ export class CertificateRequestListComponent implements OnInit {
     row.fileName = row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
     console.log(row);
   }
+  // downloadSidebar(res) {
+  //   this.modal.open(this.modalLink);
+  //   const data = res.data.certificateRequestContent;
+  //   const blob = new Blob([data], { type: 'application/octet-stream' });
+  //   this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+  //     window.URL.createObjectURL(blob)
+  //   );
+  //   // this.fileName = res.data.certificateRequestId + '.csr';
+  //   this.fileName = res.data.keypairAlias + '.csr';
+  // }
 
   /**
    * Custom Checkbox On Select
