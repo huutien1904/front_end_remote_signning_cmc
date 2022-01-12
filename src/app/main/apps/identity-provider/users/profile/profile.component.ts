@@ -103,7 +103,7 @@ export class ProfileComponent implements OnInit {
     },
     {
       cryptoSystem: 'ECDSA',
-      keypairLength: ['secp224r1', 'secp384r1', 'secp521r1'],
+      keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
     },
   ];
   public listProfiles: any[] = [
