@@ -136,10 +136,12 @@
               <div class="">
                 <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
                   <button type="button" rippleEffect class="btn btn-primary">
-                    Cập nhật chứng thư số
+                      <span class="d-sm-none d-inline-block">Cập nhật</span>
+                      <span class="d-none d-sm-inline-block">Cập nhật chứng thư số</span>
                   </button>
                 </a>
               </div>
+            
             </div>
             <mat-progress-bar
               *ngIf="isLoading"

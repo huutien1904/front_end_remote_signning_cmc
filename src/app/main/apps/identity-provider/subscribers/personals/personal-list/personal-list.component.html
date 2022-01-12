@@ -49,7 +49,7 @@
             </div>
             <mat-datepicker #birthday></mat-datepicker>
           </div>
-          <div class="col-md-2 mt-2">
+          <div class="col-4 col-md-2 mt-2">
             <button
               class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
               rippleEffect
@@ -60,7 +60,7 @@
               ><span class="d-none d-sm-inline-block">Tùy chọn</span>
             </button>
           </div>
-          <div class="col-md-2 mt-2">
+          <div class="col-6 col-md-2 mt-2">
             <button
               type="button"
               rippleEffect
@@ -173,6 +173,7 @@
           rippleEffect
           (click)="fileInput.click()"
         >
+        <i data-feather="file-plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i>
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button>
         <button class="btn btn-outline-secondary ml-50" (click) = "removeListPersonal()">

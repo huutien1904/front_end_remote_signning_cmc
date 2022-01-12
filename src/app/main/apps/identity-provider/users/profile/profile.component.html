@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
           <ul ngbNav #nav="ngbNav" class="nav nav-pills">
-            <li ngbNavItem>
+            <li ngbNavItem class="col-3 col-md-3">
               <a ngbNavLink class="d-flex align-items-center"
                 ><i data-feather="user" class="mr-sm-50"></i
                 ><span class="d-none d-sm-block">Tài khoản</span></a
@@ -429,10 +429,10 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem>
-              <a ngbNavLink class="d-flex align-items-center">
+            <li ngbNavItem class="col-3 col-md-3">
+              <a ngbNavLink class="d-flex align-items-center"  (click)="loadProfile()">
                 <i data-feather="info" class="mr-sm-50"></i
-                ><span class="d-none d-sm-block" (click)="loadProfile()"
+                ><span class="d-none d-sm-block"
                   >Thông tin tài khoản</span
                 ></a
               >
@@ -1679,7 +1679,7 @@
                 <!-- Information Tab ends -->
               </ng-template>
             </li>
-            <li ngbNavItem>
+            <li ngbNavItem class="col-3 col-md-3">
               <a ngbNavLink class="d-flex align-items-center"
                 ><i data-feather="file" class="mr-sm-50"></i
                 ><span class="d-none d-sm-block">Danh sách chứng thư số</span>
@@ -1690,7 +1690,7 @@
                     <section>
                       <div class="card">
                         <div class="card-header">
-                          <h4 class="card-title">
+                          <h4 class="card-title col-8 col-md-8">
                             <i
                               data-feather="file"
                               [size]="20"
@@ -1700,7 +1700,7 @@
                               >Danh sách chứng thư số</span
                             >
                           </h4>
-                          <div class="">
+                          <div class="col-4 col-md-3">
                             <button
                               type="button"
                               rippleEffect
@@ -1708,7 +1708,12 @@
                               (click)="openNewCertModal(modalUploadCert)"
                               [rowDataSelected]="selected"
                             >
-                              Cập nhật chứng thư số
+                              <span class="d-sm-none d-inline-block"
+                                >Cập nhật</span
+                              >
+                              <span class="d-none d-sm-inline-block"
+                                >Cập nhật chứng thư số</span
+                              >
                             </button>
                           </div>
                         </div>
@@ -1941,7 +1946,7 @@
                 </div>
               </ng-template>
             </li>
-            <li ngbNavItem>
+            <li ngbNavItem class="col-3 col-md-3">
               <a ngbNavLink class="d-flex align-items-center"
                 ><i data-feather="file-text" class="mr-sm-50"></i
                 ><span class="d-none d-sm-block"
@@ -1954,7 +1959,7 @@
                     <section>
                       <div class="card">
                         <div class="card-header">
-                          <h4 class="card-title">
+                          <h4 class="card-title col-8 col-md-8">
                             <i
                               data-feather="file-text"
                               [size]="20"
@@ -1964,7 +1969,7 @@
                               >Danh sách yêu cầu chứng thực</span
                             >
                           </h4>
-                          <div class="">
+                          <div class="col-4 col-md-3">
                             <button
                               type="button"
                               rippleEffect
@@ -1972,7 +1977,12 @@
                               rippleEffect
                               (click)="openToggleSidebar(modalForm)"
                             >
-                              Tạo yêu cầu chứng thực
+                              <span class="d-sm-none d-inline-block"
+                                >Tạo yêu cầu</span
+                              >
+                              <span class="d-none d-sm-inline-block"
+                                >Tạo yêu cầu chứng thực</span
+                              >
                             </button>
                           </div>
                         </div>
@@ -2184,7 +2194,7 @@
   </div>
 </div>
 
- <!-- form modal chứng thư số  -->
+<!-- form modal chứng thư số  -->
 <ng-template #modalUploadCert let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
@@ -2225,8 +2235,8 @@
             >
             <div
               *ngIf="
-              formInfoEdit.controls.certificate.touched &&
-              formInfoEdit.controls.certificate.invalid
+                formInfoEdit.controls.certificate.touched &&
+                formInfoEdit.controls.certificate.invalid
               "
               class="alert alert-danger"
             >
@@ -2246,7 +2256,7 @@
   </div>
 </ng-template>
 
- <!-- form modal yêu cầu chứng thực -->
+<!-- form modal yêu cầu chứng thực -->
 <ng-template #modalForm let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="myModalLabel1">
