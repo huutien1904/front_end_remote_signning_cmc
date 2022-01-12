@@ -1,31 +1,57 @@
-import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
-import {  FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CoreConfigService } from "@core/services/config.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { DateAdapter } from "@angular/material/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CoreConfigService } from '@core/services/config.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { DateAdapter } from '@angular/material/core';
 import {
   ColumnMode,
   DatatableComponent,
   SelectionType,
-} from "@swimlane/ngx-datatable";
-import { PagedData } from "app/main/models/PagedData"
-import { KeypairListService } from "../keypair-list.service";
-import { Keypair } from "app/main/models/Keypair";
+} from '@swimlane/ngx-datatable';
+import { PagedData } from 'app/main/models/PagedData';
+import { KeypairListService } from '../keypair-list.service';
+import { Keypair } from 'app/main/models/Keypair';
 
 @Component({
   selector: 'app-list-sidebar',
   templateUrl: './list-sidebar.component.html',
   styleUrls: ['./list-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [KeypairListService]
+  providers: [KeypairListService],
 })
 export class ListSidebarComponent implements OnInit {
-  public cryptoSelect: any[] = [ 'RSA', 'ECDSA'];
-  public rsaKeyLength: any[] = ['1024', '1536', '2048', '3072', '4096', '6144', '8192'];
-  public ecdsaKeyLength: any[] = ['brainpoolIP160r1', 'brainpoolIP160t1', 'brainpoolIP192r1', 'brainpoolIP192t1',
-  'brainpoolIP224r1', 'brainpoolIP224t1', 'brainpoolIP256r1', 'brainpoolIP256t1', 'brainpoolIP384r1', 'brainpoolIP384t1', 'brainpoolIP521r1', 'brainpoolIP521t1'];
+  public cryptoSelect: any[] = ['RSA', 'ECDSA'];
+  public rsaKeyLength: any[] = [
+    '1024',
+    '1536',
+    '2048',
+    '3072',
+    '4096',
+    '6144',
+    '8192',
+  ];
+  public ecdsaKeyLength: any[] = [
+    'brainpoolIP160r1',
+    'brainpoolIP160t1',
+    'brainpoolIP192r1',
+    'brainpoolIP192t1',
+    'brainpoolIP224r1',
+    'brainpoolIP224t1',
+    'brainpoolIP256r1',
+    'brainpoolIP256t1',
+    'brainpoolIP384r1',
+    'brainpoolIP384t1',
+    'brainpoolIP521r1',
+    'brainpoolIP521t1',
+  ];
   public lengthSelect: any[] = [];
   @Input() personal: any;
   minDate: Date;
@@ -37,7 +63,7 @@ export class ListSidebarComponent implements OnInit {
 
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild("tableRowDetails") tableRowDetails: any;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
@@ -47,7 +73,7 @@ export class ListSidebarComponent implements OnInit {
   public selected = [];
   public SelectionType = SelectionType;
 
-    /**
+  /**
    *
    * @param _keypairService
    * @param _coreSidebarService
@@ -61,8 +87,7 @@ export class ListSidebarComponent implements OnInit {
     private _keypairService: KeypairListService,
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
-    private dateAdapter: DateAdapter<any>,
-
+    private dateAdapter: DateAdapter<any>
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -89,35 +114,45 @@ export class ListSidebarComponent implements OnInit {
   }
 
   changePage() {
-    this.pagedData.size = this.formListKeypair.get("sizePage").value;
+    this.pagedData.size = this.formListKeypair.get('sizePage').value;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
 
   setPage(pageInfo) {
-    this.isLoading=true;
+    this.isLoading = true;
     this.pagedData.currentPage = pageInfo.offset;
     this.pagedData.size = pageInfo.pageSize;
-    // this._keypairService
-    //   .getData(this.pagedData, this.personal.subscriberId)
-    //   .pipe(takeUntil(this._unsubscribeAll))
-    //   .subscribe((pagedData) => {
-    //     console.log(pagedData)
-    //     this.pagedData = pagedData.data;
-    //     this.rowsData = pagedData.data.data;
-    //     console.log(this.rowsData)
-    //     this.rowsData = pagedData.data.data.map(item => ({
-    //       ...item,
-    //     }))
-    //     this.isLoading=false;
-    //   });
+    console.log(this.formListKeypair.value)
+    const body = {
+      page: null,
+      size: null,
+      sort: null,
+      contains: null,
+      fromDate: this.formListKeypair.value.fromDate,
+      toDate: this.formListKeypair.value.toDate,
+    };
+    console.log(body)
+    this._keypairService
+      .getData(body)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
+        this.rowsData = pagedData.data.data.map(item => ({
+          ...item,
+        }))
+        this.isLoading=false;
+      });
   }
 
   /**
    * Custom Checkbox On Select
    *
    * @param { selected }
-  */
-   customCheckboxOnSelect({ selected }) {
+   */
+  customCheckboxOnSelect({ selected }) {
     this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
     this.chkBoxSelected.push(...selected);
   }
@@ -127,7 +162,7 @@ export class ListSidebarComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
-    console.log("Select Event", selected, this.selected);
+    console.log('Select Event', selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
@@ -151,8 +186,8 @@ export class ListSidebarComponent implements OnInit {
 
   changeCrypto(event) {
     this.formListKeypair.patchValue({
-      keypairLength: null
-    })
+      keypairLength: null,
+    });
     this.formListKeypair.get('keypairLength').enable();
     switch (event) {
       case 'RSA':
@@ -163,5 +198,4 @@ export class ListSidebarComponent implements OnInit {
         break;
     }
   }
-
 }

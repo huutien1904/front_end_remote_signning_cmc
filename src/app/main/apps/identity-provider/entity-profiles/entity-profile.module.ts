@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -23,8 +22,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
-import { LoadingService } from 'app/main/loading/loading.service';
 import { EntityProfileCreateComponent } from './entity-profile-create/entity-profile-create.component';
 import { ProfileEditComponent } from './entity-profile-edit/entity-profile-edit.component';
 import { ProfileListComponent } from './entity-profile-list/entity-profile-list.component';
@@ -72,12 +69,7 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    LoadingService,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true
-      }
+    
   ]
 })
 export class ProfileModule { }

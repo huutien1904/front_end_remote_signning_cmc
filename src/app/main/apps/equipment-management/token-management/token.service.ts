@@ -40,12 +40,13 @@ export class TokenService {
   }
 
   public getTokenId(id): Observable<ResponseData<Token>> {
+    console.log(id)
     return this._httpClient.get<ResponseData<Token>>(
       `${environment.apiUrl}/token/${id}`,
       this.option
     );
   }
-  public deleteTokenId(id): Observable<any> {
+  public deleteTokenId(id): Observable<ResponseData<Token>> {
     return this._httpClient.delete<any>(
       `${environment.apiUrl}/token/${id}`,
       this.option

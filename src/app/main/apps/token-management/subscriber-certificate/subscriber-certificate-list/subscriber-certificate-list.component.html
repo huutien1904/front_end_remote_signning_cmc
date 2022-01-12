@@ -1,53 +1,57 @@
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
-  <div class="content-wrapper container-xxl p-0">
-    <div class="content-body">
-      <!-- Certificate request List -->
-      <section class="users-list-wrapper">
-        <div class="card ">
-          <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-          <div class="card-body">
-            <form
-              class="form form-vertical"
-              [formGroup]="formListSubscriberCertificate"
-            >
-              <div class="row pb-1">
-                <div class="col-12 col-md-4 mt-1">
-                  <input
-                    name="contains"
-                    id="contains"
-                    type="search"
-                    class="form-control"
-                    formControlName="contains"
-                    placeholder="Một phần DN"
-                  />
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-body">
+        <!-- Certificate request List -->
+        <section class="users-list-wrapper">
+          <div class="card">
+            <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+            <div class="card-body">
+              <form
+                class="form form-vertical"
+                [formGroup]="formListSubscriberCertificate"
+              >
+                <div class="row pb-1">
+                  <div class="col-md-4">
+                    <input
+                      name="contains"
+                      id="contains"
+                      type="search"
+                      class="form-control"
+                      formControlName="contains"
+                      placeholder="Một phần DN"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <button
+                      type="button"
+                      class="btn btn-secondary btn-outline-secondary col-12"
+                      (click)="moreOption = !moreOption"
+                      rippleEffect
+                    >
+                      Tùy chọn
+                    </button>
+                  </div>
+                  <div class="col-md-2">
+                    <button
+                      type="button"
+                      rippleEffect
+                      class="btn btn-primary"
+                      (click)="
+                        setPage({
+                          offset: 0,
+                          pageSize: formListSubscriberCertificate.controls.size
+                        })
+                      "
+                      [disabled]="!formListSubscriberCertificate.valid"
+                    >
+                      Tìm kiếm
+                    </button>
+                  </div>
                 </div>
-                <div class="col-4 col-md-2 mt-1">
-                  <button
-                    type="button"
-                    class="btn btn-secondary btn-outline-secondary col-12"
-                    (click)="moreOption = !moreOption"
-                    rippleEffect
-                  >
-                  <i data-feather="plus" class="d-sm-none d-inline-block"></i
-                    ><span class="d-none d-sm-inline-block">Tùy chọn</span>
-                  </button>
-                </div>
-                <div class="col-6 col-md-2 mt-1">
-                  <button
-                    type="button"
-                    rippleEffect
-                    class="btn btn-primary"
-                    (click)="setPage({ offset: 0, pageSize:  formListSubscriberCertificate.controls.size  })"
-                    [disabled]="!formListSubscriberCertificate.valid"
-                  >
-                    Tìm kiếm
-                  </button>
-                </div>
-              </div>
-  
-              <div class="row" [ngbCollapse]="moreOption">
+
+                <div class="row" [ngbCollapse]="moreOption">
                   <div class="col-md-2">
                     <label for="">Số dòng:</label>
                     <fieldset class="form-group">
@@ -56,7 +60,13 @@
                         bindValue="sizePage"
                         [clearable]="false"
                         formControlName="size"
-                        (change)="setPage({ offset: 0, pageSize:  formListSubscriberCertificate.controls.size  })"
+                        (change)="
+                          setPage({
+                            offset: 0,
+                            pageSize:
+                              formListSubscriberCertificate.controls.size
+                          })
+                        "
                       ></ng-select>
                     </fieldset>
                   </div>
@@ -78,7 +88,10 @@
                             class="form-control"
                             type="text"
                             [min]="minDate"
-                            [max]="formListSubscriberCertificate.controls.toDate.value"
+                            [max]="
+                              formListSubscriberCertificate.controls.toDate
+                                .value
+                            "
                             placeholder="13/09/2021"
                           />
                         </div>
@@ -88,7 +101,9 @@
                         <label class="lable">Đến ngày:</label>
                         <div class="input-group input-group-merge">
                           <div class="input-group-prepend">
-                            <span class="input-group-text" (click)="toDate.open()"
+                            <span
+                              class="input-group-text"
+                              (click)="toDate.open()"
                               ><i data-feather="calendar"></i
                             ></span>
                           </div>
@@ -97,26 +112,29 @@
                             formControlName="toDate"
                             class="form-control"
                             type="text"
-                            [min]="formListSubscriberCertificate.controls.fromDate.value"
+                            [min]="
+                              formListSubscriberCertificate.controls.fromDate
+                                .value
+                            "
                             placeholder="13/09/2021"
                           />
                         </div>
-    
+
                         <mat-datepicker #toDate></mat-datepicker>
                       </div>
                     </div>
                   </div>
                 </div>
-            </form>
+              </form>
+            </div>
           </div>
-        </div>
-      </section>
-      <section>
+        </section>
+        <section>
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title col-6 col-md-8">Danh sách chứng thư số</h4>
-              <div class="col-6 col-md-3">
-                <a href="/apps/tm/subscriber-certificate/update">
+              <h4 class="card-title">Danh sách chứng thứ số</h4>
+              <div class="">
+                <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
                   <button type="button" rippleEffect class="btn btn-primary">
                       <span class="d-sm-none d-inline-block">Cập nhật</span>
                       <span class="d-none d-sm-inline-block">Cập nhật chứng thư số</span>
@@ -125,7 +143,10 @@
               </div>
             
             </div>
-            <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+            <mat-progress-bar
+              *ngIf="isLoading"
+              mode="indeterminate"
+            ></mat-progress-bar>
             <ngx-datatable
               #tableRowDetails
               class="bootstrap core-bootstrap cursor"
@@ -161,7 +182,9 @@
                   let-allRowsSelected="allRowsSelected"
                   let-selectFn="selectFn"
                 >
-                  <div class="custom-control custom-control-primary custom-checkbox">
+                  <div
+                    class="custom-control custom-control-primary custom-checkbox"
+                  >
                     <input
                       type="checkbox"
                       class="custom-control-input"
@@ -182,7 +205,9 @@
                   let-isSelected="isSelected"
                   let-onCheckboxChangeFn="onCheckboxChangeFn"
                 >
-                  <div class="custom-control custom-control-primary custom-checkbox">
+                  <div
+                    class="custom-control custom-control-primary custom-checkbox"
+                  >
                     <input
                       type="checkbox"
                       class="custom-control-input"
@@ -203,7 +228,10 @@
                 [canAutoResize]="false"
                 [width]="50"
               >
-                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                <ng-template
+                  ngx-datatable-cell-template
+                  let-rowIndex="rowIndex"
+                >
                   {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
                 </ng-template>
               </ngx-datatable-column>
@@ -227,8 +255,16 @@
                 prop="tokenName"
                 [width]="120"
               ></ngx-datatable-column>
-              <ngx-datatable-column name="Nhập/Xuất" [width]="80" [sortable]="false">
-                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <ngx-datatable-column
+                name="Nhập/Xuất"
+                [width]="80"
+                [sortable]="false"
+              >
+                <ng-template
+                  ngx-datatable-cell-template
+                  let-row="row"
+                  let-value="value"
+                >
                   <div class="d-flex align-items-center">
                     <div ngbDropdown container="body">
                       <a
@@ -252,24 +288,28 @@
                       >
                         <div *ngIf="row.keypairStatus.keypairStatusId == 1">
                           <a
-                          ngbDropdownItem
-                          class="d-flex align-items-center"
-                          (click)="openUploadCert(modalUploadCert, row)"
-                          ><i data-feather="file-text" class="mr-50"></i> Nhập</a
-                        >
+                            ngbDropdownItem
+                            class="d-flex align-items-center"
+                            (click)="openUploadCert(modalUploadCert, row)"
+                            ><i data-feather="file-text" class="mr-50"></i>
+                            Nhập</a
+                          >
                         </div>
                         <div *ngIf="row.keypairStatus.keypairStatusId == 3">
                           <a
-                          href="javascript:void(0)"
-                          ngbDropdownItem
-                          class="d-flex align-items-center"
-                          ><i data-feather="edit" class="mr-50"></i> Xuất</a
-                        >
+                            href="javascript:void(0)"
+                            ngbDropdownItem
+                            class="d-flex align-items-center"
+                            ><i data-feather="edit" class="mr-50"></i> Xuất</a
+                          >
                         </div>
                       </div>
                     </div>
-        
-                    <i data-feather="edit" class="text-primary cursor-pointer"></i>
+
+                    <i
+                      data-feather="edit"
+                      class="text-primary cursor-pointer"
+                    ></i>
                   </div>
                 </ng-template>
               </ngx-datatable-column>
@@ -306,63 +346,71 @@
             </ngx-datatable>
           </div>
         </section>
-      <!--/ Certificate request List -->
-    </div>
-  </div>
-  <!-- Modal Upload file -->
-  <ng-template #modalUploadCert let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
-      <button
-        type="button"
-        class="close"
-        (click)="modal.dismiss('Cross click');"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" tabindex="0" ngbAutofocus>
-      <div class="row">
-        <div class="col-md-12">
-          <form [formGroup]="formUploadCert">
-            <div class="form-group custom-file">
-              <input
-                #certificate
-                formControlName="certificate"
-                type="file"
-                class="form-control custom-file-input"
-                name="file"
-                id="file"
-                (change)="onFileChange($event)"
-              />
-              <label for="certificate" class="custom-file-label">Chọn chứng thư số</label>
-              <span *ngIf="formUploadCert.controls.certificate.valid && formUploadCert.controls.fileSource.value !=null "><i data-feather="check"></i>{{formUploadCert.controls.fileSource.value.name}}-Đã được chọn</span>
-              <div
-                *ngIf="
-                  formUploadCert.controls.certificate.touched &&
-                  formUploadCert.controls.certificate.invalid
-                "
-                class="alert alert-danger"
-              >
-                <div *ngIf="formUploadCert.controls.certificate.errors.required">
-                  Cần chọn chứng thư số.
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+        <!--/ Certificate request List -->
       </div>
     </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="onSubmitCert()"
-      >
-        Cập nhật
-      </button>
-    </div>
-  </ng-template>
+    <!-- Modal Upload file -->
+    <ng-template #modalUploadCert let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+        <button
+          type="button"
+          class="close"
+          (click)="modal.dismiss('Cross click')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="row">
+          <div class="col-md-12">
+            <form [formGroup]="formUploadCert">
+              <div class="form-group custom-file">
+                <input
+                  #certificate
+                  formControlName="certificate"
+                  type="file"
+                  class="form-control custom-file-input"
+                  name="file"
+                  id="file"
+                  (change)="onFileChange($event)"
+                />
+                <label for="certificate" class="custom-file-label"
+                  >Chọn chứng thư số</label
+                >
+                <span
+                  *ngIf="
+                    formUploadCert.controls.certificate.valid &&
+                    formUploadCert.controls.fileSource.value != null
+                  "
+                  ><i data-feather="check"></i
+                  >{{ formUploadCert.controls.fileSource.value.name }}-Đã được
+                  chọn</span
+                >
+                <div
+                  *ngIf="
+                    formUploadCert.controls.certificate.touched &&
+                    formUploadCert.controls.certificate.invalid
+                  "
+                  class="alert alert-danger"
+                >
+                  <div
+                    *ngIf="formUploadCert.controls.certificate.errors.required"
+                  >
+                    Cần chọn chứng thư số.
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onSubmitCert()">
+          Cập nhật
+        </button>
+      </div>
+    </ng-template>
   </div>
 </div>

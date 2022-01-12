@@ -16,7 +16,7 @@
           <ng-select
             (change)="changeProfile()"
             [items]="listProfiles"
-            bindLabel="nameProfile"
+            bindLabel="endEntityProfileName"
             [clearable]="false"
             formControlName="profile"
             [ngClass]="
@@ -37,11 +37,14 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12" *ngIf="strProfile.length > 0">
-        <div class="card shadow-none bg-transparent border-primary">
-          <div class="card-body">
-            <h4 class="card-title">Thông tin chi tiết</h4>
-            <p class="card-text">{{ strProfile }}</p>
+      
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Subject DN của thuê bao</label>
+          <div class="card shadow-none bg-transparent border-primary ">
+            <div class="card-body p-2">
+              <p class="card-text">{{ strProfile }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -164,7 +167,7 @@
     (click)="toggleSidebar()"
     rippleEffect
   >
-    Hủy
+    Quay lại
   </button>
 </div>
 

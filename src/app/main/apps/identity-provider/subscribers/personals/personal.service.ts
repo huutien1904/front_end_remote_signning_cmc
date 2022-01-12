@@ -52,7 +52,7 @@ export class PersonalService {
   }
   public getOrganizationId(): Observable<any> {
     return this._httpClient.get<ResponseData<PagedData<Organization>>>(
-      `${environment.apiUrl}/organization/getall`,
+      `${environment.apiUrl}/organization/get-all`,
       this.option
     );
   }
@@ -112,6 +112,12 @@ export class PersonalService {
   }
   createPersonalSelf(body):Observable<ResponseData<Personal>>{
     return this._httpClient.post<ResponseData<Personal>>(`${environment.apiUrl}/staff/create-self`, body, this.option);
+  }
+  updateRole(body):Observable<any>{
+    return this._httpClient.put<any>(`${environment.apiUrl}/role/update`, body, this.option);
+  }
+  getRole(username:string):Observable<any>{
+    return this._httpClient.get<any>(`${environment.apiUrl}/role/${username}`, this.option);
 
   }
 }

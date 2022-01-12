@@ -20,6 +20,7 @@ import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile-list',
@@ -49,7 +50,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   public totalItems: any = 0;
   public selected = [];
   public ColumnMode = ColumnMode;
-
+  public chkBoxSelected = [];
   constructor(
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
@@ -99,7 +100,17 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       pageSize: this.formListProfile.get('size').value,
     });
   }
+  // get seleted item
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+    console.log("Select Event", selected, this.selected);
 
+  }
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
@@ -119,12 +130,13 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       });
   }
-
+  // set active row
   onActivate(event) {
-    if(event.event.type === 'click' && event.column.name!="Hành động") {
+    if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
       this._router.navigate(['/apps/ip/profiles/profile-view', event.row.endEntityProfileId]);
     }
   }
+  // remove profile item
   removeProfile(entityId){
     console.log(entityId);
     this._entityProfileService
@@ -142,6 +154,87 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         })
     })
   }
+  deleteProfile(entityId){
+    this.confirmRemoveProfile(entityId)
+  }
+  confirmRemoveProfile(entityId){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return this.removeProfile(entityId)
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result:any) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
+  }
+  // end remove profile item
+  // remove list profile
+  removeListProfile(){
+    this.confirmRemoveListProfile();
+  }
+  confirmRemoveListProfile(){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return this.selected.map((profile) =>{
+            this.removeProfile(profile.endEntityProfileId)
+          });
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
+  }
+  // end remove list profile
   /**
    * On destroy
    */

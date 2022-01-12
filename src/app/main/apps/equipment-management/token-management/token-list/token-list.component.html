@@ -42,7 +42,12 @@
                   type="button"
                   rippleEffect
                   class="btn btn-primary"
-                  (click)="setPage({ offset: 0, pageSize:  formListToken.controls.size  })"
+                  (click)="
+                    setPage({
+                      offset: 0,
+                      pageSize: formListToken.controls.size
+                    })
+                  "
                   [disabled]="!formListToken.valid"
                 >
                   Tìm kiếm
@@ -57,7 +62,12 @@
                     [items]="sizePage"
                     [clearable]="false"
                     formControlName="size"
-                    (change)="setPage({ offset: 0, pageSize:  formListToken.controls.size  })"
+                    (change)="
+                      setPage({
+                        offset: 0,
+                        pageSize: formListToken.controls.size
+                      })
+                    "
                   ></ng-select>
                 </fieldset>
               </div>
@@ -114,17 +124,37 @@
     <section id="table-hsm-list">
       <div class="card">
         <div class="card-header py-1">
-          <h4 class="card-title">Danh sách HSM</h4>
+          <h4 class="card-title">Danh sách Token</h4>
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
-            <button class="btn btn-primary ml-2" [routerLink]="['../', 'token-create']" rippleEffect>
+            <button
+              class="btn btn-primary ml-2"
+              [routerLink]="['../', 'token-create']"
+              rippleEffect
+            >
               <i
                 data-feather="plus"
                 class="d-sm-none d-inline-block mr-0 mr-sm-1"
               ></i
-              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+              ><span class="d-none d-sm-inline-block">Thêm mới Slot</span>
             </button>
+            <button
+              csvLink
+              class="btn btn-outline-secondary ml-1"
+              rippleEffect
+              (click)="deleteToken()"
+              [disabled]="selected.length === 0"
+            >
+              Xóa
+            </button>
+            <a
+              csvLink
+              class="btn btn-outline-secondary float-right mr-1"
+              rippleEffect
+              (click)="exportCSV()"
+              >Xuất danh sách</a
+            >
           </div>
         </div>
         <mat-progress-bar
@@ -132,22 +162,80 @@
           mode="indeterminate"
         ></mat-progress-bar>
         <ngx-datatable
-        #tableRowDetails
-        [rows]="rowsData"
-        class="bootstrap core-bootstrap cursor"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        [footerHeight]="50"
-        [rowHeight]="50"
-        [externalPaging]="true"
-        [limit]="pagedData.size"
-        [count]="pagedData.totalItems"
-        [offset]="pagedData.currentPage"
-        [loadingIndicator]="isLoading"
-        (page)="setPage($event)"
+          #tableRowDetails
+          [rows]="rowsData"
+          class="bootstrap core-bootstrap cursor"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [scrollbarH]="true"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [externalPaging]="true"
+          [limit]="pagedData.size"
+          [count]="pagedData.totalItems"
+          [offset]="pagedData.currentPage"
+          [loadingIndicator]="isLoading"
+          [selectionType]="'checkbox'"
+          (page)="setPage($event)"
+          (activate)="onActivate($event)"
+          (select)="onSelect($event)"
         >
+        <ngx-datatable-column
+        [width]="50"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        class="ml-1"
+        name = "checkbox"
+      >
+        <ng-template
+          ngx-datatable-header-template
+          let-value="value"
+          let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn"
+        >
+          <div
+            class="custom-control custom-control-primary custom-checkbox"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="allRowsSelected"
+              (change)="selectFn(!allRowsSelected)"
+              id="headerCustomChkbxRef"
+            />
+            <label
+              class="custom-control-label"
+              for="headerCustomChkbxRef"
+            ></label>
+          </div>
+        </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-rowIndex="rowIndex"
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+          <div
+            class="custom-control custom-control-primary custom-checkbox"
+          >
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+              id="rowCustomChkbxRef{{ rowIndex }}"
+            />
+            <label
+              class="custom-control-label"
+              for="rowCustomChkbxRef{{ rowIndex }}"
+            ></label>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
           <ngx-datatable-column
             name="TT"
             [sortable]="false"
@@ -224,15 +312,12 @@
                       href="javascript:void(0)"
                       ngbDropdownItem
                       class="d-flex align-items-center"
-                      (click)="removeProfile(value.tokenId)"
+                      (click)="removeToken(value.tokenId)"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
                   </div>
                 </div>
-                <i
-                  data-feather="edit"
-                  class="text-primary cursor-pointer"
-                ></i>
+                <i data-feather="edit" class="text-primary cursor-pointer"></i>
               </div>
             </ng-template>
           </ngx-datatable-column>
@@ -247,7 +332,7 @@
               let-isVisible="isVisible"
             >
               <div class="page-count" *ngIf="!isLoading">
-                  Có tổng số
+                Có tổng số
                 {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
               </div>
               <datatable-pager
@@ -265,6 +350,37 @@
             </ng-template>
           </ngx-datatable-footer>
         </ngx-datatable>
+        <div class="row">
+          <div class="col-md-12 mb-50">
+            <button
+              class="btn btn-primary ml-2"
+              [routerLink]="['../', 'token-create']"
+              rippleEffect
+            >
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i
+              ><span class="d-none d-sm-inline-block">Thêm mới Slot</span>
+            </button>
+            <button
+              csvLink
+              class="btn btn-outline-secondary ml-1"
+              rippleEffect
+              (click)="deleteToken()"
+              [disabled]="selected.length === 0"
+            >
+              Xóa
+            </button>
+            <a
+              csvLink
+              class="btn btn-outline-secondary float-right mr-1"
+              rippleEffect
+              (click)="exportCSV()"
+              >Xuất danh sách</a
+            >
+          </div>
+        </div>
       </div>
     </section>
   </div>

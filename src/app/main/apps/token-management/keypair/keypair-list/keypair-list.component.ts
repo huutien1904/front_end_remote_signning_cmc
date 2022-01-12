@@ -70,7 +70,6 @@ export class KeypairListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.formListPersonal = this.fb.group({
-
       page: [null],
       size: [this.sizePage[2]],
       sort : [null],

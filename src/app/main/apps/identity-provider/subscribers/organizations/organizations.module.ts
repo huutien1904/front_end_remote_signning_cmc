@@ -1,5 +1,4 @@
 import { CommonModule } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CoreCommonModule } from "@core/common.module";
@@ -9,18 +8,16 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
-import { LoadingService } from "app/main/loading/loading.service";
 import { OrganizationEditComponent } from "./organization-edit/organization-edit.component";
 import { OrganizationEditService } from "./organization-edit/organization-edit.service";
 import { NewOrganizationSidebarComponent } from "./organization-list/new-organization-sidebar/new-organization-sidebar.component";
+import { OrganizationListAddComponent } from './organization-list/organization-list-add/organization-list-add.component';
 import { OrganizationListComponent } from "./organization-list/organization-list.component";
 import { OrganizationListService } from "./organization-list/organization-list.service";
+import { SidebarOrganizationEditComponent } from './organization-list/sidebar-organization-edit/sidebar-organization-edit.component';
 import { OrganizationViewComponent } from "./organization-view/organization-view.component";
 import { OrganizationViewService } from "./organization-view/organization-view.service";
 import { AppRemoveSpace } from './remove-space.directive';
-import { OrganizationListAddComponent } from './organization-list/organization-list-add/organization-list-add.component';
-import { SidebarOrganizationEditComponent } from './organization-list/sidebar-organization-edit/sidebar-organization-edit.component';
 
 @NgModule({
   declarations: [
@@ -60,12 +57,6 @@ import { SidebarOrganizationEditComponent } from './organization-list/sidebar-or
     OrganizationViewService,
     OrganizationEditService,
     OrganizationListService,
-    LoadingService,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true
-      }
   ],
 })
 export class OrganizationsModule {}

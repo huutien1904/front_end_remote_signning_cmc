@@ -1,78 +1,222 @@
-<app-content-header [contentHeader]="contentHeader"></app-content-header>
+<div class="content-wrapper container-xxl p-0">
+  <app-content-header [contentHeader]="contentHeader"></app-content-header>
 <div class="content-body">
-    <section>
-        <div class="card">
-            <div class="card-body">
-                <form [formGroup]="tokenForm">
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label>Tên token</label>
-                                <input type="text" formControlName="tokenName" class="form-control" [ngClass]="f.tokenName.errors && f.tokenName?.touched || submitted && f.tokenName?.errors?.required ? 'is-invalid' : '' " />
-                                <div *ngIf="f.tokenName.errors && f.tokenName?.touched || submitted && f.tokenName?.errors?.required" class="invalid-feedback">
-                                    <div *ngIf="f.tokenName?.errors?.required">Bạn cần nhập tên token</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label>HSM</label>
-                                <ng-select [items]="hsmList" bindLabel="hsmName" bindValue="hsmId" [clearable]="false" formControlName="hsmInformationId" [ngClass]="f.hsmInformationId.errors && f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required ? 'is-invalid' : '' ">
-                                </ng-select>
-                                <div *ngIf="f.hsmInformationId.errors&&f.hsmInformationId?.touched || submitted && f.hsmInformationId?.errors?.required" class="invalid-feedback">
-                                    <div *ngIf="f.hsmInformationId.errors.required">Bạn cần chọn HSM</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label for="">Số hiệu slot</label>
-                                <ng-select [items]="slotOption" [clearable]="false" formControlName="slotNumber" [ngClass]="f.slotNumber.errors && f.slotNumber?.touched || submitted && f.slotNumber?.errors?.required ? 'is-invalid' : '' "></ng-select>
-                                <div *ngIf="f.slotNumber.errors && f.slotNumber?.touched || submitted && f.slotNumber?.errors?.required" class="invalid-feedback">
-                                    <div *ngIf="f.slotNumber?.errors?.required">Bạn cần nhập số hiệu slot</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label>Mật khẩu</label>
-                                <input type="password" formControlName="tokenPassword" class="form-control" [ngClass]="f.tokenPassword.errors && f.tokenPassword?.touched || submitted && f.tokenPassword?.errors?.required ? 'is-invalid' : '' " />
-                                <div *ngIf="f.tokenPassword.errors && f.tokenPassword?.touched || submitted && f.tokenPassword?.errors?.required" class="invalid-feedback">
-                                    <div *ngIf="f.tokenPassword.errors.required">Bạn cần nhập mật khẩu</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 offset-3">
-                            <div class="form-group">
-                                <label>Xác nhận mật khẩu</label>
-                                <input type="password" formControlName="confPassword" class="form-control" [ngClass]="{
-                                    'is-invalid': f.confPassword.errors && f.confPassword?.dirty || submitted && f.confPassword?.errors?.required,
-                                    'is-valid': !f.confPassword?.errors?.mustMatch && f.confPassword?.dirty
-                                }" />
-                                <div *ngIf="f.confPassword.errors && f.confPassword?.dirty  || submitted && f.confPassword?.errors?.required" class="invalid-feedback">
-                                    <div *ngIf="f.confPassword.errors.required">Bạn cần xác nhận mật khẩu</div>
-                                    <div *ngIf="f.confPassword.errors.mustMatch">Xác nhận mật khẩu không hợp lệ</div>
-                                </div>
-                                <div *ngIf="f.confPassword.errors == null" class="valid-feedback">
-                                    Xác nhận mật khẩu hợp lệ
-                                </div>
-                            </div>
-                        </div>
+  <section>
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="tokenForm">
+          <div class="">
+            <div class="d-flex">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tên token</label>
+                  <input
+                    type="text"
+                    formControlName="tokenName"
+                    class="form-control"
+                    [ngClass]="
+                      (f.tokenName.errors && f.tokenName?.touched) ||
+                      (submitted && f.tokenName?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.tokenName.errors && f.tokenName?.touched) ||
+                      (submitted && f.tokenName?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.tokenName?.errors?.required">
+                      Bạn cần nhập tên token
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <div class="d-flex justify-content-md-end m-1">
-                                <button class="btn btn-primary mr-1" (click)="onSubmit()" rippleEffect>
-                                Tạo token
-                            </button>
-                                <button (click)="exit()" rippleEffect class="btn btn-outline-primary">
-                                Thoát
-                            </button>
-                            </div>
-                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>HSM</label>
+                  <ng-select
+                    [items]="hsmList"
+                    bindLabel="hsmName"
+                    bindValue="hsmId"
+                    [clearable]="false"
+                    formControlName="hsmInformationId"
+                    [ngClass]="
+                      (f.hsmInformationId.errors &&
+                        f.hsmInformationId?.touched) ||
+                      (submitted && f.hsmInformationId?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  >
+                  </ng-select>
+                  <div
+                    *ngIf="
+                      (f.hsmInformationId.errors &&
+                        f.hsmInformationId?.touched) ||
+                      (submitted && f.hsmInformationId?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmInformationId.errors.required">
+                      Bạn cần chọn HSM
                     </div>
-                </form>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </section>
+            <div class="d-flex">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Số lượng cặp khóa</label>
+                  <ng-select
+                    [items]="lockQuantity"
+                    [clearable]="false"
+                    formControlName="lockQuantity"
+                    [ngClass]="
+                      (f.lockQuantity.errors && f.lockQuantity?.touched) ||
+                      (submitted && f.lockQuantity?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                    [clearable]="false"
+                    readonly
+                  >
+                  </ng-select>
+                  <div
+                  *ngIf="
+                    (f.lockQuantity.errors && f.lockQuantity?.touched) ||
+                    (submitted && f.lockQuantity?.errors?.required)
+                  "
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f.slotNumber?.errors?.required">
+                    Bạn cần nhập số lượng cặp khoá
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="">Số hiệu slot</label>
+                  <ng-select
+                    [items]="slotOption"
+                    [clearable]="false"
+                    formControlName="slotNumber"
+                    [ngClass]="
+                      (f.slotNumber.errors && f.slotNumber?.touched) ||
+                      (submitted && f.slotNumber?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  ></ng-select>
+                  <div
+                    *ngIf="
+                      (f.slotNumber.errors && f.slotNumber?.touched) ||
+                      (submitted && f.slotNumber?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.slotNumber?.errors?.required">
+                      Bạn cần nhập số hiệu slot
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mật khẩu</label>
+                  <input
+                    type="password"
+                    formControlName="tokenPassword"
+                    class="form-control"
+                    [ngClass]="
+                      (f.tokenPassword.errors && f.tokenPassword?.touched) ||
+                      (submitted && f.tokenPassword?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div
+                    *ngIf="
+                      (f.tokenPassword.errors && f.tokenPassword?.touched) ||
+                      (submitted && f.tokenPassword?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.tokenPassword.errors.required">
+                      Bạn cần nhập mật khẩu
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Xác nhận mật khẩu</label>
+                  <input
+                    type="password"
+                    formControlName="confPassword"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        (f.confPassword.errors && f.confPassword?.dirty) ||
+                        (submitted && f.confPassword?.errors?.required),
+                      'is-valid':
+                        !f.confPassword?.errors?.mustMatch &&
+                        f.confPassword?.dirty
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      (f.confPassword.errors && f.confPassword?.dirty) ||
+                      (submitted && f.confPassword?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.confPassword.errors.required">
+                      Bạn cần xác nhận mật khẩu
+                    </div>
+                    <div *ngIf="f.confPassword.errors.mustMatch">
+                      Xác nhận mật khẩu không hợp lệ
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="f.confPassword.errors == null"
+                    class="valid-feedback"
+                  >
+                    Xác nhận mật khẩu hợp lệ
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-md-end m-1">
+                <button
+                  class="btn btn-primary mr-1"
+                  (click)="onSubmit()"
+                  rippleEffect
+                >
+                  Tạo token
+                </button>
+                <button
+                  (click)="exit()"
+                  rippleEffect
+                  class="btn btn-outline-primary"
+                >
+                  Quay lại
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
 </div>

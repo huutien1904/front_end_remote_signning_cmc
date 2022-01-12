@@ -42,7 +42,6 @@
                 [matDatepicker]="birthday"
                 formControlName="dateOfBirth"
                 class="form-control"
-                
                 type="text"
                 placeholder="19/04/1992"
               />
@@ -65,7 +64,9 @@
               type="button"
               rippleEffect
               class="btn btn-primary"
-              (click)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
+              (click)="
+                setPage({ offset: 0, pageSize: formListPersonal.controls.size })
+              "
               [disabled]="!formListPersonal.valid"
             >
               Tìm kiếm
@@ -81,7 +82,12 @@
                 bindValue="sizePage"
                 [clearable]="false"
                 formControlName="size"
-                (change)="setPage({ offset: 0, pageSize:  formListPersonal.controls.size  })"
+                (change)="
+                  setPage({
+                    offset: 0,
+                    pageSize: formListPersonal.controls.size
+                  })
+                "
               ></ng-select>
             </fieldset>
           </div>
@@ -162,6 +168,7 @@
       [loadingIndicator]="isLoading"
       (page)="setPage($event)"
     >
+      <!-- check box -->
       <ngx-datatable-column
         [width]="50"
         [sortable]="false"
@@ -212,17 +219,37 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
+      <!-- end checkbox -->
+      <!-- TT -->
       <ngx-datatable-column
         name="TT"
-        [sortable]="false"
+        [width]="20"
         [canAutoResize]="false"
-        [width]="50"
+        [sortable]="false"
       >
         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
           {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="personalFirstName" [width]="210">
+
+      <!-- user name -->
+      <ngx-datatable-column
+        name="TÊN TÀI KHOẢN"
+        prop="username"
+        [width]="120"
+      ></ngx-datatable-column>
+      <!-- email -->
+      <ngx-datatable-column
+        name="THƯ ĐIỆN TỬ"
+        prop="email"
+        [width]="200"
+      ></ngx-datatable-column>
+      <!-- full name -->
+      <ngx-datatable-column
+        name="HỌ VÀ TÊN"
+        prop="personalFirstName"
+        [width]="210"
+      >
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
             <div
@@ -262,27 +289,27 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
+
+      <!-- CCCD/CMT -->
       <ngx-datatable-column
         name="CCCD/PASSPORT"
         prop="personalCountryId"
-        [width]="100"
+        [width]="130"
       ></ngx-datatable-column>
+      <!-- birthday -->
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
         <ng-template ngx-datatable-cell-template let-value="value">
-          {{ value | date: "dd/MM/YYYY" }}
+          {{ value | date: 'dd/MM/YYYY' }}
         </ng-template>
       </ngx-datatable-column>
+      <!-- gender -->
       <ngx-datatable-column
         name="Giới tính"
         prop="gender"
         [width]="80"
       ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="Email"
-        prop="email"
-        [width]="200"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Tổ chức" prop="organization" [width]="70">
+      <!--  orgnaization -->
+      <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
         <ng-template
           ngx-datatable-cell-template
           let-value="value"
@@ -370,4 +397,3 @@
     <app-sidebar-personals [personal]="item"></app-sidebar-personals>
   </ng-template>
 </section>
-

@@ -1,5 +1,4 @@
 import { CommonModule } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
@@ -13,14 +12,13 @@ import {
 } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { NgbCollapseModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
-import { LoadingService } from "app/main/loading/loading.service";
 import { FileUploadModule } from 'ng2-file-upload';
 import { PersonalService } from "../../identity-provider/subscribers/personals/personal.service";
 import { KeypairService } from "../keypair/keypair.service";
@@ -57,7 +55,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     MatProgressBarModule,
     FileUploadModule,
     ContentHeaderModule,
-    
+    RouterModule
   ],
   exports: [
     SubscriberCertificateCreateComponent,
@@ -75,12 +73,6 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    LoadingService,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true
-      },
   ],
 })
 export class SubscriberCertificateModule {}
