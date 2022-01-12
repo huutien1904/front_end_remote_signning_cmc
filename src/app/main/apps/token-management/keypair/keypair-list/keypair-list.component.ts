@@ -15,6 +15,7 @@ import { PagedData } from "app/main/models/PagedData"
 import { Personal } from "app/main/models/Personal";
 import { KeypairListService } from './keypair-list.service';
 import { Keypair } from 'app/main/models/Keypair';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-keypair-list",
@@ -61,6 +62,8 @@ export class KeypairListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
+    private _router: Router
+
 
   ) {
     this._unsubscribeAll = new Subject();
@@ -96,7 +99,7 @@ export class KeypairListComponent implements OnInit {
     // this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
     this.contentHeader = {
-      headerTitle: 'Danh sách',
+      headerTitle: 'Cặp khóa',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
@@ -151,6 +154,18 @@ export class KeypairListComponent implements OnInit {
    *
    * @param selected
    */
+   onActivate(event) {
+    if (
+      event.type === 'click' &&
+      event.column.name != 'Hành động' &&
+      event.column.name != 'checkbox'
+    ) {
+      console.log(event.row)
+      this._router.navigate([
+        '/apps/tm/keypair/keypair-view/',event.row.keypairId,
+      ]);
+    }
+  }
   onSelect({ selected }) {
     console.log("Select Event", selected, this.selected);
     this.selected.splice(0, this.selected.length);

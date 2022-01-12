@@ -4,7 +4,7 @@ import { Keypair } from "app/main/models/Keypair";
 import { PagedData } from "app/main/models/PagedData";
 import { ResponseData } from "app/main/models/ResponseData";
 import { Observable } from "rxjs";
-
+import { environment } from "../../../../../environments/environment";
 @Injectable({
   providedIn: "root",
 })
@@ -37,5 +37,18 @@ export class KeypairService {
     console.log("Keypair service");
     
     return this._httpClient.get<ResponseData<PagedData<Keypair>>>(`http://183.91.3.60:8080/csignremote-0.2/keypair/list/${subscriberId}`,option);
+  }
+  getKeypairID(
+    id
+  ): Observable<any> {
+    const option = {
+      headers :{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + this.token,
+      },
+    };
+    console.log("Keypair service");
+    
+    return this._httpClient.get<ResponseData<any>>(`http://183.91.3.60:8080/csignremote-0.3/keypair/${id}`,option);
   }
 }

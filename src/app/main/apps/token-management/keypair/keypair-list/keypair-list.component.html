@@ -145,7 +145,11 @@
                 data-feather="plus"
                 class="d-sm-none d-inline-block mr-0 mr-sm-1"
               ></i
-              ><span class="d-none d-sm-inline-block">Thêm Mới</span>
+              ><span
+                class="d-none d-sm-inline-block"
+                [routerLink]="['/apps/tm/keypair/keypair-create']"
+                >Thêm Mới</span
+              >
             </button>
             <button
               csvLink
@@ -187,6 +191,7 @@
           [offset]="pagedData.currentPage"
           [loadingIndicator]="isLoading"
           (page)="setPage($event)"
+          (activate)="onActivate($event)"
         >
           <ngx-datatable-column
             [width]="50"
@@ -279,7 +284,12 @@
             [width]="100"
             [sortable]="false"
           >
-            <ng-template ngx-datatable-cell-template let-row="row">
+            <ng-template
+              ngx-datatable-cell-template
+              let-row="row"
+              let-value="value"
+              let-rowIndex="rowIndex"
+            >
               <div class="d-flex align-items-center">
                 <div ngbDropdown container="body">
                   <a
@@ -302,22 +312,15 @@
                     aria-labelledby="dropdownBrowserState"
                   >
                     <a
-                      href="javascript:void(0)"
                       ngbDropdownItem
                       class="d-flex align-items-center"
-                      (click)="console(row)"
+                      [routerLink]="[
+                        '/apps/tm/keypair/keypair-view/',
+                        row.keypairId
+                      ]"
                       ><i data-feather="file-text" class="mr-50"></i>Thông
                       tin</a
                     >
-                    <a
-                    href="javascript:void(0)"
-                    ngbDropdownItem
-                    class="d-flex align-items-center"
-                   
-                    (click)="console(row)"
-                    ><i data-feather="file-text" class="mr-50"></i>Thông
-                    tin2</a
-                  >
                     <a
                       href="javascript:void(0)"
                       ngbDropdownItem
