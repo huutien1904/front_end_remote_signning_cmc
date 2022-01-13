@@ -13,6 +13,7 @@ import {
 import { PagedData } from 'app/main/models/PagedData';
 import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-certificate-request-list',
   templateUrl: './certificate-request-list.component.html',
@@ -44,7 +45,8 @@ export class CertificateRequestListComponent implements OnInit {
     private _listCerReqService: CertificateRequestListService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private _router: Router,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -175,8 +177,13 @@ export class CertificateRequestListComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
-
-
+  onActivate(event) {
+    // console.log(event);
+    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+      this._router.navigate(['/apps/tm/certificate-request/certificate-request-view', event.row.certificateRequestId]);
+      
+    }
+  }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

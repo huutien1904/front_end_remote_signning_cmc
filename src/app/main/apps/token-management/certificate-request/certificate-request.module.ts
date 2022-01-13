@@ -23,6 +23,8 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { RouterModule } from "@angular/router";
+import { CoreCardModule } from "@core/components/core-card/core-card.module";
+import { CertificateRequestViewComponent } from "./certificate-request-view/certificate-request-view.component";
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule
@@ -31,6 +33,7 @@ const materialModules1234 = [
 @NgModule({
   declarations: [
     CertificateRequestListComponent,
+    CertificateRequestViewComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +52,8 @@ const materialModules1234 = [
     CorePipesModule,
     MatProgressBarModule,
     ContentHeaderModule,
-    RouterModule
+    RouterModule,
+    CoreCardModule,
   ],
   exports: [
     CertificateRequestListComponent,

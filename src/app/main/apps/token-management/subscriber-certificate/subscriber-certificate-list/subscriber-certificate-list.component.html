@@ -133,12 +133,30 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">Danh sách chứng thứ số</h4>
-              <div class="">
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-1">
                 <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
-                  <button type="button" rippleEffect class="btn btn-primary">
-                    Cập nhật chứng thư số
+                  <button
+                    type="button"
+                    rippleEffect
+                    class="btn btn-primary ml-1"
+                  >
+                    Nhập chứng thư số
                   </button>
                 </a>
+
+                <button class="btn btn-outline-secondary ml-50" rippleEffect>
+                  <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
+                </button>
+                <button
+                  class="btn btn-outline-secondary float-right mr-1"
+                  rippleEffect
+                >
+                  <span class="d-none d-sm-inline-block"
+                    >Xuất danh sách chứng thư số
+                  </span>
+                </button>
               </div>
             </div>
             <mat-progress-bar
@@ -234,40 +252,38 @@
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column
-                name="KeypairAlias"
-                prop="keypairAlias"
-                [width]="150"
+                name="Mã chứng thư số"
+                prop="subscriberCertificateId"
+                [width]="80"
               ></ngx-datatable-column>
+
               <ngx-datatable-column
-                name="email"
-                prop="email"
-                [width]="160"
-              ></ngx-datatable-column>
-              <ngx-datatable-column
-                name="Token Name"
+                name="Trạng thái"
                 prop="keypairStatus.keypairStatusName"
                 [width]="120"
               ></ngx-datatable-column>
               <ngx-datatable-column
-                name="Token Name"
+                name="Tên thuê bao"
                 prop="tokenName"
                 [width]="120"
               ></ngx-datatable-column>
               <ngx-datatable-column
-                name="Nhập/Xuất"
-                [width]="80"
+                name="Hành động"
+                [width]="100"
                 [sortable]="false"
+                prop=""
+
               >
                 <ng-template
                   ngx-datatable-cell-template
                   let-row="row"
                   let-value="value"
+                  let-selected="false"
                 >
                   <div class="d-flex align-items-center">
                     <div ngbDropdown container="body">
                       <a
                         ngbDropdownToggle
-                        href="javascript:void(0);"
                         class="hide-arrow"
                         id="dropdownBrowserState"
                         data-toggle="dropdown"
@@ -284,26 +300,30 @@
                         class="dropdown-menu-right"
                         aria-labelledby="dropdownBrowserState"
                       >
-                        <div *ngIf="row.keypairStatus.keypairStatusId == 1">
-                          <a
-                            ngbDropdownItem
-                            class="d-flex align-items-center"
-                            (click)="openUploadCert(modalUploadCert, row)"
-                            ><i data-feather="file-text" class="mr-50"></i>
-                            Nhập</a
-                          >
-                        </div>
-                        <div *ngIf="row.keypairStatus.keypairStatusId == 3">
-                          <a
-                            href="javascript:void(0)"
-                            ngbDropdownItem
-                            class="d-flex align-items-center"
-                            ><i data-feather="edit" class="mr-50"></i> Xuất</a
-                          >
-                        </div>
+                        <a
+                          [routerLink]="[
+                            '/apps/tm/subscriber-certificate/',
+                            'subscriber-certificate-view',
+                            value.subscriberCertificateId
+                          ]"
+                          ngbDropdownItem
+                          class="d-flex align-items-center"
+                          ><i data-feather="file-text" class="mr-50"></i> Chi
+                          tiết</a
+                        >
+                        <a ngbDropdownItem class="d-flex align-items-center"
+                          ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                        >
+                        <a
+                          [href]="row.fileUrl"
+                          [download]="row.fileName"
+                          ngbDropdownItem
+                          class="d-flex align-items-center"
+                          ><i data-feather="download" class="mr-50"></i>Tải dữ
+                          liệu</a
+                        >
                       </div>
                     </div>
-
                     <i
                       data-feather="edit"
                       class="text-primary cursor-pointer"
