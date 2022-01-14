@@ -11,7 +11,7 @@
                 <div class="">
                   <div class="d-flex">
                     <div class="form-group col-md-6">
-                      <label for="UDUserName">Tên HSM</label>
+                      <label for="UDUserName">Tên kết nối HSM</label>
                       <input
                         type="text"
                         formControlName="hsmName"
@@ -87,6 +87,7 @@
                   <ngx-datatable
                     [rows]="rowsData"
                     class="bootstrap core-bootstrap cursor"
+                    [columnMode]="ColumnMode.force"
                     [headerHeight]="50"
                     rowHeight="auto"
                     [scrollbarH]="true"
@@ -161,19 +162,19 @@
                         let-rowIndex="rowIndex"
                       >
                         {{
-                          pagedData.currentPage * pagedData.size + rowIndex + 1
+                          rowIndex + 1
                         }}
                       </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column
                       name="Token ID"
                       prop="tokenId"
-                      [width]="130"
+                      [width]="100"
                     >test</ngx-datatable-column>
                     <ngx-datatable-column
                       name="Tên Token"
                       prop="tokenName"
-                      [width]="130"
+                      [width]="200"
                     ></ngx-datatable-column>
                     <ngx-datatable-footer>
                       <ng-template

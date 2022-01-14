@@ -99,10 +99,8 @@ export class TokenEditComponent implements OnInit {
       //  tokenPassword: this.tokenInfo.tokenName,
      });
      console.log(this.tokenForm.value)
-
-    
     this.contentHeader = {
-      headerTitle: 'Tạo Token',
+      headerTitle: 'Đổi tên Token',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
@@ -114,7 +112,7 @@ export class TokenEditComponent implements OnInit {
 
           },
           {
-            name: 'Sửa Token',
+            name: 'Đổi tên Token',
             isLink: false,
           }
         ]

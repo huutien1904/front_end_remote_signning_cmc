@@ -1,24 +1,24 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Keypair } from "app/main/models/Keypair";
-import { PagedData } from "app/main/models/PagedData";
-import { ResponseData } from "app/main/models/ResponseData";
-import { Observable } from "rxjs";
-import { environment } from "../../../../../environments/environment";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Keypair } from 'app/main/models/Keypair';
+import { PagedData } from 'app/main/models/PagedData';
+import { ResponseData } from 'app/main/models/ResponseData';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class KeypairService {
   constructor(private _httpClient: HttpClient) {}
 
   private readonly currentUser = JSON.parse(
-    localStorage.getItem("currentUser")
+    localStorage.getItem('currentUser')
   );
   private readonly token = this.currentUser.token;
   private option = {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + this.token,
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.token,
     },
   };
 
@@ -26,29 +26,45 @@ export class KeypairService {
     subscriberId: string,
     page: PagedData<Keypair>
   ): Observable<ResponseData<PagedData<Keypair>>> {
-    const param = new HttpParams({fromObject: {page: page.currentPage, size: page.size}});
+    const param = new HttpParams({
+      fromObject: { page: page.currentPage, size: page.size },
+    });
     const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + this.token,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.token,
       },
-      params:param
+      params: param,
     };
-    console.log("Keypair service");
-    
-    return this._httpClient.get<ResponseData<PagedData<Keypair>>>(`http://183.91.3.60:8080/csignremote-0.2/keypair/list/${subscriberId}`,option);
+    console.log('Keypair service');
+
+    return this._httpClient.get<ResponseData<PagedData<Keypair>>>(
+      `http://183.91.3.60:8080/csignremote-0.2/keypair/list/${subscriberId}`,
+      option
+    );
   }
-  getKeypairID(
-    id
-  ): Observable<any> {
+  getKeypairID(id): Observable<any> {
     const option = {
-      headers :{
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + this.token,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.token,
       },
     };
-    console.log("Keypair service");
-    
-    return this._httpClient.get<ResponseData<any>>(`http://183.91.3.60:8080/csignremote-0.3/keypair/${id}`,option);
+    console.log('Keypair service');
+
+    return this._httpClient.get<ResponseData<any>>(
+      `${environment.apiUrl}/keypair/${id}`,
+      option
+    );
+  }
+  createKeypair(body): Observable<any> {
+    const option = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.token,
+      },
+    };
+    console.log(option);
+    return this._httpClient.post<any>(`${environment.apiUrl}/keypair/create`,body, option);
   }
 }

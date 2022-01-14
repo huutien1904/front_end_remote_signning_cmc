@@ -79,7 +79,7 @@ export class HsmViewComponent implements OnInit {
             link: '/apps/equipment-management/hsm/hsm-list',
           },
           {
-            name: 'Chi tiết HSM',
+            name: 'Chi tiết kết nối HSM',
             isLink: false,
             // link: '/apps/equipment-management/new-hsm'
           },

@@ -99,11 +99,12 @@ export class TokenCreateComponent implements OnInit {
 
   }
   onSubmit() {
+    console.log("create")
     this.submitted = true;
     // stop here if form is invalid
-    if (this.tokenForm.invalid) {
-      return;
-    }
+    // if (this.tokenForm.invalid) {
+    //   return;
+    // }
     console.log(this.tokenForm.value);
     const newRequest = JSON.stringify({
       slotNumber: this.f.slotNumber.value,
