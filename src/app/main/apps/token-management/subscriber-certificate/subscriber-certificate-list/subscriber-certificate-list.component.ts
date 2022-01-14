@@ -104,6 +104,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
         this.isLoading = false;
       });
   }

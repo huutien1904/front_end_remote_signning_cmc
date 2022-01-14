@@ -119,7 +119,7 @@ export class KeypairListComponent implements OnInit {
     console.log(pageInfo);
     const body = {
       page: null,
-      size: null,
+      size: pageInfo.pageSize,
       sort: null,
       contains: null,
       fromDate: null,
@@ -181,8 +181,66 @@ export class KeypairListComponent implements OnInit {
   onSubmit() {
     console.log(this.formListPersonal);
   }
-  console(row){
-    console.log(row)
+  exportCSV(){
+    const body = {
+      page: 0,
+      size: 1000,
+      sort: null,
+      contains: null,
+      fromDate: null,
+      toDate: null,
+    };
+      this._keypairService
+      .getData(body)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+         console.log(pagedData)
+        if (!pagedData.data.data || !pagedData.data.data.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(pagedData.data.data[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          pagedData.data.data
+            .map((row) => {
+              return keys
+                .map((k) => {
+                  if (k !== 'createdAt') {
+
+                    console.log("Test")
+                  }
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff' + csvData], {
+          type: 'text/csv;charset=utf-8;',
+        });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh Sách Cặp Khóa');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
   }
   /**
    * On destroy
