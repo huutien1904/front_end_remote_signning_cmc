@@ -1088,4 +1088,7 @@ export class ProfileComponent implements OnInit {
       this.strProfile += attribute + ' = ' + value;
     }
   }
+  toggleSidebar() {
+    this.modal.dismissAll();
+  }
 }

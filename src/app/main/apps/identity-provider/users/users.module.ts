@@ -16,6 +16,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CreateSelfComponent } from './create-self/create-self.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SubscriberCertificateListComponent } from './subscriber-certificate-list/subscriber-certificate-list.component';
+import { CertificateRequestListComponent } from './certificate-request-list/certificate-request-list.component';
 
 
 
@@ -23,7 +25,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
 @NgModule({
   declarations: [
-    ProfileComponent,CreateSelfComponent,
+    ProfileComponent,CreateSelfComponent, SubscriberCertificateListComponent, CertificateRequestListComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     
   ],
   exports: [
-    ProfileComponent,CreateSelfComponent
+    ProfileComponent,CreateSelfComponent,SubscriberCertificateListComponent,CertificateRequestListComponent,
   ],
   providers : [
     
