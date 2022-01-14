@@ -92,8 +92,6 @@ export class KeypairListComponent implements OnInit {
       contains: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
-      gender: [],
-      birthday: [],
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
@@ -179,8 +177,21 @@ export class KeypairListComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formListPersonal);
+    console.log(this.formListPersonal.value);
+    this._keypairService.getData(JSON.stringify(this.formListPersonal.value))
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((pagedData)=>{
+      console.log(pagedData)
+      this.pagedData = pagedData.data;
+      this.rowsData = pagedData.data.data;
+      console.log(this.rowsData)
+      this.rowsData = pagedData.data.data.map(item => ({
+        ...item,
+      }))
+      this.isLoading=false;
+    })
   }
+  
   exportCSV(){
     const body = {
       page: 0,

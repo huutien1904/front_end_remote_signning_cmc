@@ -58,7 +58,7 @@ export class KeypairCreateComponent implements OnInit {
 
   ngOnInit() {
     this.contentHeader = {
-      headerTitle: 'Cặp khóa',
+      headerTitle: 'Tạo mới cặp khóa',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
