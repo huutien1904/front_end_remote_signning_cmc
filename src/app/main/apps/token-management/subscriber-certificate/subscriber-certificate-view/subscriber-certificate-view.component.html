@@ -1,3 +1,327 @@
-<p>
-  subscriber-certificate-view works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel1">Chi tiết chứng thư số - id: subscriber-01212</h4>
+</div>
+
+<div class="modal-body" tabindex="0" ngbAutofocus>
+  <section>
+
+      <!--    <core-card [actions]="['collapse']">-->
+      <!--      <h6 class="card-title"><b>Nội dung chứng thư số</b></h6>-->
+      <!--      <div class="card-body">-->
+      <!--        <form class="form form-horizontal">-->
+      <!--          <div class="col-12">-->
+      <!--            <p>{{createCertificateFile(data.certificate)}}</p>-->
+      <!--          </div>-->
+      <!--        </form>-->
+      <!--      </div>-->
+      <!--    </core-card>-->
+
+      <core-card [actions]="['collapse']">
+          <h6 class="card-title"><b>Thông tin người dùng</b></h6>
+          <div class="card-body">
+              <form class="form form-horizontal">
+
+
+                  <div class="row">
+                      <div class="col-sm-5">
+                          <label class="card-title">Id người dùng liên quan</label>
+                      </div>
+                      <div class="col-sm-7">
+                          <p><b>subscriber0303-01</b></p>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-sm-5">
+                          <label class="card-title">User Name</label>
+                      </div>
+                      <div class="col-sm-7">
+                          <p><b>tien1904</b></p>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-sm-5">
+                          <label class="card-title">Id yêu cầu chứng thực liên quan</label>
+                      </div>
+                      <div class="col-sm-7">
+                          <p><b>certificate_00002</b></p>
+                      </div>
+                  </div>
+
+
+              </form>
+          </div>
+      </core-card>
+
+
+      <!-- <core-card [actions]="['collapse']" *ngIf="isReadCert">
+          <h6 class="card-title"><b>Thông tin chứng thư số</b></h6>
+          <div class="card-body">
+              <form class="form form-horizontal">
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Version</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{dataFromNodeForge.version}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Serial number</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{dataFromNodeForge.serialNumber}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Signature algorithm</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{data.sigAlgName}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Signature hash algorithm</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{dataFromX509.signatureAlgorithm.hash.name}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Issuer</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{data.issuerDN}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">valid from</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{this.datepipe.transform(data.notBefore, ' hh:mm:ss dd/MM/yyyy')}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">valid to</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{this.datepipe.transform(data.notAfter, ' hh:mm:ss dd/MM/yyyy')}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Validity</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{data.validity}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Subject</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{data.subjectDN}}</b></p>
+                      </div>
+                  </div>
+
+                  <core-card [actions]="['collapse']">
+                      <h6 class="card-title">Public Key</h6>
+                      <div class="card-body">
+                          <form class="form form-horizontal">
+
+                              <div class=" row">
+                                  <div class="col-sm-5 ">
+                                      <label>Algorithm PublicKey</label>
+                                  </div>
+                                  <div class="col-sm-7 ">
+                                      <p><b>{{data.algorithm}}</b></p>
+                                  </div>
+                              </div>
+
+
+                              <div class=" row">
+                                  <div class="col-sm-5 ">
+                                      <label>Size PublicKey</label>
+                                  </div>
+                                  <div class="col-sm-7 ">
+                                      <p><b>{{data.sizeKey}}</b></p>
+                                  </div>
+                              </div>
+
+
+                              <div class=" row">
+                                  <div class="col-sm-5 ">
+                                      <label>Modulus</label>
+                                  </div>
+                                  <div class="col-sm-7 ">
+                                      <p><b>{{modulus}}</b></p>
+                                  </div>
+                              </div>
+
+                              <div class=" row">
+                                  <div class="col-sm-5 ">
+                                      <label>Exponent</label>
+                                  </div>
+                                  <div class="col-sm-7 ">
+                                      <p><b>{{this.dataFromNodeForge.publicKey.e}}</b></p>
+                                  </div>
+                              </div>
+
+                              <div class=" row">
+                                  <div class="col-sm-5 ">
+                                      <label>Publickey parameters</label>
+                                  </div>
+                                  <div class="col-sm-7 ">
+                                      <p><b>{{signatureParameters}}</b></p>
+                                  </div>
+                              </div>
+
+                          </form>
+                      </div>
+                  </core-card>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Authority key identifier</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{dataFromX509.extensions[1].keyId}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Enhanced Key Usage</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{extKeyUsage}}
+                          </b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Subject Key Identifier</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{dataFromX509.extensions[3].keyId}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Basic Constraints</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{basicConstraints}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title"> Key Usage</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{keyUsage}}</b>
+                          </p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Thumbprint</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{thumbprint}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Khuôn dạng</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{data.responseType}}</b></p>
+                      </div>
+                  </div>
+
+
+              </form>
+          </div>
+      </core-card>
+
+      <core-card [actions]="['collapse']">
+          <h6 class="card-title"><b>Thông tin thời gian tạo & cập nhập</b></h6>
+          <div class="card-body">
+              <form class="form form-horizontal">
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Thời gian tạo</label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{this.datepipe.transform(data.createdAt, ' hh:mm:ss dd/MM/yyyy')}}</b></p>
+                      </div>
+                  </div>
+
+
+                  <div class=" row">
+                      <div class="col-sm-5 ">
+                          <label class="card-title">Cập nhập </label>
+                      </div>
+                      <div class="col-sm-7 ">
+                          <p><b>{{this.datepipe.transform(data.updatedAt, ' hh:mm:ss dd/MM/yyyy')}}</b></p>
+                      </div>
+                  </div>
+
+
+              </form>
+          </div>
+      </core-card> -->
+
+  </section>
+
+</div>
+
+<!-- <div class="modal-footer" style="text-align: right;">
+  <button type="button" class="btn btn-secondary" (click)="toggleSidebar()" rippleEffect>
+      Thoát
+  </button>
+</div> -->
+
+
+
+

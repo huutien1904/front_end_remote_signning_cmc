@@ -31,11 +31,15 @@ export class CertificateRequestService {
   };
   constructor(
     private _httpClient: HttpClient,
-    
-  ) {}
 
-  public getListCertificateRequest(body):Observable<ResponseData<PagedData<CertificateRequest>>>{
+  ) { }
+
+  public getListCertificateRequest(body): Observable<ResponseData<PagedData<CertificateRequest>>> {
     return this._httpClient.post<ResponseData<PagedData<CertificateRequest>>>
-    (`${environment.apiUrl}/certificate-request/list`,body,this.option);
- }
+      (`${environment.apiUrl}/certificate-request/list`, body, this.option);
+  }
+  public getCertificateRequestById(id): Observable<ResponseData<PagedData<CertificateRequest>>> {
+    return this._httpClient.get<ResponseData<PagedData<CertificateRequest>>>
+      (`${environment.apiUrl}/certificate-request/${id}`, this.option);
+  }
 }

@@ -159,6 +159,7 @@
           [selected]="chkBoxSelected"
           (select)="customCheckboxOnSelect($event)"
           (select)="onSelect($event)"
+          (activate)="onActivate($event)"
           [selectionType]="SelectionType.checkbox"
           [columnMode]="ColumnMode.force"
           [headerHeight]="50"
@@ -180,6 +181,7 @@
             [draggable]="false"
             [resizeable]="false"
             class="ml-1"
+            name ="checkbox"
           >
             <ng-template
               ngx-datatable-header-template
@@ -261,8 +263,13 @@
             name="Hành động"
             [width]="100"
             [sortable]="false"
+            prop=""
           >
-            <ng-template ngx-datatable-cell-template let-row="row">
+            <ng-template 
+            ngx-datatable-cell-template
+             let-row="row"
+             let-value="value"
+             >
               <div class="d-flex align-items-center">
                 <div ngbDropdown container="body">
                   <a
@@ -283,13 +290,19 @@
                     class="dropdown-menu-right"
                     aria-labelledby="dropdownBrowserState"
                   >
-                    <a ngbDropdownItem class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Chi
-                      tiết</a
-                    >
-                    <a
+                    <a  
+                   
+                      [routerLink]="[
+                        '/apps/tm/certificate-request/',
+                        'certificate-request-view',
+                        value.certificateRequestId
+                      ]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
+                      ><i data-feather="file-text" class="mr-50"></i> Chi
+                      tiết </a
+                    >
+                    <a ngbDropdownItem class="d-flex align-items-center"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
                     <a

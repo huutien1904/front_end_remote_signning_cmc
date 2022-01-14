@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -51,7 +52,8 @@ const materialModules1234 = [
     CorePipesModule,
     CoreSidebarModule,
     MatProgressBarModule,
-    CoreDirectivesModule
+    CoreDirectivesModule,
+    RouterModule
   ],
   exports: [PersonalsComponent],
   providers: [

@@ -39,6 +39,7 @@ export class SubscriberCertificateListService {
 
     //dich tieng Viet
     let res: any[] = JSON.parse(forge.util.decodeUtf8(JSON.stringify(read)));
+    console.log(res)
     return res;
   }
   getListSubscriberCertificates(

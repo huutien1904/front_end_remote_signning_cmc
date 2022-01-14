@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
@@ -17,6 +18,7 @@ import { takeUntil } from "rxjs/operators";
 import * as XLSX from 'xlsx';
 import { PersonalService } from "../personal.service";
 import Swal from 'sweetalert2';
+import { AddressService } from "../../../address.service";
 
 type EXCEL = any[][];
 
@@ -54,6 +56,7 @@ export class PersonalListComponent implements OnInit {
   public openTable:boolean = true;
   public openTableUpdate:boolean = false;
   public contentHeader: object;
+  public dataExport:any
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
@@ -74,6 +77,8 @@ export class PersonalListComponent implements OnInit {
     private _router: Router,
     private dateAdapter: DateAdapter<any>,
     private _toastrService: ToastrService,
+    private _addressService: AddressService,
+
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -405,17 +410,7 @@ export class PersonalListComponent implements OnInit {
   
   
   exportCSV() {
-    // const body = {
-    //   page: [""],
-    //   size: "20",
-    //   sort: [["staffId,asc"]],
-    //   contains: ["", Validators.required],
-    //   gender: [null],
-    //   dateOfBirth: [""],
-    //   fromDate: [""],
-    //   toDate: [""],
-    // }
-    // console.log(this.formListPersonal.value)
+    
     this._personalService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -423,20 +418,73 @@ export class PersonalListComponent implements OnInit {
         this.totalItems = pagedData.data.totalItems;
         console.log(pagedData);
         console.log(pagedData.data.data);
-        if (!pagedData.data.data || !pagedData.data.data.length) {
+        this.dataExport = pagedData.data.data.map(async(personalList:any) => ({
+          ...personalList,
+          address: await this._addressService.getAddressById(personalList.address.addressId)
+                       .pipe(takeUntil(this._unsubscribeAll))
+                       .toPromise().then((res) =>{
+                        //  console.log(res)
+                         console.log(res.data.streetName)
+                        return "số nhà " +  res.data.houseNumber +"Đường " + res.data.streetName + "Xã " + res.data.communeName
+                        //  row[k] = res.data.districtName
+                       }),
+        birthPlace:this._addressService.getAddressById(personalList.address.addressId)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .toPromise().then((res) =>{
+         console.log(res)
+          console.log(res.data.streetName)
+        return "số nhà " +  res.data.houseNumber +"Đường " + res.data.streetName + "Xã " + res.data.communeName
+        //  row[k] = res.data.districtName
+        })
+        }));
+        console.log(this.dataExport)
+        if (!this.dataExport || !this.dataExport.length) {
           return;
         }
+        // console.log(this.dataExport)
         const separator = ',';
-        const keys = Object.keys(pagedData.data.data[0]);
+        const keys = Object.keys(this.dataExport[0]);
         const csvData =
           keys.join(separator) +
           '\n' +
-          pagedData.data.data
-            .map((row) => {
+          this.dataExport
+            .map((row:any) => {
               return keys
-                .map((k) => {
-                  console.log("k",k);
-                  let cell =
+                .map(( k) => {
+                  
+                  if(k == "address"){
+                    // row[k] = row[k].__zone_symbol__value
+                    console.log(row[k]);
+
+                    console.log(row[k].__zone_symbol__value);
+                     }
+                    //   let cell =
+                    //   row[k] === null || row[k] === undefined ? '' : row[k];
+                    // cell =
+                    //   cell instanceof Date
+                    //     ? cell.toLocaleString()
+                    //     : cell.toString().replace(/"/g, '""');
+                    // console.log("cell",cell);
+                    // if (cell.search(/("|,|\n)/g) >= 0) {
+                    //   cell = `"${cell}"`;
+                    // }
+                  // }
+                  // let cell ;
+                  // if(k != "address"){
+                  //   let cell =
+                  //     row[k] === null || row[k] === undefined ? '' : row[k];
+                  //   cell =
+                  //     cell instanceof Date
+                  //       ? cell.toLocaleString()
+                  //       : cell.toString().replace(/"/g, '""');
+                  //   console.log("cell",cell);
+                  //   if (cell.search(/("|,|\n)/g) >= 0) {
+                  //     cell = `"${cell}"`;
+                  //   }
+                  //   return cell; 
+
+                  // }
+                   let cell =
                       row[k] === null || row[k] === undefined ? '' : row[k];
                     cell =
                       cell instanceof Date
@@ -446,7 +494,7 @@ export class PersonalListComponent implements OnInit {
                     if (cell.search(/("|,|\n)/g) >= 0) {
                       cell = `"${cell}"`;
                     }
-                    return cell;
+                    return cell; 
                 })
                 .join(separator);
             })
@@ -466,56 +514,15 @@ export class PersonalListComponent implements OnInit {
         }
       });
   }
-  downloadFile(data, filename = 'data') {
-    let csvData = this.ConvertToCSV(data, [
-      'name',
-      'age',
-      'average',
-      'approved',
-      'description',
-      'tien',
-    ]);
-    console.log(csvData);
-    let blob = new Blob(['\ufeff' + csvData], {
-      type: 'text/csv;charset=utf-8;',
-    });
-    let dwldLink = document.createElement('a');
-    let url = URL.createObjectURL(blob);
-    let isSafariBrowser =
-      navigator.userAgent.indexOf('Safari') != -1 &&
-      navigator.userAgent.indexOf('Chrome') == -1;
-    if (isSafariBrowser) {
-      //if Safari open in new window to save file with random filename.
-      dwldLink.setAttribute('target', '_blank');
-    }
-    dwldLink.setAttribute('href', url);
-    dwldLink.setAttribute('download', filename + '.csv');
-    dwldLink.style.visibility = 'hidden';
-    document.body.appendChild(dwldLink);
-    dwldLink.click();
-    document.body.removeChild(dwldLink);
-  }
+ 
 
-  ConvertToCSV(objArray, headerList) {
-    let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    let str = '';
-    let row = 'S.No,';
-
-    for (let index in headerList) {
-      row += headerList[index] + ',';
-    }
-    row = row.slice(0, -1);
-    str += row + '\r\n';
-    for (let i = 0; i < array.length; i++) {
-      let line = i + 1 + '';
-      for (let index in headerList) {
-        let head = headerList[index];
-
-        line += ',' + array[i][head];
-      }
-      str += line + '\r\n';
-    }
-    return str;
+  
+  getAddressById(id){
+    this._addressService.getAddressById(id)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((res) =>{
+      return res
+    })
   }
   /**
    * On destroy

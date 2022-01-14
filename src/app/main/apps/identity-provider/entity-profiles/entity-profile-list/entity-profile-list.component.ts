@@ -51,6 +51,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   public selected = [];
   public ColumnMode = ColumnMode;
   public chkBoxSelected = [];
+  public dataExport :any
   constructor(
     private _coreConfigService: CoreConfigService,
     private fb: FormBuilder,
@@ -233,6 +234,71 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     }
     
     );
+  }
+  exportCSV(){
+    // console.log(this.formListHsm2.value);
+    this._entityProfileService
+      .getListProfiles(JSON.stringify(this.formListProfile.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData);
+        console.log(pagedData.data.data);
+        this.dataExport = pagedData.data.data.map((profileList) => ({
+          ...profileList,
+          distinguishedName: profileList.distinguishedName.map((d) => d.name),
+          alternativeName: profileList.alternativeName.map((d) => d.name),
+        }));
+        if (!this.dataExport || !this.dataExport.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(this.dataExport[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          this.dataExport
+            .map((row:any) => {
+              return keys
+                .map((k) => {
+                  console.log(k)
+                  console.log(row[k]);
+                  // if(k === "distinguishedName"){
+                  //   row[k] = row[k].distinguishedName
+                  //   console.log(row[k]);
+                  // }
+                  // if(k === "distinguishedName"){
+                  //   row[k] = row[k].distinguishedName
+                  // }
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh Sách Profile');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
   }
   // end remove list profile
   /**

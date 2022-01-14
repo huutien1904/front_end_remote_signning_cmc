@@ -14,6 +14,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
+import { CoreCardModule } from "@core/components/core-card/core-card.module";
 import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
 import { NgbCollapseModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -55,7 +56,8 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     MatProgressBarModule,
     FileUploadModule,
     ContentHeaderModule,
-    RouterModule
+    RouterModule,
+    CoreCardModule
   ],
   exports: [
     SubscriberCertificateCreateComponent,

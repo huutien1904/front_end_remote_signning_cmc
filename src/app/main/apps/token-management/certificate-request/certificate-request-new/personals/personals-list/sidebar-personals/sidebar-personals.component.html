@@ -8,8 +8,18 @@
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
   <form [formGroup]="newRequestForm" *ngIf="newRequestForm">
-    <h6 class="mb-1">1. Chọn Profile</h6>
-    <div class="row">
+    <h6 class="mb-1">1. Thông tin về thuê bao</h6>
+    <div class="row ml-50 ">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Subject DN của thuê bao</label>
+          <div class="card shadow-none bg-transparent border-primary ">
+            <div class="card-body p-2">
+              <p class="card-text">{{ strProfile }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-md-12">
         <div class="form-group">
           <label for="">Profile</label>
@@ -37,23 +47,12 @@
           </div>
         </div>
       </div>
-      
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="">Subject DN của thuê bao</label>
-          <div class="card shadow-none bg-transparent border-primary ">
-            <div class="card-body p-2">
-              <p class="card-text">{{ strProfile }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    <h6 class="mb-1">2. Tạo cặp khóa</h6>
-    <div class="row">
+    <h6 class="mb-1">2. Thông tin về cặp khóa</h6>
+    <div class="row ml-50">
       <div class="col-md-6">
         <div class="form-group">
-          <label>HSM</label>
+          <label>Kết nối HSM</label>
           <ng-select
             [items]="hsmList"
             bindLabel="hsmName"
@@ -119,7 +118,7 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label>Alias</label>
+          <label>Tên cặp khóa (alias)</label>
           <input
             type="text"
             formControlName="alias"
