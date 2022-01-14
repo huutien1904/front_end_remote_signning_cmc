@@ -38,7 +38,7 @@ const appRoutes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/apps/dashboard",
+    redirectTo: "/apps/ip/users/profile",
     pathMatch: "full",
   },
   {
