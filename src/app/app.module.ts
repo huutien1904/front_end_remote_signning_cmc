@@ -30,6 +30,7 @@ import { SpinnerComponent } from './main/loading/spinner/spinner.component';
 import { LoadingService } from "./main/loading/loading.service";
 import { LoadingInterceptor } from "./main/loading/loading.interceptor";
 import { OverlayModule } from "@angular/cdk/overlay";
+import { DatePipe } from "@angular/common";
 
 const appRoutes: Routes = [
   {
@@ -87,7 +88,8 @@ const appRoutes: Routes = [
     // App modules
     LayoutModule,
     OverlayModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    // DatePipe
   ],
   providers: [
     

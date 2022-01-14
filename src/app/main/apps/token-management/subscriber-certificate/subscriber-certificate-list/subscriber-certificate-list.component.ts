@@ -134,7 +134,9 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log(this.formListSubscriberCertificate.value);
     console.log(this.formListSubscriberCertificate.get('toDate').value);
   }
-
+  downloadOne(row){
+    console.log(row)
+  }
   /**
    * Custom Checkbox On Select
    *

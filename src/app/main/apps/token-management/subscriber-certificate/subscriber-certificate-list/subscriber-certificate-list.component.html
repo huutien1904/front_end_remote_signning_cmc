@@ -315,8 +315,8 @@
                           ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                         >
                         <a
-                          [href]="row.fileUrl"
-                          [download]="row.fileName"
+                        href="javascript:void(0)"
+                          (click)="downloadOne(row)"
                           ngbDropdownItem
                           class="d-flex align-items-center"
                           ><i data-feather="download" class="mr-50"></i>Tải dữ
