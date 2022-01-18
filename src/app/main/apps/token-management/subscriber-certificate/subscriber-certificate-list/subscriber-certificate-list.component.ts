@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import {
   NgbDateParserFormatter
@@ -47,7 +48,8 @@ export class SubscriberCertificateListComponent implements OnInit {
     private fb: FormBuilder,
     public formatter: NgbDateParserFormatter,
     public _subscriberCertificateService: SubscriberCertificateListService,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private _router: Router,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -156,5 +158,12 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log('Select Event', selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+  }
+  onActivate(event) {
+    console.log(event);
+    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+      this._router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-view', event.row.subscriberCertificateId]);
+      
+    }
   }
 }

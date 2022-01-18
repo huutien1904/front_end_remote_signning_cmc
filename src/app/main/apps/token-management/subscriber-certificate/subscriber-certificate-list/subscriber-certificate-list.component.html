@@ -170,6 +170,7 @@
               [selected]="chkBoxSelected"
               (select)="customCheckboxOnSelect($event)"
               (select)="onSelect($event)"
+              (activate)="onActivate($event)"
               [selectionType]="SelectionType.checkbox"
               [columnMode]="ColumnMode.force"
               [headerHeight]="50"
@@ -191,6 +192,7 @@
                 [draggable]="false"
                 [resizeable]="false"
                 class="ml-1"
+                name = "checkbox"
               >
                 <ng-template
                   ngx-datatable-header-template
@@ -272,7 +274,6 @@
                 [width]="100"
                 [sortable]="false"
                 prop=""
-
               >
                 <ng-template
                   ngx-datatable-cell-template
@@ -315,7 +316,7 @@
                           ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                         >
                         <a
-                        href="javascript:void(0)"
+                          href="javascript:void(0)"
                           (click)="downloadOne(row)"
                           ngbDropdownItem
                           class="d-flex align-items-center"
