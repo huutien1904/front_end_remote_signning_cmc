@@ -1,85 +1,84 @@
 <div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"> </app-content-header>
     <div class="content-body">
-      <app-content-header [contentHeader]="contentHeader"> </app-content-header>
-      <div class="content-body">
-        <section>
-          <div class="card">
-            <div class="card-body">
-              <h3>Chi tiết cặp khóa</h3>
-              <form [formGroup]="keypairFormView" class="form form-horizontal">
-                <div class="form_content">
-                  <div class="">
-                    <div class="d-flex">
-                      <div class="form-group col-md-6">
-                        <label for="UDUserName">Hệ mật</label>
-                        <input
-                          type="text"
-                          formControlName="cryptoSystem"
-                          class="form-control"
-                          readonly
-                        />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="UDUserName">Alias</label>
-                        <input
-                          type="text"
-                          formControlName="keypairAlias"
-                          class="form-control"
-                          readonly
-                        />
-                      </div>
+      <section>
+        <div class="card">
+          <div class="card-body">
+            <h3>Chi tiết cặp khóa</h3>
+            <form [formGroup]="keypairFormView" class="form form-horizontal">
+              <div class="form_content">
+                <div class="">
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Hệ mật</label>
+                      <input
+                        type="text"
+                        formControlName="cryptoSystem"
+                        class="form-control"
+                        readonly
+                      />
                     </div>
-                    <div class="d-flex">
-                      <div class="form-group col-md-6">
-                        <label for="UDUserName">Trạng thái</label>
-                        <input
-                          type="text"
-                          formControlName="keypairStatusName"
-                          class="form-control"
-                          readonly
-                        />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label>Độ dài khóa</label>
-                        <input
-                          type="text"
-                          formControlName="keypairLength"
-                          class="form-control"
-                          readonly
-                        />
-                      </div>
-                    </div>
-                    <div class="d-flex">
-                      <div class="form-group col-md-12">
-                        <label>Vị trí lưu khóa</label>
-                        <input
-                          type="text"
-                          formControlName="keypairPath"
-                          class="form-control"
-                          readonly
-                        />
-                      </div>
+                    <div class="form-group col-md-6">
+                      <label>Tham số khóa</label>
+                      <input
+                        type="text"
+                        formControlName="keypairLength"
+                        class="form-control"
+                        readonly
+                      />
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6 offset-6">
-                      <div class="d-flex justify-content-md-end m-1">
-                        <button
-                          (click)="exit()"
-                          rippleEffect
-                          class="btn btn-outline-primary"
-                        >
-                          Quay Lại
-                        </button>
-                      </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Alias</label>
+                      <input
+                        type="text"
+                        formControlName="keypairAlias"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Trạng thái</label>
+                      <input
+                        type="text"
+                        formControlName="keypairStatusName"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-12">
+                      <label>Vị trí lưu khóa</label>
+                      <input
+                        type="text"
+                        formControlName="keypairPath"
+                        class="form-control"
+                        readonly
+                      />
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+                <div class="row">
+                  <div class="col-md-6 offset-6">
+                    <div class="d-flex justify-content-md-end m-1">
+                      <button
+                        (click)="exit()"
+                        rippleEffect
+                        class="btn btn-outline-primary"
+                      >
+                        Quay Lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </div>
-  
+</div>
