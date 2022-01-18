@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { AuthenticationService } from 'app/auth/service';
@@ -8,6 +9,7 @@ import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { Hsm, Token } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
 import { Personal } from 'app/main/models/Personal';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddressService } from '../../address.service';
@@ -32,7 +34,10 @@ export class CertificateRequestListComponent implements OnInit {
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public totalItems: any = 0;
   public hsmList = new Array<Hsm>();
+  public submitted = false;
   public tokenList: Token[];
+  public fileUrl;
+  public fileName;
   public cryptoAlgorithm = [
     {
       cryptoSystem: 'RSA',
@@ -56,6 +61,7 @@ export class CertificateRequestListComponent implements OnInit {
     "fromDate": "",
     "toDate": ""
   }
+  @ViewChild('modalLink') modalLink;
 
   get f() {
     return this.newRequestForm.controls;
@@ -73,6 +79,8 @@ export class CertificateRequestListComponent implements OnInit {
     private _authenticationService: AuthenticationService,
     private _entityProfileService: EntityProfileService,
     private _addressService: AddressService,
+    private toastr: ToastrService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   async ngOnInit() {
@@ -220,6 +228,69 @@ export class CertificateRequestListComponent implements OnInit {
         }));
     }
   }
+  async onSubmit() {
+    this.submitted = true;
+    if (this.newRequestForm.invalid) {
+      return;
+    }
+
+    const newRequest = JSON.stringify({
+      cryptoAlgorithm: [this.newRequestForm
+        .get('cryptoAlgorithm')
+        .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+          .get('cryptoAlgorithm')
+          .get('keypairLength').value],
+      alias: this.f.alias.value,
+      tokenId: this.f.tokenId.value.tokenId,
+      templateKeyId: '1',
+      userId: this.f.userId.value,
+    });
+    console.log(newRequest);
+    let keypairId = await this._usersService.createKeypair(newRequest).toPromise().then(res => {
+      return res.data.keypairId;
+    }
+    );
+    if (keypairId == null) {
+      return;
+    }
+    this._usersService.createCertificateRequest(JSON.stringify({ keypairId: keypairId })).subscribe((res: any) => {
+      console.log(res);
+      if ((res.result = true)) {
+        this.toggleSidebar();
+        this.toastr.success(
+          '👋 Bạn đã tạo yêu cầu chứng thực mới',
+          'Thành công',
+          {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          }
+        );
+        this.downloadSidebar(res);
+      }
+    });
+  }
+  downloadSidebar(res) {
+    this.modal.open(this.modalLink);
+    const data = res.data.certificateRequestContent;
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+    // this.fileName = res.data.certificateRequestId + '.csr';
+    this.fileName = res.data.keypairAlias + '.csr';
+  }
+  downloadSidebarCert(row) {
+    const data = row.certificateRequest;
+    // console.log(data)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+    row.fileName = row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
+    console.log(row);
+  }
+  
   
   async changeProfile() {
     const profile: any[] = this.f.profile.value.subjectDNA;

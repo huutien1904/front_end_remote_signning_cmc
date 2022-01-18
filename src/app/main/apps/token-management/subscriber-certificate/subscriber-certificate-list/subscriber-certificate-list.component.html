@@ -13,7 +13,7 @@
                 [formGroup]="formListSubscriberCertificate"
               >
                 <div class="row pb-1">
-                  <div class="col-md-4">
+                  <div class="col-md-4 mt-1">
                     <input
                       name="contains"
                       id="contains"
@@ -23,17 +23,21 @@
                       placeholder="Một phần DN"
                     />
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-3 col-md-2 mt-1">
                     <button
                       type="button"
                       class="btn btn-secondary btn-outline-secondary col-12"
                       (click)="moreOption = !moreOption"
                       rippleEffect
                     >
-                      Tùy chọn
+                      <i
+                        data-feather="plus"
+                        class="d-sm-none d-inline-block"
+                      ></i>
+                      <span class="d-none d-sm-inline-block">Tùy chọn</span>
                     </button>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-6 col-md-2 mt-1">
                     <button
                       type="button"
                       rippleEffect
@@ -147,18 +151,22 @@
                 </a>
 
                 <button class="btn btn-outline-secondary ml-50" rippleEffect>
+                  <i
+                    data-feather="download"
+                    class="d-sm-none d-inline-block"
+                  ></i>
                   <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
                 </button>
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
                 >
+                  <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
                   <span class="d-none d-sm-inline-block"
                     >Xuất danh sách chứng thư số
                   </span>
                 </button>
               </div>
-            
             </div>
             <mat-progress-bar
               *ngIf="isLoading"
@@ -273,7 +281,6 @@
                 [width]="100"
                 [sortable]="false"
                 prop=""
-
               >
                 <ng-template
                   ngx-datatable-cell-template
