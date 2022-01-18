@@ -192,7 +192,7 @@
                 [draggable]="false"
                 [resizeable]="false"
                 class="ml-1"
-                name = "checkbox"
+                name="checkbox"
               >
                 <ng-template
                   ngx-datatable-header-template
@@ -316,12 +316,13 @@
                           ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                         >
                         <a
-                          href="javascript:void(0)"
+                          [href]="row.fileUrl"
                           (click)="downloadOne(row)"
+                          [download]="row.fileName"
                           ngbDropdownItem
                           class="d-flex align-items-center"
                           ><i data-feather="download" class="mr-50"></i>Tải dữ
-                          liệu</a
+                          liệu </a
                         >
                       </div>
                     </div>
