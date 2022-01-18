@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import { SubscriberCertificateService } from '../subscriber-certificate.service';
 import * as x509 from "@peculiar/x509";
 import * as forge from 'node-forge';
-import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-subscriber-certificate-view',
@@ -41,7 +40,6 @@ export class SubscriberCertificateViewComponent implements OnInit {
   // private
   private _unsubscribeAll: Subject<any>;
   constructor(
-    public datepipe: DatePipe,
     private router: Router,
     private route: ActivatedRoute,
     private _subscriberCertificateService:SubscriberCertificateService,

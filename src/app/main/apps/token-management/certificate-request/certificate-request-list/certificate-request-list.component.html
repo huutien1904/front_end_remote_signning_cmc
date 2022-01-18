@@ -139,17 +139,21 @@
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
-            <button class="btn btn-outline-secondary ml-50" rippleEffect>
-              <i data-feather="download" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">Tải về</span>
-            </button>
-            <button
+            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.txt">
+              <button
+                class="btn btn-outline-secondary ml-50"
+                (click)="downloadList()"
+                rippleEffect
+              >
+                <span class="d-none d-sm-inline-block">Tải về</span>
+              </button>
+            </a>
+            <a
+              csvLink
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
+              >Xuất danh sách</a
             >
-              <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">Xuất danh sách </span>
-            </button>
           </div>
         </div>
         <mat-progress-bar
@@ -244,23 +248,56 @@
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
+            name="MÃ YÊU CẦU"
+            prop="certificateRequestId"
+            [width]="100"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
             name="TRẠNG THÁI"
             prop="certificateRequestStatus"
             [width]="100"
           ></ngx-datatable-column>
           <ngx-datatable-column
-            name="Keypair Alias"
-            prop="keypairAlias"
+            name="Subject DN"
             [width]="200"
-          ></ngx-datatable-column>
+            cellClass="myClass"
+          >
+            <ng-template
+              ngx-datatable-cell-template
+              let-row="row"
+              let-rowIndex="rowIndex"
+            >
+              {{ row.subjectDN }}
+            </ng-template>
+          </ngx-datatable-column>
           <ngx-datatable-column
-            name="Doanh nghiệp"
-            prop="organizationName"
+            name="HỆ MẬT"
             [width]="150"
-          ></ngx-datatable-column>
+          >
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            {{ row.algorithmPublickey }}
+            <!-- {{
+              row.algorithmPublicKey.includes("RSA")
+                ? "RSA"
+                : row.algorithmPublicKey.includes(
+                    "ECDSA"
+                  )
+                ? "ECDSA"
+                : row.algorithmPublicKey.includes(
+                    "DSA"
+                  )
+                ? "DSA"
+                : row.algorithmPublicKey.includes(
+                    "Ed25519"
+                  )
+                ? "Ed25519"
+                : "Ed448"
+            }} -->
+          </ng-template>
+          </ngx-datatable-column>
           <ngx-datatable-column
-            name="Common name"
-            prop="subscribeName"
+            name="THAM SỐ KHÓA"
+            prop="sizePublicKey"
             [width]="160"
           ></ngx-datatable-column>
           <ngx-datatable-column
@@ -368,10 +405,14 @@
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
-            <button class="btn btn-outline-secondary ml-50" rippleEffect>
-              <i data-feather="download" class="d-sm-none d-inline-block"></i>
+            <button
+              class="btn btn-outline-secondary ml-50"
+              rippleEffect
+              (click)="downloadList()"
+            >
               <span class="d-none d-sm-inline-block">Tải về</span>
             </button>
+
             <button
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect

@@ -105,12 +105,10 @@
             </div>
             <div class="col-sm-7">
               <p>
-                <b>{{
-                  datepipe.transform(
-                    dataFromX509.notBefore,
-                    ' hh:mm:ss dd/MM/yyyy'
-                  )
-                }}</b>
+                <b>
+                  
+                {{ dataFromX509.notBefore | date: 'dd/MM/YYYY' }}
+              </b>
               </p>
             </div>
           </div>
@@ -122,12 +120,9 @@
 
             <div class="col-sm-7">
               <p>
-                <b>{{
-                  this.datepipe.transform(
-                    dataFromX509.notAfter,
-                    ' hh:mm:ss dd/MM/yyyy'
-                  )
-                }}</b>
+                <b>
+                {{ dataFromX509.notAfter | date: 'dd/MM/YYYY' }}
+              </b>
               </p>
             </div>
           </div>
@@ -304,9 +299,9 @@
             </div>
             <div class="col-sm-7">
               <p>
-                <b>{{
-                  this.datepipe.transform(createdAt, ' hh:mm:ss dd/MM/yyyy')
-                }}</b>
+                <b>
+                {{ createdAt | date: 'dd/MM/YYYY' }}
+                </b>
               </p>
             </div>
           </div>
@@ -317,9 +312,9 @@
             </div>
             <div class="col-sm-7">
               <p>
-                <b>{{
-                  this.datepipe.transform(updatedAt, ' hh:mm:ss dd/MM/yyyy')
-                }}</b>
+                <b>
+                {{ updatedAt | date: 'dd/MM/YYYY' }}
+                </b>
               </p>
             </div>
           </div>

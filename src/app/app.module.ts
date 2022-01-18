@@ -22,6 +22,8 @@ import { LayoutModule } from "app/layout/layout.module";
 import "hammerjs";
 import { ToastrModule } from "ngx-toastr"; // For auth after login toast
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
+import { LoadingService } from "./main/loading/loading.service";
+import { LoadingInterceptor } from "./main/loading/loading.interceptor";
 
 const appRoutes: Routes = [
   {
