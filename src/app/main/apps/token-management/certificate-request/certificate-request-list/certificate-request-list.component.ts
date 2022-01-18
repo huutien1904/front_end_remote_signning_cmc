@@ -14,6 +14,8 @@ import { PagedData } from 'app/main/models/PagedData';
 import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import * as x509 from "@peculiar/x509";
+
 @Component({
   selector: 'app-certificate-request-list',
   templateUrl: './certificate-request-list.component.html',
@@ -39,7 +41,8 @@ export class CertificateRequestListComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public contentHeader: object;
-
+  public listFileUrl;
+  public results: any[]
   constructor(
     private fb: FormBuilder,
     private _listCerReqService: CertificateRequestListService,
@@ -95,6 +98,15 @@ export class CertificateRequestListComponent implements OnInit {
       toDate: [null],
     });
     
+    this.results = [{
+      algorithmSignature: "",
+      sizeKeys: "",
+      subjectDN: "",
+      algorithmPublicKey: "",
+      sizePublicKey: "",
+      modulus: "",
+      exponent: ""
+  }]
     this.setPage({ offset: 0, pageSize: this.formListCertificateRequest.get('size').value });
     console.log(this.rowsData);
   }
@@ -113,9 +125,6 @@ export class CertificateRequestListComponent implements OnInit {
 
     return info.find((obj) => obj.name === 'commonName').value;
   }
-
-
-
   setPage(pageInfo) {
     this.isLoading = true;
     this.formListCertificateRequest.patchValue({ page: pageInfo.offset });
@@ -123,12 +132,16 @@ export class CertificateRequestListComponent implements OnInit {
       .getListCertificateRequests(JSON.stringify(this.formListCertificateRequest.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData)
+        
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
+          subjectDN:this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
+          algorithmPublickey:this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey,
+          sizePublicKey:this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
           organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item),
         }));
@@ -147,16 +160,24 @@ export class CertificateRequestListComponent implements OnInit {
     row.fileName = row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
     console.log(row);
   }
-  // downloadSidebar(res) {
-  //   this.modal.open(this.modalLink);
-  //   const data = res.data.certificateRequestContent;
-  //   const blob = new Blob([data], { type: 'application/octet-stream' });
-  //   this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-  //     window.URL.createObjectURL(blob)
-  //   );
-  //   // this.fileName = res.data.certificateRequestId + '.csr';
-  //   this.fileName = res.data.keypairAlias + '.csr';
-  // }
+  downloadList(){
+    console.log(this.selected)
+    // const data = this.selected.map()
+    var data = ""
+    this.selected.map((item) =>{
+      // console.log(item.certificateRequestContent)
+      return data += item.certificateRequestContent
+
+    })
+    console.log(data)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+  }
+  exportCSV(){
+    console.log("tien");
+  }
 
   /**
    * Custom Checkbox On Select
@@ -184,7 +205,50 @@ export class CertificateRequestListComponent implements OnInit {
       
     }
   }
+  getCSRFileInformation(csrString) {
+    console.log(csrString)
+    csrString = csrString.replace("NEW ", "").replace("NEW ", "")
+    var forge = require('node-forge');
+    var csr = forge.pki.certificationRequestFromPem(csrString);
+    const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+    var pki = forge.pki;
+    this.results[0].subjectDN = csr2.subject
+    this.results[0].sizePublicKey = csr.publicKey.n.bitLength()
+    this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name
+    this.results[0].exponent = csr.publicKey.e.data
+    this.results[0].algorithmSignature = pki.oids[csr.siginfo.algorithmOid]
+    // try {
+    //   var email = csr.subject.getField('E').value
+    //   // console.log(email)
+    //   this.selectIdUserFirst(email)
+    // } catch (error) {
+    //   try {
+    //     var cn = csr.subject.getField('CN').value;
+    //     // console.log(cn)
+    //     this.selectIdUserByCN(cn)
+    //   } catch (error) {
+    //   }
+    // }
 
+    var modulus = ""
+    for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
+
+      var hex = (csr.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
+      if (hex.length < 2) {
+        hex = "0" + hex
+      }
+      if (modulus == "") {
+        modulus = hex
+        // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
+      } else {
+        modulus = modulus + ":" + hex
+        // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
+      }
+    }
+    console.log(this.results[0])
+    return this.results[0]
+    this.results[0].modulus = modulus
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

@@ -28,7 +28,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   public SelectionType = SelectionType;
   public chkBoxSelected = [];
   public selected = [];
-
+  public listFileUrl
   //Public Properties
   formListSubscriberCertificate: FormGroup;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
@@ -150,6 +150,21 @@ export class SubscriberCertificateListComponent implements OnInit {
     row.fileName = row.keypairAlias + 'requestId' + row.subscriberCertificateId + '.csr';
     // console.log(row);
   }
+  downloadList(){
+    console.log(this.selected)
+    // const data = this.selected.map()
+    var data = ""
+    this.selected.map((item) =>{
+      // console.log(item.certificateRequestContent)
+      return data += "requestId : " + item.subscriberCertificateId +'\n'+  item.certificateContent + '\n' 
+
+    })
+    console.log(data)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+  }
   /**
    * Custom Checkbox On Select
    *
@@ -175,5 +190,9 @@ export class SubscriberCertificateListComponent implements OnInit {
       this._router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-view', event.row.subscriberCertificateId]);
       
     }
+  }
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }

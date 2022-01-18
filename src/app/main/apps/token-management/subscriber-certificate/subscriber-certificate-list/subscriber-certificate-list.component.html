@@ -145,10 +145,11 @@
                     Nhập chứng thư số
                   </button>
                 </a>
-
-                <button class="btn btn-outline-secondary ml-50" rippleEffect>
-                  <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
-                </button>
+                <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
+                  <button class="btn btn-outline-secondary ml-50" rippleEffect (click) = "downloadList()">
+                    <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
+                  </button>
+                </a>
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
