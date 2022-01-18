@@ -160,7 +160,7 @@
         ></mat-progress-bar>
         <ngx-datatable
           #tableRowDetails
-          class="bootstrap core-bootstrap cursor"
+          class="bootstrap core-bootstrap cursor material"
           [rows]="rowsData"
           [selected]="chkBoxSelected"
           (select)="customCheckboxOnSelect($event)"
@@ -248,16 +248,16 @@
           <ngx-datatable-column
             name="MÃ YÊU CẦU"
             prop="certificateRequestId"
-            [width]="100"
+            [width]="30"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="TRẠNG THÁI"
             prop="certificateRequestStatus"
-            [width]="100"
+            [width]="30"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Subject DN"
-            [width]="200"
+            [width]="600"
             cellClass="myClass"
           >
             <ng-template
@@ -269,8 +269,8 @@
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
-            name="HỆ MẬT"
-            [width]="150"
+            name="KHÓA CÔNG KHAI"
+            [width]="140"
           >
           <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
             {{ row.algorithmPublickey }}
@@ -293,14 +293,10 @@
             }} -->
           </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column
-            name="THAM SỐ KHÓA"
-            prop="sizePublicKey"
-            [width]="160"
-          ></ngx-datatable-column>
+          
           <ngx-datatable-column
             name="Hành động"
-            [width]="100"
+            [width]="60"
             [sortable]="false"
             prop=""
           >

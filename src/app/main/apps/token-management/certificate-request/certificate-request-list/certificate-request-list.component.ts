@@ -140,8 +140,7 @@ export class CertificateRequestListComponent implements OnInit {
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
           subjectDN:this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
-          algorithmPublickey:this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey,
-          sizePublicKey:this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
+          algorithmPublickey:this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey + "," + this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey ,
           organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item),
         }));
