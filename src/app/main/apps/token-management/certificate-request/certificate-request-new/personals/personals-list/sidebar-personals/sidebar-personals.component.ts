@@ -197,12 +197,15 @@ export class SidebarPersonalsComponent implements OnInit {
   downloadSidebar(res) {
     this.modal.open(this.modalLink);
     const data = res.data.certificateRequestContent;
+    console.log(data)
     const blob = new Blob([data], { type: 'application/octet-stream' });
+    console.log(blob)
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
     // this.fileName = res.data.certificateRequestId + '.csr';
     this.fileName = res.data.keypairAlias + '.csr';
+    console.log(this.fileName)
   }
   changeCrypto() {
     this.keypairLengthList = this.newRequestForm

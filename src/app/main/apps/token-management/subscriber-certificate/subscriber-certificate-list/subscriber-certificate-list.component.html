@@ -171,6 +171,7 @@
               [selected]="chkBoxSelected"
               (select)="customCheckboxOnSelect($event)"
               (select)="onSelect($event)"
+              (activate)="onActivate($event)"
               [selectionType]="SelectionType.checkbox"
               [columnMode]="ColumnMode.force"
               [headerHeight]="50"
@@ -192,6 +193,7 @@
                 [draggable]="false"
                 [resizeable]="false"
                 class="ml-1"
+                name="checkbox"
               >
                 <ng-template
                   ngx-datatable-header-template
@@ -273,7 +275,6 @@
                 [width]="100"
                 [sortable]="false"
                 prop=""
-
               >
                 <ng-template
                   ngx-datatable-cell-template
@@ -317,11 +318,12 @@
                         >
                         <a
                           [href]="row.fileUrl"
+                          (click)="downloadOne(row)"
                           [download]="row.fileName"
                           ngbDropdownItem
                           class="d-flex align-items-center"
                           ><i data-feather="download" class="mr-50"></i>Tải dữ
-                          liệu</a
+                          liệu </a
                         >
                       </div>
                     </div>

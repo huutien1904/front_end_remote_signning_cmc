@@ -23,7 +23,6 @@ import "hammerjs";
 import { ToastrModule } from "ngx-toastr"; // For auth after login toast
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
 
-
 const appRoutes: Routes = [
   {
     path: "pages",

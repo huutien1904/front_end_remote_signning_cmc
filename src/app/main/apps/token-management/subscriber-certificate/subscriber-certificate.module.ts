@@ -57,7 +57,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     FileUploadModule,
     ContentHeaderModule,
     RouterModule,
-    CoreCardModule
+    CoreCardModule,
   ],
   exports: [
     SubscriberCertificateCreateComponent,
@@ -68,6 +68,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
   providers: [
     SubscriberCertificateListService,
     PersonalService,
+    DatePipe,
     KeypairService,
     {
       provide: DateAdapter,
