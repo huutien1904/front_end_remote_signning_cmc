@@ -10,7 +10,7 @@
             [formGroup]="formListCertificateRequest"
           >
             <div class="row mb-1">
-              <div class="col-md-4">
+              <div class="col-md-4 mt-1">
                 <input
                   name="contains"
                   id="contains"
@@ -20,17 +20,18 @@
                   placeholder="Một phần tên, email, alias"
                 />
               </div>
-              <div class="col-md-2">
+              <div class="col-3 col-md-2 mt-1">
                 <button
                   type="button"
                   class="btn btn-secondary btn-outline-secondary col-12"
                   (click)="moreOption = !moreOption"
                   rippleEffect
                 >
-                  Tùy chọn
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                  <span class="d-none d-sm-inline-block">Tùy chọn</span>
                 </button>
               </div>
-              <div class="col-md-2">
+              <div class="col-6 col-md-2 mt-1">
                 <button
                   type="button"
                   rippleEffect
@@ -124,7 +125,7 @@
           <h4 class="card-title">Danh sách yêu cầu chứng thực</h4>
         </div>
         <div class="row">
-          <div class="col-md-12 mb-1">
+          <div class="col-12 col-md-12 mb-1">
             <a
               [routerLink]="[
                 '/apps/tm/certificate-request/certificate-request-new'
@@ -135,15 +136,18 @@
               </button>
             </a>
             <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
             <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Tải về</span>
             </button>
             <button
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
             >
+              <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xuất danh sách </span>
             </button>
           </div>
@@ -181,7 +185,7 @@
             [draggable]="false"
             [resizeable]="false"
             class="ml-1"
-            name ="checkbox"
+            name="checkbox"
           >
             <ng-template
               ngx-datatable-header-template
@@ -265,11 +269,11 @@
             [sortable]="false"
             prop=""
           >
-            <ng-template 
-            ngx-datatable-cell-template
-             let-row="row"
-             let-value="value"
-             >
+            <ng-template
+              ngx-datatable-cell-template
+              let-row="row"
+              let-value="value"
+            >
               <div class="d-flex align-items-center">
                 <div ngbDropdown container="body">
                   <a
@@ -290,8 +294,7 @@
                     class="dropdown-menu-right"
                     aria-labelledby="dropdownBrowserState"
                   >
-                    <a  
-                   
+                    <a
                       [routerLink]="[
                         '/apps/tm/certificate-request/',
                         'certificate-request-view',
@@ -299,9 +302,8 @@
                       ]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Chi
-                      tiết </a
-                    >
+                      ><i data-feather="file-text" class="mr-50"></i> Chi tiết
+                    </a>
                     <a ngbDropdownItem class="d-flex align-items-center"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
@@ -363,15 +365,18 @@
               </button>
             </a>
             <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
             <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Tải về</span>
             </button>
             <button
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
             >
+              <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xuất danh sách </span>
             </button>
           </div>
