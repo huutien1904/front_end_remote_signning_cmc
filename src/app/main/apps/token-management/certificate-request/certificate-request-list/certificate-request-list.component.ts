@@ -43,6 +43,7 @@ export class CertificateRequestListComponent implements OnInit {
   public contentHeader: object;
   public listFileUrl;
   public results: any[]
+  public dataExport: any
   constructor(
     private fb: FormBuilder,
     private _listCerReqService: CertificateRequestListService,
@@ -79,12 +80,12 @@ export class CertificateRequestListComponent implements OnInit {
     this.formListCertificateRequest = this.fb.group({
       page: [null],
       size: [this.sizePage[3]],
-      sort : [null],
+      sort: [null],
       contains: [null],
       fromDate: [null],
       toDate: [null],
     });
-    
+
     this.results = [{
       algorithmSignature: "",
       sizeKeys: "",
@@ -93,7 +94,7 @@ export class CertificateRequestListComponent implements OnInit {
       sizePublicKey: "",
       modulus: "",
       exponent: ""
-  }]
+    }]
     this.setPage({ offset: 0, pageSize: this.formListCertificateRequest.get('size').value });
     console.log(this.rowsData);
   }
@@ -119,16 +120,32 @@ export class CertificateRequestListComponent implements OnInit {
       .getListCertificateRequests(JSON.stringify(this.formListCertificateRequest.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        
+
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         console.log(this.rowsData)
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
-          subjectDN:this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
-          algorithmPublickey:this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey,
-          sizePublicKey:this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
+          subjectDN: this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
+          algorithmPublickey:
+            this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes("RSA")
+              ? "RSA"
+              : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
+                "ECDSA"
+              )
+                ? "ECDSA"
+                : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
+                  "DSA"
+                )
+                  ? "DSA"
+                  : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
+                    "Ed25519"
+                  )
+                    ? "Ed25519"
+                    : "Ed448"
+          ,
+          sizePublicKey: this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
           organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item),
         }));
@@ -147,11 +164,11 @@ export class CertificateRequestListComponent implements OnInit {
     row.fileName = row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
     console.log(row);
   }
-  downloadList(){
+  downloadList() {
     console.log(this.selected)
     // const data = this.selected.map()
     var data = ""
-    this.selected.map((item) =>{
+    this.selected.map((item) => {
       // console.log(item.certificateRequestContent)
       return data += item.certificateRequestContent
 
@@ -162,8 +179,88 @@ export class CertificateRequestListComponent implements OnInit {
       window.URL.createObjectURL(blob)
     );
   }
-  exportCSV(){
-    console.log("tien");
+  exportCSV() {
+    this._listCerReqService
+      .getListCertificateRequests(JSON.stringify(this.formListCertificateRequest.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData);
+        console.log(pagedData.data.data);
+        this.dataExport = pagedData.data.data.map((item) => ({
+          ...item,
+          subjectDN: this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
+          certificateRequestContent:
+            this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes("RSA")
+              ? "RSA"
+              : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
+                "ECDSA"
+              )
+                ? "ECDSA"
+                : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
+                  "DSA"
+                )
+                  ? "DSA"
+                  : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
+                    "Ed25519"
+                  )
+                    ? "Ed25519"
+                    : "Ed448"
+          ,
+          sizePublicKey: this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
+          organizationName: this.getOrganization(item),
+          subscribeName: this.getSubscribe(item),
+        }));
+        if (!this.dataExport || !this.dataExport.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(this.dataExport[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          this.dataExport
+            .map((row:any) => {
+              return keys
+                .map((k) => {
+                  console.log(k)
+                  console.log(row[k]);
+                  // if(k === "distinguishedName"){
+                  //   row[k] = row[k].distinguishedName
+                  //   console.log(row[k]);
+                  // }
+                  // if(k === "distinguishedName"){
+                  //   row[k] = row[k].distinguishedName
+                  // }
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh sách Yêu cầu chứng thực');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
   }
 
   /**
@@ -187,9 +284,9 @@ export class CertificateRequestListComponent implements OnInit {
   }
   onActivate(event) {
     // console.log(event);
-    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+    if (!event.event.ctrlKey && event.event.type === 'click' && event.column.name != "Hành động" && event.column.name != "checkbox") {
       this._router.navigate(['/apps/tm/certificate-request/certificate-request-view', event.row.certificateRequestId]);
-      
+
     }
   }
   getCSRFileInformation(csrString) {

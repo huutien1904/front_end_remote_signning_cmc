@@ -157,6 +157,7 @@
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
+                  (click)="exportCSV()"
                 >
                   <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
                   <span class="d-none d-sm-inline-block"
@@ -262,18 +263,18 @@
               <ngx-datatable-column
                 name="Mã chứng thư số"
                 prop="subscriberCertificateId"
-                [width]="80"
+                [width]="50"
               ></ngx-datatable-column>
 
               <ngx-datatable-column
                 name="Trạng thái"
                 prop="keypairStatus.keypairStatusName"
-                [width]="120"
+                [width]="100"
               ></ngx-datatable-column>
               <ngx-datatable-column
-                name="Tên thuê bao"
-                prop="tokenName"
-                [width]="120"
+                name="Subject DN"
+                prop="SubjectDN"
+                [width]="300"
               ></ngx-datatable-column>
               <ngx-datatable-column
                 name="Hành động"
@@ -369,7 +370,35 @@
                   </datatable-pager>
                 </ng-template>
               </ngx-datatable-footer>
+              
             </ngx-datatable>
+            <div class="row">
+              <div class="col-md-12 mb-1">
+                <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
+                  <button
+                    type="button"
+                    rippleEffect
+                    class="btn btn-primary ml-1"
+                  >
+                    Nhập chứng thư số
+                  </button>
+                </a>
+                <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
+                  <button class="btn btn-outline-secondary ml-50" rippleEffect (click) = "downloadList()">
+                    <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
+                  </button>
+                </a>
+                <button
+                  class="btn btn-outline-secondary float-right mr-1"
+                  rippleEffect
+                  (click)="exportCSV()"
+                >
+                  <span class="d-none d-sm-inline-block"
+                    >Xuất danh sách chứng thư số
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
         <!--/ Certificate request List -->

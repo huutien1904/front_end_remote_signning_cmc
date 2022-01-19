@@ -152,6 +152,7 @@
               csvLink
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
+              (click)="exportCSV()"
               >Xuất danh sách</a
             >
           </div>
@@ -162,7 +163,7 @@
         ></mat-progress-bar>
         <ngx-datatable
           #tableRowDetails
-          class="bootstrap core-bootstrap cursor"
+          class="bootstrap core-bootstrap cursor material"
           [rows]="rowsData"
           [selected]="chkBoxSelected"
           (select)="customCheckboxOnSelect($event)"
@@ -250,16 +251,16 @@
           <ngx-datatable-column
             name="MÃ YÊU CẦU"
             prop="certificateRequestId"
-            [width]="100"
+            [width]="30"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="TRẠNG THÁI"
             prop="certificateRequestStatus"
-            [width]="100"
+            [width]="30"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Subject DN"
-            [width]="200"
+            [width]="700"
             cellClass="myClass"
           >
             <ng-template
@@ -271,38 +272,34 @@
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
-            name="HỆ MẬT"
-            [width]="150"
+            name="KHÓA CÔNG KHAI"
+            [width]="100"
           >
           <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
-            {{ row.algorithmPublickey }}
+            {{ row.algorithmPublickey }} , {{row.sizePublicKey}}
             <!-- {{
-              row.algorithmPublicKey.includes("RSA")
+              row.algorithmPublicKey.indexOf("RSA") > -1
                 ? "RSA"
-                : row.algorithmPublicKey.includes(
+                : row.algorithmPublicKey.indexOf(
                     "ECDSA"
-                  )
+                  ) > -1
                 ? "ECDSA"
-                : row.algorithmPublicKey.includes(
+                : row.algorithmPublicKey.indexOf(
                     "DSA"
-                  )
+                  ) > -1
                 ? "DSA"
-                : row.algorithmPublicKey.includes(
+                : row.algorithmPublicKey.indexOf(
                     "Ed25519"
-                  )
+                  ) > -1
                 ? "Ed25519"
                 : "Ed448"
             }} -->
           </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column
-            name="THAM SỐ KHÓA"
-            prop="sizePublicKey"
-            [width]="160"
-          ></ngx-datatable-column>
+          
           <ngx-datatable-column
             name="Hành động"
-            [width]="100"
+            [width]="60"
             [sortable]="false"
             prop=""
           >
@@ -416,6 +413,7 @@
             <button
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
+              (click)="exportCSV()"
             >
               <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xuất danh sách </span>
