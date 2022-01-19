@@ -2,16 +2,29 @@
   <div class="table-responsive border rounded mt-1">
     <section>
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title col-8 col-md-8">
-            <i data-feather="file-text" [size]="20" class="mr-25"></i>
-            <span class="align-middle">Danh sách yêu cầu chứng thực</span>
+        <div class="card-header item">
+          <h4 class="card-title col-9 col-md-8">
+            <i data-feather="file-text" [size]="20" class="mr-25 d-none d-sm-inline-block"></i>
+            <span class="align-middle d-none d-sm-inline-block">Danh sách yêu cầu chứng thực</span>
+            <span class="align-middle rfx d-sm-none d-inline-block">Danh sách yêu cầu chứng thực</span>
           </h4>
-          <div class="col-4 col-md-3">
+          <div class="col-3 col-md-3">
             <button
               type="button"
               rippleEffect
-              class="btn btn-primary ml-1"
+              class="btn btn-primary ml-1 d-none d-sm-inline-block"
+              rippleEffect
+              (click)="openToggleSidebar(modalForm)"
+            >
+              <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block"
+                >Tạo yêu cầu chứng thực</span
+              >
+            </button>
+            <button
+              type="button"
+              rippleEffect
+              class="btn btn-primary btn-sm  ml-1 d-sm-none d-inline-block"
               rippleEffect
               (click)="openToggleSidebar(modalForm)"
             >
