@@ -35,6 +35,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   public pageAdvancedEllipses = 1;
   public moreOption = true;
   public contentHeader: object;
+  public dataExport:any
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
@@ -190,6 +191,71 @@ export class SubscriberCertificateListComponent implements OnInit {
       this._router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-view', event.row.subscriberCertificateId]);
       
     }
+  }
+  exportCSV() {
+    this._subscriberCertificateService
+      .getListSubscriberCertificates(JSON.stringify(this.formListSubscriberCertificate.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData);
+        console.log(pagedData.data.data);
+        this.dataExport = pagedData.data.data.map((item:any) => ({
+          ...item,
+          keypairStatus: item.keypairStatus.keypairStatusName,
+          // certificateContent:"",
+          // delete item.certificateContent,
+          // delete certificateContent:"",
+          // delete item.certificateContent
+        }));
+        if (!this.dataExport || !this.dataExport.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(this.dataExport[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          this.dataExport
+            .map((row:any) => {
+              return keys
+                .map((k) => {
+                 
+                  if(k === "certificateContent"){
+                    row[k] = delete row[k].certificateContent
+                  }
+                  // if(k === "distinguishedName"){
+                  //   row[k] = row[k].distinguishedName
+                  // }
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh sách Chứng thư số');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

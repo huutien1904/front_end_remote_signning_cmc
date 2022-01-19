@@ -150,6 +150,7 @@
               csvLink
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
+              (click)="exportCSV()"
               >Xuất danh sách</a
             >
           </div>
@@ -257,7 +258,7 @@
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Subject DN"
-            [width]="600"
+            [width]="700"
             cellClass="myClass"
           >
             <ng-template
@@ -270,24 +271,24 @@
           </ngx-datatable-column>
           <ngx-datatable-column
             name="KHÓA CÔNG KHAI"
-            [width]="140"
+            [width]="100"
           >
           <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
-            {{ row.algorithmPublickey }}
+            {{ row.algorithmPublickey }} , {{row.sizePublicKey}}
             <!-- {{
-              row.algorithmPublicKey.includes("RSA")
+              row.algorithmPublicKey.indexOf("RSA") > -1
                 ? "RSA"
-                : row.algorithmPublicKey.includes(
+                : row.algorithmPublicKey.indexOf(
                     "ECDSA"
-                  )
+                  ) > -1
                 ? "ECDSA"
-                : row.algorithmPublicKey.includes(
+                : row.algorithmPublicKey.indexOf(
                     "DSA"
-                  )
+                  ) > -1
                 ? "DSA"
-                : row.algorithmPublicKey.includes(
+                : row.algorithmPublicKey.indexOf(
                     "Ed25519"
-                  )
+                  ) > -1
                 ? "Ed25519"
                 : "Ed448"
             }} -->
@@ -409,6 +410,7 @@
             <button
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
+              (click)="exportCSV()"
             >
               <span class="d-none d-sm-inline-block">Xuất danh sách </span>
             </button>

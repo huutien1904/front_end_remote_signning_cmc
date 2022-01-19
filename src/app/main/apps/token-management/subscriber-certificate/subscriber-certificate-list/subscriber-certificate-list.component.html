@@ -153,6 +153,7 @@
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
+                  (click)="exportCSV()"
                 >
                   <span class="d-none d-sm-inline-block"
                     >Xuất danh sách chứng thư số
@@ -364,7 +365,35 @@
                   </datatable-pager>
                 </ng-template>
               </ngx-datatable-footer>
+              
             </ngx-datatable>
+            <div class="row">
+              <div class="col-md-12 mb-1">
+                <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
+                  <button
+                    type="button"
+                    rippleEffect
+                    class="btn btn-primary ml-1"
+                  >
+                    Nhập chứng thư số
+                  </button>
+                </a>
+                <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
+                  <button class="btn btn-outline-secondary ml-50" rippleEffect (click) = "downloadList()">
+                    <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
+                  </button>
+                </a>
+                <button
+                  class="btn btn-outline-secondary float-right mr-1"
+                  rippleEffect
+                  (click)="exportCSV()"
+                >
+                  <span class="d-none d-sm-inline-block"
+                    >Xuất danh sách chứng thư số
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
         <!--/ Certificate request List -->
