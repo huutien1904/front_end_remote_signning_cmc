@@ -4,11 +4,11 @@
     <section>
       <div class="card">
         <div class="card-body">
-          <h3>Sửa Token</h3>
+          <h3>Đổi tên Token</h3>
           <form [formGroup]="tokenForm">
             <div class="">
               <div class="d-flex">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>Tên token</label>
                     <input
@@ -33,16 +33,6 @@
                         Bạn cần nhập tên token
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>HSM ID</label>
-                    <input
-                      type="number"
-                      formControlName="tokenId"
-                      class="form-control"
-                    />
                   </div>
                 </div>
               </div>
@@ -76,20 +66,12 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Số lượng cặp khóa</label>
-                    <ng-select
-                      [items]="lockQuantity"
-                      bindLabel="hsmName"
-                      bindValue="lockQuantity"
-                      [clearable]="false"
-                      formControlName="lockQuantity"
-                      [ngClass]="
-                        (f.lockQuantity.errors && f.lockQuantity?.touched) ||
-                        (submitted && f.lockQuantity?.errors?.required)
-                          ? 'is-invalid'
-                          : ''
-                      "
-                    ></ng-select>
+                    <label>Số cặp khóa</label>
+                    <input
+                      type="number"
+                      formControlName="tokenId"
+                      class="form-control"
+                    />
                   </div>
                 </div>
               </div>
@@ -149,28 +131,6 @@
                         Bạn cần nhập mật khẩu
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Mật khẩu mới</label>
-                    <input
-                      type="password"
-                      formControlName="tokenPassword"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Nhập lại mật khẩu mới</label>
-                    <input
-                      type="password"
-                      formControlName="tokenPassword"
-                      class="form-control"
-                    />
                   </div>
                 </div>
               </div>

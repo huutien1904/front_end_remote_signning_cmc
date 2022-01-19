@@ -94,7 +94,7 @@ export class PersonalEditComponent implements OnInit {
           },
           {
             name: 'Chỉnh sửa thuê bao',
-            isLink: true,
+            isLink: false,
             link: '/apps/ip/subscribers-search',
           },
         ],
@@ -192,7 +192,7 @@ export class PersonalEditComponent implements OnInit {
           },
           {
             name: 'Chỉnh sửa thuê bao',
-            isLink: true,
+            isLink: false,
             link: '/apps/ip/subscribers-search'
           }
         ]

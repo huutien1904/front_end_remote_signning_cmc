@@ -16,6 +16,7 @@ const routes: Routes = [
     component: TokenViewComponent,
   },
   { path: 'token-edit/:id', component: TokenEditComponent },
+
   { path: 'token-create', component: TokenCreateComponent },
   {
     path: "**",

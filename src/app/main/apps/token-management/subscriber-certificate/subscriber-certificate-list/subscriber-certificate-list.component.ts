@@ -119,13 +119,7 @@ export class SubscriberCertificateListComponent implements OnInit {
       .subscribe((pagedData) => {
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((item) => ({
-          ...item,
-          SubjectDN: this.readCertificate(item.certificateContent).subject
-          // organizationName: this.getOrganization(item),
-          // subscribeName: this.getSubscriber(item),
-        }));
-        // this.rowsData = pagedData.data.data;
+        this.rowsData = pagedData.data.data;
         console.log(this.rowsData)
         this.isLoading = false;
       });
