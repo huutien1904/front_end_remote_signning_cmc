@@ -146,8 +146,14 @@
                   </button>
                 </a>
                 <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
-                  <button class="btn btn-outline-secondary ml-50" rippleEffect (click) = "downloadList()">
-                    <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
+                  <button
+                    class="btn btn-outline-secondary ml-50"
+                    rippleEffect
+                    (click)="downloadList()"
+                  >
+                    <span class="d-none d-sm-inline-block"
+                      >Tải chứng thư số</span
+                    >
                   </button>
                 </a>
                 <button
@@ -258,19 +264,28 @@
               <ngx-datatable-column
                 name="Mã chứng thư số"
                 prop="subscriberCertificateId"
-                [width]="50"
+                [width]="40"
               ></ngx-datatable-column>
 
               <ngx-datatable-column
                 name="Trạng thái"
                 prop="keypairStatus.keypairStatusName"
-                [width]="100"
+                [width]="80"
               ></ngx-datatable-column>
+
               <ngx-datatable-column
                 name="Subject DN"
-                prop="SubjectDN"
-                [width]="300"
-              ></ngx-datatable-column>
+                [width]="600"
+                cellClass="myClass"
+              >
+                <ng-template
+                  ngx-datatable-cell-template
+                  let-row="row"
+                  let-rowIndex="rowIndex"
+                >
+                  {{ row.SubjectDN }}
+                </ng-template>
+              </ngx-datatable-column>
               <ngx-datatable-column
                 name="Hành động"
                 [width]="100"
@@ -324,8 +339,8 @@
                           ngbDropdownItem
                           class="d-flex align-items-center"
                           ><i data-feather="download" class="mr-50"></i>Tải dữ
-                          liệu </a
-                        >
+                          liệu
+                        </a>
                       </div>
                     </div>
                     <i
@@ -365,7 +380,6 @@
                   </datatable-pager>
                 </ng-template>
               </ngx-datatable-footer>
-              
             </ngx-datatable>
             <div class="row">
               <div class="col-md-12 mb-1">
@@ -379,8 +393,14 @@
                   </button>
                 </a>
                 <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
-                  <button class="btn btn-outline-secondary ml-50" rippleEffect (click) = "downloadList()">
-                    <span class="d-none d-sm-inline-block">Tải chứng thư số</span>
+                  <button
+                    class="btn btn-outline-secondary ml-50"
+                    rippleEffect
+                    (click)="downloadList()"
+                  >
+                    <span class="d-none d-sm-inline-block"
+                      >Tải chứng thư số</span
+                    >
                   </button>
                 </a>
                 <button
