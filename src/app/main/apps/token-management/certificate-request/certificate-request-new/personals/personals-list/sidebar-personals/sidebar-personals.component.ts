@@ -45,12 +45,12 @@ export class SidebarPersonalsComponent implements OnInit {
   //form data
   public cryptoSelect: any[] = ['RSA', 'ECDSA'];
   public rsaKeyLength: any[] = [];
-  public ecdsaKeyLength: any[] = ['secp224r1', 'secp384r1', 'secp521r1'];
+  public ecdsaKeyLength: any[] = ['secp256r1', 'secp384r1', 'secp521r1'];
   public lengthSelect = this.rsaKeyLength;
 
   // public cryptoAlgorithm = {
   //   RSA: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
-  //   ECDSA: ['secp224r1', 'secp384r1', 'secp521r1'],
+  //   ECDSA: ['secp256r1', 'secp384r1', 'secp521r1'],
   // };
   public cryptoAlgorithm = [
     {
@@ -59,7 +59,7 @@ export class SidebarPersonalsComponent implements OnInit {
     },
     {
       cryptoSystem: 'ECDSA',
-      keypairLength: ['secp224r1', 'secp384r1', 'secp521r1'],
+      keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
     },
   ];
   public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;

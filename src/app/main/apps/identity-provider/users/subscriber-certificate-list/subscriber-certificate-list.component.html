@@ -1,0 +1,287 @@
+<div class="col -12">
+  <div class="table-responsive border rounded mt-1">
+    <section>
+      <div class="card">
+        <div class="card-header item">
+          <h4 class="card-title col-9 col-md-8">
+            <i data-feather="file" [size]="20" class="mr-25 d-none d-sm-inline-block"></i>
+            <span class="align-middle d-none d-sm-inline-block">Danh sách chứng thư số</span>
+            <span class="align-middle title d-sm-none d-inline-block">Danh sách chứng thư số</span>
+          </h4>
+          <div class="col-3 col-md-3">
+            <button
+              type="button"
+              rippleEffect
+              class="btn btn-primary ml-1 d-none d-sm-inline-block"
+              (click)="openNewCertModal(modalUploadCert)"
+              (click)="onSelect($event)"
+            >
+              <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">
+                Cập nhật chứng thư số</span
+              >
+            </button>
+            <button
+              type="button"
+              rippleEffect
+              class="btn btn-primary btn-sm ml-1 d-sm-none d-inline-block "
+              (click)="openNewCertModal(modalUploadCert)"
+              (click)="onSelect($event)"
+            >
+              <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">
+                Cập nhật chứng thư số</span
+              >
+            </button>
+          </div>
+        </div>
+        <mat-progress-bar
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+        <ngx-datatable
+          #tableRowDetails
+          class="bootstrap core-bootstrap cursor"
+          [rows]="rowsData"
+          [selected]="chkBoxSelected"
+          (select)="customCheckboxOnSelect($event)"
+          (select)="onSelect($event)"
+          [selectionType]="SelectionType.checkbox"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [scrollbarH]="true"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [externalPaging]="true"
+          [limit]="pagedData.size"
+          [count]="pagedData.totalItems"
+          [offset]="pagedData.currentPage"
+          [loadingIndicator]="isLoading"
+          (page)="setPage($event)"
+        >
+          <ngx-datatable-column
+            [width]="50"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false"
+            class="ml-1"
+          >
+            <ng-template
+              ngx-datatable-header-template
+              let-value="value"
+              let-allRowsSelected="allRowsSelected"
+              let-selectFn="selectFn"
+            >
+              <div
+                class="custom-control custom-control-primary custom-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [checked]="allRowsSelected"
+                  (change)="selectFn(!allRowsSelected)"
+                  id="headerCustomChkbxRef"
+                />
+                <label
+                  class="custom-control-label"
+                  for="headerCustomChkbxRef"
+                ></label>
+              </div>
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-rowIndex="rowIndex"
+              let-value="value"
+              let-isSelected="isSelected"
+              let-onCheckboxChangeFn="onCheckboxChangeFn"
+            >
+              <div
+                class="custom-control custom-control-primary custom-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [checked]="isSelected"
+                  (change)="onCheckboxChangeFn($event)"
+                  id="rowCustomChkbxRef{{ rowIndex }}"
+                />
+                <label
+                  class="custom-control-label"
+                  for="rowCustomChkbxRef{{ rowIndex }}"
+                ></label>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="TT"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [width]="50"
+          >
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Mã chứng thư số"
+            prop="subscriberCertificateId"
+            [width]="80"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Trạng thái"
+            prop="keypairStatus.keypairStatusName"
+            [width]="180"
+          ></ngx-datatable-column>
+          <ngx-datatable-column
+            name="Tên thuê bao"
+            prop="tokenName"
+            [width]="80"
+          ></ngx-datatable-column>
+
+          <ngx-datatable-column
+            name="Hành động"
+            [width]="80"
+            [sortable]="false"
+            prop=""
+          >
+            <ng-template
+              ngx-datatable-cell-template
+              let-row="row"
+              let-value="value"
+              let-selected="false"
+            >
+              <div class="d-flex align-items-center">
+                <div ngbDropdown container="body">
+                  <a
+                    ngbDropdownToggle
+                    class="hide-arrow"
+                    id="dropdownBrowserState"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i
+                      data-feather="more-vertical"
+                      class="text-primary cursor-pointer mr-50"
+                    ></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right"
+                    aria-labelledby="dropdownBrowserState"
+                  >
+                    <a
+                      [routerLink]="[
+                        '/apps/tm/subscriber-certificate/',
+                        'subscriber-certificate-view',
+                        value.subscriberCertificateId
+                      ]"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      ><i data-feather="file-text" class="mr-50"></i> Chi
+                      tiết</a
+                    >
+                    <a ngbDropdownItem class="d-flex align-items-center"
+                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                    >
+                    <a
+                      [href]="row.fileUrl"
+                      [download]="row.fileName"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      ><i data-feather="download" class="mr-50"></i>Tải dữ
+                      liệu</a
+                    >
+                  </div>
+                </div>
+                <i data-feather="edit" class="text-primary cursor-pointer"></i>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+              let-isVisible="isVisible"
+            >
+              <div class="page-count" *ngIf="!isLoading">
+                <span *ngIf="chkBoxSelected">
+                  Đã chọn {{ chkBoxSelected.length }} /
+                </span>
+                {{ rowCount.toLocaleString() }}
+                {{ totalMessage }} hàng.
+              </div>
+              <datatable-pager
+                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'"
+                [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'"
+                [page]="curPage"
+                [size]="pageSize"
+                [count]="rowCount"
+                [hidden]="!(rowCount / pageSize > 1)"
+                (change)="table.onFooterPage($event)"
+              >
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+</div>
+
+<ng-template #modalUploadCert let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="formUploadCert">
+          <div class="form-group custom-file">
+            <input
+              #certificate
+              type="file"
+              class="form-control custom-file-input"
+              name="file"
+              id="file"
+              (change)="onFileChange($event)"
+            />
+            <label for="certificate" class="custom-file-label"
+              >Chọn chứng thư số</label
+            >
+            <span
+              *ngIf="formUploadCert.controls.certificateContent.value != null"
+              ><i data-feather="check"></i
+              >{{ formUploadCert.controls.certificateContent.value.name }}-Đã
+              được chọn</span
+            >
+            <div *ngIf="!fileUploaded" class="alert alert-danger">
+              Cần chọn chứng thư số.
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" (click)="onSubmitCert()">
+      Cập nhật
+    </button>
+  </div>
+</ng-template>

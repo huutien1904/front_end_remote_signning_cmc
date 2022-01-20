@@ -10,7 +10,7 @@
             [formGroup]="formListCertificateRequest"
           >
             <div class="row mb-1">
-              <div class="col-md-4">
+              <div class="col-md-4 mt-1">
                 <input
                   name="contains"
                   id="contains"
@@ -20,17 +20,18 @@
                   placeholder="Một phần tên, email, alias"
                 />
               </div>
-              <div class="col-md-2">
+              <div class="col-3 col-md-2 mt-1">
                 <button
                   type="button"
                   class="btn btn-secondary btn-outline-secondary col-12"
                   (click)="moreOption = !moreOption"
                   rippleEffect
                 >
-                  Tùy chọn
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                  <span class="d-none d-sm-inline-block">Tùy chọn</span>
                 </button>
               </div>
-              <div class="col-md-2">
+              <div class="col-6 col-md-2 mt-1">
                 <button
                   type="button"
                   rippleEffect
@@ -124,7 +125,7 @@
           <h4 class="card-title">Danh sách yêu cầu chứng thực</h4>
         </div>
         <div class="row">
-          <div class="col-md-12 mb-1">
+          <div class="col-12 col-md-12 mb-1">
             <a
               [routerLink]="[
                 '/apps/tm/certificate-request/certificate-request-new'
@@ -135,6 +136,7 @@
               </button>
             </a>
             <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
             <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.txt">
@@ -397,6 +399,7 @@
               </button>
             </a>
             <button class="btn btn-outline-secondary ml-50" rippleEffect>
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
             <button
@@ -412,6 +415,7 @@
               rippleEffect
               (click)="exportCSV()"
             >
+              <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xuất danh sách </span>
             </button>
           </div>

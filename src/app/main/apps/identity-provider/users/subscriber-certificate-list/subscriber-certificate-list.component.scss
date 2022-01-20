@@ -1,0 +1,10 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '/src/@core/scss/base/bootstrap-extended/variables';
+$enable-responsive-font-sizes: true;
+.title {
+    @include font-size(1rem);
+}
+.item {
+    padding: 1rem;
+}

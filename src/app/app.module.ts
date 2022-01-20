@@ -22,7 +22,9 @@ import { LayoutModule } from "app/layout/layout.module";
 import "hammerjs";
 import { ToastrModule } from "ngx-toastr"; // For auth after login toast
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
-
+import { LoadingService } from "./main/loading/loading.service";
+import { LoadingInterceptor } from "./main/loading/loading.interceptor";
+import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 
 const appRoutes: Routes = [
   {
@@ -38,7 +40,7 @@ const appRoutes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/apps/dashboard",
+    redirectTo: "/apps/ip/users/profile",
     pathMatch: "full",
   },
   {
@@ -64,6 +66,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, {
       scrollPositionRestoration: "enabled", // Add options right here
       relativeLinkResolution: "legacy",
+      useHash: true 
     }),
     TranslateModule.forRoot(),
 
@@ -86,7 +89,7 @@ const appRoutes: Routes = [
   providers: [
     
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
     
   ],
   bootstrap: [AppComponent],

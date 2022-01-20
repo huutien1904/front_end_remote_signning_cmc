@@ -22,8 +22,8 @@ export class SubscriberCertificateListService {
   private readonly token = this.currentUser.token;
   private option = {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + this.token,
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.token,
     },
   };
   readCertificate(cer): any[] {
@@ -39,7 +39,7 @@ export class SubscriberCertificateListService {
 
     //dich tieng Viet
     let res: any[] = JSON.parse(forge.util.decodeUtf8(JSON.stringify(read)));
-    console.log(res)
+    console.log(res);
     return res;
   }
   getListSubscriberCertificates(
@@ -58,7 +58,9 @@ export class SubscriberCertificateListService {
     >(`${environment.apiUrl}/subscriber-certificate/search`, body, option);
   }
 
-  updateCert(form: FormGroup): Observable<ResponseData<PagedData<CertificateRequest>>> {
+  updateCert(
+    form: FormGroup
+  ): Observable<ResponseData<PagedData<CertificateRequest>>> {
     const formData = new FormData();
     formData.append('userId', form.get('userId').value);
     formData.append('certificateContent', form.get('certificateContent').value);
