@@ -4,13 +4,13 @@
     <section>
       <div class="card">
         <div class="card-body">
-          <h3>Đổi tên Token</h3>
+          <h3>Đổi tên Slot</h3>
           <form [formGroup]="tokenForm">
             <div class="">
               <div class="d-flex">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label>Tên token</label>
+                    <label>Tên Slot</label>
                     <input
                       type="text"
                       formControlName="tokenName"
@@ -30,7 +30,7 @@
                       class="invalid-feedback"
                     >
                       <div *ngIf="f.tokenName?.errors?.required">
-                        Bạn cần nhập tên token
+                        Bạn cần nhập tên Slot
                       </div>
                     </div>
                   </div>

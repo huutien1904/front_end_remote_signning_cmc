@@ -43,7 +43,7 @@
             <div class="d-flex">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Tên token</label>
+                  <label>Tên Slot</label>
                   <input
                     type="text"
                     formControlName="tokenName"
@@ -63,7 +63,7 @@
                     class="invalid-feedback"
                   >
                     <div *ngIf="f.tokenName?.errors?.required">
-                      Bạn cần nhập tên token
+                      Bạn cần nhập tên slot
                     </div>
                   </div>
                 </div>
@@ -99,7 +99,7 @@
             <div class="d-flex">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Mật khẩu SO</label>
+                  <label>Mật khẩu người quản trị (Super Officer-SO)</label>
                   <input
                     type="password"
                     class="form-control"
@@ -108,7 +108,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Xác nhận mật khẩu SO</label>
+                  <label>Xác nhận mật khẩu người quản trị (Super Officer-SO)</label>
                   <input
                     type="password"
                     class="form-control"
@@ -119,7 +119,7 @@
             <div class="d-flex">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Mật khẩu</label>
+                  <label>Mật khẩu người dùng (User)</label>
                   <input
                     type="password"
                     formControlName="tokenPassword"
@@ -146,7 +146,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Xác nhận mật khẩu</label>
+                  <label>Xác nhận mật khẩu người dùng (User)</label>
                   <input
                     type="password"
                     formControlName="confPassword"

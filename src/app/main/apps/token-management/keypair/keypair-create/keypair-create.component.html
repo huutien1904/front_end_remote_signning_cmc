@@ -9,42 +9,7 @@
             <form [formGroup]="keypairFormView" class="form form-horizontal">
               <div class="form_content">
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Alias</label>
-                      <input type="text" class="form-control" formControlName="keypairAlias" />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>User ID</label>
-                      <ng-select
-                        [items]="userIdList"
-                        bindLabel="userId"
-                        [clearable]="false"
-                        formControlName="userId"
-                        [ngClass]="
-                        (f.userId.errors &&
-                          f.userId?.touched) ||
-                        (submitted && f.userId?.errors?.required)
-                          ? 'is-invalid'
-                          : ''
-                      "
-                      ></ng-select>
-                      <div
-                      *ngIf="
-                        (f.userId.errors &&
-                          f.userId?.touched) ||
-                        (submitted && f.userId?.errors?.required)
-                      "
-                      class="invalid-feedback"
-                    >
-                      <div *ngIf="f.userId.errors.required">
-                        Bạn cần chọn User ID
-                      </div>
-                    </div>
-                    </div>
-                  </div>
+
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Kết nối HSM</label>
@@ -127,7 +92,42 @@
                       ></ng-select>
                     </div>
                   </div>
-
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Tên cặp khóa (Alias)</label>
+                      <input type="text" class="form-control" formControlName="keypairAlias" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Số lượng cặp khóa</label>
+                      <ng-select
+                        [items]="userIdList"
+                        bindLabel="userId"
+                        [clearable]="false"
+                        formControlName="userId"
+                        [ngClass]="
+                        (f.userId.errors &&
+                          f.userId?.touched) ||
+                        (submitted && f.userId?.errors?.required)
+                          ? 'is-invalid'
+                          : ''
+                      "
+                      ></ng-select>
+                      <div
+                      *ngIf="
+                        (f.userId.errors &&
+                          f.userId?.touched) ||
+                        (submitted && f.userId?.errors?.required)
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.userId.errors.required">
+                        Bạn cần chọn User ID
+                      </div>
+                    </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 offset-6">

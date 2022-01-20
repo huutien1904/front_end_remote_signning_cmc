@@ -14,8 +14,8 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    canActivate : [AuthGuard], 
-    data: {roles: [Role.SuperAdmin], animation:''}
+    // canActivate : [AuthGuard], 
+    // data: {roles: [Role.SuperAdmin], animation:''}
     
   },
   {

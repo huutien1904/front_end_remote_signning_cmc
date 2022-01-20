@@ -90,9 +90,24 @@ export class DashboardComponent implements OnInit {
   public keypairChart: Partial<ChartOptions>;
   public requestChart1: Partial<ChartOptions>;
   public requestChart2: Partial<ChartOptions2>;
+  // trạng thái cho user
+  public requestChartKeyUser: Partial<ChartOptions2>;
+  public requestChartCertificate: Partial<ChartOptions2>;
+  public requestChartSubscriber:Partial<ChartOptions2>;
+  public requestChartSignatures: Partial<ChartOptions2>;
+  // end trạng thái cho user
   public certificateRequestChart: Partial<ChartOptions>;
   public hsmChart: Partial<ChartOptions>;
   public isMenuToggled = false;
+  public user: boolean = false
+  public admin: boolean = false
+  public superadmin: boolean = false
+  //get currentUser 
+  private readonly currentUser = JSON.parse(
+    localStorage.getItem("currentUser")
+  );
+  public fullName = this.currentUser.firstName + " " + this.currentUser.middleName + " " + this.currentUser.lastName
+  public username
 
   constructor(
     private _organizationListService: OrganizationListService,
@@ -102,6 +117,8 @@ export class DashboardComponent implements OnInit {
     private _coreConfigService: CoreConfigService
   ) {
     this._unsubscribeAll = new Subject();
+
+
 
     this.subcriberChart1 = {
       series: [
@@ -192,9 +209,9 @@ export class DashboardComponent implements OnInit {
                 show: true,
                 fontSize: '1.5rem',
                 label: 'Tổng số thuê bao',
-                formatter: function (w: any) { 
+                formatter: function (w: any) {
                   const arr: any[] = w.config.series
-                  return arr.reduce((a, b) => a+b, 0);
+                  return arr.reduce((a, b) => a + b, 0);
                 }
               }
             }
@@ -221,7 +238,7 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
-    this.subscriberCertificateChart= {
+    this.subscriberCertificateChart = {
       series: [
         {
           data: [127, 150, 230, 305, 356, 412]
@@ -338,7 +355,7 @@ export class DashboardComponent implements OnInit {
         }
       }
     };
-
+    // trạng thái kí số cho admin || super admin
     this.requestChart1 = {
       series: [
         {
@@ -397,7 +414,7 @@ export class DashboardComponent implements OnInit {
         }
       }
     };
-
+    
     this.requestChart2 = {
       series: [1360, 80, 160],
       chart: {
@@ -429,9 +446,9 @@ export class DashboardComponent implements OnInit {
                 show: true,
                 fontSize: '1.5rem',
                 label: 'Tổng số lần kí',
-                formatter: function (w: any) { 
+                formatter: function (w: any) {
                   const arr: any[] = w.config.series
-                  return arr.reduce((a, b) => a+b, 0);
+                  return arr.reduce((a, b) => a + b, 0);
                 }
               }
             }
@@ -458,6 +475,189 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
+    // trạng thái cặp khóa cho user
+    this.requestChartKeyUser = {
+      series: [100, 30],
+      chart: {
+        height: 350,
+        type: 'donut'
+      },
+      colors: [
+        colors.solid.success,
+        colors.solid.danger,
+        // colors.solid.warning
+      ],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              name: {
+                fontSize: '2rem',
+                fontFamily: 'Montserrat'
+              },
+              value: {
+                fontSize: '1rem',
+                fontFamily: 'Montserrat',
+                formatter: function (val) {
+                  return val;
+                }
+              },
+              total: {
+                show: true,
+                fontSize: '1.5rem',
+                label: 'Tổng số cặp khóa',
+                formatter: function (w: any) {
+                  const arr: any[] = w.config.series
+                  return arr.reduce((a, b) => a + b, 0);
+                }
+              }
+            }
+          }
+        }
+      },
+      legend: {
+        show: true,
+        position: 'bottom'
+      },
+      labels: ['Còn hoạt động', 'Đã thu hồi'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              height: 300
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      ]
+    };
+    // trạng thái yêu cầu chứng thực cho user
+    this.requestChartCertificate = {
+      series: [150, 20],
+      chart: {
+        height: 350,
+        type: 'donut'
+      },
+      colors: [
+        colors.solid.success,
+        colors.solid.warning,
+        // colors.solid.warning
+      ],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              name: {
+                fontSize: '2rem',
+                fontFamily: 'Montserrat'
+              },
+              value: {
+                fontSize: '1rem',
+                fontFamily: 'Montserrat',
+                formatter: function (val) {
+                  return val;
+                }
+              },
+              total: {
+                show: true,
+                fontSize: '1rem',
+                label: 'Yêu cầu chứng thực',
+                formatter: function (w: any) {
+                  const arr: any[] = w.config.series
+                  return arr.reduce((a, b) => a + b, 0);
+                }
+              }
+            }
+          }
+        }
+      },
+      legend: {
+        show: true,
+        position: 'bottom'
+      },
+      labels: ['Yêu cầu chứng thực đã gửi', 'Yêu cầu chứng thực chưa gửi'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              height: 300
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      ]
+    };
+    // trạng thái chứng thư số cho user
+    this.requestChartSubscriber = {
+      series: [30, 70,100,40],
+      chart: {
+        height: 350,
+        type: 'donut'
+      },
+      colors: [
+        colors.solid.danger,
+        colors.solid.warning,
+        colors.solid.success,
+        colors.solid.info,
+
+      ],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              name: {
+                fontSize: '2rem',
+                fontFamily: 'Montserrat'
+              },
+              value: {
+                fontSize: '1rem',
+                fontFamily: 'Montserrat',
+                formatter: function (val) {
+                  return val;
+                }
+              },
+              total: {
+                show: true,
+                fontSize: '1rem',
+                label: 'Chứng thư số',
+                formatter: function (w: any) {
+                  const arr: any[] = w.config.series
+                  return arr.reduce((a, b) => (a+b), 0);
+                }
+              }
+            }
+          }
+        }
+      },
+      legend: {
+        show: true,
+        position: 'bottom'
+      },
+      labels: ['Chứng thư số hết hạn', 'Chứng thư số thu hồi',"Chứng thư số còn hiệu lực","Chứng thư số sắp hết hạn"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              height: 300
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      ]
+    };
+    // trạng thái cặp khóa cho admin ,superadmin 
     this.certificateRequestChart = {
       series: [
         {
@@ -582,6 +782,31 @@ export class DashboardComponent implements OnInit {
     //this.getNumberOrganization();
     //this.getNumberKeypair();
     //this.getNumberSubcriberCertificate();
+    console.log(this.currentUser.role)
+    // this.currentUser.role.map((item) => {
+      // if(item === "ROLE_SUPER_ADMIN"){
+      //   this.superadmin = true
+      // }
+      // if(item === "ROLE_ADMIN"){
+      //   this.admin = true
+      // }
+      // if (item === "ROLE_USER") {
+      //   this.user = true
+      // }
+    // })
+    if(this.currentUser.role.indexOf("ROLE_SUPER_ADMIN")>=0){
+      this.superadmin = true;
+      return;
+    }
+    if(this.currentUser.role.indexOf("ROLE_ADMIN")>=0){
+      this.admin = true;
+      return;
+    }
+    if(this.currentUser.role.indexOf("ROLE_USER")>=0){
+      this.user = true;
+      return;
+    }
+    console.log(this.user)
   }
 
   getNumberOrganization() {
@@ -589,24 +814,24 @@ export class DashboardComponent implements OnInit {
     pagedData.size = 1;
     pagedData.currentPage = 0;
     this._organizationListService
-    .searchOrganizations(pagedData)
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((response) => {
-      this.numberOrganization = response.data.totalItems;
-    });
+      .searchOrganizations(pagedData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((response) => {
+        this.numberOrganization = response.data.totalItems;
+      });
   }
 
   getNumberPersonal() {
     const pagedData = new PagedData<Personal>();
     pagedData.size = 1;
-    
+
     pagedData.currentPage = 0;
     this._personalService
-    .getListPersonals(pagedData)
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((response) => {
-      this.numberPersonal = response.data.totalItems;
-    });
+      .getListPersonals(pagedData)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((response) => {
+        this.numberPersonal = response.data.totalItems;
+      });
   }
 
   getNumberKeypair() {
@@ -628,7 +853,7 @@ export class DashboardComponent implements OnInit {
     //   .subscribe((response: any) => {
     //     this.numberSubscriberCertificate = response.data.totalItems
     //   })
-    this.numberSubscriberCertificate =100;
+    this.numberSubscriberCertificate = 100;
   }
 
   ngAfterViewInit() {
@@ -645,6 +870,9 @@ export class DashboardComponent implements OnInit {
           this.keypairChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.requestChart1.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.requestChart2.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
+          this.requestChartKeyUser.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
+          this.requestChartCertificate.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
+          this.requestChartSubscriber.chart.width = this.apexDonutChartRef?.nativeElement.offsetWidth;
           this.certificateRequestChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
           this.hsmChart.chart.width = this.apexLineChartRef?.nativeElement.offsetWidth;
         }, 1300);
