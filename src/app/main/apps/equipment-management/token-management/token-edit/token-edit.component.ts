@@ -100,19 +100,19 @@ export class TokenEditComponent implements OnInit {
      });
      console.log(this.tokenForm.value)
     this.contentHeader = {
-      headerTitle: 'Đổi tên Token',
+      headerTitle: 'Đổi tên Slot',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách TOKEN',
+            name: 'Danh sách Slot',
             isLink: true,
             link: '/apps/equipment-management/token/token-list'
 
           },
           {
-            name: 'Đổi tên Token',
+            name: 'Đổi tên Slot',
             isLink: false,
           }
         ]

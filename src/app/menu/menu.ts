@@ -166,7 +166,7 @@ export const menu: CoreMenu[] = [
       },
       {
         id: "token-management",
-        title: 'Tokens',
+        title: 'Slots',
         translate: 'MENU.EQUIPMENT_MANAGEMENT.TOKEN',
         type: 'item',
         icon: 'tablet',
