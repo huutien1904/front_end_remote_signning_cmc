@@ -6,7 +6,9 @@ import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class KeypairListService {
   public onUserListChanged: BehaviorSubject<any>;
   /**
@@ -30,6 +32,7 @@ export class KeypairListService {
     },
   };
   public getData(body) :Observable<ResponseData<PagedData<Keypair>>>{
+    console.log(body)
     return this._httpClient.post<ResponseData<PagedData<Keypair>>>
     (`${environment.apiUrl}/keypair/search`,body,this.option);
   }

@@ -2,7 +2,7 @@
 <section id="search-personal-list">
   <div class="card">
     <!-- search -->
-    <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+    <h5 class="card-header">Bộ lọc tìm kiếm </h5>
     <div class="card-body">
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">
@@ -277,7 +277,7 @@
         [canAutoResize]="false"
         [sortable]="false"
       >
-        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+        <ng-template let-rowIndex="rowIndex">
           {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
         </ng-template>
       </ngx-datatable-column>

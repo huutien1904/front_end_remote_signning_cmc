@@ -64,18 +64,6 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formListCertificateRequest = this.fb.group({
-      contains: [null],
-      fromDate: [null],
-      sort: [null],
-      toDate: [null],
-      page: [null],
-      size: [this.sizePage[3]],
-    });
-    this.setPage({
-      offset: 0,
-      pageSize: this.formListCertificateRequest.get('size').value,
-    });
     this.contentHeader = {
       headerTitle: 'Yêu cầu chứng thực',
       actionButton: true,
@@ -89,7 +77,6 @@ export class CertificateRequestListComponent implements OnInit {
         ],
       },
     };
-
     this.formListCertificateRequest = this.fb.group({
       page: [null],
       size: [this.sizePage[3]],

@@ -1,1 +1,159 @@
-<p>keypair-create works!</p>
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"> </app-content-header>
+    <div class="content-body">
+      <section>
+        <div class="card">
+          <div class="card-body">
+            <h3>Tạo mới cặp khóa</h3>
+            <form [formGroup]="keypairFormView" class="form form-horizontal">
+              <div class="form_content">
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Kết nối HSM</label>
+                      <ng-select
+                        [items]="hsmList"
+                        bindLabel="hsmName"
+                        [clearable]="false"
+                        formControlName="hsmList"
+                        (change)="changeHsm()"
+                        [ngClass]="
+                        (f.hsmList.errors &&
+                          f.hsmList?.touched) ||
+                        (submitted && f.hsmList?.errors?.required)
+                          ? 'is-invalid'
+                          : ''
+                      "
+                      >
+                      </ng-select>
+                      <div
+                      *ngIf="
+                        (f.hsmList.errors &&
+                          f.hsmList?.touched) ||
+                        (submitted && f.hsmList?.errors?.required)
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.hsmList.errors.required">
+                        Bạn cần chọn kết nối HSM
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="">Token</label>
+                      <ng-select
+                        [items]="tokenList"
+                        bindLabel="tokenId"
+                        [clearable]="false"
+                        formControlName="tokenList"
+                        [ngClass]="
+                        (f.tokenList.errors &&
+                          f.tokenList?.touched) ||
+                        (submitted && f.tokenList?.errors?.required)
+                          ? 'is-invalid'
+                          : ''
+                      "
+                      ></ng-select>
+                      <div
+                      *ngIf="
+                        (f.tokenList.errors &&
+                          f.tokenList?.touched) ||
+                        (submitted && f.tokenList?.errors?.required)
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.tokenList.errors.required">
+                        Bạn cần chọn Token
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="">Hệ mật</label>
+                      <ng-select
+                        [items]="cryptoSystem"
+                        [clearable]="false"
+                        formControlName="cryptoSystem"
+                      ></ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="">Tham số khóa</label>
+                      <ng-select
+                        [items]="keypairLength"
+                        [clearable]="false"
+                        formControlName="keypairLength"
+                      ></ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Tên cặp khóa (Alias)</label>
+                      <input type="text" class="form-control" formControlName="keypairAlias" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Số lượng cặp khóa</label>
+                      <ng-select
+                        [items]="userIdList"
+                        bindLabel="userId"
+                        [clearable]="false"
+                        formControlName="userId"
+                        [ngClass]="
+                        (f.userId.errors &&
+                          f.userId?.touched) ||
+                        (submitted && f.userId?.errors?.required)
+                          ? 'is-invalid'
+                          : ''
+                      "
+                      ></ng-select>
+                      <div
+                      *ngIf="
+                        (f.userId.errors &&
+                          f.userId?.touched) ||
+                        (submitted && f.userId?.errors?.required)
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.userId.errors.required">
+                        Bạn cần chọn User ID
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 offset-6">
+                    <div class="d-flex justify-content-md-end m-1">
+                      <button
+                        class="btn btn-primary mr-1"
+                        (click)="onSubmit()"
+                        rippleEffect
+                      >
+                        Tạo mới cặp khóa
+                      </button>
+                      <button
+                        (click)="exit()"
+                        rippleEffect
+                        class="btn btn-outline-primary"
+                      >
+                        Quay Lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

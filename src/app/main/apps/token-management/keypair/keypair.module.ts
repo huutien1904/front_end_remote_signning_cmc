@@ -25,6 +25,7 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ListSidebarComponent } from './keypair-list/list-sidebar/list-sidebar.component';
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
+import { RouterModule } from "@angular/router";
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -46,6 +47,7 @@ const materialModules1234 = [
     NgbCollapseModule, 
     FormsModule,
     CoreCommonModule,
+    RouterModule,
     NgbModule,
     ...materialModules1234,
     NgxDatatableModule.forRoot({

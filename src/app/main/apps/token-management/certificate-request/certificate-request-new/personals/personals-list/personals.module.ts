@@ -1,35 +1,32 @@
 import { RouterModule } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { CoreCommonModule } from "@core/common.module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MatDatepickerModule } from "@angular/material/datepicker";
+import { FormsModule } from "@angular/forms";
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
+  MomentDateAdapter
 } from "@angular/material-moment-adapter";
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE
 } from "@angular/material/core";
-import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
-
-import { PersonalsComponent } from './personals.component';
-import { SidebarPersonalsComponent } from './sidebar-personals/sidebar-personals.component';
-import { PersonalService } from 'app/main/apps/identity-provider/subscribers/personals/personal.service';
-import { FormsModule } from "@angular/forms";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
-import { CorePipesModule } from "@core/pipes/pipes.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LoadingInterceptor } from "app/main/loading/loading.interceptor";
-import { LoadingService } from "app/main/loading/loading.service";
-import { PersonalsService } from "./personals.service";
 import { CoreDirectivesModule } from "@core/directives/directives";
+import { MY_DATE_FORMATS } from "@core/format-data/my-date-formats";
+import { CorePipesModule } from "@core/pipes/pipes.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { PersonalService } from 'app/main/apps/identity-provider/subscribers/personals/personal.service';
+import { PersonalsComponent } from './personals.component';
+import { PersonalsService } from "./personals.service";
+import { SidebarPersonalsComponent } from './sidebar-personals/sidebar-personals.component';
+
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -68,12 +65,6 @@ const materialModules1234 = [
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    LoadingService,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true
-      }
   ],
     
 })

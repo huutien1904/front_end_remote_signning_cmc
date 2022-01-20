@@ -187,6 +187,7 @@ export class SidebarPersonalsComponent implements OnInit {
         profile: [null, Validators.required],
       }
     );
+    console.log(this.newRequestForm.value)
     this.getListProfiles();
   }
 

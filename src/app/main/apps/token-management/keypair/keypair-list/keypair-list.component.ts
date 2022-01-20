@@ -13,6 +13,9 @@ import {
 } from "@swimlane/ngx-datatable";
 import { PagedData } from "app/main/models/PagedData"
 import { Personal } from "app/main/models/Personal";
+import { KeypairListService } from './keypair-list.service';
+import { Keypair } from 'app/main/models/Keypair';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-keypair-list",
@@ -23,9 +26,9 @@ import { Personal } from "app/main/models/Personal";
 export class KeypairListComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
-  public rowsData = new Array<Personal>();
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
+  public formListKeypair: FormGroup;
   public item: any;
   public contentHeader: object;
   //page setup
@@ -36,7 +39,9 @@ export class KeypairListComponent implements OnInit {
   public moreOption = true;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ["Nam", "Nữ"];
-  public pagedData = new PagedData<Personal>();
+  public pagedData = new PagedData<Keypair>();
+  public rowsData = new Array<Keypair>();
+
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
@@ -51,11 +56,14 @@ export class KeypairListComponent implements OnInit {
    * @param _coreSidebarService
    */
   constructor(
+    private _keypairService: KeypairListService,
     private fb: FormBuilder,
     private _personalService: PersonalService,
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
+    private _router: Router
+
 
   ) {
     this._unsubscribeAll = new Subject();
@@ -69,33 +77,34 @@ export class KeypairListComponent implements OnInit {
       });
   }
   ngOnInit(): void {
+    this.formListKeypair = this.fb.group({
+      aliasKeypair: [null, Validators.required],
+      cryptoSystem: [null, Validators.required],
+      keypairLength: [null, Validators.required],
+      fromDate: [null],
+      toDate: [null],
+      sizePage: [this.sizePage[3]],
+    });
     this.formListPersonal = this.fb.group({
-
       page: [null],
-      size: [this.sizePage[3]],
+      size: [this.sizePage[2]],
       sort : [null],
       contains: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
-      gender: [],
-      birthday: [],
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
     this.contentHeader = {
-      headerTitle: 'Danh sách',
+      headerTitle: 'Cặp khóa',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Quản lý cặp khóa',
-            isLink: false
-          },
-          {
             name: 'Danh sách cặp khóa',
-            isLink: true,
+            isLink: false,
             link: '/apps/tm/keypair/keypair-list'
           }
         ]
@@ -106,34 +115,25 @@ export class KeypairListComponent implements OnInit {
 
   setPage(pageInfo) {
     console.log(pageInfo);
-    this.isLoading=true;
-    
-    console.log(this.formListPersonal.value)
-
     const body = {
-      page : this.formListPersonal.value.page,
-      size : this.formListPersonal.value.size,
-      sort : this.formListPersonal.value.sort,
-      contains : this.formListPersonal.value.contains,
-      fromDate: this.formListPersonal.value.fromDate,
-      toDate: this.formListPersonal.value.toDate,
-
-    }
-    this._personalService
-      .getListPersonals(JSON.stringify(body))
+      page: null,
+      size: pageInfo.pageSize,
+      sort: null,
+      contains: null,
+      fromDate: null,
+      toDate: null,
+    };
+      this._keypairService
+      .getData(body)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData);
+         console.log(pagedData)
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList:any) => ({
-          ...personalList,
-          personalFirstName:
-              personalList.firstName +
-              " " +
-              personalList.middleName +
-              " " +
-              personalList.lastName,
-        }));
+        this.rowsData = pagedData.data.data;
+        console.log(this.rowsData)
+        this.rowsData = pagedData.data.data.map(item => ({
+          ...item,
+        }))
         this.isLoading=false;
       });
   }
@@ -152,6 +152,18 @@ export class KeypairListComponent implements OnInit {
    *
    * @param selected
    */
+   onActivate(event) {
+    if (
+      event.type === 'click' &&
+      event.column.name != 'Hành động' &&
+      event.column.name != 'checkbox'
+    ) {
+      console.log(event.row)
+      this._router.navigate([
+        '/apps/tm/keypair/keypair-view/',event.row.keypairId,
+      ]);
+    }
+  }
   onSelect({ selected }) {
     console.log("Select Event", selected, this.selected);
     this.selected.splice(0, this.selected.length);
@@ -165,9 +177,82 @@ export class KeypairListComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formListPersonal);
+    console.log(this.formListPersonal.value);
+    this._keypairService.getData(JSON.stringify(this.formListPersonal.value))
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((pagedData)=>{
+      console.log(pagedData)
+      this.pagedData = pagedData.data;
+      this.rowsData = pagedData.data.data;
+      console.log(this.rowsData)
+      this.rowsData = pagedData.data.data.map(item => ({
+        ...item,
+      }))
+      this.isLoading=false;
+    })
   }
+  
+  exportCSV(){
+    const body = {
+      page: 0,
+      size: 1000,
+      sort: null,
+      contains: null,
+      fromDate: null,
+      toDate: null,
+    };
+      this._keypairService
+      .getData(body)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+         console.log(pagedData)
+        if (!pagedData.data.data || !pagedData.data.data.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(pagedData.data.data[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          pagedData.data.data
+            .map((row) => {
+              return keys
+                .map((k) => {
+                  if (k !== 'createdAt') {
 
+                    console.log("Test")
+                  }
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff' + csvData], {
+          type: 'text/csv;charset=utf-8;',
+        });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh Sách Cặp Khóa');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
+  }
   /**
    * On destroy
    */

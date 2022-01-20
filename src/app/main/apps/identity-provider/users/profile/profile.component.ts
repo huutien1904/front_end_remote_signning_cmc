@@ -1,5 +1,13 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  Input,
+} from '@angular/core';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -12,7 +20,7 @@ import { UsersService } from '../users.service';
 import { User } from 'app/auth/models';
 import { AuthenticationService } from 'app/auth/service';
 import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Organization } from 'app/main/models/Organization';
 import { Province, District, Commune, Street } from 'app/main/models/Address';
@@ -21,7 +29,19 @@ import { AddressService } from '../../address.service';
 import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType,
+} from '@swimlane/ngx-datatable';
+import { PagedData } from 'app/main/models/PagedData';
+import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
+import { SubscriberCertificateListService } from 'app/main/apps/token-management/subscriber-certificate/subscriber-certificate-list/subscriber-certificate-list.service';
+import { CertificateRequest } from 'app/main/models/CertificateRequest';
+import { CertificateRequestListService } from 'app/main/apps/token-management/certificate-request/certificate-request-list/certificate-request-list.service';
+import { SidebarPersonalsComponent } from 'app/main/apps/token-management/certificate-request/certificate-request-new/personals/personals-list/sidebar-personals/sidebar-personals.component';
+import { Hsm, Token } from 'app/main/models/Equipment';
+import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -34,7 +54,11 @@ export class ProfileComponent implements OnInit {
   public contentHeader: object;
   public rows;
   public tempRow;
+  public item: any;
+  public flag: any;
   public personal: Personal;
+  public modalRef;
+  public personalSelected: Personal;
   public url = this.router.url;
   public organizationId: Organization[];
   public countryResidencePlace = [
@@ -66,15 +90,113 @@ export class ProfileComponent implements OnInit {
 
   public gender: string[] = ['Nam', 'Nữ'];
 
+  public SelectionType = SelectionType;
+  public chkBoxSelected = [];
+  public selected = [];
+  public rowDataSelected = [];
+
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
+  public cryptoAlgorithm = [
+    {
+      cryptoSystem: 'RSA',
+      keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+    },
+    {
+      cryptoSystem: 'ECDSA',
+      keypairLength: ['secp224r1', 'secp384r1', 'secp521r1'],
+    },
+  ];
+  public listProfiles: any[] = [
+    {
+      nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
+      subjectDNA: [
+        'CN',
+        'GIVENNAME',
+        'SURNAME',
+        'EMAIL',
+        'UID',
+        'OU',
+        'ST',
+        'L',
+      ],
+      subjectAttribute: ['OID'],
+      id: 1,
+    },
+    {
+      nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
+      subjectDNA: [
+        'CN',
+        'GIVENNAME',
+        'SURNAME',
+        'EMAIL',
+        'UID',
+        'OU',
+        'ST',
+        'L',
+      ],
+      subjectAttribute: ['OID'],
+      id: 2,
+    },
+    {
+      nameProfile: 'PROFILE 3: CN, UID, OU',
+      subjectDNA: ['CN', 'UID', 'OU'],
+      subjectAttribute: ['OID'],
+      id: 3,
+    },
+    {
+      nameProfile: 'PROFILE 4: CN, ST, L',
+      subjectDNA: ['CN', 'ST', 'L'],
+      subjectAttribute: ['OID'],
+      id: 4,
+    },
+    {
+      nameProfile: 'PROFILE 5: CN',
+      subjectDNA: ['CN'],
+      subjectAttribute: ['OID'],
+      id: 5,
+    },
+    {
+      nameProfile: 'PROFILE 6: UID',
+      subjectDNA: ['UID'],
+      subjectAttribute: ['OID'],
+      id: 6,
+    },
+  ];
+  public strProfile: string = '';
+  public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
+  public tokenList: Token[];
+  public hsmList = new Array<Hsm>();
+  
+
+  //page setup
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
+  // Danh sách chứng thư số
+  public pagedData = new PagedData<SubscriberCertificate>();
+  public rowsData = new Array<SubscriberCertificate>();
+  public isLoading: boolean = false;
+  public totalItems: any = 0;
+  public ColumnMode = ColumnMode;
+
+  // Danh sách yêu cầu chứng thực
+  public rowsDataCRL = new Array<CertificateRequest>();
+  public pagedDataCRL = new PagedData<CertificateRequest>();
+  public formListCertificateRequest: FormGroup;
+
   private readonly currentUser = JSON.parse(
     localStorage.getItem('currentUser')
   );
 
   // public avatarImage: string ;
   @ViewChild('accountForm') accountForm: NgForm;
+  // FormGroups
   formProfile: FormGroup;
   formInfoEdit: FormGroup;
+  formUploadCert: FormGroup;
+  newRequestForm: FormGroup;
+  formListSubscriberCertificate: FormGroup;
   public submitted = false;
+
   constructor(
     private dateAdapter: DateAdapter<any>,
     // private _authenticationService: AuthenticationService
@@ -85,7 +207,11 @@ export class ProfileComponent implements OnInit {
     private _organizationListService: OrganizationListService,
     private router: Router,
     private modalService: NgbModal,
-    private _toastrService: ToastrService
+    private modal: NgbModal,
+    private _toastrService: ToastrService,
+    public _subscriberCertificateService: SubscriberCertificateListService,
+    private _listCerReqService: CertificateRequestListService,
+    private _hsmService: HsmService,
   ) {
     this.formInfoEdit = this.fb.group({
       userId: [null, Validators.required],
@@ -132,39 +258,23 @@ export class ProfileComponent implements OnInit {
       gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email]],
+      certificate: [null, [Validators.required]],
     });
+
+    this.formProfile = this.fb.group({
+      username: ['', [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+    });
+
+    this.formUploadCert = this.fb.group({
+      certificateContent: ['', Validators.required],
+      userId: [null, Validators.required],
+    });
+
+
   }
   async ngOnInit() {
-    // get organizationID
-    this.organizationId = await this._organizationListService
-      .getAllOrganizations()
-      .pipe(takeUntil(this._unsubscribeAll))
-      .toPromise()
-      .then((res) => {
-        console.log(res.data);
-
-        return res.data;
-      });
-
-    // set provice
-    this.provinceBirthPlace = this.provinceResidencePlace =
-      await this._addressService
-        .getProvince()
-        .pipe(
-          map((res) => {
-            const data = res.data.map((city) => ({
-              ...city,
-              provinceDisplay: city.provinceType + ' ' + city.provinceName,
-            }));
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
+    //get User-Email Account
     if (this._authenticationService.isStaff) {
       this.personal = await this._usersService
         .getStaffSelf()
@@ -173,202 +283,101 @@ export class ProfileComponent implements OnInit {
         .then((res) => {
           return res.data;
         });
-
-      this.formInfoEdit.patchValue({
-        userId: this.personal.userId,
+      this.formProfile.patchValue({
         username: this.personal.username,
-        firstName: this.personal.firstName,
-        middleName: this.personal.middleName,
-        lastName: this.personal.lastName,
-        phoneNumber: this.personal.phoneNumber,
-        personalCountryId: this.personal.personalCountryId,
-        birthday: this.personal.birthday,
-        gender: this.personal.gender,
         email: this.personal.email,
-        homeNumberBirthPlace: this.personal.birthPlace.houseNumber,
-        homeNumberResidencePlace: this.personal.address.houseNumber,
-      });
-
-      this.organizationId.forEach((organization) => {
-        if (organization.organizationName == this.personal.organizationName) {
-          this.formInfoEdit
-            .get('organizationId')
-            .setValue(organization.organizationId);
-        }
-      });
-
-      // set province birth place
-      this.provinceBirthPlace.forEach((province) => {
-        if (province.provinceId == this.personal.birthPlace.provinceId) {
-          this.formInfoEdit
-            .get('provinceBirthPlace')
-            .setValue(province.provinceId);
-        }
-      });
-
-      this.provinceResidencePlace.forEach((province) => {
-        if (province.provinceId == this.personal.address.provinceId) {
-          this.formInfoEdit
-            .get('provinceResidencePlace')
-            .setValue(province.provinceId);
-        }
-      });
-
-      // get list district birth place
-      this.districtBirthPlace = await this._addressService
-        .getDistrict(this.personal.birthPlace.provinceId)
-        .pipe(
-          map((res) => {
-            const data = res.data.map((district) => ({
-              ...district,
-              districtDisplay:
-                district.districtType + ' ' + district.districtName,
-            }));
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
-      this.districtBirthPlace.forEach((district) => {
-        if (district.districtId == this.personal.birthPlace.districtId) {
-          this.formInfoEdit
-            .get('districtBirthPlace')
-            .setValue(district.districtId);
-        }
-      });
-
-      // get list district resident place
-      this.districtResidencePlace = await this._addressService
-        .getDistrict(this.personal.address.provinceId)
-        .pipe(
-          map((res) => {
-            const data = res.data.map((district) => ({
-              ...district,
-              districtDisplay:
-                district.districtType + ' ' + district.districtName,
-            }));
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
-      this.districtResidencePlace.forEach((district) => {
-        if (district.districtId == this.personal.address.districtId) {
-          this.formInfoEdit
-            .get('districtResidencePlace')
-            .setValue(district.districtId);
-        }
-      });
-
-      this.communeBirthPlace = await this._addressService
-        .getCommune(this.personal.birthPlace.districtId)
-        .pipe(
-          map((res) => {
-            const data = res.data.map((commune) => ({
-              ...commune,
-              communeDisplay: commune.communeType + ' ' + commune.communeName,
-            }));
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
-      this.communeBirthPlace.forEach((commune) => {
-        if (commune.communeId == this.personal.birthPlace.communeId) {
-          this.formInfoEdit
-            .get('communeBirthPlace')
-            .setValue(commune.communeId);
-        }
-      });
-
-      // get list commune residen place
-      this.communeResidencePlace = await this._addressService
-        .getCommune(this.personal.address.districtId)
-        .pipe(
-          map((res) => {
-            const data = res.data.map((commune) => ({
-              ...commune,
-              communeDisplay: commune.communeType + ' ' + commune.communeName,
-            }));
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
-      this.communeResidencePlace.forEach((commune) => {
-        if (commune.communeId == this.personal.address.communeId) {
-          this.formInfoEdit
-            .get('communeResidencePlace')
-            .setValue(commune.communeId);
-        }
-      });
-
-      this.streetBirthPlace = await this._addressService
-        .getStreet(this.personal.birthPlace.communeId)
-        .pipe(
-          map((res) => {
-            const data = res.data.map((commune) => ({
-              ...commune,
-              communeDisplay: commune.streetType + ' ' + commune.streetName,
-            }));
-            console.log(data);
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
-      this.streetResidencePlace = await this._addressService
-        .getStreet(this.personal.address.communeId)
-        .pipe(
-          map((res) => {
-            const data = res.data.map((commune) => ({
-              ...commune,
-              communeDisplay: commune.streetType + ' ' + commune.streetName,
-            }));
-            console.log(data);
-            return data;
-          }),
-          takeUntil(this._unsubscribeAll)
-        )
-        .toPromise()
-        .then((res) => {
-          return res;
-        });
-
-      this.streetBirthPlace.forEach((street) => {
-        if (street.streetId == this.personal.birthPlace.streetId) {
-          this.formInfoEdit.get('streetBirthPlace').setValue(street.streetId);
-        }
-      });
-
-      this.streetResidencePlace.forEach((street) => {
-        if (street.streetId == this.personal.address.streetId) {
-          this.formInfoEdit
-            .get('streetResidencePlace')
-            .setValue(street.streetId);
-        }
       });
     }
+    // form danh sách chứng thư số
+    this.formListSubscriberCertificate = this.fb.group({
+      contains: [null],
+      fromDate: [null],
+      sort: [null],
+      toDate: [null],
+      page: [null],
+      size: [this.sizePage[3]],
+    });
+    this.setPage({
+      offset: 0,
+      pageSize: this.formListSubscriberCertificate.get('size').value,
+    });
+
+    //form Danh sách yêu cầu chứng thực
+
+    this.formListCertificateRequest = this.fb.group({
+      contains: [null],
+      fromDate: [null],
+      sort: [null],
+      toDate: [null],
+      page: [null],
+      size: [this.sizePage[3]],
+    });
+    this.setPageCRL({
+      offset: 0,
+      pageSize: this.formListSubscriberCertificate.get('size').value,
+    });
+
+    this.setPageCRL({
+      offset: 0,
+      pageSize: this.formListCertificateRequest.get('size').value,
+    });
+
+    //get ListHsm
+    await this._hsmService
+      .getListHsm({
+        page: 0,
+        size: 100,
+      })
+      .pipe(
+        map((res) => {
+          res.data.data.forEach((element, index) => {
+            if (element.tokens.length == 0) {
+              delete res.data.data[index];
+            }
+          });
+          return res.data.data.filter((x) => x !== null);
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .toPromise()
+      .then((hsmList) => {
+        console.log(hsmList);
+        this.hsmList = hsmList;
+        this.tokenList = this.hsmList[0].tokens;
+      });
+    this.newRequestForm = this.fb.group(
+      {
+        cryptoAlgorithm: this.fb.group({
+          cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
+          keypairLength: [this.keypairLengthList[0], Validators.required],
+        }),
+        alias: [
+          this.personal.username +
+            Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
+        ,
+        tokenId: [this.tokenList[0], Validators.required],
+        userId: [this.personal.userId],
+        hsm: [this.hsmList[0]],
+        profile: [null, Validators.required],
+      }
+    );
+  }
+  // setPage danh sánh chứng thư số
+  setPage(pageInfo) {
+    console.log(pageInfo);
+    this.isLoading = true;
+    this.formListSubscriberCertificate.patchValue({ page: pageInfo.offset });
+    this._subscriberCertificateService
+      .getListSubscriberCertificates(
+        JSON.stringify(this.formListSubscriberCertificate.value)
+      )
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        this.totalItems = pagedData.data.totalItems;
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data;
+        this.isLoading = false;
+      });
   }
 
   selectProvince(type) {
@@ -629,6 +638,251 @@ export class ProfileComponent implements OnInit {
   get f() {
     return this.formInfoEdit.controls;
   }
+  get fa() {
+     return this.newRequestForm.controls;
+  }
+
+  async loadProfile() {
+    console.log('Loading');
+    // keyCheck
+    // const keyCheck = false;
+    // console.log(this.formInfoEdit.value)
+    if (this.formInfoEdit.value.userId == null) {
+      this.organizationId = await this._organizationListService
+        .getAllOrganizations()
+        .pipe(takeUntil(this._unsubscribeAll))
+        .toPromise()
+        .then((res) => {
+          console.log(res.data);
+
+          return res.data;
+        });
+
+      this.provinceBirthPlace = this.provinceResidencePlace =
+        await this._addressService
+          .getProvince()
+          .pipe(
+            map((res) => {
+              const data = res.data.map((city) => ({
+                ...city,
+                provinceDisplay: city.provinceType + ' ' + city.provinceName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+      if (this._authenticationService.isStaff) {
+        this.personal = await this._usersService
+          .getStaffSelf()
+          .pipe(takeUntil(this._unsubscribeAll))
+          .toPromise()
+          .then((res) => {
+            return res.data;
+          });
+
+        this.formInfoEdit.patchValue({
+          userId: this.personal.userId,
+          username: this.personal.username,
+          firstName: this.personal.firstName,
+          middleName: this.personal.middleName,
+          lastName: this.personal.lastName,
+          phoneNumber: this.personal.phoneNumber,
+          personalCountryId: this.personal.personalCountryId,
+          birthday: this.personal.birthday,
+          gender: this.personal.gender,
+          email: this.personal.email,
+          homeNumberBirthPlace: this.personal.birthPlace.houseNumber,
+          homeNumberResidencePlace: this.personal.address.houseNumber,
+        });
+
+        this.organizationId.forEach((organization) => {
+          if (organization.organizationName == this.personal.organizationName) {
+            this.formInfoEdit
+              .get('organizationId')
+              .setValue(organization.organizationId);
+          }
+        });
+
+        // set province birth place
+        this.provinceBirthPlace.forEach((province) => {
+          if (province.provinceId == this.personal.birthPlace.provinceId) {
+            this.formInfoEdit
+              .get('provinceBirthPlace')
+              .setValue(province.provinceId);
+          }
+        });
+
+        this.provinceResidencePlace.forEach((province) => {
+          if (province.provinceId == this.personal.address.provinceId) {
+            this.formInfoEdit
+              .get('provinceResidencePlace')
+              .setValue(province.provinceId);
+          }
+        });
+
+        // get list district birth place
+        this.districtBirthPlace = await this._addressService
+          .getDistrict(this.personal.birthPlace.provinceId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((district) => ({
+                ...district,
+                districtDisplay:
+                  district.districtType + ' ' + district.districtName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.districtBirthPlace.forEach((district) => {
+          if (district.districtId == this.personal.birthPlace.districtId) {
+            this.formInfoEdit
+              .get('districtBirthPlace')
+              .setValue(district.districtId);
+          }
+        });
+
+        // get list district resident place
+        this.districtResidencePlace = await this._addressService
+          .getDistrict(this.personal.address.provinceId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((district) => ({
+                ...district,
+                districtDisplay:
+                  district.districtType + ' ' + district.districtName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.districtResidencePlace.forEach((district) => {
+          if (district.districtId == this.personal.address.districtId) {
+            this.formInfoEdit
+              .get('districtResidencePlace')
+              .setValue(district.districtId);
+          }
+        });
+
+        this.communeBirthPlace = await this._addressService
+          .getCommune(this.personal.birthPlace.districtId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.communeType + ' ' + commune.communeName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.communeBirthPlace.forEach((commune) => {
+          if (commune.communeId == this.personal.birthPlace.communeId) {
+            this.formInfoEdit
+              .get('communeBirthPlace')
+              .setValue(commune.communeId);
+          }
+        });
+
+        // get list commune residen place
+        this.communeResidencePlace = await this._addressService
+          .getCommune(this.personal.address.districtId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.communeType + ' ' + commune.communeName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.communeResidencePlace.forEach((commune) => {
+          if (commune.communeId == this.personal.address.communeId) {
+            this.formInfoEdit
+              .get('communeResidencePlace')
+              .setValue(commune.communeId);
+          }
+        });
+
+        this.streetBirthPlace = await this._addressService
+          .getStreet(this.personal.birthPlace.communeId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.streetType + ' ' + commune.streetName,
+              }));
+              console.log(data);
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.streetResidencePlace = await this._addressService
+          .getStreet(this.personal.address.communeId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.streetType + ' ' + commune.streetName,
+              }));
+              console.log(data);
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.streetBirthPlace.forEach((street) => {
+          if (street.streetId == this.personal.birthPlace.streetId) {
+            this.formInfoEdit.get('streetBirthPlace').setValue(street.streetId);
+          }
+        });
+
+        this.streetResidencePlace.forEach((street) => {
+          if (street.streetId == this.personal.address.streetId) {
+            this.formInfoEdit
+              .get('streetResidencePlace')
+              .setValue(street.streetId);
+          }
+        });
+      }
+    }
+  }
+
   onSubmit() {
     if (!this.formInfoEdit.valid) {
       this.submitted = true;
@@ -681,5 +935,157 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
+  onSelect({ selected }) {
+    console.log('Select Event', selected, this.selected);
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+    this.formInfoEdit.get('userId').setValue(this.personal.userId);
+    console.log(this.personal.userId);
+  }
+
+  //Danh sách yêu cầu chứng thực
+  getOrganizationCRL(item): any {
+    let info = this._listCerReqService.readCertificate(
+      item.certificateRequestContent
+    );
+    let rs = info.find((obj) => obj.name === 'organizationalUnitName');
+    if (rs == undefined) return;
+    return rs.value;
+  }
+  getSubscribe(item): any {
+    let info = this._listCerReqService.readCertificate(
+      item.certificateRequestContent
+    );
+    return info.find((obj) => obj.name === 'commonName').value;
+  }
+  setPageCRL(pageInfo) {
+    this.isLoading = true;
+    this.formListCertificateRequest.patchValue({ page: pageInfo.offset });
+    this._listCerReqService
+      .getListCertificateRequests(
+        JSON.stringify(this.formListCertificateRequest.value)
+      )
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedDataCRL) => {
+        this.totalItems = pagedDataCRL.data.totalItems;
+        this.pagedDataCRL = pagedDataCRL.data;
+        this.rowsDataCRL = pagedDataCRL.data.data;
+        this.rowsDataCRL = pagedDataCRL.data.data.map((item) => ({
+          ...item,
+          organizationName: this.getOrganizationCRL(item),
+          subscribeName: this.getSubscribe(item),
+        }));
+        this.isLoading = false;
+      });
+  }
+
+  // open modal chứng thư số
+  openNewCertModal(modal) {
+    this.rowDataSelected = this.selected;
+    this.formUploadCert.reset();
+    this.modalRef = this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+    });
+  }
+
+  // open modal yêu cầu chứng thực
+  openToggleSidebar(modalForm) {
+    this.modal.open(modalForm, { size: 'xl' });
+  }
+
+  checkAlias(): AsyncValidatorFn {
+    return (
+      control: AbstractControl
+    ): Observable<{ [key: string]: any } | null> => {
+      return this._addressService.checkAlias(control.value).pipe(
+        map((res) => {
+          if (res.data) {
+            return { used: true };
+          } else {
+            return null;
+          }
+        })
+      );
+    };
+  }
+
+  changeProfile() {
+    const profile: any[] = this.fa.profile.value.subjectDNA;
+    this.strProfile = '';
+    let firstWord = true;
+    profile.map((attribute: string) => {
+      let value = '';
+      switch (attribute) {
+        case 'CN':
+          value =
+            this.personal.firstName +
+            ' ' +
+            this.personal.middleName +
+            ' ' +
+            this.personal.lastName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+          break;
+        case 'GIVENNAME':
+          value =
+            this.personal.firstName +
+            ' ' +
+            this.personal.middleName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+          break;
+        case 'SURNAME':
+          value = this.personal.firstName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+          break;
+        case 'EMAIL':
+          value = this.personal.email;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+          break;
+        case 'UID':
+          value = this.personal.personalCountryId;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+          break;
+        case 'OU':
+          value = this.personal.organizationName;
+          this.displayProfile(attribute, value, firstWord);
+          firstWord = false;
+          break;
+        case 'ST':
+          this._addressService
+            .getProvinceName(this.personal.address.provinceId)
+            .subscribe((res: any) => {
+              value = res.data.provinceName;
+              this.displayProfile(attribute, value, firstWord);
+            });
+          firstWord = false;
+          break;
+        case 'L':
+          this._addressService
+            .getDistrictName(this.personal.address.districtId)
+            .subscribe((res: any) => {
+              value = res.data.districtName;
+              this.displayProfile(attribute, value, firstWord);
+            });
+          firstWord = false;
+          break;
+      }
+    });
+  }
+  displayProfile(attribute, value, firstWord) {
+    if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
+    else {
+      this.strProfile += attribute + ' = ' + value;
+    }
   }
 }

@@ -22,6 +22,8 @@ export class HsmEditComponent implements OnInit {
   public contentHeader: object;
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
+  public hsmForm: any[] = ["FIPS", "PC5"];
+
   get f() {
     return this.HsmFormEdit.controls;
   }
@@ -60,21 +62,22 @@ export class HsmEditComponent implements OnInit {
       hsmModel: [null, Validators.required],
       hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
       hsmType: [null, Validators.required],
+      hsmForm: ["FIPS", Validators.required],
     });
 
     this.contentHeader = {
-      headerTitle: 'Tạo Thiết bị HSM',
+      headerTitle: 'Tạo kết nối HSM',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách thiết bị HSM',
+            name: 'Danh sách kết nối HSM',
             isLink: true,
             link: '/apps/equipment-management/hsm/hsm-list'
           },
           {
-            name: 'Chỉnh sửa thiết bị HSM',
+            name: 'Chỉnh sửa kết nối HSM',
             isLink: false,
             // link: '/apps/equipment-management/new-hsm'
           }
@@ -91,7 +94,6 @@ export class HsmEditComponent implements OnInit {
     // .subscribe((res) =>{
     //   console.log(res);
     // })
-
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
       text: "Bạn sẽ không thể hoàn tác điều này!",

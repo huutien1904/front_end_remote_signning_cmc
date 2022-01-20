@@ -1,35 +1,28 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { RouterModule, Routes } from "@angular/router";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { OverlayModule } from "@angular/cdk/overlay";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
-import "hammerjs";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { TranslateModule } from "@ngx-translate/core";
-import { ToastrModule } from "ngx-toastr"; // For auth after login toast
-import { FakeDbService } from "@fake-db/fake-db.service";
-
-import { CoreModule } from "@core/core.module";
+import { NgModule } from "@angular/core";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule, Routes } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule, CoreThemeCustomizerModule } from "@core/components";
-
+import { CoreModule } from "@core/core.module";
+import { FakeDbService } from "@fake-db/fake-db.service";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { coreConfig } from "app/app-config";
-
 import { AppComponent } from "app/app.component";
-import { LayoutModule } from "app/layout/layout.module";
 import {
-  ErrorInterceptor,
-  JwtInterceptor,
+  JwtInterceptor
 } from "app/auth/helpers"; // used to create fake backend
 import { AuthGuard } from 'app/auth/helpers/auth.guards';
-
-import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
+import { LayoutModule } from "app/layout/layout.module";
+import "hammerjs";
+import { ToastrModule } from "ngx-toastr"; // For auth after login toast
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
-import { LoadingService } from "./main/loading/loading.service";
-import { LoadingInterceptor } from "./main/loading/loading.interceptor";
-import { OverlayModule } from "@angular/cdk/overlay";
+
 
 const appRoutes: Routes = [
   {
@@ -88,17 +81,13 @@ const appRoutes: Routes = [
     LayoutModule,
     OverlayModule,
     MatProgressSpinnerModule,
+    HttpClientModule
   ],
   providers: [
     
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    LoadingService,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true
-      }
+    
+    
   ],
   bootstrap: [AppComponent],
   

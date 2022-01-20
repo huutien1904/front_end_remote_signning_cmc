@@ -90,7 +90,8 @@ export class PersonalsComponent implements OnInit {
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading=true;
-    this.formListPersonal.patchValue({"page":pageInfo.offset}); 
+    this.formListPersonal.patchValue({"page":pageInfo.offset});
+    console.log(this.formListPersonal.value)
     this._personalService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))

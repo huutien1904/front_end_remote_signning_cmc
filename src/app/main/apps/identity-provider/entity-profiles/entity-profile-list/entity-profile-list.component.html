@@ -250,9 +250,16 @@
           <!-- subject AND -->
           <ngx-datatable-column
             name="Thuộc tính DN chính"
-            prop="subjectDnAttribute"
+            
             [width]="300"
           >
+          <ng-template
+                  ngx-datatable-cell-template
+                  let-row="row"
+                  let-rowIndex="rowIndex"
+                >
+                  {{ row.subjectDnAttribute }}
+                </ng-template>
           </ngx-datatable-column>
           <!-- subject ATT -->
           <ngx-datatable-column

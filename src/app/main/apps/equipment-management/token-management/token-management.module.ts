@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
+  MomentDateAdapter
 } from '@angular/material-moment-adapter';
 import {
   DateAdapter,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE
 } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -23,13 +22,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-import { LoadingInterceptor } from 'app/main/loading/loading.interceptor';
-import { LoadingService } from 'app/main/loading/loading.service';
 import { TokenCreateComponent } from './token-create/token-create.component';
 import { TokenEditComponent } from './token-edit/token-edit.component';
 import { TokenListComponent } from './token-list/token-list.component';
 import { TokenViewComponent } from './token-view/token-view.component';
 import { TokenService } from './token.service';
+import { TokenPasswordComponent } from './token-list/token-password/token-password.component';
 
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
@@ -39,6 +37,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     TokenListComponent,
     TokenCreateComponent,
     TokenEditComponent,
+    TokenPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -75,12 +74,6 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    LoadingService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true,
-    },
   ],
 })
 export class TokenManagementModule {}

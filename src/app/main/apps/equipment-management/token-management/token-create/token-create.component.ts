@@ -22,6 +22,7 @@ export class TokenCreateComponent implements OnInit {
   public submitted = false;
   public hsmList: any[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+  public lockQuantity:any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page" : null,
     "size" : 4,
@@ -51,6 +52,7 @@ export class TokenCreateComponent implements OnInit {
         tokenPassword: ['', Validators.required],
         confPassword: ['', Validators.required],
         hsmInformationId: [null, Validators.required],
+        lockQuantity: [null, Validators.required],
       },
       {
         validator: MustMatch('tokenPassword', 'confPassword')
@@ -58,19 +60,19 @@ export class TokenCreateComponent implements OnInit {
     );
     this.getHsmList();
     this.contentHeader = {
-      headerTitle: 'Tạo Token',
+      headerTitle: 'Tạo Slot',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách TOKEN',
+            name: 'Danh sách Slot',
             isLink: true,
             link: '/apps/equipment-management/token/token-list'
 
           },
           {
-            name: 'Tạo Token',
+            name: 'Tạo Slot',
             isLink: false,
           }
         ]
@@ -97,11 +99,12 @@ export class TokenCreateComponent implements OnInit {
 
   }
   onSubmit() {
+    console.log("create")
     this.submitted = true;
     // stop here if form is invalid
-    if (this.tokenForm.invalid) {
-      return;
-    }
+    // if (this.tokenForm.invalid) {
+    //   return;
+    // }
     console.log(this.tokenForm.value);
     const newRequest = JSON.stringify({
       slotNumber: this.f.slotNumber.value,
@@ -127,7 +130,7 @@ export class TokenCreateComponent implements OnInit {
   }
 
   exit() {
-    this.router.navigateByUrl("/apps/equipment-management/search")
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
 
 }

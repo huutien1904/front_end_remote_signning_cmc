@@ -1,94 +1,230 @@
-<app-content-header [contentHeader]="contentHeader"> </app-content-header>
-<div class="content-body">
-  <section>
-    <div class="card">
-      <div class="card-body">
-        <h3>Chi tiết HSM</h3>
-        <form [formGroup]="HsmFormView" class="form form-horizontal">
-          <div class="form_content">
-            <div class="row">
-              <div class="col-md-6 offset-3">
-                <div class="form-group">
-                  <label for="UDUserName">Tên HSM</label>
-                  <input
-                    type="text"
-                    formControlName="hsmName"
-                    class="form-control"
-                    readonly
-                    
-                  />
-                  
-                </div>
-              </div>
-              <div class="col-md-6 offset-3">
-                <div class="form-group">
-                  <label for="UDUserName">ID HSM</label>
-                  <input
-                    type="text"
-                    formControlName="hardwareId"
-                    class="form-control"
-                    readonly
-                    
-                  />
-                  
-                </div>
-              </div>
-              <div class="col-md-6 offset-3">
-                <div class="form-group">
-                  <label for="UDUserName">Hãng sản xuất</label>
-                  <input
-                    type="text"
-                    formControlName="hsmManufacturer"
-                    class="form-control"
-                    readonly
-                    
-                  />
-                  
-                </div>
-              </div>
-              <div class="col-md-6 offset-3">
-                <div class="form-group">
-                  <label for="UDUserName">Model</label>
-                  <input
-                    type="text"
-                    formControlName="hsmModel"
-                    class="form-control"
-                    readonly
-                    
-                  />
-                  
-                </div>
-              </div>
-              <div class="col-md-6 offset-3">
-                <div class="form-group">
-                  <label>Loại HSM</label>
-                  <ng-select
-                    
-                    formControlName="hsmType"
-                    readonly
-                    
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"> </app-content-header>
+    <div class="content-body">
+      <section>
+        <div class="card">
+          <div class="card-body">
+            <h3>Chi tiết kết nối HSM</h3>
+            <form [formGroup]="HsmFormView" class="form form-horizontal">
+              <div class="form_content">
+                <div class="">
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Tên kết nối HSM</label>
+                      <input
+                        type="text"
+                        formControlName="hsmName"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Hãng sản xuất</label>
+                      <input
+                        type="text"
+                        formControlName="hsmManufacturer"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Model</label>
+                      <input
+                        type="text"
+                        formControlName="hsmModel"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Đường dẫn file thư viện</label>
+                      <input
+                        type="text"
+                        formControlName="hsmLibraryPath"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
+                      <label>Loại HSM</label>
+                      <input
+                        type="text"
+                        formControlName="hsmType"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Chuẩn HSM</label>
+                      <input
+                        type="text"
+                        formControlName="hsmForm"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label>Danh sách slot</label>
+                    <div class="" *ngFor="let language of tokens; index as i">
+                      <input
+                        type="text"
+                        value="{{ language.tokenName }}"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <mat-progress-bar
+                    *ngIf="isLoading"
+                    mode="indeterminate"
+                  ></mat-progress-bar>
+                  <ngx-datatable
+                    [rows]="rowsData"
+                    class="bootstrap core-bootstrap cursor"
+                    [columnMode]="ColumnMode.force"
+                    [headerHeight]="50"
+                    rowHeight="auto"
+                    [scrollbarH]="true"
+                    [footerHeight]="50"
+                    [rowHeight]="50"
+                    [loadingIndicator]="isLoading"
+                    [selectionType]="'checkbox'"
                   >
-                  </ng-select>
-                  
+                    <ngx-datatable-column
+                      [width]="50"
+                      [sortable]="false"
+                      [canAutoResize]="false"
+                      [draggable]="false"
+                      [resizeable]="false"
+                      class="ml-1"
+                      name="checkbox"
+                    >
+                      <ng-template
+                        ngx-datatable-header-template
+                        let-value="value"
+                        let-allRowsSelected="allRowsSelected"
+                        let-selectFn="selectFn"
+                      >
+                        <div
+                          class="custom-control custom-control-primary custom-checkbox"
+                        >
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="allRowsSelected"
+                            (change)="selectFn(!allRowsSelected)"
+                            id="headerCustomChkbxRef"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="headerCustomChkbxRef"
+                          ></label>
+                        </div>
+                      </ng-template>
+                      <ng-template
+                        ngx-datatable-cell-template
+                        let-rowIndex="rowIndex"
+                        let-value="value"
+                        let-isSelected="isSelected"
+                        let-onCheckboxChangeFn="onCheckboxChangeFn"
+                      >
+                        <div
+                          class="custom-control custom-control-primary custom-checkbox"
+                        >
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="isSelected"
+                            (change)="onCheckboxChangeFn($event)"
+                            id="rowCustomChkbxRef{{ rowIndex }}"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="rowCustomChkbxRef{{ rowIndex }}"
+                          ></label>
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column
+                      name="TT"
+                      [sortable]="false"
+                      [canAutoResize]="false"
+                      [width]="50"
+                    >
+                      <ng-template
+                        ngx-datatable-cell-template
+                        let-rowIndex="rowIndex"
+                      >
+                        {{
+                          rowIndex + 1
+                        }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column
+                      name="Token ID"
+                      prop="tokenId"
+                      [width]="100"
+                    >test</ngx-datatable-column>
+                    <ngx-datatable-column
+                      name="Tên Token"
+                      prop="tokenName"
+                      [width]="200"
+                    ></ngx-datatable-column>
+                    <ngx-datatable-footer>
+                      <ng-template
+                        ngx-datatable-footer-template
+                        let-rowCount="rowCount"
+                        let-pageSize="pageSize"
+                        let-selectedCount="selectedCount"
+                        let-curPage="curPage"
+                        let-offset="offset"
+                        let-isVisible="isVisible"
+                      >
+                        <div class="page-count" *ngIf="!isLoading">
+                          Có tổng số
+                          {{ rowCount.toLocaleString() }}
+                          {{ totalMessage }} hàng.
+                        </div>
+                        <datatable-pager
+                          [pagerLeftArrowIcon]="'datatable-icon-left'"
+                          [pagerRightArrowIcon]="'datatable-icon-right'"
+                          [pagerPreviousIcon]="'datatable-icon-prev'"
+                          [pagerNextIcon]="'datatable-icon-skip'"
+                          [page]="curPage"
+                          [size]="pageSize"
+                          [count]="rowCount"
+                          [hidden]="!(rowCount / pageSize > 1)"
+                          (change)="table.onFooterPage($event)"
+                        >
+                        </datatable-pager>
+                      </ng-template>
+                    </ngx-datatable-footer>
+                  </ngx-datatable>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 offset-6">
+                    <div class="d-flex justify-content-md-end m-1">
+                      <button
+                        (click)="exit()"
+                        rippleEffect
+                        class="btn btn-outline-primary"
+                      >
+                        Quay Lại
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 offset-3">
-                <div class="form-group">
-                  <label for="UDUserName">Đường dẫn file thư viện</label>
-                  <input
-                    type="text"
-                    formControlName="hsmLibraryPath"
-                    class="form-control"
-                    readonly
-                  />
-                  
-                </div>
-              </div>
-            </div>
-            
+            </form>
           </div>
-        </form>
-      </div>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </div>
