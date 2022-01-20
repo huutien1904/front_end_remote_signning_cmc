@@ -107,7 +107,8 @@ export class DashboardComponent implements OnInit {
     localStorage.getItem("currentUser")
   );
   public fullName = this.currentUser.firstName + " " + this.currentUser.middleName + " " + this.currentUser.lastName
-  public username
+  public username = this.currentUser.username
+  public email = this.currentUser.email
 
   constructor(
     private _organizationListService: OrganizationListService,

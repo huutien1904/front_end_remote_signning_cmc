@@ -76,7 +76,7 @@
             <div class="user-nav d-sm-flex d-none">
                 <span class="user-name font-weight-bolder">{{ this.currentUser.firstName }} {{ this.currentUser.middleName }}
               {{ this.currentUser.lastName }}</span
-            ><span class="user-status">{{this.currentUser.role.indexOf("SUPER_ADMIN") > -1 ?'Quản trị cấp cao':this.currentUser.role.indexOf("ADMIN") > -1?'Quản trị viên':this.currentUser.role.indexOf("USER") > -1?'Người dùng':null}}</span>
+            ><span class="user-status">{{this.currentUser.role.indexOf("SUPER_ADMIN")?'Quản trị cấp cao':this.currentUser.role.includes("ADMIN")?'Quản trị viên':this.currentUser.role.includes("USER")?'Người dùng':null}}{{this.currentUser.role[0]}}</span>
             </div>
             <span class="avatar"><img
               class="round"
