@@ -84,7 +84,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public _translateService: TranslateService
   ) {
     this._authenticationService.currentUser.subscribe(x => ( this.currentUser = x));
-    console.log(this.currentUser);
+    console.log(this.currentUser.role);
     this.languageOptions = {
       vi: {
         title: 'Vietnam',
