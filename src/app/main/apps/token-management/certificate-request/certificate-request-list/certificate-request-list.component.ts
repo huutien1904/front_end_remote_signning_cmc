@@ -99,20 +99,20 @@ export class CertificateRequestListComponent implements OnInit {
     console.log(this.rowsData);
   }
 
-  getOrganization(item): any {
-    let info = this._listCerReqService.readCertificate(item.certificateRequestContent);
-    let rs = info.find((obj) => obj.name === 'organizationalUnitName');
-    if (rs == undefined) return;
-    return rs.value;
-  }
-  getSubscribe(item): any {
-    // console.log(item)
-    let info = this._listCerReqService.readCertificate(item.certificateRequestContent);
-    console.log(info)
-    console.log(info.find((obj) => obj.name === 'commonName').value)
+  // getOrganization(item): any {
+  //   let info = this._listCerReqService.readCertificate(item.certificateRequestContent);
+  //   let rs = info.find((obj) => obj.name === 'organizationalUnitName');
+  //   if (rs == undefined) return;
+  //   return rs.value;
+  // }
+  // getSubscribe(item): any {
+  //   // console.log(item)
+  //   let info = this._listCerReqService.readCertificate(item.certificateRequestContent);
+  //   console.log(info)
+  //   console.log(info.find((obj) => obj.name === 'commonName').value)
 
-    return info.find((obj) => obj.name === 'commonName').value;
-  }
+  //   return info.find((obj) => obj.name === 'commonName').value;
+  // }
   setPage(pageInfo) {
     this.isLoading = true;
     this.formListCertificateRequest.patchValue({ page: pageInfo.offset });
@@ -146,8 +146,6 @@ export class CertificateRequestListComponent implements OnInit {
                     : "Ed448"
           ,
           sizePublicKey: this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
-          organizationName: this.getOrganization(item),
-          subscribeName: this.getSubscribe(item),
         }));
         this.isLoading = false;
         console.log(this.rowsData)
@@ -209,8 +207,6 @@ export class CertificateRequestListComponent implements OnInit {
                     : "Ed448"
           ,
           sizePublicKey: this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
-          organizationName: this.getOrganization(item),
-          subscribeName: this.getSubscribe(item),
         }));
         if (!this.dataExport || !this.dataExport.length) {
           return;
@@ -293,14 +289,18 @@ export class CertificateRequestListComponent implements OnInit {
     console.log(csrString)
     csrString = csrString.replace("NEW ", "").replace("NEW ", "")
     var forge = require('node-forge');
-    var csr = forge.pki.certificationRequestFromPem(csrString);
+    console.log(csrString)
     const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+    console.log(csr2)
+    
+    //var csr = forge.pki.certificationRequestFromPem(csrString);
+    //console.log(csr)
     var pki = forge.pki;
     this.results[0].subjectDN = csr2.subject
-    this.results[0].sizePublicKey = csr.publicKey.n.bitLength()
+    //this.results[0].sizePublicKey = csr.publicKey.n.bitLength()
     this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name
-    this.results[0].exponent = csr.publicKey.e.data
-    this.results[0].algorithmSignature = pki.oids[csr.siginfo.algorithmOid]
+    // this.results[0].exponent = csr.publicKey.e.data
+    // this.results[0].algorithmSignature = pki.oids[csr.siginfo.algorithmOid]
     // try {
     //   var email = csr.subject.getField('E').value
     //   // console.log(email)
@@ -314,24 +314,24 @@ export class CertificateRequestListComponent implements OnInit {
     //   }
     // }
 
-    var modulus = ""
-    for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
+    // var modulus = ""
+    // for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
 
-      var hex = (csr.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
-      if (hex.length < 2) {
-        hex = "0" + hex
-      }
-      if (modulus == "") {
-        modulus = hex
-        // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
-      } else {
-        modulus = modulus + ":" + hex
-        // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
-      }
-    }
-    console.log(this.results[0])
+    //   var hex = (csr.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
+    //   if (hex.length < 2) {
+    //     hex = "0" + hex
+    //   }
+    //   if (modulus == "") {
+    //     modulus = hex
+    //     // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
+    //   } else {
+    //     modulus = modulus + ":" + hex
+    //     // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
+    //   }
+    // }
+    // console.log(this.results[0])
     return this.results[0]
-    this.results[0].modulus = modulus
+    //this.results[0].modulus = modulus
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
