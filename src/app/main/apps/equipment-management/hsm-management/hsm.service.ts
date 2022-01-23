@@ -35,7 +35,7 @@ export class HsmService {
       this.option
     );
   }
-  public submitForm(body): Observable<ResponseData<Hsm>> {
+  public createHSM(body): Observable<ResponseData<Hsm>> {
     return this._httpClient.post<any>(
       `${environment.apiUrl}/hsm/create`,body,
       this.option

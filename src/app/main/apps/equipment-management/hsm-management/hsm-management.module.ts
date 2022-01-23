@@ -27,6 +27,7 @@ import { HsmEditComponent } from "./hsm-edit/hsm-edit.component";
 import { HsmListComponent } from "./hsm-list/hsm-list.component";
 import { HsmViewComponent } from "./hsm-view/hsm-view.component";
 import { HsmService } from "./hsm.service";
+import { HsmCreateSidebarComponent } from './hsm-create/hsm-create-sidebar/hsm-create-sidebar.component';
 
 
 const materialModules1234 = [
@@ -35,7 +36,7 @@ const materialModules1234 = [
 ];
 
 @NgModule({
-  declarations: [HsmListComponent, HsmEditComponent, HsmViewComponent, HsmCreateComponent],
+  declarations: [HsmListComponent, HsmEditComponent, HsmViewComponent, HsmCreateComponent, HsmCreateSidebarComponent],
   imports: [
     CommonModule,
     CoreCommonModule,

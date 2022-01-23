@@ -87,7 +87,8 @@ export class AuthLoginV2Component implements OnInit {
         (user) => {
           console.log('check data', user);
           if(!user.isSetSubscriber){
-            this._router.navigate(['/apps/ip/users/set-user']);
+            console.log("tiencheck")
+            this._router.navigate(['/apps/dashboard']);
           }else
           this._router.navigate([this.returnUrl]);
         },

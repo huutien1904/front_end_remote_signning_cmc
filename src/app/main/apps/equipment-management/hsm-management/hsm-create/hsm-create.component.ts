@@ -1,6 +1,8 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { HsmService } from '../hsm.service';
 
@@ -15,8 +17,26 @@ export class HsmCreateComponent implements OnInit {
   public contentHeader: object;
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
-  public hsmForm: any[]=["FIPS","CP5"]
+  public hardware: any[] = [{ name: "FIPS" }, { name: "CP5" }]
+  public data= "check"
+  people: any[] = [ 
+    {
+     firstName: "Alex",
+     lastName: "Brown",
+     age: 55,
+    },
+    {
+     firstName: "Foo",
+     lastName: "Bar",
+     age: 44,
+    },
+   {
+     firstName: "Fido",
+     lastName: "Johnson",
+     age: 14,
+    }
 
+  ]
   get f() {
     return this.HsmForm.controls;
   }
@@ -25,19 +45,17 @@ export class HsmCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private _hsmService: HsmService,
-    private   toastr: ToastrService
-    
+    private toastr: ToastrService,
+    private modal: NgbModal,
   ) { }
 
   ngOnInit(): void {
     this.HsmForm = this.formBuilder.group({
       hsmName: [null, Validators.required],
-      hardwareId: ["1", Validators.required],
-      hsmManufacturer: [null, Validators.required],
+      hardwareId: [null, Validators.required],
       hsmModel: [null, Validators.required],
       hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
       hsmType: [null, Validators.required],
-      hsmForm: ["FIPS", Validators.required],
     });
 
     this.contentHeader = {
@@ -61,7 +79,7 @@ export class HsmCreateComponent implements OnInit {
     };
   }
 
-  onSubmit() {
+  onSubmit(modalForm) {
     this.submitted = true;
     console.log(this.HsmForm.value)
     // stop here if form is invalid
@@ -70,13 +88,14 @@ export class HsmCreateComponent implements OnInit {
     }
     const newRequest = JSON.stringify({
       hsmName: this.f.hsmName.value,
-      hsmManufacturer: this.f.hsmManufacturer.value,
+      hardwareId: this.f.hardwareId.value,
       hsmModel: this.f.hsmModel.value,
       hsmLibraryPath: this.f.hsmLibraryPath.value,
-      hardwareId: 'CP5TdVI'
+      hsmType: this.f.hsmType.value,
+
     });
-    this._hsmService.submitForm(JSON.stringify(this.HsmForm.value)).subscribe((res: any) => {
-      console.log(res);
+    this._hsmService.createHSM(newRequest).subscribe((res: any) => {
+      console.log(res)
       if ((res.result = true)) {
         this.toastr.success('👋 Bạn đã tạo HSM mới', 'Thành công', {
           positionClass: 'toast-top-center',
@@ -86,10 +105,15 @@ export class HsmCreateComponent implements OnInit {
         this.submitted = false;
         this.router.navigate(['/apps/equipment-management/hsm/hsm-list']);
         this.HsmForm.reset();
+        // console.log(res.data)
+        // this.data = res.data
+        this.toggleSidebar(modalForm)
       }
     });
   }
-
+  toggleSidebar(modalForm ) {
+    this.modal.open(modalForm, {size: 'xl'})
+  }
   exit() {
     this.router.navigateByUrl("/apps/equipment-management/hsm/hsm-list")
   }
