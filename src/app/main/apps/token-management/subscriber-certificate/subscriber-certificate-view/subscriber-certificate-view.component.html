@@ -82,8 +82,8 @@
               <label class="card-title">Signature hash algorithm</label>
             </div>
             <div class="col-sm-7">
-              <p>
-                <b>{{ dataFromX509.signatureAlgorithm.hash.name }}</b>
+              <p >
+                <b>{{ this.signatureHashAlgorithm }}</b>
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@
               <p>
                 <b>
                   
-                {{ dataFromX509.notBefore | date: 'dd/MM/YYYY' }}
+                {{ validFrom | date: 'dd/MM/YYYY' }}
               </b>
               </p>
             </div>
@@ -121,7 +121,7 @@
             <div class="col-sm-7">
               <p>
                 <b>
-                {{ dataFromX509.notAfter | date: 'dd/MM/YYYY' }}
+                {{ validTo | date: 'dd/MM/YYYY' }}
               </b>
               </p>
             </div>
@@ -191,7 +191,7 @@
                     </div>
                     <div class="col-sm-7">
                       <p>
-                        <b>{{ this.dataFromNodeForge.publicKey.e }}</b>
+                        <b></b>
                       </p>
                     </div>
                   </div>
@@ -211,18 +211,18 @@
           </div>
           
 
-          <div class="row" *ngIf="dataFromX509.extensions.length">
+          <div class="row" >
             <div class="col-sm-5">
               <label class="card-title">Authority key identifier</label>
             </div>
             <div class="col-sm-7">
               <p>
-                <b>{{ dataFromX509.extensions[1].keyId }}</b>
+                <b></b>
               </p>
             </div>
           </div>
 
-          <div class="row" *ngIf="dataFromX509.extensions.length">
+          <div class="row" >
             <div class="col-sm-5">
               <label class="card-title">Enhanced Key Usage</label>
             </div>
@@ -233,7 +233,7 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="dataFromX509.extensions.length">
+          <div class="row" >
             <div class="col-sm-5">
               <label class="card-title">Subject Key Identifier</label>
             </div>
@@ -242,7 +242,7 @@
                       </div> -->
           </div>
 
-          <div class="row" *ngIf="dataFromX509.extensions.length">
+          <div class="row">
             <div class="col-sm-5">
               <label class="card-title">Basic Constraints</label>
             </div>
@@ -253,7 +253,7 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="dataFromX509.extensions.length">
+          <div class="row" >
             <div class="col-sm-5">
               <label class="card-title"> Key Usage</label>
             </div>
