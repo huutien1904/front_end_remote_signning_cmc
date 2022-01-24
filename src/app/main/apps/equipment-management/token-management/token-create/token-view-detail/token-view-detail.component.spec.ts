@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TokenViewComponent } from './token-view.component';
+import { TokenViewDetailComponent } from './token-view-detail.component';
 
-describe('TokenViewComponent', () => {
-  let component: TokenViewComponent;
-  let fixture: ComponentFixture<TokenViewComponent>;
+describe('TokenViewDetailComponent', () => {
+  let component: TokenViewDetailComponent;
+  let fixture: ComponentFixture<TokenViewDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TokenViewComponent ]
+      declarations: [ TokenViewDetailComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TokenViewComponent);
+    fixture = TestBed.createComponent(TokenViewDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

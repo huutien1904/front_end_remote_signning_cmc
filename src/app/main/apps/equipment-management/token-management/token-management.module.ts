@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
 import { CoreCommonModule } from '@core/common.module';
 import { MY_DATE_FORMATS } from '@core/format-data/my-date-formats';
 import { CorePipesModule } from '@core/pipes/pipes.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -28,6 +28,9 @@ import { TokenListComponent } from './token-list/token-list.component';
 import { TokenViewComponent } from './token-view/token-view.component';
 import { TokenService } from './token.service';
 import { TokenPasswordComponent } from './token-list/token-password/token-password.component';
+import { CoreSidebarModule } from '@core/components';
+import { TokenViewDetailComponent } from './token-create/token-view-detail/token-view-detail.component';
+import { CoreCardModule } from '@core/components/core-card/core-card.module';
 
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
@@ -38,6 +41,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     TokenCreateComponent,
     TokenEditComponent,
     TokenPasswordComponent,
+    TokenViewDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +61,10 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
         selectedMessage: 'selected', // Footer selected message
       },
     }),
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    CoreSidebarModule,
+    NgbCollapseModule,
+    CoreCardModule
   ],
   exports: [
     TokenViewComponent,

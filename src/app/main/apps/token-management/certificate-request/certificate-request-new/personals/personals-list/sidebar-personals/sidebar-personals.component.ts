@@ -149,6 +149,7 @@ export class SidebarPersonalsComponent implements OnInit {
   ) { }
   public hsmListSub = new Subject();
   async ngOnInit() {
+    console.log(this.personal)
     await this._hsmService
       .getListHsm({
         page: 0,

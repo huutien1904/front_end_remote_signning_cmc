@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { Hsm, tokenInfo } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
 import { ToastrService } from 'ngx-toastr';
@@ -40,9 +40,14 @@ export class TokenCreateComponent implements OnInit {
   public rowsData: any
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
-  public pagedData = new PagedData<tokenInfo>();
+  public pagedData = new PagedData<any>();
   public placeholder:string
   public showSelect:boolean = false
+  public row:any;
+  public chkBoxSelected = [];
+  public selected = [];
+  public SelectionType = SelectionType;
+  name = 'Angular 5';
   // public totalItems: any = 10;
   get f() {
     return this.tokenForm.controls;
@@ -108,7 +113,7 @@ export class TokenCreateComponent implements OnInit {
       .subscribe(response => {
         console.log(response)
         this.hsmList = response;
-        this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
+        // this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
         const id = this.hsmList[0].hsmId
         this.placeholder = this.hsmList[0].hsmName
         this._hsmService.getHSMId(id)
@@ -123,7 +128,7 @@ export class TokenCreateComponent implements OnInit {
 
   }
   changeHSM(e) {
-    this.showSelect = true
+    
     const id = e.hsmId
     console.log(id)
     this._hsmService.getHSMId(id)
@@ -134,11 +139,15 @@ export class TokenCreateComponent implements OnInit {
         console.log(this.rowsData)
       })
   }
-  openViewToken(modal) {
+  openViewToken(modal,row) {
+    this.name = row
+    console.log(row)
     this.modalService.open(modal, {
       centered: true,
       size: "xl",
     });
+    
+    
   }
   onSubmit() {
     console.log("create")
@@ -175,6 +184,29 @@ export class TokenCreateComponent implements OnInit {
     this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
 
+  /**
+   * Custom Checkbox On Select
+   *
+   * @param { selected }
+   */
+   customCheckboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
+  /**
+   * For ref only, log selected values
+   *
+   * @param selected
+   */
+  onSelect({ selected }) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+    if(this.selected.length > 0){
+      this.showSelect = true
+    }
+    console.log("Select Event", selected, this.selected);
+
+  }
 }
 export function MustMatch(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
