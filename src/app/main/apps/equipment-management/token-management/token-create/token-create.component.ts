@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Hsm } from 'app/main/models/Equipment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { Hsm, tokenInfo } from 'app/main/models/Equipment';
+import { PagedData } from 'app/main/models/PagedData';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -22,16 +25,25 @@ export class TokenCreateComponent implements OnInit {
   public submitted = false;
   public hsmList: any[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-  public lockQuantity:any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+  public lockQuantity: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
-    "page" : null,
-    "size" : 4,
-    "sort" : ["hsmId,asc"],
-    "contains" : "",
-    "fromDate" : "",
-    "toDate" : ""
+    "page": null,
+    "size": 4,
+    "sort": ["hsmId,asc"],
+    "contains": "",
+    "fromDate": "",
+    "toDate": ""
   }
-
+  // set table detail hsm
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
+  public rowsData: any
+  public isLoading: boolean = false;
+  public ColumnMode = ColumnMode;
+  public pagedData = new PagedData<tokenInfo>();
+  public placeholder:string
+  public showSelect:boolean = false
+  // public totalItems: any = 10;
   get f() {
     return this.tokenForm.controls;
   }
@@ -41,7 +53,8 @@ export class TokenCreateComponent implements OnInit {
     private router: Router,
     private _tokenService: TokenService,
     private _hsmService: HsmService,
-    private   toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
@@ -51,7 +64,7 @@ export class TokenCreateComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
         confPassword: ['', Validators.required],
-        hsmInformationId: [null, Validators.required],
+        hsmInformationId: ["", Validators.required],
         lockQuantity: [null, Validators.required],
       },
       {
@@ -95,8 +108,37 @@ export class TokenCreateComponent implements OnInit {
       .subscribe(response => {
         console.log(response)
         this.hsmList = response;
+        this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
+        const id = this.hsmList[0].hsmId
+        this.placeholder = this.hsmList[0].hsmName
+        this._hsmService.getHSMId(id)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res: any) => {
+            this.rowsData = res.data.tokenInfoDtoList
+            this.pagedData.totalItems = this.rowsData.length + 1
+            console.log(this.rowsData)
+          })
+
       });
 
+  }
+  changeHSM(e) {
+    this.showSelect = true
+    const id = e.hsmId
+    console.log(id)
+    this._hsmService.getHSMId(id)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        this.rowsData = res.data.tokenInfoDtoList
+        this.pagedData.totalItems = this.rowsData.length + 1
+        console.log(this.rowsData)
+      })
+  }
+  openViewToken(modal) {
+    this.modalService.open(modal, {
+      centered: true,
+      size: "xl",
+    });
   }
   onSubmit() {
     console.log("create")
@@ -114,19 +156,19 @@ export class TokenCreateComponent implements OnInit {
     });
     console.log(newRequest)
     this._tokenService.createToken(newRequest)
-    .subscribe((res) => {
-      console.log(res);
-      if ((res.result = true)) {
-        this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true
-        });
-        this.submitted = false;
-        this.router.navigate(['/apps/equipment-management/token/token-list']);
-        this.tokenForm.reset();
-      }
-    })
+      .subscribe((res) => {
+        console.log(res);
+        if ((res.result = true)) {
+          this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true
+          });
+          this.submitted = false;
+          this.router.navigate(['/apps/equipment-management/token/token-list']);
+          this.tokenForm.reset();
+        }
+      })
   }
 
   exit() {
