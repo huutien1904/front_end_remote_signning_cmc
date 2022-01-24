@@ -6,7 +6,9 @@ import { ResponseData } from 'app/main/models/ResponseData';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class KeypairListService {
   public onUserListChanged: BehaviorSubject<any>;
   /**

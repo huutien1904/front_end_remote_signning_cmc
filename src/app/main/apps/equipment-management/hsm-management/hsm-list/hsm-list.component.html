@@ -26,11 +26,10 @@
                   />
                 </fieldset>
               </div>
-              <div class="d-flex">
-                <div class="col-4 col-md-6">
+                <div class="col-3 col-md-2">
                   <button
                     type="button"
-                    class="btn btn-secondary btn-lighten-2 btn-outline-secondary"
+                    class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
                     (click)="moreOption = !moreOption"
                     rippleEffect
                   >
@@ -38,7 +37,7 @@
                     <span class="d-none d-sm-inline-block">Tùy chọn</span>
                   </button>
                 </div>
-                <div class="col-8 col-md-6">
+                <div class="col-6 col-md-2">
                   <button
                     type="button"
                     rippleEffect
@@ -54,7 +53,6 @@
                     Tìm kiếm
                   </button>
                 </div>
-              </div>
             </div>
             <div class="row" [ngbCollapse]="moreOption">
               <div class="col-md-2">

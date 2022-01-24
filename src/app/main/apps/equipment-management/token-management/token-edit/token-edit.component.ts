@@ -58,9 +58,7 @@ export class TokenEditComponent implements OnInit {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
         tokenPassword: [null, Validators.required],
-        confPassword: ['', Validators.required],
         hsmId: [null, Validators.required],
-        lockQuantity:[null, Validators.required],
         tokenId: [null, Validators.required],
       }
     );
@@ -101,22 +99,20 @@ export class TokenEditComponent implements OnInit {
       //  tokenPassword: this.tokenInfo.tokenName,
      });
      console.log(this.tokenForm.value)
-
-    
     this.contentHeader = {
-      headerTitle: 'Tạo Token',
+      headerTitle: 'Đổi tên Slot',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách TOKEN',
+            name: 'Danh sách Slot',
             isLink: true,
             link: '/apps/equipment-management/token/token-list'
 
           },
           {
-            name: 'Sửa Token',
+            name: 'Đổi tên Slot',
             isLink: false,
           }
         ]
@@ -132,10 +128,10 @@ export class TokenEditComponent implements OnInit {
     console.log("check")
     this.submitted = true;
     // stop here if form is invalid
-    console.log(this.tokenForm.invalid)
-    if (this.tokenForm.invalid) {
-      return;
-    }
+    //console.log(this.tokenForm.invalid)
+    // if (this.tokenForm.invalid) {
+    //   return;
+    // }
     if(this.tokenForm.valid){
       console.log(this.tokenForm.value);
       const newRequest = JSON.stringify({
@@ -145,7 +141,6 @@ export class TokenEditComponent implements OnInit {
         hsmId: this.f.hsmId.value
       });
       console.log(newRequest);
-  
       Swal.fire({
         title: 'Bạn có chắc muốn cập nhật?',
         text: "Bạn sẽ không thể hoàn tác điều này!",

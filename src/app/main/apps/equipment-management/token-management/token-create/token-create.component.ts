@@ -60,19 +60,19 @@ export class TokenCreateComponent implements OnInit {
     );
     this.getHsmList();
     this.contentHeader = {
-      headerTitle: 'Tạo Token',
+      headerTitle: 'Tạo Slot',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách TOKEN',
+            name: 'Danh sách Slot',
             isLink: true,
             link: '/apps/equipment-management/token/token-list'
 
           },
           {
-            name: 'Tạo Token',
+            name: 'Tạo Slot',
             isLink: false,
           }
         ]
@@ -99,11 +99,12 @@ export class TokenCreateComponent implements OnInit {
 
   }
   onSubmit() {
+    console.log("create")
     this.submitted = true;
     // stop here if form is invalid
-    if (this.tokenForm.invalid) {
-      return;
-    }
+    // if (this.tokenForm.invalid) {
+    //   return;
+    // }
     console.log(this.tokenForm.value);
     const newRequest = JSON.stringify({
       slotNumber: this.f.slotNumber.value,

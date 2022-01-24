@@ -27,6 +27,7 @@ import { TokenEditComponent } from './token-edit/token-edit.component';
 import { TokenListComponent } from './token-list/token-list.component';
 import { TokenViewComponent } from './token-view/token-view.component';
 import { TokenService } from './token.service';
+import { TokenPasswordComponent } from './token-list/token-password/token-password.component';
 
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
@@ -36,6 +37,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     TokenListComponent,
     TokenCreateComponent,
     TokenEditComponent,
+    TokenPasswordComponent,
   ],
   imports: [
     CommonModule,

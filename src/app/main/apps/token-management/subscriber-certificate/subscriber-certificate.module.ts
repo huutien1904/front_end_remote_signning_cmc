@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
@@ -57,7 +58,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     FileUploadModule,
     ContentHeaderModule,
     RouterModule,
-    CoreCardModule
+    CoreCardModule,
   ],
   exports: [
     SubscriberCertificateCreateComponent,

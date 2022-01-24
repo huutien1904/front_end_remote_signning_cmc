@@ -58,13 +58,13 @@ export class TokenViewComponent implements OnInit {
     );
     this.getHsmList();
     this.contentHeader = {
-      headerTitle: 'Tạo Token',
+      headerTitle: 'Tạo Slot',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
         links: [
           {
-            name: 'Danh sách TOKEN',
+            name: 'Danh sách Slot',
             isLink: true,
             link: '/apps/equipment-management/token/token-list'
 

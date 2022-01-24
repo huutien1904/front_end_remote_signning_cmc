@@ -31,7 +31,7 @@ export const locale = {
         },
         EQUIPMENT_MANAGEMENT :{
           SECTION : "Quản lý thiết bị",
-          HSM: "Tạo Thiết bị HSM",
+          HSM: "Tạo kết nối HSM",
           TOKEN : "Tạo TOKEN",
           TEMPLATE:"Template"
         },

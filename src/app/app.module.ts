@@ -1,4 +1,5 @@
 import { OverlayModule } from "@angular/cdk/overlay";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,7 +23,6 @@ import { LayoutModule } from "app/layout/layout.module";
 import "hammerjs";
 import { ToastrModule } from "ngx-toastr"; // For auth after login toast
 import { SpinnerComponent } from './main/loading/spinner/spinner.component';
-
 
 const appRoutes: Routes = [
   {
@@ -64,6 +64,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, {
       scrollPositionRestoration: "enabled", // Add options right here
       relativeLinkResolution: "legacy",
+      useHash: true 
     }),
     TranslateModule.forRoot(),
 
@@ -86,7 +87,7 @@ const appRoutes: Routes = [
   providers: [
     
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
     
   ],
   bootstrap: [AppComponent],

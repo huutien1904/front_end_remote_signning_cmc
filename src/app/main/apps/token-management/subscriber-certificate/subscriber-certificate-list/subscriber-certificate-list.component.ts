@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 import {
   NgbDateParserFormatter
@@ -13,6 +15,8 @@ import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
+import * as x509 from "@peculiar/x509";
+
 @Component({
   selector: 'app-subscriber-certificate-list',
   templateUrl: './subscriber-certificate-list.component.html',
@@ -26,13 +30,23 @@ export class SubscriberCertificateListComponent implements OnInit {
   public SelectionType = SelectionType;
   public chkBoxSelected = [];
   public selected = [];
-
+  public listFileUrl
+  public dataFromNodeForge : any
   //Public Properties
   formListSubscriberCertificate: FormGroup;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public pageAdvancedEllipses = 1;
   public moreOption = true;
   public contentHeader: object;
+  public dataExport:any
+  public dataFromX509 : any
+  public signatureParameters : any
+  public keyUsage : any = ""
+  public basicConstraints : any = ""
+  public extKeyUsage : any = ""
+  public thumbprint : any = ""
+  public modulus : any = ""
+
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
@@ -47,7 +61,9 @@ export class SubscriberCertificateListComponent implements OnInit {
     private fb: FormBuilder,
     public formatter: NgbDateParserFormatter,
     public _subscriberCertificateService: SubscriberCertificateListService,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private _router: Router,
+    private sanitizer: DomSanitizer,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -105,6 +121,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
+          SubjectDN: this.readCertificate(item.certificateContent).subject
           // organizationName: this.getOrganization(item),
           // subscribeName: this.getSubscriber(item),
         }));
@@ -134,7 +151,33 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log(this.formListSubscriberCertificate.value);
     console.log(this.formListSubscriberCertificate.get('toDate').value);
   }
+  // 
+  downloadOne(row) {
+    console.log(row)
+    const data = row.certificateContent;
+    console.log(data)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+    row.fileName = row.keypairAlias + 'requestId' + row.subscriberCertificateId + '.csr';
+    // console.log(row);
+  }
+  downloadList(){
+    console.log(this.selected)
+    // const data = this.selected.map()
+    var data = ""
+    this.selected.map((item) =>{
+      // console.log(item.certificateRequestContent)
+      return data += "requestId : " + item.subscriberCertificateId +'\n'+  item.certificateContent + '\n' 
 
+    })
+    console.log(data)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+  }
   /**
    * Custom Checkbox On Select
    *
@@ -154,5 +197,102 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log('Select Event', selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+  }
+  onActivate(event) {
+    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+      this._router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-view', event.row.subscriberCertificateId]);
+      
+    }
+  }
+  exportCSV() {
+    this._subscriberCertificateService
+      .getListSubscriberCertificates(JSON.stringify(this.formListSubscriberCertificate.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData)
+        this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData);
+        console.log(pagedData.data.data);
+        this.dataExport = pagedData.data.data.map((item:any) => ({
+          ...item,
+          keypairStatus: item.keypairStatus.keypairStatusName,
+          // certificateContent:"",
+          // delete item.certificateContent,
+          // delete certificateContent:"",
+          // delete item.certificateContent
+        }));
+        if (!this.dataExport || !this.dataExport.length) {
+          return;
+        }
+        const separator = ',';
+        const keys = Object.keys(this.dataExport[0]);
+        const csvData =
+          keys.join(separator) +
+          '\n' +
+          this.dataExport
+            .map((row:any) => {
+              return keys
+                .map((k) => {
+                 
+                  if(k === "certificateContent"){
+                    row[k] = delete row[k].certificateContent
+                  }
+                  // if(k === "distinguishedName"){
+                  //   row[k] = row[k].distinguishedName
+                  // }
+                  let cell =
+                    row[k] === null || row[k] === undefined ? '' : row[k];
+                  cell =
+                    cell instanceof Date
+                      ? cell.toLocaleString()
+                      : cell.toString().replace(/"/g, '""');
+                  if (cell.search(/("|,|\n)/g) >= 0) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                })
+                .join(separator);
+            })
+            .join('\n');
+
+        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        if (link.download !== undefined) {
+          // Browsers that support HTML5 download attribute
+          const url = URL.createObjectURL(blob);
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'Danh sách Chứng thư số');
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
+  }
+
+  // read subcriber-certificate
+  readCertificate(certPem) {
+    console.log(certPem)
+    let read = '-----BEGIN CERTIFICATE-----\r\n' +
+    certPem +
+            '\r\n-----END CERTIFICATE-----\r\n'
+    //Đọc chứng thư số ra dạng JSON theo 2 cách dùng Node-Force & X509
+    // var forge = require('node-forge');
+    // this.dataFromNodeForge = forge.pki.certificateFromPem(read);
+    // console.log(this.dataFromNodeForge)
+    
+    
+    // this.issuerDN = this.dataFromNodeForge.subject
+    this.dataFromX509 = new x509.X509Certificate(read);
+    //  lấy dữ liệu từ chứng thư số
+    console.log(this.dataFromX509)
+    return this.dataFromX509
+    
+
+    //Trạng thái đã đọc xong chứng thư số
+  }
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }

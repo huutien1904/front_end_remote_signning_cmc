@@ -150,6 +150,7 @@
               csvLink
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
+              (click)="exportCSV()"
               >Xuất danh sách</a
             >
           </div>
@@ -248,14 +249,21 @@
           <ngx-datatable-column
             name="TÊN EntityProfile"
             prop="endEntityProfileName"
-            [width]="150"
+            [width]="100"
           ></ngx-datatable-column>
           <!-- subject AND -->
           <ngx-datatable-column
             name="Thuộc tính DN chính"
-            prop="subjectDnAttribute"
+            
             [width]="300"
           >
+          <ng-template
+                  ngx-datatable-cell-template
+                  let-row="row"
+                  let-rowIndex="rowIndex"
+                >
+                  {{ row.subjectDnAttribute }}
+                </ng-template>
           </ngx-datatable-column>
           <!-- subject ATT -->
           <ngx-datatable-column

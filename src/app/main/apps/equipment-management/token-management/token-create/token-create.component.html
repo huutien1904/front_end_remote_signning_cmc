@@ -7,36 +7,9 @@
         <form [formGroup]="tokenForm">
           <div class="">
             <div class="d-flex">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="form-group">
-                  <label>Tên token</label>
-                  <input
-                    type="text"
-                    formControlName="tokenName"
-                    class="form-control"
-                    [ngClass]="
-                      (f.tokenName.errors && f.tokenName?.touched) ||
-                      (submitted && f.tokenName?.errors?.required)
-                        ? 'is-invalid'
-                        : ''
-                    "
-                  />
-                  <div
-                    *ngIf="
-                      (f.tokenName.errors && f.tokenName?.touched) ||
-                      (submitted && f.tokenName?.errors?.required)
-                    "
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="f.tokenName?.errors?.required">
-                      Bạn cần nhập tên token
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>HSM</label>
+                  <label>Kết nối HSM</label>
                   <ng-select
                     [items]="hsmList"
                     bindLabel="hsmName"
@@ -70,32 +43,29 @@
             <div class="d-flex">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Số lượng cặp khóa</label>
-                  <ng-select
-                    [items]="lockQuantity"
-                    [clearable]="false"
-                    formControlName="lockQuantity"
+                  <label>Tên Slot</label>
+                  <input
+                    type="text"
+                    formControlName="tokenName"
+                    class="form-control"
                     [ngClass]="
-                      (f.lockQuantity.errors && f.lockQuantity?.touched) ||
-                      (submitted && f.lockQuantity?.errors?.required)
+                      (f.tokenName.errors && f.tokenName?.touched) ||
+                      (submitted && f.tokenName?.errors?.required)
                         ? 'is-invalid'
                         : ''
                     "
-                    [clearable]="false"
-                    readonly
-                  >
-                  </ng-select>
+                  />
                   <div
-                  *ngIf="
-                    (f.lockQuantity.errors && f.lockQuantity?.touched) ||
-                    (submitted && f.lockQuantity?.errors?.required)
-                  "
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="f.slotNumber?.errors?.required">
-                    Bạn cần nhập số lượng cặp khoá
+                    *ngIf="
+                      (f.tokenName.errors && f.tokenName?.touched) ||
+                      (submitted && f.tokenName?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.tokenName?.errors?.required">
+                      Bạn cần nhập tên slot
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
               <div class="col-6">
@@ -129,7 +99,27 @@
             <div class="d-flex">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Mật khẩu</label>
+                  <label>Mật khẩu người quản trị (Super Officer-SO)</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Xác nhận mật khẩu người quản trị (Super Officer-SO)</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Mật khẩu người dùng (User)</label>
                   <input
                     type="password"
                     formControlName="tokenPassword"
@@ -156,7 +146,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Xác nhận mật khẩu</label>
+                  <label>Xác nhận mật khẩu người dùng (User)</label>
                   <input
                     type="password"
                     formControlName="confPassword"
