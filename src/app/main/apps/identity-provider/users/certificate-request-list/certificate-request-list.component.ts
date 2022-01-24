@@ -191,6 +191,7 @@ export class CertificateRequestListComponent implements OnInit {
           organizationName: this.getOrganization(item),
           subscribeName: this.getSubscribe(item),
         }));
+        console.log(this.rowsData);
         this.isLoading = false;
       });
   }

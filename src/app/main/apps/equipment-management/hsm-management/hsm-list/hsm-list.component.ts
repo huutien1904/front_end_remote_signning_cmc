@@ -105,7 +105,6 @@ export class HsmListComponent implements OnInit {
     this.formListHsm.patchValue({ page: pageInfo.offset });
     console.log(pageInfo);
     console.log(this.formListHsm.value);
-
     this._hsmService
       .getListHsm(JSON.stringify(this.formListHsm.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -115,6 +114,7 @@ export class HsmListComponent implements OnInit {
         console.log(pagedData.data.totalItems);
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
+        console.log(this.rowsData);
         this.isLoading = false;
       });
   }
@@ -198,7 +198,6 @@ export class HsmListComponent implements OnInit {
   onCheckboxChangeFn(event, { selected }) {
     console.log({ selected });
     console.log(event);
-    console.log('test');
   }
   removeProfile(hsmId) {
     Swal.fire({

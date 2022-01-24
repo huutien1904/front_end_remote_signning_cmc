@@ -8,7 +8,7 @@
             <form [formGroup]="HsmForm" class="form form-horizontal">
               <div class="form_content">
                 <div class="">
-                  <h3>Tạo mới kết nối HSM</h3>
+                  <h3>Tạo kết nối HSM</h3>
                   <div class="d-flex">
                     <div class="form-group col-md-6">
                       <label for="UDUserName">Tên kết nối HSM</label>
@@ -36,61 +36,7 @@
                       </div>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="UDUserName">Hãng sản xuất</label>
-                      <input
-                        type="text"
-                        formControlName="hsmManufacturer"
-                        class="form-control"
-                        [ngClass]="
-                          (f.hsmManufacturer.errors &&
-                            f.hsmManufacturer?.touched) ||
-                          (submitted && f.hsmManufacturer?.errors?.required)
-                            ? 'is-invalid'
-                            : ''
-                        "
-                      />
-                      <div
-                        *ngIf="
-                          (f.hsmManufacturer.errors &&
-                            f.hsmManufacturer?.touched) ||
-                          (submitted && f.hsmManufacturer?.errors?.required)
-                        "
-                        class="invalid-feedback"
-                      >
-                        <div *ngIf="f.hsmManufacturer.errors.required">
-                          Bạn cần nhập hãng sản xuất
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex">
-                    <div class="form-group col-md-6">
-                      <label for="UDUserName">Model</label>
-                      <input
-                        type="text"
-                        formControlName="hsmModel"
-                        class="form-control"
-                        [ngClass]="
-                          (f.hsmModel.errors && f.hsmModel?.touched) ||
-                          (submitted && f.hsmModel?.errors?.required)
-                            ? 'is-invalid'
-                            : ''
-                        "
-                      />
-                      <div
-                        *ngIf="
-                          (f.hsmModel.errors && f.hsmModel?.touched) ||
-                          (submitted && f.hsmModel?.errors?.required)
-                        "
-                        class="invalid-feedback"
-                      >
-                        <div *ngIf="f.hsmModel.errors.required">
-                          Bạn cần nhập model
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="UDUserName">Đường dẫn file thư viện</label>
+                      <label for="UDUserName">Đường dẫn file cấu hình</label>
                       <input
                         type="text"
                         formControlName="hsmLibraryPath"
@@ -112,86 +58,116 @@
                         class="invalid-feedback"
                       >
                         <div *ngIf="f.hsmLibraryPath.errors.required">
-                          Bạn cần nhập đường dẫn file thư viện
+                          Bạn cần nhập đường dẫn file cấu hình
                         </div>
                       </div>
                     </div>
                   </div>
-
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="d-flex justify-content-md-end m-1">
+                        <button
+                          class="btn btn-primary mr-1"
+                          (click)="onSubmit()"
+                          rippleEffect
+                        >
+                          Tạo kết nối HSM
+                        </button>
+                        <button
+                          (click)="exit()"
+                          rippleEffect
+                          class="btn btn-outline-primary"
+                        >
+                          Quay lại
+                        </button>
+                    </div>
+                    </div>
+                  </div>
+                  <!-- <div class="d-flex m-1">
+                    <div class="col-md-6 offset-md-1">
+                      <button class="btn btn-primary col-md-6" rippleEffect>
+                        Kết nối HSM
+                      </button>
+                    </div>
+                    <div class="col-md-6">
+                      <button
+                        rippleEffect
+                        class="btn btn-outline-primary col-md-6"
+                      >
+                        Hủy kết nối
+                      </button>
+                    </div>
+                  </div> -->
+                  <!-- <div class="d-flex">
+                    <div class="form-group col-md-4">
+                      <label>Tên HSM</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Hãng sản xuất</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Model</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                  </div>
                   <div class="d-flex">
-                    <div class="form-group col-md-6">
-                      <label>Loại HSM</label>
-                      <ng-select
-                        [items]="hsmType"
-                        [clearable]="false"
-                        formControlName="hsmType"
-                        [ngClass]="
-                          (f.hsmType.errors && f.hsmType?.touched) ||
-                          (submitted && f.hsmType?.errors?.required)
-                            ? 'is-invalid'
-                            : ''
-                        "
-                      >
-                      </ng-select>
-                      <div
-                        *ngIf="
-                          (f.hsmType.errors && f.hsmType?.touched) ||
-                          (submitted && f.hsmType?.errors?.required)
-                        "
-                        class="invalid-feedback"
-                      >
-                        <div *ngIf="f.hsmType.errors.required">
-                          Bạn cần chọn loại HSM
-                        </div>
-                      </div>
+                    <div class="form-group col-md-4">
+                      <label>Serial Number</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label>Chuẩn HSM</label>
-                      <ng-select
-                        [items]="hsmForm"
-                        [clearable]="false"
-                        formControlName="hsmForm"
-                        [ngClass]="
-                          (f.hsmForm.errors && f.hsmForm?.touched) ||
-                          (submitted && f.hsmForm?.errors?.required)
-                            ? 'is-invalid'
-                            : ''
-                        "
-                      >
-                      </ng-select>
-                      <div
-                        *ngIf="
-                          (f.hsmForm.errors && f.hsmForm?.touched) ||
-                          (submitted && f.hsmForm?.errors?.required)
-                        "
-                        class="invalid-feedback"
-                      >
-                        <div *ngIf="f.hsmForm.errors.required">
-                          Bạn cần chọn chuẩn HSM
-                        </div>
-                      </div>
+                    <div class="form-group col-md-4">
+                      <label>Phiên tối đa</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Số phiên</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="d-flex justify-content-md-end m-1">
-                      <button
-                        class="btn btn-primary mr-1"
-                        (click)="onSubmit()"
-                        rippleEffect
-                      >
-                        Tạo kết nối HSM
-                      </button>
-                      <button
-                        (click)="exit()"
-                        rippleEffect
-                        class="btn btn-outline-primary"
-                      >
-                        Quay lại
-                      </button>
+                  <div class="d-flex">
+                    <div class="form-group col-md-4">
+                      <label>ulMaxRwSessionCount</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>ulRwSessionCount</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>PIN Tối Đa</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
                     </div>
                   </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-4">
+                      <label>PIN Tối Thiểu</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Bộ nhớ công khai tối đa</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Bộ nhớ công khai còn trống</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-4">
+                      <label>Bộ nhớ bí mật tối đa</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Bộ nhớ bí mật còn trống</label>
+                      <input class="form-control" formControlName="hsmType" readonly />
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label>Phiển bản phần cứng</label>
+                      <input class="form-control" formControlName="hsmType" readonly/>
+                    </div>
+                  </div> -->
                 </div>
               </div>
             </form>

@@ -61,6 +61,7 @@ export class ProfileComponent implements OnInit {
   public personalSelected: Personal;
   public url = this.router.url;
   public organizationId: Organization[];
+  public test:any[] =[]; 
   public countryResidencePlace = [
     {
       countryId: '237',
@@ -166,7 +167,6 @@ export class ProfileComponent implements OnInit {
   public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
   public tokenList: Token[];
   public hsmList = new Array<Hsm>();
-  
 
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -211,7 +211,7 @@ export class ProfileComponent implements OnInit {
     private _toastrService: ToastrService,
     public _subscriberCertificateService: SubscriberCertificateListService,
     private _listCerReqService: CertificateRequestListService,
-    private _hsmService: HsmService,
+    private _hsmService: HsmService
   ) {
     this.formInfoEdit = this.fb.group({
       userId: [null, Validators.required],
@@ -270,8 +270,6 @@ export class ProfileComponent implements OnInit {
       certificateContent: ['', Validators.required],
       userId: [null, Validators.required],
     });
-
-
   }
   async ngOnInit() {
     //get User-Email Account
@@ -345,22 +343,21 @@ export class ProfileComponent implements OnInit {
         this.hsmList = hsmList;
         this.tokenList = this.hsmList[0].tokens;
       });
-    this.newRequestForm = this.fb.group(
-      {
-        cryptoAlgorithm: this.fb.group({
-          cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
-          keypairLength: [this.keypairLengthList[0], Validators.required],
-        }),
-        alias: [
-          this.personal.username +
-            Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
-        ,
-        tokenId: [this.tokenList[0], Validators.required],
-        userId: [this.personal.userId],
-        hsm: [this.hsmList[0]],
-        profile: [null, Validators.required],
-      }
-    );
+    this.newRequestForm = this.fb.group({
+      cryptoAlgorithm: this.fb.group({
+        cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
+        keypairLength: [this.keypairLengthList[0], Validators.required],
+      }),
+      alias: [
+        this.personal.username + Math.floor(Math.random() * 1000 + 1),
+        Validators.required,
+        [this.checkAlias()],
+      ],
+      tokenId: [this.tokenList[0], Validators.required],
+      userId: [this.personal.userId],
+      hsm: [this.hsmList[0]],
+      profile: [null, Validators.required],
+    });
   }
   // setPage danh sánh chứng thư số
   setPage(pageInfo) {
@@ -639,7 +636,7 @@ export class ProfileComponent implements OnInit {
     return this.formInfoEdit.controls;
   }
   get fa() {
-     return this.newRequestForm.controls;
+    return this.newRequestForm.controls;
   }
 
   async loadProfile() {
@@ -951,9 +948,15 @@ export class ProfileComponent implements OnInit {
 
   //Danh sách yêu cầu chứng thực
   getOrganizationCRL(item): any {
+    console.log(item)
     let info = this._listCerReqService.readCertificate(
       item.certificateRequestContent
     );
+    console.log(typeof info.subjectName.asn[4]);
+    console.log(JSON.stringify(info.subjectName.asn[4]))
+    this.test = info.subjectName.asn[4]
+    console.log(this.test)
+    console.log(info.subjectName.asn.find((obj) => obj.type === '2.5.4.11'))
     let rs = info.find((obj) => obj.name === 'organizationalUnitName');
     if (rs == undefined) return;
     return rs.value;
@@ -973,6 +976,7 @@ export class ProfileComponent implements OnInit {
       )
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedDataCRL) => {
+        console.log(pagedDataCRL);
         this.totalItems = pagedDataCRL.data.totalItems;
         this.pagedDataCRL = pagedDataCRL.data;
         this.rowsDataCRL = pagedDataCRL.data.data;
@@ -1034,10 +1038,7 @@ export class ProfileComponent implements OnInit {
           firstWord = false;
           break;
         case 'GIVENNAME':
-          value =
-            this.personal.firstName +
-            ' ' +
-            this.personal.middleName;
+          value = this.personal.firstName + ' ' + this.personal.middleName;
           this.displayProfile(attribute, value, firstWord);
           firstWord = false;
           break;

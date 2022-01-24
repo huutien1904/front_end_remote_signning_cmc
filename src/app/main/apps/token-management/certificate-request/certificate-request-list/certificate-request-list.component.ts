@@ -14,7 +14,7 @@ import { PagedData } from 'app/main/models/PagedData';
 import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import * as x509 from "@peculiar/x509";
+import * as x509 from '@peculiar/x509';
 
 @Component({
   selector: 'app-certificate-request-list',
@@ -42,15 +42,15 @@ export class CertificateRequestListComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public contentHeader: object;
   public listFileUrl;
-  public results: any[]
-  public dataExport: any
+  public results: any[];
+  public dataExport: any;
   constructor(
     private fb: FormBuilder,
     private _listCerReqService: CertificateRequestListService,
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
     private sanitizer: DomSanitizer,
-    private _router: Router,
+    private _router: Router
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -86,16 +86,21 @@ export class CertificateRequestListComponent implements OnInit {
       toDate: [null],
     });
 
-    this.results = [{
-      algorithmSignature: "",
-      sizeKeys: "",
-      subjectDN: "",
-      algorithmPublicKey: "",
-      sizePublicKey: "",
-      modulus: "",
-      exponent: ""
-    }]
-    this.setPage({ offset: 0, pageSize: this.formListCertificateRequest.get('size').value });
+    this.results = [
+      {
+        algorithmSignature: '',
+        sizeKeys: '',
+        subjectDN: '',
+        algorithmPublicKey: '',
+        sizePublicKey: '',
+        modulus: '',
+        exponent: '',
+      },
+    ];
+    this.setPage({
+      offset: 0,
+      pageSize: this.formListCertificateRequest.get('size').value,
+    });
     console.log(this.rowsData);
   }
 
@@ -117,61 +122,65 @@ export class CertificateRequestListComponent implements OnInit {
     this.isLoading = true;
     this.formListCertificateRequest.patchValue({ page: pageInfo.offset });
     this._listCerReqService
-      .getListCertificateRequests(JSON.stringify(this.formListCertificateRequest.value))
+      .getListCertificateRequests(
+        JSON.stringify(this.formListCertificateRequest.value)
+      )
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
-        console.log(this.rowsData)
+        console.log(this.rowsData);
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
-          subjectDN: this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
-          algorithmPublickey:
-            this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes("RSA")
-              ? "RSA"
-              : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
-                "ECDSA"
-              )
-                ? "ECDSA"
-                : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
-                  "DSA"
-                )
-                  ? "DSA"
-                  : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
-                    "Ed25519"
-                  )
-                    ? "Ed25519"
-                    : "Ed448"
-          ,
-          sizePublicKey: this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
+          subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
+            .subjectDN,
+          algorithmPublickey: this.getCSRFileInformation(
+            item.certificateRequestContent
+          ).algorithmPublicKey.includes('RSA')
+            ? 'RSA'
+            : this.getCSRFileInformation(
+                item.certificateRequestContent
+              ).algorithmPublicKey.includes('ECDSA')
+            ? 'ECDSA'
+            : this.getCSRFileInformation(
+                item.certificateRequestContent
+              ).algorithmPublicKey.includes('DSA')
+            ? 'DSA'
+            : this.getCSRFileInformation(
+                item.certificateRequestContent
+              ).algorithmPublicKey.includes('Ed25519')
+            ? 'Ed25519'
+            : 'Ed448',
+          sizePublicKey: this.getCSRFileInformation(
+            item.certificateRequestContent
+          ).sizePublicKey,
         }));
         this.isLoading = false;
-        console.log(this.rowsData)
+        console.log(this.rowsData);
       });
   }
 
   downloadSidebar(row) {
     const data = row.certificateRequestContent;
-    console.log(row)
+    console.log(row);
     const blob = new Blob([data], { type: 'application/octet-stream' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    row.fileName = row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
+    row.fileName =
+      row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
     console.log(row);
   }
   downloadList() {
-    console.log(this.selected)
+    console.log(this.selected);
     // const data = this.selected.map()
-    var data = ""
+    var data = '';
     this.selected.map((item) => {
       // console.log(item.certificateRequestContent)
-      return data += item.certificateRequestContent
-
-    })
-    console.log(data)
+      return (data += item.certificateRequestContent);
+    });
+    console.log(data);
     const blob = new Blob([data], { type: 'application/octet-stream' });
     this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
@@ -179,34 +188,39 @@ export class CertificateRequestListComponent implements OnInit {
   }
   exportCSV() {
     this._listCerReqService
-      .getListCertificateRequests(JSON.stringify(this.formListCertificateRequest.value))
+      .getListCertificateRequests(
+        JSON.stringify(this.formListCertificateRequest.value)
+      )
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData)
+        console.log(pagedData);
         this.totalItems = pagedData.data.totalItems;
         console.log(pagedData);
         console.log(pagedData.data.data);
         this.dataExport = pagedData.data.data.map((item) => ({
           ...item,
-          subjectDN: this.getCSRFileInformation(item.certificateRequestContent).subjectDN,
-          certificateRequestContent:
-            this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes("RSA")
-              ? "RSA"
-              : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
-                "ECDSA"
-              )
-                ? "ECDSA"
-                : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
-                  "DSA"
-                )
-                  ? "DSA"
-                  : this.getCSRFileInformation(item.certificateRequestContent).algorithmPublicKey.includes(
-                    "Ed25519"
-                  )
-                    ? "Ed25519"
-                    : "Ed448"
-          ,
-          sizePublicKey: this.getCSRFileInformation(item.certificateRequestContent).sizePublicKey,
+          subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
+            .subjectDN,
+          certificateRequestContent: this.getCSRFileInformation(
+            item.certificateRequestContent
+          ).algorithmPublicKey.includes('RSA')
+            ? 'RSA'
+            : this.getCSRFileInformation(
+                item.certificateRequestContent
+              ).algorithmPublicKey.includes('ECDSA')
+            ? 'ECDSA'
+            : this.getCSRFileInformation(
+                item.certificateRequestContent
+              ).algorithmPublicKey.includes('DSA')
+            ? 'DSA'
+            : this.getCSRFileInformation(
+                item.certificateRequestContent
+              ).algorithmPublicKey.includes('Ed25519')
+            ? 'Ed25519'
+            : 'Ed448',
+          sizePublicKey: this.getCSRFileInformation(
+            item.certificateRequestContent
+          ).sizePublicKey,
         }));
         if (!this.dataExport || !this.dataExport.length) {
           return;
@@ -217,10 +231,10 @@ export class CertificateRequestListComponent implements OnInit {
           keys.join(separator) +
           '\n' +
           this.dataExport
-            .map((row:any) => {
+            .map((row: any) => {
               return keys
                 .map((k) => {
-                  console.log(k)
+                  console.log(k);
                   console.log(row[k]);
                   // if(k === "distinguishedName"){
                   //   row[k] = row[k].distinguishedName
@@ -244,7 +258,9 @@ export class CertificateRequestListComponent implements OnInit {
             })
             .join('\n');
 
-        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(['\ufeff' + csvData], {
+          type: 'text/csv;charset=utf-8;',
+        });
         const link = document.createElement('a');
         if (link.download !== undefined) {
           // Browsers that support HTML5 download attribute
@@ -280,57 +296,58 @@ export class CertificateRequestListComponent implements OnInit {
   }
   onActivate(event) {
     // console.log(event);
-    if (!event.event.ctrlKey && event.event.type === 'click' && event.column.name != "Hành động" && event.column.name != "checkbox") {
-      this._router.navigate(['/apps/tm/certificate-request/certificate-request-view', event.row.certificateRequestId]);
-
+    if (
+      !event.event.ctrlKey &&
+      event.event.type === 'click' &&
+      event.column.name != 'Hành động' &&
+      event.column.name != 'checkbox'
+    ) {
+      this._router.navigate([
+        '/apps/tm/certificate-request/certificate-request-view',
+        event.row.certificateRequestId,
+      ]);
     }
   }
   getCSRFileInformation(csrString) {
-    console.log(csrString)
-    csrString = csrString.replace("NEW ", "").replace("NEW ", "")
     var forge = require('node-forge');
-    console.log(csrString)
     const csr2 = new x509.Pkcs10CertificateRequest(csrString);
-    console.log(csr2)
-    
+    console.log(csr2);
+
     //var csr = forge.pki.certificationRequestFromPem(csrString);
     //console.log(csr)
+
     var pki = forge.pki;
-    this.results[0].subjectDN = csr2.subject
-    //this.results[0].sizePublicKey = csr.publicKey.n.bitLength()
-    this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name
-    // this.results[0].exponent = csr.publicKey.e.data
-    // this.results[0].algorithmSignature = pki.oids[csr.siginfo.algorithmOid]
-    // try {
-    //   var email = csr.subject.getField('E').value
-    //   // console.log(email)
-    //   this.selectIdUserFirst(email)
-    // } catch (error) {
-    //   try {
-    //     var cn = csr.subject.getField('CN').value;
-    //     // console.log(cn)
-    //     this.selectIdUserByCN(cn)
-    //   } catch (error) {
-    //   }
-    // }
+    if (csr2.publicKey.algorithm.name === 'ECDSA') {
+      this.results[0].subjectDN = csr2.subject;
+      this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name;
+    }
+    if (csr2.publicKey.algorithm.name === 'RSASSA-PKCS1-v1_5') {
+      var csr = forge.pki.certificationRequestFromPem(csrString);
+      const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+      this.results[0].sizePublicKey = csr.publicKey.n.bitLength();
+      this.results[0].exponent = csr.publicKey.e.data;
+      this.results[0].subjectDN = csr2.subject;
+      this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name;
+      this.results[0].algorithmSignature = pki.oids[csr.siginfo.algorithmOid];
 
-    // var modulus = ""
-    // for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
-
-    //   var hex = (csr.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
-    //   if (hex.length < 2) {
-    //     hex = "0" + hex
-    //   }
-    //   if (modulus == "") {
-    //     modulus = hex
-    //     // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
-    //   } else {
-    //     modulus = modulus + ":" + hex
-    //     // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
-    //   }
-    // }
-    // console.log(this.results[0])
-    return this.results[0]
+      var modulus = '';
+      for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
+        var hex = (csr.publicKey.n.toByteArray()[i] >>> 0)
+          .toString(16)
+          .slice(-2);
+        if (hex.length < 2) {
+          hex = '0' + hex;
+        }
+        if (modulus == '') {
+          modulus = hex;
+          // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
+        } else {
+          modulus = modulus + ':' + hex;
+          // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
+        }
+      }
+    }
+    return this.results[0];
     //this.results[0].modulus = modulus
   }
   ngOnDestroy(): void {

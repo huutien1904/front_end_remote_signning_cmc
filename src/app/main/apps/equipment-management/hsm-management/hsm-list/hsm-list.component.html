@@ -256,19 +256,24 @@
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Hãng sản xuất"
-            prop="hsmManufacturer"
+            prop="manufacturerId"
             [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
-            name="Tên model"
+            name="Tên thiết bị"
             prop="hsmModel"
             [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
-            name="Đường dẫn file thư viện"
-            prop="hsmLibraryPath"
-            [width]="350"
+            name="Phiên bản phần cứng"
+            prop="hardwareId"
+            [width]="130"
           ></ngx-datatable-column>
+          <ngx-datatable-column
+          name="Phiên bản Firmware"
+          prop="hsmModel"
+          [width]="130"
+        ></ngx-datatable-column>
           <ngx-datatable-column
             name="Hành động"
             [width]="70"
