@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PersonalsModule } from './personals/personals.module';
 import { SubscribersRoutingModule } from './subscribers-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { OrganizationsModule } from './organizations/organizations.module';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     CommonModule, 
     PersonalsModule,
+    OrganizationsModule,
     SubscribersRoutingModule,
   ],
   providers: [

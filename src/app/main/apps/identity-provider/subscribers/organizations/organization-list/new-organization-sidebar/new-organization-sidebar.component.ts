@@ -66,7 +66,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
     });
     this.initAddress();
     this.getListOrganizations();
-    this.getListTypeOrganization();
+    // this.getListTypeOrganization();
   }
   initAddress() {
     this._addressService
@@ -264,19 +264,19 @@ export class NewOrganizationSidebarComponent implements OnInit {
         console.log(this.organizationList);
       });
   }
-  getListTypeOrganization() {
-    this._organizationListService
-      .getListOrganizationCategory()
-      .subscribe((res:any) => {
-        console.log(res)
-        res.data.forEach(function (item, index) {
-          if (item.subscriberCategoryName === "Cá nhân") {
-            res.data.splice(index, 1);
-          }
-        });
-        this.typeOrganization = res.data;
-      });
-  }
+  // getListTypeOrganization() {
+  //   this._organizationListService
+  //     .getListOrganizationCategory()
+  //     .subscribe((res:any) => {
+  //       console.log(res)
+  //       res.data.forEach(function (item, index) {
+  //         if (item.subscriberCategoryName === "Cá nhân") {
+  //           res.data.splice(index, 1);
+  //         }
+  //       });
+  //       this.typeOrganization = res.data;
+  //     });
+  // }
 
   /**
    * On destroy

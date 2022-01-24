@@ -1,105 +1,381 @@
+<!-- fliter -->
+<section id="search-personal-list">
+  <div class="card">
+    <!-- search -->
+    <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+    <div class="card-body">
+      <!-- [formGroup]="formListPersonal" -->
+      <form class="form form-vertical" [formGroup]="formListOrganizations">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- formControlName="inputPersonal" -->
+            <label class="lable">Họ tên, thư điện tử, địa chỉ, webside</label>
+            <input
+              formControlName="inputOrganization"
+              name="findName"
+              id="findName"
+              type="search"
+              class="form-control"
+              placeholder="Nhập họ tên, thư điện tử, địa chỉ, website"
+            />
+          </div>
+          <div class="col-md-2">
+            <label class="lable">Loại tổ chức</label>
+            <fieldset class="form-group">
+              <ng-select
+                [items]="typeOrganization"
+                bindLabel="subscriberCategoryName"
+                bindValue="subscriberCategoryId"
+                formControlName="typeOrganization"
+                [clearable]="false"
+                placeholder="Loại tổ chức"
+              >
+              </ng-select>
+            </fieldset>
+          </div>
+          <div class="col-md-2">
+            <label class="lable">Người đại diện</label>
+            <input
+              name="findRepresentative"
+              id="findRepresentative"
+              type="search"
+              class="form-control"
+              placeholder="Người đại diện"
+            />
+          </div>
+          <div class="col-md-2 mt-2">
+            <button
+              class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
+              rippleEffect
+              (click)="moreOption = !moreOption"
+            >
+              <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
+              <i data-feather="plus" class="d-sm-none d-inline-block"></i
+              ><span class="d-none d-sm-inline-block">Tùy chọn</span>
+            </button>
+          </div>
+          <div class="col-md-2 mt-2">
+            <button
+              type="button"
+              rippleEffect
+              class="btn btn-primary"
+              (click)="onSubmit()"
+              [disabled]="!formListOrganizations.valid"
+            >
+              Tìm kiếm
+            </button>
+          </div>
+        </div>
 
-  <!-- fliter -->
-  <section id="search-personal-list">
-    <div class="card">
-      <!-- search -->
-      <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-      <div class="card-body">
-        <!-- [formGroup]="formListPersonal" -->
-        <form class="form form-vertical" [formGroup]="formListOrganizations">
-          <div class="row">
-            <div class="col-md-4">
-              <!-- formControlName="inputPersonal" -->
-              <label class="lable">Họ tên, thư điện tử, địa chỉ, webside</label>
-              <input
-                formControlName="inputOrganization"
-                name="findName"
-                id="findName"
-                type="search"
-                class="form-control"
-                placeholder="Nhập họ tên, thư điện tử, địa chỉ, website"
-              />
-            </div>
-            <div class="col-md-2">
-              <label class="lable">Loại tổ chức</label>
-              <fieldset class="form-group">
-                <ng-select
-                  [items]="typeOrganization"
-                  bindLabel = "subscriberCategoryName"
-                  bindValue= "subscriberCategoryId"
-                  formControlName = "typeOrganization"
-                  [clearable]="false"
-                  placeholder="Loại tổ chức"
-                >
-                </ng-select>
-              </fieldset>
-            </div>
-            <div class="col-md-2">
-              <label class="lable">Người đại diện</label>
-              <input
-                name="findRepresentative"
-                id="findRepresentative"
-                type="search"
-                class="form-control"
-                placeholder="Người đại diện"
-              />
-            </div>
-            <div class="col-md-2 mt-2">
-              <button
-                class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12 "
-                rippleEffect
-                (click)="moreOption = !moreOption"
-              >
-                <!-- <span [data-feather]="'clock'" [class]="'mr-50'"></span> -->
-                <i
-                  data-feather="plus"
-                  class="d-sm-none d-inline-block "
-                ></i
-                ><span class="d-none d-sm-inline-block">Tùy chọn</span>
-              </button>
-            </div>
-            <div class="col-md-2 mt-2">
-              <button
-                type="button"
-                rippleEffect
-                class="btn btn-primary"
-                (click)="onSubmit()"
-                [disabled]="!formListOrganizations.valid"
-              >
-                Tìm kiếm
-              </button>
-            </div>
+        <div class="row" [ngbCollapse]="moreOption">
+          <div class="col-md-2">
+            <label for="">SỐ DÒNG:</label>
+            <fieldset class="form-group">
+              <ng-select
+                [items]="sizePage"
+                bindValue="sizePage"
+                [clearable]="false"
+                formControlName="sizePage"
+                (change)="selectItem($event)"
+              ></ng-select>
+            </fieldset>
           </div>
-          
-          <div class="row" [ngbCollapse]="moreOption">
-            <div class="col-md-2">
-              <label for="">SỐ DÒNG:</label>
-              <fieldset class="form-group">
-                <ng-select
-                  [items]="sizePage"
-                  bindValue="sizePage"
-                  [clearable]="false"
-                  formControlName="sizePage"
-                  (change)="selectItem($event)"
-                ></ng-select>
-              </fieldset>
-            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- end filter -->
+
+<!-- table -->
+<section id="table-personal-list">
+  <!-- search -->
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Danh sách thuê bao tổ chức</h4>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-50">
+        <button
+          class="btn btn-primary ml-2"
+          rippleEffect
+          (click)="openNewOrganizationModal(newOrganization)"
+        >
+          <i
+            data-feather="plus"
+            class="d-sm-none d-inline-block mr-0 mr-sm-1"
+          ></i
+          ><span class="d-none d-sm-inline-block">Tạo thuê bao</span>
+        </button>
+        <input
+          #fileInput
+          type="file"
+          style="display: none"
+          (change)="onInputExcel($event)"
+          multiple="false"
+        />
+        <button
+          class="btn btn-primary ml-1"
+          rippleEffect
+          (click)="fileInput.click()"
+        >
+          <span class="d-none d-sm-inline-block">Tạo danh sách thuê bao</span>
+        </button>
+        <button
+          csvLink
+          class="btn btn-outline-secondary ml-1"
+          rippleEffect
+          [disabled]="selected.length === 0"
+        >
+          Xóa thuê bao
+        </button>
+        <ng-template #newOrganization let-modal>
+          <div class="modal-header">
+            <h2 class="modal-title" id="myModalLabel160">
+              Đăng ký thuê bao tổ chức
+            </h2>
+
+            <button
+              type="button"
+              class="close btn-primary ml-1"
+              (click)="modal.close()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        </form>
+          <div class="modal-body" tabindex="0" ngbAutofocus>
+            <app-new-organization-sidebar
+              (onClose)="closeModal()"
+              (onUpdate)="onUpdateTable()"
+            ></app-new-organization-sidebar>
+          </div>
+        </ng-template>
+        <a
+          csvLink
+          class="btn btn-outline-secondary float-right mr-1"
+          rippleEffect
+          >Xuất danh sách thuê bao</a
+        >
       </div>
     </div>
-  </section>
-  <!-- end filter -->
+    <!-- end search -->
+    <!-- table -->
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <app-organization-list-add
+      *ngIf="openTableUpdate"
+      [childData]="parentData"
+      (toggleTable)="toggleTable()"
+    ></app-organization-list-add>
+    <ngx-datatable
+      [rows]="rowsData"
+      rowHeight="auto"
+      *ngIf="openTable"
+      class="bootstrap core-bootstrap cursor"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [scrollbarH]="true"
+      (activate)="onActivate($event)"
+      [selected]="chkBoxSelected"
+      (select)="customCheckboxOnSelect($event)"
+      (select)="onSelect($event)"
+      [selectionType]="SelectionType.checkbox"
+      [rowHeight]="50"
+      [externalPaging]="true"
+      [count]="pagedData.totalItems"
+      [offset]="pagedData.currentPage"
+      [loadingIndicator]="isLoading"
+      (page)="setPage($event)"
+    >
+      <ngx-datatable-column
+        [width]="40"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        class="ml-1"
+      >
+        <ng-template
+          ngx-datatable-header-template
+          let-value="value"
+          let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn"
+        >
+          <div class="custom-control custom-control-primary custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="allRowsSelected"
+              (change)="selectFn(!allRowsSelected)"
+              id="headerCustomChkbxRef"
+            />
+            <label
+              class="custom-control-label"
+              for="headerCustomChkbxRef"
+            ></label>
+          </div>
+        </ng-template>
 
-  <!-- table -->
-  <section id="table-personal-list">
-    <!-- search -->
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">Danh sách thuê bao tổ chức</h4>
-      </div>
-      <div class="row">
-        <div class="col-md-12 mb-50">
+        <ng-template
+          ngx-datatable-cell-template
+          let-rowIndex="rowIndex"
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+          <div class="custom-control custom-control-primary custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+              id="rowCustomChkbxRef{{ rowIndex }}"
+            />
+            <label
+              class="custom-control-label"
+              for="rowCustomChkbxRef{{ rowIndex }}"
+            ></label>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="TT"
+        [width]="10"
+        [canAutoResize]="false"
+        [sortable]="false"
+      >
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+          {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Tên tài khoản"
+        prop="username"
+        [width]="50"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Thư điện tử"
+        prop="email"
+        [width]="50"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Tên tổ chức"
+        prop="organizationName"
+        [width]="50"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Loại tổ chức"
+        prop="subscriberCategoryName"
+        [width]="100"
+      >
+      </ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Người đại diện"
+        prop="leaderName"
+        [width]="100"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column
+        name="Địa chỉ"
+        prop="address"
+        [width]="130"
+      ></ngx-datatable-column>
+
+      <ngx-datatable-column name="Hành động" [width]="20" [sortable]="false">
+        <ng-template ngx-datatable-cell-template>
+          <div class="d-flex align-items-center">
+            <div ngbDropdown container="body">
+              <a
+                ngbDropdownToggle
+                href="javascript:void(0);"
+                class="hide-arrow"
+                id="dropdownBrowserState"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i
+                  data-feather="more-vertical"
+                  class="text-primary cursor-pointer mr-50"
+                ></i>
+              </a>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu-right"
+                aria-labelledby="dropdownBrowserState"
+              >
+                <a
+                  [routerLink]="[
+                    '/apps/ip/subscribers/organizations/',
+                    'organization-edit',
+                  ]"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+                >
+                <a
+                  [routerLink]="[
+                    '/apps/ip/subscribers/organizations/',
+                    'organization-edit'
+                  ]"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
+                >
+                <a
+                  href="javascript:void(0)"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                >
+              </div>
+            </div>
+
+            <i data-feather="edit" class="text-primary cursor-pointer"></i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-selectedCount="selectedCount"
+          let-curPage="curPage"
+          let-offset="offset"
+          let-isVisible="isVisible"
+        >
+          <div class="page-count" *ngIf="!isLoading">
+            <span *ngIf="chkBoxSelected">
+              Đã chọn {{ chkBoxSelected.length }} /
+            </span>
+            {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+          </div>
+          <datatable-pager
+            [pagerLeftArrowIcon]="'datatable-icon-left'"
+            [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerPreviousIcon]="'datatable-icon-prev'"
+            [pagerNextIcon]="'datatable-icon-skip'"
+            [page]="curPage"
+            [size]="pageSize"
+            [count]="rowCount"
+            [hidden]="!(rowCount / pageSize > 1)"
+            (change)="table.onFooterPage($event)"
+            class="col-md-2"
+          >
+          </datatable-pager>
+        </ng-template>
+      </ngx-datatable-footer>
+      <!-- <ng-template>
+        <div class="">
           <button
             class="btn btn-primary ml-2"
             rippleEffect
@@ -115,38 +391,16 @@
             #fileInput
             type="file"
             style="display: none"
-            (change) = "onInputExcel($event)" 
+            (change)="onInputExcel($event)"
             multiple="false"
-        />
+          />
           <button
             class="btn btn-primary ml-2"
             rippleEffect
-            (click)="fileInput.click()" 
+            (click)="fileInput.click()"
           >
             <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
           </button>
-          <ng-template #newOrganization let-modal>
-            <div class="modal-header">
-              <h2 class="modal-title" id="myModalLabel160">
-                Đăng ký thuê bao tổ chức
-              </h2>
-
-              <button
-                type="button"
-                class="close btn-primary ml-1"
-                (click)="modal.close()"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" tabindex="0" ngbAutofocus>
-              <app-new-organization-sidebar
-                (onClose)="closeModal()"
-                (onUpdate)="onUpdateTable()"
-              ></app-new-organization-sidebar>
-            </div>
-          </ng-template>
           <a
             csvLink
             class="btn btn-outline-secondary float-right mr-1"
@@ -154,295 +408,53 @@
             >Xuất dữ liệu CSV</a
           >
         </div>
-      </div>
-      <!-- end search -->
-      <!-- table -->
-      <mat-progress-bar
-        *ngIf="isLoading"
-        mode="indeterminate"
-      ></mat-progress-bar>
-      <app-organization-list-add 
-      *ngIf = "openTableUpdate" 
-      [childData]="parentData"
-      (toggleTable) = "toggleTable()"
-    ></app-organization-list-add>
-      <ngx-datatable
-        [rows]="rowsData"
-        rowHeight="auto"
-        *ngIf = "openTable"
-        class="bootstrap core-bootstrap cursor"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [scrollbarH]="true"
-        [selected]="chkBoxSelected"
-        (select)="customCheckboxOnSelect($event)"
-        (select)="onSelect($event)"
-        [selectionType]="SelectionType.checkbox"        
-        [rowHeight]="50"
-        [externalPaging]="true"
-        [count]="pagedData.totalItems"
-        [offset]="pagedData.currentPage"
-        [loadingIndicator]="isLoading"
-        (page)="setPage($event)"
-      >
-        
-        <ngx-datatable-column
-      [width]="40"
-      [sortable]="false"
-      [canAutoResize]="false"
-      [draggable]="false"
-      [resizeable]="false"
-      class="ml-1"
-    >
-      <ng-template
-        ngx-datatable-header-template
-        let-value="value"
-        let-allRowsSelected="allRowsSelected"
-        let-selectFn="selectFn"
-      >
-        <div class="custom-control custom-control-primary custom-checkbox">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            [checked]="allRowsSelected"
-            (change)="selectFn(!allRowsSelected)"
-            id="headerCustomChkbxRef"
-          />
-          <label
-            class="custom-control-label"
-            for="headerCustomChkbxRef"
-          ></label>
-        </div>
-      </ng-template>
-      
-      <ng-template
-        ngx-datatable-cell-template
-        let-rowIndex="rowIndex"
-        let-value="value"
-        let-isSelected="isSelected"
-        let-onCheckboxChangeFn="onCheckboxChangeFn"
-      >
-        <div class="custom-control custom-control-primary custom-checkbox">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            [checked]="isSelected"
-            (change)="onCheckboxChangeFn($event)"
-            id="rowCustomChkbxRef{{ rowIndex }}"
-          />
-          <label
-            class="custom-control-label"
-            for="rowCustomChkbxRef{{ rowIndex }}"
-          ></label>
-        </div>
-      </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column
-        name="TT"
-        [width]="10"
-        [canAutoResize]="false"
-        [sortable]="false"
-      >
-        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-          {{ pagedData.currentPage*pagedData.size + rowIndex + 1 }}
-        </ng-template>
-      </ngx-datatable-column>
-        
-        <ngx-datatable-column
-        name="Mã tổ chức"
-        prop="organizationId"
-        [width]="50"
-        ></ngx-datatable-column>
-
-        <ngx-datatable-column
-        name="Tên tổ chức"
-        prop="organizationName"
-        [width]="50"
-        ></ngx-datatable-column>
-
-        <ngx-datatable-column
-        name="Loại tổ chức"
-        prop="subscriberCategory"
-        [width]="100"
+      </ng-template> -->
+    </ngx-datatable>
+    <div class="row">
+      <div class="col-md-12 mb-50">
+        <button
+          class="btn btn-primary ml-2"
+          rippleEffect
+          (click)="openNewOrganizationModal(newOrganization)"
         >
-          <ng-template 
-            ngx-datatable-cell-template
-            let-value="value"
-            let-row="row"> 
-            <div>{{value.subscriberCategoryName}}</div>
-          </ng-template>
-        </ngx-datatable-column>
-          
-        <ngx-datatable-column
-        name="Người đại diện"
-        prop="leaderName"
-        [width]="100"
-        ></ngx-datatable-column>
-
-        <ngx-datatable-column
-        name="THƯ ĐIỆN TỬ"
-        prop="email"
-        [width]="130"
-        ></ngx-datatable-column>
-
-        <ngx-datatable-column  name="Hành động" [width]="20" [sortable]="false">
-          <ng-template ngx-datatable-cell-template>
-            <div class="d-flex align-items-center">
-              <div ngbDropdown container="body">
-                <a
-                  ngbDropdownToggle
-                  href="javascript:void(0);"
-                  class="hide-arrow"
-                  id="dropdownBrowserState"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i
-                    data-feather="more-vertical"
-                    class="text-primary cursor-pointer mr-50"
-                  ></i>
-                </a>
-                <div
-                  ngbDropdownMenu
-                  class="dropdown-menu-right"
-                  aria-labelledby="dropdownBrowserState"
-                >
-                  <a
-                    href="
-                  "
-                    ngbDropdownItem
-                    class="d-flex align-items-center"
-                    ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    ngbDropdownItem
-                    class="d-flex align-items-center"
-                    ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    ngbDropdownItem
-                    class="d-flex align-items-center"
-                    ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                  >
-                </div>
-              </div>
-  
-              <i data-feather="edit" class="text-primary cursor-pointer"></i>
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-footer>
-                <ng-template
-                  ngx-datatable-footer-template
-                  let-rowCount="rowCount"
-                  let-pageSize="pageSize"
-                  let-selectedCount="selectedCount"
-                  let-curPage="curPage"
-                  let-offset="offset"
-                  let-isVisible="isVisible"
-                >
-                  <div class="page-count" *ngIf="!isLoading">
-                    <span *ngIf="chkBoxSelected">
-                      Đã chọn {{ chkBoxSelected.length }} /
-                    </span>
-                    {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-                  </div>
-                  <div class="col-md-5">
-                    <button
-                      class="btn btn-primary ml-2"
-                      rippleEffect
-                      (click)="openNewOrganizationModal(newOrganization)"
-                    >
-                      <i
-                        data-feather="plus"
-                        class="d-sm-none d-inline-block mr-0 mr-sm-1"
-                      ></i
-                      ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-                    </button>
-                    <input
-                      #fileInput
-                      type="file"
-                      style="display: none"
-                      (change) = "onInputExcel($event)" 
-                      multiple="false"
-                  />
-                    <button
-                      class="btn btn-primary ml-2"
-                      rippleEffect
-                      (click)="fileInput.click()" 
-                    >
-                      <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-                    </button>
-                    <!-- <a
-                      csvLink
-                      class="btn btn-outline-secondary float-right mr-1"
-                      rippleEffect
-                      >Xuất dữ liệu CSV</a
-                    > -->
-                  </div>
-                  <datatable-pager
-                    [pagerLeftArrowIcon]="'datatable-icon-left'"
-                    [pagerRightArrowIcon]="'datatable-icon-right'"
-                    [pagerPreviousIcon]="'datatable-icon-prev'"
-                    [pagerNextIcon]="'datatable-icon-skip'"
-                    [page]="curPage"
-                    [size]="pageSize"
-                    [count]="rowCount"
-                    [hidden]="!(rowCount / pageSize > 1)"
-                    (change)="table.onFooterPage($event)"
-                    class="col-md-2"
-                  >
-                  </datatable-pager>
-                  
-                </ng-template>
-                
-                
-        </ngx-datatable-footer>
-        <ng-template>
-                  <div class="">
-                  <button
-                    class="btn btn-primary ml-2"
-                    rippleEffect
-                    (click)="openNewOrganizationModal(newOrganization)"
-                  >
-                    <i
-                      data-feather="plus"
-                      class="d-sm-none d-inline-block mr-0 mr-sm-1"
-                    ></i
-                    ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-                  </button>
-                  <input
-                    #fileInput
-                    type="file"
-                    style="display: none"
-                    (change) = "onInputExcel($event)" 
-                    multiple="false"
-                />
-                  <button
-                    class="btn btn-primary ml-2"
-                    rippleEffect
-                    (click)="fileInput.click()" 
-                  >
-                    <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-                  </button>
-                  <a
-                    csvLink
-                    class="btn btn-outline-secondary float-right mr-1"
-                    rippleEffect
-                    >Xuất dữ liệu CSV</a
-                  >
-                </div>
-                </ng-template>
-        
-      </ngx-datatable>
-      <!-- end table -->  
+          <i
+            data-feather="plus"
+            class="d-sm-none d-inline-block mr-0 mr-sm-1"
+          ></i
+          ><span class="d-none d-sm-inline-block">Tạo thuê bao</span>
+        </button>
+        <input
+          #fileInput
+          type="file"
+          style="display: none"
+          (change)="onInputExcel($event)"
+          multiple="false"
+        />
+        <button
+          class="btn btn-primary ml-1"
+          rippleEffect
+          (click)="fileInput.click()"
+        >
+          <span class="d-none d-sm-inline-block">Tạo danh sách thuê bao</span>
+        </button>
+        <button
+          csvLink
+          class="btn btn-outline-secondary ml-1"
+          rippleEffect
+          [disabled]="selected.length === 0"
+        >
+          Xóa thuê bao
+        </button>
+        <a
+          csvLink
+          class="btn btn-outline-secondary float-right mr-1"
+          rippleEffect
+          >Xuất danh sách thuê bao</a
+        >
+      </div>
     </div>
-  </section>
-  <!-- table -->
 
+    <!-- end table -->
+  </div>
+</section>
+<!-- table -->

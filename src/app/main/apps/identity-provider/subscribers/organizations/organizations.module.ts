@@ -8,6 +8,7 @@ import { CorePipesModule } from "@core/pipes/pipes.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { OrganizationEditComponent } from "./organization-edit/organization-edit.component";
 import { OrganizationEditService } from "./organization-edit/organization-edit.service";
 import { NewOrganizationSidebarComponent } from "./organization-list/new-organization-sidebar/new-organization-sidebar.component";
@@ -46,6 +47,7 @@ import { AppRemoveSpace } from './remove-space.directive';
     CorePipesModule,
     CoreDirectivesModule,
     ReactiveFormsModule,
+    ContentHeaderModule,
   ],
   exports: [
     NewOrganizationSidebarComponent,

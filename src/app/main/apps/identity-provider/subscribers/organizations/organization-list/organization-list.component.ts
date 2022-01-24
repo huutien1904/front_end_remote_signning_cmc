@@ -8,6 +8,7 @@ import { PagedData } from "app/main/models/PagedData";
 import { OrganizationListService } from './organization-list.service';
 import { Organization, OrganizationCategory } from 'app/main/models/Organization';
 import * as XLSX from 'xlsx';
+import { Router } from '@angular/router';
 type EXCEL = any[][];
 @Component({
   selector: 'app-organization-list',
@@ -64,6 +65,7 @@ export class OrganizationListComponent implements OnInit {
     private _organizationListService: OrganizationListService,
     private modalService: NgbModal,
     private fb: FormBuilder,
+    private _router: Router,
   ) { 
     this._unsubscribeAll = new Subject();
    }
@@ -95,11 +97,13 @@ export class OrganizationListComponent implements OnInit {
       inputOrganization: ["", Validators.required],
       sizePage:[this.sizePage[3], Validators.required],
       typeOrganization:[null, Validators.required],
+      
     })
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
-    this.getListTypeOrganization();
+    // this.getListTypeOrganization();
+    this.setPage({ offset: 0, pageSize: this.formListOrganizations.get("sizePage").value  });
   }
 
   //Set Table View
@@ -140,20 +144,28 @@ export class OrganizationListComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
+
+  onActivate(event) {
+    // console.log(event);
+    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+      this._router.navigate(['/apps/ip/subscribers/organizations/organization-edit', event.row.organizationId]);
+      
+    }
+  }
   onUpdateTable(){
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
   }
-  getListTypeOrganization(){
-    this._organizationListService
-      .getListOrganizationCategory()
-      .subscribe((res:any) => {
+  // getListTypeOrganization(){
+  //   this._organizationListService
+  //     .getListOrganizationCategory()
+  //     .subscribe((res:any) => {
         
-        this.typeOrganization = res.data
-        console.log(this.typeOrganization)
-      })
-  }
+  //       this.typeOrganization = res.data
+  //       console.log(this.typeOrganization)
+  //     })
+  // }
   onInputExcel(event:any){
     const targetFileExcel:DataTransfer = <DataTransfer>(event.target);
     const reader:FileReader = new FileReader();
