@@ -1,20 +1,19 @@
-import { Component, OnDestroy, OnInit, HostBinding, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
-
-import * as _ from 'lodash';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
-
-import { AuthenticationService } from 'app/auth/service';
+import { Router } from '@angular/router';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreMediaService } from '@core/services/media.service';
-
+import { TranslateService } from '@ngx-translate/core';
 import { User } from 'app/auth/models';
+import { AuthenticationService } from 'app/auth/service';
+import * as _ from 'lodash';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { coreConfig } from 'app/app-config';
-import { Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -84,7 +83,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public _translateService: TranslateService
   ) {
     this._authenticationService.currentUser.subscribe(x => ( this.currentUser = x));
-    console.log(this.currentUser.role);
     this.languageOptions = {
       vi: {
         title: 'Vietnam',

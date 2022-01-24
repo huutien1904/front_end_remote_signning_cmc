@@ -50,6 +50,8 @@ export class CertificateRequestListService{
     //   .replace("-----END CERTIFICATE REQUEST-----", "");
     //   console.log(getCertString)
     //decode
+    //const csr2 = new x509.Pkcs10CertificateRequest(cer);
+
     let read: any = forge.pki.certificationRequestFromPem(cer);
     
     //get attributes
@@ -64,8 +66,9 @@ export class CertificateRequestListService{
     console.log(csrString)
     csrString = csrString.replace("NEW ", "").replace("NEW ", "")
     var forge = require('node-forge');
-    var csr = forge.pki.certificationRequestFromPem(csrString);
     const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+    console.log(csr2)
+    var csr = forge.pki.certificationRequestFromPem(csrString);
     var pki = forge.pki;
     // this.results[0].subjectDN = csr2.subject
     this.results.sizePublicKey = csr.publicKey.n.bitLength()

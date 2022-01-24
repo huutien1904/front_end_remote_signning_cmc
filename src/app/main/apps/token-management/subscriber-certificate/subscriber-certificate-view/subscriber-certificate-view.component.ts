@@ -12,6 +12,7 @@ import * as forge from 'node-forge';
   styleUrls: ['./subscriber-certificate-view.component.scss']
 })
 export class SubscriberCertificateViewComponent implements OnInit {
+  [x: string]: any;
   // public
   public url = this.router.url;
   public dataFromNodeForge : any
@@ -98,9 +99,9 @@ export class SubscriberCertificateViewComponent implements OnInit {
 
     //Đọc chứng thư số ra dạng JSON theo 2 cách dùng Node-Force & X509
     var forge = require('node-forge');
-    this.dataFromNodeForge = forge.pki.certificateFromPem(certPem);
-    console.log(this.dataFromNodeForge)
-    this.version = this.dataFromNodeForge.version
+    //this.dataFromNodeForge = forge.pki.certificateFromPem(certPem);
+    //console.log(this.dataFromNodeForge)
+    //this.version = this.dataFromNodeForge.version
     
     
     // this.issuerDN = this.dataFromNodeForge.subject
@@ -108,78 +109,82 @@ export class SubscriberCertificateViewComponent implements OnInit {
     //  lấy dữ liệu từ chứng thư số
     this.sigAlgName = this.dataFromX509.signatureAlgorithm.name
     console.log(this.dataFromX509)
+    console.log(this.dataFromX509.signatureAlgorithm.hash.name)
+
     this.serialNumber = this.dataFromX509.serialNumber
     this.issuerDN = this.dataFromX509.issuer
     this.subject = this.dataFromX509.subject
     this.algorithmPublicKey = this.dataFromX509.publicKey.algorithm.name
     this.sizePublicKey = this.dataFromX509.publicKey.algorithm.modulusLength
-
+    this.signatureHashAlgorithm = this.dataFromX509.signatureAlgorithm.hash.name
+    this.validFrom = this.dataFromX509.notBefore
+    this.validTo= this.dataFromX509.notAfter
     //Đọc signatureParameters
-    this.signatureParameters = this.dataFromNodeForge.signatureParameters
-    if(Object.keys(this.signatureParameters).length == 0) //(*)
-    {
-      this.signatureParameters = "05 00"
-    }
-    else {
-      this.signatureParameters = JSON.stringify(this.signatureParameters) //(**)
-    }
-    if(this.dataFromNodeForge.extensions.length > 0){
-      //Đọc keyUsage
-      if(this.dataFromNodeForge.extensions[4].cRLSign) this.keyUsage += "CRL Signing, "
-      // if(this.dataFromNodeForge.extensions[4].critical) this.keyUsage += "Critical, "
-      if(this.dataFromNodeForge.extensions[4].dataEncipherment) this.keyUsage += "Data Encipherment, "
-      if(this.dataFromNodeForge.extensions[4].decipherOnly) this.keyUsage += "Decipher Only, "
-      if(this.dataFromNodeForge.extensions[4].digitalSignature) this.keyUsage += "Digital Signature, "
-      if(this.dataFromNodeForge.extensions[4].encipherOnly) this.keyUsage += "Encipher Only, "
-      if(this.dataFromNodeForge.extensions[4].keyAgreement) this.keyUsage += "Key Agreement, "
-      if(this.dataFromNodeForge.extensions[4].keyCertSign) this.keyUsage += "Key CertSign, "
-      if(this.dataFromNodeForge.extensions[4].keyEncipherment) this.keyUsage += "Key Encipherment, "
-      if(this.dataFromNodeForge.extensions[4].nonRepudiation) this.keyUsage += "Non Repudiation, "
-      //Đọc basicConstraints
-    //Nếu ca = false thì Subject Type là End Entity nếu không là CA
-    if(this.dataFromX509.extensions[0].ca) this.basicConstraints += "Subject Type=CA, "
-    else this.basicConstraints += "Subject Type=End Entity, "
-    if(this.dataFromX509.extensions[0].pathLength==undefined) this.basicConstraints += "Path Length Constraint=None"
-    else this.basicConstraints += "Path Length Constraint="+this.dataFromX509.extensions[0].pathLength
-    }
+    // this.signatureParameters = this.dataFromNodeForge.signatureParameters
+    // if(Object.keys(this.signatureParameters).length == 0) //(*)
+    // {
+    //   this.signatureParameters = "05 00"
+    // }
+    // else {
+    //   this.signatureParameters = JSON.stringify(this.signatureParameters) //(**)
+    // }
+    // if(this.dataFromNodeForge.extensions.length > 0){
+    //   //Đọc keyUsage
+    //   if(this.dataFromNodeForge.extensions[4].cRLSign) this.keyUsage += "CRL Signing, "
+    //   // if(this.dataFromNodeForge.extensions[4].critical) this.keyUsage += "Critical, "
+    //   if(this.dataFromNodeForge.extensions[4].dataEncipherment) this.keyUsage += "Data Encipherment, "
+    //   if(this.dataFromNodeForge.extensions[4].decipherOnly) this.keyUsage += "Decipher Only, "
+    //   if(this.dataFromNodeForge.extensions[4].digitalSignature) this.keyUsage += "Digital Signature, "
+    //   if(this.dataFromNodeForge.extensions[4].encipherOnly) this.keyUsage += "Encipher Only, "
+    //   if(this.dataFromNodeForge.extensions[4].keyAgreement) this.keyUsage += "Key Agreement, "
+    //   if(this.dataFromNodeForge.extensions[4].keyCertSign) this.keyUsage += "Key CertSign, "
+    //   if(this.dataFromNodeForge.extensions[4].keyEncipherment) this.keyUsage += "Key Encipherment, "
+    //   if(this.dataFromNodeForge.extensions[4].nonRepudiation) this.keyUsage += "Non Repudiation, "
+    //   //Đọc basicConstraints
+    // //Nếu ca = false thì Subject Type là End Entity nếu không là CA
+    // if(this.dataFromX509.extensions[0].ca) this.basicConstraints += "Subject Type=CA, "
+    // else this.basicConstraints += "Subject Type=End Entity, "
+    // if(this.dataFromX509.extensions[0].pathLength==undefined) this.basicConstraints += "Path Length Constraint=None"
+    // else this.basicConstraints += "Path Length Constraint="+this.dataFromX509.extensions[0].pathLength
+    // }
 
     
 
 
     //Đọc @thumbprint
-    var certAsn1 = forge.pki.certificateToAsn1(this.dataFromNodeForge);
-    var certDer = forge.asn1.toDer(certAsn1).getBytes();
-    //SHA-1 on certificate binary data
-    var md =  forge.md.sha1.create();
-    md.start();
-    md.update(certDer);
-    var digest = md.digest();
-    this.thumbprint = digest.toHex();
+    // var certAsn1 = forge.pki.certificateToAsn1(this.dataFromNodeForge);
+    // var certDer = forge.asn1.toDer(certAsn1).getBytes();
+    // //SHA-1 on certificate binary data
+    // var md =  forge.md.sha1.create();
+    // md.start();
+    // md.update(certDer);
+    // var digest = md.digest();
+    // this.thumbprint = digest.toHex();
 
     //Đọc extKeyUsage
-    if(this.dataFromNodeForge.extensions.length > 0){
-      if(this.dataFromNodeForge.extensions[2].clientAuth) this.extKeyUsage += "Client Authentication (1.3.6.1.5.5.7.3.2) "
-      // if(this.dataFromNodeForge.extensions[2].critical) this.extKeyUsage += "Critical "
-      if(this.dataFromNodeForge.extensions[2].emailProtection) this.extKeyUsage += "Secure Email (1.3.6.1.5.5.7.3.4) "
-      //Tham khả IDO tại: https://oidref.com/1.3.6.1.5.5.7.3.2
-    }
+    // if(this.dataFromNodeForge.extensions.length > 0){
+    //   if(this.dataFromNodeForge.extensions[2].clientAuth) this.extKeyUsage += "Client Authentication (1.3.6.1.5.5.7.3.2) "
+    //   // if(this.dataFromNodeForge.extensions[2].critical) this.extKeyUsage += "Critical "
+    //   if(this.dataFromNodeForge.extensions[2].emailProtection) this.extKeyUsage += "Secure Email (1.3.6.1.5.5.7.3.4) "
+    //   //Tham khả IDO tại: https://oidref.com/1.3.6.1.5.5.7.3.2
+    // }
    
 
 
     //Đọc modulus
-    for (let i = 0; i < this.dataFromNodeForge.publicKey.n.toByteArray().length; i++) {
-      var hex = (this.dataFromNodeForge.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
-      if (hex.length < 2) {
-        hex = "0" + hex
-      }
-      if (this.modulus == "") {
-        this.modulus = hex
-        // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
-      } else {
-        this.modulus = this.modulus + ":" + hex
-        // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
-      }
-    }
+    // for (let i = 0; i < this.dataFromNodeForge.publicKey.n.toByteArray().length; i++) {
+    //   var hex = (this.dataFromNodeForge.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
+    //   if (hex.length < 2) {
+    //     hex = "0" + hex
+    //   }
+    //   if (this.modulus == "") {
+    //     this.modulus = hex
+    //     // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
+    //   } else {
+    //     this.modulus = this.modulus + ":" + hex
+    //     // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
+    //   }
+    // }
 
     //Trạng thái đã đọc xong chứng thư số
     this.isReadCert = true

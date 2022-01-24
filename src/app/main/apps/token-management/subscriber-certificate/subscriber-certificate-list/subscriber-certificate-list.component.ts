@@ -277,9 +277,9 @@ export class SubscriberCertificateListComponent implements OnInit {
     certPem +
             '\r\n-----END CERTIFICATE-----\r\n'
     //Đọc chứng thư số ra dạng JSON theo 2 cách dùng Node-Force & X509
-    var forge = require('node-forge');
-    this.dataFromNodeForge = forge.pki.certificateFromPem(read);
-    console.log(this.dataFromNodeForge)
+    // var forge = require('node-forge');
+    // this.dataFromNodeForge = forge.pki.certificateFromPem(read);
+    // console.log(this.dataFromNodeForge)
     
     
     // this.issuerDN = this.dataFromNodeForge.subject
