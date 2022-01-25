@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HsmService } from '../hsm.service';
 import Swal from 'sweetalert2';
+import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 
 @Component({
   selector: 'app-hsm-list',
@@ -35,7 +36,7 @@ export class HsmListComponent implements OnInit {
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
-  public pagedData = new PagedData<Hsm>();
+  public pagedData:any = new PagedData<Hsm>();
   public rowsData = new Array<Hsm>();
 
   public isLoading: boolean = false;
@@ -83,7 +84,7 @@ export class HsmListComponent implements OnInit {
 
     this.formListHsm = this.fb.group({
       page: [null],
-      size: [this.sizePage[0]],
+      size: [this.sizePage[1]],
       sort: [null],
       contains: [''],
       fromDate: [null],
@@ -105,7 +106,6 @@ export class HsmListComponent implements OnInit {
     this.formListHsm.patchValue({ page: pageInfo.offset });
     console.log(pageInfo);
     console.log(this.formListHsm.value);
-
     this._hsmService
       .getListHsm(JSON.stringify(this.formListHsm.value))
       .pipe(takeUntil(this._unsubscribeAll))
@@ -114,7 +114,12 @@ export class HsmListComponent implements OnInit {
         console.log(pagedData);
         console.log(pagedData.data.totalItems);
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data;
+        this.rowsData = pagedData.data.data.map((item:any,index) => ({
+          ...item,
+          status: true ? index % 2 == 0 : false,
+          tokenName:  item.tokens.length > 0 ? item.tokens[0].tokenName : "Chưa khởi tạo"
+        }));
+        console.log(this.rowsData);
         this.isLoading = false;
       });
   }
@@ -198,7 +203,6 @@ export class HsmListComponent implements OnInit {
   onCheckboxChangeFn(event, { selected }) {
     console.log({ selected });
     console.log(event);
-    console.log('test');
   }
   removeProfile(hsmId) {
     Swal.fire({

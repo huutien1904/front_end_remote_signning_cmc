@@ -62,7 +62,7 @@
                       [loadingIndicator]="isLoading"
                       [selectionType]="'radio'"
                       [selected]="chkBoxSelected"
-                      (select)="onSelect($event)"
+                      (select)="onSelect($event,modalBasic)"
                       (select)="customCheckboxOnSelect($event)"
                     >
                       <ngx-datatable-column
@@ -284,7 +284,7 @@
                       <input type="password" class="form-control" />
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" *ngIf = "rePasswordSo">
                     <div class="form-group">
                       <label
                         >Xác nhận mật khẩu người quản trị (Super
@@ -373,7 +373,7 @@
                     (click)="onSubmit()"
                     rippleEffect
                   >
-                    Tạo token
+                    Tạo Slot
                   </button>
                   <button
                     (click)="exit()"
@@ -393,4 +393,27 @@
 </div>
 <ng-template #modalForm let-modal>
   <app-token-view-detail [data] = "name" ></app-token-view-detail>
+</ng-template>
+<ng-template #modalBasic let-modal>
+  <div class="modal-header">
+    <!-- <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4> -->
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <h5>Slot bị xóa bỏ</h5>
+    <p>
+      Slot đã tồn tại trong hệ thống . Bạn cần cung cấp mật khẩu SO để cài đặt lại slot. Mọi thuộc tính trong slot bị xóa bỏ.
+    </p>
+  </div>
+  <div class="modal-footer">
+    
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelToken()" rippleEffect>
+      Hủy bỏ
+    </button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+      Chấp nhận
+    </button>
+  </div>
 </ng-template>

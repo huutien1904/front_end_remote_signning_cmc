@@ -13,6 +13,7 @@ import {
   DatatableComponent,
   SelectionType,
 } from '@swimlane/ngx-datatable';
+import { TokenService } from '../../token-management/token.service';
 @Component({
   selector: 'app-hsm-view',
   templateUrl: './hsm-view.component.html',
@@ -21,7 +22,7 @@ import {
 })
 export class HsmViewComponent implements OnInit {
   public isLoading: boolean = false;
-  public rowsData = new Array<Token>();
+  public rowsData:any = new Array<Token>();
   public pagedData = new PagedData<Token>();
   private _unsubscribeAll: Subject<any>;
   public url = this.router.url;
@@ -33,7 +34,10 @@ export class HsmViewComponent implements OnInit {
   public hsmType: any[] = ['NET', 'PCI'];
   public hsmForm: any[] = ['FIPS', 'PC5'];
   public ColumnMode = ColumnMode;
+  public showConnect:boolean = true
+  public totalItems
   tokens: any[] = [];
+  public formListToken: FormGroup;
   hsmTokenList;
   get f() {
     return this.HsmFormView.controls;
@@ -43,10 +47,15 @@ export class HsmViewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private _hsmService: HsmService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder,
+    private _tokenService: TokenService,
   ) {
     this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
+    if(this.lastValue % 2 == 0){
+      this.showConnect = false
+    }
     console.log(this.lastValue);
     this.HsmFormView = this.formBuilder.group({
       hsmName: [null, Validators.required],
@@ -86,34 +95,29 @@ export class HsmViewComponent implements OnInit {
         ],
       },
     };
+    this.formListToken = this.fb.group({
+      page: [null],
+      size: [null],
+      sort: [null],
+      contains: [''],
+      fromDate: [""],
+      toDate: [""],
+    });
     console.log(this.HsmFormView.value);
-    this._hsmService
-    .getHSMId(this.lastValue)
+    this._tokenService
+    .getListToken(JSON.stringify(this.formListToken.value))
     .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((hsm) => {
-      console.log(hsm);
-      this.HSMname =  hsm.data.hsmName;
-
-      this.HsmFormView.controls.hsmName.patchValue( hsm.data.hsmName);
-      this.HsmFormView.controls.hardwareId.patchValue( hsm.data.hardwareId);
-      this.HsmFormView.controls.hsmManufacturer.patchValue( hsm.data.hsmManufacturer);
-      this.HsmFormView.controls.hsmModel.patchValue( hsm.data.hsmModel);
-      this.HsmFormView.controls.hsmLibraryPath.patchValue(
-        hsm.data.hsmLibraryPath
-      );
-      this.HsmFormView.controls.hsmType.patchValue( hsm.data.hsmType);
-      //this.HsmFormView.controls.hsmTokenList.patchValue([data.tokens]);
-      console.log(this.tokens);
-      this.HsmFormView.patchValue({
-        hsmTokenList:  hsm.data.tokens,
-      });
-
-
-      this.rowsData = hsm.data.tokens;
-      console.log(this.rowsData)
-      this.rowsData = hsm.data.tokens.map(item => ({
+    .subscribe((pagedData) => {
+      console.log(pagedData.data);
+      this.totalItems = pagedData.data.totalItems;
+      this.pagedData = pagedData.data;
+      this.rowsData = pagedData.data.data.map((item,index) =>({
         ...item,
-      }))
+        passwordSO:"Đã Khởi tạo",
+        passwordUser:"Đã khởi tạo",
+        privateKey: 10,
+        secretKey:100
+      }));
       this.isLoading = false;
     });
   }

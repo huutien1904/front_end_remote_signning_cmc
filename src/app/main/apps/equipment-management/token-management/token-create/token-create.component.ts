@@ -42,12 +42,15 @@ export class TokenCreateComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public pagedData = new PagedData<any>();
   public placeholder:string
-  public showSelect:boolean = false
+  
   public row:any;
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
   name = 'Angular 5';
+  // show input
+  public showSelect:boolean = false
+  public rePasswordSo = true
   // public totalItems: any = 10;
   get f() {
     return this.tokenForm.controls;
@@ -198,14 +201,42 @@ export class TokenCreateComponent implements OnInit {
    *
    * @param selected
    */
-  onSelect({ selected }) {
+  onSelect({ selected },modal) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
     if(this.selected.length > 0){
       this.showSelect = true
     }
-    console.log("Select Event", selected, this.selected);
+    console.log(this.selected)
+    const tokenInit = this.selected[0].tokenInitialized;
+    const userPinInit = this.selected[0].userPinInitialized
+    if(tokenInit === false){
+      this.showSelect = true;
+      this.rePasswordSo = true
+    }
+    if(tokenInit === true){
+      if(userPinInit ===  false){
+        this.showSelect = true;
+        this.rePasswordSo = false
+      }
+      if(userPinInit ===  true){
+        console.log('hien thi popup')
+        this.modalService.open(modal, {
+          centered: true,
+        });
+        this.showSelect = true;
+        this.rePasswordSo = false;
+      }
+    }
+    
 
+  }
+  cancelToken(){
+    this.showSelect = false;
+    this.toggleSidebar();
+  }
+  toggleSidebar() {
+    this.modalService.dismissAll();
   }
 }
 export function MustMatch(controlName: string, matchingControlName: string) {

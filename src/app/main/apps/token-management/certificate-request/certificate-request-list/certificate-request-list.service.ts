@@ -41,7 +41,7 @@ export class CertificateRequestListService{
     this.onUserListChanged = new BehaviorSubject({});
   }
 
-  readCertificate(cer): any[] {
+  readCertificate(cer): any {
       // const cert = e.target.result;
       // //console.log(cert);
     // let getCertString = cer
@@ -50,8 +50,8 @@ export class CertificateRequestListService{
     //   .replace("-----END CERTIFICATE REQUEST-----", "");
     //   console.log(getCertString)
     //decode
-    //const csr2 = new x509.Pkcs10CertificateRequest(cer);
-
+    const csr2 = new x509.Pkcs10CertificateRequest(cer);
+    console.log(csr2)
     let read: any = forge.pki.certificationRequestFromPem(cer);
     
     //get attributes
@@ -59,7 +59,8 @@ export class CertificateRequestListService{
 
     //dich tieng Viet 
     let res: any[] = JSON.parse( forge.util.decodeUtf8( JSON.stringify(read)));
-    return res;
+    console.log(res)
+    return csr2;
   }
   getCSRInformation(csrString) {
     this.isHasResult = false

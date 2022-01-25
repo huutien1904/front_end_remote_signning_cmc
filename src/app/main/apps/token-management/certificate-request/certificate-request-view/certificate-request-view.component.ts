@@ -75,36 +75,40 @@ export class CertificateRequestViewComponent implements OnInit {
     //console.log(pki.oids[csr2.siginfo.algorithmOid])
     console.log(csr2.publicKey.algorithm.name)
     this.isHasResult = true
-    // try {
-    //   var email = csr.subject.getField('E').value
-    //   // console.log(email)
-    //   this.selectIdUserFirst(email)
-    // } catch (error) {
-    //   try {
-    //     var cn = csr.subject.getField('CN').value;
-    //     // console.log(cn)
-    //     this.selectIdUserByCN(cn)
-    //   } catch (error) {
-    //   }
-    // }
+    var pki = forge.pki;
+    if (csr2.publicKey.algorithm.name === 'ECDSA') {
+      this.results[0].subjectDN = csr2.subject;
+      this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name;
+    }
+    if (csr2.publicKey.algorithm.name === 'RSASSA-PKCS1-v1_5') {
+      var csr = forge.pki.certificationRequestFromPem(csrString);
+      const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+      this.results[0].sizePublicKey = csr.publicKey.n.bitLength();
+      this.results[0].exponent = csr.publicKey.e.data;
+      this.results[0].subjectDN = csr2.subject;
+      this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name;
+      this.results[0].algorithmSignature = pki.oids[csr.siginfo.algorithmOid];
 
-    // var modulus = ""
-    // for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
-
-    //   var hex = (csr.publicKey.n.toByteArray()[i] >>> 0).toString(16).slice(-2)
-    //   if (hex.length < 2) {
-    //     hex = "0" + hex
-    //   }
-    //   if (modulus == "") {
-    //     modulus = hex
-    //     // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
-    //   } else {
-    //     modulus = modulus + ":" + hex
-    //     // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
-    //   }
-    // }
-    //console.log(this.results[0])
-    //this.results[0].modulus = modulus
+      var modulus = '';
+      for (let i = 0; i < csr.publicKey.n.toByteArray().length; i++) {
+        var hex = (csr.publicKey.n.toByteArray()[i] >>> 0)
+          .toString(16)
+          .slice(-2);
+        if (hex.length < 2) {
+          hex = '0' + hex;
+        }
+        if (modulus == '') {
+          modulus = hex;
+          // modulus = rgbToHex(csr.publicKey.n.toByteArray()[i])
+        } else {
+          modulus = modulus + ':' + hex;
+          // modulus = modulus + ":" + rgbToHex(csr.publicKey.n.toByteArray()[i])
+        }
+      }
+    }
+    console.log(modulus)
+    this.results[0].modulus = modulus
+    return this.results[0];
   }
   // selectIdUserFirst(value) {
   //   // console.log(event.target.value)

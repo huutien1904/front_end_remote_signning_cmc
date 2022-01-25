@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
@@ -34,7 +35,8 @@ export class TokenViewComponent implements OnInit {
     "toDate" : ""
   }
   public HSMname = ""
-
+  public  ColumnMode = ColumnMode;
+  public rowsData:any
   // end public
   constructor(
     private formBuilder: FormBuilder,
