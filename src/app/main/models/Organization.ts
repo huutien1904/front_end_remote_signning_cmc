@@ -17,6 +17,7 @@ export class Organization {
     username: string;
     parentOrganizationName: string;
     address: any;
+    houseNumber:string;
 }
 
 export class OrganizationCategory{

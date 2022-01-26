@@ -69,22 +69,23 @@ export class OrganizationListService {
     );
   }
 
-  // public getListOrganizationCategory(): Observable<
-  //   ResponseData<PagedData<OrganizationCategory>>
-  // > {
-  //   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  //   const token = currentUser.token;
-  //   const option = {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: 'Bearer ' + token,
-  //     },
-  //   };
-  //   return this._httpClient.get<ResponseData<PagedData<OrganizationCategory>>>(
-  //     `${environment.apiUrl}/subscriber-category/list`,
-  //     this.option
-  //   );
-  // }
+  public getListOrganizationCategory(): Observable<
+    ResponseData<PagedData<OrganizationCategory>>
+  > {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const option = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return this._httpClient.get<ResponseData<PagedData<OrganizationCategory>>>(
+      `${environment.apiUrl}/organization/get-all`,
+      this.option
+    );
+  }
+  
   getListSelectOrganization(): Observable<
     ResponseData<PagedData<Organization>>
   > {
@@ -101,4 +102,12 @@ export class OrganizationListService {
       this.option
     );
   }
+
+  // public deletePersonal(staffId): Observable<ResponseData<Organization>> {
+  //   return this._httpClient.delete<ResponseData<Organization>>(
+  //     `${environment.apiUrl}/staff/${staffId}`,
+  //     this.option
+  //   );
+  // }
+
 }

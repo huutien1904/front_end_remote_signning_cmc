@@ -65,7 +65,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
       homeNumber: [{ value: null, disabled: true }, Validators.required],
     });
     this.initAddress();
-    this.getListOrganizations();
+    // this.getListOrganizations();
     // this.getListTypeOrganization();
   }
   initAddress() {
@@ -246,24 +246,24 @@ export class NewOrganizationSidebarComponent implements OnInit {
         }
       });
   }
-  getListOrganizations() {
-    this._organizationListService
-      .getListSelectOrganization()
-      .pipe(
-        map((res) => {
-          const data = res.data.data.map((Organization) => ({
-            ...Organization,
-            // subscriberCategory: Organization.subscriberCategory.subscriberCategoryId
-          }));
-          return data;
-        }),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((res) => {
-        this.organizationList = res;
-        console.log(this.organizationList);
-      });
-  }
+  // getListOrganizations() {
+  //   this._organizationListService
+  //     .getListSelectOrganization()
+  //     .pipe(
+  //       map((res) => {
+  //         const data = res.data.data.map((Organization) => ({
+  //           ...Organization,
+  //           // subscriberCategory: Organization.subscriberCategory.subscriberCategoryId
+  //         }));
+  //         return data;
+  //       }),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((res) => {
+  //       this.organizationList = res;
+  //       console.log(this.organizationList);
+  //     });
+  // }
   // getListTypeOrganization() {
   //   this._organizationListService
   //     .getListOrganizationCategory()

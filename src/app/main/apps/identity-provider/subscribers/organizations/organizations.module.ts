@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import { CoreCommonModule } from "@core/common.module";
 import { CoreSidebarModule } from "@core/components";
 import { CoreDirectivesModule } from "@core/directives/directives";
@@ -48,6 +49,7 @@ import { AppRemoveSpace } from './remove-space.directive';
     CoreDirectivesModule,
     ReactiveFormsModule,
     ContentHeaderModule,
+    RouterModule
   ],
   exports: [
     NewOrganizationSidebarComponent,
