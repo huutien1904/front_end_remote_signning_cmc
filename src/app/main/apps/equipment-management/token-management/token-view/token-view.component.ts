@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Token } from '@angular/compiler';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
+import { PagedData } from 'app/main/models/PagedData';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
@@ -35,9 +37,56 @@ export class TokenViewComponent implements OnInit {
     "toDate" : ""
   }
   public HSMname = ""
+  // public data table
   public  ColumnMode = ColumnMode;
-  public rowsData:any
-  // end public
+  public rowsData = [
+    {
+      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
+      ulMinKeySize:"2048",
+      ulMaxKeySize:"4096",
+      createBy:"Phần cứng",
+      purpose:"Mục đích"
+    },
+    {
+      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
+      ulMinKeySize:"2048",
+      ulMaxKeySize:"4096",
+      createBy:"Phần cứng",
+      purpose:"Mục đích"
+    },
+    {
+      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
+      ulMinKeySize:"2048",
+      ulMaxKeySize:"4096",
+      createBy:"Phần cứng",
+      purpose:"Mục đích"
+    },
+    {
+      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
+      ulMinKeySize:"2048",
+      ulMaxKeySize:"4096",
+      createBy:"Phần cứng",
+      purpose:"Mục đích"
+    },
+    {
+      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
+      ulMinKeySize:"2048",
+      ulMaxKeySize:"4096",
+      createBy:"Phần cứng",
+      purpose:"Mục đích"
+    },
+  ]
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
+  public pagedData = new PagedData<Token>();
+  public isLoading: boolean = false;
+  public page: number = 0;
+  public totalPages: number = 0;
+  public sizePage: number[] = [5, 10, 15, 20, 50, 100];
+  public SelectionType = SelectionType;
+  public totalItems: any = 0;
+  public selected: any[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -103,6 +152,7 @@ export class TokenViewComponent implements OnInit {
       // this.hsmList = hsmSelected
       
     });
+    this.pagedData.totalItems = 5;
   }
 
   // function
