@@ -178,7 +178,7 @@ export const menu: CoreMenu[] = [
         translate: 'MENU.EQUIPMENT_MANAGEMENT.TEMPLATE',
         type: 'item',
         icon: 'speaker',
-        url: '/apps/equipment-management/template'
+        url: '/apps/equipment-management/template/template-list'
       },
     ]
   },

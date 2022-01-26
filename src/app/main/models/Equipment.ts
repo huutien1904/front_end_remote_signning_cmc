@@ -54,3 +54,15 @@ export interface Hsm {
     tokens:Array<Token>;
     hsmLibraryPath: string
 }
+export interface Template{
+    keypairId: number,
+    cryptoSystem: string,
+    keypairLength: string,
+    keypairAlias: string,
+    keypairStatusName: string,
+    p12Content: string,
+    organizationName: string,
+    
+    username: string,
+    email: string
+}

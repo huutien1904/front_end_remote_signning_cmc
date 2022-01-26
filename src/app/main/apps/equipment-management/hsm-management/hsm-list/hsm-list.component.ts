@@ -41,8 +41,8 @@ export class HsmListComponent implements OnInit {
 
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
-  public page: number = 0;
-  public totalPages: number = 0;
+  // public page: number = 0;
+  // public totalPages: number = 0;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public chkBoxSelected = [];
   public SelectionType = SelectionType;
