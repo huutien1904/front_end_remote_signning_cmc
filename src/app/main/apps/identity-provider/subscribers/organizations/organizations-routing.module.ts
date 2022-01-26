@@ -24,7 +24,7 @@ const routes: Routes = [
       data: { path: "view/:id", animation: "OrganizationViewComponent" },
     },
     {
-      path: "organization-edit/id",
+      path: "organization-edit/:id",
       component: OrganizationEditComponent,
       // resolve: { data: OrganizationEditService },
       data : {

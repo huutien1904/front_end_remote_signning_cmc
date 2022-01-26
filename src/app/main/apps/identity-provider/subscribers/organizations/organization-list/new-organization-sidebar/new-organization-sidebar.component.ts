@@ -65,8 +65,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
       homeNumber: [{ value: null, disabled: true }, Validators.required],
     });
     this.initAddress();
-    this.getListOrganizations();
-    this.getListTypeOrganization();
+    // this.getListOrganizations();
+    // this.getListTypeOrganization();
   }
   initAddress() {
     this._addressService
@@ -246,37 +246,37 @@ export class NewOrganizationSidebarComponent implements OnInit {
         }
       });
   }
-  getListOrganizations() {
-    this._organizationListService
-      .getListSelectOrganization()
-      .pipe(
-        map((res) => {
-          const data = res.data.data.map((Organization) => ({
-            ...Organization,
-            // subscriberCategory: Organization.subscriberCategory.subscriberCategoryId
-          }));
-          return data;
-        }),
-        takeUntil(this._unsubscribeAll)
-      )
-      .subscribe((res) => {
-        this.organizationList = res;
-        console.log(this.organizationList);
-      });
-  }
-  getListTypeOrganization() {
-    this._organizationListService
-      .getListOrganizationCategory()
-      .subscribe((res:any) => {
-        console.log(res)
-        res.data.forEach(function (item, index) {
-          if (item.subscriberCategoryName === "Cá nhân") {
-            res.data.splice(index, 1);
-          }
-        });
-        this.typeOrganization = res.data;
-      });
-  }
+  // getListOrganizations() {
+  //   this._organizationListService
+  //     .getListSelectOrganization()
+  //     .pipe(
+  //       map((res) => {
+  //         const data = res.data.data.map((Organization) => ({
+  //           ...Organization,
+  //           // subscriberCategory: Organization.subscriberCategory.subscriberCategoryId
+  //         }));
+  //         return data;
+  //       }),
+  //       takeUntil(this._unsubscribeAll)
+  //     )
+  //     .subscribe((res) => {
+  //       this.organizationList = res;
+  //       console.log(this.organizationList);
+  //     });
+  // }
+  // getListTypeOrganization() {
+  //   this._organizationListService
+  //     .getListOrganizationCategory()
+  //     .subscribe((res:any) => {
+  //       console.log(res)
+  //       res.data.forEach(function (item, index) {
+  //         if (item.subscriberCategoryName === "Cá nhân") {
+  //           res.data.splice(index, 1);
+  //         }
+  //       });
+  //       this.typeOrganization = res.data;
+  //     });
+  // }
 
   /**
    * On destroy

@@ -6,7 +6,7 @@
         <!-- Certificate request List -->
         <section class="users-list-wrapper">
           <div class="card">
-            <h5 class="card-header">Bộ lọc tìm kiếm </h5>
+            <h5 class="card-header">Bộ lọc tìm kiếm</h5>
             <div class="card-body">
               <form
                 class="form form-vertical"
@@ -146,7 +146,10 @@
                     rippleEffect
                     class="btn btn-primary ml-1"
                   >
-                    Nhập chứng thư số
+                    <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                    <span class="d-none d-sm-inline-block"
+                      >Nhập chứng thư số</span
+                    >
                   </button>
                 </a>
                 <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
@@ -155,6 +158,10 @@
                     rippleEffect
                     (click)="downloadList()"
                   >
+                    <i
+                      data-feather="download"
+                      class="d-sm-none d-inline-block"
+                    ></i>
                     <span class="d-none d-sm-inline-block"
                       >Tải chứng thư số</span
                     >
@@ -165,7 +172,10 @@
                   rippleEffect
                   (click)="exportCSV()"
                 >
-                  <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
+                  <i
+                    data-feather="clipboard"
+                    class="d-sm-none d-inline-block"
+                  ></i>
                   <span class="d-none d-sm-inline-block"
                     >Xuất danh sách chứng thư số
                   </span>
@@ -394,7 +404,10 @@
                     rippleEffect
                     class="btn btn-primary ml-1"
                   >
-                    Nhập chứng thư số
+                    <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                    <span class="d-none d-sm-inline-block"
+                      >Nhập chứng thư số</span
+                    >
                   </button>
                 </a>
                 <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
@@ -403,6 +416,10 @@
                     rippleEffect
                     (click)="downloadList()"
                   >
+                    <i
+                      data-feather="download"
+                      class="d-sm-none d-inline-block"
+                    ></i>
                     <span class="d-none d-sm-inline-block"
                       >Tải chứng thư số</span
                     >
@@ -413,6 +430,10 @@
                   rippleEffect
                   (click)="exportCSV()"
                 >
+                  <i
+                    data-feather="clipboard"
+                    class="d-sm-none d-inline-block"
+                  ></i>
                   <span class="d-none d-sm-inline-block"
                     >Xuất danh sách chứng thư số
                   </span>
