@@ -22,30 +22,9 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="">Số hiệu slot</label>
-                    <input type="text"
-                    formControlName="slotNumber"
-                    class="form-control"
-                    readonly>
-                  </div>
-                  
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="">Tên slot</label>
-                    <input type="text"
-                    formControlName="slotNumber"
-                    class="form-control"
-                    readonly>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Mật khẩu SO</label>
                     <input
-                      type="password"
-                      formControlName="tokenPassword"
+                      type="text"
+                      formControlName="slotNumber"
                       class="form-control"
                       readonly
                     />
@@ -55,14 +34,233 @@
               <div class="d-flex">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="">Mật khẩu USER</label>
-                    <input type="text"
-                    formControlName="slotNumber"
-                    class="form-control"
-                    readonly>
+                    <label for="">Tên slot</label>
+                    <input
+                      type="text"
+                      formControlName="slotNumber"
+                      class="form-control"
+                      readonly
+                    />
                   </div>
                 </div>
-                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Số chứng thư số</label>
+                    <input
+                      type="text"
+                      formControlName="hsmInformationId"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Số khóa riêng</label>
+                    <input
+                      type="text"
+                      formControlName="slotNumber"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="">Số khóa bí mật</label>
+                    <input
+                      type="text"
+                      formControlName="slotNumber"
+                      class="form-control"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="cart">
+                <div class="cart-header">
+                  <h1>Danh sách các thuật toán mật mã </h1>
+                </div>
+                <ngx-datatable
+                  #tableRowDetails
+                  [rows]="rowsData"
+                  class="bootstrap core-bootstrap cursor"
+                  [columnMode]="ColumnMode.force"
+                  [headerHeight]="50"
+                  rowHeight="auto"
+                  [scrollbarH]="true"
+                  [footerHeight]="50"
+                  [rowHeight]="50"
+                  [externalPaging]="true"
+                  [limit]="pagedData.size"
+                  [count]="pagedData.totalItems"
+                  [offset]="pagedData.currentPage"
+                  [loadingIndicator]="isLoading"
+                  [selectionType]="'checkbox'"
+                  (page)="setPage($event)"
+                  (activate)="onActivate($event)"
+                  (select)="onSelect($event)"
+                >
+                  <ngx-datatable-column
+                    name="TT"
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [width]="50"
+                  >
+                    <ng-template
+                      ngx-datatable-cell-template
+                      let-rowIndex="rowIndex"
+                    >
+                      {{ rowIndex + 1 }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="Tên thuật toán"
+                    prop="nameMechanism"
+                    [width]="130"
+                  ></ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="Kích thước khóa tổi thiểu"
+                    prop="ulMinKeySize"
+                    [width]="100"
+                  ></ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="Kích thước khóa tối đa"
+                    prop="ulMaxKeySize"
+                    [width]="130"
+                  ></ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="Thực hiện bởi"
+                    prop="createBy"
+                    [width]="130"
+                  ></ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="Mục đích sử dụng"
+                    prop="purpose"
+                    [width]="130"
+                  ></ngx-datatable-column>
+                  
+                  <ngx-datatable-column
+                    name="Hành động"
+                    [width]="70"
+                    [sortable]="false"
+                    prop=""
+                  >
+                    <ng-template
+                      ngx-datatable-cell-template
+                      let-value="value"
+                      let-row="row"
+                      let-rowIndex="rowIndex"
+                    >
+                      <div class="d-flex align-items-center">
+                        <div ngbDropdown container="body">
+                          <a
+                            ngbDropdownToggle
+                            href="javascript:void(0);"
+                            class="hide-arrow"
+                            id="dropdownBrowserState"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i
+                              data-feather="more-vertical"
+                              class="text-primary cursor-pointer mr-50"
+                            ></i>
+                          </a>
+                          <div
+                            ngbDropdownMenu
+                            class="dropdown-menu-right"
+                            aria-labelledby="dropdownBrowserState"
+                          >
+                            <a
+                              ngbDropdownItem
+                              [routerLink]="[
+                                '../',
+                                'token-view',
+                                value.tokenId
+                              ]"
+                              class="d-flex align-items-center"
+                              ><i data-feather="file-text" class="mr-50"></i>
+                              Tạo Slot</a
+                            >
+                            <a
+                              ngbDropdownItem
+                              [routerLink]="[
+                                '../',
+                                'token-edit',
+                                value.tokenId
+                              ]"
+                              class="d-flex align-items-center"
+                              ><i data-feather="edit" class="mr-50"></i> Đổi tên
+                              slot
+                            </a>
+                            <a
+                              ngbDropdownItem
+                              [routerLink]="[
+                                '../',
+                                'token-view',
+                                value.tokenId
+                              ]"
+                              class="d-flex align-items-center"
+                              ><i data-feather="file-text" class="mr-50"></i>
+                              Đổi mật khẩu</a
+                            >
+                            <a
+                              ngbDropdownItem
+                              [routerLink]="[
+                                '../',
+                                'token-view',
+                                value.tokenId
+                              ]"
+                              class="d-flex align-items-center"
+                              ><i data-feather="file-text" class="mr-50"></i>
+                              Xem chi tiết</a
+                            >
+                            <!-- <a
+                      ngbDropdownItem
+                      [routerLink]="['../', 'token-view', value.tokenId]"
+                      class="d-flex align-items-center"
+                      ><i data-feather="file-text" class="mr-50"></i> Chi
+                      tiết</a
+                    >
+
+                    
+                    <a
+                      href="javascript:void(0)"
+                      ngbDropdownItem
+                      (click)="toggleSidebar(modalTokenPassWordForm, row)"
+                      class="d-flex align-items-center"
+                      ><i data-feather="lock" class="mr-50"></i> Đổi mật
+                      khẩu</a
+                    >
+                    <a
+                      href="javascript:void(0)"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                    > -->
+
+                            <!-- <a
+                      href="javascript:void(0)"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="removeToken(value.tokenId)"
+                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
+                    > -->
+                          </div>
+                        </div>
+                        <i
+                          data-feather="edit"
+                          class="text-primary cursor-pointer"
+                        ></i>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  
+                </ngx-datatable>
               </div>
             </div>
             <div class="row">

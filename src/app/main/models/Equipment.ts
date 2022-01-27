@@ -7,7 +7,43 @@ export interface Token {
     keypairNumber: string,
     hsmInformation: Hsm
 }
-
+export interface tokenInfo {
+    label:string,
+    manufacturerId: string,
+    model: string    ,
+    serialNumber: string   ,
+    maxSessionCount: number,
+    sessionCount: number,
+    maxRwSessionCount: number,
+    rwSessionCount: number,
+    maxPinLen: number,
+    minPinLen: number,
+    totalPublicMemory: number,
+    freePublicMemory: number,
+    totalPrivateMemory: number,
+    freePrivateMemory: number,
+    hardwareVersion: object,
+    firmwareVersion: object,
+    time: any,
+    rng: boolean,
+    writeProtected: boolean,
+    loginRequired: boolean,
+    userPinInitialized: boolean,
+    restoreKeyNotNeeded: boolean,
+    clockOnToken: boolean,
+    protectedAuthenticationPath: boolean,
+    dualCryptoOperations: boolean,
+    tokenInitialized: boolean,
+    secondaryAuthentication: boolean,
+    userPinCountLow: boolean,
+    userPinFinalTry: boolean,
+    userPinLocked: boolean,
+    userPinToBeChanged: boolean,
+    soPinCountLow: boolean,
+    soPinFinalTry: boolean,
+    soPinLocked: boolean,
+    soPinToBeChanged: boolean
+}
 export interface Hsm {
     hsmId:number;
     hardwareId: string,

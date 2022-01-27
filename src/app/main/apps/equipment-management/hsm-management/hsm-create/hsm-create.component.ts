@@ -52,10 +52,10 @@ export class HsmCreateComponent implements OnInit {
   ngOnInit(): void {
     this.HsmForm = this.formBuilder.group({
       hsmName: [null, Validators.required],
-      hardwareId: [null, Validators.required],
-      hsmModel: [null, Validators.required],
-      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
-      hsmType: [null, Validators.required],
+      hardwareId: ["CP5TdVI", Validators.required],
+      hsmModel: ["HSdMs", Validators.required],
+      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg', Validators.required],
+      hsmType: ["NET", Validators.required],
     });
 
     this.contentHeader = {
@@ -79,23 +79,22 @@ export class HsmCreateComponent implements OnInit {
     };
   }
 
-  onSubmit(modalForm) {
+  onSubmit() {
     this.submitted = true;
     console.log(this.HsmForm.value)
     // stop here if form is invalid
     if (this.HsmForm.invalid) {
       return;
     }
-    const newRequest = JSON.stringify({
-      hsmName: this.f.hsmName.value,
-      hardwareId: this.f.hardwareId.value,
-      hsmModel: this.f.hsmModel.value,
-      hsmLibraryPath: this.f.hsmLibraryPath.value,
-      hsmType: this.f.hsmType.value,
-
-    });
-    this._hsmService.createHSM(newRequest).subscribe((res: any) => {
-      console.log(res)
+    // const newRequest = JSON.stringify({
+    //   hsmName: this.f.hsmName.value,
+    //   hsmManufacturer: this.f.hsmManufacturer.value,
+    //   hsmModel: this.f.hsmModel.value,
+    //   hsmLibraryPath: this.f.hsmLibraryPath.value,
+    //   hardwareId: 'CP5TdVI'
+    // });
+    this._hsmService.submitForm(JSON.stringify(this.HsmForm.value)).subscribe((res: any) => {
+      console.log(res);
       if ((res.result = true)) {
         this.toastr.success('👋 Bạn đã tạo HSM mới', 'Thành công', {
           positionClass: 'toast-top-center',
@@ -107,7 +106,7 @@ export class HsmCreateComponent implements OnInit {
         this.HsmForm.reset();
         // console.log(res.data)
         // this.data = res.data
-        this.toggleSidebar(modalForm)
+        // this.toggleSidebar(modalForm) 
       }
     });
   }

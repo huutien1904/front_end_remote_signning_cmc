@@ -130,7 +130,9 @@ export class PersonalsComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
-
+  createCertificateRequest(modalForm){
+    this.toggleSidebar(modalForm,this.selected[0])
+  }
   toggleSidebar(modalForm, item) {
     this.item = item;
     console.log(item);

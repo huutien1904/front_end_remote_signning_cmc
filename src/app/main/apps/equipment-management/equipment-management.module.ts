@@ -6,6 +6,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HsmManagementModule } from './hsm-management/hsm-management.module';
 import { TemplateComponent } from './template/template.component';
 import { TokenManagementModule } from './token-management/token-management.module';
+import { TemplateListComponent } from './template/template-list/template-list.component';
+import { TemplateCreateComponent } from './template/template-create/template-create.component';
+import { TemplateEditComponent } from './template/template-edit/template-edit.component';
+import { TemplateViewComponent } from './template/template-view/template-view.component';
 
 const routes: Routes = [
   {
@@ -32,7 +36,12 @@ const routes: Routes = [
   },
 ];
 @NgModule({
-  declarations: [],
+  declarations: [
+    TemplateListComponent,
+    TemplateCreateComponent,
+    TemplateEditComponent,
+    TemplateViewComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

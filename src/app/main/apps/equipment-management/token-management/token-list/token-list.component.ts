@@ -103,7 +103,13 @@ export class TokenListComponent implements OnInit {
         console.log(pagedData.data);
         this.totalItems = pagedData.data.totalItems;
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data;
+        this.rowsData = pagedData.data.data.map((item,index) =>({
+          ...item,
+          passwordSO:"Đã Khởi tạo",
+          passwordUser:"Đã khởi tạo",
+          privateKey: 10,
+          secretKey:100
+        }));
         this.isLoading = false;
       });
   }
