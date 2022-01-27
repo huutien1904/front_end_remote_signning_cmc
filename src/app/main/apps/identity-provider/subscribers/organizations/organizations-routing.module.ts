@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrganizationEditComponent } from './organization-edit/organization-edit.component';
 import { OrganizationListComponent } from './organization-list/organization-list.component';
 import { OrganizationViewComponent } from './organization-view/organization-view.component';
+import { ExitComponent } from './exit/exit.component';
 
 const routes: Routes = [
     {
@@ -13,6 +14,13 @@ const routes: Routes = [
       //   uls: OrganizationListService,
       // },
       data: { animation: "OrganizationListComponent" },
+    },
+
+    {
+      path: "exit",
+      component: ExitComponent,
+      data: { animation: "ExitComponent" },
+
     },
   
     {
