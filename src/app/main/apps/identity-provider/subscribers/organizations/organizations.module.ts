@@ -20,6 +20,7 @@ import { SidebarOrganizationEditComponent } from './organization-list/sidebar-or
 import { OrganizationViewComponent } from "./organization-view/organization-view.component";
 import { OrganizationViewService } from "./organization-view/organization-view.service";
 import { AppRemoveSpace } from './remove-space.directive';
+import { ExitComponent } from './exit/exit.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AppRemoveSpace } from './remove-space.directive';
     OrganizationListComponent,
     OrganizationViewComponent,
     OrganizationEditComponent,
+    ExitComponent,
     AppRemoveSpace,
     OrganizationListAddComponent,
     SidebarOrganizationEditComponent,
@@ -49,13 +51,14 @@ import { AppRemoveSpace } from './remove-space.directive';
     CoreDirectivesModule,
     ReactiveFormsModule,
     ContentHeaderModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [
     NewOrganizationSidebarComponent,
     OrganizationListComponent,
     OrganizationViewComponent,
     OrganizationEditComponent,
+    ExitComponent,
   ],
   providers: [
     OrganizationViewService,
