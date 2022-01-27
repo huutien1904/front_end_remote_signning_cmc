@@ -81,25 +81,20 @@
               </div>
               <div class="cart">
                 <div class="cart-header">
-                  <h1>Danh sách các thuật toán mật mã </h1>
+                  <h1>Danh sách các thuật toán mật mã</h1>
                 </div>
                 <ngx-datatable
                   #tableRowDetails
                   [rows]="rowsData"
-                  class="bootstrap core-bootstrap cursor"
+                  [rowHeight]="58"
+                  class="bootstrap core-bootstrap"
+                  [limit]="10"
                   [columnMode]="ColumnMode.force"
-                  [headerHeight]="50"
-                  rowHeight="auto"
-                  [scrollbarH]="true"
+                  [headerHeight]="40"
                   [footerHeight]="50"
-                  [rowHeight]="50"
-                  [externalPaging]="true"
-                  [limit]="pagedData.size"
-                  [count]="pagedData.totalItems"
-                  [offset]="pagedData.currentPage"
-                  [loadingIndicator]="isLoading"
-                  [selectionType]="'checkbox'"
-                  (page)="setPage($event)"
+                  [scrollbarH]="true"
+                  [selectionType]="SelectionType.checkbox"
+                  [limit]="basicSelectedOption"
                   (activate)="onActivate($event)"
                   (select)="onSelect($event)"
                 >
@@ -118,30 +113,30 @@
                   </ngx-datatable-column>
                   <ngx-datatable-column
                     name="Tên thuật toán"
-                    prop="nameMechanism"
+                    prop="mechanismName"
                     [width]="200"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
                     name="KT khóa tổi thiểu"
-                    prop="ulMinKeySize"
+                    prop="minKeySize"
                     [width]="70"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
                     name="KT khóa tối đa"
-                    prop="ulMaxKeySize"
+                    prop="maxKeySize"
                     [width]="70"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
                     name="Thực hiện bởi"
-                    prop="createBy"
+                    prop="mechanismCode"
                     [width]="130"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
                     name="Mục đích sử dụng"
-                    prop="purpose"
+                    prop="mechanismName"
                     [width]="130"
                   ></ngx-datatable-column>
-                  
+
                   <ngx-datatable-column
                     name="Hành động"
                     [width]="70"
@@ -259,7 +254,33 @@
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
-                  
+                  <ngx-datatable-footer>
+                    <ng-template
+                      ngx-datatable-footer-template
+                      let-rowCount="rowCount"
+                      let-pageSize="pageSize"
+                      let-selectedCount="selectedCount"
+                      let-curPage="curPage"
+                      let-offset="offset"
+                      let-isVisible="isVisible"
+                    >
+                      <div class="page-count">
+                        Có tổng số
+                        {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+                      </div>
+                      <datatable-pager
+                        [pagerLeftArrowIcon]="'datatable-icon-left'"
+                        [pagerRightArrowIcon]="'datatable-icon-right'"
+                        [pagerPreviousIcon]="'datatable-icon-prev'"
+                        [pagerNextIcon]="'datatable-icon-skip'"
+                        [page]="curPage"
+                        [size]="pageSize"
+                        [count]="rowCount"
+                        (change)="table.onFooterPage($event)"
+                      >
+                      </datatable-pager>
+                    </ng-template>
+                  </ngx-datatable-footer>
                 </ngx-datatable>
               </div>
             </div>

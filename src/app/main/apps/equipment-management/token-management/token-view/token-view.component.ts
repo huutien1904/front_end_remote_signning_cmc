@@ -39,43 +39,7 @@ export class TokenViewComponent implements OnInit {
   public HSMname = ""
   // public data table
   public  ColumnMode = ColumnMode;
-  public rowsData = [
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-  ]
+  public rowsData:any
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
   public pagedData = new PagedData<Token>();
@@ -86,7 +50,7 @@ export class TokenViewComponent implements OnInit {
   public SelectionType = SelectionType;
   public totalItems: any = 0;
   public selected: any[] = [];
-
+  public basicSelectedOption: number = 10;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -133,7 +97,11 @@ export class TokenViewComponent implements OnInit {
     this._tokenService.getTokenId(this.lastValue)
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((token:any) => {
-      console.log(token.data);
+      console.log("tien checkc",token.data);
+      this.rowsData = token.data.mechanismDtoList
+      this.pagedData = token.data.mechanismDtoList;
+      this.pagedData.totalItems = token.data.mechanismDtoList.length;
+      this.pagedData.size = 20
       const data = token.data ;
       this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
       this.tokenForm.controls.tokenName.patchValue(data.tokenName);
@@ -152,7 +120,9 @@ export class TokenViewComponent implements OnInit {
       // this.hsmList = hsmSelected
       
     });
-    this.pagedData.totalItems = 5;
+    console.log("tien123",this.pagedData)
+
+    
   }
 
   // function
@@ -174,6 +144,8 @@ export class TokenViewComponent implements OnInit {
         console.log(this.hsmList);
       });
   }
+
+  
 
   exit() {
     this.router.navigateByUrl("/apps/equipment-management/token/token-list")

@@ -122,6 +122,8 @@ export class HsmListComponent implements OnInit {
         console.log(this.rowsData);
         this.isLoading = false;
       });
+
+      console.log("tien123hsm",this.pagedData)
   }
   onActivate(event) {
     if (

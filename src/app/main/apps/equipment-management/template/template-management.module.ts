@@ -5,7 +5,7 @@ import { TemplateEditComponent } from './template-edit/template-edit.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplateViewComponent } from './template-view/template-view.component';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,9 @@ import { MY_DATE_FORMATS } from '@core/format-data/my-date-formats';
 import { TemplateService } from './template.service';
 import { RouterModule } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { CoreDirectivesModule } from '@core/directives/directives';
 
 
 const materialModules1234 = [
@@ -38,7 +41,11 @@ const materialModules1234 = [
     NgSelectModule,
     CorePipesModule,
     RouterModule,
-    NgxDatatableModule 
+    NgxDatatableModule,
+    FormsModule,
+    MatProgressBarModule,
+    SweetAlert2Module.forRoot(),
+    CoreDirectivesModule 
   ],
   providers: [
     
