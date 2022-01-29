@@ -253,10 +253,10 @@
             <ng-template  let-value = "value" ngx-datatable-cell-template>
               <div
               class="badge badge-pill"
-              [ngClass]=" value.status === true ? 'badge-light-success' : 'badge-light-danger'"
+              [ngClass]=" value.connect === true ? 'badge-light-success' : 'badge-light-danger'"
               >
                 {{
-                  value.status === true ? "Đã kết nối" : "chưa kết nối"
+                  value.connect === true ? "Đã kết nối" : "chưa kết nối"
                 }}
               </div>
             </ng-template>
@@ -319,7 +319,7 @@
                   >
                     <a
                       ngbDropdownItem
-                      [routerLink]="['../', 'hsm-view', value.hsmId]"
+                      (click) = "connect(value.hsmId)"
                       class="d-flex align-items-center"
                       *ngIf = "!value.status"
                       ><i data-feather="check" class="mr-50"></i> Kết nối</a

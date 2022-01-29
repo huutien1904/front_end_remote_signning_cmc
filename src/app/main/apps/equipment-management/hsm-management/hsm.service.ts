@@ -61,5 +61,11 @@ export class HsmService {
       this.option
     );
   }
-
+  public connectHSM(id): Observable<any> {
+    console.log(this.option)
+    return this._httpClient.post<ResponseData<Hsm>>(
+      `${environment.apiUrl}/hsm/connect/${id}`,
+      this.option
+    );
+  }
 }

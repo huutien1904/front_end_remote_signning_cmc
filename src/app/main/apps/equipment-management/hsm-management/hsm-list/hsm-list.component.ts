@@ -116,7 +116,7 @@ export class HsmListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((item:any,index) => ({
           ...item,
-          status: true ? index % 2 == 0 : false,
+          
           tokenName:  item.tokens.length > 0 ? item.tokens[0].tokenName : "Chưa khởi tạo"
         }));
         console.log(this.rowsData);
@@ -183,6 +183,16 @@ export class HsmListComponent implements OnInit {
         });
       }
     });
+  }
+  connect(id){
+    console.log(id)
+    this._hsmService.connectHSM(id)
+    .subscribe((res) =>{
+      console.log(res)
+      if(res.result === true){
+        this.setPage({ offset: 0, pageSize: this.formListHsm.get('size').value });
+      }
+    })
   }
   testSyn() {
     for (let i = 0; i < this.selected.length; i++) {
