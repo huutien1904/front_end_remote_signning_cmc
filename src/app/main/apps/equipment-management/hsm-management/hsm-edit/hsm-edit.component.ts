@@ -17,7 +17,7 @@ export class HsmEditComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   public url = this.router.url;
   public HsmFormEdit: FormGroup;
-  public HSMname :string;
+  public hsmName :string;
   public lastValue;
   public contentHeader: object;
   public submitted = false;
@@ -39,15 +39,15 @@ export class HsmEditComponent implements OnInit {
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     console.log(this.lastValue);
     this._hsmService
-      .getHSMId(this.lastValue)
+      .getHsmId(this.lastValue)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((hsm) => {
         console.log(hsm);
         const data = hsm.data
-        this.HSMname = data.hsmName;
+        this.hsmName = data.hsmName;
         this.HsmFormEdit.controls.hsmName.patchValue(data.hsmName);
         this.HsmFormEdit.controls.hardwareId.patchValue(data.hardwareId);
-        this.HsmFormEdit.controls.hsmManufacturer.patchValue(data.hsmManufacturer);
+        this.HsmFormEdit.controls.manufacturerId.patchValue(data.manufacturerId);
         this.HsmFormEdit.controls.hsmModel.patchValue(data.hsmModel);
         this.HsmFormEdit.controls.hsmLibraryPath.patchValue(data.hsmLibraryPath);
         this.HsmFormEdit.controls.hsmType.patchValue(data.hsmType);
@@ -58,15 +58,15 @@ export class HsmEditComponent implements OnInit {
     this.HsmFormEdit = this.formBuilder.group({
       hsmName: [null, Validators.required],
       hardwareId: [null, Validators.required],
-      hsmManufacturer: [null, Validators.required],
+      manufacturerId: [null, Validators.required],
       hsmModel: [null, Validators.required],
-      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
+      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/PKCS11.cfg', Validators.required],
       hsmType: [null, Validators.required],
       hsmForm: ["FIPS", Validators.required],
     });
 
     this.contentHeader = {
-      headerTitle: 'Tạo kết nối HSM',
+      headerTitle: 'Chỉnh sửa kết nối HSM',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
@@ -94,6 +94,7 @@ export class HsmEditComponent implements OnInit {
     // .subscribe((res) =>{
     //   console.log(res);
     // })
+    this.HsmFormEdit.get("hsmLibraryPath").patchValue("/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so");
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
@@ -102,7 +103,7 @@ export class HsmEditComponent implements OnInit {
       confirmButtonColor: '#7367F0',
       preConfirm:   async () => {
       return await this._hsmService
-      .updateHSMId(this.lastValue, JSON.stringify(this.HsmFormEdit.value))
+      .updateHsmId(this.lastValue, JSON.stringify(this.HsmFormEdit.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .toPromise().then(res=>{
         if(res.result==false){

@@ -4,16 +4,15 @@
     <section>
       <div class="card">
         <div class="card-body">
-          <h3>Chi tiết Slot</h3>
           <form [formGroup]="tokenForm">
             <div class="">
               <div class="d-flex">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Tên kết nối token</label>
+                    <label>Tên kết nối</label>
                     <input
                       type="text"
-                      formControlName="tokenName"
+                      formControlName="hsmName"
                       class="form-control"
                       readonly
                     />
@@ -37,7 +36,7 @@
                     <label for="">Tên slot</label>
                     <input
                       type="text"
-                      formControlName="slotNumber"
+                      formControlName="tokenName"
                       class="form-control"
                       readonly
                     />
@@ -79,13 +78,13 @@
                   </div>
                 </div>
               </div>
-              <div class="cart">
+              <div class="cart" *ngIf="mechanismList!=null">
                 <div class="cart-header">
                   <h1>Danh sách các thuật toán mật mã </h1>
                 </div>
                 <ngx-datatable
                   #tableRowDetails
-                  [rows]="rowsData"
+                  [rows]="mechanismList"
                   class="bootstrap core-bootstrap cursor"
                   [columnMode]="ColumnMode.force"
                   [headerHeight]="50"
@@ -93,17 +92,41 @@
                   [scrollbarH]="true"
                   [footerHeight]="50"
                   [rowHeight]="50"
-                  [externalPaging]="true"
-                  [limit]="pagedData.size"
-                  [count]="pagedData.totalItems"
-                  [offset]="pagedData.currentPage"
-                  [loadingIndicator]="isLoading"
-                  [selectionType]="'checkbox'"
-                  (page)="setPage($event)"
-                  (activate)="onActivate($event)"
-                  (select)="onSelect($event)"
+                  [limit]="10"
                 >
-                  <ngx-datatable-column
+                <ngx-datatable-row-detail [rowHeight]="50">
+                  <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div class="ml-75 pl-5 pt-75">
+                      <div>
+                        <span><strong>isWrap : </strong> {{row.isWrap}}</span
+                        ><span class="ml-1"><strong>isEcNamedCurve : </strong> {{ row.isEcNamedCurve }}</span
+                        ><span class="ml-1"><strong>isSignRecover : </strong> {{ row.isSignRecover }}</span>
+                        <span class="ml-1"><strong>isExtension : </strong> {{ row.isExtension }}</span>
+                        <span class="ml-1"><strong>isVerifyRecover : </strong> {{ row.isVerifyRecover }}</span>
+                        <span class="ml-1"><strong>isHw : </strong> {{ row.isHw }}</span>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-row-detail>
+                <ngx-datatable-column
+      [width]="50"
+      [resizeable]="false"
+      [sortable]="false"
+      [draggable]="false"
+      [canAutoResize]="false"
+    >
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+        <a
+          href="javascript:void(0)"
+          [class.datatable-icon-right]="!expanded"
+          [class.datatable-icon-down]="expanded"
+          title="Expand/Collapse Row"
+          (click)="rowDetailsToggleExpand(row)"
+        >
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+                  <!-- <ngx-datatable-column
                     name="TT"
                     [sortable]="false"
                     [canAutoResize]="false"
@@ -115,30 +138,35 @@
                     >
                       {{ rowIndex + 1 }}
                     </ng-template>
-                  </ngx-datatable-column>
+                  </ngx-datatable-column> -->
                   <ngx-datatable-column
                     name="Tên thuật toán"
-                    prop="nameMechanism"
-                    [width]="130"
+                    prop="mechanismName"
+                    [width]="90"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
-                    name="Kích thước khóa tổi thiểu"
-                    prop="ulMinKeySize"
-                    [width]="100"
+                  name="Mã thuật toán"
+                  prop="mechanismCode"
+                  [width]="60"
+                ></ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="K/t khóa tổi thiểu"
+                    prop="minKeySize"
+                    [width]="80"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
-                    name="Kích thước khóa tối đa"
-                    prop="ulMaxKeySize"
-                    [width]="130"
+                    name="K/t khóa tối đa"
+                    prop="maxKeySize"
+                    [width]="60"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
-                    name="Thực hiện bởi"
-                    prop="createBy"
-                    [width]="130"
+                    name="Khởi tạo khoá"
+                    prop="isGenerateKeyPair"
+                    [width]="60"
                   ></ngx-datatable-column>
                   <ngx-datatable-column
-                    name="Mục đích sử dụng"
-                    prop="purpose"
+                    name="Mã hoá"
+                    prop="isEncrypt"
                     [width]="130"
                   ></ngx-datatable-column>
                   
@@ -177,79 +205,15 @@
                           >
                             <a
                               ngbDropdownItem
-                              [routerLink]="[
-                                '../',
-                                'token-view',
-                                value.tokenId
-                              ]"
                               class="d-flex align-items-center"
-                              ><i data-feather="file-text" class="mr-50"></i>
-                              Tạo Slot</a
+                              ><i data-feather="x" class="mr-50"></i>
+                              Vô hiệu hoá</a
                             >
                             <a
                               ngbDropdownItem
-                              [routerLink]="[
-                                '../',
-                                'token-edit',
-                                value.tokenId
-                              ]"
                               class="d-flex align-items-center"
-                              ><i data-feather="edit" class="mr-50"></i> Đổi tên
-                              slot
+                              ><i data-feather="edit" class="mr-50"></i> Chi tiết
                             </a>
-                            <a
-                              ngbDropdownItem
-                              [routerLink]="[
-                                '../',
-                                'token-view',
-                                value.tokenId
-                              ]"
-                              class="d-flex align-items-center"
-                              ><i data-feather="file-text" class="mr-50"></i>
-                              Đổi mật khẩu</a
-                            >
-                            <a
-                              ngbDropdownItem
-                              [routerLink]="[
-                                '../',
-                                'token-view',
-                                value.tokenId
-                              ]"
-                              class="d-flex align-items-center"
-                              ><i data-feather="file-text" class="mr-50"></i>
-                              Xem chi tiết</a
-                            >
-                            <!-- <a
-                      ngbDropdownItem
-                      [routerLink]="['../', 'token-view', value.tokenId]"
-                      class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Chi
-                      tiết</a
-                    >
-
-                    
-                    <a
-                      href="javascript:void(0)"
-                      ngbDropdownItem
-                      (click)="toggleSidebar(modalTokenPassWordForm, row)"
-                      class="d-flex align-items-center"
-                      ><i data-feather="lock" class="mr-50"></i> Đổi mật
-                      khẩu</a
-                    >
-                    <a
-                      href="javascript:void(0)"
-                      ngbDropdownItem
-                      class="d-flex align-items-center"
-                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                    > -->
-
-                            <!-- <a
-                      href="javascript:void(0)"
-                      ngbDropdownItem
-                      class="d-flex align-items-center"
-                      (click)="removeToken(value.tokenId)"
-                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                    > -->
                           </div>
                         </div>
                         <i
@@ -259,7 +223,6 @@
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
-                  
                 </ngx-datatable>
               </div>
             </div>

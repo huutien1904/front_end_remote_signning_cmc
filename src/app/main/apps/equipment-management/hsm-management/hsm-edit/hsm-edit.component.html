@@ -6,7 +6,7 @@
       <section>
         <div class="card">
           <div class="card-body">
-            <h3>Chỉnh sửa kết nối HSM {{ HSMname }}</h3>
+            <h3>Tên kết nối: {{ hsmName }}</h3>
             <form [formGroup]="HsmFormEdit" class="form form-horizontal">
               <div class="form_content">
                 <div class="">
@@ -40,25 +40,25 @@
                       <label for="UDUserName">Hãng sản xuất</label>
                       <input
                         type="text"
-                        formControlName="hsmManufacturer"
+                        formControlName="manufacturerId"
                         class="form-control"
                         [ngClass]="
-                          (f.hsmManufacturer.errors &&
-                            f.hsmManufacturer?.touched) ||
-                          (submitted && f.hsmManufacturer?.errors?.required)
+                          (f.manufacturerId.errors &&
+                            f.manufacturerId?.touched) ||
+                          (submitted && f.manufacturerId?.errors?.required)
                             ? 'is-invalid'
                             : ''
                         "
                       />
                       <div
                         *ngIf="
-                          (f.hsmManufacturer.errors &&
-                            f.hsmManufacturer?.touched) ||
-                          (submitted && f.hsmManufacturer?.errors?.required)
+                          (f.manufacturerId.errors &&
+                            f.manufacturerId?.touched) ||
+                          (submitted && f.manufacturerId?.errors?.required)
                         "
                         class="invalid-feedback"
                       >
-                        <div *ngIf="f.hsmManufacturer.errors.required">
+                        <div *ngIf="f.manufacturerId.errors.required">
                           Bạn cần nhập hãng sản xuất
                         </div>
                       </div>

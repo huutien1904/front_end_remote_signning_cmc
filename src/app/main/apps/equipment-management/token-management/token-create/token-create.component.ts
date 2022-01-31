@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
-import { Hsm, tokenInfo } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -119,7 +118,7 @@ export class TokenCreateComponent implements OnInit {
         // this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
         const id = this.hsmList[0].hsmId
         this.placeholder = this.hsmList[0].hsmName
-        this._hsmService.getHSMId(id)
+        this._hsmService.getHsmId(id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res: any) => {
             this.rowsData = res.data.tokenInfoDtoList
@@ -134,7 +133,7 @@ export class TokenCreateComponent implements OnInit {
     
     const id = e.hsmId
     console.log(id)
-    this._hsmService.getHSMId(id)
+    this._hsmService.getHsmId(id)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
         this.rowsData = res.data.tokenInfoDtoList
