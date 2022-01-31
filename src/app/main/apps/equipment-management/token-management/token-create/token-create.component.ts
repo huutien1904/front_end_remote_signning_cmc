@@ -71,7 +71,7 @@ export class TokenCreateComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
         confPassword: ['', Validators.required],
-        hsmInformationId: ["", Validators.required],
+        hsmInformationId: [null, Validators.required],
         lockQuantity: [null, Validators.required],
       },
       {
@@ -103,21 +103,15 @@ export class TokenCreateComponent implements OnInit {
     console.log("check")
     this._hsmService.getListHsm(this.body)
       .pipe(
-        map(response => {
-          console.log(response)
-          const data = response.data.data.map(hsmId => ({
-            ...hsmId
-          }))
-          return data;
-        }),
         takeUntil(this._unsubscribeAll)
       )
       .subscribe(response => {
         console.log(response)
-        this.hsmList = response;
-        // this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
+        this.hsmList = response.data.data;
+        console.log(this.hsmList);
+        
+        this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
         const id = this.hsmList[0].hsmId
-        this.placeholder = this.hsmList[0].hsmName
         this._hsmService.getHsmId(id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res: any) => {
@@ -163,7 +157,7 @@ export class TokenCreateComponent implements OnInit {
       slotNumber: this.f.slotNumber.value,
       tokenName: this.f.tokenName.value,
       tokenPassword: this.f.tokenPassword.value,
-      hsmId: this.f.hsmInformationId.value
+      hsmId: this.f.hsmInformationId.value.hsmId
     });
     console.log(newRequest)
     this._tokenService.createToken(newRequest)
