@@ -1,13 +1,5 @@
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
-    <section id="profile-header">
-      <div class="profile-header">
-        <app-content-header
-          [contentHeader]="contentHeader"
-        ></app-content-header>
-        <!-- search profile -->
-      </div>
-    </section>
     <section id="table-organization-list">
       <div class="card">
         <div class="card-body">
@@ -1087,6 +1079,9 @@
                       >
                         Cập Nhật
                       </button>
+                      <app-return>
+                        [buttonReturn]="buttonReturn"
+                      </app-return>
                     </div>
                   </form>
                 </div>
