@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
+import { MechanismInfo } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -39,43 +40,6 @@ export class TokenViewComponent implements OnInit {
   public HSMname = ""
   // public data table
   public  ColumnMode = ColumnMode;
-  public rowsData = [
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-    {
-      nameMechanism:"CKM_SHA256_KEY_DERIVATION",
-      ulMinKeySize:"2048",
-      ulMaxKeySize:"4096",
-      createBy:"Phần cứng",
-      purpose:"Mục đích"
-    },
-  ]
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
   public pagedData = new PagedData<Token>();
@@ -86,7 +50,7 @@ export class TokenViewComponent implements OnInit {
   public SelectionType = SelectionType;
   public totalItems: any = 0;
   public selected: any[] = [];
-
+  public mechanismList :Array<MechanismInfo> = null;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -109,7 +73,7 @@ export class TokenViewComponent implements OnInit {
     );
     this.getHsmList();
     this.contentHeader = {
-      headerTitle: 'Tạo Slot',
+      headerTitle: 'Chi tiết Slot',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
@@ -132,29 +96,25 @@ export class TokenViewComponent implements OnInit {
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this._tokenService.getTokenId(this.lastValue)
     .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((token:any) => {
-      console.log(token.data);
-      const data = token.data ;
-      this.tokenForm.controls.slotNumber.patchValue(data.slotNumber);
-      this.tokenForm.controls.tokenName.patchValue(data.tokenName);
-      this.tokenForm.controls.tokenId.patchValue(data.tokenId);
-      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmName);
-      this.tokenForm.controls.tokenPassword.patchValue(data.tokenPassword);
-      this.tokenForm.controls.hsmName.patchValue(data.hsmName);
-      this.tokenForm.controls.hsmInformationId.patchValue(data.hsmId);
-      this.tokenForm.controls.tokenId.patchValue(this.lastValue);
-      console.log(this.tokenForm.value)
-      this.HSMname = data.hsmName
-      // const hsmSelected =  this.hsmList.filter((item) =>{
-      //   return token.data.hsmId == item.hsmId
-      // })
-      // console.log(hsmSelected)
-      // this.hsmList = hsmSelected
+    .subscribe((res) => {
+      console.log(res);
       
+      this.tokenForm.patchValue({
+        slotNumber: res.data.slotNumber,
+        tokenName: res.data.tokenName,
+        tokenId: res.data.tokenId,
+        hsmName : res.data.hsmName,
+        hsmId : res.data.hsmId,
+      });
+      this.mechanismList = res.data.mechanismDtoList;
     });
     this.pagedData.totalItems = 5;
   }
 
+  rowDetailsToggleExpand(row) {
+    this.tableRowDetails.rowDetail.toggleExpandRow(row);
+  }
+  
   // function
   getHsmList() {
    

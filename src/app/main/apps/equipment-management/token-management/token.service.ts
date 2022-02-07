@@ -40,7 +40,6 @@ export class TokenService {
   }
 
   public getTokenId(id): Observable<ResponseData<Token>> {
-    console.log(id)
     return this._httpClient.get<ResponseData<Token>>(
       `${environment.apiUrl}/token/${id}`,
       this.option

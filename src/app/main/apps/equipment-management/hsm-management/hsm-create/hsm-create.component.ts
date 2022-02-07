@@ -88,11 +88,13 @@ export class HsmCreateComponent implements OnInit {
     }
     // const newRequest = JSON.stringify({
     //   hsmName: this.f.hsmName.value,
-    //   hsmManufacturer: this.f.hsmManufacturer.value,
+    //   manufacturerId: this.f.manufacturerId.value,
     //   hsmModel: this.f.hsmModel.value,
     //   hsmLibraryPath: this.f.hsmLibraryPath.value,
     //   hardwareId: 'CP5TdVI'
     // });
+    this.HsmForm.get("hsmLibraryPath").patchValue("/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so");
+
     this._hsmService.submitForm(JSON.stringify(this.HsmForm.value)).subscribe((res: any) => {
       console.log(res);
       if ((res.result = true)) {

@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
-import { Hsm, tokenInfo } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -72,7 +71,7 @@ export class TokenCreateComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
         confPassword: ['', Validators.required],
-        hsmInformationId: ["", Validators.required],
+        hsmInformationId: [null, Validators.required],
         lockQuantity: [null, Validators.required],
       },
       {
@@ -104,22 +103,16 @@ export class TokenCreateComponent implements OnInit {
     console.log("check")
     this._hsmService.getListHsm(this.body)
       .pipe(
-        map(response => {
-          console.log(response)
-          const data = response.data.data.map(hsmId => ({
-            ...hsmId
-          }))
-          return data;
-        }),
         takeUntil(this._unsubscribeAll)
       )
       .subscribe(response => {
         console.log(response)
-        this.hsmList = response;
-        // this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
+        this.hsmList = response.data.data;
+        console.log(this.hsmList);
+        
+        this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
         const id = this.hsmList[0].hsmId
-        this.placeholder = this.hsmList[0].hsmName
-        this._hsmService.getHSMId(id)
+        this._hsmService.getHsmId(id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res: any) => {
             this.rowsData = res.data.tokenInfoDtoList
@@ -134,7 +127,7 @@ export class TokenCreateComponent implements OnInit {
     
     const id = e.hsmId
     console.log(id)
-    this._hsmService.getHSMId(id)
+    this._hsmService.getHsmId(id)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
         this.rowsData = res.data.tokenInfoDtoList
@@ -164,7 +157,7 @@ export class TokenCreateComponent implements OnInit {
       slotNumber: this.f.slotNumber.value,
       tokenName: this.f.tokenName.value,
       tokenPassword: this.f.tokenPassword.value,
-      hsmId: this.f.hsmInformationId.value
+      hsmId: this.f.hsmInformationId.value.hsmId
     });
     console.log(newRequest)
     this._tokenService.createToken(newRequest)

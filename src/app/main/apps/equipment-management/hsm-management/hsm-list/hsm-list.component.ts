@@ -116,7 +116,6 @@ export class HsmListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data.map((item:any,index) => ({
           ...item,
-          status: true ? index % 2 == 0 : false,
           tokenName:  item.tokens.length > 0 ? item.tokens[0].tokenName : "Chưa khởi tạo"
         }));
         console.log(this.rowsData);
@@ -150,7 +149,7 @@ export class HsmListComponent implements OnInit {
         for (let i = 0; i < this.selected.length; i++) {
           console.log(this.selected[i].hsmId);
           this._hsmService
-            .deleteHSMId(this.selected[i].hsmId)
+            .deleteHsmId(this.selected[i].hsmId)
             .subscribe((res) => {
               console.log(res);
               this.setPage({
@@ -182,10 +181,56 @@ export class HsmListComponent implements OnInit {
       }
     });
   }
+  connectHsm(row:Hsm){
+    Swal.fire({
+      title: 'Bạn có chắc muốn thay đổi trạng thái?',
+      text: 'Bạn sẽ không thể hoàn tác điều này!',
+      icon: 'warning',
+      showCancelButton: true,
+      preConfirm: async () => {
+        return await this._hsmService
+        .connectHsm(row.hsmId)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .toPromise()
+        .then((res)=>{
+          if(res.result == false){
+            throw new Error(res.message);
+          }
+          row.connect = res.data.connect;
+          return res;
+        })
+        .catch((error)=>{
+          Swal.showValidationMessage('Mã lỗi: ' + error);
+        })
+        ;
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: 'Thoát',
+      confirmButtonText: 'Đúng, tôi thay đổi trạng thái!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1',
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      },
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Trạng thái Hsm đã được cập nhật.',
+          customClass: {
+            confirmButton: 'btn btn-success',
+          },
+        });
+      }
+    });
+  }
   testSyn() {
     for (let i = 0; i < this.selected.length; i++) {
       console.log(this.selected[i].hsmId);
-      this._hsmService.deleteHSMId(this.selected[i].hsmId).subscribe((res) => {
+      this._hsmService.deleteHsmId(this.selected[i].hsmId).subscribe((res) => {
         console.log(res);
         this.setPage({
           offset: 0,
@@ -204,27 +249,27 @@ export class HsmListComponent implements OnInit {
     console.log({ selected });
     console.log(event);
   }
-  removeProfile(hsmId) {
+  removeHsm(row) {
     Swal.fire({
       title: 'Bạn có chắc muốn xóa kết nối?',
       text: 'Bạn sẽ không thể hoàn tác điều này!',
       icon: 'warning',
       showCancelButton: true,
-      preConfirm: () => {
-        this._hsmService.deleteHSMId(hsmId).subscribe((res) => {
-          // this.updateTableOnDelete();
-          this._toastrService.success(
-            'Xóa kết nối HSM thành công ',
-            'Thành công',
-            {
-              toastClass: 'toast ngx-toastr',
-              closeButton: true,
-            }
-          );
-          this.setPage({
-            offset: 0,
-            pageSize: this.formListHsm.controls.size,
-          });
+      preConfirm: async () => {
+        return await this._hsmService.deleteHsmId(row.hsmId)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .toPromise()
+        .then((res)=>{
+          if(res.result == false){
+            throw new Error(res.message);
+          }
+          this.rowsData = this.arrayRemove(this.rowsData, row.hsmId)
+          if(this.rowsData.length==0){
+            this.setPage({ offset: 0, pageSize: this.formListHsm.get('size').value });
+          }
+          return res;
+        }).catch((error) => {
+          Swal.showValidationMessage('Mã lỗi: ' + error);
         });
       },
       cancelButtonColor: '#E42728',
@@ -234,20 +279,23 @@ export class HsmListComponent implements OnInit {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-danger ml-1',
       },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      },
     }).then(function (result) {
-      console.log(result);
-      if (result.isDismissed == false) {
+      if (result.value) {
         Swal.fire({
           icon: 'success',
-          title: 'Xóa thành công!',
-          text: 'Thông tin tài khoản đã được cập nhật.',
+          title: 'Thành công!',
+          text: 'Hsm đã được xoá thành công.',
           customClass: {
             confirmButton: 'btn btn-success',
           },
         });
       }
     });
-  }
+  };
+
   exportCSV() {
     console.log(this.formListHsm2.value);
     this._hsmService
@@ -297,6 +345,11 @@ export class HsmListComponent implements OnInit {
           document.body.removeChild(link);
         }
       });
+  }
+  arrayRemove(array, rowId) {
+    return array.filter(function(element){
+        return element.hsmId != rowId;
+    });
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

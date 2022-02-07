@@ -5,8 +5,7 @@
       <section>
         <div class="card">
           <div class="card-body">
-            <h3>Chi tiết kết nối HSM</h3>
-            <form [formGroup]="HsmFormView" class="form form-horizontal">
+            <form [formGroup]="hsmFormView" class="form form-horizontal">
               <div class="form_content">
                 <div class="">
                   <div class="d-flex">
@@ -32,8 +31,9 @@
                   <div class="d-flex">
                     <div class="form-group col-md-6 justify-content-center d-flex">
                       <button
-                        class="btn btn-primary "
-                        
+                        class="btn btn-primary"
+                        [disabled] = "hsm!=null&&hsm.connect"
+                        (click) = "connectHsm()"
                         rippleEffect
                       >
                         <i
@@ -46,7 +46,8 @@
                     <div class="form-group col-md-6 justify-content-center d-flex">
                       <button
                         class="btn btn-primary "
-                        disabled ="showConnect"
+                        [disabled] ="hsm!=null&&!hsm.connect"
+                        (click) = "connectHsm()"
                         rippleEffect
                       >
                         <i
@@ -57,7 +58,7 @@
                       </button>
                     </div>
                   </div>
-                  <div class="" *ngIf ="!showConnect">
+                  <div class="" *ngIf="hsm!=null&&hsm.connect">
                     <div class="d-flex">
                       <div class="form-group col-md-6">
                         <label for="UDUserName">Model</label>
@@ -72,7 +73,7 @@
                         <label for="UDUserName">Hãng sản xuất</label>
                         <input
                           type="text"
-                          formControlName="hsmManufacturer"
+                          formControlName="manufacturerId"
                           class="form-control"
                           readonly
                         />
@@ -88,7 +89,7 @@
                           readonly
                         />
                       </div>
-                      <div class="form-group col-md-6">
+                      <!-- <div class="form-group col-md-6">
                         <label>Chuẩn HSM</label>
                         <input
                           type="text"
@@ -96,7 +97,7 @@
                           class="form-control"
                           readonly
                         />
-                      </div>
+                      </div> -->
                     </div>
                     <div class="form-group col-md-12">
                       <label>Danh sách slot</label>

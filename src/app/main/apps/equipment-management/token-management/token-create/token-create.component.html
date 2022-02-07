@@ -13,7 +13,6 @@
                     <ng-select
                       [items]="hsmList"
                       bindLabel="hsmName"
-                      bindValue="hsmId"
                       [clearable]="false"
                       formControlName="hsmInformationId"
                       (change)="changeHSM($event)"
@@ -402,7 +401,7 @@
     </button>
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
-    <h5>Slot bị xóa bỏ</h5>
+    <h5>Slot đã được khởi tạo</h5>
     <p>
       Slot đã tồn tại trong hệ thống . Bạn cần cung cấp mật khẩu SO để cài đặt lại slot. Mọi thuộc tính trong slot bị xóa bỏ.
     </p>

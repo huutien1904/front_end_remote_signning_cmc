@@ -42,22 +42,29 @@ export class HsmService {
     );
   }
 
-  public getHSMId(id): Observable<ResponseData<Hsm>> {
+  public getHsmId(id): Observable<ResponseData<Hsm>> {
     return this._httpClient.get<ResponseData<Hsm>>(
       `${environment.apiUrl}/hsm/${id}`,
       this.option
     );
   }
   
-  public updateHSMId(id, body): Observable<ResponseData<Hsm>> {
+  public updateHsmId(id, body): Observable<ResponseData<Hsm>> {
     return this._httpClient.post<ResponseData<Hsm>>(
       `${environment.apiUrl}/hsm/${id}`,body,
       this.option
     );
   }
-  public deleteHSMId(id): Observable<any> {
+  public deleteHsmId(id): Observable<any> {
     return this._httpClient.delete<any>(
       `${environment.apiUrl}/hsm/${id}`,
+      this.option
+    );
+  }
+
+  public connectHsm(id): Observable<ResponseData<Hsm>> {
+    return this._httpClient.post<ResponseData<Hsm>>(
+      `${environment.apiUrl}/hsm/connect/${id}`, null,
       this.option
     );
   }
