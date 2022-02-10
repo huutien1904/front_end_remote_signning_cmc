@@ -190,6 +190,9 @@
                     </div>
                   </form>
                 </div>
+                <div class="col-12 button_summit d-flex justify-content-end pb-1">
+                  <app-return [buttonReturn]="buttonReturn"> </app-return>
+                </div>
                 <!-- Account Tab ends -->
               </ng-template>
             </li>
@@ -1079,9 +1082,7 @@
                       >
                         Cập Nhật
                       </button>
-                      <app-return>
-                        [buttonReturn]="buttonReturn"
-                      </app-return>
+                      <app-return [buttonReturn]="buttonReturn"> </app-return>
                     </div>
                   </form>
                 </div>
@@ -1424,6 +1425,7 @@
                         >
                           Cập Nhật
                         </button>
+                        <app-return [buttonReturn]="buttonReturn"> </app-return>
                       </div>
                     </div>
                   </div>

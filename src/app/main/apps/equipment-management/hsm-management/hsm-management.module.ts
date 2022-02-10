@@ -28,6 +28,7 @@ import { HsmListComponent } from "./hsm-list/hsm-list.component";
 import { HsmViewComponent } from "./hsm-view/hsm-view.component";
 import { HsmService } from "./hsm.service";
 import { HsmCreateSidebarComponent } from './hsm-create/hsm-create-sidebar/hsm-create-sidebar.component';
+import { ReturnModule } from "app/layout/components/return/return.module";
 
 
 const materialModules1234 = [
@@ -55,6 +56,7 @@ const materialModules1234 = [
     }),
     CorePipesModule,
     ContentHeaderModule,
+    ReturnModule,
     MatProgressBarModule,
     SweetAlert2Module.forRoot()
   ],

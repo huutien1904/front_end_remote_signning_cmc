@@ -17,6 +17,7 @@ import { PersonalService } from '../../../identity-provider/subscribers/personal
 })
 export class KeypairCreateComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
+  public buttonReturn: object;
   public url = this.router.url;
   public keypairFormView: FormGroup;
   public newRequestForm: FormGroup;
@@ -75,6 +76,17 @@ export class KeypairCreateComponent implements OnInit {
           },
         ],
       },
+    };
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/tm/keypair/keypair-list",
+        }
+        ]
+      }
     };
     const body = {
       contains: null,
@@ -136,7 +148,5 @@ export class KeypairCreateComponent implements OnInit {
       console.log(responDataa)
     });
   }
-  exit() {
-    this.router.navigateByUrl('/apps/tm/keypair/keypair-list');
-  }
+
 }

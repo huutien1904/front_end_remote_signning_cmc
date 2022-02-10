@@ -104,6 +104,20 @@ export class OrganizationEditComponent implements OnInit {
    
 
   async ngOnInit() {
+    this.buttonReturn = {
+      textButton: 'Quay lại',
+      actionButton: true,
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/ip/subscribers-list",
+        }
+        ]
+      }
+    }
+    console.log(this.buttonReturn);
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this.personal = await this._organizationEditService
       .getOrganizationId(this.lastValue)

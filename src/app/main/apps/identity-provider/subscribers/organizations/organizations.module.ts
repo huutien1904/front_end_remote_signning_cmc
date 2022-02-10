@@ -52,7 +52,8 @@ import { ReturnModule } from "app/layout/components/return/return.module";
     CoreDirectivesModule,
     ReactiveFormsModule,
     RouterModule,
-    ReturnModule
+    ReturnModule,
+    ContentHeaderModule,
   ],
   exports: [
     NewOrganizationSidebarComponent,

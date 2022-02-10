@@ -25,6 +25,7 @@ export class TokenViewComponent implements OnInit {
   public lastValue;
   private _unsubscribeAll = new Subject();
   public tokenForm: FormGroup;
+  public buttonReturn: object;
   public contentHeader: object;
   public submitted = false;
   public hsmList: any[];
@@ -92,6 +93,18 @@ export class TokenViewComponent implements OnInit {
       }
     };
 
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/token/token-list",
+        }
+        ]
+      }
+    };
+
     this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this._tokenService.getTokenId(this.lastValue)
@@ -133,10 +146,6 @@ export class TokenViewComponent implements OnInit {
         this.hsmList = response;
         console.log(this.hsmList);
       });
-  }
-
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
   }
   get f() {
     return this.tokenForm.controls;

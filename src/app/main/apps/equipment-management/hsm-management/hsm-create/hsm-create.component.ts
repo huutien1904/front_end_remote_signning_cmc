@@ -15,6 +15,7 @@ import { HsmService } from '../hsm.service';
 export class HsmCreateComponent implements OnInit {
   public HsmForm: FormGroup;
   public contentHeader: object;
+  public buttonReturn: object;
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
   public hardware: any[] = [{ name: "FIPS" }, { name: "CP5" }]
@@ -77,6 +78,18 @@ export class HsmCreateComponent implements OnInit {
         ]
       }
     };
+
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/hsm/hsm-list",
+        }
+        ]
+      }
+    };
   }
 
   onSubmit() {
@@ -114,9 +127,6 @@ export class HsmCreateComponent implements OnInit {
   }
   toggleSidebar(modalForm ) {
     this.modal.open(modalForm, {size: 'xl'})
-  }
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/hsm/hsm-list")
   }
 
 }

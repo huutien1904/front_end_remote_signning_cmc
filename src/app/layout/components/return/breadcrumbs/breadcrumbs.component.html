@@ -1,0 +1,12 @@
+<div
+  class="breadcrumb-wrapper d-flex"
+  [ngClass]="{
+    'justify-content-center': breadcrumbs.alignment == 'center',
+    'justify-content-end': breadcrumbs.alignment == 'right'
+  }"
+>
+  <div class="breadcrumbs-item" *ngFor="let link of breadcrumbs.links">
+    <a *ngIf="link.isLink" routerLink="{{ link.link }}">{{ link.name }}</a>
+    <span *ngIf="!link.isLink">{{ link.name }}</span>
+  </div>
+</div>

@@ -3,14 +3,14 @@ import { Component, Input, OnInit } from '@angular/core';
 export interface ButtonReturn {
   textButton: string;
   actionButton: boolean;
-  breadcrumb?: {
+  breadcrumbs?: {
     links?: Array<{
+      name?: string;
       isLink?: boolean;
-      link?: string;
+      link?: string;  
     }>;
   };
 }
-
 @Component({
   selector: 'app-return',
   templateUrl: './return.component.html',

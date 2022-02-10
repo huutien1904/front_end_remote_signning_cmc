@@ -22,6 +22,7 @@ import { PersonalService } from '../personal.service';
 export class PersonalEditComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   private personal: Personal;
+  public buttonReturn:object;
   formPersonalEdit: FormGroup;
   formRoleEdit: FormGroup;
   formUpdateRole: FormGroup;
@@ -99,6 +100,18 @@ export class PersonalEditComponent implements OnInit {
           },
         ],
       },
+    };
+
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/ip/subscribers-list",
+        }
+        ]
+      }
     };
 
     // this._unsubscribeAll = new Subject();

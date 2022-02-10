@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 export class KeypairViewComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any>;
+  public buttonReturn:object;
   public url = this.router.url;
   public keypairFormView: FormGroup;
   public HSMname :string;
@@ -80,8 +81,16 @@ export class KeypairViewComponent implements OnInit {
         ]
       }
     };
-  }
-  exit() {
-    this.router.navigateByUrl("/apps/tm/keypair/keypair-list")
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/tm/keypair/keypair-list",
+        }
+        ]
+      }
+    };
   }
 }

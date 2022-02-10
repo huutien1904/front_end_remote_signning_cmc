@@ -20,6 +20,7 @@ export class HsmEditComponent implements OnInit {
   public hsmName :string;
   public lastValue;
   public contentHeader: object;
+  public buttonReturn: object;
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
   public hsmForm: any[] = ["FIPS", "PC5"];
@@ -85,6 +86,18 @@ export class HsmEditComponent implements OnInit {
       }
     };
 
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/hsm/hsm-list",
+        }
+        ]
+      }
+    };
+
   }
 
   onSubmit(){
@@ -141,7 +154,5 @@ export class HsmEditComponent implements OnInit {
     
     );
   }
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/hsm/hsm-list")
-  }
+
 }

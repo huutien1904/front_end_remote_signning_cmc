@@ -1,15 +1,10 @@
-
-    <div class="button-return row">
-        <div class="col-md-6 offset-6">
-            <div class="d-flex justify-content-md-end m-1">
-              <button
-                (click)="buttonReturn.actionButton"
-                rippleEffect
-                class="btn btn-outline-primary"
-              >
-                {{buttonReturn.textButton}} 
-                [breadcrumb]="buttonReturn.breadcrumb"
-              </button>
-            </div>
-          </div>
-    </div>
+<ng-container *ngIf="buttonReturn">
+  <div class="button-return">
+    <button 
+    rippleEffect 
+    class="btn btn-outline-primary"
+    >
+      <app-breadcrumbs [breadcrumbs]="buttonReturn.breadcrumbs"></app-breadcrumbs>
+    </button>
+  </div>
+</ng-container>

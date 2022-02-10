@@ -5,16 +5,18 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CoreCommonModule } from '@core/common.module';
 import { BreadcrumbModule } from 'app/layout/components/content-header/breadcrumb/breadcrumb.module';
+import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 
 @NgModule({
   declarations: [ReturnComponent],
   imports: [
     CommonModule,
     // NgModule,
-    BreadcrumbModule,
     CoreCommonModule,
     NgbModule,
     RouterModule,
+    BreadcrumbsModule,
+    
   ],
   exports: [ReturnComponent]
 })
