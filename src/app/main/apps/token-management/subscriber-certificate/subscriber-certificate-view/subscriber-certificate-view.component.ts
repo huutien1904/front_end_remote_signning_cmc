@@ -15,6 +15,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
   [x: string]: any;
   // public
   public url = this.router.url;
+  public buttonReturn: object;
   public dataFromNodeForge : any
   public dataFromX509 : any
   public isReadCert = false
@@ -53,6 +54,17 @@ export class SubscriberCertificateViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/tm/subscriber-certificate/subscriber-certificate-list",
+        }
+        ]
+      }
+    };
     this.getSubscriberCertificateView();
   }
   getSubscriberCertificateView(){

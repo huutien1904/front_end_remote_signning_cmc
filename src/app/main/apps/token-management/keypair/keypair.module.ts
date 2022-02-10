@@ -26,6 +26,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ListSidebarComponent } from './keypair-list/list-sidebar/list-sidebar.component';
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { RouterModule } from "@angular/router";
+import { ReturnModule } from "app/layout/components/return/return.module";
 
 const materialModules1234 = [
   MatDatepickerModule,
@@ -59,7 +60,8 @@ const materialModules1234 = [
     }),
     CorePipesModule,
     MatProgressBarModule,
-    ContentHeaderModule
+    ContentHeaderModule,
+    ReturnModule,
   ],
   exports: [KeypairListComponent, KeypairViewComponent, KeypairEditComponent, ListSidebarComponent],
   providers: [

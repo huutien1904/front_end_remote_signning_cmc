@@ -21,6 +21,7 @@ export class TokenCreateComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   public tokenForm: FormGroup;
   public contentHeader: object;
+  public buttonReturn: object;
   public submitted = false;
   public hsmList: any[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -95,6 +96,18 @@ export class TokenCreateComponent implements OnInit {
             name: 'Tạo Slot',
             isLink: false,
           }
+        ]
+      }
+    };
+
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/token/token-list",
+        }
         ]
       }
     };
@@ -176,9 +189,6 @@ export class TokenCreateComponent implements OnInit {
       })
   }
 
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
-  }
 
   /**
    * Custom Checkbox On Select

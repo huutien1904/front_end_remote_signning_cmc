@@ -31,6 +31,7 @@ import { TokenPasswordComponent } from './token-list/token-password/token-passwo
 import { CoreSidebarModule } from '@core/components';
 import { TokenViewDetailComponent } from './token-create/token-view-detail/token-view-detail.component';
 import { CoreCardModule } from '@core/components/core-card/core-card.module';
+import { ReturnModule } from 'app/layout/components/return/return.module';
 
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
@@ -64,7 +65,8 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     SweetAlert2Module.forRoot(),
     CoreSidebarModule,
     NgbCollapseModule,
-    CoreCardModule
+    CoreCardModule,
+    ReturnModule,
   ],
   exports: [
     TokenViewComponent,

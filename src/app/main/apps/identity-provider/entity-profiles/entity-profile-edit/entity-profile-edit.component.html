@@ -337,13 +337,7 @@
               >
                 Cập nhật
               </button>
-              <button
-                (click)="exit()"
-                rippleEffect
-                class="btn btn-outline-primary ml-1"
-              >
-                Quay Lại
-              </button>
+              <app-return class="ml-1" [buttonReturn]="buttonReturn"></app-return>
               <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
             </div>
           </form>

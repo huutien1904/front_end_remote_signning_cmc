@@ -25,6 +25,7 @@ export class TokenViewComponent implements OnInit {
   public lastValue;
   private _unsubscribeAll = new Subject();
   public tokenForm: FormGroup;
+  public buttonReturn: object;
   public contentHeader: object;
   public submitted = false;
   public hsmList: any[];
@@ -88,6 +89,18 @@ export class TokenViewComponent implements OnInit {
             name: 'Chi tiết',
             isLink: false,
           }
+        ]
+      }
+    };
+
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/token/token-list",
+        }
         ]
       }
     };

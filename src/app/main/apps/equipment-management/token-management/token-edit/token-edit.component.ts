@@ -24,7 +24,7 @@ export class TokenEditComponent implements OnInit {
   public url = this.router.url;
   public lastValue;
   public tokenInfo:Token;
-  
+  public buttonReturn:object;
   public contentHeader: object;
   public submitted = false;
   public hsmList: Hsm[];
@@ -118,6 +118,17 @@ export class TokenEditComponent implements OnInit {
         ]
       }
     };
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/token/token-list",
+        }
+        ]
+      }
+    };
 
   }
 
@@ -189,9 +200,6 @@ export class TokenEditComponent implements OnInit {
     }
   }
 
-  exit() {
-    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
-  }
 
   // end function
 }

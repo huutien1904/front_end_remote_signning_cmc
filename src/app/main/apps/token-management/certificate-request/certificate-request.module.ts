@@ -25,6 +25,7 @@ import { ContentHeaderModule } from "app/layout/components/content-header/conten
 import { RouterModule } from "@angular/router";
 import { CoreCardModule } from "@core/components/core-card/core-card.module";
 import { CertificateRequestViewComponent } from "./certificate-request-view/certificate-request-view.component";
+import { ReturnModule } from "app/layout/components/return/return.module";
 const materialModules1234 = [
   MatDatepickerModule,
   MatNativeDateModule
@@ -54,6 +55,7 @@ const materialModules1234 = [
     ContentHeaderModule,
     RouterModule,
     CoreCardModule,
+    ReturnModule,
   ],
   exports: [
     CertificateRequestListComponent,

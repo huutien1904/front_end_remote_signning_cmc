@@ -15,6 +15,7 @@ export class EntityProfileViewComponent implements OnInit {
   public url = this.router.url;
   public lastValue;
   public data;
+  public buttonReturn: object;
 
   public endEntityProfileName: string;
   private _unsubscribeAll: Subject<any>;
@@ -452,8 +453,20 @@ export class EntityProfileViewComponent implements OnInit {
         ],
       },
     };
+
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/ip/profiles/profile-list",
+        }
+        ]
+      }
+    };
   }
-  exit() {
-    this.router.navigateByUrl("/apps/ip/profiles/profile-list")
-  }
+  // exit() {
+  //   this.router.navigateByUrl("/apps/ip/profiles/profile-list")
+  // }
 }

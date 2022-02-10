@@ -28,6 +28,7 @@ export class HsmViewComponent implements OnInit {
   public hsm:Hsm=null;
   public lastValue;
   public contentHeader: object;
+  public buttonReturn: object;
   public submitted = false;
   public hsmType: any[] = ['NET', 'PCI'];
   public hsmForm: any[] = ['FIPS', 'PC5'];
@@ -85,6 +86,18 @@ export class HsmViewComponent implements OnInit {
           },
         ],
       },
+    };
+
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/equipment-management/hsm/hsm-list",
+        }
+        ]
+      }
     };
 
      this.hsm = await  this._hsmService.getHsmId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).toPromise().then((res)=>{
@@ -180,9 +193,5 @@ export class HsmViewComponent implements OnInit {
 
   get f() {
     return this.hsmFormView.controls;
-  }
-
-  exit() {
-    this.router.navigateByUrl('/apps/equipment-management/hsm/hsm-list');
   }
 }

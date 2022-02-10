@@ -140,13 +140,7 @@
                         <span class="d-sm-none d-inline-block">Tạo mới</span>
                         <span class="d-none d-sm-inline-block">Tạo mới cặp khóa</span>
                       </button>
-                      <button
-                        (click)="exit()"
-                        rippleEffect
-                        class="btn btn-outline-primary"
-                      >
-                        Quay Lại
-                      </button>
+                      <app-return [buttonReturn]="buttonReturn"> </app-return>
                     </div>
                   </div>
                 </div>

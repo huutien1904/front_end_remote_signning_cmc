@@ -21,6 +21,7 @@ import { OrganizationViewComponent } from "./organization-view/organization-view
 import { OrganizationViewService } from "./organization-view/organization-view.service";
 import { AppRemoveSpace } from './remove-space.directive';
 import { ExitComponent } from './exit/exit.component';
+import { ReturnModule } from "app/layout/components/return/return.module";
 
 @NgModule({
   declarations: [
@@ -50,8 +51,9 @@ import { ExitComponent } from './exit/exit.component';
     CorePipesModule,
     CoreDirectivesModule,
     ReactiveFormsModule,
-    ContentHeaderModule,
     RouterModule,
+    ReturnModule,
+    ContentHeaderModule,
   ],
   exports: [
     NewOrganizationSidebarComponent,

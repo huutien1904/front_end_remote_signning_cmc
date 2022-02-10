@@ -21,6 +21,7 @@ import { NgbCollapseModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
+import { ReturnModule } from "app/layout/components/return/return.module";
 import { FileUploadModule } from 'ng2-file-upload';
 import { PersonalService } from "../../identity-provider/subscribers/personals/personal.service";
 import { KeypairService } from "../keypair/keypair.service";
@@ -59,6 +60,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     ContentHeaderModule,
     RouterModule,
     CoreCardModule,
+    ReturnModule,
   ],
   exports: [
     SubscriberCertificateCreateComponent,

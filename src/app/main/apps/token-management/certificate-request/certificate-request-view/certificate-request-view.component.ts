@@ -16,7 +16,7 @@ export class CertificateRequestViewComponent implements OnInit {
   public cer
   public results: any[]
   public isHasResult: Boolean = false //Hiển thị kế quả thông tin csr trả về
-
+  public buttonReturn: object;
   // private
   private _unsubscribeAll: Subject<any>;
   constructor(
@@ -30,6 +30,17 @@ export class CertificateRequestViewComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/tm/certificate-request/certificate-request-list",
+        }
+        ]
+      }
+    };
     this.results = [{
       algorithmSignature: "",
       sizeKeys: "",

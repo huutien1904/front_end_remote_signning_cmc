@@ -16,7 +16,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   public url = this.router.url;
   public lastValue;
   public data;
-
+  public buttonReturn: object;
   public endEntityProfileName: string;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
@@ -457,6 +457,17 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         ],
       },
     };
+    this.buttonReturn = {
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/ip/profiles/profile-list",
+        }
+        ]
+      }
+    };
   }
   get f() {
     return this.formEditProfile.controls;
@@ -558,9 +569,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
     
     );
-  }
-  exit() {
-    this.router.navigateByUrl("/apps/ip/profiles/profile-list")
   }
   /**
    * On destroy

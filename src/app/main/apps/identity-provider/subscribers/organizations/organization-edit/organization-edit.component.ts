@@ -37,6 +37,9 @@ export class OrganizationEditComponent implements OnInit {
   public districtName: District[];
   public communeName: Commune[];
   public streetName: Street[];
+  public buttonReturn:object;
+ 
+  
   roleArray: any[] = [];
   public getRoles;
   private readonly currentUser = JSON.parse(
@@ -98,8 +101,23 @@ export class OrganizationEditComponent implements OnInit {
       roles: [[]],
     });
   }
+   
 
   async ngOnInit() {
+    this.buttonReturn = {
+      textButton: 'Quay lại',
+      actionButton: true,
+      breadcrumbs: {
+        links: [
+          {
+            name:'Quay lại',
+            isLink: true,
+            link: "/apps/ip/subscribers-list",
+        }
+        ]
+      }
+    }
+    console.log(this.buttonReturn);
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this.personal = await this._organizationEditService
       .getOrganizationId(this.lastValue)
@@ -233,6 +251,8 @@ export class OrganizationEditComponent implements OnInit {
         this.formAddress.get('streetName').setValue(street.streetId);
       }
     });
+
+    
 
   }
 
