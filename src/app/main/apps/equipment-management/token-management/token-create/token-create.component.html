@@ -61,7 +61,7 @@
                       [loadingIndicator]="isLoading"
                       [selectionType]="'radio'"
                       [selected]="chkBoxSelected"
-                      (select)="onSelect($event,modalBasic)"
+                      (select)="onSelect($event,modalUserPinInitFalse,modalUserPinInitTrue)"
                       (select)="customCheckboxOnSelect($event)"
                     >
                       <ngx-datatable-column
@@ -280,7 +280,30 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Mật khẩu người quản trị (Super Officer-SO)</label>
-                      <input type="password" class="form-control" />
+                      <input 
+                        type="password" 
+                        class="form-control" 
+                        formControlName="tokenInit"
+                        [ngClass]="
+                          (f.tokenInit.errors &&
+                            f.tokenInit?.touched) ||
+                          (submitted && f.tokenInit?.errors?.required)
+                            ? 'is-invalid'
+                            : ''
+                        "
+                        />
+                        <div
+                        *ngIf="
+                          (f.tokenInit.errors &&
+                            f.tokenInit?.touched) ||
+                          (submitted && f.tokenInit?.errors?.required)
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.tokenInit.errors.required">
+                          Bạn cần nhập mật khẩu SO
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-6" *ngIf = "rePasswordSo">
@@ -289,7 +312,39 @@
                         >Xác nhận mật khẩu người quản trị (Super
                         Officer-SO)</label
                       >
-                      <input type="password" class="form-control" />
+                      <input 
+                        type="password" 
+                        class="form-control" 
+                        formControlName="confTokenInit"
+                        [ngClass]="{
+                          'is-invalid':
+                            (f.confTokenInit.errors && f.confTokenInit?.dirty) ||
+                            (submitted && f.confTokenInit?.errors?.required),
+                          'is-valid':
+                            !f.confTokenInit?.errors?.mustMatch &&
+                            f.confTokenInit?.dirty
+                        }"
+                        />
+                        <div
+                        *ngIf="
+                          (f.confTokenInit.errors && f.confTokenInit?.dirty) ||
+                          (submitted && f.confTokenInit?.errors?.required)
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.confTokenInit.errors.required">
+                          Bạn cần xác nhận mật khẩu
+                        </div>
+                        <div *ngIf="f.confTokenInit.errors.mustMatch">
+                          Xác nhận mật khẩu không hợp lệ
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="f.confTokenInit.errors == null"
+                        class="valid-feedback"
+                      >
+                        Xác nhận mật khẩu hợp lệ
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -374,7 +429,13 @@
                   >
                     Tạo Slot
                   </button>
-                  <app-return [buttonReturn]="buttonReturn"> </app-return>
+                  <button
+                    (click)="exit()"
+                    rippleEffect
+                    class="btn btn-outline-primary"
+                  >
+                    Quay lại
+                  </button>
                 </div>
               </div>
             </div>
@@ -387,7 +448,7 @@
 <ng-template #modalForm let-modal>
   <app-token-view-detail [data] = "name" ></app-token-view-detail>
 </ng-template>
-<ng-template #modalBasic let-modal>
+<ng-template #modalUserPinInitFalse let-modal>
   <div class="modal-header">
     <!-- <h4 class="modal-title" id="myModalLabel1">Basic Modal</h4> -->
     <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
@@ -397,7 +458,7 @@
   <div class="modal-body" tabindex="0" ngbAutofocus>
     <h5>Slot đã được khởi tạo</h5>
     <p>
-      Slot đã tồn tại trong hệ thống . Bạn cần cung cấp mật khẩu SO để cài đặt lại slot. Mọi thuộc tính trong slot bị xóa bỏ.
+      Bạn cần cung cấp mật khẩu SO để khởi tạo lại PIN
     </p>
   </div>
   <div class="modal-footer">
@@ -406,6 +467,32 @@
       Hủy bỏ
     </button>
     <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+      Chấp nhận
+    </button>
+  </div>
+</ng-template>
+<ng-template #modalUserPinInitTrue let-modal>
+  <div class="modal-header">
+    <i
+                        data-feather="alert-circle"
+                        class="text-warning cursor-pointer mr-50"
+                      ></i>
+    <h4 class="modal-title text-warning" id="myModalLabel1">Slot đã được khởi tạo</h4>
+    <button type="button " class="close btn-warning" (click)="cancelToken()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <p>
+      Slot đã tồn tại trong hệ thống .Nếu khởi tạo lại mọi cặp khóa bên trong đều bị xóa bỏ 
+    </p>
+  </div>
+  <div class="modal-footer">
+    
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelToken()" rippleEffect>
+      Hủy bỏ
+    </button>
+    <button type="button" class="btn btn-warning" (click)="modal.close('Accept click')" rippleEffect>
       Chấp nhận
     </button>
   </div>

@@ -21,14 +21,13 @@ export class TokenCreateComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   public tokenForm: FormGroup;
   public contentHeader: object;
-  public buttonReturn: object;
   public submitted = false;
   public hsmList: any[];
   public slotOption: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public lockQuantity: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
   public body = {
     "page": null,
-    "size": 4,
+    "size": 100,
     "sort": ["hsmId,asc"],
     "contains": "",
     "fromDate": "",
@@ -72,12 +71,17 @@ export class TokenCreateComponent implements OnInit {
         tokenName: [null, Validators.required],
         tokenPassword: ['', Validators.required],
         confPassword: ['', Validators.required],
+        tokenInit: ['', Validators.required],
+        confTokenInit: ['', Validators.required],
+        
         hsmInformationId: [null, Validators.required],
         lockQuantity: [null, Validators.required],
       },
       {
-        validator: MustMatch('tokenPassword', 'confPassword')
-      }
+        validator: MustMatch('tokenPassword', 'confPassword'),
+        validator1: MustMatch('tokenInit', 'confTokenInit')
+      },
+      
     );
     this.getHsmList();
     this.contentHeader = {
@@ -96,18 +100,6 @@ export class TokenCreateComponent implements OnInit {
             name: 'Tạo Slot',
             isLink: false,
           }
-        ]
-      }
-    };
-
-    this.buttonReturn = {
-      breadcrumbs: {
-        links: [
-          {
-            name:'Quay lại',
-            isLink: true,
-            link: "/apps/equipment-management/token/token-list",
-        }
         ]
       }
     };
@@ -169,26 +161,42 @@ export class TokenCreateComponent implements OnInit {
     const newRequest = JSON.stringify({
       slotNumber: this.f.slotNumber.value,
       tokenName: this.f.tokenName.value,
-      tokenPassword: this.f.tokenPassword.value,
+      tokenInitPin: this.f.tokenPassword.value,
+      tokenInit: this.f.tokenInit.value,
       hsmId: this.f.hsmInformationId.value.hsmId
     });
     console.log(newRequest)
     this._tokenService.createToken(newRequest)
       .subscribe((res) => {
         console.log(res);
+        this.getHsmList();
         if ((res.result = true)) {
-          this.toastr.success('👋 Bạn đã tạo TOKEN mới', 'Thành công', {
-            positionClass: 'toast-top-center',
-            toastClass: 'toast ngx-toastr',
-            closeButton: true
-          });
-          this.submitted = false;
-          this.router.navigate(['/apps/equipment-management/token/token-list']);
+          if(this.rePasswordSo === false){
+            this.toastr.success('👋 Token của bạn đã được khởi tạo lại thành công', 'Thành công', {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true
+            });
+            this.submitted = false;
+          }
+          if(this.rePasswordSo === true){
+            this.toastr.success('👋 Token của bạn đã được khởi tạo thành công', 'Thành công', {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true
+            });
+            this.submitted = false;
+          }
+          // this.router.navigate(['/apps/equipment-management/token/token-list']);
+          this.showSelect = false
           this.tokenForm.reset();
         }
       })
   }
 
+  exit() {
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
+  }
 
   /**
    * Custom Checkbox On Select
@@ -204,7 +212,17 @@ export class TokenCreateComponent implements OnInit {
    *
    * @param selected
    */
-  onSelect({ selected },modal) {
+  onSelect({ selected },modalUserPinInitFalse,modalUserPinInitTrue) {
+    // console.log("tiencheck",selected[0].serialNumber)
+    this.rowsData.find((item,index) =>{
+      // console.log(item.serialNumber)
+      if(item.serialNumber === selected[0].serialNumber){
+        console.log(index)
+        this.tokenForm.controls['slotNumber'].setValue(index );
+        // return index;
+      }
+    })
+    console.log(selected)
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
     if(this.selected.length > 0){
@@ -219,12 +237,15 @@ export class TokenCreateComponent implements OnInit {
     }
     if(tokenInit === true){
       if(userPinInit ===  false){
+        this.modalService.open(modalUserPinInitFalse, {
+          centered: true,
+        });
         this.showSelect = true;
         this.rePasswordSo = false
       }
       if(userPinInit ===  true){
         console.log('hien thi popup')
-        this.modalService.open(modal, {
+        this.modalService.open(modalUserPinInitTrue, {
           centered: true,
         });
         this.showSelect = true;
@@ -241,6 +262,9 @@ export class TokenCreateComponent implements OnInit {
   toggleSidebar() {
     this.modalService.dismissAll();
   }
+  // onActivate(event){
+  //   console.log(event)
+  // }
 }
 export function MustMatch(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
