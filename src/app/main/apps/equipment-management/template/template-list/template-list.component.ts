@@ -1,4 +1,3 @@
-import { Template } from './../../../../../../../.history/src/app/main/models/Equipment_20220126152440';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
@@ -10,6 +9,7 @@ import { PagedData } from 'app/main/models/PagedData';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Template } from 'app/main/models/Equipment';
 
 @Component({
   selector: 'app-template-list',
