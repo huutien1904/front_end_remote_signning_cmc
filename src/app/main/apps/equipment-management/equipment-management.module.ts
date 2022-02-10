@@ -2,14 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HsmManagementModule } from './hsm-management/hsm-management.module';
-import { TemplateComponent } from './template/template.component';
 import { TokenManagementModule } from './token-management/token-management.module';
-import { TemplateListComponent } from './template/template-list/template-list.component';
-import { TemplateCreateComponent } from './template/template-create/template-create.component';
-import { TemplateEditComponent } from './template/template-edit/template-edit.component';
-import { TemplateViewComponent } from './template/template-view/template-view.component';
+import { TemplateManagementModule } from './template/template-management.module';
 
 const routes: Routes = [
   {
@@ -28,7 +23,10 @@ const routes: Routes = [
   },
   {
     path: 'template',
-    component: TemplateComponent,
+    loadChildren: () =>
+      import('./template/template-management.routing').then(
+        (m) => m.TemplateManagementRoutes
+      ),
   },
   {
     path: '**',
@@ -37,10 +35,7 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [
-    TemplateListComponent,
-    TemplateCreateComponent,
-    TemplateEditComponent,
-    TemplateViewComponent
+
   ],
   imports: [
     CommonModule,
@@ -48,7 +43,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     HsmManagementModule,
     TokenManagementModule,
+    TemplateManagementModule
   ],
   providers: [],
 })
-export class EquipmentManagementModule {}
+export class EquipmentManagementModule { }

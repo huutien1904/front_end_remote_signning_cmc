@@ -86,3 +86,15 @@ export interface Hsm {
   numberOfSlots: number;
   hsmLibraryPath: string;
 }
+export interface Template{
+    keypairId: number,
+    cryptoSystem: string,
+    keypairLength: string,
+    keypairAlias: string,
+    keypairStatusName: string,
+    p12Content: string,
+    organizationName: string,
+    
+    username: string,
+    email: string
+}

@@ -80,16 +80,14 @@
               </div>
               <div class="cart" *ngIf="mechanismList!=null">
                 <div class="cart-header">
-                  <h1>Danh sách các thuật toán mật mã </h1>
+                  <h1>Danh sách các thuật toán mật mã</h1>
                 </div>
                 <ngx-datatable
                   #tableRowDetails
                   [rows]="mechanismList"
                   class="bootstrap core-bootstrap cursor"
                   [columnMode]="ColumnMode.force"
-                  [headerHeight]="50"
-                  rowHeight="auto"
-                  [scrollbarH]="true"
+                  [headerHeight]="40"
                   [footerHeight]="50"
                   [rowHeight]="50"
                   [limit]="10"
@@ -169,7 +167,7 @@
                     prop="isEncrypt"
                     [width]="130"
                   ></ngx-datatable-column>
-                  
+
                   <ngx-datatable-column
                     name="Hành động"
                     [width]="70"

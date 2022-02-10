@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'app/auth/helpers';
 import { Role } from 'app/auth/models';
 import { ConfigurationComponent } from './configuration/configuration.component';
-import { TemplateComponent } from '../equipment-management/template/template.component';
 import { IntroduceComponent } from './introduce/introduce.component';
 import { HelpCenterComponent } from './help-center/help-center.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';

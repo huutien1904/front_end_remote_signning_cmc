@@ -108,7 +108,9 @@ export class TokenViewComponent implements OnInit {
       });
       this.mechanismList = res.data.mechanismDtoList;
     });
-    this.pagedData.totalItems = 5;
+    console.log("tien123",this.pagedData)
+
+    
   }
 
   rowDetailsToggleExpand(row) {
@@ -134,6 +136,8 @@ export class TokenViewComponent implements OnInit {
         console.log(this.hsmList);
       });
   }
+
+  
 
   exit() {
     this.router.navigateByUrl("/apps/equipment-management/token/token-list")
