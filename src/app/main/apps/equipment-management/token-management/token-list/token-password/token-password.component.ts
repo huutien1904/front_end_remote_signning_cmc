@@ -1,12 +1,10 @@
 import { Component, OnInit,Input, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { HsmService } from '../../../hsm-management/hsm.service';
 import { TokenService } from '../../token.service';
 import { Hsm, Token } from 'app/main/models/Equipment';
 
@@ -20,9 +18,7 @@ export class TokenPasswordComponent implements OnInit {
   public tokenForm: FormGroup;
   // public
   public url = this.router.url;
-  public lastValue;
-  public tokenInfo: Token;
-  @Input() personal: any;
+  @Input() tokenDetail: any;
 
   public contentHeader: object;
   public submitted = false;
@@ -51,14 +47,7 @@ export class TokenPasswordComponent implements OnInit {
     '9',
     '10',
   ];
-  public body = {
-    page: null,
-    size: 100,
-    sort: ['hsmId,asc'],
-    contains: '',
-    fromDate: '',
-    toDate: '',
-  };
+  
   public HSMname = '';
 
   // end public
@@ -67,36 +56,32 @@ export class TokenPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private _tokenService: TokenService,
-    private _hsmService: HsmService,
-    private toastr: ToastrService,
     private modal: NgbModal,
   ) {
     this._unsubscribeAll = new Subject();
-    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this.tokenForm = this.fb.group({
-      slotNumber: [null, Validators.required],
-      tokenName: [null, Validators.required],
-      tokenPassword: [null, Validators.required],
-      tokenPasswordConfirm: [null, Validators.required],
+      tokenOldPassword: [null, Validators.required],
       tokenNewPassword: [null, Validators.required],
-      tokenNewPasswordConfirm: [null, Validators.required],
-      hsmId: [null, Validators.required],
-      tokenId: [null, Validators.required],
-    });
+      tokenRenewPassword: [null, Validators.required],
+      
+    },
+    {
+      validator: MustMatch('tokenNewPassword', 'tokenRenewPassword'),
+    },
+    );
     // this.asyncValidators()
   }
 
   async ngOnInit() {
-    console.log(this.personal)
-    console.log(this.tokenInfo);
-    this.tokenForm.patchValue({
-      tokenName: this.personal.tokenName,
-      slotNumber: this.personal.slotNumber,
-      tokenId: this.personal.tokenId,
-      hsmName:this.personal.hsmName,
-      //  tokenPassword: this.tokenInfo.tokenName,
-    });
-    console.log(this.tokenForm.value);
+    console.log(this.tokenDetail.tokenId)
+    // this.tokenForm.patchValue({
+    //   tokenName: this.tokenDetail.tokenName,
+    //   slotNumber: this.tokenDetail.slotNumber,
+    //   tokenId: this.tokenDetail.tokenId,
+    //   hsmName:this.tokenDetail.hsmName,
+    //   //  tokenPassword: this.tokenInfo.tokenName,
+    // });
+    // console.log(this.tokenForm.value);
 
   }
 
@@ -114,10 +99,8 @@ export class TokenPasswordComponent implements OnInit {
     if (this.tokenForm.valid) {
       console.log(this.tokenForm.value);
       const newRequest = JSON.stringify({
-        slotNumber: this.f.slotNumber.value,
-        tokenName: this.f.tokenName.value,
-        tokenPassword: this.f.tokenPassword.value,
-        hsmId: this.f.hsmId.value,
+        tokenInitOld: this.f.tokenOldPassword.value,
+        tokenInitNew: this.f.tokenNewPassword.value,
       });
       console.log(newRequest);
       Swal.fire({
@@ -128,7 +111,7 @@ export class TokenPasswordComponent implements OnInit {
         confirmButtonColor: '#7367F0',
         preConfirm: async () => {
           return await this._tokenService
-            .updateTokenId(this.lastValue, newRequest)
+            .updateTokenPassword(this.tokenDetail.tokenId, newRequest)
             .pipe(takeUntil(this._unsubscribeAll))
             .toPromise()
             .then((res) => {
@@ -138,7 +121,7 @@ export class TokenPasswordComponent implements OnInit {
               return res;
             })
             .catch(function (error) {
-              Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+              Swal.showValidationMessage('Mật khẩu không chính xác');
             });
         },
         cancelButtonColor: '#E42728',
@@ -156,7 +139,7 @@ export class TokenPasswordComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
-            text: 'TOKEN đã được cập nhật.',
+            text: 'TOKEN đổi mật khẩu so thành công.',
             customClass: {
               confirmButton: 'btn btn-success',
             },
@@ -169,4 +152,20 @@ export class TokenPasswordComponent implements OnInit {
   exit() {
     this.modal.dismissAll();
   }
+}
+export function MustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl?.errors && !matchingControl?.errors?.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return;
+    }
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
 }

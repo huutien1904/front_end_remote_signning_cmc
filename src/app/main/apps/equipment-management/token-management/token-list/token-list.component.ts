@@ -8,6 +8,7 @@ import {
   ColumnMode,
   DatatableComponent,
   SelectionType,
+  selectRows,
 } from '@swimlane/ngx-datatable';
 import { Token } from 'app/main/models/Equipment';
 import { PagedData } from 'app/main/models/PagedData';
@@ -30,6 +31,7 @@ export class TokenListComponent implements OnInit {
   public formListToken: FormGroup;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
+  
   item
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -53,7 +55,6 @@ export class TokenListComponent implements OnInit {
     private _toastrService: ToastrService,
     private _router: Router,
     private modal: NgbModal,
-
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -134,11 +135,24 @@ export class TokenListComponent implements OnInit {
   selectFn() {
     console.log('fn');
   }
+  updateTableRename(){
+    this.setPage({ offset: 0, pageSize: this.formListToken.get('size').value });
+  }
   toggleSidebar(modalTokenPassWordForm, item) {
     this.item = item;
     console.log(item);
     console.log(modalTokenPassWordForm)
-    this.modal.open(modalTokenPassWordForm, {size: 'lg'})
+    this.modal.open(modalTokenPassWordForm, {
+      centered: true,
+      size: "xl",
+    });
+  }
+  openRenameToken(modal,row) {
+    this.item = row
+    this.modal.open(modal, {
+      centered: true,
+      size: "xl",
+    });
   }
   removeProfile(hsmId) {
     this._tokenService.deleteTokenId(hsmId).subscribe((res) => {

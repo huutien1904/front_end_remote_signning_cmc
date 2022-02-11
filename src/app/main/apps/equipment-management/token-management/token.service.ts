@@ -51,13 +51,20 @@ export class TokenService {
       this.option
     );
   }
-  public updateTokenId(id, body): Observable<ResponseData<Token>> {
+  // chang name token
+  public updateTokenName(id, body): Observable<ResponseData<Token>> {
     return this._httpClient.post<ResponseData<Token>>(
-      `${environment.apiUrl}/token/${id}`,body,
+      `${environment.apiUrl}/token/name/${id}`,body,
       this.option
     );
   }
-
+// change password token
+  public updateTokenPassword(id, body): Observable<ResponseData<Token>> {
+    return this._httpClient.post<ResponseData<Token>>(
+      `${environment.apiUrl}/token/so/${id}`,body,
+      this.option
+    );
+  }
   
 
 }

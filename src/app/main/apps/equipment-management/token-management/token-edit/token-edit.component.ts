@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { HsmService } from '../../hsm-management/hsm.service';
 import { TokenService } from '../token.service';
 import { Hsm, Token } from 'app/main/models/Equipment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -22,9 +23,9 @@ export class TokenEditComponent implements OnInit {
   public tokenForm: FormGroup;
   // public 
   public url = this.router.url;
-  public lastValue;
   public tokenInfo:Token;
-  public buttonReturn:object;
+  @Input() token: any;
+  @Output() onUpdate = new EventEmitter<any>();
   public contentHeader: object;
   public submitted = false;
   public hsmList: Hsm[];
@@ -49,24 +50,28 @@ export class TokenEditComponent implements OnInit {
     private router: Router,
     private _tokenService: TokenService,
     private _hsmService: HsmService,
-    private   toastr: ToastrService
+    private   toastr: ToastrService,
+    private modal: NgbModal,
   ) { 
     this._unsubscribeAll = new Subject();
-    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this.tokenForm = this.fb.group(
       {
         slotNumber: [null, Validators.required],
         tokenName: [null, Validators.required],
-        tokenPassword: [null, Validators.required],
+        tokenPassword: ["12345", Validators.required],
+        // confPassword: [null, Validators.required],
         hsmId: [null, Validators.required],
         tokenId: [null, Validators.required],
-      }
+      },
+      {
+        // validator: MustMatch('tokenPassword', 'confPassword'),
+      },
     );
     // this.asyncValidators()
   }
 
   async ngOnInit() {
-
+    console.log(this.token)
     // get list HSM
     this.hsmList = await this._hsmService.getListHsm(this.body)
     .pipe(takeUntil(this._unsubscribeAll))
@@ -74,9 +79,8 @@ export class TokenEditComponent implements OnInit {
       return res.data.data;
     });
     console.log(this.hsmList);
-    console.log(this.lastValue)
     // get token
-    this.tokenInfo = await this._tokenService.getTokenId(this.lastValue)
+    this.tokenInfo = await this._tokenService.getTokenId(this.token.tokenId)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .toPromise()
                     .then(res=>{
@@ -118,22 +122,16 @@ export class TokenEditComponent implements OnInit {
         ]
       }
     };
-    this.buttonReturn = {
-      breadcrumbs: {
-        links: [
-          {
-            name:'Quay lại',
-            isLink: true,
-            link: "/apps/equipment-management/token/token-list",
-        }
-        ]
-      }
-    };
 
   }
-
+  updateTable() {
+    this.onUpdate.emit();
+  }
   get f() {
     return this.tokenForm.controls;
+  }
+  toggleSidebar() {
+    this.modal.dismissAll();
   }
   onSubmit() {
     console.log("check")
@@ -146,10 +144,10 @@ export class TokenEditComponent implements OnInit {
     if(this.tokenForm.valid){
       console.log(this.tokenForm.value);
       const newRequest = JSON.stringify({
-        slotNumber: this.f.slotNumber.value,
+        // slotNumber: this.f.slotNumber.value,
         tokenName: this.f.tokenName.value,
-        tokenPassword: this.f.tokenPassword.value,
-        hsmId: this.f.hsmId.value
+        // tokenPassword: this.f.tokenPassword.value,
+        // hsmId: this.f.hsmId.value
       });
       console.log(newRequest);
       Swal.fire({
@@ -160,7 +158,7 @@ export class TokenEditComponent implements OnInit {
         confirmButtonColor: '#7367F0',
         preConfirm:   async () => {
         return await this._tokenService
-        .updateTokenId(this.lastValue,newRequest )
+        .updateTokenName(this.token.tokenId,newRequest )
         .pipe(takeUntil(this._unsubscribeAll))
         .toPromise().then(res=>{
           if(res.result==false){
@@ -188,18 +186,28 @@ export class TokenEditComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
-            text: 'TOKEN đã được cập nhật.',
+            text: 'TOKEN đổi tên thành công.',
             customClass: {
               confirmButton: 'btn btn-success'
-            }
+            },
+            // this.toggleSidebar()
           });
+          console.log("cap nhat thanh cong")
+           
+          this.toggleSidebar();
+          this.updateTable();
         }
       }
       
       );
+      // this.toggleSidebar();
+      //     this.updateTable();
     }
   }
-
+  
+  exit() {
+    this.router.navigateByUrl("/apps/equipment-management/token/token-list")
+  }
 
   // end function
 }
