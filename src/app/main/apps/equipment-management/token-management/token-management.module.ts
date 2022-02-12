@@ -32,6 +32,7 @@ import { CoreSidebarModule } from '@core/components';
 import { TokenViewDetailComponent } from './token-create/token-view-detail/token-view-detail.component';
 import { CoreCardModule } from '@core/components/core-card/core-card.module';
 import { ReturnModule } from 'app/layout/components/return/return.module';
+import { TokenPasswordUserComponent } from './token-list/token-password-user/token-password-user.component';
 
 const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
 
@@ -43,6 +44,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     TokenEditComponent,
     TokenPasswordComponent,
     TokenViewDetailComponent,
+    TokenPasswordUserComponent,
   ],
   imports: [
     CommonModule,

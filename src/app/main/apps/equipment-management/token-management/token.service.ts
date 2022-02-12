@@ -58,7 +58,7 @@ export class TokenService {
       this.option
     );
   }
-// change password token
+// change password token SO
   public updateTokenPassword(id, body): Observable<ResponseData<Token>> {
     return this._httpClient.post<ResponseData<Token>>(
       `${environment.apiUrl}/token/so/${id}`,body,
@@ -66,5 +66,11 @@ export class TokenService {
     );
   }
   
-
+// change password token USER
+public updateTokenUserPassword(id, body): Observable<ResponseData<Token>> {
+  return this._httpClient.post<ResponseData<Token>>(
+    `${environment.apiUrl}/token/user/${id}`,body,
+    this.option
+  );
+}
 }
