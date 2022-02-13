@@ -60,7 +60,7 @@ export class KeypairViewComponent implements OnInit {
       keypairId: [null, Validators.required],
       keypairLength: [null, Validators.required],
       keypairStatusName: [null, Validators.required],
-      keypairPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
+      keypairPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg', Validators.required],
     });
     this.contentHeader = {
       headerTitle: 'Cặp khóa',

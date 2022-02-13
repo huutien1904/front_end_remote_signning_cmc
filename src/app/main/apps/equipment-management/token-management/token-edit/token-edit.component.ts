@@ -194,8 +194,8 @@ export class TokenEditComponent implements OnInit {
           });
           console.log("cap nhat thanh cong")
            
-          // this.toggleSidebar();
-          // this.updateTable();
+          this.toggleSidebar();
+          this.updateTable();
         }
       }
       

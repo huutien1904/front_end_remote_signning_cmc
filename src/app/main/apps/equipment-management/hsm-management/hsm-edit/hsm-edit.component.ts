@@ -107,7 +107,7 @@ export class HsmEditComponent implements OnInit {
     // .subscribe((res) =>{
     //   console.log(res);
     // })
-    this.HsmFormEdit.get("hsmLibraryPath").patchValue("/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so");
+    this.HsmFormEdit.get("hsmLibraryPath").patchValue("/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg");
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
       text: "Bạn sẽ không thể hoàn tác điều này!",

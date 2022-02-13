@@ -55,7 +55,7 @@ export class HsmCreateComponent implements OnInit {
       hsmName: [null, Validators.required],
       hardwareId: ["CP5TdVI", Validators.required],
       hsmModel: ["HSdMs", Validators.required],
-      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so', Validators.required],
+      hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg', Validators.required],
       hsmType: ["NET", Validators.required],
     });
 
