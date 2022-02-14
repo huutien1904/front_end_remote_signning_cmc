@@ -149,7 +149,7 @@
     <section id="table-hsm-list">
       <div class="card">
         <div class="card-header py-1">
-          <h4 class="card-title">Danh sách Slot (Có tổng số {{slotSumber}} )</h4>
+          <h4 class="card-title">Danh sách Slot </h4>
         </div>
         <div class="row">
           <div class="col-md-12 mb-50">
@@ -295,7 +295,7 @@
                   value === true ? 'badge-light-success' : 'badge-light-danger'
                 "
               >
-                {{ value === true ? 'Đã kết nối' : 'Chưa kết nối' }}
+                {{ value === true ? 'Đã khởi tạo' : 'Chưa khởi tạo' }}
               </div>
             </ng-template>
           </ngx-datatable-column>
@@ -316,7 +316,7 @@
                 : 'badge-light-danger'
             "
           >
-            {{ value === true ? 'Đã kết nối' : 'Chưa kết nối' }}
+            {{ value === true ? 'Đã khởi tạo' : 'Chưa khởi tạo' }}
           </div>
         </ng-template>
         </ngx-datatable-column>
@@ -450,10 +450,10 @@
               let-offset="offset"
               let-isVisible="isVisible"
             >
-              <!-- <div class="page-count" *ngIf="!isLoading">
+              <div class="page-count" *ngIf="!isLoading">
                 Có tổng số
-                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-              </div> -->
+                {{ rowCount.toLocaleString() - 1 }} slot đã khởi tạo / {{slotNumber}} slot.
+              </div>
               <datatable-pager
                 [pagerLeftArrowIcon]="'datatable-icon-left'"
                 [pagerRightArrowIcon]="'datatable-icon-right'"

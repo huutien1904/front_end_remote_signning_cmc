@@ -16,7 +16,6 @@
                       [clearable]="false"
                       formControlName="hsmInformationId"
                       (change)="changeHSM($event)"
-                      
                       [ngClass]="
                         (f.hsmInformationId.errors &&
                           f.hsmInformationId?.touched) ||
@@ -45,7 +44,7 @@
               <div class="d-flex">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <h3>Chọn Token</h3>
+                    <h3>Chọn Slot</h3>
                     <ngx-datatable
                       #tableRowDetails
                       [rows]="rowsData"
@@ -61,14 +60,14 @@
                       [loadingIndicator]="isLoading"
                       [selectionType]="'radio'"
                       [selected]="chkBoxSelected"
-                      (select)="
-                        onSelect(
-                          $event
+                      (select)="onSelect($event)"
+                      (activate)="
+                        onActivate(
+                          $event,
+                          modalUserPinInitFalse,
+                          modalUserPinInitTrue
                         )
                       "
-                      (activate)="onActivate($event,
-                          modalUserPinInitFalse,
-                          modalUserPinInitTrue)"
                       (select)="customCheckboxOnSelect($event)"
                     >
                       <ngx-datatable-column
@@ -171,7 +170,9 @@
                                 : 'badge-light-danger'
                             "
                           >
-                            {{ value === true ? 'Đã kết nối' : 'Chưa kết nối' }}
+                            {{
+                              value === true ? 'Đã khởi tạo' : 'Chưa khởi tạo'
+                            }}
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -192,7 +193,9 @@
                                 : 'badge-light-danger'
                             "
                           >
-                            {{ value === true ? 'Đã kết nối' : 'Chưa kết nối' }}
+                            {{
+                              value === true ? 'Đã khởi tạo' : 'Chưa khởi tạo'
+                            }}
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -203,6 +206,16 @@
                         [width]="100"
                       >
                       </ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="SỐ KHÓA RIÊNG"
+                        prop="privateKey"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="SỐ KHÓA BÍ MẬT"
+                        prop="publicKey"
+                        [width]="130"
+                      ></ngx-datatable-column>
                       <ngx-datatable-column
                         name="Hành động"
                         [width]="70"

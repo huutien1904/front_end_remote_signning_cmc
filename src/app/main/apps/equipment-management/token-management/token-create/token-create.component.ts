@@ -123,8 +123,9 @@ export class TokenCreateComponent implements OnInit {
             this.rowsData = res.data.tokenInfoDtoList
             this.rowsData = res.data.tokenInfoDtoList.map((slot:any) => ({  
               ...slot,
-              hsmId:this.hsmId
-                
+              hsmId:this.hsmId,
+              privateKey:6,
+              publicKey:5   
             }));
             this.pagedData.totalItems = this.rowsData.length + 1
             console.log(this.rowsData)
@@ -143,8 +144,9 @@ export class TokenCreateComponent implements OnInit {
         // this.rowsData = res.data.tokenInfoDtoList
         this.rowsData = res.data.tokenInfoDtoList.map((slot:any) => ({  
           ...slot,
-          hsmId:this.hsmId
-            
+          hsmId:this.hsmId,
+          privateKey:6,
+          publicKey:5  
         }));
         this.pagedData.totalItems = this.rowsData.length + 1
         console.log(this.rowsData)
