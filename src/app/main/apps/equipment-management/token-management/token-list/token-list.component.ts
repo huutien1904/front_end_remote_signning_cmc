@@ -49,6 +49,7 @@ export class TokenListComponent implements OnInit {
   public selected: any[] = [];
   public hsmList:any[] = []
   public tokenNull = false 
+  public slotSumber :any
   public tokenNotNull = true 
   // body to get hsm list
   public body = {
@@ -292,13 +293,25 @@ export class TokenListComponent implements OnInit {
           this.tokenNull = true;
           this.tokenNotNull = false;
         }
-        this.rowsData = res.data.tokens.map((slot:any) => ({  
-          ...slot,
-          hsmId:this.hsmId
-            
-        }));
-        this.pagedData.totalItems = this.rowsData.length + 1
-        console.log(this.rowsData)
+        if(res.data.tokens.length > 0){
+          this.tokenNull = false;
+          this.tokenNotNull = true;
+          this.slotSumber = res.data.tokenInfoDtoList.length
+          let tokenInfoDtoList = res.data.tokenInfoDtoList
+              this.totalItems = res.data.tokens.length;
+              this.pagedData = res.data.tokens;
+              this.rowsData = res.data.tokens.map((slot:any) => ({  
+                ...slot,
+                tokenInitialized:tokenInfoDtoList[slot.slotNumber - 1].tokenInitialized,
+                userPinInitialized :tokenInfoDtoList[slot.slotNumber - 1].userPinInitialized,
+                privateKey:5,
+                publicKey:5,
+                hsmId:this.hsmId
+              }));
+              this.pagedData.totalItems = this.rowsData.length + 1
+          // this.pagedData.totalItems = this.rowsData.length + 1
+          console.log(this.rowsData)
+        }
       })
   }
   getHsmList() {
@@ -321,6 +334,7 @@ export class TokenListComponent implements OnInit {
           .subscribe((res: any) => {
             console.log(res)
             // this.rowsData = res.data.tokens
+            this.slotSumber = res.data.tokenInfoDtoList.length
             let tokenInfoDtoList = res.data.tokenInfoDtoList
             this.totalItems = res.data.tokens.length;
             this.pagedData = res.data.tokens;
