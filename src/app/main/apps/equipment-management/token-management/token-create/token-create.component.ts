@@ -40,7 +40,7 @@ export class TokenCreateComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public pagedData = new PagedData<any>();
-  public placeholder:string
+  
   
   public row:any;
   public chkBoxSelected = [];
@@ -50,7 +50,7 @@ export class TokenCreateComponent implements OnInit {
   // show input
   public showSelect:boolean = false
   public rePasswordSo = true
-  // public totalItems: any = 10;
+  public hsmId: any 
   get f() {
     return this.tokenForm.controls;
   }
@@ -73,7 +73,6 @@ export class TokenCreateComponent implements OnInit {
         confPassword: ['', Validators.required],
         tokenInit: ['', Validators.required],
         confTokenInit: ['', Validators.required],
-        
         hsmInformationId: [null, Validators.required],
         lockQuantity: [null, Validators.required],
       },
@@ -117,10 +116,16 @@ export class TokenCreateComponent implements OnInit {
         
         this.tokenForm.controls['hsmInformationId'].setValue(this.hsmList[0]);
         const id = this.hsmList[0].hsmId
+        this.hsmId = this.hsmList[0].hsmId
         this._hsmService.getHsmId(id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res: any) => {
             this.rowsData = res.data.tokenInfoDtoList
+            this.rowsData = res.data.tokenInfoDtoList.map((slot:any) => ({  
+              ...slot,
+              hsmId:this.hsmId
+                
+            }));
             this.pagedData.totalItems = this.rowsData.length + 1
             console.log(this.rowsData)
           })
@@ -130,12 +135,17 @@ export class TokenCreateComponent implements OnInit {
   }
   changeHSM(e) {
     
-    const id = e.hsmId
-    console.log(id)
-    this._hsmService.getHsmId(id)
+    this.hsmId = e.hsmId
+    console.log(this.hsmId)
+    this._hsmService.getHsmId(this.hsmId)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
-        this.rowsData = res.data.tokenInfoDtoList
+        // this.rowsData = res.data.tokenInfoDtoList
+        this.rowsData = res.data.tokenInfoDtoList.map((slot:any) => ({  
+          ...slot,
+          hsmId:this.hsmId
+            
+        }));
         this.pagedData.totalItems = this.rowsData.length + 1
         console.log(this.rowsData)
       })
@@ -212,7 +222,7 @@ export class TokenCreateComponent implements OnInit {
    *
    * @param selected
    */
-  onSelect({ selected },modalUserPinInitFalse,modalUserPinInitTrue) {
+  onSelect({ selected }) {
     // console.log("tiencheck",selected[0].serialNumber)
     this.rowsData.find((item,index) =>{
       // console.log(item.serialNumber)
@@ -225,35 +235,45 @@ export class TokenCreateComponent implements OnInit {
     console.log(selected)
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-    if(this.selected.length > 0){
-      this.showSelect = true
-    }
+    // if(this.selected.length > 0){
+    //   this.showSelect = true
+    // }
     console.log(this.selected)
-    const tokenInit = this.selected[0].tokenInitialized;
-    const userPinInit = this.selected[0].userPinInitialized
-    if(tokenInit === false){
-      this.showSelect = true;
-      this.rePasswordSo = true
-    }
-    if(tokenInit === true){
-      if(userPinInit ===  false){
-        this.modalService.open(modalUserPinInitFalse, {
-          centered: true,
-        });
-        this.showSelect = true;
-        this.rePasswordSo = false
-      }
-      if(userPinInit ===  true){
-        console.log('hien thi popup')
-        this.modalService.open(modalUserPinInitTrue, {
-          centered: true,
-        });
-        this.showSelect = true;
-        this.rePasswordSo = false;
-      }
-    }
+    
     
 
+  }
+  onActivate(event,modalUserPinInitFalse,modalUserPinInitTrue){
+    console.log(event)
+    if (
+      event.type === 'click' &&
+      event.column.name != 'Hành động' &&
+      event.column.name != 'checkbox'
+    ){
+      const tokenInit = event.row.tokenInitialized;
+      const userPinInit = event.row.userPinInitialized
+      if(tokenInit === false){
+        this.showSelect = true;
+        this.rePasswordSo = true
+      }
+      if(tokenInit === true){
+        if(userPinInit ===  false){
+          this.modalService.open(modalUserPinInitFalse, {
+            centered: true,
+          });
+          this.showSelect = true;
+          this.rePasswordSo = false
+        }
+        if(userPinInit ===  true){
+          console.log('hien thi popup')
+          this.modalService.open(modalUserPinInitTrue, {
+            centered: true,
+          });
+          this.showSelect = true;
+          this.rePasswordSo = false;
+        }
+      }
+    }
   }
   cancelToken(){
     this.showSelect = false;

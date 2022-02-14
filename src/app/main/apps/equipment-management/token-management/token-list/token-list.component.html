@@ -15,18 +15,31 @@
           <form class="form form-vertical" [formGroup]="formListToken">
             <div class="row">
               <div class="col-3 col-md-2">
-                <button
-                  type="button"
-                  class="btn btn-primary  col-12"
-                  
-                  rippleEffect
-                >
-                <i data-feather="plus" class="d-sm-none d-inline-block"></i
-                  ><span class="d-none d-sm-inline-block">Chọn slot</span>
-                </button>
+                <div class="form-group">
+                  <label>Kết nối HSM</label>
+                  <ng-select
+                    [items]="hsmList"
+                    bindLabel="hsmName"
+                    [clearable]="false"
+                    formControlName="hsmInformationId"
+                    (change)="changeHSM($event)"
+                  >
+                  </ng-select>
+                  <!-- <div
+                    *ngIf="
+                      (f.hsmInformationId.errors &&
+                        f.hsmInformationId?.touched) ||
+                      (submitted && f.hsmInformationId?.errors?.required)
+                    "
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.hsmInformationId.errors.required">
+                      Bạn cần chọn HSM
+                    </div>
+                  </div> -->
+                </div>
               </div>
-              <div class="col-12 col-md-4">
-                
+              <div class="col-12 col-md-4 mt-2">
                 <fieldset class="form-group">
                   <input
                     name="contains"
@@ -38,18 +51,18 @@
                   />
                 </fieldset>
               </div>
-              <div class="col-3 col-md-2">
+              <div class="col-3 col-md-2 mt-2">
                 <button
                   type="button"
                   class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
                   (click)="moreOption = !moreOption"
                   rippleEffect
                 >
-                <i data-feather="plus" class="d-sm-none d-inline-block"></i
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i
                   ><span class="d-none d-sm-inline-block">Tùy chọn</span>
                 </button>
               </div>
-              <div class="col-6 col-md-2">
+              <div class="col-6 col-md-2 mt-2">
                 <button
                   type="button"
                   rippleEffect
@@ -165,7 +178,7 @@
               class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
               (click)="exportCSV()"
-              >Xuất danh sách SLot</a
+              >Xuất danh sách Slot</a
             >
           </div>
         </div>
@@ -173,7 +186,9 @@
           *ngIf="isLoading"
           mode="indeterminate"
         ></mat-progress-bar>
+        <h3 class="m-1" *ngIf="tokenNull">Chưa có token được quản lý bởi Slot</h3>
         <ngx-datatable
+          *ngIf="tokenNotNull"
           #tableRowDetails
           [rows]="rowsData"
           class="bootstrap core-bootstrap cursor"
@@ -255,7 +270,7 @@
             [width]="50"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+              {{  rowIndex + 1 }}
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
@@ -270,14 +285,41 @@
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Mật khẩu SO"
-            prop=""
+            prop="tokenInitialized"
             [width]="130"
-          ></ngx-datatable-column>
+          >
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div
+                class="badge badge-pill"
+                [ngClass]="
+                  value === true ? 'badge-light-success' : 'badge-light-danger'
+                "
+              >
+                {{ value === true ? 'Đã kết nối' : 'Chưa kết nối' }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
           <ngx-datatable-column
             name="MẬT KHẨU USER"
-            prop=""
+            prop="userPinInitialized"
             [width]="130"
-          ></ngx-datatable-column>
+          >
+          <ng-template
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <div
+            class="badge badge-pill"
+            [ngClass]="
+              value === true
+                ? 'badge-light-success'
+                : 'badge-light-danger'
+            "
+          >
+            {{ value === true ? 'Đã kết nối' : 'Chưa kết nối' }}
+          </div>
+        </ng-template>
+        </ngx-datatable-column>
           <ngx-datatable-column
             name="SỐ CHỨNG THƯ SỐ"
             prop="hsmId"
@@ -285,12 +327,12 @@
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="SỐ KHÓA RIÊNG"
-            prop=""
+            prop="privateKey"
             [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="SỐ KHÓA BÍ MẬT"
-            prop=""
+            prop="publicKey"
             [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
@@ -330,32 +372,36 @@
                       ngbDropdownItem
                       [routerLink]="['../', 'token-view', value.tokenId]"
                       class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Tạo SLOT</a
+                      ><i data-feather="file-text" class="mr-50"></i> Tạo
+                      SLOT</a
                     >
-                    <a
+                    <!-- <a
                       ngbDropdownItem
                       (click)="openRenameToken(tokenRename,row)"
                       class="d-flex align-items-center"
                       ><i data-feather="edit" class="mr-50"></i> Đổi tên slot
-                    </a>
-                    
+                    </a> -->
+
                     <a
                       ngbDropdownItem
                       (click)="toggleSidebar(modalTokenPassWordForm, row)"
                       class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Đổi mật khẩu SO</a
+                      ><i data-feather="file-text" class="mr-50"></i> Đổi mật
+                      khẩu SO</a
                     >
                     <a
                       ngbDropdownItem
                       (click)="toggleSidebar(modalUserPassWordForm, row)"
                       class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Đổi mật khẩu User</a
+                      ><i data-feather="file-text" class="mr-50"></i> Đổi mật
+                      khẩu User</a
                     >
                     <a
                       ngbDropdownItem
                       [routerLink]="['../', 'token-view', value.tokenId]"
                       class="d-flex align-items-center"
-                      ><i data-feather="file-text" class="mr-50"></i> Xem chi tiết</a
+                      ><i data-feather="file-text" class="mr-50"></i> Xem chi
+                      tiết</a
                     >
                     <!-- <a
                       ngbDropdownItem
@@ -404,10 +450,10 @@
               let-offset="offset"
               let-isVisible="isVisible"
             >
-              <div class="page-count" *ngIf="!isLoading">
+              <!-- <div class="page-count" *ngIf="!isLoading">
                 Có tổng số
                 {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-              </div>
+              </div> -->
               <datatable-pager
                 [pagerLeftArrowIcon]="'datatable-icon-left'"
                 [pagerRightArrowIcon]="'datatable-icon-right'"
@@ -416,12 +462,14 @@
                 [page]="curPage"
                 [size]="pageSize"
                 [count]="rowCount"
-                [hidden]="!(rowCount / pageSize > 1)"
+                [hidden]="true"
                 (change)="table.onFooterPage($event)"
               >
               </datatable-pager>
             </ng-template>
           </ngx-datatable-footer>
+        
+
         </ngx-datatable>
         <div class="row">
           <div class="col-md-12 mb-50">
@@ -484,7 +532,9 @@
         </div>
         <div class="modal-body" tabindex="0" ngbAutofocus>
           <!-- <app-token-edit [token]="item" (onUpdate)="updateTableRename()"></app-token-edit> -->
-          <app-token-password-user [tokenDetail]="item"></app-token-password-user>
+          <app-token-password-user
+            [tokenDetail]="item"
+          ></app-token-password-user>
         </div>
       </ng-template>
       <ng-template #tokenRename let-modal>
@@ -499,7 +549,10 @@
           </button>
         </div>
         <div class="modal-body" tabindex="0" ngbAutofocus>
-          <app-token-edit [token]="item" (onUpdate)="updateTableRename()"></app-token-edit>
+          <app-token-edit
+            [token]="item"
+            (onUpdate)="updateTableRename()"
+          ></app-token-edit>
         </div>
       </ng-template>
     </section>

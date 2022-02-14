@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TokenService } from '../token.service';
 import Swal from 'sweetalert2';
+import { HsmService } from '../../hsm-management/hsm.service';
 
 @Component({
   selector: 'app-token-list',
@@ -31,7 +32,7 @@ export class TokenListComponent implements OnInit {
   public formListToken: FormGroup;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
-  
+  public hsmId:any
   item
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -46,7 +47,18 @@ export class TokenListComponent implements OnInit {
   public SelectionType = SelectionType;
   public totalItems: any = 0;
   public selected: any[] = [];
-
+  public hsmList:any[] = []
+  public tokenNull = false 
+  public tokenNotNull = true 
+  // body to get hsm list
+  public body = {
+    "page": null,
+    "size": 100,
+    "sort": ["hsmId,asc"],
+    "contains": "",
+    "fromDate": "",
+    "toDate": ""
+  }
   constructor(
     private fb: FormBuilder,
     private _tokenService: TokenService,
@@ -55,6 +67,8 @@ export class TokenListComponent implements OnInit {
     private _toastrService: ToastrService,
     private _router: Router,
     private modal: NgbModal,
+    private _hsmService: HsmService,
+    private formBuilder: FormBuilder,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -88,32 +102,16 @@ export class TokenListComponent implements OnInit {
       contains: [''],
       fromDate: [null],
       toDate: [null],
+      hsmInformationId: [null, Validators.required],
     });
-    this.setPage({ offset: 0, pageSize: this.formListToken.get('size').value });
+    
+    // this.setPage({ offset: 0, pageSize: this.formListToken.get('size').value });
+    this.getHsmList();
   }
 
-  setPage(pageInfo) {
-    console.log(this.formListToken.value);
-    this.isLoading = true;
-    this.formListToken.patchValue({ page: pageInfo.offset });
-
-    this._tokenService
-      .getListToken(JSON.stringify(this.formListToken.value))
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log(pagedData.data);
-        this.totalItems = pagedData.data.totalItems;
-        this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((item,index) =>({
-          ...item,
-          passwordSO:"Đã Khởi tạo",
-          passwordUser:"Đã khởi tạo",
-          privateKey: 10,
-          secretKey:100
-        }));
-        this.isLoading = false;
-      });
-  }
+  
+  
+  // set event modal
   onActivate(event) {
     if (
       event.type === 'click' &&
@@ -127,6 +125,7 @@ export class TokenListComponent implements OnInit {
       ]);
     }
   }
+  // push selected to array
   onSelect(event) {
     console.log('test');
     console.log(event.selected);
@@ -281,7 +280,87 @@ export class TokenListComponent implements OnInit {
         }
       });
   }
+  changeHSM(e) {
+    
+    this.hsmId = e.hsmId
+    console.log(this.hsmId)
+    this._hsmService.getHsmId(this.hsmId)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res: any) => {
+        // this.rowsData = res.data.tokenInfoDtoList
+        if(res.data.tokens.length == 0){
+          this.tokenNull = true;
+          this.tokenNotNull = false;
+        }
+        this.rowsData = res.data.tokens.map((slot:any) => ({  
+          ...slot,
+          hsmId:this.hsmId
+            
+        }));
+        this.pagedData.totalItems = this.rowsData.length + 1
+        console.log(this.rowsData)
+      })
+  }
+  getHsmList() {
+    console.log("check")
+    this._hsmService.getListHsm(this.body)
+      .pipe(
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe(response => {
+        console.log(response)
+        this.hsmList = response.data.data;
+        console.log(this.hsmList);
+        
+        this.formListToken.controls['hsmInformationId'].setValue(this.hsmList[0]);
+        this.hsmId = this.hsmList[0].hsmId
+        const id = this.hsmList[0].hsmId
+        // this.hsmId = this.hsmList[0].hsmId
+        this._hsmService.getHsmId(id)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res: any) => {
+            console.log(res)
+            // this.rowsData = res.data.tokens
+            let tokenInfoDtoList = res.data.tokenInfoDtoList
+            this.totalItems = res.data.tokens.length;
+            this.pagedData = res.data.tokens;
+            this.rowsData = res.data.tokens.map((slot:any) => ({  
+              ...slot,
+              tokenInitialized:tokenInfoDtoList[slot.slotNumber - 1].tokenInitialized,
+              userPinInitialized :tokenInfoDtoList[slot.slotNumber - 1].userPinInitialized,
+              privateKey:5,
+              publicKey:5,
+              hsmId:this.hsmId
+            }));
+            this.pagedData.totalItems = this.rowsData.length + 1
+            console.log(this.rowsData)
+          })
 
+      });
+
+  }
+  setPage(pageInfo) {
+    console.log(this.formListToken.value);
+    this.isLoading = true;
+    this.formListToken.patchValue({ page: pageInfo.offset });
+
+    this._tokenService
+      .getListToken(JSON.stringify(this.formListToken.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData.data);
+        this.totalItems = pagedData.data.totalItems;
+        this.pagedData = pagedData.data;
+        this.rowsData = pagedData.data.data.map((item,index) =>({
+          ...item,
+          passwordSO:"Đã Khởi tạo",
+          passwordUser:"Đã khởi tạo",
+          privateKey: 10,
+          secretKey:100
+        }));
+        this.isLoading = false;
+      });
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();

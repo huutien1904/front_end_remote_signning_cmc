@@ -56,7 +56,7 @@ export class HsmViewComponent implements OnInit {
       manufacturerId: [null, Validators.required],
       hsmModel: [null, Validators.required],
       hsmLibraryPath: [
-        '/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so',
+        '/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg',
         Validators.required,
       ],
       hsmType: [null, Validators.required],
@@ -105,12 +105,13 @@ export class HsmViewComponent implements OnInit {
     }).catch((error)=>{
       throw new Error(error);
     })    
+    
     this.hsmFormView.patchValue({
       hsmName : this.hsm.hsmName,
       hardwareId:  this.hsm.hardwareId,
       manufacturerId:  this.hsm.manufacturerId,
       hsmModel: this.hsm.hsmModel,
-      hsmLibraryPath : this.hsm.hsmLibraryPath,
+      hsmLibraryPath : this.hsmFormView.get('hsmLibraryPath').value,
       hsmType : this.hsm.hsmType,
       hsmTokenList:this.hsm.tokenInfoDtoList,
     })
