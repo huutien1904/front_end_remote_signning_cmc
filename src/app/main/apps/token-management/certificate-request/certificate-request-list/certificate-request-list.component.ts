@@ -131,10 +131,11 @@ export class CertificateRequestListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         console.log(this.rowsData);
+        
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
           subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
-            .subjectDN,
+            .subjectDN.replace('0.9.2342.19200300.100.1.1','C').replace('2.5.4.20','Phone_Number').replace('E=','gmail'),
           algorithmPublickey: this.getCSRFileInformation(
             item.certificateRequestContent
           ).algorithmPublicKey.includes('RSA')

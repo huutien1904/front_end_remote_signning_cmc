@@ -12,16 +12,6 @@
     <div class="row ml-50 ">
       <div class="col-md-12">
         <div class="form-group">
-          <label for="">Subject DN của thuê bao</label>
-          <div class="card shadow-none bg-transparent border-primary ">
-            <div class="card-body p-2">
-              <p class="card-text">{{ strProfile }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="form-group">
           <label for="">Profile</label>
           <ng-select
             (change)="changeProfile()"
@@ -47,6 +37,17 @@
           </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Subject DN của thuê bao</label>
+          <div class="card shadow-none bg-transparent border-primary ">
+            <div class="card-body p-2">
+              <p class="card-text">{{ strProfile }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
     <h6 class="mb-1">2. Thông tin về cặp khóa</h6>
     <div class="row ml-50">
@@ -80,7 +81,7 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label for="">Token</label>
+          <label for="">Slot</label>
           <ng-select
             [items]="tokenList"
             bindLabel="tokenName"

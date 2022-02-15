@@ -17,6 +17,7 @@ export class CertificateRequestViewComponent implements OnInit {
   public results: any[]
   public isHasResult: Boolean = false //Hiển thị kế quả thông tin csr trả về
   public buttonReturn: object;
+  public subjectDn:any
   // private
   private _unsubscribeAll: Subject<any>;
   constructor(
@@ -80,6 +81,7 @@ export class CertificateRequestViewComponent implements OnInit {
     console.log(csr2)
     var pki = forge.pki;
     this.results[0].subjectDN = csr2.subject
+    
     //this.results[0].sizePublicKey = csr2.publicKey.n.bitLength()
     this.results[0].algorithmPublicKey = csr2.signatureAlgorithm.name
     //this.results[0].exponent = csr2.publicKey.e.data
@@ -119,6 +121,11 @@ export class CertificateRequestViewComponent implements OnInit {
     }
     console.log(modulus)
     this.results[0].modulus = modulus
+    this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1','C').replace('2.5.4.20','Phone_Number').replace('E=','gmail')
+    console.log(this.results[0].subjectDN)
+    let check = this.results[0].subjectDN
+    this.subjectDn= this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1','C').replace('2.5.4.20','Phone_Number ').replace('E=','Gmail = ').replace('2.5.4.9','STREET ')
+    // console.log(tien)
     return this.results[0];
   }
   // selectIdUserFirst(value) {

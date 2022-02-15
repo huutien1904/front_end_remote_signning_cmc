@@ -67,62 +67,7 @@ export class SidebarPersonalsComponent implements OnInit {
   public hsmList = new Array<Hsm>();
   public strProfile: string = '';
   public address: any
-  public listProfiles: any[] = [
-    // {
-    //   nameProfile: 'PROFILE 1: CN, GIVENNAME, SURNAME, EMAIL, UID, OU, ST, L',
-    //   subjectDNA: [
-    //     'CN',
-    //     'GIVENNAME',
-    //     'SURNAME',
-    //     'EMAIL',
-    //     'UID',
-    //     'OU',
-    //     'ST',
-    //     'L',
-    //   ],
-    //   subjectAttribute: ['OID'],
-    //   id: 1,
-    // },
-    // {
-    //   nameProfile: 'PROFILE 2: CN, EMAIL, UID, OU, ST, L',
-    //   subjectDNA: [
-    //     'CN',
-    //     'GIVENNAME',
-    //     'SURNAME',
-    //     'EMAIL',
-    //     'UID',
-    //     'OU',
-    //     'ST',
-    //     'L',
-    //   ],
-    //   subjectAttribute: ['OID'],
-    //   id: 2,
-    // },
-    // {
-    //   nameProfile: 'PROFILE 3: CN, UID, OU',
-    //   subjectDNA: ['CN', 'UID', 'OU'],
-    //   subjectAttribute: ['OID'],
-    //   id: 3,
-    // },
-    // {
-    //   nameProfile: 'PROFILE 4: CN, ST, L',
-    //   subjectDNA: ['CN', 'ST', 'L'],
-    //   subjectAttribute: ['OID'],
-    //   id: 4,
-    // },
-    // {
-    //   nameProfile: 'PROFILE 5: CN',
-    //   subjectDNA: ['CN'],
-    //   subjectAttribute: ['OID'],
-    //   id: 5,
-    // },
-    // {
-    //   nameProfile: 'PROFILE 6: UID',
-    //   subjectDNA: ['UID'],
-    //   subjectAttribute: ['OID'],
-    //   id: 6,
-    // },
-  ];
+  public listProfiles: any[] = [];
   public bodyGetListProfile = {
     "page": 0,
     "size": 10,
@@ -358,7 +303,10 @@ export class SidebarPersonalsComponent implements OnInit {
     this._entityProfileService.getListProfiles(this.bodyGetListProfile)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res) => {
-
+        this.newRequestForm.controls['profile'].setValue(res.data.data[0].endEntityProfileName)
+        
+        // this.
+        console.log(res)
         this.listProfiles = res.data.data.map((profile) => ({
           ...profile,
           subjectAttribute: profile.alternativeName.map(item => {
@@ -370,6 +318,83 @@ export class SidebarPersonalsComponent implements OnInit {
           id: profile.endEntityProfileId,
           nameProfile: profile.endEntityProfileName
         }))
+        var profile = this.listProfiles[0].subjectDNA
+        this.strProfile = '';
+        let firstWord = true; 
+        profile.map(async (attribute: string) => {
+          let value = '';
+          this.address = await this._addressService.getAddressById(283)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .toPromise().then(res => {
+              return res.data;
+            });
+          console.log(this.address)
+    
+          var commonName = this.personal.personalFirstName;
+          var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
+          var countryCode = this.personal.personalCountryId;
+          var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
+          var localityName = "Huyện " + this.address.districtName;
+          var personalCountryId = this.personal.personalCountryId;
+          var phoneNumber = this.personal.phoneNumber;
+          var email = this.personal.email;
+          
+          // console.log(address)
+          switch (attribute) {
+            case 'CN':
+              value = commonName
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+              break;
+            case 'C':
+              value = countryCode
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+            break;
+            case 'ST':
+              value = stateOrProvinceName
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+            break;
+            case 'L':
+              value = localityName
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+            break;
+            case 'OU':
+              value = "CMC CIST"
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+            break;
+            case 'O':
+              value = "CMC "
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+            break;
+            case 'TELEPHONE_NUMBER':
+              value = phoneNumber
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+            break;
+            
+            case 'EmailAddress':
+              value = email;
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+              break;
+            case 'UID':
+              value = personalCountryId;
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+              break;
+            case 'STREET':
+              value = streetAddress;
+              this.displayProfile(attribute, value, firstWord);
+              firstWord = false;
+              break; 
+          }
+        });
+        // console.log(subjectDN)
         console.log(this.listProfiles);
       })
   }
