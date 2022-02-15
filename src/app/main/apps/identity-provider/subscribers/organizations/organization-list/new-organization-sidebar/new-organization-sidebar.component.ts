@@ -70,11 +70,12 @@ export class NewOrganizationSidebarComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required],
       photo: [null, Validators.required],
+      rePassword: [null, Validators.required],
     });
     this.initAddress();
     // this.getListOrganizations();
     // this.getListTypeOrganization();
-    this.setImageDefault();
+    // this.setImageDefault();
   }
   initAddress() {
     this._addressService
@@ -115,22 +116,22 @@ export class NewOrganizationSidebarComponent implements OnInit {
       };
     }
   }
-  setImageDefault() {
-    this.http.get("../../../../../assets/images/portrait/small/avatar-s-11.jpg", { responseType: "blob" }).subscribe((res) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(res);
-      console.log(res);
-      reader.onloadend = () => {
-        this.base64data = reader.result;
-        this.imageString = this.base64data.split(",")[1];
-        //console.log(this.imageString)
-        this.newOrganization.patchValue({
-          photo: this.imageString,
-        });
-      };
-      console.log(this.newOrganization.value);
-    });
-  }
+  // setImageDefault() {
+  //   this.http.get("../../../../../assets/images/portrait/small/avatar-s-11.jpg", { responseType: "blob" }).subscribe((res) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(res);
+  //     console.log(res);
+  //     reader.onloadend = () => {
+  //       this.base64data = reader.result;
+  //       this.imageString = this.base64data.split(",")[1];
+  //       //console.log(this.imageString)
+  //       this.newOrganization.patchValue({
+  //         photo: this.imageString,
+  //       });
+  //     };
+  //     console.log(this.newOrganization.value);
+  //   });
+  // }
 
   selectProvince() {
     this.newOrganization.patchValue({

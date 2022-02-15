@@ -154,11 +154,12 @@ export class NewPersonalSidebarComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
       photo: [null, [Validators.required]],
+      rePassword: [null, [Validators.required]],
     });
 
     this.initAddress();
     this.getOrganizationId();
-    this.setImageDefault();
+    // this.setImageDefault();
   }
 
   //tải ảnh lên
@@ -176,22 +177,22 @@ export class NewPersonalSidebarComponent implements OnInit {
       };
     }
   }
-  setImageDefault() {
-    this.http.get("../../../../../assets/images/portrait/small/avatar-s-11.jpg", { responseType: "blob" }).subscribe((res) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(res);
-      console.log(res);
-      reader.onloadend = () => {
-        this.base64data = reader.result;
-        this.imageString = this.base64data.split(",")[1];
-        //console.log(this.imageString)
-        this.newPersonal.patchValue({
-          photo: this.imageString,
-        });
-      };
-      console.log(this.newPersonal.value);
-    });
-  }
+  // setImageDefault() {
+  //   this.http.get("../../../../../assets/images/portrait/small/avatar-s-11.jpg", { responseType: "blob" }).subscribe((res) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(res);
+  //     console.log(res);
+  //     reader.onloadend = () => {
+  //       this.base64data = reader.result;
+  //       this.imageString = this.base64data.split(",")[1];
+  //       //console.log(this.imageString)
+  //       this.newPersonal.patchValue({
+  //         photo: this.imageString,
+  //       });
+  //     };
+  //     console.log(this.newPersonal.value);
+  //   });
+  // }
 
   getOrganizationId() {
     this._personalService.getOrganizationId().subscribe((res) => {
