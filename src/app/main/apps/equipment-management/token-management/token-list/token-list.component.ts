@@ -114,6 +114,7 @@ export class TokenListComponent implements OnInit {
   
   // set event modal
   onActivate(event) {
+    console.log(event.row.tokenId)
     if (
       event.type === 'click' &&
       event.column.name != 'Hành động' &&

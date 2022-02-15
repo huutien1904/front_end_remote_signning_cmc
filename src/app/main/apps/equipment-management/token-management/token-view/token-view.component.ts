@@ -22,6 +22,7 @@ export class TokenViewComponent implements OnInit {
   [x: string]: any;
   // public 
   public url = this.router.url;
+  public tokenDetail:any
   public lastValue;
   private _unsubscribeAll = new Subject();
   public tokenForm: FormGroup;
@@ -58,9 +59,11 @@ export class TokenViewComponent implements OnInit {
     private _tokenService: TokenService,
     private _hsmService: HsmService,
     private   toastr: ToastrService
-  ) { }
+  ) {
+    this._unsubscribeAll = new Subject();
+   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.tokenForm = this.formBuilder.group(
       { 
         tokenId : [null, Validators.required],
@@ -69,6 +72,7 @@ export class TokenViewComponent implements OnInit {
         tokenPassword: ['', Validators.required],
         hsmInformationId: ["", Validators.required],
         hsmName:["", Validators.required],
+        hsmId: [null, Validators.required]
       },
       
     );
@@ -92,7 +96,6 @@ export class TokenViewComponent implements OnInit {
         ]
       }
     };
-
     this.buttonReturn = {
       breadcrumbs: {
         links: [
@@ -105,10 +108,17 @@ export class TokenViewComponent implements OnInit {
       }
     };
 
-    this._unsubscribeAll = new Subject();
+    
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
+    console.log(this.lastValue)
+    this.tokenDetail = await  this._tokenService.getTokenId(this.lastValue).pipe(takeUntil(this._unsubscribeAll)).toPromise().then((res)=>{
+      return res.data;
+    }).catch((error)=>{
+      throw new Error(error);
+    })
+    console.log(this.tokenDetail)
     this._tokenService.getTokenId(this.lastValue)
-    .pipe(takeUntil(this._unsubscribeAll))
+    // .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((res) => {
       console.log(res);
       
