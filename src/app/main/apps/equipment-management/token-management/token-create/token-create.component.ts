@@ -120,12 +120,16 @@ export class TokenCreateComponent implements OnInit {
         this._hsmService.getHsmId(id)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res: any) => {
-            this.rowsData = res.data.tokenInfoDtoList
-            this.rowsData = res.data.tokenInfoDtoList.map((slot:any) => ({  
+            console.log(res)
+            var tokens = res.data.tokens.map((token) =>{
+              return token.slotNumber
+            })
+            this.rowsData = res.data.tokenInfoDtoList.map((slot:any,index) => ({  
               ...slot,
               hsmId:this.hsmId,
               privateKey:6,
-              publicKey:5   
+              publicKey:5,
+              slotDatabase: true ?  tokens.includes(index - 1) : false
             }));
             this.pagedData.totalItems = this.rowsData.length + 1
             console.log(this.rowsData)
@@ -134,6 +138,12 @@ export class TokenCreateComponent implements OnInit {
       });
 
   }
+  getRowClass(){
+    // console.log(e.hsmId)
+    return {
+      'row-color': true
+    };
+  }
   changeHSM(e) {
     
     this.hsmId = e.hsmId
@@ -141,12 +151,17 @@ export class TokenCreateComponent implements OnInit {
     this._hsmService.getHsmId(this.hsmId)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res: any) => {
-        // this.rowsData = res.data.tokenInfoDtoList
-        this.rowsData = res.data.tokenInfoDtoList.map((slot:any) => ({  
+        
+        var tokens = res.data.tokens.map((token) =>{
+          return token.slotNumber
+        })
+        console.log(tokens)
+        this.rowsData = res.data.tokenInfoDtoList.map((slot:any,index) => ({  
           ...slot,
           hsmId:this.hsmId,
           privateKey:6,
-          publicKey:5  
+          publicKey:5,
+          slotDatabase: true ?  tokens.includes(index - 1) : false
         }));
         this.pagedData.totalItems = this.rowsData.length + 1
         console.log(this.rowsData)
@@ -246,7 +261,6 @@ export class TokenCreateComponent implements OnInit {
 
   }
   onActivate(event,modalUserPinInitFalse,modalUserPinInitTrue){
-    console.log(event)
     if (
       event.type === 'click' &&
       event.column.name != 'Hành động' &&

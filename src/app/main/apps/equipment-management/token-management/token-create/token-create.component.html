@@ -61,6 +61,7 @@
                       [selectionType]="'radio'"
                       [selected]="chkBoxSelected"
                       (select)="onSelect($event)"
+                      [rowClass]="getRowClass"
                       (activate)="
                         onActivate(
                           $event,
@@ -160,14 +161,15 @@
                       >
                         <ng-template
                           let-value="value"
+                          let-row = "row"
                           ngx-datatable-cell-template
                         >
                           <div
                             class="badge badge-pill"
                             [ngClass]="
-                              value === true
-                                ? 'badge-light-success'
-                                : 'badge-light-danger'
+                            row.slotDatabase === true ? 'badge-light-success' :
+                            row.tokenInitialized == true ? 'badge-light-warning' :
+                                 'text-dark'
                             "
                           >
                             {{
@@ -183,14 +185,15 @@
                       >
                         <ng-template
                           let-value="value"
+                          let-row="row"
                           ngx-datatable-cell-template
                         >
                           <div
                             class="badge badge-pill"
                             [ngClass]="
-                              value === true
-                                ? 'badge-light-success'
-                                : 'badge-light-danger'
+                            row.slotDatabase === true ? 'badge-light-success' :
+                            row.userPinInitialized == true ? 'badge-light-warning' :
+                                 'text-dark'
                             "
                           >
                             {{

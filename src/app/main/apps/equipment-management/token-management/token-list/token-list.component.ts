@@ -341,8 +341,8 @@ export class TokenListComponent implements OnInit {
             this.pagedData = res.data.tokens;
             this.rowsData = res.data.tokens.map((slot:any) => ({  
               ...slot,
-              tokenInitialized:tokenInfoDtoList[slot.slotNumber - 1].tokenInitialized,
-              userPinInitialized :tokenInfoDtoList[slot.slotNumber - 1].userPinInitialized,
+              tokenInitialized:tokenInfoDtoList[slot.slotNumber].tokenInitialized,
+              userPinInitialized :tokenInfoDtoList[slot.slotNumber].userPinInitialized,
               privateKey:5,
               publicKey:5,
               hsmId:this.hsmId
