@@ -11,6 +11,7 @@ import {
 import { PersonalService } from "app/main/apps/identity-provider/subscribers/personals/personal.service";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
+import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
@@ -57,7 +58,8 @@ export class PersonalsComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private modal: NgbModal,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private toastr: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -131,7 +133,20 @@ export class PersonalsComponent implements OnInit {
     this.selected.push(...selected);
   }
   createCertificateRequest(modalForm){
-    this.toggleSidebar(modalForm,this.selected[0])
+    if(this.selected.length > 0){
+      this.toggleSidebar(modalForm,this.selected[0])
+    }else{
+      this.toastr.warning(
+        '👋 Bạn cần chọn thuê bao cá nhân trước',
+         'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    }
+    
   }
   toggleSidebar(modalForm, item) {
     this.item = item;

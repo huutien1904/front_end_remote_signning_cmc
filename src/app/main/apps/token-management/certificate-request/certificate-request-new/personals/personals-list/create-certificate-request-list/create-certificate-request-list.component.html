@@ -1,0 +1,540 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel1">
+    Tạo yêu cầu chứng thực cho thuê bao
+    {{
+      personals.firstName +
+        ' ' +
+        personals.middleName +
+        ' ' +
+        personals.lastName
+    }}
+  </h4>
+</div>
+<div class="modal-body" tabindex="0" ngbAutofocus>
+  <form [formGroup]="newRequestForm" *ngIf="newRequestForm">
+    <h6 class="mb-1">1. Thông tin về thuê bao</h6>
+    <div class="row ml-50">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Profile</label>
+          <ng-select
+            (change)="changeProfile()"
+            [items]="listProfiles"
+            bindLabel="endEntityProfileName"
+            [clearable]="false"
+            formControlName="profile"
+            [ngClass]="
+              (f.profile.errors && f.profile?.touched) ||
+              (submitted && f.profile?.errors?.required)
+                ? 'is-invalid'
+                : ''
+            "
+          ></ng-select>
+          <div
+            *ngIf="
+              (f.profile.errors && f.profile?.touched) ||
+              (submitted && f.profile?.errors?.required)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.profile.errors.required">Bạn cần chọn profile</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Subject DN của thuê bao</label>
+          <!-- <div class="card shadow-none bg-transparent border-primary ">
+              <div class="card-body p-2">
+                <p class="card-text">{{ strProfile }}</p>
+              </div>
+            </div> -->
+          <ngx-datatable
+            class="bootstrap core-bootstrap"
+            [rows]="listSubjectDn"
+            [headerHeight]="40"
+            [rowHeight]="auto"
+            [limit]="10"
+            [columnMode]="ColumnMode.force"
+            [footerHeight]="50"
+            [scrollbarH]="true"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [selectionType]="SelectionType.checkbox"
+          >
+            <ngx-datatable-column
+              [width]="50"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [draggable]="false"
+              [resizeable]="false"
+            >
+              <ng-template
+                ngx-datatable-header-template
+                let-value="value"
+                let-allRowsSelected="allRowsSelected"
+                let-selectFn="selectFn"
+              >
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [checked]="allRowsSelected"
+                    (change)="selectFn(!allRowsSelected)"
+                    id="headerChkbxRef"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="headerChkbxRef"
+                  ></label>
+                </div>
+              </ng-template>
+              <ng-template
+                ngx-datatable-cell-template
+                let-rowIndex="rowIndex"
+                let-value="value"
+                let-isSelected="isSelected"
+                let-onCheckboxChangeFn="onCheckboxChangeFn"
+              >
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    [checked]="isSelected"
+                    (change)="onCheckboxChangeFn($event)"
+                    id="rowChkbxRef{{ rowIndex }}"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="rowChkbxRef{{ rowIndex }}"
+                  ></label>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              name="TT"
+              prop="id"
+              [width]="10"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column name="SUBJECT DN" [width]="900">
+              <ng-template
+                ngx-datatable-cell-template
+                let-row="row"
+                let-rowIndex="rowIndex"
+              >
+                {{ row.subjectDn }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              name="HÀNH ĐỘNG"
+              [width]="120"
+              [sortable]="false"
+            >
+              <ng-template ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div ngbDropdown container="body">
+                    <a
+                      ngbDropdownToggle
+                      href="javascript:void(0);"
+                      class="hide-arrow"
+                      id="dropdownBrowserState"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i
+                        data-feather="more-vertical"
+                        class="text-primary cursor-pointer mr-50"
+                      ></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right"
+                      aria-labelledby="dropdownBrowserState"
+                    >
+                      <a
+                        href="javascript:void(0)"
+                        ngbDropdownItem
+                        class="d-flex align-items-center"
+                        ><i data-feather="file-text" class="mr-50"></i>
+                        Details</a
+                      >
+                      <a
+                        href="javascript:void(0)"
+                        ngbDropdownItem
+                        class="d-flex align-items-center"
+                        ><i data-feather="archive" class="mr-50"></i> Archive</a
+                      >
+                      <a
+                        href="javascript:void(0)"
+                        ngbDropdownItem
+                        class="d-flex align-items-center"
+                        ><i data-feather="trash-2" class="mr-50"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+
+                  <i
+                    data-feather="edit"
+                    class="text-primary cursor-pointer"
+                  ></i>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <h6 class="mb-1">2. Thông tin về cặp khóa</h6>
+      <div class="col-md-6">
+        <button
+          type="button"
+          class="btn btn-primary mr-1"
+          (click)="openInformationKeyPair()"
+          rippleEffect
+        >
+          Tạo mới cặp khóa
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary mr-1"
+          (click)="getListKeypair()"
+          rippleEffect
+        >
+          Tạo có sẵn
+        </button>
+      </div>
+    </div>
+
+    <div class="row ml-50" *ngIf="informationKeyPair">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Kết nối HSM</label>
+          <ng-select
+            [items]="hsmList"
+            bindLabel="hsmName"
+            [clearable]="false"
+            formControlName="hsm"
+            [ngClass]="
+              (f.hsm.errors && f.hsm?.touched) ||
+              (submitted && f.hsm?.errors?.required)
+                ? 'is-invalid'
+                : ''
+            "
+            (change)="changeHsm()"
+          >
+          </ng-select>
+          <div
+            *ngIf="
+              (f.hsm.errors && f.hsm?.touched) ||
+              (submitted && f.hsm?.errors?.required)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.hsm.errors.required">Bạn cần chọn HSM</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="">Slot</label>
+          <ng-select
+            [items]="tokenList"
+            bindLabel="tokenName"
+            [clearable]="false"
+            formControlName="tokenId"
+          ></ng-select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="">Hệ mật</label>
+          <ng-container formGroupName="cryptoAlgorithm">
+            <ng-select
+              [items]="cryptoAlgorithm"
+              bindLabel="cryptoSystem"
+              [clearable]="false"
+              formControlName="cryptoSystem"
+              (change)="changeCrypto($event)"
+            ></ng-select>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="">Tham số khóa</label>
+          <ng-container formGroupName="cryptoAlgorithm">
+            <ng-select
+              [items]="keypairLengthList"
+              bindLabel="keypairLength"
+              [clearable]="false"
+              formControlName="keypairLength"
+            ></ng-select>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Tên cặp khóa (alias)</label>
+          <input
+            type="text"
+            formControlName="alias"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                (f.alias.errors && f.alias?.dirty) ||
+                (submitted && f.alias?.errors?.required),
+              'is-valid': !f.alias?.errors?.used && f.alias?.dirty
+            }"
+          />
+          <div
+            *ngIf="
+              (f.alias.errors && f.alias?.dirty) ||
+              (submitted && f.alias?.errors?.required)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.alias.errors.required">Bạn cần nhập alias</div>
+            <div *ngIf="f.alias.errors.used">
+              Alias đã tồn tại. Vui lòng nhập alias khác
+            </div>
+          </div>
+          <div *ngIf="f.alias.errors == null" class="valid-feedback">
+            Alias hợp lệ
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ngx-datatable
+      
+      *ngIf ="informationKeypairOld"
+      class="bootstrap core-bootstrap cursor mt-2"
+      [rows]="rowsData"
+      [selected]="chkBoxSelected"
+      (select)="customCheckboxOnSelect($event)"
+      (select)="onSelect($event)"
+      [selectionType]="SelectionType.checkbox"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      rowHeight="auto"
+      [scrollbarH]="true"
+      [footerHeight]="50"
+      [rowHeight]="50"
+      [externalPaging]="true"
+      [limit]="pagedData.size"
+      [count]="pagedData.totalItems"
+      [offset]="pagedData.currentPage"
+      [loadingIndicator]="isLoading"
+      (page)="setPage($event)"
+      (activate)="onActivate($event)"
+    >
+      <ngx-datatable-column
+        [width]="50"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        class="ml-1"
+      >
+        <ng-template
+          ngx-datatable-header-template
+          let-value="value"
+          let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn"
+        >
+          <div class="custom-control custom-control-primary custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="allRowsSelected"
+              (change)="selectFn(!allRowsSelected)"
+              id="headerCustomChkbxRef"
+            />
+            <label
+              class="custom-control-label"
+              for="headerCustomChkbxRef"
+            ></label>
+          </div>
+        </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-rowIndex="rowIndex"
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+          <div class="custom-control custom-control-primary custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [checked]="isSelected"
+              (change)="onCheckboxChangeFn($event)"
+              id="rowCustomChkbxRef{{ rowIndex }}"
+            />
+            <label
+              class="custom-control-label"
+              for="rowCustomChkbxRef{{ rowIndex }}"
+            ></label>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="TT"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [width]="50"
+      >
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+          {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Mã cặp khóa"
+        prop="keypairId"
+        [width]="100"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Hệ mật"
+        prop="cryptoSystem"
+        [width]="100"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Tham số khóa"
+        prop="keypairLength"
+        [width]="100"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Alias" prop="keypairAlias" [width]="200">
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Trạng thái"
+        prop="keypairStatusName"
+        [width]="200"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
+        <ng-template
+          ngx-datatable-cell-template
+          let-row="row"
+          let-value="value"
+          let-rowIndex="rowIndex"
+        >
+          <div class="d-flex align-items-center">
+            <div ngbDropdown container="body">
+              <a
+                ngbDropdownToggle
+                href="javascript:void(0);"
+                class="hide-arrow"
+                id="dropdownBrowserState"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i
+                  data-feather="more-vertical"
+                  class="text-primary cursor-pointer mr-50"
+                ></i>
+              </a>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu-right"
+                aria-labelledby="dropdownBrowserState"
+              >
+                <a
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  [routerLink]="[
+                    '/apps/tm/keypair/keypair-view/',
+                    row.keypairId
+                  ]"
+                  ><i data-feather="file-text" class="mr-50"></i>Chi Tiết</a
+                >
+                <a
+                  href="javascript:void(0)"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="trash" class="mr-50"></i>Xóa</a
+                >
+              </div>
+            </div>
+            <i data-feather="edit" class="text-primary cursor-pointer"></i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-selectedCount="selectedCount"
+          let-curPage="curPage"
+          let-offset="offset"
+          let-isVisible="isVisible"
+        >
+          <div class="page-count" *ngIf="!isLoading">
+            <span *ngIf="chkBoxSelected">
+              Đã chọn {{ chkBoxSelected.length }} /
+            </span>
+            {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+          </div>
+          <datatable-pager
+            [pagerLeftArrowIcon]="'datatable-icon-left'"
+            [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerPreviousIcon]="'datatable-icon-prev'"
+            [pagerNextIcon]="'datatable-icon-skip'"
+            [page]="curPage"
+            [size]="pageSize"
+            [count]="rowCount"
+            [hidden]="!(rowCount / pageSize > 1)"
+            (change)="table.onFooterPage($event)"
+          >
+          </datatable-pager>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </form>
+</div>
+
+<div class="modal-footer" style="text-align: right">
+  <button
+    type="button"
+    class="btn btn-primary mr-1"
+    (click)="onSubmit()"
+    rippleEffect
+  >
+    Tạo
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="toggleSidebar()"
+    rippleEffect
+  >
+    Quay lại
+  </button>
+</div>
+
+<ng-template #modalLink let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Tải dữ liệu yêu cầu chứng thực của bạn</h4>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="badge badge-primary">
+      <a [href]="fileUrl" [download]="fileName">
+        <span [data-feather]="'link'" [class]="'mr-25'"></span>
+        <span>Link download</span>
+      </a>
+    </div>
+  </div>
+  <div class="modal-footer" style="text-align: right">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.dismiss()"
+      rippleEffect
+    >
+      Thoát
+    </button>
+  </div>
+</ng-template>

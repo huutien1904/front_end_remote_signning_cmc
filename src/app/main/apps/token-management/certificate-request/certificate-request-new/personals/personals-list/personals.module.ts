@@ -26,6 +26,7 @@ import { PersonalService } from 'app/main/apps/identity-provider/subscribers/per
 import { PersonalsComponent } from './personals.component';
 import { PersonalsService } from "./personals.service";
 import { SidebarPersonalsComponent } from './sidebar-personals/sidebar-personals.component';
+import { CreateCertificateRequestListComponent } from './create-certificate-request-list/create-certificate-request-list.component';
 
 
 const materialModules1234 = [
@@ -34,7 +35,7 @@ const materialModules1234 = [
 ];
 
 @NgModule({
-  declarations: [PersonalsComponent, SidebarPersonalsComponent],
+  declarations: [PersonalsComponent, SidebarPersonalsComponent, CreateCertificateRequestListComponent],
   imports: [
     CommonModule,
     NgSelectModule,
