@@ -10,6 +10,7 @@ import { OrganizationListService } from "./../organization-list.service";
 import { FormBuilder, FormGroup, Validators ,FormControl} from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { HttpClient } from "@angular/common/http";
 @Component({
   selector: "app-new-organization-sidebar",
   templateUrl: "./new-organization-sidebar.component.html",
@@ -23,6 +24,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   public organizationList: Organization[];
   public typeOrganization: OrganizationCategory[];
+  public image = '';
+  [x: string]: any;
   public country: any[] = [
     {
       countryId: 237,
@@ -43,7 +46,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
     private _addressService: AddressService,
     private modalService: NgbModal,
     private _toastrService: ToastrService,
-    private _organizationListService: OrganizationListService
+    private _organizationListService: OrganizationListService,
+    private http: HttpClient,
   ) {}
   ngOnInit(): void {
     this.newOrganization = this.fb.group({
@@ -63,10 +67,15 @@ export class NewOrganizationSidebarComponent implements OnInit {
       district: [{ value: null, disabled: true }, Validators.required],
       commune: [{ value: null, disabled: true }, Validators.required],
       homeNumber: [{ value: null, disabled: true }, Validators.required],
+      username: [null, Validators.required],
+      password: [null, Validators.required],
+      photo: [null, Validators.required],
+      rePassword: [null, Validators.required],
     });
     this.initAddress();
     // this.getListOrganizations();
     // this.getListTypeOrganization();
+    // this.setImageDefault();
   }
   initAddress() {
     this._addressService
@@ -91,6 +100,39 @@ export class NewOrganizationSidebarComponent implements OnInit {
     const isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true };
   }
+
+   //tải ảnh lên
+   inputImage(event) {
+    if (typeof FileReader !== "undefined") {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.image = e.target.result;
+        console.log(this.image);
+        console.log(this.image.split(",")[1]);
+        this.newOrganization.patchValue({
+          photo: this.image.split(",")[1],
+        });
+      };
+    }
+  }
+  // setImageDefault() {
+  //   this.http.get("../../../../../assets/images/portrait/small/avatar-s-11.jpg", { responseType: "blob" }).subscribe((res) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(res);
+  //     console.log(res);
+  //     reader.onloadend = () => {
+  //       this.base64data = reader.result;
+  //       this.imageString = this.base64data.split(",")[1];
+  //       //console.log(this.imageString)
+  //       this.newOrganization.patchValue({
+  //         photo: this.imageString,
+  //       });
+  //     };
+  //     console.log(this.newOrganization.value);
+  //   });
+  // }
+
   selectProvince() {
     this.newOrganization.patchValue({
       district: null,
