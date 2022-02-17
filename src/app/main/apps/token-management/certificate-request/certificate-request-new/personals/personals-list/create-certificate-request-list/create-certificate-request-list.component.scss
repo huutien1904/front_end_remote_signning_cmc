@@ -1,0 +1,14 @@
+@import "@core/scss/angular/libs/select.component.scss";
+@import "@core/scss/base/plugins/forms/form-validation.scss";
+.ng-select.is-invalid .ng-select-container {
+    border-color: #ff0000;
+}
+
+.ng-select.ng-select-disabled .ng-select-container {
+    background-color: transparent!important;
+}
+.datatable-body-cell-label {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
