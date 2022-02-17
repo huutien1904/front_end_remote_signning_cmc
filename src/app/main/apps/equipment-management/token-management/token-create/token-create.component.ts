@@ -129,7 +129,7 @@ export class TokenCreateComponent implements OnInit {
               hsmId:this.hsmId,
               privateKey:6,
               publicKey:5,
-              slotDatabase: true ?  tokens.includes(index - 1) : false
+              slotDatabase: true ?  tokens.includes(index) : false
             }));
             this.pagedData.totalItems = this.rowsData.length + 1
             console.log(this.rowsData)
