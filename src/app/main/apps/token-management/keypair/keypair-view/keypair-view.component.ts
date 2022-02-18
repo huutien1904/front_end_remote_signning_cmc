@@ -75,7 +75,6 @@ export class KeypairViewComponent implements OnInit {
       keypairId: [null, Validators.required],
       keypairLength: [null, Validators.required],
       keypairStatusName: [null, Validators.required],
-      keypairStatus:['Đã chứng thực',Validators.required],
       keypairPath: ['Trong HSM', Validators.required],
       hsmName: [null, Validators.required],
       tokenName:[null, Validators.required],
