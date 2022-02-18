@@ -9,6 +9,7 @@ import { Hsm, Token } from 'app/main/models/Equipment';
 import { HsmService } from '../../../equipment-management/hsm-management/hsm.service';
 import { CertificateRequestListService } from '../../certificate-request/certificate-request-list/certificate-request-list.service';
 import { PersonalService } from '../../../identity-provider/subscribers/personals/personal.service';
+import { KeypairListService } from '../keypair-list/keypair-list.service';
 
 @Component({
   selector: 'app-keypair-create',
@@ -28,19 +29,66 @@ export class KeypairCreateComponent implements OnInit {
   public hsmType: any[] = ['NET', 'PCI'];
   public hsmForm: any[] = ['FIPS', 'PC5'];
   public cryptoSystem: any[] = ['RSA', 'ECDSA'];
-  public keypairLength: any[] = [
-    '1024',
-    '1536',
-    '2048',
-    '3072',
-    '4096',
-    '6144',
-    '8192',
+  public cryptoAlgorithm = [
+    {
+      cryptoSystem: 'RSA',
+      keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+    },
+    {
+      cryptoSystem: 'ECDSA',
+      keypairLength: [
+        'brainpoolP160r1',
+        'brainpoolP160t1',
+        'brainpoolP192r1',
+        'brainpoolP192t1',
+        'brainpoolP224r1',
+        'brainpoolP224t1',
+        'brainpoolP256r1',
+        'brainpoolP256t1',
+        'brainpoolP384t1',
+        'brainpoolP384r1',
+        'brainpoolP521t1',
+        'brainpoolP521r1',
+        'secp160r1',
+        'secp160r2',
+        'secp192r1',
+        'secp192r2',
+        'secp256r1',
+        'secp256r2',
+        'secp521r1',
+        'secp521r2',
+      ],
+    },
   ];
+  public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
   alias: any[] = [];
   hsmList: any[] = [];
+  keypairAliasName: any;
+  public tokenName: any;
   public tokenList: any[] = [];
-  public userIdList: any[] = [];
+  public keypairAlias: any[] = [];
+  public userIdList: any[] = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+  ];
   get f() {
     return this.keypairFormView.controls;
   }
@@ -51,7 +99,8 @@ export class KeypairCreateComponent implements OnInit {
     private _listCerReqService: CertificateRequestListService,
     private _hsmService: HsmService,
     private _personalService: PersonalService,
-    private _keypairService:KeypairService,
+    private _keypairService: KeypairListService,
+    private _keypairServices: KeypairService
   ) {
     this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -81,12 +130,12 @@ export class KeypairCreateComponent implements OnInit {
       breadcrumbs: {
         links: [
           {
-            name:'Quay lại',
+            name: 'Quay lại',
             isLink: true,
-            link: "/apps/tm/keypair/keypair-list",
-        }
-        ]
-      }
+            link: '/apps/tm/keypair/keypair-list',
+          },
+        ],
+      },
     };
     const body = {
       contains: null,
@@ -96,15 +145,28 @@ export class KeypairCreateComponent implements OnInit {
       sort: null,
       toDate: null,
     };
-    this._personalService
-      .getListPersonals(JSON.stringify(body))
+    // this._personalService
+    //   .getListPersonals(JSON.stringify(body))
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((pagedData) => {
+    //     console.log(pagedData.data.data);
+    //     this.keypairAlias = pagedData.data.data
+    //     this.alias = this.keypairAlias[0].username;
+    //     console.log(this.keypairAlias);
+    //     console.log(this.alias);
+    //     // this.userIdList = pagedData.data.data;
+    //     // console.log(this.userIdList);
+    //   });
+
+    this._keypairService
+      .getData(body)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        console.log(pagedData.data.data);
-        this.userIdList = pagedData.data.data;
-        console.log(this.userIdList);
+        console.log(pagedData);
+        this.keypairAlias = pagedData.data.data;
+        this.keypairAliasName = this.keypairAlias[0].keypairAlias;
+        console.log(this.keypairAlias);
       });
-
     this._hsmService
       .getListHsm({
         page: 0,
@@ -115,16 +177,20 @@ export class KeypairCreateComponent implements OnInit {
         console.log(hsmList);
         this.hsmList = hsmList.data.data;
         this.tokenList = this.hsmList[0].tokens;
+        this.tokenName = this.hsmList[0].tokens[0].tokenName;
         console.log(this.hsmList);
         console.log(this.tokenList);
       });
     this.keypairFormView = this.formBuilder.group({
-      hsmList: [null, Validators.required],
+      cryptoAlgorithm: this.formBuilder.group({
+        cryptoSystem: [null, Validators.required],
+        keypairLength: [null, Validators.required],
+      }),
+      hsmList: [this.hsmList[0], Validators.required],
       tokenList: [null, Validators.required],
-      cryptoSystem: [null, Validators.required],
-      keypairLength: [null, Validators.required],
+      alias: [null, Validators.required],
       keypairAlias: [null, Validators.required],
-      userId: [null, Validators.required],
+      userId: [this.userIdList, Validators.required],
     });
     console.log(this.keypairFormView.value);
   }
@@ -132,21 +198,36 @@ export class KeypairCreateComponent implements OnInit {
     this.tokenList = this.keypairFormView.get('hsmList').value.tokens;
     this.keypairFormView.patchValue({ tokenId: this.tokenList[0] });
   }
+  changeCrypto() {
+    this.keypairLengthList = this.keypairFormView
+      .get('cryptoAlgorithm')
+      .get('cryptoSystem').value.keypairLength;
+    this.keypairFormView
+      .get('cryptoAlgorithm')
+      .patchValue({ keypairLength: this.keypairLengthList[0] });
+  }
   onSubmit() {
     console.log('submit');
+    console.log(this.keypairFormView.value);
+    this.submitted = true;
+
     const body = {
-      cryptoAlgorithm: [this.keypairFormView.value.cryptoSystem, this.keypairFormView.value.keypairLength],
+      cryptoAlgorithm: [
+        this.keypairFormView.get('cryptoAlgorithm').get('cryptoSystem').value
+          .cryptoSystem,
+        this.keypairFormView.get('cryptoAlgorithm').get('keypairLength').value,
+      ],
       templateKeyId: '1',
       tokenId: this.keypairFormView.value.tokenList.tokenId,
-      userId: this.keypairFormView.value.userId.userId,
+      userId: this.keypairFormView.value.userId,
       alias: this.keypairFormView.value.keypairAlias,
     };
-    console.log(body)
-    this._keypairService.createKeypair(JSON.stringify(body))
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((responDataa) => {
-      console.log(responDataa)
-    });
+    console.log(body);
+    this._keypairServices
+      .createKeypair(JSON.stringify(body))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((responDataa) => {
+        console.log(responDataa);
+      });
   }
-
 }

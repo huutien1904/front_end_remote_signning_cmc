@@ -11,6 +11,26 @@
                 <div class="">
                   <div class="d-flex">
                     <div class="form-group col-md-6">
+                      <label for="UDUserName">Mã cặp khóa</label>
+                      <input
+                        type="text"
+                        formControlName="keypairId"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Tên cặp khóa</label>
+                      <input
+                        type="text"
+                        formControlName="keypairAlias"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group col-md-6">
                       <label for="UDUserName">Hệ mật</label>
                       <input
                         type="text"
@@ -31,15 +51,26 @@
                   </div>
                   <div class="d-flex">
                     <div class="form-group col-md-6">
-                      <label for="UDUserName">Alias</label>
+                      <label for="UDUserName">Kết nối HSM</label>
                       <input
                         type="text"
-                        formControlName="keypairAlias"
+                        value="{{hsmName}}"
                         class="form-control"
                         readonly
                       />
                     </div>
                     <div class="form-group col-md-6">
+                      <label for="UDUserName">Slot</label>
+                      <input
+                        type="text"
+                        value="{{tokenName}}"
+                        class="form-control"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <!-- <div class="form-group col-md-6">
                       <label for="UDUserName">Trạng thái</label>
                       <input
                         type="text"
@@ -47,9 +78,16 @@
                         class="form-control"
                         readonly
                       />
+                    </div> -->
+                    <div class="form-group col-md-6">
+                      <label for="UDUserName">Trạng thái cặp khóa</label>
+                      <input
+                        type="text"
+                        formControlName="keypairStatus"
+                        class="form-control"
+                        readonly
+                      />
                     </div>
-                  </div>
-                  <div class="d-flex">
                     <div class="form-group col-md-12">
                       <label>Vị trí lưu khóa</label>
                       <input

@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { KeypairService } from '../keypair.service';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
+import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
+import { Hsm, Token } from 'app/main/models/Equipment';
 @Component({
   selector: 'app-keypair-view',
   templateUrl: './keypair-view.component.html',
@@ -23,7 +25,10 @@ export class KeypairViewComponent implements OnInit {
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
   public hsmForm: any[] = ["FIPS", "PC5"];
-
+  public tokenList: Token[];
+  public hsmList = new Array<Hsm>();
+  public tokenName:any;
+  public hsmName:any;
   get f() {
     return this.keypairFormView.controls;
   }
@@ -33,34 +38,47 @@ export class KeypairViewComponent implements OnInit {
     private router: Router,
     private   toastr: ToastrService,
     private _hsmService: KeypairService,
+    private _hsmServices: HsmService,
 
   ) { 
     this._unsubscribeAll = new Subject();
-    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
-    console.log(this.lastValue);
-    this._hsmService
-    .getKeypairID(this.lastValue)
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((token)=>{
-      console.log(token);
-      const data = token.data
-      this.keypairFormView.controls.cryptoSystem.patchValue(data.cryptoSystem);
-      this.keypairFormView.controls.keypairAlias.patchValue(data.keypairAlias);
-      this.keypairFormView.controls.keypairId.patchValue(data.keypairId);
-      this.keypairFormView.controls.keypairLength.patchValue(data.keypairLength);
-      this.keypairFormView.controls.keypairStatusName.patchValue(data.keypairStatusName);
-      //this.keypairFormView.controls.keypairPath.patchValue(data.hsmType);
-    })
   }
 
   ngOnInit() {
+    this._hsmServices
+      .getListHsm({
+        page: 0,
+        size: 100,
+      })
+      .pipe(
+        map((res) => {
+          res.data.data.forEach((element, index) => {
+            if (element.tokens.length == 0) {
+              delete res.data.data[index];
+            }
+          });
+          return res.data.data.filter((x) => x !== null);
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .toPromise()
+      .then((hsmList:any) => {
+        console.log(hsmList);
+        this.hsmList = hsmList;
+        this.hsmName = this.hsmList[0].hsmName;
+        this.tokenName = this.hsmList[0].tokens[0].tokenName;
+        console.log(this.tokenName);
+      });
     this.keypairFormView = this.formBuilder.group({
       cryptoSystem: [null, Validators.required],
       keypairAlias: [null, Validators.required],
       keypairId: [null, Validators.required],
       keypairLength: [null, Validators.required],
       keypairStatusName: [null, Validators.required],
-      keypairPath: ['/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg', Validators.required],
+      keypairStatus:['Đã chứng thực',Validators.required],
+      keypairPath: ['Trong HSM', Validators.required],
+      hsmName: [null, Validators.required],
+      tokenName:[null, Validators.required],
     });
     this.contentHeader = {
       headerTitle: 'Cặp khóa',
@@ -92,5 +110,21 @@ export class KeypairViewComponent implements OnInit {
         ]
       }
     };
+    this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
+    console.log(this.lastValue);
+    this._hsmService
+    .getKeypairID(this.lastValue)
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((token)=>{
+      console.log(token);
+      const data = token.data
+      this.keypairFormView.controls.cryptoSystem.patchValue(data.cryptoSystem);
+      this.keypairFormView.controls.keypairAlias.patchValue(data.keypairAlias);
+      this.keypairFormView.controls.keypairId.patchValue(data.keypairId);
+      this.keypairFormView.controls.keypairLength.patchValue(data.keypairLength);
+      this.keypairFormView.controls.keypairStatusName.patchValue(data.keypairStatusName);
+      //this.keypairFormView.controls.keypairPath.patchValue(data.hsmType);
+    })
+    console.log(this.keypairFormView.value)
   }
 }
