@@ -16,6 +16,7 @@ import { Personal } from "app/main/models/Personal";
 import { KeypairListService } from './keypair-list.service';
 import { Keypair } from 'app/main/models/Keypair';
 import { Router } from '@angular/router';
+import { HsmService } from "app/main/apps/equipment-management/hsm-management/hsm.service";
 
 @Component({
   selector: "app-keypair-list",
@@ -41,6 +42,44 @@ export class KeypairListComponent implements OnInit {
   gender: string[] = ["Nam", "Nữ"];
   public pagedData = new PagedData<Keypair>();
   public rowsData = new Array<Keypair>();
+  public hsmList: any[] = [];
+  public tokenName:any;
+  public tokenList: any[] = [];
+  public hsmName: any[] = [];
+  public keypairList: any[] = ['Kết nối HSM', 'Slot'];
+  public cryptoAlgorithm = [
+    {
+      cryptoSystem: 'RSA',
+      keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+    },
+    {
+      cryptoSystem: 'ECDSA',
+      keypairLength: [
+        'brainpoolP160r1',
+        'brainpoolP160t1',
+        'brainpoolP192r1',
+        'brainpoolP192t1',
+        'brainpoolP224r1',
+        'brainpoolP224t1',
+        'brainpoolP256r1',
+        'brainpoolP256t1',
+        'brainpoolP384t1',
+        'brainpoolP384r1',
+        'brainpoolP521t1',
+        'brainpoolP521r1',
+        'secp160r1',
+        'secp160r2',
+        'secp192r1',
+        'secp192r2',
+        'secp256r1',
+        'secp256r2',
+        'secp521r1',
+        'secp521r2',
+      ],
+    },
+  ];
+  public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
+  public keypairStatusName: any[] = ['Đã chứng thực', 'Hết hạn', 'Gia hạn'];
 
   public chkBoxSelected = [];
   public selected = [];
@@ -62,6 +101,7 @@ export class KeypairListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
+    private _hsmService: HsmService,
     private _router: Router
 
 
@@ -85,6 +125,21 @@ export class KeypairListComponent implements OnInit {
       toDate: [null],
       sizePage: [this.sizePage[3]],
     });
+    this._hsmService
+      .getListHsm({
+        page: 0,
+        size: 100,
+      })
+      .toPromise()
+      .then((hsmList) => {
+        console.log(hsmList);
+        this.hsmList = hsmList.data.data;
+        this.hsmName = this.hsmList[0].hsmName;
+        this.tokenList = this.hsmList[0].tokens;
+        this.tokenName = this.hsmList[0].tokens[0].tokenName;
+        console.log(this.hsmList);
+        console.log(this.tokenList);
+      });
     this.formListPersonal = this.fb.group({
       page: [null],
       size: [this.sizePage[2]],
@@ -92,6 +147,13 @@ export class KeypairListComponent implements OnInit {
       contains: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
+      keypairList: [this.keypairList[0], Validators.required],
+      keypairName: [null, Validators.required],
+      keypairStatusName: [null, Validators.required],
+      cryptoAlgorithm: this.fb.group({
+        cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
+        keypairLength: [this.keypairLengthList[0], Validators.required],
+      }),
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
@@ -112,7 +174,14 @@ export class KeypairListComponent implements OnInit {
     };
   }
 
-
+  changeCrypto() {
+    this.keypairLengthList = this.formListPersonal
+      .get('cryptoAlgorithm')
+      .get('cryptoSystem').value.keypairLength;
+    this.formListPersonal
+      .get('cryptoAlgorithm')
+      .patchValue({ keypairLength: this.keypairLengthList[0] });
+  }
   setPage(pageInfo) {
     console.log(pageInfo);
     const body = {
