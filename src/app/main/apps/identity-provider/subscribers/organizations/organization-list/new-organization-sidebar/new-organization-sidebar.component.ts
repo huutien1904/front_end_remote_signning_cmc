@@ -301,15 +301,33 @@ export class NewOrganizationSidebarComponent implements OnInit {
   }
 
   onSubmit() {
-    let data = this.newOrganization.value;
-    console.log(data);
+    // let data = this.newOrganization.value;
+    // console.log(data);
     this.submitted = true;
     // stop here if form is invalid
     // if (this.newOrganization.invalid) {
     //   console.log('lỗi tại đây');
     //   return;
     // }
-    const newOrganization = JSON.stringify(data);
+    const newOrganization = {
+    username: this.newOrganization.value.username,
+    password: this.newOrganization.value.password,
+    countryOrganizationId: this.newOrganization.value.countryOrganizationId ,
+    parentOrganizationId: this.newOrganization.value.parentOrganizationId,
+    organizationName: this.newOrganization.value.organizationName,
+    subscriberCategoryId: this.newOrganization.value.subscriberCategoryId,
+    leaderName: this.newOrganization.value.leaderName,
+    province: this.newOrganization.value.province,
+    district: this.newOrganization.value.district,
+    commune: this.newOrganization.value.commune,
+    street: this.newOrganization.value.street,
+    homeNumber: this.newOrganization.value.homeNumber,
+    country: this.newOrganization.value.country,
+    phoneNumber: this.newOrganization.value.phoneNumber,
+    website: this.newOrganization.value.website,
+    email : this.newOrganization.value.email,
+    "isParent" : false
+    };
     // console.log(newOrganization);
     this._organizationListService
       .submitForm(newOrganization)

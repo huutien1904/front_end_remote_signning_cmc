@@ -30,7 +30,7 @@
                   </ng-select>
                 </div>
               </div>
-              <div class="col-12 col-md-2 mt-2">
+              <div class="col-6 col-md-2 mt-2">
                 <input
                   name="distinguishedName"
                   id="distinguishedName"
@@ -40,31 +40,7 @@
                   placeholder="Một phần Alias"
                 />
               </div>
-              <div class="col-3 col-md-2 mt-2">
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-outline-secondary col-12"
-                  (click)="moreOption = !moreOption"
-                  rippleEffect
-                >
-                  <i data-feather="plus" class="d-sm-none d-inline-block"></i>
-                  <span class="d-none d-sm-inline-block">Tùy chọn</span>
-                </button>
-              </div>
-              <div class="col-6 col-md-2 mt-2">
-                <button
-                  type="button"
-                  rippleEffect
-                  class="btn btn-primary"
-                  (click)="onSubmit()"
-                  [disabled]="!formListPersonal.valid"
-                >
-                  Tìm kiếm
-                </button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3">
+              <div class="col-6 col-md-2">
                 <label class="label">Tên cặp khóa (Alias)</label>
                 <input
                   name="keypairName"
@@ -75,7 +51,7 @@
                   placeholder="Nhập tên cặp khóa"
                 />
               </div>
-              <div class="col-md-2">
+              <div class="col-6 col-md-2">
                 <div class="form-group">
                   <label class="label">Hệ mật</label>
                   <ng-container formGroupName="cryptoAlgorithm">
@@ -90,7 +66,7 @@
                   </ng-container>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-6 col-md-2">
                 <div class="form-group">
                   <ng-container formGroupName="cryptoAlgorithm">
                     <label for="">Tham số khóa</label>
@@ -103,7 +79,9 @@
                   </ng-container>
                 </div>
               </div>
-              <div class="col-md-2">
+            </div>
+            <div class="row">
+              <div class="col-6 col-md-2">
                 <div class="form-group">
                   <label for="">Trạng thái</label>
                   <ng-select
@@ -111,6 +89,40 @@
                     [clearable]="false"
                     formControlName="keypairStatusName"
                   ></ng-select>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="row">
+                  <div class="col-3 col-md-2 mt-2">
+                    <button
+                      type="button"
+                      class="btn btn-secondary btn-outline-secondary col-12"
+                      (click)="moreOption = !moreOption"
+                      rippleEffect
+                    >
+                      <i
+                        data-feather="plus"
+                        class="d-sm-none d-inline-block"
+                      ></i>
+                      <span class="d-none d-sm-inline-block">Tùy chọn</span>
+                    </button>
+                  </div>
+                  <div class="col-6 col-md-2 mt-2">
+                    <button
+                      type="button"
+                      rippleEffect
+                      class="btn btn-primary"
+                      (click)="
+                        setPage({
+                          offset: 0,
+                          pageSize: formListPersonal.controls.size
+                        })
+                      "
+                      [disabled]="!formListPersonal.valid"
+                    >
+                      Tìm kiếm
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

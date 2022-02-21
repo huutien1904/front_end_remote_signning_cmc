@@ -44,7 +44,7 @@
                       <label for="">Slot</label>
                       <ng-select
                         [items]="tokenList"
-                        bindLabel="slotNumber"
+                        bindLabel="tokenName"
                         [clearable]="false"
                         formControlName="tokenList"
                         [ngClass]="
@@ -98,7 +98,7 @@
                     <div class="form-group">
                       <label>Số lượng cặp khóa</label>
                       <ng-select
-                        [items]="userIdList"
+                        [items]="numberKeypair"
                         bindLabel="userId"
                         [clearable]="false"
                         formControlName="userId"
@@ -117,7 +117,7 @@
                         class="invalid-feedback"
                       >
                         <div *ngIf="f.userId.errors.required">
-                          Bạn cần chọn User ID
+                          Bạn cần chọn số lượng cặp khóa
                         </div>
                       </div>
                     </div>

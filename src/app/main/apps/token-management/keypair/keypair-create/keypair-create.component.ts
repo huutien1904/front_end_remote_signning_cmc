@@ -15,6 +15,7 @@ import { KeypairListService } from '../keypair-list/keypair-list.service';
   selector: 'app-keypair-create',
   templateUrl: './keypair-create.component.html',
   styleUrls: ['./keypair-create.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class KeypairCreateComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
@@ -37,26 +38,10 @@ export class KeypairCreateComponent implements OnInit {
     {
       cryptoSystem: 'ECDSA',
       keypairLength: [
-        'brainpoolP160r1',
-        'brainpoolP160t1',
-        'brainpoolP192r1',
-        'brainpoolP192t1',
-        'brainpoolP224r1',
-        'brainpoolP224t1',
-        'brainpoolP256r1',
-        'brainpoolP256t1',
-        'brainpoolP384t1',
-        'brainpoolP384r1',
-        'brainpoolP521t1',
-        'brainpoolP521r1',
-        'secp160r1',
-        'secp160r2',
-        'secp192r1',
-        'secp192r2',
         'secp256r1',
-        'secp256r2',
+        'secp384r1',
         'secp521r1',
-        'secp521r2',
+ 
       ],
     },
   ];
@@ -67,7 +52,8 @@ export class KeypairCreateComponent implements OnInit {
   public tokenName: any;
   public tokenList: any[] = [];
   public keypairAlias: any[] = [];
-  public userIdList: any[] = [
+  public userIdList: any[] = [];
+  public numberKeypair: any[] = [
     '1',
     '2',
     '3',
@@ -100,7 +86,8 @@ export class KeypairCreateComponent implements OnInit {
     private _hsmService: HsmService,
     private _personalService: PersonalService,
     private _keypairService: KeypairListService,
-    private _keypairServices: KeypairService
+    private _keypairServices: KeypairService,
+    private _toastrService: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -145,18 +132,18 @@ export class KeypairCreateComponent implements OnInit {
       sort: null,
       toDate: null,
     };
-    // this._personalService
-    //   .getListPersonals(JSON.stringify(body))
-    //   .pipe(takeUntil(this._unsubscribeAll))
-    //   .subscribe((pagedData) => {
-    //     console.log(pagedData.data.data);
-    //     this.keypairAlias = pagedData.data.data
-    //     this.alias = this.keypairAlias[0].username;
-    //     console.log(this.keypairAlias);
-    //     console.log(this.alias);
-    //     // this.userIdList = pagedData.data.data;
-    //     // console.log(this.userIdList);
-    //   });
+    this._personalService
+      .getListPersonals(JSON.stringify(body))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((pagedData) => {
+        console.log(pagedData.data.data);
+        // this.keypairAlias = pagedData.data.data
+        // this.alias = this.keypairAlias[0].username;
+        // console.log(this.keypairAlias);
+        // console.log(this.alias);
+        this.userIdList = pagedData.data.data;
+        console.log(this.userIdList);
+      });
 
     this._keypairService
       .getData(body)
@@ -190,7 +177,7 @@ export class KeypairCreateComponent implements OnInit {
       tokenList: [null, Validators.required],
       alias: [null, Validators.required],
       keypairAlias: [null, Validators.required],
-      userId: [this.userIdList, Validators.required],
+      userId: [null, Validators.required],
     });
     console.log(this.keypairFormView.value);
   }
@@ -226,8 +213,25 @@ export class KeypairCreateComponent implements OnInit {
     this._keypairServices
       .createKeypair(JSON.stringify(body))
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((responDataa) => {
-        console.log(responDataa);
+      .subscribe((res) => {
+        console.log(res);
+        if (res.result === true) {
+          this._toastrService.success(
+            'Tạo cặp khóa thành công ',
+            'Thành công',
+            {
+              toastClass: 'toast ngx-toastr',
+              positionClass: 'toast-top-center',
+              closeButton: true,
+            }
+          );
+        }
+        if (res.result === false) {
+          this._toastrService.error('Tên cặp khóa tồn tại', 'Thất Bại', {
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          });
+        }
       });
   }
 }
