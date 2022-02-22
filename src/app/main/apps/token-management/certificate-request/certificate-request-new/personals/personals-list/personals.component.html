@@ -153,8 +153,6 @@
           <button type="button" rippleEffect class="btn btn-primary ml-1" (click) = "createCertificateRequest(modalCreateListCertificate)" >
             Tạo yêu cầu 
           </button>
-        
-        
       </div>
     </div>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
@@ -423,7 +421,7 @@
       </button>
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
-      <app-create-certificate-request-list [personals]="selected"></app-create-certificate-request-list>
+      <app-create-certificate-request-list [personals]="selected" [listSubjectDnResponse] = "listSubjectDn"></app-create-certificate-request-list>
     </div>
     
   </ng-template>

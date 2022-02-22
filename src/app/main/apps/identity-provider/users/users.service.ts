@@ -134,11 +134,12 @@ export class UsersService {
   updateAvatar(
     form: FormGroup
   ): Observable<ResponseData<PagedData<CertificateRequest>>> {
-    const formData = new FormData();
-    formData.append('avatar', form.get('avatar').value);
-
-    console.log(formData);
+    var formData = new FormData();
+    // formData.append('userId', form.get('userId').value);
     console.log(form.value);
+    formData.append('avatar', "tien");
+    
+    console.log(formData);
   
     return this._httpClient.post<any>(
       `${environment.apiUrl}/user/self-user`,

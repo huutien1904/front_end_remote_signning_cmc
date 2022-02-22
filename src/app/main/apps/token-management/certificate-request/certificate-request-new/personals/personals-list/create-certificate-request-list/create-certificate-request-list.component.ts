@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { EntityProfileService } from './../../../../../../identity-provider/entity-profiles/entity-profile.service';
 import {
   Component,
@@ -73,7 +74,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
   public address: any
   public listProfiles: any[] = [];
   public chkBoxSelected = [];
-
+  public numberKeypair:number
   public pagedData = new PagedData<any>();
   public listSubjectDn = []
   public basicSelectedOption: number = 10;
@@ -95,6 +96,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
     "toDate": ""
   }
   @Input() personals: any;
+  @Input() listSubjectDnResponse: any;
   @ViewChild('modalLink') modalLink;
 
   get f() {
@@ -154,7 +156,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
       }
     );
     console.log(this.newRequestForm.value)
-    this.getListProfiles();
+    
     this.formListPersonal = this.fb.group({
       page: [null],
       size: [this.sizePage[2]],
@@ -165,6 +167,9 @@ export class CreateCertificateRequestListComponent implements OnInit {
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
+    this.listSubjectDn = this.listSubjectDnResponse
+    console.log(this.listSubjectDn)
+    this.getListProfiles();
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
   }
 
@@ -172,7 +177,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
     this.modal.dismissAll();
   }
 
-  
   changeCrypto() {
     this.keypairLengthList = this.newRequestForm
       .get('cryptoAlgorithm')
@@ -188,83 +192,83 @@ export class CreateCertificateRequestListComponent implements OnInit {
   }
 
   async changeProfile() {
-    const profile: any[] = this.f.profile.value.subjectDNA;
-    console.log(profile);
-    this.strProfile = '';
-    let firstWord = true;
-    profile.map(async (attribute: string) => {
-      let value = '';
-      this.address = await this._addressService.getAddressById(283)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .toPromise().then(res => {
-          return res.data;
-        });
-      console.log(this.address)
+    // const profile: any[] = this.f.profile.value.subjectDNA;
+    // console.log(profile);
+    // this.strProfile = '';
+    // let firstWord = true;
+    // profile.map(async (attribute: string) => {
+    //   let value = '';
+    //   this.address = await this._addressService.getAddressById(283)
+    //     .pipe(takeUntil(this._unsubscribeAll))
+    //     .toPromise().then(res => {
+    //       return res.data;
+    //     });
+    //   console.log(this.address)
 
-      var commonName = this.personals.personalFirstName;
-      var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-      var countryCode = this.personals.personalCountryId;
-      var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-      var localityName = "Huyện " + this.address.districtName;
-      var personalCountryId = this.personals.personalCountryId;
-      var phoneNumber = this.personals.phoneNumber;
-      var email = this.personals.email;
+    //   var commonName = this.personals.personalFirstName;
+    //   var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
+    //   var countryCode = this.personals.personalCountryId;
+    //   var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
+    //   var localityName = "Huyện " + this.address.districtName;
+    //   var personalCountryId = this.personals.personalCountryId;
+    //   var phoneNumber = this.personals.phoneNumber;
+    //   var email = this.personals.email;
       
-      // console.log(address)
-      switch (attribute) {
-        case 'CN':
-          value = commonName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'C':
-          value = countryCode
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'ST':
-          value = stateOrProvinceName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'L':
-          value = localityName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'OU':
-          value = "CMC CIST"
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'O':
-          value = "CMC "
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'TELEPHONE_NUMBER':
-          value = phoneNumber
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
+    //   // console.log(address)
+    //   switch (attribute) {
+    //     case 'CN':
+    //       value = commonName
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break;
+    //     case 'C':
+    //       value = countryCode
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'ST':
+    //       value = stateOrProvinceName
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'L':
+    //       value = localityName
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'OU':
+    //       value = "CMC CIST"
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'O':
+    //       value = "CMC "
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'TELEPHONE_NUMBER':
+    //       value = phoneNumber
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
         
-        case 'EmailAddress':
-          value = email;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'UID':
-          value = personalCountryId;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'STREET':
-          value = streetAddress;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break; 
-      }
-    });
+    //     case 'EmailAddress':
+    //       value = email;
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break;
+    //     case 'UID':
+    //       value = personalCountryId;
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break;
+    //     case 'STREET':
+    //       value = streetAddress;
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break; 
+    //   }
+    // });
   }
 
   displayProfile(attribute, value, firstWord) {
@@ -317,8 +321,9 @@ export class CreateCertificateRequestListComponent implements OnInit {
       }
     });
   }
-  getListProfiles() {
-    this._entityProfileService.getListProfiles(this.bodyGetListProfile)
+
+  async getListProfiles() {
+    await this._entityProfileService.getListProfiles(this.bodyGetListProfile)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res) => {
         this.newRequestForm.controls['profile'].setValue(res.data.data[0].endEntityProfileName)
@@ -327,113 +332,24 @@ export class CreateCertificateRequestListComponent implements OnInit {
         console.log(res)
         this.listProfiles = res.data.data.map((profile) => ({
           ...profile,
-          subjectAttribute: profile.alternativeName.map(item => {
-            return item.name
-          }),
-          subjectDNA: profile.distinguishedName.map(item => {
-            return item.name
-          }),
           id: profile.endEntityProfileId,
           nameProfile: profile.endEntityProfileName
         }))
-        var profile = this.listProfiles[0].subjectDNA
-        this.personals.map((personal,index) =>{
-          this.strProfile = '';
-          let firstWord = true;
-          let value = '';
-          setTimeout(() => {
-            profile.map(async (attribute: string) => {
-            
-            this.address = await this._addressService.getAddressById(personal.address.addressId)
-              .pipe(takeUntil(this._unsubscribeAll))
-              .toPromise().then(res => {
-                return res.data;
-              });
-            console.log(this.address)
-      
-            var commonName = personal.personalFirstName;
-            console.log(commonName)
-            var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-            var countryCode = personal.personalCountryId;
-            var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-            var localityName = "Huyện " + this.address.districtName;
-            var personalCountryId = personal.personalCountryId;
-            var phoneNumber = personal.phoneNumber;
-            var email = personal.email;
-            
-            console.log(attribute)
-            switch (attribute) {
-              case 'CN':
-                value += attribute + ' = ' + commonName + ','
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-                break;
-              case 'C':
-                value += attribute + ' = ' + countryCode + ','
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-              break;
-              case 'ST':
-                value += attribute + ' = ' + stateOrProvinceName + ','
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-              break;
-              case 'L':
-                value += attribute + ' = ' + localityName + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-              break;
-              case 'OU':
-                value += attribute + ' = ' + 'CMC CIST' + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-              break;
-              case 'O':
-                value += attribute + ' = ' + 'CMC' + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-              break;
-              case 'TELEPHONE_NUMBER':
-                value += attribute + ' = ' + phoneNumber + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-              break;
-              
-              case 'EmailAddress':
-                value += attribute + ' = ' + email + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-                break;
-              case 'UID':
-                value += attribute + ' = ' + personalCountryId + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-                break;
-              case 'STREET':
-                value += attribute + ' = ' + streetAddress + ','
-
-                // this.displayProfile(attribute, value, firstWord);
-                // firstWord = false;
-                break; 
-            }
-            this.listSubjectDn.push({subjectDn:value})
-            console.log(this.listSubjectDn)
-          });
-          }, 3000);
-          
-          console.log(value)
-        })
-        
-
-        // console.log(subjectDN)
-        console.log(this.listProfiles);
+        var profileId = this.listProfiles[0].id
+        console.log(this.personals)
+        console.log(this.listProfiles)
+        this.getListSubjectDn(profileId);
       })
+  }
+   getListSubjectDn(profileId){
+    this.personals.map(( personal) =>{
+       this._entityProfileService.getSubjectDnById(profileId,personal.staffId)
+                                .pipe(takeUntil(this._unsubscribeAll))
+                                .subscribe((res) =>{
+                                  // this.listSubjectDn.push({subjectDn : res})
+                                })
+    })
+    console.log(this.listSubjectDn); 
   }
   checkAlias(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {

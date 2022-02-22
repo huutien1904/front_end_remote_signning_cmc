@@ -57,11 +57,16 @@
             [selectionType]="SelectionType.checkbox"
           >
             
-            <ngx-datatable-column
-              name="TT"
-              prop="id"
-              [width]="20"
-            ></ngx-datatable-column>
+          <ngx-datatable-column
+          name="TT"
+          [sortable]="false"
+          [canAutoResize]="false"
+          [width]="50"
+        >
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+            {{  rowIndex + 1 }}
+          </ng-template>
+        </ngx-datatable-column>
 
             <ngx-datatable-column name="SUBJECT DN" [width]="1400">
               <ng-template
