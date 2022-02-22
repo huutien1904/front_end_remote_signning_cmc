@@ -64,6 +64,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         organizationName: ['', [Validators.required]],
         subscriberCategoryId:[null, [Validators.required]],
         parentOrganizationName: [null, Validators.required],
+        parentOrganizationId: [null, [Validators.required]],
         typeOrganization: [null, Validators.required],
         leaderName: ['', [Validators.required]],
         website: [
@@ -123,6 +124,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         );
         console.log('check thuê bao tổ chức');
         console.log(this.typeOrganization);
+        console.log(this.parentOrganizationName);
       });
   }
   initAddress() {
@@ -313,9 +315,9 @@ export class NewOrganizationSidebarComponent implements OnInit {
     username: this.newOrganization.value.username,
     password: this.newOrganization.value.password,
     countryOrganizationId: this.newOrganization.value.countryOrganizationId ,
-    parentOrganizationId: this.newOrganization.value.parentOrganizationId,
+    parentOrganizationId: 1,
     organizationName: this.newOrganization.value.organizationName,
-    subscriberCategoryId: this.newOrganization.value.subscriberCategoryId,
+    subscriberCategoryId: 3,
     leaderName: this.newOrganization.value.leaderName,
     province: this.newOrganization.value.province,
     district: this.newOrganization.value.district,
@@ -326,15 +328,16 @@ export class NewOrganizationSidebarComponent implements OnInit {
     phoneNumber: this.newOrganization.value.phoneNumber,
     website: this.newOrganization.value.website,
     email : this.newOrganization.value.email,
-    "isParent" : false
+    photo: this.newOrganization.value.photo,
+    isParent: false,
     };
-    // console.log(newOrganization);
+    console.log(newOrganization);
     this._organizationListService
-      .submitForm(newOrganization)
+      .submitForm(JSON.stringify(newOrganization))
       .subscribe((res: any) => {
         console.log(res);
         if (res.result === true) {
-          this.onUpdate.emit();
+          this.updateTable();
           this.toggleSidebar();
           this._toastrService.success(
             'Đăng ký thuê bao tổ chức thành công ',

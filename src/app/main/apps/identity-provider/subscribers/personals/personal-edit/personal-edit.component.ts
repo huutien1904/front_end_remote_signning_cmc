@@ -228,6 +228,7 @@ export class PersonalEditComponent implements OnInit {
       .then((res) => {
         return res.data;
       });
+      console.log(this.personal);
     this.formPersonalEdit.patchValue({
       userId: this.personal.userId,
       username: this.personal.username,

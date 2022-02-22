@@ -120,11 +120,11 @@ export class KeypairListComponent implements OnInit {
       });
     this.formListPersonal = this.fb.group({
       page: 0,
-      size: 2,
-      sort: [[]],
-      contains: ["", Validators.required],
-      fromDate: "",
-      toDate: "",
+      size: [this.sizePage[3]],
+      sort: [null],
+      contains: [null, Validators.required],
+      fromDate: [null],
+      toDate: [null],
       keypairList: [this.keypairList[0], Validators.required],
       keypairName: [null, Validators.required],
       keypairStatusName: [null, Validators.required],
@@ -133,16 +133,7 @@ export class KeypairListComponent implements OnInit {
         keypairLength: [this.keypairLengthList[0], Validators.required],
       }),
     });
-    this.formListPersonals = this.fb.group({
-      page: 0,
-      size: [this.sizePage[3]],
-      sort: [[]],
-      contains: ["", Validators.required],
-      fromDate: [""],
-      toDate: [""],
-    });
-    this.setPage({ offset: 0, pageSize: this.formListPersonals.get("size").value  });
-    // this.pagedData.size = this.sizePage[3];
+    this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
     this.setPage({
       offset: 0,
@@ -173,17 +164,19 @@ export class KeypairListComponent implements OnInit {
       .patchValue({ keypairLength: this.keypairLengthList[0] });
   }
   setPage(pageInfo) {
+    this.rowsData = [];
     console.log("check");
     console.log(pageInfo);
     this.isLoading=true;
-    // this.formListPersonals.patchValue({"page":pageInfo.offset}); 
+    // this.formListPersonal.patchValue({"page":pageInfo.offset}); 
     // console.log(JSON.stringify(this.formListPersonals.value));
     // console.log(this.formListPersonals.value);
+
     const body = {
-      page: 0,
-      size: this.formListPersonal.value.size,
+      page: null,
+      size: pageInfo.pageSize,
       sort: this.formListPersonal.value.sort,
-      contains: this.formListPersonal.value.contains,
+      contains: null,
       fromDate: this.formListPersonal.value.fromDate,
       toDate: this.formListPersonal.value.toDate,
     };
@@ -196,9 +189,7 @@ export class KeypairListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         console.log(this.rowsData);
-        this.rowsData = pagedData.data.data.map((item) => ({
-          ...item,
-        }));
+        // ng
         this.isLoading = false;
       });
   }

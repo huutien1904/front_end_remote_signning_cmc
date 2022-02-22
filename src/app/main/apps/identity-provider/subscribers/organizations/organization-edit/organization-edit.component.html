@@ -1,5 +1,12 @@
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
+    <section id="ozganization-header">
+      <div class="ozganization-header">
+        <app-content-header
+          [contentHeader]="contentHeader"
+        ></app-content-header>
+      </div>
+    </section>
     <section id="table-organization-list">
       <div class="card">
         <div class="card-body">
@@ -189,28 +196,6 @@
                       </div>
                     </div>
                   </form>
-                </div>
-                <div class="col-12 button_summit d-flex justify-content-end pb-1">
-                  <app-return [buttonReturn]="buttonReturn"> </app-return>
-                </div>
-                <!-- Account Tab ends -->
-              </ng-template>
-            </li>
-            <li ngbNavItem>
-              <a ngbNavLink class="d-flex align-items-center">
-                <i data-feather="info" class="mr-sm-50"></i
-                ><span class="d-none d-sm-block">Thông tin thuê bao</span></a
-              >
-              <ng-template ngbNavContent>
-                <!-- Account Tab starts -->
-                <div
-                  class="tab-pane active"
-                  id="account"
-                  aria-labelledby="account-tab"
-                  role="tabpanel"
-                >
-                  <!-- users edit account form start -->
-
                   <form
                     class="form form-horizontal"
                     id="form-personal"
@@ -1071,20 +1056,20 @@
                         </div>
                       </form>
                     </div>
-                    <div
-                      class="col-12 button_summit d-flex justify-content-end pb-1"
-                    >
-                      <button
-                        type="submit"
-                        rippleEffect
-                        class="btn pl-3 pr-3 btn-primary mr-1"
-                        (click)="onSubmit()"
-                      >
-                        Cập Nhật
-                      </button>
-                      <app-return [buttonReturn]="buttonReturn"> </app-return>
-                    </div>
                   </form>
+                </div>
+                <div
+                  class="col-12 button_summit d-flex justify-content-end pb-1"
+                >
+                  <button
+                    type="submit"
+                    rippleEffect
+                    class="btn pl-3 pr-3 btn-primary mr-1"
+                    (click)="onSubmit()"
+                  >
+                    Cập Nhật
+                  </button>
+                  <app-return [buttonReturn]="buttonReturn"> </app-return>
                 </div>
                 <!-- Account Tab ends -->
               </ng-template>

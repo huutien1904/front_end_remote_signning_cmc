@@ -156,7 +156,7 @@ export class NewPersonalSidebarComponent implements OnInit {
           { value: null, disabled: true },
           Validators.required,
         ],
-        gender: [null, [Validators.required]],
+        gender: [this.gender[0], [Validators.required]],
         birthday: [null, [Validators.required, Validators.minLength(22)]],
         email: [null, [Validators.required, Validators.email]],
         password: [null, [Validators.required]],
@@ -213,6 +213,7 @@ export class NewPersonalSidebarComponent implements OnInit {
     this._personalService.getOrganizationId().subscribe((res) => {
       this.organizationId = res.data;
       console.log(res);
+      console.log(this.organizationId);
     });
   }
 
