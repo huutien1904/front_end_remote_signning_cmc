@@ -72,7 +72,9 @@ export class TokenViewComponent implements OnInit {
         tokenPassword: ['', Validators.required],
         hsmInformationId: ["", Validators.required],
         hsmName:["", Validators.required],
-        hsmId: [null, Validators.required]
+        hsmId: [null, Validators.required],
+        numberSecretKeyEntry:[null,Validators.required],
+        numberPrivateKeyEntry:[null,Validators.required]
       },
       
     );
@@ -119,7 +121,7 @@ export class TokenViewComponent implements OnInit {
     console.log(this.tokenDetail)
     this._tokenService.getTokenId(this.lastValue)
     // .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((res) => {
+    .subscribe((res:any) => {
       console.log(res);
       
       this.tokenForm.patchValue({
@@ -128,6 +130,8 @@ export class TokenViewComponent implements OnInit {
         tokenId: res.data.tokenId,
         hsmName : res.data.hsmName,
         hsmId : res.data.hsmId,
+        numberSecretKeyEntry:res.data.keyInSlotDto.numberSecretKeyEntry,
+        numberPrivateKeyEntry:res.data.keyInSlotDto.numberPrivateKeyEntry
       });
       this.mechanismList = res.data.mechanismDtoList;
     });

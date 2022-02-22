@@ -1,13 +1,7 @@
 <div class="modal-header">
   <h4 class="modal-title" id="myModalLabel1">
-    Tạo yêu cầu chứng thực cho thuê bao
-    {{
-      personals.firstName +
-        ' ' +
-        personals.middleName +
-        ' ' +
-        personals.lastName
-    }}
+    Tạo yêu cầu chứng thực cho {{personals.length}} thuê bao
+    
   </h4>
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
@@ -62,62 +56,14 @@
             [rowHeight]="50"
             [selectionType]="SelectionType.checkbox"
           >
-            <ngx-datatable-column
-              [width]="50"
-              [sortable]="false"
-              [canAutoResize]="false"
-              [draggable]="false"
-              [resizeable]="false"
-            >
-              <ng-template
-                ngx-datatable-header-template
-                let-value="value"
-                let-allRowsSelected="allRowsSelected"
-                let-selectFn="selectFn"
-              >
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [checked]="allRowsSelected"
-                    (change)="selectFn(!allRowsSelected)"
-                    id="headerChkbxRef"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="headerChkbxRef"
-                  ></label>
-                </div>
-              </ng-template>
-              <ng-template
-                ngx-datatable-cell-template
-                let-rowIndex="rowIndex"
-                let-value="value"
-                let-isSelected="isSelected"
-                let-onCheckboxChangeFn="onCheckboxChangeFn"
-              >
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [checked]="isSelected"
-                    (change)="onCheckboxChangeFn($event)"
-                    id="rowChkbxRef{{ rowIndex }}"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="rowChkbxRef{{ rowIndex }}"
-                  ></label>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
+            
             <ngx-datatable-column
               name="TT"
               prop="id"
-              [width]="10"
+              [width]="20"
             ></ngx-datatable-column>
 
-            <ngx-datatable-column name="SUBJECT DN" [width]="900">
+            <ngx-datatable-column name="SUBJECT DN" [width]="1400">
               <ng-template
                 ngx-datatable-cell-template
                 let-row="row"
@@ -126,62 +72,7 @@
                 {{ row.subjectDn }}
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column
-              name="HÀNH ĐỘNG"
-              [width]="120"
-              [sortable]="false"
-            >
-              <ng-template ngx-datatable-cell-template>
-                <div class="d-flex align-items-center">
-                  <div ngbDropdown container="body">
-                    <a
-                      ngbDropdownToggle
-                      href="javascript:void(0);"
-                      class="hide-arrow"
-                      id="dropdownBrowserState"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i
-                        data-feather="more-vertical"
-                        class="text-primary cursor-pointer mr-50"
-                      ></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right"
-                      aria-labelledby="dropdownBrowserState"
-                    >
-                      <a
-                        href="javascript:void(0)"
-                        ngbDropdownItem
-                        class="d-flex align-items-center"
-                        ><i data-feather="file-text" class="mr-50"></i>
-                        Details</a
-                      >
-                      <a
-                        href="javascript:void(0)"
-                        ngbDropdownItem
-                        class="d-flex align-items-center"
-                        ><i data-feather="archive" class="mr-50"></i> Archive</a
-                      >
-                      <a
-                        href="javascript:void(0)"
-                        ngbDropdownItem
-                        class="d-flex align-items-center"
-                        ><i data-feather="trash-2" class="mr-50"></i> Delete</a
-                      >
-                    </div>
-                  </div>
-
-                  <i
-                    data-feather="edit"
-                    class="text-primary cursor-pointer"
-                  ></i>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
+            
           </ngx-datatable>
         </div>
       </div>
@@ -198,12 +89,13 @@
           Tạo mới cặp khóa
         </button>
         <button
+          
           type="button"
           class="btn btn-primary mr-1"
           (click)="getListKeypair()"
           rippleEffect
         >
-          Tạo có sẵn
+          Chọn cặp khóa có sẵn
         </button>
       </div>
     </div>
@@ -273,6 +165,33 @@
               formControlName="keypairLength"
             ></ng-select>
           </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Số lượng cặp khóa</label>
+          <input
+            type="text"
+            formControlName="numberKey"
+            class="form-control"
+            disabled
+            [ngClass]="{
+              'is-invalid':
+                (f.numberKey.errors && f.numberKey?.dirty) ||
+                (submitted && f.numberKey?.errors?.required),
+              'is-valid': !f.numberKey?.errors?.used && f.numberKey?.dirty
+            }"
+          />
+          <div
+            *ngIf="
+              (f.numberKey.errors && f.numberKey?.dirty) ||
+              (submitted && f.numberKey?.errors?.required)
+            "
+            class="invalid-feedback"
+          >
+            
+          </div>
+          
         </div>
       </div>
       <div class="col-md-6">
@@ -413,55 +332,7 @@
         prop="keypairStatusName"
         [width]="200"
       ></ngx-datatable-column>
-      <ngx-datatable-column name="Hành động" [width]="100" [sortable]="false">
-        <ng-template
-          ngx-datatable-cell-template
-          let-row="row"
-          let-value="value"
-          let-rowIndex="rowIndex"
-        >
-          <div class="d-flex align-items-center">
-            <div ngbDropdown container="body">
-              <a
-                ngbDropdownToggle
-                href="javascript:void(0);"
-                class="hide-arrow"
-                id="dropdownBrowserState"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i
-                  data-feather="more-vertical"
-                  class="text-primary cursor-pointer mr-50"
-                ></i>
-              </a>
-              <div
-                ngbDropdownMenu
-                class="dropdown-menu-right"
-                aria-labelledby="dropdownBrowserState"
-              >
-                <a
-                  ngbDropdownItem
-                  class="d-flex align-items-center"
-                  [routerLink]="[
-                    '/apps/tm/keypair/keypair-view/',
-                    row.keypairId
-                  ]"
-                  ><i data-feather="file-text" class="mr-50"></i>Chi Tiết</a
-                >
-                <a
-                  href="javascript:void(0)"
-                  ngbDropdownItem
-                  class="d-flex align-items-center"
-                  ><i data-feather="trash" class="mr-50"></i>Xóa</a
-                >
-              </div>
-            </div>
-            <i data-feather="edit" class="text-primary cursor-pointer"></i>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
+      
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template

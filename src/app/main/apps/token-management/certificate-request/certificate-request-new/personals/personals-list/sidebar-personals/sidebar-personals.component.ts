@@ -136,11 +136,11 @@ export class SidebarPersonalsComponent implements OnInit {
     console.log(this.newRequestForm.value)
     this.getListProfiles();
   }
-
+  // dong modal
   toggleSidebar() {
     this.modal.dismissAll();
   }
-
+  //  download yeu cau chung thuc 
   downloadSidebar(res) {
     this.modal.open(this.modalLink);
     const data = res.data.certificateRequestContent;
@@ -180,7 +180,7 @@ export class SidebarPersonalsComponent implements OnInit {
         .toPromise().then(res => {
           return res.data;
         });
-      console.log(this.address)
+      // console.log(this.address)
 
       var commonName = this.personal.personalFirstName;
       var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
@@ -248,61 +248,22 @@ export class SidebarPersonalsComponent implements OnInit {
     });
   }
 
+  // hien thi profile tu cac thong tin lay duoc
   displayProfile(attribute, value, firstWord) {
-    console.log(value);
-    console.log(attribute);
+    // console.log(value);
+    // console.log(attribute);
     if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
     else {
       this.strProfile += attribute + ' = ' + value;
     }
   }
 
-  async onSubmit() {
-    this.submitted = true;
-    if (this.newRequestForm.invalid) {
-      return;
-    }
-
-    const newRequest = JSON.stringify({
-      cryptoAlgorithm: [this.newRequestForm
-        .get('cryptoAlgorithm')
-        .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
-          .get('cryptoAlgorithm')
-          .get('keypairLength').value],
-      alias: this.f.alias.value,
-      tokenId: this.f.tokenId.value.tokenId,
-      templateKeyId: '1',
-      userId: this.f.userId.value,
-    });
-    console.log(newRequest);
-    let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res => {
-      return res.data.keypairId;
-    }
-    );
-    if (keypairId == null) {
-      return;
-    }
-    this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId })).subscribe((res: any) => {
-      console.log(res);
-      if ((res.result = true)) {
-        this.toggleSidebar();
-        this.toastr.success(
-          '👋 Bạn đã tạo yêu cầu chứng thực mới',
-          'Thành công',
-          {
-            positionClass: 'toast-top-center',
-            toastClass: 'toast ngx-toastr',
-            closeButton: true,
-          }
-        );
-        this.downloadSidebar(res);
-      }
-    });
-  }
+  // lay danh sanh profile tu api
   getListProfiles() {
     this._entityProfileService.getListProfiles(this.bodyGetListProfile)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res) => {
+        console.log("check");
         this.newRequestForm.controls['profile'].setValue(res.data.data[0].endEntityProfileName)
         
         // this.
@@ -318,12 +279,15 @@ export class SidebarPersonalsComponent implements OnInit {
           id: profile.endEntityProfileId,
           nameProfile: profile.endEntityProfileName
         }))
+        console.log(this.listProfiles)
+        console.log(this.personal)
+        // set thong tin de hien thi subjectDN cua thue bao ca nhan dau tien 
         var profile = this.listProfiles[0].subjectDNA
         this.strProfile = '';
         let firstWord = true; 
         profile.map(async (attribute: string) => {
           let value = '';
-          this.address = await this._addressService.getAddressById(283)
+          this.address = await this._addressService.getAddressById(this.personal.address.addressId)
             .pipe(takeUntil(this._unsubscribeAll))
             .toPromise().then(res => {
               return res.data;
@@ -332,7 +296,7 @@ export class SidebarPersonalsComponent implements OnInit {
     
           var commonName = this.personal.personalFirstName;
           var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-          var countryCode = this.personal.personalCountryId;
+          var countryCode = this.personal.address.countryId;
           var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
           var localityName = "Huyện " + this.address.districtName;
           var personalCountryId = this.personal.personalCountryId;
@@ -398,6 +362,7 @@ export class SidebarPersonalsComponent implements OnInit {
         console.log(this.listProfiles);
       })
   }
+  // kiem tra alias
   checkAlias(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
       return this._personalsService
@@ -411,11 +376,48 @@ export class SidebarPersonalsComponent implements OnInit {
         }));
     }
   }
-  // getAddressById(id){
-  //   this._addressService.getAddressById(id)
-  //     .pipe(takeUntil(this._unsubscribeAll))
-  //     .subscribe((res) =>{
-  //       this.address = res.data
-  //     })
-  // }
+  // submit 
+  async onSubmit() {
+    this.submitted = true;
+    if (this.newRequestForm.invalid) {
+      return;
+    }
+
+    const newRequest = JSON.stringify({
+      cryptoAlgorithm: [this.newRequestForm
+        .get('cryptoAlgorithm')
+        .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+          .get('cryptoAlgorithm')
+          .get('keypairLength').value],
+      alias: this.f.alias.value,
+      tokenId: this.f.tokenId.value.tokenId,
+      templateKeyId: '1',
+      userId: this.f.userId.value,
+    });
+    console.log(newRequest);
+    let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res => {
+      return res.data.keypairId;
+    }
+    );
+    if (keypairId == null) {
+      return;
+    }
+    this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId })).subscribe((res: any) => {
+      console.log(res);
+      if ((res.result = true)) {
+        this.toggleSidebar();
+        this.toastr.success(
+          '👋 Bạn đã tạo yêu cầu chứng thực mới',
+          'Thành công',
+          {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          }
+        );
+        this.downloadSidebar(res);
+      }
+    });
+  }
+  
 }

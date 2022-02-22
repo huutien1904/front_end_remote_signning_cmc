@@ -75,16 +75,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
   public chkBoxSelected = [];
 
   public pagedData = new PagedData<any>();
-  public listSubjectDn = [
-    {
-      id:1,
-      subjectDn:"CN = Nguyễn Hữu Tiến, UID = 0933833333, UID = 0933833333, OU = CMC CIST, OU = CMC CIST, O = CMC , STREET = Số nhà q Đường trần hưng đạo Xã Phúc Xá, L = Huyện Ba Đình, ST = Tỉnh Hà Nội, C = 0933833333"
-    },
-    {
-      id:2,
-      subjectDn:"CN = Nguyễn Hữu Tiến, UID = 0933833333, UID = 0933833333, OU = CMC CIST, OU = CMC CIST, O = CMC , STREET = Số nhà q Đường trần hưng đạo Xã Phúc Xá, L = Huyện Ba Đình, ST = Tỉnh Hà Nội, C = 0933833333"
-    }
-  ]
+  public listSubjectDn = []
   public basicSelectedOption: number = 10;
   public SelectionType = SelectionType;
   public ColumnMode = ColumnMode
@@ -109,10 +100,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
   get f() {
     return this.newRequestForm.controls;
   }
-  customCheckboxOnSelect({ selected }) {
-    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
-    this.chkBoxSelected.push(...selected);
-  }
+ 
   constructor(
     private fb: FormBuilder,
     private modal: NgbModal,
@@ -124,7 +112,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
     private _entityProfileService: EntityProfileService,
     private _keypairService: KeypairListService,
   ) { }
-  public hsmListSub = new Subject();
   async ngOnInit() {
     console.log(this.personals)
     await this._hsmService
@@ -159,6 +146,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
           this.personals.username +
           Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
         ,
+        numberKey : [this.personals.length,Validators.required],
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personals.userId],
         hsm: [this.hsmList[0]],
@@ -184,19 +172,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
     this.modal.dismissAll();
   }
 
-  downloadSidebar(res) {
-    this.modal.open(this.modalLink);
-    const data = res.data.certificateRequestContent;
-    console.log(data)
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-    console.log(blob)
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
-    // this.fileName = res.data.certificateRequestId + '.csr';
-    this.fileName = res.data.keypairAlias + '.csr';
-    console.log(this.fileName)
-  }
+  
   changeCrypto() {
     this.keypairLengthList = this.newRequestForm
       .get('cryptoAlgorithm')
@@ -338,7 +314,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
             closeButton: true,
           }
         );
-        this.downloadSidebar(res);
       }
     });
   }
@@ -362,81 +337,100 @@ export class CreateCertificateRequestListComponent implements OnInit {
           nameProfile: profile.endEntityProfileName
         }))
         var profile = this.listProfiles[0].subjectDNA
-        this.strProfile = '';
-        let firstWord = true; 
-        profile.map(async (attribute: string) => {
+        this.personals.map((personal,index) =>{
+          this.strProfile = '';
+          let firstWord = true;
           let value = '';
-          this.address = await this._addressService.getAddressById(283)
-            .pipe(takeUntil(this._unsubscribeAll))
-            .toPromise().then(res => {
-              return res.data;
-            });
-          console.log(this.address)
-    
-          var commonName = this.personals.personalFirstName;
-          var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-          var countryCode = this.personals.personalCountryId;
-          var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-          var localityName = "Huyện " + this.address.districtName;
-          var personalCountryId = this.personals.personalCountryId;
-          var phoneNumber = this.personals.phoneNumber;
-          var email = this.personals.email;
-          
-          // console.log(address)
-          switch (attribute) {
-            case 'CN':
-              value = commonName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'C':
-              value = countryCode
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'ST':
-              value = stateOrProvinceName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'L':
-              value = localityName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'OU':
-              value = "CMC CIST"
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'O':
-              value = "CMC "
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'TELEPHONE_NUMBER':
-              value = phoneNumber
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
+          setTimeout(() => {
+            profile.map(async (attribute: string) => {
             
-            case 'EmailAddress':
-              value = email;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
+            this.address = await this._addressService.getAddressById(personal.address.addressId)
+              .pipe(takeUntil(this._unsubscribeAll))
+              .toPromise().then(res => {
+                return res.data;
+              });
+            console.log(this.address)
+      
+            var commonName = personal.personalFirstName;
+            console.log(commonName)
+            var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
+            var countryCode = personal.personalCountryId;
+            var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
+            var localityName = "Huyện " + this.address.districtName;
+            var personalCountryId = personal.personalCountryId;
+            var phoneNumber = personal.phoneNumber;
+            var email = personal.email;
+            
+            console.log(attribute)
+            switch (attribute) {
+              case 'CN':
+                value += attribute + ' = ' + commonName + ','
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+                break;
+              case 'C':
+                value += attribute + ' = ' + countryCode + ','
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
               break;
-            case 'UID':
-              value = personalCountryId;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
+              case 'ST':
+                value += attribute + ' = ' + stateOrProvinceName + ','
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
               break;
-            case 'STREET':
-              value = streetAddress;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break; 
-          }
-        });
+              case 'L':
+                value += attribute + ' = ' + localityName + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+              break;
+              case 'OU':
+                value += attribute + ' = ' + 'CMC CIST' + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+              break;
+              case 'O':
+                value += attribute + ' = ' + 'CMC' + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+              break;
+              case 'TELEPHONE_NUMBER':
+                value += attribute + ' = ' + phoneNumber + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+              break;
+              
+              case 'EmailAddress':
+                value += attribute + ' = ' + email + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+                break;
+              case 'UID':
+                value += attribute + ' = ' + personalCountryId + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+                break;
+              case 'STREET':
+                value += attribute + ' = ' + streetAddress + ','
+
+                // this.displayProfile(attribute, value, firstWord);
+                // firstWord = false;
+                break; 
+            }
+            this.listSubjectDn.push({subjectDn:value})
+            console.log(this.listSubjectDn)
+          });
+          }, 3000);
+          
+          console.log(value)
+        })
+        
+
         // console.log(subjectDN)
         console.log(this.listProfiles);
       })

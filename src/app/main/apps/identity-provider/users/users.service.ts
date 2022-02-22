@@ -89,6 +89,7 @@ export class UsersService {
         Authorization: 'Bearer ' + this.token,
       },
     };
+    
     return this._httpClient.post<any>(
       `${environment.apiUrl}/subscriber-certificate/update-self`,
       formData,
@@ -129,4 +130,23 @@ export class UsersService {
       this.option
     );
   }
+  
+  updateAvatar(
+    form: FormGroup
+  ): Observable<ResponseData<PagedData<CertificateRequest>>> {
+    const formData = new FormData();
+    formData.append('avatar', form.get('avatar').value);
+
+    console.log(formData);
+    console.log(form.value);
+  
+    return this._httpClient.post<any>(
+      `${environment.apiUrl}/user/self-user`,
+      JSON.stringify(form.value), 
+      this.option
+    );
+  }
+
+  
+
 }
