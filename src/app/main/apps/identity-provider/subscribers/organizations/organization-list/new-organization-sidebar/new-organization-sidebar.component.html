@@ -3,10 +3,10 @@
   <div class="form_content">
     <h3>Thông tin tài khoản</h3>
     <div class="row">
-      <div class="col-12 col-md-2">
+      <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="label">TÊN TÀI KHOẢN</label>
+            <label>TÊN TÀI KHOẢN</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -24,9 +24,8 @@
                 ></span>
               </div>
               <input
-                formControlName="username"
-                placeholder="Tên tài khoản"
                 type="text"
+                formControlName="username"
                 class="form-control"
                 [ngClass]="
                   (f.username.errors && f.username?.touched) ||
@@ -40,7 +39,7 @@
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.username?.errors?.username && f.username?.touched) ||
+                (f.username?.errors?.required && f.username?.touched) ||
                 (submitted && f.username?.errors?.required)
               "
               class="invalid-form"
@@ -49,7 +48,7 @@
                 class="form-text text-danger"
                 *ngIf="f.username.errors.required"
               >
-                Không được bỏ trống
+                Bạn cần nhập tên tài khoản
               </small>
             </span>
           </div>
@@ -58,7 +57,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="label">THƯ ĐIỆN TỬ (EMAIL)</label>
+            <label>THƯ ĐIỆN TỬ (EMAIL)</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -76,9 +75,8 @@
                 ></span>
               </div>
               <input
-                formControlName="email"
-                placeholder="Email"
                 type="text"
+                formControlName="email"
                 class="form-control"
                 [ngClass]="
                   (f.email.errors && f.email?.touched) ||
@@ -89,10 +87,11 @@
               />
             </div>
           </div>
+
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.email?.errors?.email && f.email?.touched) ||
+                (f.email?.errors?.required && f.email?.touched) ||
                 (submitted && f.email?.errors?.required)
               "
               class="invalid-form"
@@ -101,7 +100,7 @@
                 class="form-text text-danger"
                 *ngIf="f.email.errors.required"
               >
-                Không được bỏ trống
+                Bạn cần nhập email
               </small>
             </span>
           </div>
@@ -110,7 +109,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="label">MẬT KHẨU</label>
+            <label>MẬT KHẨU</label>
           </div>
           <div class="col-sm-12">
             <div
@@ -128,9 +127,8 @@
                 ></span>
               </div>
               <input
-                formControlName="password"
-                placeholder="Mật khẩu"
                 type="password"
+                formControlName="password"
                 class="form-control"
                 [ngClass]="
                   (f.password.errors && f.password?.touched) ||
@@ -144,7 +142,7 @@
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.password?.errors?.password && f.password?.touched) ||
+                (f.password?.errors?.required && f.password?.touched) ||
                 (submitted && f.password?.errors?.required)
               "
               class="invalid-form"
@@ -153,7 +151,7 @@
                 class="form-text text-danger"
                 *ngIf="f.password.errors.required"
               >
-                Không được bỏ trống
+                Bạn cần nhập mật khẩu
               </small>
             </span>
           </div>
@@ -162,17 +160,18 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label class="label">XÁC NHẬN MẬT KHẨU</label>
+            <label>XÁC NHẬN MẬT KHẨU</label>
           </div>
           <div class="col-sm-12">
             <div
               class="input-group input-group-merge"
-              [ngClass]="
-                (f.rePassword.errors && f.rePassword?.touched) ||
-                (submitted && f.rePassword?.errors?.required)
-                  ? 'is-invalid'
-                  : ''
-              "
+              [ngClass]="{
+                'is-invalid':
+                  (f.rePassword.errors && f.rePassword?.dirty) ||
+                  (submitted && f.rePassword?.errors?.required),
+                'is-valid':
+                  !f.rePassword?.errors?.mustMatch && f.rePassword?.dirty
+              }"
             >
               <div class="input-group-prepend">
                 <span class="input-group-text"
@@ -180,32 +179,48 @@
                 ></span>
               </div>
               <input
-                formControlName="rePassword"
-                placeholder="Xác nhận mật khẩu"
                 type="password"
+                formControlName="rePassword"
                 class="form-control"
-                [ngClass]="
-                  (f.rePassword.errors && f.rePassword?.touched) ||
-                  (submitted && f.rePassword?.errors?.required)
-                    ? 'is-invalid'
-                    : ''
-                "
+                [ngClass]="{
+                  'is-invalid':
+                    (f.rePassword.errors && f.rePassword?.dirty) ||
+                    (submitted && f.rePassword?.errors?.required),
+                  'is-valid':
+                    !f.rePassword?.errors?.mustMatch && f.rePassword?.dirty
+                }"
               />
             </div>
           </div>
           <div class="col-sm-12">
             <span
               *ngIf="
-                (f.rePassword?.errors?.rePassword && f.rePassword?.touched) ||
+                (f.rePassword.errors && f.rePassword?.dirty) ||
                 (submitted && f.rePassword?.errors?.required)
               "
               class="invalid-form"
             >
               <small
-                class="form-text text-danger"
                 *ngIf="f.rePassword.errors.required"
+                class="form-text text-danger"
               >
-                Không được bỏ trống
+                Bạn cần xác nhận mật khẩu
+              </small>
+              <small
+                *ngIf="f.rePassword.errors.mustMatch"
+                class="form-text text-danger"
+              >
+                Xác nhận mật khẩu không hợp lệ
+              </small>
+            </span>
+          </div>
+          <div class="col-sm-12">
+            <span *ngIf="f.rePassword.errors == null" class="invalid-form">
+              <small
+                *ngIf="f.rePassword.errors == null"
+                class="valid-feedback form-text"
+              >
+                Xác nhận mật khẩu hợp lệ
               </small>
             </span>
           </div>
@@ -214,7 +229,7 @@
     </div>
     <h3>Thông tin tổ chức</h3>
     <div class="row">
-      <div class="col-12 col-md-2">
+      <div class="col-11 col-md-2">
         <div class="">
           <input
             #imageInput
@@ -224,22 +239,24 @@
             (change)="inputImage($event)"
           />
         </div>
-        <div class="mb-1">
-          <img
-            class="border border-dark ml-1 mt-1"
-            height="150"
-            width="150"
-            (click)="imageInput.click()"
-            [src]="
-              image ? image : 'assets/images/portrait/small/avatar-s-11.jpg'
-            "
-            alt="Upload Image"
-          />
-          <span class="ml-3">Ảnh đại diện</span>
+        <div>
+          <div>
+            <img
+              class="border border-dark w-100 h-100 mt-1 ml-1 mr-1 mb-1"
+              (click)="imageInput.click()"
+              [src]="
+                image ? image : 'assets/images/portrait/small/avatar-s-11.jpg'
+              "
+              alt="Upload Image"
+            />
+          </div>
+          <div class="text-center mb-1 ml-1">
+            <span>Ảnh đại diện</span>
+          </div>
         </div>
       </div>
       <div class="col-12 col-md-10">
-        <div class="row">
+        <div class="row mt-1">
           <div class="col-12 col-md-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
@@ -293,7 +310,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-2">
+          <div class="col-12 col-md-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
                 <label>MÃ TỔ CHỨC</label>
@@ -357,12 +374,12 @@
                   [items]="typeOrganization"
                   [clearable]="false"
                   bindLabel="subscriberCategoryName"
-                  bindValue="subscriberCategoryId"
+                  bindValue="organizationId"
                   formControlName="subscriberCategoryId"
                   [ngClass]="
-                    (f.subscriberCategoryId.errors &&
-                      f.subscriberCategoryId?.touched) ||
-                    (submitted && f.subscriberCategoryId?.errors?.required)
+                    (f.typeOrganization.errors &&
+                      f.typeOrganization?.touched) ||
+                    (submitted && f.typeOrganization?.errors?.required)
                       ? 'is-invalid'
                       : ''
                   "
@@ -373,9 +390,9 @@
               <div class="col-sm-12">
                 <span
                   *ngIf="
-                    (f.subscriberCategoryId.errors &&
-                      f.subscriberCategoryId?.touched) ||
-                    (submitted && f.subscriberCategoryId?.errors?.required)
+                    (f.typeOrganization.errors &&
+                      f.typeOrganization?.touched) ||
+                    (submitted && f.typeOrganization?.errors?.required)
                   "
                   class="invalid-form"
                 >
@@ -454,7 +471,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-1">
           <div class="col-12 col-md-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
@@ -568,11 +585,11 @@
               </div>
               <div class="col-sm-12">
                 <ng-select
-                  [items]="organizationList"
+                  [items]="parentOrganizationName"
                   [clearable]="true"
-                  bindLabel="organizationName"
-                  bindValue="parentOrganizationId"
-                  formControlName="parentOrganizationId"
+                  bindLabel="parentOrganizationName"
+                  bindValue="organizationId"
+                  formControlName="parentOrganizationName"
                 >
                   >
                 </ng-select>
@@ -584,7 +601,7 @@
     </div>
     <h3>Địa chỉ</h3>
     <div class="row">
-      <div class="col-12 col-md-2">
+      <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>QUỐC GIA</label>
@@ -824,7 +841,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>ĐỊA CHỈ CỤ THỂ</label>

@@ -90,73 +90,83 @@ export class NewPersonalSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.newPersonal = this.fb.group({
-      username: ['', [Validators.required]],
-      subscriberCategoryId: ['1', [Validators.required]],
-      firstName: [null, [Validators.required]],
-      middleName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
-      phoneNumber: [
-        null,
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),
+    this.newPersonal = this.fb.group(
+      {
+        username: ['', [Validators.required]],
+        subscriberCategoryId: ['1', [Validators.required]],
+        firstName: [null, [Validators.required]],
+        middleName: [null, [Validators.required]],
+        lastName: [null, [Validators.required]],
+        phoneNumber: [
+          null,
+          [
+            Validators.required,
+            Validators.minLength(10),
+            Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),
+          ],
         ],
-      ],
-      personalCountryId: [
-        null,
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(/^[0-9]\d*$/),
+        personalCountryId: [
+          null,
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(/^[0-9]\d*$/),
+          ],
         ],
-      ],
-      organizationId: [null, Validators.required],
-      streetBirthPlace: [{ value: null, disabled: true }, Validators.required],
-      countryBirthPlace: [
-        this.countryBirthPlace[0].countryId,
-        Validators.required,
-      ],
-      provinceBirthPlace: [null, Validators.required],
-      districtBirthPlace: [
-        { value: null, disabled: true },
-        Validators.required,
-      ],
-      communeBirthPlace: [{ value: null, disabled: true }, Validators.required],
-      homeNumberBirthPlace: [
-        { value: null, disabled: true },
-        Validators.required,
-      ],
-      countryResidencePlace: [
-        this.countryResidencePlace[0].countryId,
-        Validators.required,
-      ],
-      provinceResidencePlace: [null, Validators.required],
-      districtResidencePlace: [
-        { value: null, disabled: true },
-        Validators.required,
-      ],
-      communeResidencePlace: [
-        { value: null, disabled: true },
-        Validators.required,
-      ],
-      streetResidencePlace: [
-        { value: null, disabled: true },
-        Validators.required,
-      ],
-      homeNumberResidencePlace: [
-        { value: null, disabled: true },
-        Validators.required,
-      ],
-      gender: [null, [Validators.required]],
-      birthday: [null, [Validators.required, Validators.minLength(22)]],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-      photo: [null, [Validators.required]],
-      rePassword: [null, [Validators.required]],
-    });
-
+        organizationId: [null, Validators.required],
+        streetBirthPlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        countryBirthPlace: [
+          this.countryBirthPlace[0].countryId,
+          Validators.required,
+        ],
+        provinceBirthPlace: [null, Validators.required],
+        districtBirthPlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        communeBirthPlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        homeNumberBirthPlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        countryResidencePlace: [
+          this.countryResidencePlace[0].countryId,
+          Validators.required,
+        ],
+        provinceResidencePlace: [null, Validators.required],
+        districtResidencePlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        communeResidencePlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        streetResidencePlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        homeNumberResidencePlace: [
+          { value: null, disabled: true },
+          Validators.required,
+        ],
+        gender: [null, [Validators.required]],
+        birthday: [null, [Validators.required, Validators.minLength(22)]],
+        email: [null, [Validators.required, Validators.email]],
+        password: [null, [Validators.required]],
+        photo: [null, [Validators.required]],
+        rePassword: [null, [Validators.required]],
+      },
+      {
+        validator: MustMatch('password', 'rePassword'),
+      }
+    );
     this.initAddress();
     this.getOrganizationId();
     // this.setImageDefault();
@@ -164,34 +174,39 @@ export class NewPersonalSidebarComponent implements OnInit {
 
   //tải ảnh lên
   inputImage(event) {
-    if (typeof FileReader !== "undefined") {
+    if (typeof FileReader !== 'undefined') {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (e: any) => {
         this.image = e.target.result;
         console.log(this.image);
-        console.log(this.image.split(",")[1]);
+        console.log(this.image.split(',')[1]);
         this.newPersonal.patchValue({
-          photo: this.image.split(",")[1],
+          photo: this.image.split(',')[1],
         });
       };
     }
   }
   // setImageDefault() {
-  //   this.http.get("../../../../../assets/images/portrait/small/avatar-s-11.jpg", { responseType: "blob" }).subscribe((res) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(res);
-  //     console.log(res);
-  //     reader.onloadend = () => {
-  //       this.base64data = reader.result;
-  //       this.imageString = this.base64data.split(",")[1];
-  //       //console.log(this.imageString)
-  //       this.newPersonal.patchValue({
-  //         photo: this.imageString,
-  //       });
-  //     };
-  //     console.log(this.newPersonal.value);
-  //   });
+  //   this.http
+  //     .get('../../../../../assets/images/portrait/small/avatar-s-11.jpg', {
+  //       responseType: 'blob',
+  //     })
+  //     .subscribe((res) => {
+  //       const reader = new FileReader();
+  //       reader.readAsDataURL(res);
+  //       console.log(res);
+  //       reader.onloadend = () => {
+  //         this.base64data = reader.result;
+  //         console.log(this.base64data);
+  //         this.imageString = this.base64data.split(',')[1];
+  //         console.log(this.imageString);
+  //         this.newPersonal.patchValue({
+  //           photo: this.imageString,
+  //         });
+  //       };
+  //       console.log(this.newPersonal.value);
+  //     });
   // }
 
   getOrganizationId() {
@@ -204,16 +219,16 @@ export class NewPersonalSidebarComponent implements OnInit {
   selectOrganization(e) {
     this.newPersonal.controls['organizationId'].setValue(e.organizationId);
   }
-  randomUser(length) {
-    var result = '';
-    var characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return this.newPersonal.controls['username'].setValue(result);
-  }
+  // randomUser(length) {
+  //   var result = '';
+  //   var characters =
+  //     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //   var charactersLength = characters.length;
+  //   for (var i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   return this.newPersonal.controls['username'].setValue(result);
+  // }
   initAddress() {
     this._addressService
       .getProvince()
@@ -528,7 +543,6 @@ export class NewPersonalSidebarComponent implements OnInit {
   updateTable() {
     this.onUpdate.emit();
   }
-
   get f() {
     return this.newPersonal.controls;
   }
@@ -544,19 +558,17 @@ export class NewPersonalSidebarComponent implements OnInit {
     // overlayRef.attach(new ComponentPortal(ProgressContainerComponent))
   }
   onSubmit() {
-    this.randomUser(5);
+    // this.randomUser(5);
     let data = this.newPersonal.value;
     console.log(data);
-
     this.submitted = true;
-    this.showGlobalOverlay();
-    // stop here if form is invalid
-    if (this.newPersonal.invalid) {
-      return;
-    }
+    // this.showGlobalOverlay();
+    // // stop here if form is invalid
+    // if (this.newPersonal.invalid) {
+    //   return;
+    // }
 
     const newPersonal = JSON.stringify(data);
-
     this._personalService.submitForm(newPersonal).subscribe((res: any) => {
       console.log(res);
 
@@ -606,4 +618,20 @@ export class NewPersonalSidebarComponent implements OnInit {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
+}
+export function MustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl?.errors && !matchingControl?.errors?.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return;
+    }
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
 }
