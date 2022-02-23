@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
   public personalSelected: Personal;
   public url = this.router.url;
   public organizationId: Organization[];
-  public test:any[] =[]; 
+  public test: any[] = [];
   public countryResidencePlace = [
     {
       countryId: '237',
@@ -177,12 +177,13 @@ export class ProfileComponent implements OnInit {
   public isLoading: boolean = false;
   public totalItems: any = 0;
   public ColumnMode = ColumnMode;
-
+  // get string base64
+  public base64textString: String = "";
   // Danh sách yêu cầu chứng thực
   public rowsDataCRL = new Array<CertificateRequest>();
   public pagedDataCRL = new PagedData<CertificateRequest>();
   public formListCertificateRequest: FormGroup;
-
+  public formUploadAvatar: FormGroup;
   private readonly currentUser = JSON.parse(
     localStorage.getItem('currentUser')
   );
@@ -199,7 +200,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private dateAdapter: DateAdapter<any>,
-    // private _authenticationService: AuthenticationService
+    // private _authenticationService: 
+    private toastr: ToastrService,
     private _usersService: UsersService,
     private fb: FormBuilder,
     private _addressService: AddressService,
@@ -259,6 +261,10 @@ export class ProfileComponent implements OnInit {
       birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email]],
       certificate: [null, [Validators.required]],
+    });
+    this.formUploadAvatar = this.fb.group({
+      avatar: [null, Validators.required],
+
     });
 
     this.formProfile = this.fb.group({
@@ -583,8 +589,8 @@ export class ProfileComponent implements OnInit {
           }
           this._toastrService.success(
             'Thêm thành công đường ' +
-              res.data.streetName +
-              'vào cơ sở dữ liệu',
+            res.data.streetName +
+            'vào cơ sở dữ liệu',
             'Thành công',
             {
               positionClass: 'toast-top-center',
@@ -618,8 +624,8 @@ export class ProfileComponent implements OnInit {
           //Gửi thông báo thành công lên góc bên phải màn hình
           this._toastrService.success(
             'Thêm thành công đường ' +
-              res.data.streetName +
-              'vào cơ sở dữ liệu',
+            res.data.streetName +
+            'vào cơ sở dữ liệu',
             'Thành công',
             {
               positionClass: 'toast-top-center',
@@ -638,7 +644,66 @@ export class ProfileComponent implements OnInit {
   get fa() {
     return this.newRequestForm.controls;
   }
+  uploadImage(e) {
+    console.log(e)
+  }
+  handleFileSelect(evt) {
+    var files = evt.target.files;
+    var file = files[0];
+    console.log(files)
+    console.log(file.name)
+    this.handleReaderLoaded(file.name)
+    // change base64
+    // if (files && file) {
+    //   var reader = new FileReader();
 
+    //   reader.onload = this.handleReaderLoaded.bind(this);
+
+    //   reader.readAsBinaryString(file);
+    // }
+  }
+
+
+
+  handleReaderLoaded(fileName) {
+    // var binaryString = readerEvt.target.result;
+    // this.base64textString = btoa(binaryString);
+    // console.log(btoa(binaryString));
+    this.formUploadAvatar.get("avatar").setValue(fileName);
+    console.log(this.formUploadAvatar.value)
+    if (this.formUploadAvatar.invalid) {
+      return;
+    }
+    this._usersService
+      .updateAvatar(this.formUploadAvatar)
+      .subscribe(
+        (res) => {
+          console.log(res.result);
+          if (res.result === true) {
+            this.toastr.success(
+              "👋 Thay avatar thành công",
+              "Thành công",
+              {
+                positionClass: "toast-top-center",
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              }
+            );
+            this.modalRef.close();
+          } else {
+            this.toastr.error("👋Thay avatar", "Thất bại", {
+              positionClass: "toast-top-center",
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          }
+        },
+        (error) => {
+          alert("File ảnh không khả dụng");
+          return false;
+        }
+      );
+  }
   async loadProfile() {
     console.log('Loading');
     // keyCheck
@@ -947,26 +1012,28 @@ export class ProfileComponent implements OnInit {
   }
 
   //Danh sách yêu cầu chứng thực
-  getOrganizationCRL(item): any {
-    console.log(item)
-    let info = this._listCerReqService.readCertificate(
-      item.certificateRequestContent
-    );
-    console.log(typeof info.subjectName.asn[4]);
-    console.log(JSON.stringify(info.subjectName.asn[4]))
-    this.test = info.subjectName.asn[4]
-    console.log(this.test)
-    console.log(info.subjectName.asn.find((obj) => obj.type === '2.5.4.11'))
-    let rs = info.find((obj) => obj.name === 'organizationalUnitName');
-    if (rs == undefined) return;
-    return rs.value;
-  }
-  getSubscribe(item): any {
-    let info = this._listCerReqService.readCertificate(
-      item.certificateRequestContent
-    );
-    return info.find((obj) => obj.name === 'commonName').value;
-  }
+  // getOrganizationCRL(item): any {
+  //   console.log(item)
+  //   let info = this._listCerReqService.readCertificate(
+  //     item.certificateRequestContent
+  //   );
+  //   console.log(info)
+  //   console.log(typeof info.subjectName.asn[4]);
+  //   console.log(JSON.stringify(info.subjectName.asn[4]))
+  //   this.test = info.subjectName.asn[4]
+  //   console.log(this.test)
+  //   console.log(info.subjectName.asn.find((obj) => obj.type === '2.5.4.11'))
+  //   let rs = info.find((obj) => obj.name === 'organizationalUnitName');
+  //     if (rs == undefined) return;
+  //     return rs.value;
+    
+  // }
+  // getSubscribe(item): any {
+  //   let info = this._listCerReqService.readCertificate(
+  //     item.certificateRequestContent
+  //   );
+  //   return info.find((obj) => obj.name === 'commonName').value;
+  // }
   setPageCRL(pageInfo) {
     this.isLoading = true;
     this.formListCertificateRequest.patchValue({ page: pageInfo.offset });
@@ -982,8 +1049,8 @@ export class ProfileComponent implements OnInit {
         this.rowsDataCRL = pagedDataCRL.data.data;
         this.rowsDataCRL = pagedDataCRL.data.data.map((item) => ({
           ...item,
-          organizationName: this.getOrganizationCRL(item),
-          subscribeName: this.getSubscribe(item),
+          // organizationName: this.getOrganizationCRL(item),
+          // subscribeName: this.getSubscribe(item),
         }));
         this.isLoading = false;
       });

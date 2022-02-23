@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
@@ -8,6 +9,7 @@ import {
   DatatableComponent,
   SelectionType
 } from "@swimlane/ngx-datatable";
+import { EntityProfileService } from "app/main/apps/identity-provider/entity-profiles/entity-profile.service";
 import { PersonalService } from "app/main/apps/identity-provider/subscribers/personals/personal.service";
 import { PagedData } from "app/main/models/PagedData";
 import { Personal } from "app/main/models/Personal";
@@ -43,6 +45,7 @@ export class PersonalsComponent implements OnInit {
   public selected = [];
   public SelectionType = SelectionType;
   public rowDataSelected = [];
+  public listSubjectDn = [];
   /**
    *
    * @param _personalService
@@ -60,6 +63,7 @@ export class PersonalsComponent implements OnInit {
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
     private toastr: ToastrService,
+    private _entityProfileService: EntityProfileService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -131,10 +135,21 @@ export class PersonalsComponent implements OnInit {
     console.log("Select Event", selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
+    console.log(this.selected)
   }
-  createCertificateRequest(modalForm){
+  async createCertificateRequest(modalForm){
     if(this.selected.length > 0){
+      await this.selected.map(( personal) =>{
+        this._entityProfileService.getSubjectDnById(54,personal.staffId)
+                                 .pipe(takeUntil(this._unsubscribeAll))
+                                 .subscribe((res) =>{
+                                   console.log(res)
+                                   this.listSubjectDn.push({subjectDn : JSON.stringify(res).replace('{'," ").replace('}'," ").replace(/['"]+/g, '')})
+                                 })
+      })
+      console.log(this.listSubjectDn)
       this.toggleSidebar(modalForm,this.selected[0])
+      
     }else{
       this.toastr.warning(
         '👋 Bạn cần chọn thuê bao cá nhân trước',

@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { EntityProfileService } from './../../../../../../identity-provider/entity-profiles/entity-profile.service';
 import {
   Component,
@@ -73,18 +74,9 @@ export class CreateCertificateRequestListComponent implements OnInit {
   public address: any
   public listProfiles: any[] = [];
   public chkBoxSelected = [];
-
+  public numberKeypair:number
   public pagedData = new PagedData<any>();
-  public listSubjectDn = [
-    {
-      id:1,
-      subjectDn:"CN = Nguyễn Hữu Tiến, UID = 0933833333, UID = 0933833333, OU = CMC CIST, OU = CMC CIST, O = CMC , STREET = Số nhà q Đường trần hưng đạo Xã Phúc Xá, L = Huyện Ba Đình, ST = Tỉnh Hà Nội, C = 0933833333"
-    },
-    {
-      id:2,
-      subjectDn:"CN = Nguyễn Hữu Tiến, UID = 0933833333, UID = 0933833333, OU = CMC CIST, OU = CMC CIST, O = CMC , STREET = Số nhà q Đường trần hưng đạo Xã Phúc Xá, L = Huyện Ba Đình, ST = Tỉnh Hà Nội, C = 0933833333"
-    }
-  ]
+  public listSubjectDn = []
   public basicSelectedOption: number = 10;
   public SelectionType = SelectionType;
   public ColumnMode = ColumnMode
@@ -104,15 +96,13 @@ export class CreateCertificateRequestListComponent implements OnInit {
     "toDate": ""
   }
   @Input() personals: any;
+  @Input() listSubjectDnResponse: any;
   @ViewChild('modalLink') modalLink;
 
   get f() {
     return this.newRequestForm.controls;
   }
-  customCheckboxOnSelect({ selected }) {
-    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
-    this.chkBoxSelected.push(...selected);
-  }
+ 
   constructor(
     private fb: FormBuilder,
     private modal: NgbModal,
@@ -124,7 +114,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
     private _entityProfileService: EntityProfileService,
     private _keypairService: KeypairListService,
   ) { }
-  public hsmListSub = new Subject();
   async ngOnInit() {
     console.log(this.personals)
     await this._hsmService
@@ -159,6 +148,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
           this.personals.username +
           Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
         ,
+        numberKey : [this.personals.length,Validators.required],
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personals.userId],
         hsm: [this.hsmList[0]],
@@ -166,7 +156,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
       }
     );
     console.log(this.newRequestForm.value)
-    this.getListProfiles();
+    
     this.formListPersonal = this.fb.group({
       page: [null],
       size: [this.sizePage[2]],
@@ -177,6 +167,9 @@ export class CreateCertificateRequestListComponent implements OnInit {
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
+    this.listSubjectDn = this.listSubjectDnResponse
+    console.log(this.listSubjectDn)
+    this.getListProfiles();
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
   }
 
@@ -184,19 +177,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
     this.modal.dismissAll();
   }
 
-  downloadSidebar(res) {
-    this.modal.open(this.modalLink);
-    const data = res.data.certificateRequestContent;
-    console.log(data)
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-    console.log(blob)
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
-    // this.fileName = res.data.certificateRequestId + '.csr';
-    this.fileName = res.data.keypairAlias + '.csr';
-    console.log(this.fileName)
-  }
   changeCrypto() {
     this.keypairLengthList = this.newRequestForm
       .get('cryptoAlgorithm')
@@ -212,83 +192,83 @@ export class CreateCertificateRequestListComponent implements OnInit {
   }
 
   async changeProfile() {
-    const profile: any[] = this.f.profile.value.subjectDNA;
-    console.log(profile);
-    this.strProfile = '';
-    let firstWord = true;
-    profile.map(async (attribute: string) => {
-      let value = '';
-      this.address = await this._addressService.getAddressById(283)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .toPromise().then(res => {
-          return res.data;
-        });
-      console.log(this.address)
+    // const profile: any[] = this.f.profile.value.subjectDNA;
+    // console.log(profile);
+    // this.strProfile = '';
+    // let firstWord = true;
+    // profile.map(async (attribute: string) => {
+    //   let value = '';
+    //   this.address = await this._addressService.getAddressById(283)
+    //     .pipe(takeUntil(this._unsubscribeAll))
+    //     .toPromise().then(res => {
+    //       return res.data;
+    //     });
+    //   console.log(this.address)
 
-      var commonName = this.personals.personalFirstName;
-      var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-      var countryCode = this.personals.personalCountryId;
-      var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-      var localityName = "Huyện " + this.address.districtName;
-      var personalCountryId = this.personals.personalCountryId;
-      var phoneNumber = this.personals.phoneNumber;
-      var email = this.personals.email;
+    //   var commonName = this.personals.personalFirstName;
+    //   var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
+    //   var countryCode = this.personals.personalCountryId;
+    //   var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
+    //   var localityName = "Huyện " + this.address.districtName;
+    //   var personalCountryId = this.personals.personalCountryId;
+    //   var phoneNumber = this.personals.phoneNumber;
+    //   var email = this.personals.email;
       
-      // console.log(address)
-      switch (attribute) {
-        case 'CN':
-          value = commonName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'C':
-          value = countryCode
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'ST':
-          value = stateOrProvinceName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'L':
-          value = localityName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'OU':
-          value = "CMC CIST"
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'O':
-          value = "CMC "
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'TELEPHONE_NUMBER':
-          value = phoneNumber
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
+    //   // console.log(address)
+    //   switch (attribute) {
+    //     case 'CN':
+    //       value = commonName
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break;
+    //     case 'C':
+    //       value = countryCode
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'ST':
+    //       value = stateOrProvinceName
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'L':
+    //       value = localityName
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'OU':
+    //       value = "CMC CIST"
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'O':
+    //       value = "CMC "
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
+    //     case 'TELEPHONE_NUMBER':
+    //       value = phoneNumber
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //     break;
         
-        case 'EmailAddress':
-          value = email;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'UID':
-          value = personalCountryId;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'STREET':
-          value = streetAddress;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break; 
-      }
-    });
+    //     case 'EmailAddress':
+    //       value = email;
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break;
+    //     case 'UID':
+    //       value = personalCountryId;
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break;
+    //     case 'STREET':
+    //       value = streetAddress;
+    //       this.displayProfile(attribute, value, firstWord);
+    //       firstWord = false;
+    //       break; 
+    //   }
+    // });
   }
 
   displayProfile(attribute, value, firstWord) {
@@ -338,12 +318,12 @@ export class CreateCertificateRequestListComponent implements OnInit {
             closeButton: true,
           }
         );
-        this.downloadSidebar(res);
       }
     });
   }
-  getListProfiles() {
-    this._entityProfileService.getListProfiles(this.bodyGetListProfile)
+
+  async getListProfiles() {
+    await this._entityProfileService.getListProfiles(this.bodyGetListProfile)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res) => {
         this.newRequestForm.controls['profile'].setValue(res.data.data[0].endEntityProfileName)
@@ -352,94 +332,24 @@ export class CreateCertificateRequestListComponent implements OnInit {
         console.log(res)
         this.listProfiles = res.data.data.map((profile) => ({
           ...profile,
-          subjectAttribute: profile.alternativeName.map(item => {
-            return item.name
-          }),
-          subjectDNA: profile.distinguishedName.map(item => {
-            return item.name
-          }),
           id: profile.endEntityProfileId,
           nameProfile: profile.endEntityProfileName
         }))
-        var profile = this.listProfiles[0].subjectDNA
-        this.strProfile = '';
-        let firstWord = true; 
-        profile.map(async (attribute: string) => {
-          let value = '';
-          this.address = await this._addressService.getAddressById(283)
-            .pipe(takeUntil(this._unsubscribeAll))
-            .toPromise().then(res => {
-              return res.data;
-            });
-          console.log(this.address)
-    
-          var commonName = this.personals.personalFirstName;
-          var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-          var countryCode = this.personals.personalCountryId;
-          var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-          var localityName = "Huyện " + this.address.districtName;
-          var personalCountryId = this.personals.personalCountryId;
-          var phoneNumber = this.personals.phoneNumber;
-          var email = this.personals.email;
-          
-          // console.log(address)
-          switch (attribute) {
-            case 'CN':
-              value = commonName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'C':
-              value = countryCode
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'ST':
-              value = stateOrProvinceName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'L':
-              value = localityName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'OU':
-              value = "CMC CIST"
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'O':
-              value = "CMC "
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'TELEPHONE_NUMBER':
-              value = phoneNumber
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            
-            case 'EmailAddress':
-              value = email;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'UID':
-              value = personalCountryId;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'STREET':
-              value = streetAddress;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break; 
-          }
-        });
-        // console.log(subjectDN)
-        console.log(this.listProfiles);
+        var profileId = this.listProfiles[0].id
+        console.log(this.personals)
+        console.log(this.listProfiles)
+        this.getListSubjectDn(profileId);
       })
+  }
+   getListSubjectDn(profileId){
+    this.personals.map(( personal) =>{
+       this._entityProfileService.getSubjectDnById(profileId,personal.staffId)
+                                .pipe(takeUntil(this._unsubscribeAll))
+                                .subscribe((res) =>{
+                                  // this.listSubjectDn.push({subjectDn : res})
+                                })
+    })
+    console.log(this.listSubjectDn); 
   }
   checkAlias(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
