@@ -1,0 +1,230 @@
+<form class="form form-horizontal pt-0" [formGroup]="newService">
+  <div class="form-content">
+    <h3>Thông tin tài khoản</h3>
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>TÊN TÀI KHOẢN</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                (f.username.errors && f.username?.touched) ||
+                (submitted && f.username?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="user"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                formControlName="username"
+                class="form-control"
+                [ngClass]="
+                  (f.username.errors && f.username?.touched) ||
+                  (submitted && f.username?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.username?.errors?.required && f.username?.touched) ||
+                (submitted && f.username?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.username.errors.required"
+              >
+                Bạn cần nhập tên tài khoản
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>THƯ ĐIỆN TỬ (EMAIL)</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                (f.email.errors && f.email?.touched) ||
+                (submitted && f.email?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="mail"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="
+                  (f.email.errors && f.email?.touched) ||
+                  (submitted && f.email?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.email?.errors?.required && f.email?.touched) ||
+                (submitted && f.email?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.email.errors.required"
+              >
+                Bạn cần nhập email
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>MẬT KHẨU</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                (f.password.errors && f.password?.touched) ||
+                (submitted && f.password?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="lock"></i
+                ></span>
+              </div>
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="
+                  (f.password.errors && f.password?.touched) ||
+                  (submitted && f.password?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.password?.errors?.required && f.password?.touched) ||
+                (submitted && f.password?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.password.errors.required"
+              >
+                Bạn cần nhập mật khẩu
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>XÁC NHẬN MẬT KHẨU</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="{
+                'is-invalid':
+                  (f.rePassword.errors && f.rePassword?.dirty) ||
+                  (submitted && f.rePassword?.errors?.required),
+                'is-valid':
+                  !f.rePassword?.errors?.mustMatch && f.rePassword?.dirty
+              }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="lock"></i
+                ></span>
+              </div>
+              <input
+                type="password"
+                formControlName="rePassword"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.rePassword.errors && f.rePassword?.dirty) ||
+                    (submitted && f.rePassword?.errors?.required),
+                  'is-valid':
+                    !f.rePassword?.errors?.mustMatch && f.rePassword?.dirty
+                }"
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.rePassword.errors && f.rePassword?.dirty) ||
+                (submitted && f.rePassword?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                *ngIf="f.rePassword.errors.required"
+                class="form-text text-danger"
+              >
+                Bạn cần xác nhận mật khẩu
+              </small>
+              <small
+                *ngIf="f.rePassword.errors.mustMatch"
+                class="form-text text-danger"
+              >
+                Xác nhận mật khẩu không hợp lệ
+              </small>
+            </span>
+          </div>
+          <div class="col-sm-12">
+            <span *ngIf="f.rePassword.errors == null" class="invalid-form">
+              <small
+                *ngIf="f.rePassword.errors == null"
+                class="valid-feedback form-text"
+              >
+                Xác nhận mật khẩu hợp lệ
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

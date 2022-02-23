@@ -104,6 +104,26 @@ export class OrganizationEditComponent implements OnInit {
    
 
   async ngOnInit() {
+    this.contentHeader = {
+      headerTitle: 'Thuê Bao',
+      actionButton: true,
+      breadcrumb: {
+        type: 'chevron',
+        links: [
+          {
+            name: 'Quản lý thuê bao',
+            isLink: true,
+            link: '/apps/ip/subscribers-list'
+          },
+          {
+            name: 'Chỉnh sửa thuê bao',
+            isLink: false,
+            link: '/apps/ip/subscribers-search'
+          }
+        ]
+      }
+    };
+    
     this.buttonReturn = {
       textButton: 'Quay lại',
       actionButton: true,
