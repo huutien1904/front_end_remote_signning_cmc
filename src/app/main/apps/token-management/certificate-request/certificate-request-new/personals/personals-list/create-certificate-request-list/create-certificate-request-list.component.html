@@ -1,7 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title" id="myModalLabel1">
-    Tạo yêu cầu chứng thực cho {{personals.length}} thuê bao
-    
+    Tạo yêu cầu chứng thực cho {{ personals.length }} thuê bao
   </h4>
 </div>
 <div class="modal-body" tabindex="0" ngbAutofocus>
@@ -12,11 +11,11 @@
         <div class="form-group">
           <label for="">Profile</label>
           <ng-select
+            formControlName="profile"
             (change)="changeProfile()"
             [items]="listProfiles"
             bindLabel="endEntityProfileName"
             [clearable]="false"
-            formControlName="profile"
             [ngClass]="
               (f.profile.errors && f.profile?.touched) ||
               (submitted && f.profile?.errors?.required)
@@ -56,17 +55,16 @@
             [rowHeight]="50"
             [selectionType]="SelectionType.checkbox"
           >
-            
-          <ngx-datatable-column
-          name="TT"
-          [sortable]="false"
-          [canAutoResize]="false"
-          [width]="50"
-        >
-          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-            {{  rowIndex + 1 }}
-          </ng-template>
-        </ngx-datatable-column>
+            <ngx-datatable-column
+              name="TT"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [width]="50"
+            >
+              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+                {{ rowIndex + 1 }}
+              </ng-template>
+            </ngx-datatable-column>
 
             <ngx-datatable-column name="SUBJECT DN" [width]="1400">
               <ng-template
@@ -77,7 +75,6 @@
                 {{ row.subjectDn }}
               </ng-template>
             </ngx-datatable-column>
-            
           </ngx-datatable>
         </div>
       </div>
@@ -94,7 +91,6 @@
           Tạo mới cặp khóa
         </button>
         <button
-          
           type="button"
           class="btn btn-primary mr-1"
           (click)="getListKeypair()"
@@ -193,10 +189,7 @@
               (submitted && f.numberKey?.errors?.required)
             "
             class="invalid-feedback"
-          >
-            
-          </div>
-          
+          ></div>
         </div>
       </div>
       <div class="col-md-6">
@@ -233,8 +226,7 @@
     </div>
 
     <ngx-datatable
-      
-      *ngIf ="informationKeypairOld"
+      *ngIf="informationKeypairOld"
       class="bootstrap core-bootstrap cursor mt-2"
       [rows]="rowsData"
       [selected]="chkBoxSelected"
@@ -337,7 +329,7 @@
         prop="keypairStatusName"
         [width]="200"
       ></ngx-datatable-column>
-      
+
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template

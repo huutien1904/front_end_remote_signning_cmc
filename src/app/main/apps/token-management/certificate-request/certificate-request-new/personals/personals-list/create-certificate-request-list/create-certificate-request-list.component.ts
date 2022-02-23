@@ -74,7 +74,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
   public address: any
   public listProfiles: any[] = [];
   public chkBoxSelected = [];
-  public numberKeypair:number
+  public numberKeypair: number
   public pagedData = new PagedData<any>();
   public listSubjectDn = []
   public basicSelectedOption: number = 10;
@@ -82,8 +82,8 @@ export class CreateCertificateRequestListComponent implements OnInit {
   public ColumnMode = ColumnMode
   public isLoading: boolean = false;
   public rowsData = new Array<Keypair>();
-  public informationKeyPair:boolean = false;
-  public informationKeypairOld:boolean = false;
+  public informationKeyPair: boolean = false;
+  public informationKeypairOld: boolean = false;
 
   public formListPersonal: FormGroup;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
@@ -102,7 +102,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
   get f() {
     return this.newRequestForm.controls;
   }
- 
+
   constructor(
     private fb: FormBuilder,
     private modal: NgbModal,
@@ -148,7 +148,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
           this.personals.username +
           Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
         ,
-        numberKey : [this.personals.length,Validators.required],
+        numberKey: [this.personals.length, Validators.required],
         tokenId: [this.tokenList[0], Validators.required],
         userId: [this.personals.userId],
         hsm: [this.hsmList[0]],
@@ -156,19 +156,19 @@ export class CreateCertificateRequestListComponent implements OnInit {
       }
     );
     console.log(this.newRequestForm.value)
-    
+
     this.formListPersonal = this.fb.group({
       page: [null],
       size: [this.sizePage[2]],
-      sort : [null],
+      sort: [null],
       contains: [null, Validators.required],
       fromDate: [null],
       toDate: [null],
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
+    
     this.listSubjectDn = this.listSubjectDnResponse
-    console.log(this.listSubjectDn)
     this.getListProfiles();
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
   }
@@ -192,92 +192,24 @@ export class CreateCertificateRequestListComponent implements OnInit {
   }
 
   async changeProfile() {
-    // const profile: any[] = this.f.profile.value.subjectDNA;
-    // console.log(profile);
-    // this.strProfile = '';
-    // let firstWord = true;
-    // profile.map(async (attribute: string) => {
-    //   let value = '';
-    //   this.address = await this._addressService.getAddressById(283)
-    //     .pipe(takeUntil(this._unsubscribeAll))
-    //     .toPromise().then(res => {
-    //       return res.data;
-    //     });
-    //   console.log(this.address)
-
-    //   var commonName = this.personals.personalFirstName;
-    //   var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-    //   var countryCode = this.personals.personalCountryId;
-    //   var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-    //   var localityName = "Huyện " + this.address.districtName;
-    //   var personalCountryId = this.personals.personalCountryId;
-    //   var phoneNumber = this.personals.phoneNumber;
-    //   var email = this.personals.email;
-      
-    //   // console.log(address)
-    //   switch (attribute) {
-    //     case 'CN':
-    //       value = commonName
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //       break;
-    //     case 'C':
-    //       value = countryCode
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //     break;
-    //     case 'ST':
-    //       value = stateOrProvinceName
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //     break;
-    //     case 'L':
-    //       value = localityName
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //     break;
-    //     case 'OU':
-    //       value = "CMC CIST"
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //     break;
-    //     case 'O':
-    //       value = "CMC "
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //     break;
-    //     case 'TELEPHONE_NUMBER':
-    //       value = phoneNumber
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //     break;
-        
-    //     case 'EmailAddress':
-    //       value = email;
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //       break;
-    //     case 'UID':
-    //       value = personalCountryId;
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //       break;
-    //     case 'STREET':
-    //       value = streetAddress;
-    //       this.displayProfile(attribute, value, firstWord);
-    //       firstWord = false;
-    //       break; 
-    //   }
-    // });
-  }
-
-  displayProfile(attribute, value, firstWord) {
-    console.log(value);
-    console.log(attribute);
-    if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
-    else {
-      this.strProfile += attribute + ' = ' + value;
-    }
+    const profile= this.f.profile.value;
+    this.listSubjectDn = []
+    var listSubjectDnGetApi = []
+    await this.personals.map((personal) => {
+      this._entityProfileService.getSubjectDnById(personal.staffId,profile.id )
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((res) => {
+          listSubjectDnGetApi.push({subjectDn : JSON.stringify(res).replace('{'," ").replace('}'," ").replace(/['"]+/g, '').replace(/[":"]+/g," = ")})
+          
+        })
+    })
+    setTimeout(() => {
+      console.log(listSubjectDnGetApi)
+      this.listSubjectDn = listSubjectDnGetApi.map((item:any) =>({
+        ...item
+      }))
+      console.log(this.listSubjectDn)
+    }, 200);
   }
 
   async onSubmit() {
@@ -327,7 +259,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res) => {
         this.newRequestForm.controls['profile'].setValue(res.data.data[0].endEntityProfileName)
-        
+
         // this.
         console.log(res)
         this.listProfiles = res.data.data.map((profile) => ({
@@ -335,21 +267,27 @@ export class CreateCertificateRequestListComponent implements OnInit {
           id: profile.endEntityProfileId,
           nameProfile: profile.endEntityProfileName
         }))
-        var profileId = this.listProfiles[0].id
-        console.log(this.personals)
-        console.log(this.listProfiles)
-        this.getListSubjectDn(profileId);
+        // var profileId = this.listProfiles[0].id
+        // console.log(this.personals)
+        // console.log(this.listProfiles)
+        // this.getListSubjectDn(profileId);
       })
   }
-   getListSubjectDn(profileId){
-    this.personals.map(( personal) =>{
-       this._entityProfileService.getSubjectDnById(profileId,personal.staffId)
-                                .pipe(takeUntil(this._unsubscribeAll))
-                                .subscribe((res) =>{
-                                  // this.listSubjectDn.push({subjectDn : res})
-                                })
+  async getListSubjectDn(profileId) {
+    this.listSubjectDn = []
+    await this.personals.map((personal) => {
+      this._entityProfileService.getSubjectDnById(profileId, personal.staffId)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((res) => {
+          this.listSubjectDn.push({subjectDn : res})
+        })
     })
-    console.log(this.listSubjectDn); 
+    // console.log(this.listSubjectDn);
+    this.listSubjectDn = [
+      {
+        subjectDn:"tien"
+      }
+    ]
   }
   checkAlias(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
@@ -365,12 +303,12 @@ export class CreateCertificateRequestListComponent implements OnInit {
     }
   }
   // open form information keypair
-  openInformationKeyPair(){
-    this.informationKeyPair =! this.informationKeyPair
+  openInformationKeyPair() {
+    this.informationKeyPair = !this.informationKeyPair
     this.informationKeypairOld = false;
   }
   // get list keypair
-  getListKeypair(){
+  getListKeypair() {
     this.informationKeypairOld = !this.informationKeypairOld;
     this.informationKeyPair = false;
 
@@ -385,18 +323,18 @@ export class CreateCertificateRequestListComponent implements OnInit {
       fromDate: null,
       toDate: null,
     };
-      this._keypairService
+    this._keypairService
       .getData(body)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-         console.log(pagedData)
+        console.log(pagedData)
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         console.log(this.rowsData)
         this.rowsData = pagedData.data.data.map(item => ({
           ...item,
         }))
-        this.isLoading=false;
+        this.isLoading = false;
       });
   }
 }

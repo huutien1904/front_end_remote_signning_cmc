@@ -54,7 +54,7 @@ export class EntityProfileService {
   }
   
   // get detail subject DN by staffId and profileID
-  public getSubjectDnById(staffID,profileID): Observable<ResponseData<any>> {
+  public getSubjectDnById(profileID,staffID): Observable<ResponseData<any>> {
     return this._httpClient.get<ResponseData<any>>(
       `${environment.apiUrl}/subscriber-certificate/dn/${profileID}/${staffID}`,
       this.option
