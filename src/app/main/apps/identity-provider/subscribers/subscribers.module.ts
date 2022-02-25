@@ -6,6 +6,7 @@ import { SubscribersRoutingModule } from './subscribers-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { ServiceModule } from './service/service.module';
+import { SearchSubscribersModule } from '../search-subscribers/search-subscriber.module';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,7 @@ import { ServiceModule } from './service/service.module';
     PersonalsModule,
     OrganizationsModule,
     SubscribersRoutingModule,
-    ServiceModule
+    ServiceModule,
   ],
   providers: [
   ]
