@@ -15,6 +15,7 @@
                     [items]="hsmList"
                     [clearable]="false"
                     bindLabel="hsmName"
+                   
                   >
                   </ng-select>
                 </div>
@@ -26,6 +27,7 @@
                     [items]="tokenList"
                     [clearable]="false"
                     bindLabel="tokenName"
+                  
                   >
                   </ng-select>
                 </div>
@@ -43,12 +45,12 @@
               <div class="col-6 col-md-2">
                 <label class="label">Tên cặp khóa</label>
                 <input
-                  name="keypairName"
-                  id="keypairName"
+                  name="distinguishedName"
+                  id="distinguishedName"
                   type="search"
                   class="form-control"
-                  formControlName="keypairName"
-                  placeholder="Nhập tên cặp khóa"
+                  formControlName="contains"
+                  placeholder="Một phần tên,email,alias"
                 />
               </div>
               <div class="col-6 col-md-2">
@@ -57,7 +59,7 @@
                   <ng-select
                     [items]="keypairStatusName"
                     [clearable]="false"
-                    formControlName="keypairStatusName"
+                    
                   ></ng-select>
                 </div>
               </div>

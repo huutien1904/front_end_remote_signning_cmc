@@ -741,7 +741,7 @@
                                   placeholder="Tỉnh/Thành phố"
                                   bindValue="provinceId"
                                   formControlName="provinceName"
-                                  (change)="selectProvince(1)"
+                                  (change)="selectProvince()"
                                 >
                                 </ng-select>
                               </div>
@@ -784,7 +784,7 @@
                                   bindValue="districtId"
                                   placeholder="Huyện"
                                   formControlName="districtName"
-                                  (change)="selectDistrict(1)"
+                                  (change)="selectDistrict()"
                                   [ngClass]="
                                     (fa.districtName.errors &&
                                       fa.districtName?.touched) ||
@@ -843,7 +843,7 @@
                                       ? 'is-invalid'
                                       : ''
                                   "
-                                  (change)="selectCommune(1)"
+                                  (change)="selectCommune()"
                                 >
                                 </ng-select>
                               </div>
@@ -884,7 +884,7 @@
                                 <ng-select
                                   [items]="streetName"
                                   [clearable]="false"
-                                  bindLabel="streetDisplay"
+                                  bindLabel="streetName"
                                   bindValue="streetId"
                                   placeholder="Đường"
                                   formControlName="streetName"
@@ -896,7 +896,7 @@
                                       ? 'is-invalid'
                                       : ''
                                   "
-                                  (change)="selectStreet(1)"
+                                  (change)="selectStreet()"
                                 >
                                   <ng-template ng-header-tmp>
                                     <div
@@ -969,7 +969,6 @@
                                         class="btn btn-success"
                                         (click)="
                                           onSubmitCreateStreet(
-                                            1,
                                             addBirthStreet.value
                                           )
                                             ? modal.close()

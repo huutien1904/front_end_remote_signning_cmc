@@ -85,6 +85,7 @@ export class CertificateRequestListComponent implements OnInit {
       fromDate: [null],
       toDate: [null],
     });
+    console.log(this.formListCertificateRequest.valid);
 
     this.results = [
       {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-new-service-sidebar',
@@ -8,9 +9,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewServiceSidebarComponent implements OnInit {
   public newService;
-  FormGroup;
+  public image = '';
   public submitted = false;
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private modalService: NgbModal,) {}
 
   ngOnInit(): void {
     this.newService = this.fb.group(
@@ -19,6 +22,11 @@ export class NewServiceSidebarComponent implements OnInit {
         password: [null, Validators.required],
         rePassword: [null, Validators.required],
         email: ['', [Validators.required, Validators.email]],
+        photo: [null, Validators.required],
+        serviceName: [null, Validators.required],
+        typeDevice: [null, Validators.required],
+        domainName: [null, Validators.required],
+        organizationName: [null, Validators.required],
       },
       {
         validator: MustMatch('password', 'rePassword'),
@@ -27,6 +35,25 @@ export class NewServiceSidebarComponent implements OnInit {
   }
   get f() {
     return this.newService.controls;
+  }
+
+  inputImage(event) {
+    if (typeof FileReader !== 'undefined') {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.image = e.target.result;
+        console.log(this.image);
+        console.log(this.image.split(',')[1]);
+        this.newService.patchValue({
+          photo: this.image.split(',')[1],
+        });
+      };
+    }
+  }
+  onSubmit(){}
+  toggleSidebar() {
+    this.modalService.dismissAll();
   }
 }
 export function MustMatch(controlName: string, matchingControlName: string) {

@@ -3,7 +3,7 @@
   <div class="form_content">
     <h3>Thông tin tài khoản</h3>
     <div class="row">
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>TÊN TÀI KHOẢN</label>
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>THƯ ĐIỆN TỬ (EMAIL)</label>
@@ -106,7 +106,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>MẬT KHẨU</label>
@@ -157,7 +157,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>XÁC NHẬN MẬT KHẨU</label>
@@ -229,7 +229,7 @@
     </div>
     <h3>Thông tin tổ chức</h3>
     <div class="row">
-      <div class="col-11 col-md-2">
+      <div class="col-11 col-lg-2">
         <div class="">
           <input
             #imageInput
@@ -239,10 +239,10 @@
             (change)="inputImage($event)"
           />
         </div>
-        <div>
-          <div>
+        <div class="h-100">
+          <div class="border border-dark h-75 w-100 mt-1 ml-1 mr-1 mb-1">
             <img
-              class="border border-dark w-100 h-100 mt-1 ml-1 mr-1 mb-1"
+              class="w-100 h-100"
               (click)="imageInput.click()"
               [src]="
                 image ? image : 'assets/images/portrait/small/avatar-s-11.jpg'
@@ -255,9 +255,9 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-10">
+      <div class="col-12 col-lg-10">
         <div class="row mt-1">
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-lg-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
                 <label>TÊN TỔ CHỨC</label>
@@ -310,7 +310,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-lg-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
                 <label>MÃ TỔ CHỨC</label>
@@ -364,7 +364,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-lg-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
                 <label class="lable">LOẠI TỔ CHỨC</label>
@@ -403,7 +403,93 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-lg-3">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label>TÊN NGƯỜI ĐẠI DIỆN</label>
+              </div>
+              <div class="col-sm-12">
+                <div
+                  class="input-group input-group-merge"
+                  [ngClass]="
+                    (f.leaderName.errors && f.leaderName?.touched) ||
+                    (submitted && f.leaderName?.errors?.required)
+                      ? 'is-invalid'
+                      : ''
+                  "
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><span [data-feather]="'user'"></span
+                    ></span>
+                  </div>
+                  <input
+                    [ngClass]="
+                      (f.leaderName.errors && f.leaderName?.touched) ||
+                      (submitted && f.leaderName?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                    formControlName="leaderName"
+                    type="text"
+                    id="fname-icon-4"
+                    class="form-control"
+                    name="fname-icon-4"
+                    placeholder="Tên lãnh đạo"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <span
+                  *ngIf="
+                    (submitted && f.leaderName.errors) ||
+                    (f.leaderName.errors && f.leaderName?.touched)
+                  "
+                  class="invalid-form"
+                >
+                  <small class="form-text text-danger">
+                    Không được bỏ trống
+                  </small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-12 col-lg-3">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label class="lable">CHỨC DANH</label>
+              </div>
+              <div class="col-sm-12">
+                <input
+                  formControlName="position"
+                  placeholder="Chức danh"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label class="lable">TÊN TỔ CHỨC CẤP TRÊN</label>
+              </div>
+              <div class="col-sm-12">
+                <ng-select
+                  [items]="parentOrganizationName"
+                  [clearable]="true"
+                  bindLabel="parentOrganizationName"
+                  bindValue="organizationId"
+                  formControlName="parentOrganizationId"
+                >
+                  >
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
                 <label>SỐ ĐIỆN THOẠI</label>
@@ -470,9 +556,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-lg-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
                 <label>WEBSITE</label>
@@ -487,6 +571,11 @@
                       : ''
                   "
                 >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><span [data-feather]="'globe'"></span
+                    ></span>
+                  </div>
                   <input
                     [ngClass]="
                       (f.website.errors && f.website?.touched) ||
@@ -527,81 +616,12 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-3">
-            <div class="form-group">
-              <div class="col-sm-12 col-form-label">
-                <label>TÊN LÃNH ĐẠO</label>
-              </div>
-              <div class="col-sm-12">
-                <div
-                  class="input-group input-group-merge"
-                  [ngClass]="
-                    (f.leaderName.errors && f.leaderName?.touched) ||
-                    (submitted && f.leaderName?.errors?.required)
-                      ? 'is-invalid'
-                      : ''
-                  "
-                >
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><span [data-feather]="'user'"></span
-                    ></span>
-                  </div>
-                  <input
-                    [ngClass]="
-                      (f.leaderName.errors && f.leaderName?.touched) ||
-                      (submitted && f.leaderName?.errors?.required)
-                        ? 'is-invalid'
-                        : ''
-                    "
-                    formControlName="leaderName"
-                    type="text"
-                    id="fname-icon-4"
-                    class="form-control"
-                    name="fname-icon-4"
-                    placeholder="Tên lãnh đạo"
-                  />
-                </div>
-              </div>
-              <div class="col-sm-12">
-                <span
-                  *ngIf="
-                    (submitted && f.leaderName.errors) ||
-                    (f.leaderName.errors && f.leaderName?.touched)
-                  "
-                  class="invalid-form"
-                >
-                  <small class="form-text text-danger">
-                    Không được bỏ trống
-                  </small>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md-3">
-            <div class="form-group">
-              <div class="col-sm-12 col-form-label">
-                <label class="lable">TỔ CHỨC CHA</label>
-              </div>
-              <div class="col-sm-12">
-                <ng-select
-                  [items]="parentOrganizationName"
-                  [clearable]="true"
-                  bindLabel="parentOrganizationName"
-                  bindValue="organizationId"
-                  formControlName="parentOrganizationId"
-                >
-                  >
-                </ng-select>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
     <h3>Địa chỉ</h3>
     <div class="row">
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>QUỐC GIA</label>
@@ -630,7 +650,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>TỈNH </label>
@@ -660,7 +680,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>HUYỆN</label>
@@ -740,7 +760,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>ĐƯỜNG/PHỐ</label>
@@ -841,7 +861,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
             <label>ĐỊA CHỈ CỤ THỂ</label>

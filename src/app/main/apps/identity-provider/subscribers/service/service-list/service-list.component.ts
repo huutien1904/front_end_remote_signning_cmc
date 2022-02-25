@@ -35,7 +35,7 @@ export class ServiceListComponent implements OnInit {
   async ngOnInit() {
     this.formServiceList = this.fb.group({
       inputService: [null, Validators.required],
-      nameService: [null, Validators.required],
+      serviceName: [null, Validators.required],
       sizePage: [this.sizePage[3], Validators.required],
     });
   }
@@ -43,7 +43,7 @@ export class ServiceListComponent implements OnInit {
   selectItem(event) {}
   onInputExcel(event: any){}
   exportCSV() {}
-  openNewOrganizationModal(modal) {
+  openNewServiceModal(modal) {
     this.flag = this.modalService.open(modal, {
       centered: true,
       size: 'xl',

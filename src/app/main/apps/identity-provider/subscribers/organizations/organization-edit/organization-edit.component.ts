@@ -2,7 +2,13 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddressFull, Commune, District, Province, Street } from 'app/main/models/Address';
+import {
+  AddressFull,
+  Commune,
+  District,
+  Province,
+  Street,
+} from 'app/main/models/Address';
 import { Organization } from 'app/main/models/Organization';
 import { Personal } from 'app/main/models/Personal';
 import { ToastrService } from 'ngx-toastr';
@@ -37,9 +43,8 @@ export class OrganizationEditComponent implements OnInit {
   public districtName: District[];
   public communeName: Commune[];
   public streetName: Street[];
-  public buttonReturn:object;
- 
-  
+  public buttonReturn: object;
+
   roleArray: any[] = [];
   public getRoles;
   private readonly currentUser = JSON.parse(
@@ -54,9 +59,10 @@ export class OrganizationEditComponent implements OnInit {
     private _organizationEditService: OrganizationEditService,
     private router: Router,
     private modalService: NgbModal,
-    private _toastrService: ToastrService,
+    private _toastrService: ToastrService
   ) {
     this.formOrganizationEdit = this.fb.group({
+      userId: [null,Validators.required],
       username: ['', [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       organizationName: ['', [Validators.required]],
@@ -65,14 +71,15 @@ export class OrganizationEditComponent implements OnInit {
       website: [null, [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       parentOrganizationName: ['', [Validators.required]],
+      leaderName: ['', [Validators.required]],
     });
     this.formAddress = this.fb.group({
       address: ['', [Validators.required]],
-      houseNumber: ['', [Validators.required]],
-      districtName: ['', [Validators.required]],
-      provinceName: ['', [Validators.required]],
-      communeName: ['', [Validators.required]],
-      streetName: ['', [Validators.required]],
+      houseNumber: [null, [Validators.required]],
+      districtName: [null, [Validators.required]],
+      provinceName: [null, [Validators.required]],
+      communeName: [null, [Validators.required]],
+      streetName: [null, [Validators.required]],
       countryCode: [this.countryCode[0].countryId, [Validators.required]],
     });
     this.formRoleEdit = this.fb.group({
@@ -101,7 +108,6 @@ export class OrganizationEditComponent implements OnInit {
       roles: [[]],
     });
   }
-   
 
   async ngOnInit() {
     this.contentHeader = {
@@ -113,30 +119,30 @@ export class OrganizationEditComponent implements OnInit {
           {
             name: 'Quản lý thuê bao',
             isLink: true,
-            link: '/apps/ip/subscribers-list'
+            link: '/apps/ip/subscribers-list',
           },
           {
             name: 'Chỉnh sửa thuê bao',
             isLink: false,
-            link: '/apps/ip/subscribers-search'
-          }
-        ]
-      }
+            link: '/apps/ip/subscribers-search',
+          },
+        ],
+      },
     };
-    
+
     this.buttonReturn = {
       textButton: 'Quay lại',
       actionButton: true,
       breadcrumbs: {
         links: [
           {
-            name:'Quay lại',
+            name: 'Quay lại',
             isLink: true,
-            link: "/apps/ip/subscribers-list",
-        }
-        ]
-      }
-    }
+            link: '/apps/ip/subscribers-list',
+          },
+        ],
+      },
+    };
     console.log(this.buttonReturn);
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     this.personal = await this._organizationEditService
@@ -149,6 +155,7 @@ export class OrganizationEditComponent implements OnInit {
     console.log(this.personal);
     const addressId = this.personal.address.addressId;
     this.formOrganizationEdit.patchValue({
+      userId: this.personal.organizationId,
       username: this.personal.username,
       email: this.personal.email,
       organizationName: this.personal.organizationName,
@@ -157,6 +164,7 @@ export class OrganizationEditComponent implements OnInit {
       website: this.personal.website,
       phoneNumber: this.personal.phoneNumber,
       parentOrganizationName: this.personal.parentOrganizationName,
+      leaderName: this.personal.leaderName,
     });
 
     this.address = await this._organizationEditService
@@ -170,10 +178,13 @@ export class OrganizationEditComponent implements OnInit {
 
     this.formAddress.patchValue({
       houseNumber: this.address.houseNumber,
-      streetName: this.address.streetName, 
-    })
+      streetName: this.address.streetName,
+      provinceName: this.address.provinceName,
+      districtName: this.address.districtName,
+      communeName: this.address.communeName,
+    });
 
-     //set provinceName
+    //set provinceName
     this.provinceName = await this._organizationEditService
       .getProvince()
       .pipe(
@@ -204,7 +215,8 @@ export class OrganizationEditComponent implements OnInit {
         map((res) => {
           const data = res.data.map((district) => ({
             ...district,
-            districtDisplay: district.districtType + ' ' + district.districtName,
+            districtDisplay:
+              district.districtType + ' ' + district.districtName,
           }));
           return data;
         }),
@@ -216,7 +228,7 @@ export class OrganizationEditComponent implements OnInit {
       });
 
     this.districtName.forEach((district) => {
-      if(district.districtId == this.personal.address.districtId) {
+      if (district.districtId == this.personal.address.districtId) {
         this.formAddress.get('districtName').setValue(district.districtId);
       }
     });
@@ -241,7 +253,7 @@ export class OrganizationEditComponent implements OnInit {
       });
 
     this.communeName.forEach((commune) => {
-      if(commune.communeId == this.personal.address.communeId) {
+      if (commune.communeId == this.personal.address.communeId) {
         this.formAddress.get('communeName').setValue(commune.communeId);
       }
     });
@@ -254,7 +266,6 @@ export class OrganizationEditComponent implements OnInit {
           const data = res.data.map((street) => ({
             ...street,
             streetDisplay: street.streetType + ' ' + street.streetName,
-            
           }));
           console.log(data);
           return data;
@@ -267,13 +278,10 @@ export class OrganizationEditComponent implements OnInit {
       });
 
     this.streetName.forEach((street) => {
-      if(street.streetId == this.personal.address.streetId) {
+      if (street.streetId == this.personal.address.streetId) {
         this.formAddress.get('streetName').setValue(street.streetId);
       }
     });
-
-    
-
   }
 
   get f() {
@@ -283,104 +291,82 @@ export class OrganizationEditComponent implements OnInit {
     return this.formAddress.controls;
   }
 
-  selectProvince(type) {
-    switch (type) {
-      case 1: {
-        this.formAddress.patchValue({
-          districtName: null,
-          communeName: null,
-          streetName: null,
-          houseNumber: null,
-        });
-        this._organizationEditService
-          .getDistrict(this.formAddress.get('provinceName').value)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((district) => ({
-                ...district,
-                districtDisplay:
-                  district.districtType + ' ' + district.districtName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .subscribe((res) => {
-            this.districtName = res;
-            this.formAddress.get('districtName').enable();
-          });
-        break;
-      }
-    }
+  selectProvince() {
+    this.formAddress.patchValue({
+      districtName: null,
+      communeName: null,
+      streetName: null,
+      houseNumber: null,
+    });
+    this._organizationEditService
+      .getDistrict(this.formAddress.get('provinceName').value)
+      .pipe(
+        map((res) => {
+          const data = res.data.map((district) => ({
+            ...district,
+            districtDisplay:
+              district.districtType + ' ' + district.districtName,
+          }));
+          return data;
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((res) => {
+        this.districtName = res;
+        this.formAddress.get('districtName').enable();
+      });
   }
 
-  selectDistrict(type: number) {
-    switch (type) {
-      case 1:
-        {
-          this.formAddress.patchValue({
-            communeName: null,
-            streetName: null,
-            houseNumber: null,
-          });
-          this._organizationEditService
-            .getCommune(this.formAddress.get('districtName').value)
-            .pipe(
-              map((res) => {
-                const data = res.data.map((commune) => ({
-                  ...commune,
-                  communeDisplay:
-                    commune.communeType + ' ' + commune.communeName,
-                }));
-                return data;
-              }),
-              takeUntil(this._unsubscribeAll)
-            )
-            .subscribe((res) => {
-              this.communeName = res;
-              this.formAddress.get('communeName').enable();
-            });
-        }
-        break;
-    }
+  selectDistrict() {
+    this.formAddress.patchValue({
+      communeName: null,
+      streetName: null,
+      houseNumber: null,
+    });
+    this._organizationEditService
+      .getCommune(this.formAddress.get('districtName').value)
+      .pipe(
+        map((res) => {
+          const data = res.data.map((commune) => ({
+            ...commune,
+            communeDisplay: commune.communeType + ' ' + commune.communeName,
+          }));
+          return data;
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((res) => {
+        this.communeName = res;
+        this.formAddress.get('communeName').enable();
+      });
   }
-  selectCommune(type: number) {
-    switch (type) {
-      case 1: {
-        this.formAddress.patchValue({
-          streetName: null,
-          houseNumber: null,
-        });
-        this._organizationEditService
-          .getStreet(this.formAddress.get('communeName').value)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((street) => ({
-                ...street,
-                streetDisplay: street.streetType + ' ' + street.streetName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .subscribe((res) => {
-            this.streetName = res;
-            this.formAddress.get('streetName').enable();
-          });
-        break;
-      }
-    }
+  selectCommune() {
+    this.formAddress.patchValue({
+      streetName: null,
+      houseNumber: null,
+    });
+    this._organizationEditService
+      .getStreet(this.formAddress.get('communeName').value)
+      .pipe(
+        map((res) => {
+          const data = res.data.map((street) => ({
+            ...street,
+            streetDisplay: street.streetType + ' ' + street.streetName,
+          }));
+          return data;
+        }),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((res) => {
+        this.streetName = res;
+        this.formAddress.get('streetName').enable();
+      });
   }
-  selectStreet(type: number) {
-    switch (type) {
-      case 1: {
-        this.formAddress.patchValue({
-          houseNumber: null,
-        });
-        this.formAddress.get('houseNumber').enable();
-        break;
-      }
-    }
+  selectStreet() {
+    this.formAddress.patchValue({
+      houseNumber: null,
+    });
+    this.formAddress.get('houseNumber').enable();
   }
 
   modalOpenCreateStreet(modalSuccess) {
@@ -390,12 +376,8 @@ export class OrganizationEditComponent implements OnInit {
     });
   }
 
-  onSubmitCreateStreet(type, streetName) {
-    switch (type) {
-      case 1: {
-        const communeId = this.formAddress.get(
-          'communeName'
-        ).value;
+  onSubmitCreateStreet(streetName) {
+        const communeId = this.formAddress.get('communeName').value;
         const body = {
           streetName: streetName,
           streetType: 'Đường',
@@ -412,7 +394,7 @@ export class OrganizationEditComponent implements OnInit {
           this._toastrService.success(
             'Thêm thành công đường ' +
               res.data.streetName +
-              'vào cơ sở dữ liệu',
+              ' vào cơ sở dữ liệu',
             'Thành công',
             {
               positionClass: 'toast-top-center',
@@ -422,12 +404,10 @@ export class OrganizationEditComponent implements OnInit {
           );
         });
         return true;
-      }
-    }
   }
 
   onSubmit() {
-    if (!this.formOrganizationEdit.valid) {
+    if (!this.formOrganizationEdit.valid && !this.formAddress.valid) {
       this.submitted = true;
       return;
     }
@@ -435,6 +415,25 @@ export class OrganizationEditComponent implements OnInit {
   }
 
   confirmOpen() {
+    const updateOrganization = {
+    userId: this.formOrganizationEdit.value.userId,
+    countryOrganizationId: this.formOrganizationEdit.value.countryOrganizationId,
+    organizationName: this.formOrganizationEdit.value.organizationName,
+    parentOrganizationId: 1,
+    subscriberCategoryId: 3,
+    leaderName: this.formOrganizationEdit.value.leaderName,
+    province: this.formAddress.value.provinceName,
+    district: this.formAddress.value.districtName,
+    commune: this.formAddress.value.communeName,
+    street: this.formAddress.value.streetName,
+    homeNumber: this.formAddress.value.houseNumber,
+    country: this.formAddress.value.countryCode,
+    phoneNumber: this.formOrganizationEdit.value.phoneNumber,
+    website: this.formOrganizationEdit.value.website,
+    email : this.formOrganizationEdit.value.email,
+    isParent : false
+    }
+    console.log(updateOrganization);
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
       text: 'Bạn sẽ không thể hoàn tác điều này!',
@@ -442,7 +441,7 @@ export class OrganizationEditComponent implements OnInit {
       showCancelButton: true,
       preConfirm: async () => {
         return await this._organizationEditService
-          .updateOrganization(JSON.stringify(this.formOrganizationEdit.value))
+          .updateOrganization(JSON.stringify(updateOrganization))
           .pipe(takeUntil(this._unsubscribeAll))
           .toPromise()
           .then((res) => {
@@ -479,7 +478,7 @@ export class OrganizationEditComponent implements OnInit {
     });
   }
 
-  // update role 
+  // update role
   async updateRole() {
     const adminRole = Object.values(this.formRoleEdit.value.adminRole).filter(
       (f) => f

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewServiceSidebarComponent } from './service-list/new-service-sidebar/new-service-sidebar.component';
+import { CoreCommonModule } from '@core/common.module';
 
 
 
@@ -19,6 +20,7 @@ import { NewServiceSidebarComponent } from './service-list/new-service-sidebar/n
     ReactiveFormsModule,
     NgSelectModule,
     NgbModule,
+    CoreCommonModule,
   ],
   exports: [ServiceListComponent]
 })

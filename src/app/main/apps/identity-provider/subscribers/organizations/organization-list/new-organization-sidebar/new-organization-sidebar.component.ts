@@ -95,6 +95,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         password: [null, Validators.required],
         photo: [null, Validators.required],
         rePassword: [null, Validators.required],
+        position: [null, Validators.required],
       },
       {
         validator: MustMatch('password', 'rePassword'),
@@ -287,7 +288,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         this.street = [...this.street, res.data];
       }
       this._toastrService.success(
-        'Thêm thành công đường ' + res.data.streetName + 'vào cơ sở dữ liệu',
+        'Thêm thành công đường ' + res.data.streetName + ' vào cơ sở dữ liệu',
         'Thành công',
         {
           positionClass: 'toast-top-center',

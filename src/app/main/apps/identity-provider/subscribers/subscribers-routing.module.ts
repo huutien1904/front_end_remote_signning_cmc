@@ -12,7 +12,10 @@ const routes: Routes = [
       path : 'organizations',
       loadChildren:()=> import('./organizations/organizations-routing.module').then(m => m.OrganizationsRoutingModule)
     },
-    
+    { 
+      path : 'service',
+      loadChildren:()=> import('./service/service-routing.module').then(m => m.ServiceRoutingModule)
+    },
     {
       path: "**",
       redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found
