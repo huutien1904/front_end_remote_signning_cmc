@@ -29,7 +29,7 @@ export class PersonalsComponent implements OnInit {
   public rowsData = new Array<Personal>();
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
-  public totalItems:any = 0;
+  public totalItems: any = 0;
   public item: any;
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -46,6 +46,15 @@ export class PersonalsComponent implements OnInit {
   public SelectionType = SelectionType;
   public rowDataSelected = [];
   public listSubjectDn = [];
+  public bodyGetListProfile = {
+    "page": 0,
+    "size": 10,
+    "sort": [],
+    "contains": "",
+    "fromDate": "",
+    "toDate": ""
+  }
+  public idProfile: number;
   /**
    *
    * @param _personalService
@@ -60,7 +69,6 @@ export class PersonalsComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
     private toastr: ToastrService,
     private _entityProfileService: EntityProfileService,
@@ -87,7 +95,8 @@ export class PersonalsComponent implements OnInit {
       fromDate: [""],
       toDate: [""],
     });
-    this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
+    this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value });
+    this.getListProfiles();
   }
 
 
@@ -95,8 +104,8 @@ export class PersonalsComponent implements OnInit {
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
-    this.isLoading=true;
-    this.formListPersonal.patchValue({"page":pageInfo.offset});
+    this.isLoading = true;
+    this.formListPersonal.patchValue({ "page": pageInfo.offset });
     console.log(this.formListPersonal.value)
     this._personalService
       .getListPersonals(JSON.stringify(this.formListPersonal.value))
@@ -105,7 +114,7 @@ export class PersonalsComponent implements OnInit {
         console.log(pagedData)
         this.totalItems = pagedData.data.totalItems
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((personalList:any) => ({
+        this.rowsData = pagedData.data.data.map((personalList: any) => ({
           ...personalList,
           personalFirstName:
             personalList.firstName +
@@ -114,7 +123,7 @@ export class PersonalsComponent implements OnInit {
             " " +
             personalList.lastName,
         }));
-        this.isLoading=false;
+        this.isLoading = false;
       });
   }
   /**
@@ -137,23 +146,39 @@ export class PersonalsComponent implements OnInit {
     this.selected.push(...selected);
     console.log(this.selected)
   }
-  async createCertificateRequest(modalForm){
-    if(this.selected.length > 0){
-      await this.selected.map(( personal) =>{
-        this._entityProfileService.getSubjectDnById(54,personal.staffId)
-                                 .pipe(takeUntil(this._unsubscribeAll))
-                                 .subscribe((res) =>{
-                                   console.log(res)
-                                   this.listSubjectDn.push({subjectDn : JSON.stringify(res).replace('{'," ").replace('}'," ").replace(/['"]+/g, '')})
-                                 })
+  async getListProfiles() {
+    await this._entityProfileService.getListProfiles(this.bodyGetListProfile)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res) => {
+
+        console.log(res)
+        this.idProfile = res.data.data[0].endEntityProfileId
+        // var profileId = this.listProfiles[0].id
+        // console.log(this.personals)
+        // console.log(this.listProfiles)
+        // this.getListSubjectDn(profileId);
       })
-      console.log(this.listSubjectDn)
-      this.toggleSidebar(modalForm,this.selected[0])
-      
-    }else{
+  }
+  async createCertificateRequest(modalForm) {
+    console.log("tien",this.listSubjectDn)
+    console.log("selected 164",this.selected)
+    this.listSubjectDn = [];
+    if (this.selected.length > 0) {
+      await this.selected.map((personal) => {
+        this._entityProfileService.getSubjectDnById(personal.staffId, this.idProfile)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res) => {
+            console.log(res)
+            this.listSubjectDn.push({ subjectDn: JSON.stringify(res).replace('{', " ").replace('}', " ").replace(/['"]+/g, '').replace(/[":"]+/g, " = ") })
+          })
+      })
+      console.log("tien173",this.listSubjectDn)
+      this.toggleSidebar(modalForm, this.selected[0])
+
+    } else {
       this.toastr.warning(
         '👋 Bạn cần chọn thuê bao cá nhân trước',
-         'Cảnh báo',
+        'Cảnh báo',
         {
           positionClass: 'toast-top-center',
           toastClass: 'toast ngx-toastr',
@@ -161,14 +186,20 @@ export class PersonalsComponent implements OnInit {
         }
       );
     }
-    
+
   }
   toggleSidebar(modalForm, item) {
     this.item = item;
     console.log(item);
-    this.modal.open(modalForm, {size: 'xl'})
+    this.modalService.open(modalForm, { size: 'xl' })
   }
+  closeModalCreateListCertificate() {
+    console.log("dong modal");
 
+    this.selected = [];
+    console.log(this.selected)
+    this.modalService.dismissAll();
+  }
   openNewSelectModal(modal) {
     this.rowDataSelected = this.selected;
     this.modalService.open(modal, {
@@ -177,7 +208,7 @@ export class PersonalsComponent implements OnInit {
     });
   }
 
-  acceptSelected(modal){
+  acceptSelected(modal) {
     modal.close('Accept click');
     alert('Gửi yêu cầu chứng thực thành công');
   }
