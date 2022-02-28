@@ -40,6 +40,28 @@
               </div>
             </div>
             <!-- end name profile -->
+            <!-- select typeProfile  -->
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label class="lable text-uppercase">Loại Profile:</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i data-feather="user"></i>
+                      </span>
+                    </div>
+                    <input
+                      bindLabel="endEntityProfileName"
+                      formControlName="endEntityProfileName"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end typeProfile -->
             <!-- select Subject DN Attributes -->
             <div class="row">
               <div class="col-12">
@@ -197,7 +219,7 @@
                           </div>
                           <div class="col-9 pl-0 col-md-9 mt-0-5">
                             <input
-                            onclick="return false;"
+                              onclick="return false;"
                               type="text"
                               class="form-control"
                               formControlName="defaultValue"
@@ -207,7 +229,7 @@
                                 class="col-md-4 custom-control custom-checkbox"
                               >
                                 <input
-                                onclick="return false;"
+                                  onclick="return false;"
                                   type="checkbox"
                                   [checked]="al.value.required"
                                   (change)="
@@ -246,7 +268,7 @@
                                 class="col-md-4 custom-control custom-checkbox"
                               >
                                 <input
-                                onclick="return false;"
+                                  onclick="return false;"
                                   type="checkbox"
                                   [checked]="al.value.validation"
                                   (change)="
@@ -278,11 +300,8 @@
             <!-- submit -->
           </form>
         </div>
-        
       </div>
       <!-- form edit -->
-      
     </section>
-    
   </div>
 </div>
