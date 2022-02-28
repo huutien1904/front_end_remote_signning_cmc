@@ -40,6 +40,28 @@
               </div>
             </div>
             <!-- end name profile -->
+            <!-- select typeProfile  -->
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label class="lable text-uppercase">Loại Profile:</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i data-feather="user"></i>
+                      </span>
+                    </div>
+                    <input
+                      bindLabel="endEntityProfileName"
+                      formControlName="endEntityProfileName"
+                      type="text"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end typeProfile -->
             <!-- select Subject DN Attributes -->
             <div class="row">
               <div class="col-12">
@@ -332,12 +354,15 @@
               <button
                 type="submit"
                 rippleEffect
-                class="btn btn-primary  "
+                class="btn btn-primary"
                 [swal]="SweetAlertConfirm"
               >
                 Cập nhật
               </button>
-              <app-return class="ml-1" [buttonReturn]="buttonReturn"></app-return>
+              <app-return
+                class="ml-1"
+                [buttonReturn]="buttonReturn"
+              ></app-return>
               <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
             </div>
           </form>

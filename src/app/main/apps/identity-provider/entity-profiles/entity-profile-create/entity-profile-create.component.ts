@@ -211,6 +211,7 @@ export class EntityProfileCreateComponent implements OnInit {
 
     },
   ];
+  public typeProfile = ['Cá nhân','Tổ chức','Thiết bị/dịch vụ'];
   // declare subject ATT
   // public SubjectAlterAttrs = [
   //   {
@@ -347,6 +348,7 @@ export class EntityProfileCreateComponent implements OnInit {
       endEntityProfileName: [null, [Validators.required]],
       distinguishedName: this.fb.array([],Validators.required),
       alternativeName: this.fb.array([]),
+      typeProfile: [null, Validators.required],
     });
 
    }
