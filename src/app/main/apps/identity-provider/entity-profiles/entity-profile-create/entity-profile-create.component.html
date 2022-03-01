@@ -25,23 +25,6 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="lable text-uppercase">Tên EntityProfile:</label>
-                  <div class="">
-                    <span
-                      *ngIf="
-                        (f.endEntityProfileName?.errors?.required &&
-                          f.endEntityProfileName?.touched) ||
-                        (submitted && f.endEntityProfileName?.errors?.required)
-                      "
-                      class="invalid-form"
-                    >
-                      <small
-                        class="form-text text-danger"
-                        *ngIf="f.endEntityProfileName.errors.required"
-                      >
-                        Không được bỏ trống
-                      </small>
-                    </span>
-                  </div>
                   <div
                     class="input-group input-group-merge"
                     [ngClass]="
@@ -70,6 +53,23 @@
                           : ''
                       "
                     />
+                  </div>
+                  <div class="">
+                    <span
+                      *ngIf="
+                        (f.endEntityProfileName?.errors?.required &&
+                          f.endEntityProfileName?.touched) ||
+                        (submitted && f.endEntityProfileName?.errors?.required)
+                      "
+                      class="invalid-form"
+                    >
+                      <small
+                        class="form-text text-danger"
+                        *ngIf="f.endEntityProfileName.errors.required"
+                      >
+                        Không được bỏ trống
+                      </small>
+                    </span>
                   </div>
                 </div>
               </div>

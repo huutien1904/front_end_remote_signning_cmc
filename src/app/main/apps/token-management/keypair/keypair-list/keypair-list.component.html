@@ -275,7 +275,7 @@
             name="TT"
             [sortable]="false"
             [canAutoResize]="false"
-            [width]="50"
+            [width]="60"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
               {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
@@ -284,7 +284,7 @@
           <ngx-datatable-column
             name="Mã cặp khóa"
             prop="keypairId"
-            [width]="100"
+            [width]="120"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Tên cặp khóa"
@@ -299,7 +299,7 @@
           <ngx-datatable-column
             name="Tham số khóa"
             prop="keypairLength"
-            [width]="100"
+            [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Trạng thái"
