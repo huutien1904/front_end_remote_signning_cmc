@@ -363,8 +363,8 @@
                   [items]="typeOrganization"
                   [clearable]="false"
                   bindLabel="subscriberCategoryName"
-                  bindValue="organizationId"
-                  formControlName="subscriberCategoryId"
+                  bindValue="subscriberCategoryId"
+                  formControlName="typeOrganization"
                   [ngClass]="
                     (f.typeOrganization.errors &&
                       f.typeOrganization?.touched) ||
@@ -461,11 +461,11 @@
               </div>
               <div class="col-sm-12">
                 <ng-select
-                  [items]="parentOrganizationName"
+                  [items]="organizationId"
                   [clearable]="true"
-                  bindLabel="parentOrganizationName"
+                  bindLabel="organizationName"
                   bindValue="organizationId"
-                  formControlName="parentOrganizationId"
+                  formControlName="organizationId"
                 >
                   >
                 </ng-select>

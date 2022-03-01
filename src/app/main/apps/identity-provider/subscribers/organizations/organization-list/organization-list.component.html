@@ -7,9 +7,9 @@
       <!-- [formGroup]="formListPersonal" -->
       <form class="form form-vertical" [formGroup]="formListOrganizations">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <!-- formControlName="inputPersonal" -->
-            <label class="lable">Họ tên, thư điện tử, địa chỉ, webside</label>
+            <label class="lable">Họ tên, thư điện tử, địa chỉ, website</label>
             <input
               formControlName="inputOrganization"
               name="findName"
@@ -19,13 +19,13 @@
               placeholder="Nhập họ tên, thư điện tử, địa chỉ, website"
             />
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <label class="lable">Loại tổ chức</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="typeOrganization"
-                bindLabel="organizationName"
-                bindValue="organizationId"
+                bindLabel="subscriberCategoryName"
+                bindValue="subscriberCategoryId"
                 formControlName="typeOrganization"
                 [clearable]="false"
                 placeholder="Loại tổ chức"
