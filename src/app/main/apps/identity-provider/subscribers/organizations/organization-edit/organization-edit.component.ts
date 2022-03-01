@@ -31,6 +31,7 @@ export class OrganizationEditComponent implements OnInit {
   public lastValue;
   public url = this.router.url;
   submitted = false;
+  public image = '';
   public countryCode: any[] = [
     {
       countryId: 237,
@@ -69,9 +70,10 @@ export class OrganizationEditComponent implements OnInit {
       countryOrganizationId: ['', [Validators.required]],
       subscriberCategoryName: ['', [Validators.required]],
       website: [null, [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required,Validators.minLength(10)]],
       parentOrganizationName: ['', [Validators.required]],
       leaderName: ['', [Validators.required]],
+      position:[null, [Validators.required]],
     });
     this.formAddress = this.fb.group({
       address: ['', [Validators.required]],
@@ -291,6 +293,20 @@ export class OrganizationEditComponent implements OnInit {
     return this.formAddress.controls;
   }
 
+  inputImage(event) {
+    if (typeof FileReader !== 'undefined') {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.image = e.target.result;
+        console.log(this.image);
+        console.log(this.image.split(',')[1]);
+        this.formOrganizationEdit.patchValue({
+          photo: this.image.split(',')[1],
+        });
+      };
+    }
+  }
   selectProvince() {
     this.formAddress.patchValue({
       districtName: null,

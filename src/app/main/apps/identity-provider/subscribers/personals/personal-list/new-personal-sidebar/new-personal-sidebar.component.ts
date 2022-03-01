@@ -537,7 +537,6 @@ export class NewPersonalSidebarComponent implements OnInit {
   toggleSidebar() {
     this.modalService.dismissAll();
   }
-
   closeModal() {
     this.onClose.emit();
   }

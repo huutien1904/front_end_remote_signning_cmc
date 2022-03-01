@@ -245,7 +245,7 @@
           </ngx-datatable-column>
           <ngx-datatable-column
             name="TT"
-            [width]="40"
+            [width]="50"
             [canAutoResize]="false"
             [sortable]="false"
           >
@@ -257,9 +257,9 @@
           <ngx-datatable-column
             name="TÊN EntityProfile"
             prop="endEntityProfileName"
-            [width]="100"
+            [width]="160"
           ></ngx-datatable-column>
-          <ngx-datatable-column name="Loại Profile" width="100">
+          <ngx-datatable-column name="Loại Profile" [width]="120">
             <ng-template
               ngx-datatable-cell-template
               let-row="row"
@@ -282,12 +282,12 @@
           <ngx-datatable-column
             name="Thuộc tính DN thêm"
             prop="subjectDnAlternative"
-            [width]="150"
+            [width]="180"
           ></ngx-datatable-column>
 
           <ngx-datatable-column
             name="Hành động"
-            [width]="70"
+            [width]="100"
             [sortable]="false"
             prop=""
           >

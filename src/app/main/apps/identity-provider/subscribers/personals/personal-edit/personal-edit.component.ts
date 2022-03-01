@@ -31,6 +31,7 @@ export class PersonalEditComponent implements OnInit {
   public url = this.router.url;
   public lastValue;
   public getRoles;
+  public image = '';
   public body = {
     page: null,
     size: null,
@@ -708,6 +709,20 @@ export class PersonalEditComponent implements OnInit {
   }
   get f() {
     return this.formPersonalEdit.controls;
+  }
+  inputImage(event) {
+    if (typeof FileReader !== 'undefined') {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.image = e.target.result;
+        console.log(this.image);
+        console.log(this.image.split(',')[1]);
+        this.formPersonalEdit.patchValue({
+          photo: this.image.split(',')[1],
+        });
+      };
+    }
   }
   onSubmit() {
     if (!this.formPersonalEdit.valid) {

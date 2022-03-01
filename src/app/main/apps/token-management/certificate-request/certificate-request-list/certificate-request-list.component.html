@@ -256,12 +256,12 @@
           <ngx-datatable-column
             name="MÃ YÊU CẦU"
             prop="certificateRequestId"
-            [width]="50"
+            [width]="110"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="TRẠNG THÁI"
             prop="certificateRequestStatus"
-            [width]="50"
+            [width]="110"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Subject DN"
@@ -276,7 +276,7 @@
               {{ row.subjectDN }}
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="KHÓA CÔNG KHAI" [width]="100">
+          <ngx-datatable-column name="KHÓA CÔNG KHAI" [width]="150">
             <ng-template
               ngx-datatable-cell-template
               let-row="row"
@@ -305,7 +305,7 @@
 
           <ngx-datatable-column
             name="Hành động"
-            [width]="60"
+            [width]="100"
             [sortable]="false"
             prop=""
           >
