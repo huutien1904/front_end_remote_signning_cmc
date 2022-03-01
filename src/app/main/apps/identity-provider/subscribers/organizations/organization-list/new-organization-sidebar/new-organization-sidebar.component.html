@@ -273,11 +273,6 @@
                       : ''
                   "
                 >
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><span [data-feather]="'user'"></span
-                    ></span>
-                  </div>
                   <input
                     [ngClass]="
                       (f.organizationName.errors &&
@@ -326,11 +321,6 @@
                   "
                   class="input-group input-group-merge"
                 >
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><span [data-feather]="'more-horizontal'"></span
-                    ></span>
-                  </div>
                   <input
                     [ngClass]="
                       (f.countryOrganizationId.errors &&
@@ -344,7 +334,6 @@
                     id="fname-icon-5"
                     class="form-control"
                     name="fname-icon-5"
-                    placeholder="114"
                   />
                 </div>
               </div>
@@ -418,11 +407,6 @@
                       : ''
                   "
                 >
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><span [data-feather]="'user'"></span
-                    ></span>
-                  </div>
                   <input
                     [ngClass]="
                       (f.leaderName.errors && f.leaderName?.touched) ||
@@ -435,7 +419,6 @@
                     id="fname-icon-4"
                     class="form-control"
                     name="fname-icon-4"
-                    placeholder="Tên lãnh đạo"
                   />
                 </div>
               </div>
@@ -492,7 +475,7 @@
           <div class="col-12 col-lg-3">
             <div class="form-group">
               <div class="col-sm-12 col-form-label">
-                <label>SỐ ĐIỆN THOẠI</label>
+                <label class="lable">SỐ ĐIỆN THOẠI</label>
               </div>
               <div class="col-sm-12">
                 <div
@@ -506,23 +489,21 @@
                 >
                   <div class="input-group-prepend">
                     <span class="input-group-text"
-                      ><span [data-feather]="'phone-call'"></span
+                      ><i data-feather="phone-call"></i
                     ></span>
                   </div>
                   <input
+                    formControlName="phoneNumber"
+                    type="text"
+                    class="form-control"
+                    placeholder="Số điện thoại"
+                    appRemoveSpace
                     [ngClass]="
                       (f.phoneNumber.errors && f.phoneNumber?.touched) ||
                       (submitted && f.phoneNumber?.errors?.required)
                         ? 'is-invalid'
                         : ''
                     "
-                    appRemoveSpace
-                    formControlName="phoneNumber"
-                    type="text"
-                    id="fname-icon-2"
-                    class="form-control"
-                    name="fname-icon-2"
-                    placeholder="Số điện thoại"
                   />
                 </div>
               </div>
@@ -536,21 +517,15 @@
                 >
                   <small
                     class="form-text text-danger"
-                    *ngIf="f.phoneNumber.errors.required"
-                  >
-                    Không được bỏ trống
-                  </small>
-                  <small
-                    class="form-text text-danger"
                     *ngIf="f.phoneNumber.errors.minLength"
                   >
                     Phải đủ 10 số
                   </small>
                   <small
                     class="form-text text-danger"
-                    *ngIf="f.phoneNumber.errors.pattern"
+                    *ngIf="f.phoneNumber.errors.required"
                   >
-                    Số điện thoại chưa đúng !
+                    Không được bỏ trống
                   </small>
                 </span>
               </div>
@@ -624,7 +599,7 @@
       <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>QUỐC GIA</label>
+            <label class="lable">QUỐC GIA</label>
           </div>
           <div class="col-sm-12">
             <ng-select
@@ -653,7 +628,7 @@
       <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>TỈNH </label>
+            <label class="label">TỈNH/THÀNH PHỐ </label>
           </div>
           <div class="col-sm-12">
             <ng-select
@@ -671,6 +646,54 @@
               formControlName="province"
               (change)="selectProvince()"
             >
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="modalOpenCreateStreet(modalOpenCreateProvince)"
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Tỉnh/Thành phố</span>
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #modalOpenCreateProvince let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Tỉnh/Thành phố
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Đà Nẵng</i></small>
+                    <input
+                      type="text"
+                      name="addProvince"
+                      id="addProvince"
+                      #addProvince
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">
@@ -683,7 +706,7 @@
       <div class="col-12 col-lg-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>HUYỆN</label>
+            <label class="lable">QUẬN/HUYỆN</label>
           </div>
           <div
             class="col-sm-12"
@@ -709,6 +732,54 @@
               formControlName="district"
               (change)="selectDistrict()"
             >
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="modalOpenCreateStreet(modalOpenCreateDistrict)"
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Quận/Huyện</span>
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #modalOpenCreateDistrict let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Quận/Huyện
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Sơn Trà</i></small>
+                    <input
+                      type="text"
+                      name="addDistrict"
+                      id="addDistrict"
+                      #addDistrict
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">
@@ -721,7 +792,7 @@
       <div class="col-12 col-md-3">
         <div class="form-group">
           <div class="col-sm-12 col-form-label">
-            <label>XÃ</label>
+            <label class="lable">XÃ/PHƯỜNG</label>
           </div>
           <div
             class="col-sm-12"
@@ -747,6 +818,54 @@
               formControlName="commune"
               (change)="selectCommune()"
             >
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="modalOpenCreateStreet(modalOpenCreateCommune)"
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Xã/Phường</span>
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template #modalOpenCreateCommune let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Xã/Phường
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Thọ Quang</i></small>
+                    <input
+                      type="text"
+                      name="addCommune"
+                      id="addCommune"
+                      #addCommune
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">

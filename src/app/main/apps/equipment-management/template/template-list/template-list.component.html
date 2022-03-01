@@ -1,375 +1,361 @@
 <div class="content-wrapper container-xxl p-0">
-    <div class="content-body">
-      <section id="profile-header">
-        <div class="profile-header">
-          <app-content-header
-            [contentHeader]="contentHeader"
-          ></app-content-header>
-          <!-- search profile -->
-        </div>
-      </section>
-      <section>
-        <div class="card pb-1">
-          <h5 class="card-header">Bộ lọc tìm kiếm</h5>
-          <div class="card-body pb-1">
-            <form class="form form-vertical" [formGroup]="formTemplate">
-              <div class="row">
-                <div class="col-12 col-md-4">
-                  <fieldset class="form-group">
-                    <input
-                      name="contains"
-                      id="contains"
-                      type="search"
-                      class="form-control"
-                      formControlName="contains"
-                      placeholder="Một phần tên hãng, tên model"
-                    />
-                  </fieldset>
-                </div>
-                <div class="col-3 col-md-2">
-                  <button
-                    type="button"
-                    class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
-                    (click)="moreOption = !moreOption"
-                    rippleEffect
-                  >
-                    <i data-feather="plus" class="d-sm-none d-inline-block"></i>
-                    <span class="d-none d-sm-inline-block">Tùy chọn</span>
-                  </button>
-                </div>
-                <div class="col-6 col-md-2">
-                  <button
-                    type="button"
-                    rippleEffect
-                    class="btn btn-primary"
-                    
-                  >
-                    Tìm kiếm
-                  </button>
-                </div>
+  <div class="content-body">
+    <section id="profile-header">
+      <div class="profile-header">
+        <app-content-header
+          [contentHeader]="contentHeader"
+        ></app-content-header>
+        <!-- search profile -->
+      </div>
+    </section>
+    <section>
+      <div class="card pb-1">
+        <h5 class="card-header">Bộ lọc tìm kiếm</h5>
+        <div class="card-body pb-1">
+          <form class="form form-vertical" [formGroup]="formTemplate">
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <fieldset class="form-group">
+                  <input
+                    name="contains"
+                    id="contains"
+                    type="search"
+                    class="form-control"
+                    formControlName="contains"
+                    placeholder="Một phần tên hãng, tên model"
+                  />
+                </fieldset>
               </div>
-              <div class="row" [ngbCollapse]="moreOption">
-                <div class="col-md-2">
-                  <label for="">Số dòng:</label>
-                  <fieldset class="form-group">
-                    <ng-select
-                      [items]="sizePage"
-                      [clearable]="false"
-                      formControlName="size"
-                      
-                    ></ng-select>
-                  </fieldset>
-                </div>
-                <div class="col-md-8">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label class="lable">Từ ngày:</label>
-                      <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" (click)="fromDate.open()"
-                            ><i data-feather="calendar"></i
-                          ></span>
-                        </div>
-                        <input
-                          [matDatepicker]="fromDate"
-                          formControlName="fromDate"
-                          class="form-control"
-                          type="text"
-                          [min]="minDate"
-                          [max]="formTemplate.controls.toDate.value"
-                          placeholder="13/09/2021"
-                        />
+              <div class="col-3 col-md-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-lighten-2 btn-outline-secondary col-12"
+                  (click)="moreOption = !moreOption"
+                  rippleEffect
+                >
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                  <span class="d-none d-sm-inline-block">Tùy chọn</span>
+                </button>
+              </div>
+              <div class="col-6 col-md-2">
+                <button type="button" rippleEffect class="btn btn-primary">
+                  Tìm kiếm
+                </button>
+              </div>
+            </div>
+            <div class="row" [ngbCollapse]="moreOption">
+              <div class="col-md-2">
+                <label for="">Số dòng:</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="sizePage"
+                    [clearable]="false"
+                    formControlName="size"
+                  ></ng-select>
+                </fieldset>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="lable">Từ ngày:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="fromDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
                       </div>
-                      <mat-datepicker #fromDate></mat-datepicker>
+                      <input
+                        [matDatepicker]="fromDate"
+                        formControlName="fromDate"
+                        class="form-control"
+                        type="text"
+                        [min]="minDate"
+                        [max]="formTemplate.controls.toDate.value"
+                        placeholder="13/09/2021"
+                      />
                     </div>
-                    <div class="col-md-3">
-                      <label class="lable">Đến ngày:</label>
-                      <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" (click)="toDate.open()"
-                            ><i data-feather="calendar"></i
-                          ></span>
-                        </div>
-                        <input
-                          [matDatepicker]="toDate"
-                          formControlName="toDate"
-                          class="form-control"
-                          type="text"
-                          [min]="formTemplate.controls.fromDate.value"
-                          placeholder="13/09/2021"
-                        />
+                    <mat-datepicker #fromDate></mat-datepicker>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="lable">Đến ngày:</label>
+                    <div class="input-group input-group-merge">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" (click)="toDate.open()"
+                          ><i data-feather="calendar"></i
+                        ></span>
                       </div>
-  
-                      <mat-datepicker #toDate></mat-datepicker>
+                      <input
+                        [matDatepicker]="toDate"
+                        formControlName="toDate"
+                        class="form-control"
+                        type="text"
+                        [min]="formTemplate.controls.fromDate.value"
+                        placeholder="13/09/2021"
+                      />
                     </div>
+
+                    <mat-datepicker #toDate></mat-datepicker>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section id="table-hsm-list">
+      <div class="card">
+        <div class="card-header py-1">
+          <h4 class="card-title">Danh sách kết nối HSM</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-50">
+            <button
+              class="btn btn-primary ml-1"
+              [routerLink]="['../', 'hsm-create']"
+              rippleEffect
+            >
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i
+              ><span class="d-none d-sm-inline-block">Tạo kết nối</span>
+            </button>
+            <button csvLink class="btn btn-outline-secondary ml-1" rippleEffect>
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Xóa kết nối</span>
+            </button>
+            <a
+              csvLink
+              class="btn btn-outline-secondary float-right mr-1"
+              rippleEffect
+              >Xuất danh sách</a
+            >
           </div>
         </div>
-      </section>
-      <section id="table-hsm-list">
-        <div class="card">
-          <div class="card-header py-1">
-            <h4 class="card-title">Danh sách kết nối HSM</h4>
-          </div>
-          <div class="row">
-            <div class="col-md-12 mb-50">
-              <button
-                class="btn btn-primary ml-1"
-                [routerLink]="['../', 'hsm-create']"
-                rippleEffect
-              >
-                <i
-                  data-feather="plus"
-                  class="d-sm-none d-inline-block mr-0 mr-sm-1"
-                ></i
-                ><span class="d-none d-sm-inline-block">Tạo kết nối</span>
-              </button>
-              <button
-                csvLink
-                class="btn btn-outline-secondary ml-1"
-                rippleEffect
-                
-              >
-                Xóa kết nối
-              </button>
-              <a
-                csvLink
-                class="btn btn-outline-secondary float-right mr-1"
-                rippleEffect
-                >Xuất danh sách</a
-              >
-            </div>
-          </div>
-          <mat-progress-bar
-            *ngIf="isLoading"
-            mode="indeterminate"
-          ></mat-progress-bar>
-          <ngx-datatable
-            #tableRowDetails
-            [rows]="rowsData"
-            class="bootstrap core-bootstrap cursor"
-            [columnMode]="ColumnMode.force"
-            [headerHeight]="50"
-            rowHeight="auto"
-            [scrollbarH]="true"
-            [footerHeight]="50"
-            [rowHeight]="50"
-            [externalPaging]="true"
-            [limit]="pagedData.size"
-            [count]="pagedData.totalItems"
-            [offset]="pagedData.currentPage"
-            [loadingIndicator]="isLoading"
-            [selectionType]="'checkbox'"
-            (page)="setPage($event)"
-            (activate)="onActivate($event)"
-            (select)="onSelect($event)"
+        <mat-progress-bar
+          *ngIf="isLoading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+        <ngx-datatable
+          #tableRowDetails
+          [rows]="rowsData"
+          class="bootstrap core-bootstrap cursor"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          rowHeight="auto"
+          [scrollbarH]="true"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [externalPaging]="true"
+          [limit]="pagedData.size"
+          [count]="pagedData.totalItems"
+          [offset]="pagedData.currentPage"
+          [loadingIndicator]="isLoading"
+          [selectionType]="'checkbox'"
+          (page)="setPage($event)"
+          (activate)="onActivate($event)"
+          (select)="onSelect($event)"
+        >
+          <ngx-datatable-column
+            name="checkbox"
+            [width]="50"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false"
           >
-            <ngx-datatable-column
-              name="checkbox"
-              [width]="50"
-              [sortable]="false"
-              [canAutoResize]="false"
-              [draggable]="false"
-              [resizeable]="false"
+            <ng-template
+              ngx-datatable-header-template
+              let-value="value"
+              let-allRowsSelected="allRowsSelected"
+              let-selectFn="selectFn"
             >
-              <ng-template
-                ngx-datatable-header-template
-                let-value="value"
-                let-allRowsSelected="allRowsSelected"
-                let-selectFn="selectFn"
+              <div
+                class="custom-control custom-control-primary custom-checkbox"
               >
-                <div
-                  class="custom-control custom-control-primary custom-checkbox"
-                >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [checked]="allRowsSelected"
-                    (change)="selectFn(!allRowsSelected)"
-                    id="headerCustomChkbxRef"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="headerCustomChkbxRef"
-                  ></label>
-                </div>
-              </ng-template>
-              <ng-template
-                ngx-datatable-cell-template
-                let-rowIndex="rowIndex"
-                let-value="value"
-                let-isSelected="isSelected"
-                let-onCheckboxChangeFn="onCheckboxChangeFn"
-              >
-                <div
-                  class="custom-control custom-control-primary custom-checkbox"
-                >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    [checked]="isSelected"
-                    (change)="onCheckboxChangeFn($event)"
-                    id="rowCustomChkbxRef{{ rowIndex }}"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="rowCustomChkbxRef{{ rowIndex }}"
-                  ></label>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column
-              name="TT"
-              [sortable]="false"
-              [canAutoResize]="false"
-              [width]="50"
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [checked]="allRowsSelected"
+                  (change)="selectFn(!allRowsSelected)"
+                  id="headerCustomChkbxRef"
+                />
+                <label
+                  class="custom-control-label"
+                  for="headerCustomChkbxRef"
+                ></label>
+              </div>
+            </ng-template>
+            <ng-template
+              ngx-datatable-cell-template
+              let-rowIndex="rowIndex"
+              let-value="value"
+              let-isSelected="isSelected"
+              let-onCheckboxChangeFn="onCheckboxChangeFn"
             >
-              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-                {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column
-              name="Tên mẫu cặp khóa"
-              prop="cryptoSystem"
-              [width]="130"
-            ></ngx-datatable-column>
-            
-            <ngx-datatable-column
-              name="Hành động"
-              [width]="70"
-              [sortable]="false"
-              prop=""
-            >
-              <ng-template
-                ngx-datatable-cell-template
-                let-value="value"
-                let-row="row"
-                let-rowIndex="rowIndex"
+              <div
+                class="custom-control custom-control-primary custom-checkbox"
               >
-                <div class="d-flex align-items-center">
-                  <div ngbDropdown container="body">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [checked]="isSelected"
+                  (change)="onCheckboxChangeFn($event)"
+                  id="rowCustomChkbxRef{{ rowIndex }}"
+                />
+                <label
+                  class="custom-control-label"
+                  for="rowCustomChkbxRef{{ rowIndex }}"
+                ></label>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="TT"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [width]="50"
+          >
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Tên mẫu cặp khóa"
+            prop="cryptoSystem"
+            [width]="130"
+          ></ngx-datatable-column>
+
+          <ngx-datatable-column
+            name="Hành động"
+            [width]="70"
+            [sortable]="false"
+            prop=""
+          >
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-row="row"
+              let-rowIndex="rowIndex"
+            >
+              <div class="d-flex align-items-center">
+                <div ngbDropdown container="body">
+                  <a
+                    ngbDropdownToggle
+                    href="javascript:void(0);"
+                    class="hide-arrow"
+                    id="dropdownBrowserState"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i
+                      data-feather="more-vertical"
+                      class="text-primary cursor-pointer mr-50"
+                    ></i>
+                  </a>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu-right"
+                    aria-labelledby="dropdownBrowserState"
+                  >
                     <a
-                      ngbDropdownToggle
-                      href="javascript:void(0);"
-                      class="hide-arrow"
-                      id="dropdownBrowserState"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
+                      ngbDropdownItem
+                      [routerLink]="['../', 'hsm-view', value.hsmId]"
+                      class="d-flex align-items-center"
+                      *ngIf="!value.status"
+                      ><i data-feather="check" class="mr-50"></i> Kết nối</a
                     >
-                      <i
-                        data-feather="more-vertical"
-                        class="text-primary cursor-pointer mr-50"
-                      ></i>
+                    <a
+                      ngbDropdownItem
+                      [routerLink]="['../', 'hsm-view', value.hsmId]"
+                      class="d-flex align-items-center"
+                      *ngIf="value.status"
+                      ><i data-feather="x" class="mr-50"></i> Ngắt kết nối</a
+                    >
+                    <a
+                      ngbDropdownItem
+                      [routerLink]="['../', 'hsm-view', value.hsmId]"
+                      class="d-flex align-items-center"
+                      ><i data-feather="file-text" class="mr-50"></i> Chi
+                      tiết</a
+                    >
+
+                    <a
+                      ngbDropdownItem
+                      [routerLink]="['../', 'hsm-edit', value.hsmId]"
+                      class="d-flex align-items-center"
+                      ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
                     </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right"
-                      aria-labelledby="dropdownBrowserState"
+                    <a
+                      href="javascript:void(0)"
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="removeProfile(value.hsmId)"
+                      ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
-                      <a
-                        ngbDropdownItem
-                        [routerLink]="['../', 'hsm-view', value.hsmId]"
-                        class="d-flex align-items-center"
-                        *ngIf = "!value.status"
-                        ><i data-feather="check" class="mr-50"></i> Kết nối</a
-                      >
-                      <a
-                        ngbDropdownItem
-                        [routerLink]="['../', 'hsm-view', value.hsmId]"
-                        class="d-flex align-items-center"
-                        *ngIf = "value.status"
-                        ><i data-feather="x" class="mr-50"></i> Ngắt kết nối</a
-                      >
-                      <a
-                        ngbDropdownItem
-                        [routerLink]="['../', 'hsm-view', value.hsmId]"
-                        class="d-flex align-items-center"
-                        ><i data-feather="file-text" class="mr-50"></i> Chi
-                        tiết</a
-                      >
-  
-                      <a
-                        ngbDropdownItem
-                        [routerLink]="['../', 'hsm-edit', value.hsmId]"
-                        class="d-flex align-items-center"
-                        ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
-                      </a>
-                      <a
-                        href="javascript:void(0)"
-                        ngbDropdownItem
-                        class="d-flex align-items-center"
-                        (click)="removeProfile(value.hsmId)"
-                        ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                      >
-                    </div>
                   </div>
-                  <i data-feather="edit" class="text-primary cursor-pointer"></i>
                 </div>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-footer>
-              <ng-template
-                ngx-datatable-footer-template
-                let-rowCount="rowCount"
-                let-pageSize="pageSize"
-                let-selectedCount="selectedCount"
-                let-curPage="curPage"
-                let-offset="offset"
-                let-isVisible="isVisible"
+                <i data-feather="edit" class="text-primary cursor-pointer"></i>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+              let-isVisible="isVisible"
+            >
+              <div class="page-count" *ngIf="!isLoading">
+                Có tổng số
+                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+              </div>
+              <datatable-pager
+                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'"
+                [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'"
+                [page]="curPage"
+                [size]="pageSize"
+                [count]="rowCount"
+                [hidden]="!(rowCount / pageSize > 1)"
+                (change)="table.onFooterPage($event)"
               >
-                <div class="page-count" *ngIf="!isLoading">
-                  Có tổng số
-                  {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-                </div>
-                <datatable-pager
-                  [pagerLeftArrowIcon]="'datatable-icon-left'"
-                  [pagerRightArrowIcon]="'datatable-icon-right'"
-                  [pagerPreviousIcon]="'datatable-icon-prev'"
-                  [pagerNextIcon]="'datatable-icon-skip'"
-                  [page]="curPage"
-                  [size]="pageSize"
-                  [count]="rowCount"
-                  [hidden]="!(rowCount / pageSize > 1)"
-                  (change)="table.onFooterPage($event)"
-                >
-                </datatable-pager>
-              </ng-template>
-            </ngx-datatable-footer>
-          </ngx-datatable>
-          <div class="row">
-            <div class="col-md-12 mb-50">
-              <button
-                class="btn btn-primary ml-1"
-                [routerLink]="['../', 'hsm-create']"
-                rippleEffect
-              >
-                <i
-                  data-feather="plus"
-                  class="d-sm-none d-inline-block mr-0 mr-sm-1"
-                ></i
-                ><span class="d-none d-sm-inline-block">Tạo kết nối</span>
-              </button>
-              <button
-                csvLink
-                class="btn btn-outline-secondary ml-1"
-                rippleEffect
-              >
-                Xóa kết nối
-              </button>
-              <a
-                csvLink
-                class="btn btn-outline-secondary float-right mr-1"
-                rippleEffect
-                >Xuất danh sách</a
-              >
-            </div>
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+        <div class="row">
+          <div class="col-md-12 mb-50">
+            <button
+              class="btn btn-primary ml-1"
+              [routerLink]="['../', 'hsm-create']"
+              rippleEffect
+            >
+              <i
+                data-feather="plus"
+                class="d-sm-none d-inline-block mr-0 mr-sm-1"
+              ></i
+              ><span class="d-none d-sm-inline-block">Tạo kết nối</span>
+            </button>
+            <button csvLink class="btn btn-outline-secondary ml-1" rippleEffect>
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Xóa kết nối</span>
+            </button>
+            <a
+              csvLink
+              class="btn btn-outline-secondary float-right mr-1"
+              rippleEffect
+              >Xuất danh sách</a
+            >
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   </div>
-  
+</div>
