@@ -87,6 +87,8 @@ export class AuthenticationService {
                   { toastClass: 'toast ngx-toastr', closeButton: true }
                 );
               }, 3000);
+            }else{
+              
             }
             // notify
             this.currentUserSubject.next(user);

@@ -17,7 +17,7 @@
     "e2e": "ng e2e",
     "format": "prettier --check \"**/*.{ts,js,json,html,css,scss,md}\"",
     "deploy": "ng s --host 0.0.0.0 --port 8000 --disable-host-check --base-href /ssa/ --deploy-url /ssa/",
-    "deploy2" : "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --port 7000 --disable-host-check --base-href /ssa/ --deploy-url  /ssa/"
+    "deploy2": "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --port 7000 --disable-host-check --base-href /ssa/ --deploy-url  /ssa/"
   },
   "private": true,
   "dependencies": {
