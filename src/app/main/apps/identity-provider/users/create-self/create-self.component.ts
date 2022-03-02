@@ -238,7 +238,7 @@ export class CreateSelfComponent implements OnInit {
       }
     }).then(function(){
       console.log("okokok");
-      window.location.href = '/apps/dashboard';
+      window.location.href = this._router.navigate(['/apps/dashboard']);
     });
   }
   
