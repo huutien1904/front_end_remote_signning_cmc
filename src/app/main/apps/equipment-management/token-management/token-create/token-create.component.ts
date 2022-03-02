@@ -197,24 +197,29 @@ export class TokenCreateComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         this.getHsmList();
-        if ((res.result = true)) {
-          if(this.rePasswordSo === false){
-            this.toastr.success('👋 Token của bạn đã được khởi tạo lại thành công', 'Thành công', {
-              positionClass: 'toast-top-center',
-              toastClass: 'toast ngx-toastr',
-              closeButton: true
-            });
-            this.submitted = false;
-          }
-          if(this.rePasswordSo === true){
-            this.toastr.success('👋 Token của bạn đã được khởi tạo thành công', 'Thành công', {
-              positionClass: 'toast-top-center',
-              toastClass: 'toast ngx-toastr',
-              closeButton: true
-            });
-            this.submitted = false;
-          }
+        if (res.result == true) {
+          // if(this.rePasswordSo === false){
+          //   this.toastr.success('👋 Token của bạn đã được khởi tạo lại thành công', 'Thành công', {
+          //     positionClass: 'toast-top-center',
+          //     toastClass: 'toast ngx-toastr',
+          //     closeButton: true
+          //   });
+          //   this.submitted = false;
+          // }
+          // if(this.rePasswordSo === true){
+          //   this.toastr.success('👋 Token của bạn đã được khởi tạo thành công', 'Thành công', {
+          //     positionClass: 'toast-top-center',
+          //     toastClass: 'toast ngx-toastr',
+          //     closeButton: true
+          //   });
+          //   this.submitted = false;
+          // }
           // this.router.navigate(['/apps/equipment-management/token/token-list']);
+          this.toastr.success('👋 Token của bạn đã được khởi tạo lại thành công', 'Thành công', {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true
+          });
           this.showSelect = false
           this.tokenForm.reset();
         }
@@ -241,14 +246,33 @@ export class TokenCreateComponent implements OnInit {
    */
   onSelect({ selected }) {
     // console.log("tiencheck",selected[0].serialNumber)
+    let tokenSelected : any;
+    let indexSelected : number;
     this.rowsData.find((item,index) =>{
       // console.log(item.serialNumber)
       if(item.serialNumber === selected[0].serialNumber){
-        console.log(index)
-        this.tokenForm.controls['slotNumber'].setValue(index );
+        console.log(index);
+        // if(item.label.replace(/\s/g, "").length>0){
+        //   this.tokenForm.get("tokenName").setValue(item.label);
+        //   this.tokenForm.get("tokenName").disable();
+        // }
+        
+        // this.tokenForm.controls['slotNumber'].setValue(index );
+        // this.tokenForm.get("slotNumber").disable();
+        tokenSelected = item;
+        indexSelected = index;
         // return index;
       }
     })
+    if(tokenSelected.label.replace(/\s/g, "").length>0){
+      this.tokenForm.get("tokenName").setValue(tokenSelected.label);
+      this.tokenForm.get("tokenName").disable();
+    }else{
+      this.tokenForm.get("tokenName").setValue(null);
+      this.tokenForm.get("tokenName").enable();
+    }
+    this.tokenForm.controls['slotNumber'].setValue(indexSelected );
+    this.tokenForm.get("slotNumber").disable();
     console.log(selected)
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
