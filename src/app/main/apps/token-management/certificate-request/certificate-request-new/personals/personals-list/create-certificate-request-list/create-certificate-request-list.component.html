@@ -1,3 +1,4 @@
+
 <div class="modal-header">
   <h4 class="modal-title" id="myModalLabel1">
     Tạo yêu cầu chứng thực cho {{ personals.length }} thuê bao
@@ -59,20 +60,29 @@
               name="TT"
               [sortable]="false"
               [canAutoResize]="false"
-              [width]="50"
+              [width]="100"
             >
               <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
                 {{ rowIndex + 1 }}
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="SUBJECT DN" [width]="1400">
+            <ngx-datatable-column name="SUBJECT DN" [width]="1000">
               <ng-template
                 ngx-datatable-cell-template
                 let-row="row"
                 let-rowIndex="rowIndex"
               >
                 {{ row.subjectDn }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="TÊN CẶP KHÓA (ALIAS)" [width]="100">
+              <ng-template
+                ngx-datatable-cell-template
+                let-row="row"
+                let-rowIndex="rowIndex"
+              >
+                {{ row.alias }}
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -101,7 +111,7 @@
       </div>
     </div>
 
-    <div class="row ml-50" *ngIf="informationKeyPair">
+    <div class="row ml-50 mt-1" *ngIf="informationKeyPair">
       <div class="col-md-6">
         <div class="form-group">
           <label>Kết nối HSM</label>
@@ -175,7 +185,7 @@
             type="text"
             formControlName="numberKey"
             class="form-control"
-            disabled
+            readonly
             [ngClass]="{
               'is-invalid':
                 (f.numberKey.errors && f.numberKey?.dirty) ||
@@ -192,7 +202,7 @@
           ></div>
         </div>
       </div>
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <div class="form-group">
           <label>Tên cặp khóa (alias)</label>
           <input
@@ -222,7 +232,7 @@
             Alias hợp lệ
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <ngx-datatable
@@ -369,6 +379,7 @@
     type="button"
     class="btn btn-primary mr-1"
     (click)="onSubmit()"
+    [disabled] = "!informationKeyPair"
     rippleEffect
   >
     Tạo

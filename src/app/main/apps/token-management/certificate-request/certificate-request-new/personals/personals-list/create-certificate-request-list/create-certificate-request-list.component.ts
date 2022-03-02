@@ -30,6 +30,7 @@ import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
 import { PagedData } from 'app/main/models/PagedData';
 import { Keypair } from 'app/main/models/Keypair';
 import { KeypairListService } from 'app/main/apps/token-management/keypair/keypair-list/keypair-list.service';
+import { NgIfContext } from '@angular/common';
 
 @Component({
   selector: 'app-create-certificate-request-list',
@@ -84,7 +85,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
   public rowsData = new Array<Keypair>();
   public informationKeyPair: boolean = false;
   public informationKeypairOld: boolean = false;
-
   public formListPersonal: FormGroup;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public bodyGetListProfile = {
@@ -145,12 +145,12 @@ export class CreateCertificateRequestListComponent implements OnInit {
           keypairLength: [this.keypairLengthList[0], Validators.required],
         }),
         alias: [
-          this.personals.username +
+          this.personals[0].username +
           Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
         ,
         numberKey: [this.personals.length, Validators.required],
         tokenId: [this.tokenList[0], Validators.required],
-        userId: [this.personals.userId],
+        userId: [this.personals[0].userId],
         hsm: [this.hsmList[0]],
         profile: [null, Validators.required],
       }
@@ -167,8 +167,13 @@ export class CreateCertificateRequestListComponent implements OnInit {
     });
     // this.pagedData.size = this.sizePage[3];
     // this.pagedData.currentPage = 0;
-    
-    this.listSubjectDn = this.listSubjectDnResponse
+    // this.listSubjectDnResponse.map((item) => {
+    //   console.log(item.subjectDn.slice(item.subjectDn.indexOf('=') + 1,item.subjectDn.indexOf(',')).replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, "").str.replace(/\u02C6|\u0306|\u031B/g, "").trim())
+    // })
+    console.log(this.listSubjectDnResponse)
+    setTimeout(() => {
+      this.listSubjectDn = this.listSubjectDnResponse
+    }, 500);
     this.getListProfiles();
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get('size').value });
   }
@@ -192,24 +197,26 @@ export class CreateCertificateRequestListComponent implements OnInit {
   }
 
   async changeProfile() {
-    const profile= this.f.profile.value;
+    const profile = this.f.profile.value;
     this.listSubjectDn = []
     var listSubjectDnGetApi = []
     await this.personals.map((personal) => {
-      this._entityProfileService.getSubjectDnById(personal.staffId,profile.id )
+      this._entityProfileService.getSubjectDnById(personal.staffId, profile.id)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((res) => {
-          listSubjectDnGetApi.push({subjectDn : JSON.stringify(res).replace('{'," ").replace('}'," ").replace(/['"]+/g, '').replace(/[":"]+/g," = ")})
-          
+          listSubjectDnGetApi.push({ subjectDn: JSON.stringify(res).replace('{', " ").replace('}', " ").replace(/['"]+/g, '').replace(/[":"]+/g, " = ") ,alias:personal.username +
+          Math.floor(Math.random() * 1000 + 1)})
         })
     })
+    console.log(listSubjectDnGetApi)
     setTimeout(() => {
       console.log(listSubjectDnGetApi)
-      this.listSubjectDn = listSubjectDnGetApi.map((item:any) =>({
+      this.listSubjectDn = listSubjectDnGetApi.map((item: any) => ({
         ...item
       }))
-      console.log(this.listSubjectDn)
-    }, 200);
+      
+    }, 500);
+    console.log(this.listSubjectDn)
   }
 
   async onSubmit() {
@@ -217,41 +224,122 @@ export class CreateCertificateRequestListComponent implements OnInit {
     if (this.newRequestForm.invalid) {
       return;
     }
+    // this.personals.map(async (personal) => {
+    //   const newRequest = JSON.stringify({
+    //     cryptoAlgorithm: [
+    //       this.newRequestForm.get('cryptoAlgorithm')
+    //       .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+    //         .get('cryptoAlgorithm')
+    //         .get('keypairLength').value],
+    //     alias: this.f.alias.value,
+    //     tokenId: this.f.tokenId.value.tokenId,
+    //     templateKeyId: '1',
+    //     userId: personal.userId,
+    //   });
+    //   console.log(newRequest);
+    //   let keypairId = await this._personalsService.createKeypair(newRequest)
+    //   .toPromise()
+    //   .then(res => {
+    //     console.log(res)
+    //     return res.data.keypairId;
+    //     }           
+    //   )
+    //   console.log(keypairId)
+    //   await this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+    //   .subscribe((res) =>{
+    //     console.log(res.result)
+    //   })
 
-    const newRequest = JSON.stringify({
-      cryptoAlgorithm: [this.newRequestForm
-        .get('cryptoAlgorithm')
-        .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
-          .get('cryptoAlgorithm')
-          .get('keypairLength').value],
-      alias: this.f.alias.value,
-      tokenId: this.f.tokenId.value.tokenId,
-      templateKeyId: '1',
-      userId: this.f.userId.value,
-    });
-    console.log(newRequest);
-    let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res => {
-      return res.data.keypairId;
-    }
-    );
-    if (keypairId == null) {
-      return;
-    }
-    this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId })).subscribe((res: any) => {
-      console.log(res);
-      if ((res.result = true)) {
-        this.toggleSidebar();
-        this.toastr.success(
-          '👋 Bạn đã tạo yêu cầu chứng thực mới',
-          'Thành công',
-          {
-            positionClass: 'toast-top-center',
-            toastClass: 'toast ngx-toastr',
-            closeButton: true,
-          }
-        );
+    //   // .then(res =>{
+    //   //   console.log(res)
+    //   //   this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+    //   //   .subscribe((res) =>{
+    //   //     console.log(res)
+    //   //   })
+    //   // })
+    //   // if (keypairId == null) {
+    //   //   return;
+    //   // }
+    //   // setTimeout(() => {
+    //   //   this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+    //   //   .toPromise()
+    //   //   .then((res: any) => {
+    //   //     console.log("settimeout oke")
+    //   //     console.log(res);
+    //   //     // if ((res.result = true)) {
+    //   //     //   this.toggleSidebar();
+    //   //     //   this.toastr.success(
+    //   //     //     '👋 Bạn đã tạo yêu cầu chứng thực mới',
+    //   //     //     'Thành công',
+    //   //     //     {
+    //   //     //       positionClass: 'toast-top-center',
+    //   //     //       toastClass: 'toast ngx-toastr',
+    //   //     //       closeButton: true,
+    //   //     //     }
+    //   //     //   );
+    //   //     // }
+    //   //   })
+    //   //   .catch((res) =>{
+    //   //     console.log(res)
+    //   //   })
+    //   //   this.toggleSidebar();
+
+    //   // }, 2000);
+    // })
+    var i = 0
+    while (i < this.personals.length) {
+      console.log(i)
+      const newRequest = JSON.stringify({
+        cryptoAlgorithm: [
+          this.newRequestForm.get('cryptoAlgorithm')
+            .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+              .get('cryptoAlgorithm')
+              .get('keypairLength').value],
+        alias: this.personals[i].username + 
+          Math.floor(Math.random() * 10000 + 2),
+        tokenId: this.f.tokenId.value.tokenId,
+        templateKeyId: '1',
+        userId: this.personals[i].userId,
+      });
+      console.log(newRequest);
+      let keypairId = await this._personalsService.createKeypair(newRequest)
+        .toPromise()
+        .then(res => {
+          console.log(res)
+          return res.data.keypairId;
+        }
+        )
+      console.log("tien", keypairId)
+      let createCertificate: any =  await this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+        // .subscribe()
+        .subscribe((res) => {
+          // console.log(res)
+          // if (res.result == true) {
+          //   console.log("tao thanh cong")
+          //   i++
+          // }
+          console.log(res.result)
+          return res.result
+          // i++
+        })
+        console.log(createCertificate)
+      if (createCertificate == true) {
+        console.log("tạo thanh cong")
+        i++;
       }
-    });
+    }
+    // if (i == this.personals.length - 1) {
+    //   this.toggleSidebar();
+    //   this.toastr.success(
+    //     '👋 Bạn đã tạo yêu cầu chứng thực mới',
+    //     'Thành công',
+    //     {
+    //       positionClass: 'toast-top-center',
+    //       toastClass: 'toast ngx-toastr',
+    //       closeButton: true,
+    //     }
+    //   );
+    // }
   }
 
   async getListProfiles() {
@@ -279,13 +367,13 @@ export class CreateCertificateRequestListComponent implements OnInit {
       this._entityProfileService.getSubjectDnById(profileId, personal.staffId)
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((res) => {
-          this.listSubjectDn.push({subjectDn : res})
+          this.listSubjectDn.push({ subjectDn: res })
         })
     })
     // console.log(this.listSubjectDn);
     this.listSubjectDn = [
       {
-        subjectDn:"tien"
+        subjectDn: "tien"
       }
     ]
   }

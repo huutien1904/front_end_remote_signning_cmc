@@ -160,19 +160,17 @@ export class PersonalsComponent implements OnInit {
       })
   }
   async createCertificateRequest(modalForm) {
-    console.log("tien",this.listSubjectDn)
-    console.log("selected 164",this.selected)
     this.listSubjectDn = [];
     if (this.selected.length > 0) {
-      await this.selected.map((personal) => {
+      this.selected.map((personal) => {
         this._entityProfileService.getSubjectDnById(personal.staffId, this.idProfile)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res) => {
-            console.log(res)
-            this.listSubjectDn.push({ subjectDn: JSON.stringify(res).replace('{', " ").replace('}', " ").replace(/['"]+/g, '').replace(/[":"]+/g, " = ") })
+            console.log(personal)
+            this.listSubjectDn.push({ subjectDn: JSON.stringify(res).replace('{', " ").replace('}', " ").replace(/['"]+/g, '').replace(/[":"]+/g, " = "),alias:personal.username +
+            Math.floor(Math.random() * 1000 + 1)})
           })
       })
-      console.log("tien173",this.listSubjectDn)
       this.toggleSidebar(modalForm, this.selected[0])
 
     } else {

@@ -403,13 +403,30 @@
     </ngx-datatable>
   </div>
   <ng-template #modalForm let-modal>
-    <app-sidebar-personals [personal]="item"></app-sidebar-personals>
+    <div class="modal-header">
+      
+      <h4 class="modal-title " id="myModalLabel1">
+        Tạo yêu cầu chứng thực
+      </h4>
+      <button
+        type="button "
+        class="close"
+        (click)="modal.dismiss('Cross click')"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <app-sidebar-personals [personal]="item"></app-sidebar-personals>
+    </div>
+    
   </ng-template>
   <ng-template #modalCreateListCertificate let-modal>
     <div class="modal-header">
       
       <h4 class="modal-title " id="myModalLabel1">
-        Tạo yêu cầu chứng thực
+        Tạo Danh sách các yêu cầu chứng thực
       </h4>
       <button
         type="button "

@@ -14,7 +14,7 @@
         <div class="form-group">
           <label for="">Profile</label>
           <ng-select
-            (change)="changeProfile()"
+            (change)="changeProfile($event)"
             [items]="listProfiles"
             bindLabel="endEntityProfileName"
             [clearable]="false"

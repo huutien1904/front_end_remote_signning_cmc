@@ -65,7 +65,7 @@ export class SidebarPersonalsComponent implements OnInit {
   public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
   public tokenList: Token[];
   public hsmList = new Array<Hsm>();
-  public strProfile: string = '';
+  public strProfile: any = '';
   public address: any
   public listProfiles: any[] = [];
   public bodyGetListProfile = {
@@ -95,10 +95,15 @@ export class SidebarPersonalsComponent implements OnInit {
   public hsmListSub = new Subject();
   async ngOnInit() {
     console.log(this.personal)
+    // get list hsm
     await this._hsmService
       .getListHsm({
         page: 0,
         size: 100,
+        sort : ["hsmId,asc"],
+        contains : "",
+        fromDate : "",
+        toDate : ""
       })
       .pipe(
         map((res) => {
@@ -117,6 +122,7 @@ export class SidebarPersonalsComponent implements OnInit {
         this.hsmList = hsmList;
         this.tokenList = this.hsmList[0].tokens;
       });
+    // form crate certificate
     this.newRequestForm = this.fb.group(
       {
         cryptoAlgorithm: this.fb.group({
@@ -167,95 +173,15 @@ export class SidebarPersonalsComponent implements OnInit {
     this.tokenList = this.newRequestForm.get('hsm').value.tokens;
     this.newRequestForm.patchValue({ tokenId: this.tokenList[0] });
   }
-
-  async changeProfile() {
-    const profile: any[] = this.f.profile.value.subjectDNA;
-    console.log(profile);
-    this.strProfile = '';
-    let firstWord = true;
-    profile.map(async (attribute: string) => {
-      let value = '';
-      this.address = await this._addressService.getAddressById(283)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .toPromise().then(res => {
-          return res.data;
-        });
-      // console.log(this.address)
-
-      var commonName = this.personal.personalFirstName;
-      var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-      var countryCode = this.personal.personalCountryId;
-      var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-      var localityName = "Huyện " + this.address.districtName;
-      var personalCountryId = this.personal.personalCountryId;
-      var phoneNumber = this.personal.phoneNumber;
-      var email = this.personal.email;
-      
-      // console.log(address)
-      switch (attribute) {
-        case 'CN':
-          value = commonName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'C':
-          value = countryCode
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'ST':
-          value = stateOrProvinceName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'L':
-          value = localityName
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'OU':
-          value = "CMC CIST"
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'O':
-          value = "CMC "
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        case 'TELEPHONE_NUMBER':
-          value = phoneNumber
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-        break;
-        
-        case 'EmailAddress':
-          value = email;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'UID':
-          value = personalCountryId;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break;
-        case 'STREET':
-          value = streetAddress;
-          this.displayProfile(attribute, value, firstWord);
-          firstWord = false;
-          break; 
-      }
-    });
-  }
-
-  // hien thi profile tu cac thong tin lay duoc
-  displayProfile(attribute, value, firstWord) {
-    // console.log(value);
-    // console.log(attribute);
-    if (firstWord == false) this.strProfile += ', ' + attribute + ' = ' + value;
-    else {
-      this.strProfile += attribute + ' = ' + value;
-    }
+  // change profile to get detail subjectDN
+  async changeProfile(event) {
+    const profileId = event.id;
+    this._entityProfileService.getSubjectDnById(this.personal.staffId, profileId)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((res) => {
+        console.log(res)
+        this.strProfile = JSON.stringify(res).replace('{', " ").replace('}', " ").replace(/['"]+/g, '').replace(/[":"]+/g, " = ")
+      });
   }
 
   // lay danh sanh profile tu api
@@ -265,101 +191,26 @@ export class SidebarPersonalsComponent implements OnInit {
       .subscribe((res) => {
         console.log("check");
         this.newRequestForm.controls['profile'].setValue(res.data.data[0].endEntityProfileName)
-        
+
         // this.
         console.log(res)
         this.listProfiles = res.data.data.map((profile) => ({
           ...profile,
-          subjectAttribute: profile.alternativeName.map(item => {
-            return item.name
-          }),
-          subjectDNA: profile.distinguishedName.map(item => {
-            return item.name
-          }),
+
           id: profile.endEntityProfileId,
           nameProfile: profile.endEntityProfileName
         }))
-        console.log(this.listProfiles)
+        console.log(this.listProfiles[0].id)
         console.log(this.personal)
         // set thong tin de hien thi subjectDN cua thue bao ca nhan dau tien 
-        var profile = this.listProfiles[0].subjectDNA
-        this.strProfile = '';
-        let firstWord = true; 
-        profile.map(async (attribute: string) => {
-          let value = '';
-          this.address = await this._addressService.getAddressById(this.personal.address.addressId)
-            .pipe(takeUntil(this._unsubscribeAll))
-            .toPromise().then(res => {
-              return res.data;
-            });
-          console.log(this.address)
-    
-          var commonName = this.personal.personalFirstName;
-          var streetAddress = "Số nhà " + this.address.houseNumber + " " +" Đường " + this.address.streetName + " " +" Xã "+ this.address.communeName;
-          var countryCode = this.personal.address.countryId;
-          var stateOrProvinceName = "Tỉnh " + this.address.provinceName;
-          var localityName = "Huyện " + this.address.districtName;
-          var personalCountryId = this.personal.personalCountryId;
-          var phoneNumber = this.personal.phoneNumber;
-          var email = this.personal.email;
-          
-          // console.log(address)
-          switch (attribute) {
-            case 'CN':
-              value = commonName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'C':
-              value = countryCode
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'ST':
-              value = stateOrProvinceName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'L':
-              value = localityName
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'OU':
-              value = "CMC CIST"
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'O':
-              value = "CMC "
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            case 'TELEPHONE_NUMBER':
-              value = phoneNumber
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-            break;
-            
-            case 'EmailAddress':
-              value = email;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'UID':
-              value = personalCountryId;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break;
-            case 'STREET':
-              value = streetAddress;
-              this.displayProfile(attribute, value, firstWord);
-              firstWord = false;
-              break; 
-          }
-        });
-        // console.log(subjectDN)
-        console.log(this.listProfiles);
+        var profileId = this.listProfiles[0].id
+
+        this._entityProfileService.getSubjectDnById(this.personal.staffId, profileId)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res) => {
+            console.log(res)
+            this.strProfile = JSON.stringify(res).replace('{', " ").replace('}', " ").replace(/['"]+/g, '').replace(/[":"]+/g, " = ")
+          });
       })
   }
   // kiem tra alias
@@ -384,17 +235,15 @@ export class SidebarPersonalsComponent implements OnInit {
     }
 
     const newRequest = JSON.stringify({
-      cryptoAlgorithm: [this.newRequestForm
-        .get('cryptoAlgorithm')
-        .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
-          .get('cryptoAlgorithm')
-          .get('keypairLength').value],
+      cryptoAlgorithm: [
+        this.newRequestForm.get('cryptoAlgorithm').get('cryptoSystem').value.cryptoSystem, 
+        this.newRequestForm.get('cryptoAlgorithm').get('keypairLength').value],
       alias: this.f.alias.value,
       tokenId: this.f.tokenId.value.tokenId,
       templateKeyId: '1',
       userId: this.f.userId.value,
     });
-    console.log(newRequest);
+    console.log("tiencheck",newRequest);
     let keypairId = await this._personalsService.createKeypair(newRequest).toPromise().then(res => {
       return res.data.keypairId;
     }
@@ -419,5 +268,5 @@ export class SidebarPersonalsComponent implements OnInit {
       }
     });
   }
-  
+
 }
