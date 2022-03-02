@@ -39,7 +39,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   public contentHeader: object;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public moreOption = true;
-  public typeProfile = ['Cá nhân'];
+  public typeProfile = ['Cá nhân','Tổ chức','Thiết bị/dịch vụ'];
 
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
