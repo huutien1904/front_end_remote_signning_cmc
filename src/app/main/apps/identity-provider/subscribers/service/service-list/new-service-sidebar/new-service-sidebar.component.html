@@ -1,0 +1,470 @@
+<form class="form form-horizontal pt-0" [formGroup]="newService">
+  <div class="form-content">
+    <h3>Thông tin tài khoản</h3>
+    <div class="row">
+      <div class="col-12 col-lg-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>TÊN TÀI KHOẢN</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                (f.username.errors && f.username?.touched) ||
+                (submitted && f.username?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="user"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                formControlName="username"
+                class="form-control"
+                [ngClass]="
+                  (f.username.errors && f.username?.touched) ||
+                  (submitted && f.username?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.username?.errors?.required && f.username?.touched) ||
+                (submitted && f.username?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.username.errors.required"
+              >
+                Bạn cần nhập tên tài khoản
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>THƯ ĐIỆN TỬ (EMAIL)</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                (f.email.errors && f.email?.touched) ||
+                (submitted && f.email?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="mail"></i
+                ></span>
+              </div>
+              <input
+                type="text"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="
+                  (f.email.errors && f.email?.touched) ||
+                  (submitted && f.email?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.email?.errors?.required && f.email?.touched) ||
+                (submitted && f.email?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.email.errors.required"
+              >
+                Bạn cần nhập email
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>MẬT KHẨU</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="
+                (f.password.errors && f.password?.touched) ||
+                (submitted && f.password?.errors?.required)
+                  ? 'is-invalid'
+                  : ''
+              "
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="lock"></i
+                ></span>
+              </div>
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="
+                  (f.password.errors && f.password?.touched) ||
+                  (submitted && f.password?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.password?.errors?.required && f.password?.touched) ||
+                (submitted && f.password?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="f.password.errors.required"
+              >
+                Bạn cần nhập mật khẩu
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="form-group">
+          <div class="col-sm-12 col-form-label">
+            <label>XÁC NHẬN MẬT KHẨU</label>
+          </div>
+          <div class="col-sm-12">
+            <div
+              class="input-group input-group-merge"
+              [ngClass]="{
+                'is-invalid':
+                  (f.rePassword.errors && f.rePassword?.dirty) ||
+                  (submitted && f.rePassword?.errors?.required),
+                'is-valid':
+                  !f.rePassword?.errors?.mustMatch && f.rePassword?.dirty
+              }"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i data-feather="lock"></i
+                ></span>
+              </div>
+              <input
+                type="password"
+                formControlName="rePassword"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.rePassword.errors && f.rePassword?.dirty) ||
+                    (submitted && f.rePassword?.errors?.required),
+                  'is-valid':
+                    !f.rePassword?.errors?.mustMatch && f.rePassword?.dirty
+                }"
+              />
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <span
+              *ngIf="
+                (f.rePassword.errors && f.rePassword?.dirty) ||
+                (submitted && f.rePassword?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small
+                *ngIf="f.rePassword.errors.required"
+                class="form-text text-danger"
+              >
+                Bạn cần xác nhận mật khẩu
+              </small>
+              <small
+                *ngIf="f.rePassword.errors.mustMatch"
+                class="form-text text-danger"
+              >
+                Xác nhận mật khẩu không hợp lệ
+              </small>
+            </span>
+          </div>
+          <div class="col-sm-12">
+            <span *ngIf="f.rePassword.errors == null" class="invalid-form">
+              <small
+                *ngIf="f.rePassword.errors == null"
+                class="valid-feedback form-text"
+              >
+                Xác nhận mật khẩu hợp lệ
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3>Thông tin thiết bị/dịch vụ</h3>
+    <div class="row">
+      <div class="col-11 col-lg-2">
+        <div class="">
+          <input
+            #imageInput
+            type="file"
+            style="display: none"
+            accept="image/png, image/jpeg, image/jpg"
+            (change)="inputImage($event)"
+          />
+        </div>
+        <div class="h-100">
+          <div class="border border-dark h-75 w-100 mt-1 ml-1 mr-1 mb-1">
+            <img
+              class="w-100 h-100"
+              (click)="imageInput.click()"
+              [src]="
+                image ? image : 'assets/images/portrait/small/avatar-s-11.jpg'
+              "
+              alt="Upload Image"
+            />
+          </div>
+          <div class="text-center mb-1 ml-1">
+            <span>Ảnh đại diện</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-10">
+        <div class="row mt-1">
+          <div class="col-12 col-lg-4">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label>TÊN THIẾT BỊ/DỊCH VỤ</label>
+              </div>
+              <div class="col-sm-12">
+                <div
+                  class="input-group input-group-merge"
+                  [ngClass]="
+                    (f.serviceName.errors && f.serviceName?.touched) ||
+                    (submitted && f.serviceName?.errors?.required)
+                      ? 'is-invalid'
+                      : ''
+                  "
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><span [data-feather]="'user'"></span
+                    ></span>
+                  </div>
+                  <input
+                    [ngClass]="
+                      (f.serviceName.errors && f.serviceName?.touched) ||
+                      (submitted && f.serviceName?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                    formControlName="serviceName"
+                    type="text"
+                    id="fname-icon-1"
+                    class="form-control"
+                    name="fname-icon-1"
+                    placeholder="Tên thiết bị/dịch vụ"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <span
+                  *ngIf="
+                    (submitted && f.serviceName.errors) ||
+                    (f.serviceName.errors && f.serviceName?.touched)
+                  "
+                  class="invalid-form"
+                >
+                  <small class="form-text text-danger">
+                    Không được bỏ trống
+                  </small>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label>LOẠI THIẾT BỊ/DỊCH VỤ</label>
+              </div>
+              <div class="col-sm-12">
+                <div
+                  [ngClass]="
+                    (f.typeDevice.errors && f.typeDevice?.touched) ||
+                    (submitted && f.typeDevice?.errors?.required)
+                      ? 'is-invalid'
+                      : ''
+                  "
+                  class="input-group input-group-merge"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><span [data-feather]="'speaker'"></span
+                    ></span>
+                  </div>
+                  <input
+                    [ngClass]="
+                      (f.typeDevice.errors && f.typeDevice?.touched) ||
+                      (submitted && f.typeDevice?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                    formControlName="typeDevice"
+                    type="text"
+                    id="fname-icon-5"
+                    class="form-control"
+                    name="fname-icon-5"
+                    placeholder="Loại thiết bị/dịch vụ"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <span
+                  *ngIf="
+                    (submitted && f.typeDevice.errors) ||
+                    (f.typeDevice.errors && f.typeDevice?.touched)
+                  "
+                  class="invalid-form"
+                >
+                  <small class="form-text text-danger">
+                    Không được bỏ trống
+                  </small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-12 col-lg-4">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label class="lable">TÊN MIỀN/ĐỊA CHỈ IP</label>
+              </div>
+              <div class="col-sm-12">
+                <ng-select
+                  [clearable]="false"
+                  formControlName="domainName"
+                  [ngClass]="
+                    (f.domainName.errors && f.domainName?.touched) ||
+                    (submitted && f.domainName?.errors?.required)
+                      ? 'is-invalid'
+                      : ''
+                  "
+                >
+                </ng-select>
+              </div>
+              <div class="col-sm-12">
+                <span
+                  *ngIf="
+                    (f.domainName.errors && f.domainName?.touched) ||
+                    (submitted && f.domainName?.errors?.required)
+                  "
+                  class="invalid-form"
+                >
+                  <small class="form-text text-danger">
+                    Không được bỏ trống</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="form-group">
+              <div class="col-sm-12 col-form-label">
+                <label>TÊN TỔ CHỨC</label>
+              </div>
+              <div class="col-sm-12">
+                <div
+                  class="input-group input-group-merge"
+                  [ngClass]="
+                    (f.organizationName.errors &&
+                      f.organizationName?.touched) ||
+                    (submitted && f.organizationName?.errors?.required)
+                      ? 'is-invalid'
+                      : ''
+                  "
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><span [data-feather]="'user'"></span
+                    ></span>
+                  </div>
+                  <input
+                    [ngClass]="
+                      (f.organizationName.errors &&
+                        f.organizationName?.touched) ||
+                      (submitted && f.organizationName?.errors?.required)
+                        ? 'is-invalid'
+                        : ''
+                    "
+                    formControlName="organizationName"
+                    type="text"
+                    id="fname-icon-4"
+                    class="form-control"
+                    name="fname-icon-4"
+                    placeholder="Tên tổ chức"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <span
+                  *ngIf="
+                    (submitted && f.organizationName.errors) ||
+                    (f.organizationName.errors && f.organizationName?.touched)
+                  "
+                  class="invalid-form"
+                >
+                  <small class="form-text text-danger">
+                    Không được bỏ trống
+                  </small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 d-flex justify-content-end pb-1">
+    <button
+      type="submit"
+      rippleEffect
+      class="btn btn-primary mr-1"
+      (click)="onSubmit()"
+    >
+      Tạo thuê bao thiết bị
+    </button>
+    <button
+      rippleEffect
+      class="btn btn-outline-secondary mr-1"
+      (click)="toggleSidebar()"
+    >
+      Quay lại
+    </button>
+  </div>
+</form>

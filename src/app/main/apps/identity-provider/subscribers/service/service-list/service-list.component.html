@@ -1,17 +1,16 @@
-<!-- fliter -->
-<section id="search-personal-list">
+<section id="search-service-list">
   <div class="card">
     <!-- search -->
     <h5 class="card-header">Bộ lọc tìm kiếm</h5>
     <div class="card-body">
-      <!-- [formGroup]="formListPersonal" -->
-      <form class="form form-vertical" [formGroup]="formListOrganizations">
+      <!-- [formGroup]="formServiceList" -->
+      <form class="form form-vertical" [formGroup]="formServiceList">
         <div class="row">
-          <div class="col-md-3">
-            <!-- formControlName="inputPersonal" -->
+          <div class="col-md-4">
+            <!-- formControlName="inputService" -->
             <label class="lable">Họ tên, thư điện tử, địa chỉ, website</label>
             <input
-              formControlName="inputOrganization"
+              formControlName="inputService"
               name="findName"
               id="findName"
               type="search"
@@ -19,28 +18,25 @@
               placeholder="Nhập họ tên, thư điện tử, địa chỉ, website"
             />
           </div>
-          <div class="col-md-3">
-            <label class="lable">Loại tổ chức</label>
+          <div class="col-md-2">
+            <label class="lable">Tên thiết bị</label>
             <fieldset class="form-group">
               <ng-select
-                [items]="typeOrganization"
-                bindLabel="subscriberCategoryName"
-                bindValue="subscriberCategoryId"
-                formControlName="typeOrganization"
+                formControlName="serviceName"
                 [clearable]="false"
-                placeholder="Loại tổ chức"
+                placeholder="Tên thiết bị"
               >
               </ng-select>
             </fieldset>
           </div>
           <div class="col-md-2">
-            <label class="lable">Người đại diện</label>
+            <label class="lable">Địa chỉ IP</label>
             <input
-              name="findRepresentative"
-              id="findRepresentative"
+              name="domainName"
+              id="domainName"
               type="search"
               class="form-control"
-              placeholder="Người đại diện"
+              placeholder="Địa chỉ IP"
             />
           </div>
           <div class="col-3 col-md-2 mt-2">
@@ -60,7 +56,7 @@
               rippleEffect
               class="btn btn-primary"
               (click)="onSubmit()"
-              [disabled]="!formListOrganizations.valid"
+              [disabled]="!formServiceList.valid"
             >
               Tìm kiếm
             </button>
@@ -85,27 +81,23 @@
     </div>
   </div>
 </section>
-<!-- end filter -->
-
-<!-- table -->
-<section id="table-personal-list">
-  <!-- search -->
+<section id="table-service-list">
   <div class="card">
     <div class="card-header">
-      <h4 class="card-title">Danh sách thuê bao tổ chức</h4>
+      <h4 class="card-title">Danh sách thuê bao dịch vụ/thiết bị</h4>
     </div>
     <div class="row">
       <div class="col-md-12 mb-50">
         <button
           class="btn btn-primary ml-1"
           rippleEffect
-          (click)="openNewOrganizationModal(newOrganization)"
+          (click)="openNewServiceModal(newService)"
         >
           <i
             data-feather="plus"
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i
-          ><span class="d-none d-sm-inline-block">Tạo thuê bao</span>
+          ><span class="d-none d-sm-inline-block">Tạo thuê bao thiết bị</span>
         </button>
         <input
           #fileInput
@@ -123,7 +115,7 @@
             data-feather="file-plus"
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i>
-          <span class="d-none d-sm-inline-block">Tạo danh sách thuê bao</span>
+          <span class="d-none d-sm-inline-block">Tạo danh sách</span>
         </button>
         <button
           csvLink
@@ -134,10 +126,10 @@
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
           <span class="d-none d-sm-inline-block">Xóa thuê bao</span>
         </button>
-        <ng-template #newOrganization let-modal>
+        <ng-template #newService let-modal>
           <div class="modal-header">
             <h2 class="modal-title" id="myModalLabel160">
-              Tạo thuê bao tổ chức
+              Đăng ký thuê bao thiết bị
             </h2>
 
             <button
@@ -150,13 +142,9 @@
             </button>
           </div>
           <div class="modal-body" tabindex="0" ngbAutofocus>
-            <app-new-organization-sidebar
-              (onClose)="closeModal()"
-              (onUpdate)="onUpdateTable()"
-            ></app-new-organization-sidebar>
+            <app-new-service-sidebar></app-new-service-sidebar>
           </div>
         </ng-template>
-
         <button
           csvLink
           class="btn btn-outline-secondary float-right mr-1"
@@ -168,14 +156,9 @@
         </button>
       </div>
     </div>
-    <!-- end search -->
+    <!-- end-search -->
     <!-- table -->
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <app-organization-list-add
-      *ngIf="openTableUpdate"
-      [childData]="parentData"
-      (toggleTable)="toggleTable()"
-    ></app-organization-list-add>
     <ngx-datatable
       [rows]="rowsData"
       *ngIf="openTable"
@@ -265,42 +248,43 @@
       <ngx-datatable-column
         name="Tên tài khoản"
         prop="username"
-        [width]="130"
+        [width]="50"
       ></ngx-datatable-column>
 
       <ngx-datatable-column
         name="Thư điện tử"
         prop="email"
-        [width]="220"
+        [width]="50"
       ></ngx-datatable-column>
 
       <ngx-datatable-column
-        name="Tên tổ chức"
-        prop="organizationName"
-        [width]="280"
+        name="Tên thiết bị/dịch vụ"
+        prop="serviceName"
+        [width]="50"
       ></ngx-datatable-column>
 
       <ngx-datatable-column
-        name="Loại tổ chức"
-        prop="subscriberCategoryName"
-        [width]="200"
+        name="Loại thiết bị/dịch vụ"
+        prop="typeDevice"
+        [width]="50"
       >
       </ngx-datatable-column>
 
       <ngx-datatable-column
-        name="Người đại diện"
-        prop="leaderName"
-        [width]="150"
+        name="Tên tổ chức"
+        prop="organizationName"
+        [width]="50"
       ></ngx-datatable-column>
 
-      <ngx-datatable-column 
-      name="Địa chỉ" 
-      [width]="150"
+      <ngx-datatable-column
+        name="Tên miền/Địa chỉ IP"
+        prop="domainName"
+        [width]="130"
       ></ngx-datatable-column>
 
       <ngx-datatable-column
         name="Hành động"
-        [width]="100"
+        [width]="20"
         [sortable]="false"
         prop=""
       >
@@ -338,7 +322,17 @@
                   ]"
                   ngbDropdownItem
                   class="d-flex align-items-center"
-                  ><i data-feather="edit" class="mr-50"></i> Xem/Cập nhật</a
+                  ><i data-feather="file-text" class="mr-50"></i> Chi tiết</a
+                >
+                <a
+                  [routerLink]="[
+                    '/apps/ip/subscribers/organizations/',
+                    'organization-edit',
+                    value.organizationId
+                  ]"
+                  ngbDropdownItem
+                  class="d-flex align-items-center"
+                  ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
                 >
                 <a
                   href="javascript:void(0)"
@@ -385,54 +379,19 @@
           </datatable-pager>
         </ng-template>
       </ngx-datatable-footer>
-      <!-- <ng-template>
-        <div class="">
-          <button
-            class="btn btn-primary ml-2"
-            rippleEffect
-            (click)="openNewOrganizationModal(newOrganization)"
-          >
-            <i
-              data-feather="plus"
-              class="d-sm-none d-inline-block mr-0 mr-sm-1"
-            ></i
-            ><span class="d-none d-sm-inline-block">Thêm Mới</span>
-          </button>
-          <input
-            #fileInput
-            type="file"
-            style="display: none"
-            (change)="onInputExcel($event)"
-            multiple="false"
-          />
-          <button
-            class="btn btn-primary ml-2"
-            rippleEffect
-            (click)="fileInput.click()"
-          >
-            <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
-          </button>
-          <a
-            csvLink
-            class="btn btn-outline-secondary float-right mr-1"
-            rippleEffect
-            >Xuất dữ liệu CSV</a
-          >
-        </div>
-      </ng-template> -->
     </ngx-datatable>
     <div class="row">
       <div class="col-md-12 mb-50">
         <button
           class="btn btn-primary ml-1"
           rippleEffect
-          (click)="openNewOrganizationModal(newOrganization)"
+          (click)="openNewServiceModal(newService)"
         >
           <i
             data-feather="plus"
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i
-          ><span class="d-none d-sm-inline-block">Tạo thuê bao</span>
+          ><span class="d-none d-sm-inline-block">Tạo thuê bao thiết bị</span>
         </button>
         <input
           #fileInput
@@ -450,7 +409,7 @@
             data-feather="file-plus"
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i>
-          <span class="d-none d-sm-inline-block">Tạo danh sách thuê bao</span>
+          <span class="d-none d-sm-inline-block">Tạo danh sách</span>
         </button>
         <button
           csvLink
@@ -472,8 +431,5 @@
         </button>
       </div>
     </div>
-
-    <!-- end table -->
   </div>
 </section>
-<!-- table -->

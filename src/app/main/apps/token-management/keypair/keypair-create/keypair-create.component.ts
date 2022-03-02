@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +18,8 @@ import { KeypairListService } from '../keypair-list/keypair-list.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class KeypairCreateComponent implements OnInit {
+  @Output() onUpdate = new EventEmitter<any>();
+  @Output() onClose = new EventEmitter<any>();
   private _unsubscribeAll: Subject<any>;
   public buttonReturn: object;
   public url = this.router.url;
@@ -193,6 +195,12 @@ export class KeypairCreateComponent implements OnInit {
       .get('cryptoAlgorithm')
       .patchValue({ keypairLength: this.keypairLengthList[0] });
   }
+  updateTable() {
+      this.onUpdate.emit();
+  }
+  closeModal() {
+    this.onClose.emit();
+  }
   onSubmit() {
     console.log('submit');
     console.log(this.keypairFormView.value);
@@ -216,6 +224,7 @@ export class KeypairCreateComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         if (res.result === true) {
+          this.updateTable();
           this._toastrService.success(
             'Tạo cặp khóa thành công ',
             'Thành công',
@@ -225,6 +234,7 @@ export class KeypairCreateComponent implements OnInit {
               closeButton: true,
             }
           );
+          this.closeModal();
         }
         if (res.result === false) {
           this._toastrService.error('Tên cặp khóa tồn tại', 'Thất Bại', {

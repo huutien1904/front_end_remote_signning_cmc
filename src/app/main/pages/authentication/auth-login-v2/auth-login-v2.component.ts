@@ -84,11 +84,17 @@ export class AuthLoginV2Component implements OnInit {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
+        // (user) => {
+        //   console.log('check data', user);
+        //   if(!user.isSetSubscriber){
+        //     console.log("tiencheck")
+        //     this._router.navigate(['/apps/dashboard']);
+        //   }else
+        //   this._router.navigate([this.returnUrl]);
         (user) => {
           console.log('check data', user);
           if(!user.isSetSubscriber){
-            console.log("tiencheck")
-            this._router.navigate(['/apps/dashboard']);
+            this._router.navigate(['/apps/ip/users/set-user']);
           }else
           this._router.navigate([this.returnUrl]);
         },

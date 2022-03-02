@@ -2,7 +2,7 @@
 <section id="search-personal-list">
   <div class="card">
     <!-- search -->
-    <h5 class="card-header">Bộ lọc tìm kiếm </h5>
+    <h5 class="card-header">Bộ lọc tìm kiếm</h5>
     <div class="card-body">
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">
@@ -283,7 +283,7 @@
       <!-- TT -->
       <ngx-datatable-column
         name="TT"
-        [width]="20"
+        [width]="50"
         [canAutoResize]="false"
         [sortable]="false"
       >
@@ -296,7 +296,7 @@
       <ngx-datatable-column
         name="TÊN TÀI KHOẢN"
         prop="username"
-        [width]="120"
+        [width]="130"
       ></ngx-datatable-column>
       <!-- email -->
       <ngx-datatable-column
@@ -308,7 +308,7 @@
       <ngx-datatable-column
         name="HỌ VÀ TÊN"
         prop="personalFirstName"
-        [width]="210"
+        [width]="220"
       >
         <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
           <div class="d-flex align-items-center">
@@ -354,7 +354,7 @@
       <ngx-datatable-column
         name="CCCD/PASSPORT"
         prop="personalCountryId"
-        [width]="130"
+        [width]="150"
       ></ngx-datatable-column>
       <!-- birthday -->
       <ngx-datatable-column name="Ngày sinh" prop="birthday" [width]="100">
@@ -366,7 +366,7 @@
       <ngx-datatable-column
         name="Giới tính"
         prop="gender"
-        [width]="80"
+        [width]="90"
       ></ngx-datatable-column>
       <!--  orgnaization -->
       <ngx-datatable-column name="Tổ chức" prop="organization" [width]="110">
@@ -385,7 +385,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column
         name="Hành động"
-        [width]="70"
+        [width]="100"
         [sortable]="false"
         prop=""
       >
@@ -423,18 +423,7 @@
                   ]"
                   ngbDropdownItem
                   class="d-flex align-items-center"
-                  ><i data-feather="file-text" class="mr-50"></i> Chi tiết
-                 </a
-                >
-                <a
-                  [routerLink]="[
-                    '/apps/ip/subscribers/personals/',
-                    'personal-edit',
-                    value.staffId
-                  ]"
-                  ngbDropdownItem
-                  class="d-flex align-items-center"
-                  ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa</a
+                  ><i data-feather="edit" class="mr-50"></i> Xem/Cập nhật</a
                 >
                 <a
                   href="javascript:void(0)"
@@ -548,7 +537,7 @@
 <!-- form thêm mới -->
 <ng-template #newPersonal let-modal>
   <div class="modal-header">
-    <h2 class="modal-title" id="myModalLabel160">Đăng ký thuê bao cá nhân</h2>
+    <h2 class="modal-title" id="myModalLabel160">Tạo thuê bao cá nhân</h2>
     <button
       type="button"
       class="close btn-primary"

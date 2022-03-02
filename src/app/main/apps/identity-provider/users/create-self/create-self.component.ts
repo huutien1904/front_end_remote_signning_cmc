@@ -226,17 +226,19 @@ export class CreateSelfComponent implements OnInit {
         const currentUser = JSON.parse(
           localStorage.getItem("currentUser")
         );
+        console.log(result);
+        
         currentUser.isSetSubscriber=true;
-        currentUser.firstName = this.newPersonal.firstName
-        currentUser.middleName = this.newPersonal.middleName
-        currentUser.lastName = this.newPersonal.lastName
+        currentUser.firstName = result.value.data.firstName
+        currentUser.middleName = result.value.data.middleName
+        currentUser.lastName = result.value.data.lastName
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         console.log(currentUser)
 
       }
     }).then(function(){
       console.log("okokok");
-      window.location.href = '/apps/ip/users/profile';
+      window.location.href = this._router.navigate(['/apps/dashboard']);
     });
   }
   

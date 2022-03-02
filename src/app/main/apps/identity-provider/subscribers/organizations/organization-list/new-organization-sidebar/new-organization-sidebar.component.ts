@@ -32,6 +32,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   public organizationList: Organization[];
   public typeOrganization: any[];
+  public organizationId: any[] = [];
   public image = '';
   [x: string]: any;
   public country: any[] = [
@@ -62,9 +63,11 @@ export class NewOrganizationSidebarComponent implements OnInit {
       {
         countryOrganizationId: ['', [Validators.required]],
         organizationName: ['', [Validators.required]],
-        subscriberCategoryId:[null, [Validators.required]],
+        subscriberCategoryId: [null, [Validators.required]],
         parentOrganizationName: [null, Validators.required],
+        parentOrganizationId: [null, [Validators.required]],
         typeOrganization: [null, Validators.required],
+        organizationId: [null, Validators.required],
         leaderName: ['', [Validators.required]],
         website: [
           '',
@@ -76,14 +79,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
           ],
         ],
         email: ['', [Validators.required, Validators.email]],
-        phoneNumber: [
-          null,
-          [
-            Validators.required,
-            Validators.minLength(10),
-            Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),
-          ],
-        ],
+        phoneNumber: [null, [Validators.required, Validators.minLength(10)]],
         street: [{ value: null, disabled: true }, Validators.required],
         country: [this.country[0].countryId, Validators.required],
         province: [null, Validators.required],
@@ -94,6 +90,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         password: [null, Validators.required],
         photo: [null, Validators.required],
         rePassword: [null, Validators.required],
+        position: [null, Validators.required],
       },
       {
         validator: MustMatch('password', 'rePassword'),
@@ -104,6 +101,8 @@ export class NewOrganizationSidebarComponent implements OnInit {
     // this.getListTypeOrganization();
     // this.setImageDefault();
     this.getOrganization();
+    this.getListTypeOrganization();
+    this.getOrganizationId();
   }
 
   getOrganization() {
@@ -123,7 +122,23 @@ export class NewOrganizationSidebarComponent implements OnInit {
         );
         console.log('check thuê bao tổ chức');
         console.log(this.typeOrganization);
+        console.log(this.parentOrganizationName);
       });
+  }
+  getListTypeOrganization() {
+    this._organizationListService
+      .getListOrganizationCategory()
+      .subscribe((res: any) => {
+        this.typeOrganization = res.data;
+        console.log(this.typeOrganization);
+      });
+  }
+  getOrganizationId() {
+    this._organizationListService.getAllOrganizations().subscribe((res) => {
+      this.organizationId = res.data;
+      console.log(res);
+      console.log(this.organizationId);
+    });
   }
   initAddress() {
     this._addressService
@@ -285,7 +300,7 @@ export class NewOrganizationSidebarComponent implements OnInit {
         this.street = [...this.street, res.data];
       }
       this._toastrService.success(
-        'Thêm thành công đường ' + res.data.streetName + 'vào cơ sở dữ liệu',
+        'Thêm thành công đường ' + res.data.streetName + ' vào cơ sở dữ liệu',
         'Thành công',
         {
           positionClass: 'toast-top-center',
@@ -310,31 +325,32 @@ export class NewOrganizationSidebarComponent implements OnInit {
     //   return;
     // }
     const newOrganization = {
-    username: this.newOrganization.value.username,
-    password: this.newOrganization.value.password,
-    countryOrganizationId: this.newOrganization.value.countryOrganizationId ,
-    parentOrganizationId: this.newOrganization.value.parentOrganizationId,
-    organizationName: this.newOrganization.value.organizationName,
-    subscriberCategoryId: this.newOrganization.value.subscriberCategoryId,
-    leaderName: this.newOrganization.value.leaderName,
-    province: this.newOrganization.value.province,
-    district: this.newOrganization.value.district,
-    commune: this.newOrganization.value.commune,
-    street: this.newOrganization.value.street,
-    homeNumber: this.newOrganization.value.homeNumber,
-    country: this.newOrganization.value.country,
-    phoneNumber: this.newOrganization.value.phoneNumber,
-    website: this.newOrganization.value.website,
-    email : this.newOrganization.value.email,
-    "isParent" : false
+      username: this.newOrganization.value.username,
+      password: this.newOrganization.value.password,
+      countryOrganizationId: this.newOrganization.value.countryOrganizationId,
+      parentOrganizationId: 1,
+      organizationName: this.newOrganization.value.organizationName,
+      subscriberCategoryId: 3,
+      leaderName: this.newOrganization.value.leaderName,
+      province: this.newOrganization.value.province,
+      district: this.newOrganization.value.district,
+      commune: this.newOrganization.value.commune,
+      street: this.newOrganization.value.street,
+      homeNumber: this.newOrganization.value.homeNumber,
+      country: this.newOrganization.value.country,
+      phoneNumber: this.newOrganization.value.phoneNumber,
+      website: this.newOrganization.value.website,
+      email: this.newOrganization.value.email,
+      photo: this.newOrganization.value.photo,
+      isParent: false,
     };
-    // console.log(newOrganization);
+    console.log(newOrganization);
     this._organizationListService
-      .submitForm(newOrganization)
+      .submitForm(JSON.stringify(newOrganization))
       .subscribe((res: any) => {
         console.log(res);
         if (res.result === true) {
-          this.onUpdate.emit();
+          this.updateTable();
           this.toggleSidebar();
           this._toastrService.success(
             'Đăng ký thuê bao tổ chức thành công ',
@@ -358,7 +374,6 @@ export class NewOrganizationSidebarComponent implements OnInit {
           );
         }
       });
-   
   }
   // getListOrganizations() {
   //   this._organizationListService

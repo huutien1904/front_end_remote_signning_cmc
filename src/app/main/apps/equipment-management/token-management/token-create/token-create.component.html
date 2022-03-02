@@ -132,7 +132,7 @@
                         name="SỐ HIỆU SLOT"
                         [sortable]="false"
                         [canAutoResize]="false"
-                        [width]="120"
+                        [width]="130"
                       >
                         <ng-template
                           ngx-datatable-cell-template
@@ -144,7 +144,7 @@
                       <ngx-datatable-column
                         name="TÊN SLOT"
                         prop=""
-                        [width]="130"
+                        [width]="200"
                       >
                         <ng-template
                           ngx-datatable-cell-template
@@ -183,7 +183,7 @@
                       <ngx-datatable-column
                         name="MẬT KHẨU USER"
                         prop="userPinInitialized"
-                        [width]="130"
+                        [width]="150"
                       >
                         <ng-template
                           let-value="value"
@@ -208,7 +208,7 @@
                       <ngx-datatable-column
                         name="SỐ CHỨNG THỨ SỐ"
                         prop="hsmId"
-                        [width]="100"
+                        [width]="150"
                       >
                       </ngx-datatable-column>
                       <ngx-datatable-column
@@ -219,11 +219,11 @@
                       <ngx-datatable-column
                         name="SỐ KHÓA BÍ MẬT"
                         prop="publicKey"
-                        [width]="130"
+                        [width]="150"
                       ></ngx-datatable-column>
                       <ngx-datatable-column
                         name="Hành động"
-                        [width]="70"
+                        [width]="100"
                         [sortable]="false"
                         prop=""
                       >
@@ -492,7 +492,7 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <div class="d-flex justify-content-md-end m-1">
+                <div class="d-flex justify-content-end m-1">
                   <button
                     class="btn btn-primary mr-1"
                     (click)="onSubmit()"

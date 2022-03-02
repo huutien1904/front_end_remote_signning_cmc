@@ -48,6 +48,24 @@ export class PersonalListComponent implements OnInit {
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
   public moreOption = true;
+  public searchType = [
+    {
+      id: 1,
+      key:"Cá nhân",
+      name: "Cá nhân"
+    }, 
+    {
+      id: 2,
+      key:"Tổ chức",
+      name: "Tổ chức"
+    },
+    {
+      id: 3,
+      key:"Thiết bị/dịch vụ",
+      name: "Thiết bị/dịch vụ"
+    }, 
+    
+  ]  
   
   public flag:any;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
@@ -60,6 +78,7 @@ export class PersonalListComponent implements OnInit {
   // Private
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
+  public formSelectSearch: FormGroup;
   /**
    *
    * @param _personalService
@@ -122,8 +141,12 @@ export class PersonalListComponent implements OnInit {
       dateOfBirth: [""],
       fromDate: [""],
       toDate: [""],
+      searchType : [this.searchType[0], Validators.required]
     });
     this.setPage({ offset: 0, pageSize: this.formListPersonal.get("size").value  });
+    // this.formSelectSearch = this.fb.group({
+    //   searchType : [this.searchType[0], Validators.required]
+    // })
   }
   
   //Set Table View

@@ -23,6 +23,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ContentHeaderModule } from "app/layout/components/content-header/content-header.module";
 import { ReturnModule } from "app/layout/components/return/return.module";
+import { OrganizationsModule } from "../organizations/organizations.module";
+import { ServiceModule } from "../service/service.module";
 import { PersonalEditComponent } from "./personal-edit/personal-edit.component";
 import { NewPersonalSidebarComponent } from "./personal-list/new-personal-sidebar/new-personal-sidebar.component";
 import { PersonalListAddComponent } from "./personal-list/personal-list-add/personal-list-add.component";
@@ -60,6 +62,8 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     ...materialModules1234,
     ContentHeaderModule,
     ReturnModule,
+    OrganizationsModule,
+    ServiceModule,
     SweetAlert2Module.forRoot(),
   ],
   exports: [

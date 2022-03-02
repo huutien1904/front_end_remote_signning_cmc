@@ -7,7 +7,7 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { PagedData } from 'app/main/models/PagedData';
 import { OrganizationListService } from './organization-list.service';
 import {
@@ -40,13 +40,15 @@ export class OrganizationListComponent implements OnInit {
   @ViewChild('tableRowDetails') tableRowDetails: any;
   public ColumnMode = ColumnMode;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
-  public typeOrganization: OrganizationCategory[];
+  public typeOrganization: any[];
   public flag: any;
   public openTable: boolean = true;
   public openTableUpdate: boolean = false;
   public parentData: any[] = [];
   public totalItems: any = 0;
   public dataExport: any;
+  public data:any = {};
+  public address: any;
   // end variable
   //private
   excelDataList: EXCEL = [];
@@ -111,7 +113,7 @@ export class OrganizationListComponent implements OnInit {
     //     this.typeOrganization = res.data;
     //     console.log(this.typeOrganization);
     //   });
-
+    // this.getOrganization();
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({ offset: 0, pageSize: this.pagedData.size });
@@ -121,7 +123,19 @@ export class OrganizationListComponent implements OnInit {
       pageSize: this.formListOrganizations.get('sizePage').value,
     });
   }
-
+  // getOrganization() {
+  //   this._organizationListService
+  //     .searchOrganizations(JSON.stringify(this.formListOrganizations.value))
+  //     .pipe(takeUntil(this._unsubscribeAll))
+  //     .subscribe((pagedData) => {
+  //       this.pagedData = pagedData.data;
+  //       console.log(this.pagedData);
+  //       this.typeOrganization = pagedData.data.data.map((organizationList) => ({
+  //         ...organizationList,
+  //       }));
+  //       console.log(this.typeOrganization);
+  //     });
+  // }
   //Set Table View
   setPage(pageInfo) {
     console.log(pageInfo);
@@ -137,11 +151,17 @@ export class OrganizationListComponent implements OnInit {
         this.rowsData = pagedData.data.data.map((organizationList) => ({
           ...organizationList,
         }));
+        this.data = this.rowsData[0].address;
+        this.address = this.data.provinceId;
+        console.log(this.data);
+        console.log(this.address);
         console.log('check 115');
         console.log(this.rowsData);
+        console.log(this.pagedData);
         this.isLoading = false;
       });
   }
+  
   /**
    * Custom Checkbox On Select
    *

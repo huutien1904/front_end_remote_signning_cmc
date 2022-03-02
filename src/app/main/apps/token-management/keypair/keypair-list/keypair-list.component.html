@@ -15,6 +15,7 @@
                     [items]="hsmList"
                     [clearable]="false"
                     bindLabel="hsmName"
+                   
                   >
                   </ng-select>
                 </div>
@@ -26,11 +27,12 @@
                     [items]="tokenList"
                     [clearable]="false"
                     bindLabel="tokenName"
+                  
                   >
                   </ng-select>
                 </div>
               </div>
-              <div class="col-6 col-md-2 mt-2">
+              <!-- <div class="col-6 col-md-2 mt-2">
                 <input
                   name="distinguishedName"
                   id="distinguishedName"
@@ -39,91 +41,54 @@
                   formControlName="contains"
                   placeholder="Một phần Alias"
                 />
-              </div>
+              </div> -->
               <div class="col-6 col-md-2">
-                <label class="label">Tên cặp khóa (Alias)</label>
+                <label class="label">Tên cặp khóa</label>
                 <input
-                  name="keypairName"
-                  id="keypairName"
+                  name="distinguishedName"
+                  id="distinguishedName"
                   type="search"
                   class="form-control"
-                  formControlName="keypairName"
-                  placeholder="Nhập tên cặp khóa"
+                  formControlName="contains"
+                  placeholder="Một phần tên,email,alias"
                 />
               </div>
-              <div class="col-6 col-md-2">
-                <div class="form-group">
-                  <label class="label">Hệ mật</label>
-                  <ng-container formGroupName="cryptoAlgorithm">
-                    <ng-select
-                      [items]="cryptoAlgorithm"
-                      bindLabel="cryptoSystem"
-                      [clearable]="false"
-                      formControlName="cryptoSystem"
-                      (change)="changeCrypto()"
-                    >
-                    </ng-select>
-                  </ng-container>
-                </div>
-              </div>
-              <div class="col-6 col-md-2">
-                <div class="form-group">
-                  <ng-container formGroupName="cryptoAlgorithm">
-                    <label for="">Tham số khóa</label>
-                    <ng-select
-                      [items]="keypairLengthList"
-                      bindLabel="keypairLength"
-                      [clearable]="false"
-                      formControlName="keypairLength"
-                    ></ng-select>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
-            <div class="row">
               <div class="col-6 col-md-2">
                 <div class="form-group">
                   <label for="">Trạng thái</label>
                   <ng-select
                     [items]="keypairStatusName"
                     [clearable]="false"
-                    formControlName="keypairStatusName"
+                    
                   ></ng-select>
                 </div>
               </div>
-              <div class="col-md-10">
-                <div class="row">
-                  <div class="col-3 col-md-2 mt-2">
-                    <button
-                      type="button"
-                      class="btn btn-secondary btn-outline-secondary col-12"
-                      (click)="moreOption = !moreOption"
-                      rippleEffect
-                    >
-                      <i
-                        data-feather="plus"
-                        class="d-sm-none d-inline-block"
-                      ></i>
-                      <span class="d-none d-sm-inline-block">Tùy chọn</span>
-                    </button>
-                  </div>
-                  <div class="col-6 col-md-2 mt-2">
-                    <button
-                      type="button"
-                      rippleEffect
-                      class="btn btn-primary"
-                      (click)="
-                        setPage({
-                          offset: 0,
-                          pageSize: formListPersonal.controls.size
-                        })
-                      "
-                      [disabled]="!formListPersonal.valid"
-                    >
-                      Tìm kiếm
-                    </button>
-                  </div>
-                </div>
+              <div class="col-3 col-md-2 mt-2 mb-1">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-outline-secondary col-12"
+                  (click)="moreOption = !moreOption"
+                  rippleEffect
+                >
+                  <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                  <span class="d-none d-sm-inline-block">Tùy chọn</span>
+                </button>
+              </div>
+              <div class="col-6 col-md-2 mt-2 mb-1">
+                <button
+                  type="button"
+                  rippleEffect
+                  class="btn btn-primary"
+                  (click)="
+                    setPage({
+                      offset: 0,
+                      pageSize: formListPersonal.controls.size
+                    })
+                  "
+                  [disabled]="!formListPersonal.valid"
+                >
+                  Tìm kiếm
+                </button>
               </div>
             </div>
             <div class="row" [ngbCollapse]="moreOption">
@@ -310,7 +275,7 @@
             name="TT"
             [sortable]="false"
             [canAutoResize]="false"
-            [width]="50"
+            [width]="60"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
               {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
@@ -319,7 +284,7 @@
           <ngx-datatable-column
             name="Mã cặp khóa"
             prop="keypairId"
-            [width]="100"
+            [width]="120"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Tên cặp khóa"
@@ -334,7 +299,7 @@
           <ngx-datatable-column
             name="Tham số khóa"
             prop="keypairLength"
-            [width]="100"
+            [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Trạng thái"

@@ -29,7 +29,6 @@ export class KeypairListComponent implements OnInit {
   maxDate: Date;
   private _unsubscribeAll: Subject<any>;
   public formListPersonal: FormGroup;
-  public formListPersonals: FormGroup;
   public formListKeypair: FormGroup;
   public item: any;
   public contentHeader: object;
@@ -44,21 +43,23 @@ export class KeypairListComponent implements OnInit {
   public pagedData = new PagedData<Keypair>();
   public rowsData = new Array<Keypair>();
   public hsmList: any[] = [];
+  public keypairList: any[] =[];
+  public keypairAlias: any[] = [];
   public tokenName: any;
   public tokenList: any[] = [];
   public hsmName: any[] = [];
-  public keypairList: any[] = ['Kết nối HSM', 'Slot'];
-  public cryptoAlgorithm = [
-    {
-      cryptoSystem: 'RSA',
-      keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
-    },
-    {
-      cryptoSystem: 'ECDSA',
-      keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
-    },
-  ];
-  public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
+  // public keypairList: any[] = ['Kết nối HSM', 'Slot'];
+  // public cryptoAlgorithm = [
+  //   {
+  //     cryptoSystem: 'RSA',
+  //     keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
+  //   },
+  //   {
+  //     cryptoSystem: 'ECDSA',
+  //     keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
+  //   },
+  // ];
+  // public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
   public keypairStatusName: any[] = ['Đã chứng thực', 'Hết hạn', 'Gia hạn'];
 
   public chkBoxSelected = [];
@@ -118,36 +119,44 @@ export class KeypairListComponent implements OnInit {
         console.log(this.hsmList);
         console.log(this.tokenList);
       });
+    // this._keypairService
+    //   .getData({
+    //     page: 0,
+    //     size: 100,
+    //   })
+    //   .toPromise()
+    //   .then((data) => {
+    //     console.log(data);
+    //     this.keypairList = data.data.data;
+    //     this.keypairAlias = this.keypairList[0].keypairAlias;
+    //     console.log(this.keypairAlias);
+    //   });
     this.formListPersonal = this.fb.group({
-      page: 0,
-      size: 2,
-      sort: [[]],
-      contains: ["", Validators.required],
-      fromDate: "",
-      toDate: "",
-      keypairList: [this.keypairList[0], Validators.required],
-      keypairName: [null, Validators.required],
-      keypairStatusName: [null, Validators.required],
-      cryptoAlgorithm: this.fb.group({
-        cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
-        keypairLength: [this.keypairLengthList[0], Validators.required],
-      }),
-    });
-    this.formListPersonals = this.fb.group({
-      page: 0,
+      page: [null, Validators.required],
       size: [this.sizePage[3]],
-      sort: [[]],
-      contains: ["", Validators.required],
-      fromDate: [""],
-      toDate: [""],
+      sort: [null],
+      contains: ['', Validators.required],
+      fromDate: [''],
+      toDate: [''],
+      // keypairAlias: ['', Validators.required],
+      // keypairList: [this.keypairList[0], Validators.required],
+      // keypairName: [null, Validators.required],
+      // keypairStatusName: [null, Validators.required],
+      // cryptoAlgorithm: this.fb.group({
+      //   cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
+      //   keypairLength: [this.keypairLengthList[0], Validators.required],
+      // }),
+      // hsmList:[null, Validators.required],
+      // tokenList: [null, Validators.required]
     });
-    this.setPage({ offset: 0, pageSize: this.formListPersonals.get("size").value  });
-    // this.pagedData.size = this.sizePage[3];
-    // this.pagedData.currentPage = 0;
+    console.log(this.formListPersonal.valid);
+    this.pagedData.size = this.sizePage[3];
+    this.pagedData.currentPage = 0;
     this.setPage({
       offset: 0,
       pageSize: this.formListPersonal.get('size').value,
     });
+    console.log(this.rowsData);
     this.contentHeader = {
       headerTitle: 'Cặp khóa',
       actionButton: true,
@@ -164,32 +173,41 @@ export class KeypairListComponent implements OnInit {
     };
   }
 
-  changeCrypto() {
-    this.keypairLengthList = this.formListPersonal
-      .get('cryptoAlgorithm')
-      .get('cryptoSystem').value.keypairLength;
-    this.formListPersonal
-      .get('cryptoAlgorithm')
-      .patchValue({ keypairLength: this.keypairLengthList[0] });
-  }
+  // changeCrypto() {
+  //   this.keypairLengthList = this.formListPersonal
+  //     .get('cryptoAlgorithm')
+  //     .get('cryptoSystem').value.keypairLength;
+  //   this.formListPersonal
+  //     .get('cryptoAlgorithm')
+  //     .patchValue({ keypairLength: this.keypairLengthList[0] });
+  // }
   setPage(pageInfo) {
-    console.log("check");
+    console.log('check');
     console.log(pageInfo);
-    this.isLoading=true;
-    // this.formListPersonals.patchValue({"page":pageInfo.offset}); 
-    // console.log(JSON.stringify(this.formListPersonals.value));
-    // console.log(this.formListPersonals.value);
-    const body = {
-      page: 0,
-      size: this.formListPersonal.value.size,
-      sort: this.formListPersonal.value.sort,
-      contains: this.formListPersonal.value.contains,
-      fromDate: this.formListPersonal.value.fromDate,
-      toDate: this.formListPersonal.value.toDate,
-    };
-    console.log(body);
+    this.isLoading = true;
+    this.formListPersonal.patchValue({ page: pageInfo.offset });
+    console.log(JSON.stringify(this.formListPersonal.value));
+
+    // const body = {
+    //   page: 0,
+    //   size: pageInfo.pageSize,
+    //   sort: this.formListPersonal.value.sort,
+    //   contains: this.formListPersonal.value.contains,
+    //   fromDate: this.formListPersonal.value.fromDate,
+    //   toDate: this.formListPersonal.value.toDate,
+    //   cryptoAlgorithm: [
+    //     this.formListPersonal.get('cryptoAlgorithm').get('cryptoSystem').value
+    //       .cryptoSystem,
+    //     this.formListPersonal.get('cryptoAlgorithm').get('keypairLength').value,
+    //   ],
+    //   hsmList: this.formListPersonal.value.hsmList,
+    //   tokenList: this.formListPersonal.value.tokenList,
+    //   keypairStatusName: this.formListPersonal.value.keypairStatusName,
+    //   keypairName: this.formListPersonal.value.keypairName,
+    // };
+    // console.log(body);
     this._keypairService
-      .getData(body)
+      .getData(JSON.stringify(this.formListPersonal.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         console.log(pagedData);

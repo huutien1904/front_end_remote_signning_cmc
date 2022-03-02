@@ -54,8 +54,8 @@ export class OrganizationListService {
     );
   }
 
-  public getAllOrganizations(): Observable<ResponseData<Organization[]>> {
-    return this._httpClient.get<ResponseData<Organization[]>>(
+  public getAllOrganizations(): Observable<any> {
+    return this._httpClient.get<ResponseData<PagedData<Organization>>>(
       `${environment.apiUrl}/organization/get-all`,
       this.option
     );
@@ -81,11 +81,11 @@ export class OrganizationListService {
       },
     };
     return this._httpClient.get<ResponseData<PagedData<OrganizationCategory>>>(
-      `${environment.apiUrl}/organization/get-all`,
+      `${environment.apiUrl}/subscriber-category/list`,
       this.option
     );
   }
-  
+
   getListSelectOrganization(): Observable<
     ResponseData<PagedData<Organization>>
   > {
@@ -109,5 +109,4 @@ export class OrganizationListService {
   //     this.option
   //   );
   // }
-
 }
