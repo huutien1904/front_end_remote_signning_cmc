@@ -308,7 +308,7 @@ export class TokenListComponent implements OnInit {
                 privateKey:5,
                 publicKey:5,
                 hsmId:this.hsmId
-              }));
+              })).sort((a,b) =>(a.slotNumber > b.slotNumber)? 1 : -1);
               this.pagedData.totalItems = this.rowsData.length + 1
           // this.pagedData.totalItems = this.rowsData.length + 1
           console.log(this.rowsData)
@@ -346,7 +346,7 @@ export class TokenListComponent implements OnInit {
               privateKey:5,
               publicKey:5,
               hsmId:this.hsmId
-            }));
+            })).sort((a,b) =>(a.slotNumber > b.slotNumber)? 1 : -1);
             this.pagedData.totalItems = this.rowsData.length + 1
             console.log(this.rowsData)
           })
