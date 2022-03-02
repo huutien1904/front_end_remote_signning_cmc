@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HsmManagementModule } from './hsm-management/hsm-management.module';
 import { TokenManagementModule } from './token-management/token-management.module';
 import { TemplateManagementModule } from './template/template-management.module';
+import { AuthGuard } from 'app/auth/helpers';
+import { Role } from 'app/auth/models';
 
 const routes: Routes = [
   {
@@ -13,6 +15,8 @@ const routes: Routes = [
       import('./hsm-management/hsm-management.routing').then(
         (m) => m.HsmManagementRoutes
       ),
+    canActivate: [AuthGuard],
+    data: { roles: [Role.SuperAdmin], animation: '' },
   },
   {
     path: 'token',
@@ -20,6 +24,8 @@ const routes: Routes = [
       import('./token-management/token-management.routing').then(
         (m) => m.TokenManagementRoutes
       ),
+    canActivate: [AuthGuard],
+    data: { roles: [Role.SuperAdmin], animation: '' },
   },
   {
     path: 'template',
@@ -27,6 +33,8 @@ const routes: Routes = [
       import('./template/template-management.routing').then(
         (m) => m.TemplateManagementRoutes
       ),
+    canActivate: [AuthGuard],
+    data: { roles: [Role.SuperAdmin], animation: '' },
   },
   {
     path: '**',
@@ -34,17 +42,15 @@ const routes: Routes = [
   },
 ];
 @NgModule({
-  declarations: [
-
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     MatProgressSpinnerModule,
     HsmManagementModule,
     TokenManagementModule,
-    TemplateManagementModule
+    TemplateManagementModule,
   ],
   providers: [],
 })
-export class EquipmentManagementModule { }
+export class EquipmentManagementModule {}

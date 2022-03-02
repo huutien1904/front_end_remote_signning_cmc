@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
   public personalSelected: Personal;
   public url = this.router.url;
   public organizationId: Organization[];
-  public test:any[] =[]; 
+  public test: any[] = [];
   public countryResidencePlace = [
     {
       countryId: '237',
@@ -348,13 +348,9 @@ export class ProfileComponent implements OnInit {
         cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
         keypairLength: [this.keypairLengthList[0], Validators.required],
       }),
-      alias: [
-        this.personal.username + Math.floor(Math.random() * 1000 + 1),
-        Validators.required,
-        [this.checkAlias()],
-      ],
+      alias: [null, Validators.required, [this.checkAlias()]],
       tokenId: [this.tokenList[0], Validators.required],
-      userId: [this.personal.userId],
+      userId: [null],
       hsm: [this.hsmList[0]],
       profile: [null, Validators.required],
     });
@@ -948,15 +944,15 @@ export class ProfileComponent implements OnInit {
 
   //Danh sách yêu cầu chứng thực
   getOrganizationCRL(item): any {
-    console.log(item)
+    console.log(item);
     let info = this._listCerReqService.readCertificate(
       item.certificateRequestContent
     );
     console.log(typeof info.subjectName.asn[4]);
-    console.log(JSON.stringify(info.subjectName.asn[4]))
-    this.test = info.subjectName.asn[4]
-    console.log(this.test)
-    console.log(info.subjectName.asn.find((obj) => obj.type === '2.5.4.11'))
+    console.log(JSON.stringify(info.subjectName.asn[4]));
+    this.test = info.subjectName.asn[4];
+    console.log(this.test);
+    console.log(info.subjectName.asn.find((obj) => obj.type === '2.5.4.11'));
     let rs = info.find((obj) => obj.name === 'organizationalUnitName');
     if (rs == undefined) return;
     return rs.value;
