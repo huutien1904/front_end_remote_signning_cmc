@@ -127,7 +127,7 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      
+
                       <ngx-datatable-column
                         name="SỐ HIỆU SLOT"
                         [sortable]="false"
@@ -170,7 +170,7 @@
                             class="badge badge-pill"
                             [ngClass]="
                             row.slotDatabase === true ? 'badge-light-success' :
-                            row.tokenInitialized == true ? 'badge-light-warning' :
+                            row.tokenInitialized === true ? 'badge-light-warning' :
                                  'text-dark'
                             "
                           >
@@ -194,7 +194,7 @@
                             class="badge badge-pill"
                             [ngClass]="
                             row.slotDatabase === true ? 'badge-light-success' :
-                            row.userPinInitialized == true ? 'badge-light-warning' :
+                            row.userPinInitialized === true ? 'badge-light-warning' :
                                  'text-dark'
                             "
                           >

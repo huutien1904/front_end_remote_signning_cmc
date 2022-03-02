@@ -46,7 +46,7 @@ export class TokenCreateComponent implements OnInit {
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
-  name = 'Angular 5';
+  name ;
   // show input
   public showSelect:boolean = false
   public rePasswordSo = true
@@ -196,28 +196,28 @@ export class TokenCreateComponent implements OnInit {
     this._tokenService.createToken(newRequest)
       .subscribe((res) => {
         console.log(res);
-        this.getHsmList();
-        if ((res.result = true)) {
-          if(this.rePasswordSo === false){
-            this.toastr.success('👋 Token của bạn đã được khởi tạo lại thành công', 'Thành công', {
-              positionClass: 'toast-top-center',
-              toastClass: 'toast ngx-toastr',
-              closeButton: true
-            });
-            this.submitted = false;
-          }
-          if(this.rePasswordSo === true){
-            this.toastr.success('👋 Token của bạn đã được khởi tạo thành công', 'Thành công', {
-              positionClass: 'toast-top-center',
-              toastClass: 'toast ngx-toastr',
-              closeButton: true
-            });
-            this.submitted = false;
-          }
-          // this.router.navigate(['/apps/equipment-management/token/token-list']);
-          this.showSelect = false
-          this.tokenForm.reset();
-        }
+        // this.getHsmList();
+        // if ((res.result = true)) {
+        //   if(this.rePasswordSo === false){
+        //     this.toastr.success('👋 Token của bạn đã được khởi tạo lại thành công', 'Thành công', {
+        //       positionClass: 'toast-top-center',
+        //       toastClass: 'toast ngx-toastr',
+        //       closeButton: true
+        //     });
+        //     this.submitted = false;
+        //   }
+        //   if(this.rePasswordSo === true){
+        //     this.toastr.success('👋 Token của bạn đã được khởi tạo thành công', 'Thành công', {
+        //       positionClass: 'toast-top-center',
+        //       toastClass: 'toast ngx-toastr',
+        //       closeButton: true
+        //     });
+        //     this.submitted = false;
+        //   }
+        //   // this.router.navigate(['/apps/equipment-management/token/token-list']);
+        //   this.showSelect = false
+        //   this.tokenForm.reset();
+        // }
       })
   }
 
@@ -240,9 +240,7 @@ export class TokenCreateComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
-    // console.log("tiencheck",selected[0].serialNumber)
     this.rowsData.find((item,index) =>{
-      // console.log(item.serialNumber)
       if(item.serialNumber === selected[0].serialNumber){
         console.log(index)
         this.tokenForm.controls['slotNumber'].setValue(index );
@@ -259,11 +257,9 @@ export class TokenCreateComponent implements OnInit {
 
   }
   onActivate(event,modalUserPinInitFalse,modalUserPinInitTrue){
-    console.log("tien check click",event)
     if (
       event.type === 'click' &&
-      event.column.name != 'Hành động' &&
-      event.column.name != 'checkbox'
+      event.column.name != 'Hành động'
     ){
       const tokenInit = event.row.tokenInitialized;
       const userPinInit = event.row.userPinInitialized
