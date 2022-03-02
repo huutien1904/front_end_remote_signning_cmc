@@ -249,18 +249,17 @@ export class TokenCreateComponent implements OnInit {
         // return index;
       }
     })
-    console.log(selected)
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
     // if(this.selected.length > 0){
     //   this.showSelect = true
     // }
-    console.log(this.selected)
     
     
 
   }
   onActivate(event,modalUserPinInitFalse,modalUserPinInitTrue){
+    console.log("tien check click",event)
     if (
       event.type === 'click' &&
       event.column.name != 'Hành động' &&

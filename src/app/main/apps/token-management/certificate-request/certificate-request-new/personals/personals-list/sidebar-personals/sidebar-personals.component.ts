@@ -120,7 +120,9 @@ export class SidebarPersonalsComponent implements OnInit {
       .then((hsmList) => {
         console.log(hsmList);
         this.hsmList = hsmList;
-        this.tokenList = this.hsmList[0].tokens;
+        if(this.hsmList.length > 0){
+          this.tokenList = this.hsmList[0].tokens;
+        }
       });
     // form crate certificate
     this.newRequestForm = this.fb.group(
@@ -133,7 +135,7 @@ export class SidebarPersonalsComponent implements OnInit {
           this.personal.username +
           Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
         ,
-        tokenId: [this.tokenList[0], Validators.required],
+        tokenId: [this.tokenList[0] , Validators.required],
         userId: [this.personal.userId],
         hsm: [this.hsmList[0]],
         profile: [null, Validators.required],
@@ -176,6 +178,7 @@ export class SidebarPersonalsComponent implements OnInit {
   // change profile to get detail subjectDN
   async changeProfile(event) {
     const profileId = event.id;
+    console.log(this.personal.staffId,profileId)
     this._entityProfileService.getSubjectDnById(this.personal.staffId, profileId)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((res) => {

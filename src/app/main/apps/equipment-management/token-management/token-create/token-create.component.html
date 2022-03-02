@@ -102,6 +102,7 @@
                             ></label>
                           </div>
                         </ng-template>
+                        
                         <ng-template
                           ngx-datatable-cell-template
                           let-rowIndex="rowIndex"
@@ -126,6 +127,7 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
+                      
                       <ngx-datatable-column
                         name="SỐ HIỆU SLOT"
                         [sortable]="false"
@@ -308,7 +310,8 @@
                   <div class="col-6">
                     <div class="form-group">
                       <label for="">Số hiệu slot</label>
-                      <ng-select
+                      <!-- <ng-select
+                        [disabled]="true"
                         [items]="slotOption"
                         [clearable]="false"
                         formControlName="slotNumber"
@@ -318,7 +321,19 @@
                             ? 'is-invalid'
                             : ''
                         "
-                      ></ng-select>
+                      ></ng-select> -->
+                      <input
+                        type="text"
+                        readonly
+                        class="form-control"
+                        formControlName="slotNumber"
+                        [ngClass]="
+                          (f.slotNumber.errors && f.slotNumber?.touched) ||
+                          (submitted && f.slotNumber?.errors?.required)
+                            ? 'is-invalid'
+                            : ''
+                        "
+                      />
                       <div
                         *ngIf="
                           (f.slotNumber.errors && f.slotNumber?.touched) ||
