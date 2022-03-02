@@ -224,110 +224,122 @@ export class CreateCertificateRequestListComponent implements OnInit {
     if (this.newRequestForm.invalid) {
       return;
     }
-    // this.personals.map(async (personal) => {
-    //   const newRequest = JSON.stringify({
-    //     cryptoAlgorithm: [
-    //       this.newRequestForm.get('cryptoAlgorithm')
-    //       .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
-    //         .get('cryptoAlgorithm')
-    //         .get('keypairLength').value],
-    //     alias: this.f.alias.value,
-    //     tokenId: this.f.tokenId.value.tokenId,
-    //     templateKeyId: '1',
-    //     userId: personal.userId,
-    //   });
-    //   console.log(newRequest);
-    //   let keypairId = await this._personalsService.createKeypair(newRequest)
-    //   .toPromise()
-    //   .then(res => {
-    //     console.log(res)
-    //     return res.data.keypairId;
-    //     }           
-    //   )
-    //   console.log(keypairId)
-    //   await this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
-    //   .subscribe((res) =>{
-    //     console.log(res.result)
-    //   })
-
-    //   // .then(res =>{
-    //   //   console.log(res)
-    //   //   this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
-    //   //   .subscribe((res) =>{
-    //   //     console.log(res)
-    //   //   })
-    //   // })
-    //   // if (keypairId == null) {
-    //   //   return;
-    //   // }
-    //   // setTimeout(() => {
-    //   //   this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
-    //   //   .toPromise()
-    //   //   .then((res: any) => {
-    //   //     console.log("settimeout oke")
-    //   //     console.log(res);
-    //   //     // if ((res.result = true)) {
-    //   //     //   this.toggleSidebar();
-    //   //     //   this.toastr.success(
-    //   //     //     '👋 Bạn đã tạo yêu cầu chứng thực mới',
-    //   //     //     'Thành công',
-    //   //     //     {
-    //   //     //       positionClass: 'toast-top-center',
-    //   //     //       toastClass: 'toast ngx-toastr',
-    //   //     //       closeButton: true,
-    //   //     //     }
-    //   //     //   );
-    //   //     // }
-    //   //   })
-    //   //   .catch((res) =>{
-    //   //     console.log(res)
-    //   //   })
-    //   //   this.toggleSidebar();
-
-    //   // }, 2000);
-    // })
-    var i = 0
-    while (i < this.personals.length) {
-      console.log(i)
+    this.personals.map(async (personal) => {
       const newRequest = JSON.stringify({
         cryptoAlgorithm: [
           this.newRequestForm.get('cryptoAlgorithm')
-            .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
-              .get('cryptoAlgorithm')
-              .get('keypairLength').value],
-        alias: this.personals[i].username + 
-          Math.floor(Math.random() * 10000 + 2),
+          .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+            .get('cryptoAlgorithm')
+            .get('keypairLength').value],
+        alias: this.f.alias.value,
         tokenId: this.f.tokenId.value.tokenId,
         templateKeyId: '1',
-        userId: this.personals[i].userId,
+        userId: personal.userId,
       });
       console.log(newRequest);
       let keypairId = await this._personalsService.createKeypair(newRequest)
-        .toPromise()
-        .then(res => {
-          console.log(res)
-          return res.data.keypairId;
-        }
-        )
-      console.log("tien", keypairId)
-      let createCertificate: any =  await this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
-        // .subscribe()
-        .subscribe((res) => {
-          // console.log(res)
-          // if (res.result == true) {
-          //   console.log("tao thanh cong")
-          //   i++
-          // }
-          console.log(res.result)
-          return res.result
-          // i++
-        })
-        console.log(createCertificate)
-      if (createCertificate == true) {
-        console.log("tạo thanh cong")
-        i++;
-      }
-    }
+      .toPromise()
+      .then(res => {
+        console.log(res)
+        return res.data.keypairId;
+        }           
+      )
+      console.log(keypairId)
+      await this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+      .subscribe((res) =>{
+        console.log(res.result)
+        if ((res.result === true)) {
+            this.toggleSidebar();
+            this.toastr.success(
+              '👋 Bạn đã tạo yêu cầu chứng thực mới',
+              'Thành công',
+              {
+                positionClass: 'toast-top-center',
+                toastClass: 'toast ngx-toastr',
+                closeButton: true,
+              }
+            );
+          }
+      })
+
+      // .then(res =>{
+      //   console.log(res)
+      //   this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+      //   .subscribe((res) =>{
+      //     console.log(res)
+      //   })
+      // })
+      // if (keypairId == null) {
+      //   return;
+      // }
+      // setTimeout(() => {
+      //   this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+      //   .toPromise()
+      //   .then((res: any) => {
+      //     console.log("settimeout oke")
+      //     console.log(res);
+      //     // if ((res.result = true)) {
+      //     //   this.toggleSidebar();
+      //     //   this.toastr.success(
+      //     //     '👋 Bạn đã tạo yêu cầu chứng thực mới',
+      //     //     'Thành công',
+      //     //     {
+      //     //       positionClass: 'toast-top-center',
+      //     //       toastClass: 'toast ngx-toastr',
+      //     //       closeButton: true,
+      //     //     }
+      //     //   );
+      //     // }
+      //   })
+      //   .catch((res) =>{
+      //     console.log(res)
+      //   })
+      //   this.toggleSidebar();
+
+      // }, 2000);
+    })
+    // var i = 0
+    // while (i < this.personals.length) {
+    //   console.log(i)
+    //   const newRequest = JSON.stringify({
+    //     cryptoAlgorithm: [
+    //       this.newRequestForm.get('cryptoAlgorithm')
+    //         .get('cryptoSystem').value.cryptoSystem, this.newRequestForm
+    //           .get('cryptoAlgorithm')
+    //           .get('keypairLength').value],
+    //     alias: this.personals[i].username + 
+    //       Math.floor(Math.random() * 10000 + 2),
+    //     tokenId: this.f.tokenId.value.tokenId,
+    //     templateKeyId: '1',
+    //     userId: this.personals[i].userId,
+    //   });
+    //   console.log(newRequest);
+    //   let keypairId = await this._personalsService.createKeypair(newRequest)
+    //     .toPromise()
+    //     .then(res => {
+    //       console.log(res)
+    //       return res.data.keypairId;
+    //     }
+    //     )
+    //   console.log("tien", keypairId)
+    //   let createCertificate: any =  await this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId }))
+    //     // .subscribe()
+    //     .subscribe((res) => {
+    //       // console.log(res)
+    //       // if (res.result == true) {
+    //       //   console.log("tao thanh cong")
+    //       //   i++
+    //       // }
+    //       console.log(res.result)
+    //       return res.result
+    //       // i++
+    //     })
+    //     console.log(createCertificate)
+    //   if (createCertificate == true) {
+    //     console.log("tạo thanh cong")
+    //     i++;
+    //   }
+    // }
     // if (i == this.personals.length - 1) {
     //   this.toggleSidebar();
     //   this.toastr.success(

@@ -256,7 +256,7 @@ export class SidebarPersonalsComponent implements OnInit {
     }
     this._personalsService.createCertificateRequest(JSON.stringify({ keypairId: keypairId })).subscribe((res: any) => {
       console.log(res);
-      if ((res.result = true)) {
+      if ((res.result === true)) {
         this.toggleSidebar();
         this.toastr.success(
           '👋 Bạn đã tạo yêu cầu chứng thực mới',

@@ -110,7 +110,7 @@ export class HsmCreateComponent implements OnInit {
 
     this._hsmService.submitForm(JSON.stringify(this.HsmForm.value)).subscribe((res: any) => {
       console.log(res);
-      if ((res.result = true)) {
+      if ((res.result === true)) {
         this.toastr.success('👋 Bạn đã tạo HSM mới', 'Thành công', {
           positionClass: 'toast-top-center',
           toastClass: 'toast ngx-toastr',
