@@ -206,7 +206,7 @@ export class KeypairCreateComponent implements OnInit {
   //   }
   // }
   disableTokenName(e){
-    console.log(e);
+    // console.log(e);
     if(e > 1 ){
       this.keypairFormView.controls['keypairAlias'].disable();
     }
