@@ -107,50 +107,23 @@
               </div>
             </div>
           </div>
+
           <div class="col-12 button_summit d-flex justify-content-end pb-1">
+            <a [href]="listFileUrl" download="Yêu cầu chứng thực.txt">
+              <button
+                class="btn btn-outline-secondary ml-50 mr-1"
+                (click)="downloadCertificate()"
+                rippleEffect
+              >
+                <i data-feather="download" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Tải về</span>
+              </button>
+            </a>
+            
             <app-return [buttonReturn]="buttonReturn"> </app-return>
           </div>
 
-          <!-- <div class="col-12">
-            <div class="card-body">
-              <div class="form-group row">
-                <div class="col-sm-3 col-form-label">
-                  <h6 class="card-title">Chọn thuê bao RA</h6>
-                </div>
-                <div class="col-sm-9 col-form-label">
-                  <ng-select
-                    [items]="subscriberIdList"
-                    bindLabel="content"
-                    placeholder="Nhập: Email, Họ tên, SĐT, CCCD, id người dùng"
-                    (keyup)="selectIdUser($event.target.value)"
-                    formControlName="subscriberIdForm"
-                  >
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- <div class="col-12">
-            <div class="modal-footer" style="text-align: right">
-              <h2 *ngIf="isSavedFileResult">
-                {{
-                  isSavedFile
-                    ? "Yêu cầu chứng thực đã được lưu"
-                    : "Lưu yêu cầu chứng thực thất bại"
-                }}
-              </h2>
-              <button
-                type="button"
-                rippleEffect
-                class="btn btn-primary mr-1"
-                [disabled]="!formSubmitOne.valid"
-                (click)="onSaveOneFile1()"
-              >
-                Lưu Yêu cầu chứng thực
-              </button>
-            </div>
-          </div> -->
+          
         </div>
       </form>
     </div>

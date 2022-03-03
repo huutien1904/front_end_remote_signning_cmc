@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SubscriberCertificateService } from '../subscriber-certificate.service';
 import * as x509 from "@peculiar/x509";
 import * as forge from 'node-forge';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-subscriber-certificate-view',
@@ -28,6 +29,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
   public data:any
   public subscriberCertificateId :any
   public exponent
+  public dataSubscriberCertificate:string
   // biến thông tin chứng thư số 
   public version :any
   public serialNumber:any
@@ -45,7 +47,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private _subscriberCertificateService:SubscriberCertificateService,
-    
+    private sanitizer: DomSanitizer,
 
   ) { 
     
@@ -81,9 +83,11 @@ export class SubscriberCertificateViewComponent implements OnInit {
       this.subscriberCertificateId = res.data.subscriberCertificateId
       let cer = res.data.certificateContent
       console.log(cer)
+
       let read = '-----BEGIN CERTIFICATE-----\r\n' +
             cer +
             '\r\n-----END CERTIFICATE-----\r\n'
+      this.dataSubscriberCertificate = read
       this.readCertificate(read);
       // console.log(res)
     })
@@ -105,6 +109,16 @@ export class SubscriberCertificateViewComponent implements OnInit {
   //   return res;
   // }
 
+  // download subscriber
+  downloadSubscriber(){
+    console.log(this.dataSubscriberCertificate)
+    const data = this.dataSubscriberCertificate
+    console.log(data)
+    const blob = new Blob([data], { type: 'crt/octet-stream' });
+    this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      window.URL.createObjectURL(blob)
+    );
+  }  
   readCertificate(certPem) {
     console.log(certPem)
     this.isReadCert = false

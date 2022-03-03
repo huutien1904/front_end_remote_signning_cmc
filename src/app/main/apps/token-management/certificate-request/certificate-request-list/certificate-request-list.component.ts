@@ -46,6 +46,11 @@ export class CertificateRequestListComponent implements OnInit {
   public listFileUrl;
   public results: any[];
   public dataExport: any;
+  public statusCertificate =[
+    {
+      status:"Tạo mới"
+    }
+  ]
   constructor(
     private fb: FormBuilder,
     private _listCerReqService: CertificateRequestListService,
@@ -335,20 +340,21 @@ export class CertificateRequestListComponent implements OnInit {
       })
   }
   // delete list item certificate
-  deleteListCertificate(){
-    console.log(this.selected)
-    Swal.fire({
+  async deleteListCertificate(){
+    var selectedCertificate = this.selected
+    this.selected = []
+    await Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
       preConfirm: async () => {
-        console.log("chay den day chua")
-        this.selected.map((item) =>{
+        selectedCertificate.map((item) =>{
           this.deleteRequestCertificate(item.certificateRequestId)
         })
-        this.selected = [];
+        this.selected = []
+        console.log(this.selected)
       },
       cancelButtonColor: '#E42728',
       cancelButtonText: "Thoát",
@@ -373,8 +379,9 @@ export class CertificateRequestListComponent implements OnInit {
         });
       }
     }
-
+    
     );
+    this.selected = []
   }
   /**
    * Custom Checkbox On Select
@@ -391,6 +398,7 @@ export class CertificateRequestListComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
+    this.selected = []
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
