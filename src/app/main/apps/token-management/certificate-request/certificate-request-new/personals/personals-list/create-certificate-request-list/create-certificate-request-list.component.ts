@@ -267,7 +267,6 @@ export class CreateCertificateRequestListComponent implements OnInit {
               closeButton: true,
             }
           );
-          location.reload();
         }
       });
   }
