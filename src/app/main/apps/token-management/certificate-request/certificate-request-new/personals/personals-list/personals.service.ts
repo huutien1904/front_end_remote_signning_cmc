@@ -40,4 +40,10 @@ export class PersonalsService {
       this.option
     );
   }
+  public createCertificateRequestList(body): Observable<ResponseData<boolean>> {
+    return this._httpClient.post<ResponseData<boolean>>(
+      `${environment.apiUrl}/certificate-request/create-list`,body,
+      this.option
+    );
+  }
 }
