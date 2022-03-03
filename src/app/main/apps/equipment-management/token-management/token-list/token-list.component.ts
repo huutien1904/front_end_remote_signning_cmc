@@ -347,6 +347,7 @@ export class TokenListComponent implements OnInit {
               publicKey:5,
               hsmId:this.hsmId
             }));
+            
             this.pagedData.totalItems = this.rowsData.length + 1
             console.log(this.rowsData)
           })

@@ -162,7 +162,7 @@ export class PersonalsComponent implements OnInit {
   async createCertificateRequest(modalForm) {
     this.listSubjectDn = [];
     if (this.selected.length > 0) {
-      this.selected.map((personal) => {
+      await this.selected.map((personal) => {
         this._entityProfileService.getSubjectDnById(personal.staffId, this.idProfile)
           .pipe(takeUntil(this._unsubscribeAll))
           .subscribe((res) => {
@@ -187,6 +187,7 @@ export class PersonalsComponent implements OnInit {
 
   }
   toggleSidebar(modalForm, item) {
+    // console.log(this.)
     this.item = item;
     console.log(item);
     this.modalService.open(modalForm, { size: 'xl' })
