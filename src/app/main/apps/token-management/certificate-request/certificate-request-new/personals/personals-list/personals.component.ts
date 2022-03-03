@@ -193,6 +193,7 @@ export class PersonalsComponent implements OnInit {
     }
   }
   toggleSidebar(modalForm, item) {
+    // console.log(this.)
     this.item = item;
     console.log(item);
     this.modalService.open(modalForm, { size: 'xl' });
