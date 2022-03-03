@@ -78,4 +78,8 @@ export class SubscriberCertificateListService {
       option
     );
   }
+  public deleteSubscriberCertificateById(id): Observable<ResponseData<PagedData<SubscriberCertificate>>> {
+    return this._httpClient.delete<ResponseData<PagedData<SubscriberCertificate>>>
+      (`${environment.apiUrl}/subscriber-certificate/delete-by-role/${id}`,this.option);
+  }
 }

@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
 import * as x509 from "@peculiar/x509";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subscriber-certificate-list',
@@ -290,6 +291,59 @@ export class SubscriberCertificateListComponent implements OnInit {
     
 
     //Trạng thái đã đọc xong chứng thư số
+  }
+  // delete item subscriber certificate 
+  openConfirmDelete(subscriberCertificateId) {
+    this.confirmRemoveRequestCertificate(subscriberCertificateId);
+  }
+  confirmRemoveRequestCertificate(subscriberCertificateId) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteSubscriberCertificate(subscriberCertificateId)
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+
+    );
+
+  }
+  deleteSubscriberCertificate(id) {
+    this._subscriberCertificateService
+      .deleteSubscriberCertificateById(id)
+      .subscribe((res) => {
+        if (res.result === true) {
+          this.setPage({
+            offset: 0,
+            pageSize: this.formListSubscriberCertificate.get('size').value
+          })
+        }
+      })
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

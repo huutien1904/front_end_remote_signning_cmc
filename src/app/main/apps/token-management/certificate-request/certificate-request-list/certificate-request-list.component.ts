@@ -136,28 +136,28 @@ export class CertificateRequestListComponent implements OnInit {
         this.pagedData = pagedData.data;
         this.rowsData = pagedData.data.data;
         console.log(this.rowsData);
-        
+
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
           subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
-            .subjectDN.replace('0.9.2342.19200300.100.1.1','C').replace('2.5.4.20','Phone_Number').replace('E=','gmail'),
+            .subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'Phone_Number').replace('E=', 'gmail'),
           algorithmPublickey: this.getCSRFileInformation(
             item.certificateRequestContent
           ).algorithmPublicKey.includes('RSA')
             ? 'RSA'
             : this.getCSRFileInformation(
-                item.certificateRequestContent
-              ).algorithmPublicKey.includes('ECDSA')
-            ? 'ECDSA'
-            : this.getCSRFileInformation(
+              item.certificateRequestContent
+            ).algorithmPublicKey.includes('ECDSA')
+              ? 'ECDSA'
+              : this.getCSRFileInformation(
                 item.certificateRequestContent
               ).algorithmPublicKey.includes('DSA')
-            ? 'DSA'
-            : this.getCSRFileInformation(
-                item.certificateRequestContent
-              ).algorithmPublicKey.includes('Ed25519')
-            ? 'Ed25519'
-            : 'Ed448',
+                ? 'DSA'
+                : this.getCSRFileInformation(
+                  item.certificateRequestContent
+                ).algorithmPublicKey.includes('Ed25519')
+                  ? 'Ed25519'
+                  : 'Ed448',
           sizePublicKey: this.getCSRFileInformation(
             item.certificateRequestContent
           ).sizePublicKey,
@@ -184,7 +184,7 @@ export class CertificateRequestListComponent implements OnInit {
     var data = '';
     this.selected.map((item) => {
       // console.log(item.certificateRequestContent)
-      return (data += item.certificateRequestContent);
+      return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
     });
     console.log(data);
     const blob = new Blob([data], { type: 'application/octet-stream' });
@@ -192,6 +192,7 @@ export class CertificateRequestListComponent implements OnInit {
       window.URL.createObjectURL(blob)
     );
   }
+
   exportCSV() {
     this._listCerReqService
       .getListCertificateRequests(
@@ -212,18 +213,18 @@ export class CertificateRequestListComponent implements OnInit {
           ).algorithmPublicKey.includes('RSA')
             ? 'RSA'
             : this.getCSRFileInformation(
-                item.certificateRequestContent
-              ).algorithmPublicKey.includes('ECDSA')
-            ? 'ECDSA'
-            : this.getCSRFileInformation(
+              item.certificateRequestContent
+            ).algorithmPublicKey.includes('ECDSA')
+              ? 'ECDSA'
+              : this.getCSRFileInformation(
                 item.certificateRequestContent
               ).algorithmPublicKey.includes('DSA')
-            ? 'DSA'
-            : this.getCSRFileInformation(
-                item.certificateRequestContent
-              ).algorithmPublicKey.includes('Ed25519')
-            ? 'Ed25519'
-            : 'Ed448',
+                ? 'DSA'
+                : this.getCSRFileInformation(
+                  item.certificateRequestContent
+                ).algorithmPublicKey.includes('Ed25519')
+                  ? 'Ed25519'
+                  : 'Ed448',
           sizePublicKey: this.getCSRFileInformation(
             item.certificateRequestContent
           ).sizePublicKey,
@@ -280,63 +281,101 @@ export class CertificateRequestListComponent implements OnInit {
         }
       });
   }
-
-  openConfirmDelete(staffId){
-    console.log(staffId);
-    this.confirmRemoveRequestCertificate(staffId);
+  // delete item certificate
+  openConfirmDelete(certificateRequestId) {
+    this.confirmRemoveRequestCertificate(certificateRequestId);
   }
-  confirmRemoveRequestCertificate(staffId){
+  confirmRemoveRequestCertificate(certificateRequestId) {
     Swal.fire({
-     title: 'Bạn có chắc muốn xóa?',
-     text: "Bạn sẽ không thể hoàn tác điều này!",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#7367F0',
-     preConfirm:   async () => {
-       this.deleteRequestCertificate(staffId)
-    },
-     cancelButtonColor: '#E42728',
-     cancelButtonText: "Thoát",
-     confirmButtonText: 'Đúng, tôi muốn xóa!',
-     customClass: {
-       confirmButton: 'btn btn-primary',
-       cancelButton: 'btn btn-danger ml-1'
-     },
-     allowOutsideClick:  () => {
-       return !Swal.isLoading();
-     }
-   }).then(function (result:any) {
-     console.log(result)
-     if (result.value) {
-       Swal.fire({
-         icon: 'success',
-         title: 'Thành công!',
-         text: 'Bạn đã xóa thành công',
-         customClass: {
-           confirmButton: 'btn btn-success'
-         }
-       });
-     }
-   }
-   
-   );
-   
- }
- deleteRequestCertificate(id){
-  this._listCerReqService
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteRequestCertificate(certificateRequestId)
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+
+    );
+
+  }
+  deleteRequestCertificate(id) {
+    this._listCerReqService
       .deleteCertificateRequestById(id)
-      .subscribe((res) =>{
-          this._toastrService.success(
-            "Xóa Thuê Bao cá nhân thành công ",   
-            "Thành công",
-            { toastClass: "toast ngx-toastr", closeButton: true }
-          );
+      .subscribe((res) => {
+        if (res.result === true) {
           this.setPage({
             offset: 0,
             pageSize: this.formListCertificateRequest.get('size').value
           })
+        }
       })
-}
+  }
+  // delete list item certificate
+  deleteListCertificate(){
+    console.log(this.selected)
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        console.log("chay den day chua")
+        this.selected.map((item) =>{
+          this.deleteRequestCertificate(item.certificateRequestId)
+        })
+        this.selected = [];
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+
+    );
+  }
   /**
    * Custom Checkbox On Select
    *
@@ -352,7 +391,6 @@ export class CertificateRequestListComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
-    console.log('Select Event', selected, this.selected);
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
