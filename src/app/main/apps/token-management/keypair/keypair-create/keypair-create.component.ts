@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -39,12 +45,7 @@ export class KeypairCreateComponent implements OnInit {
     },
     {
       cryptoSystem: 'ECDSA',
-      keypairLength: [
-        'secp256r1',
-        'secp384r1',
-        'secp521r1',
- 
-      ],
+      keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
     },
   ];
   public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
@@ -89,7 +90,7 @@ export class KeypairCreateComponent implements OnInit {
     private _personalService: PersonalService,
     private _keypairService: KeypairListService,
     private _keypairServices: KeypairService,
-    private _toastrService: ToastrService,
+    private _toastrService: ToastrService
   ) {
     this._unsubscribeAll = new Subject();
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -180,6 +181,7 @@ export class KeypairCreateComponent implements OnInit {
       alias: [null, Validators.required],
       keypairAlias: [null, Validators.required],
       userId: [null, Validators.required],
+      numberKeypair: [null, Validators.required],
     });
     console.log(this.keypairFormView.value);
   }
@@ -195,8 +197,26 @@ export class KeypairCreateComponent implements OnInit {
       .get('cryptoAlgorithm')
       .patchValue({ keypairLength: this.keypairLengthList[0] });
   }
+  // disableTokenName() {
+  //   console.log(this.keypairFormView.get('numberKeypair').value.numberKeypair);
+  //   if (this.keypairFormView.get('numberKeypair').value.numberKeypair === '1') {
+  //     this.keypairFormView.controls['keypairAlias'].enable();
+  //   } else {
+  //     this.keypairFormView.controls['keypairAlias'].disable();
+  //   }
+  // }
+  disableTokenName(e){
+    console.log(e);
+    if(e > 1 ){
+      this.keypairFormView.controls['keypairAlias'].disable();
+    }
+    else {
+      this.keypairFormView.controls['keypairAlias'].enable();
+    }
+    
+  }
   updateTable() {
-      this.onUpdate.emit();
+    this.onUpdate.emit();
   }
   closeModal() {
     this.onClose.emit();

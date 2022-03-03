@@ -123,9 +123,8 @@
       <div class="card">
         <div class="card-header d-block">
           <h4 class="card-title">Danh sách yêu cầu chứng thực</h4>
-          
         </div>
-        
+
         <div class="row">
           <div class="col-12 col-md-12 mb-1">
             <a
@@ -345,6 +344,7 @@
                       ><i data-feather="file-text" class="mr-50"></i> Chi tiết
                     </a>
                     <a ngbDropdownItem class="d-flex align-items-center"
+                    (click)="openConfirmDelete(value.certificateRequestId)"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
                     <a
@@ -414,8 +414,8 @@
               rippleEffect
               (click)="downloadList()"
             >
-            <i data-feather="download" class="d-sm-none d-inline-block"></i>
-            <span class="d-none d-sm-inline-block">Tải về</span>
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Tải về</span>
             </button>
 
             <button

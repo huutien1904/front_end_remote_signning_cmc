@@ -15,6 +15,8 @@ import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import * as x509 from '@peculiar/x509';
+import Swal from 'sweetalert2';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-certificate-request-list',
@@ -50,7 +52,9 @@ export class CertificateRequestListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private dateAdapter: DateAdapter<any>,
     private sanitizer: DomSanitizer,
-    private _router: Router
+    private _router: Router,
+    private _toastrService: ToastrService,
+
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -277,6 +281,62 @@ export class CertificateRequestListComponent implements OnInit {
       });
   }
 
+  openConfirmDelete(staffId){
+    console.log(staffId);
+    this.confirmRemoveRequestCertificate(staffId);
+  }
+  confirmRemoveRequestCertificate(staffId){
+    Swal.fire({
+     title: 'Bạn có chắc muốn xóa?',
+     text: "Bạn sẽ không thể hoàn tác điều này!",
+     icon: 'warning',
+     showCancelButton: true,
+     confirmButtonColor: '#7367F0',
+     preConfirm:   async () => {
+       this.deleteRequestCertificate(staffId)
+    },
+     cancelButtonColor: '#E42728',
+     cancelButtonText: "Thoát",
+     confirmButtonText: 'Đúng, tôi muốn xóa!',
+     customClass: {
+       confirmButton: 'btn btn-primary',
+       cancelButton: 'btn btn-danger ml-1'
+     },
+     allowOutsideClick:  () => {
+       return !Swal.isLoading();
+     }
+   }).then(function (result:any) {
+     console.log(result)
+     if (result.value) {
+       Swal.fire({
+         icon: 'success',
+         title: 'Thành công!',
+         text: 'Bạn đã xóa thành công',
+         customClass: {
+           confirmButton: 'btn btn-success'
+         }
+       });
+     }
+   }
+   
+   );
+   
+ }
+ deleteRequestCertificate(id){
+  this._listCerReqService
+      .deleteCertificateRequestById(id)
+      .subscribe((res) =>{
+          this._toastrService.success(
+            "Xóa Thuê Bao cá nhân thành công ",   
+            "Thành công",
+            { toastClass: "toast ngx-toastr", closeButton: true }
+          );
+          this.setPage({
+            offset: 0,
+            pageSize: this.formListCertificateRequest.get('size').value
+          })
+      })
+}
   /**
    * Custom Checkbox On Select
    *

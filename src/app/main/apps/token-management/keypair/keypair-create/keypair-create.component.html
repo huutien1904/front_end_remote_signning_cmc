@@ -99,24 +99,25 @@
                       <label>Số lượng cặp khóa</label>
                       <ng-select
                         [items]="numberKeypair"
-                        bindLabel="userId"
+                        bindLabel="numberKeypair"
                         [clearable]="false"
-                        formControlName="userId"
+                        formControlName="numberKeypair"
+                        (change)= "disableTokenName($event)"
                         [ngClass]="
-                          (f.userId.errors && f.userId?.touched) ||
-                          (submitted && f.userId?.errors?.required)
+                          (f.numberKeypair.errors && f.numberKeypair?.touched) ||
+                          (submitted && f.numberKeypair?.errors?.required)
                             ? 'is-invalid'
                             : ''
                         "
                       ></ng-select>
                       <div
                         *ngIf="
-                          (f.userId.errors && f.userId?.touched) ||
-                          (submitted && f.userId?.errors?.required)
+                          (f.numberKeypair.errors && f.numberKeypair?.touched) ||
+                          (submitted && f.numberKeypair?.errors?.required)
                         "
                         class="invalid-feedback"
                       >
-                        <div *ngIf="f.userId.errors.required">
+                        <div *ngIf="f.numberKeypair.errors.required">
                           Bạn cần chọn số lượng cặp khóa
                         </div>
                       </div>
