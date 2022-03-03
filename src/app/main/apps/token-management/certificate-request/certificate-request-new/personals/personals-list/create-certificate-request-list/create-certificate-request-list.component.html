@@ -8,7 +8,7 @@
   <form [formGroup]="newRequestForm" *ngIf="newRequestForm">
     <h6 class="mb-1">1. Thông tin về thuê bao</h6>
     <div class="row ml-50">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div class="form-group">
           <label for="">Profile</label>
           <ng-select
@@ -33,6 +33,17 @@
           >
             <div *ngIf="f.profile.errors.required">Bạn cần chọn profile</div>
           </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="">Loại profile</label>
+          <input
+            type="text"
+            readonly
+            class="form-control"
+            value="Cá nhân"
+          />
         </div>
       </div>
       <div class="col-md-12">

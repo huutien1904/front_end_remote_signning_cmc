@@ -157,11 +157,11 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log(row)
     const data = row.certificateContent;
     console.log(data)
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'pem' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    row.fileName = row.keypairAlias + 'requestId' + row.subscriberCertificateId + '.csr';
+    row.fileName = row.keypairAlias  + '.pem';
     // console.log(row);
   }
   downloadList(){
@@ -174,7 +174,7 @@ export class SubscriberCertificateListComponent implements OnInit {
 
     })
     console.log(data)
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'pem' });
     this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );

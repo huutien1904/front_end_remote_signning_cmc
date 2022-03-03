@@ -175,12 +175,12 @@ export class CertificateRequestListComponent implements OnInit {
   downloadSidebar(row) {
     const data = row.certificateRequestContent;
     console.log(row);
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'pem' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
     row.fileName =
-      row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
+      row.keypairAlias + ".pem";
     console.log(row);
   }
   downloadList() {
@@ -192,7 +192,7 @@ export class CertificateRequestListComponent implements OnInit {
       return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
     });
     console.log(data);
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'pem' });
     this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
@@ -343,6 +343,7 @@ export class CertificateRequestListComponent implements OnInit {
   async deleteListCertificate(){
     var selectedCertificate = this.selected
     this.selected = []
+    console.log(this.selected)
     await Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
@@ -382,6 +383,7 @@ export class CertificateRequestListComponent implements OnInit {
     
     );
     this.selected = []
+    console.log(this.selected)
   }
   /**
    * Custom Checkbox On Select

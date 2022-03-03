@@ -277,7 +277,7 @@
           <ngx-datatable-column
             name="Số hiệu SLOT"
             prop="slotNumber"
-            [width]="130"
+            [width]="100"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Tên Slot"
@@ -324,17 +324,17 @@
           <ngx-datatable-column
             name="SỐ CHỨNG THƯ SỐ"
             prop="hsmId"
-            [width]="150"
+            [width]="130"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="SỐ KHÓA RIÊNG"
             prop="privateKey"
-            [width]="130"
+            [width]="120"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="SỐ KHÓA BÍ MẬT"
             prop="publicKey"
-            [width]="140"
+            [width]="120"
           ></ngx-datatable-column>
           <ngx-datatable-column
             name="Hành động"
@@ -383,13 +383,13 @@
                       ><i data-feather="edit" class="mr-50"></i> Đổi tên slot
                     </a> -->
 
-                    <a
+                    <!-- <a
                       ngbDropdownItem
                       (click)="toggleSidebar(modalTokenPassWordForm, row)"
                       class="d-flex align-items-center"
                       ><i data-feather="file-text" class="mr-50"></i> Đổi mật
                       khẩu SO</a
-                    >
+                    > -->
                     <a
                       ngbDropdownItem
                       (click)="toggleSidebar(modalUserPassWordForm, row)"

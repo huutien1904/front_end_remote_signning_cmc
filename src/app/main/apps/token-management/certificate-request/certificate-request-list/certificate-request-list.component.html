@@ -27,6 +27,7 @@
                     [items]="statusCertificate"
                     [clearable]="false"
                     bindLabel="status"
+                    bindValue="status"
                     
                   >
                   </ng-select>
@@ -156,7 +157,7 @@
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
-            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.txt">
+            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.pem">
               <button
                 class="btn btn-outline-secondary ml-50"
                 (click)="downloadList()"
@@ -430,7 +431,7 @@
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
-            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.txt">
+            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.pem">
               <button
                 class="btn btn-outline-secondary ml-50"
                 (click)="downloadList()"
