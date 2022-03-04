@@ -32,7 +32,7 @@
                       id="first-name-column"
                       class="form-control"
                       name="fname-column"
-                      value="{{this.currentUser.username}}"
+                      value="{{ this.currentUser.username }}"
                       placeholder="Tên tài khoản"
                       [readonly]="true"
                     />
@@ -52,7 +52,7 @@
                       class="form-control"
                       placeholder="EMAIL"
                       name="fname-column"
-                      value="{{this.currentUser.email}}"
+                      value="{{ this.currentUser.email }}"
                       [readonly]="true"
                     />
                   </div>
@@ -109,10 +109,8 @@
                           <div
                             class="input-group input-group-merge"
                             [ngClass]="
-                              (f.firstName.errors &&
-                                f.firstName?.touched) ||
-                              (submitted &&
-                                f.firstName?.errors?.required)
+                              (f.firstName.errors && f.firstName?.touched) ||
+                              (submitted && f.firstName?.errors?.required)
                                 ? 'is-invalid'
                                 : ''
                             "
@@ -128,10 +126,8 @@
                               type="text"
                               class="form-control"
                               [ngClass]="
-                                (f.firstName.errors &&
-                                  f.firstName?.touched) ||
-                                (submitted &&
-                                  f.firstName?.errors?.required)
+                                (f.firstName.errors && f.firstName?.touched) ||
+                                (submitted && f.firstName?.errors?.required)
                                   ? 'is-invalid'
                                   : ''
                               "
@@ -143,8 +139,7 @@
                             *ngIf="
                               (f.firstName?.errors?.required &&
                                 f.firstName?.touched) ||
-                              (submitted &&
-                                f.firstName?.errors?.required)
+                              (submitted && f.firstName?.errors?.required)
                             "
                             class="invalid-form"
                           >
@@ -167,10 +162,8 @@
                           <div
                             class="input-group input-group-merge"
                             [ngClass]="
-                              (f.middleName.errors &&
-                                f.middleName?.touched) ||
-                              (submitted &&
-                                f.middleName?.errors?.required)
+                              (f.middleName.errors && f.middleName?.touched) ||
+                              (submitted && f.middleName?.errors?.required)
                                 ? 'is-invalid'
                                 : ''
                             "
@@ -188,8 +181,7 @@
                               [ngClass]="
                                 (f.middleName.errors &&
                                   f.middleName?.touched) ||
-                                (submitted &&
-                                  f.middleName?.errors?.required)
+                                (submitted && f.middleName?.errors?.required)
                                   ? 'is-invalid'
                                   : ''
                               "
@@ -201,8 +193,7 @@
                             *ngIf="
                               (f.middleName.errors?.required &&
                                 f.middleName.touched) ||
-                              (submitted &&
-                                f.middleName?.errors?.required)
+                              (submitted && f.middleName?.errors?.required)
                             "
                             class="invalid-form"
                           >
@@ -222,10 +213,8 @@
                           <div
                             class="input-group input-group-merge"
                             [ngClass]="
-                              (f.lastName.errors &&
-                                f.lastName?.touched) ||
-                              (submitted &&
-                                f.lastName?.errors?.required)
+                              (f.lastName.errors && f.lastName?.touched) ||
+                              (submitted && f.lastName?.errors?.required)
                                 ? 'is-invalid'
                                 : ''
                             "
@@ -241,10 +230,8 @@
                               class="form-control"
                               placeholder="Tên"
                               [ngClass]="
-                                (f.lastName.errors &&
-                                  f.lastName?.touched) ||
-                                (submitted &&
-                                  f.lastName?.errors?.required)
+                                (f.lastName.errors && f.lastName?.touched) ||
+                                (submitted && f.lastName?.errors?.required)
                                   ? 'is-invalid'
                                   : ''
                               "
@@ -254,10 +241,8 @@
                         <div class="col-sm-12">
                           <span
                             *ngIf="
-                              (f.lastName.errors &&
-                                f.lastName?.touched) ||
-                              (submitted &&
-                                f.lastName?.errors?.required)
+                              (f.lastName.errors && f.lastName?.touched) ||
+                              (submitted && f.lastName?.errors?.required)
                             "
                             class="invalid-form"
                           >
@@ -319,9 +304,7 @@
                           >
                             <small
                               class="form-text text-danger"
-                              *ngIf="
-                                f.personalCountryId.errors.required
-                              "
+                              *ngIf="f.personalCountryId.errors.required"
                             >
                               Không được bỏ trống
                             </small>
@@ -346,10 +329,8 @@
                           <div
                             class="input-group input-group-merge"
                             [ngClass]="
-                              (f.birthday.errors &&
-                                f.birthday?.touched) ||
-                              (submitted &&
-                                f.birthday?.errors?.required)
+                              (f.birthday.errors && f.birthday?.touched) ||
+                              (submitted && f.birthday?.errors?.required)
                                 ? 'is-invalid'
                                 : ''
                             "
@@ -368,10 +349,8 @@
                               type="text"
                               placeholder="19/04/1992"
                               [ngClass]="
-                                (f.birthday.errors &&
-                                  f.birthday?.touched) ||
-                                (submitted &&
-                                  f.birthday?.errors?.required)
+                                (f.birthday.errors && f.birthday?.touched) ||
+                                (submitted && f.birthday?.errors?.required)
                                   ? 'is-invalid'
                                   : ''
                               "
@@ -384,8 +363,7 @@
                             *ngIf="
                               (f.birthday.errors?.required &&
                                 f.birthday?.touched) ||
-                              (submitted &&
-                                f.birthday?.errors?.required)
+                              (submitted && f.birthday?.errors?.required)
                             "
                             class="invalid-form"
                           >
@@ -446,8 +424,7 @@
                             [ngClass]="
                               (f.phoneNumber.errors &&
                                 f.phoneNumber?.touched) ||
-                              (submitted &&
-                                f.phoneNumber?.errors?.required)
+                              (submitted && f.phoneNumber?.errors?.required)
                                 ? 'is-invalid'
                                 : ''
                             "
@@ -466,8 +443,7 @@
                               [ngClass]="
                                 (f.phoneNumber.errors &&
                                   f.phoneNumber?.touched) ||
-                                (submitted &&
-                                  f.phoneNumber?.errors?.required)
+                                (submitted && f.phoneNumber?.errors?.required)
                                   ? 'is-invalid'
                                   : ''
                               "
@@ -479,8 +455,7 @@
                             *ngIf="
                               (f.phoneNumber.errors &&
                                 f.phoneNumber?.touched) ||
-                              (submitted &&
-                                f.phoneNumber?.errors?.required)
+                              (submitted && f.phoneNumber?.errors?.required)
                             "
                             class="invalid-form"
                           >
@@ -528,8 +503,7 @@
                             [ngClass]="
                               (f.organizationId.errors &&
                                 f.organizationId?.touched) ||
-                              (submitted &&
-                                f.organizationId?.errors?.required)
+                              (submitted && f.organizationId?.errors?.required)
                                 ? 'is-invalid'
                                 : ''
                             "
@@ -547,8 +521,7 @@
                             *ngIf="
                               (f.organizationId.errors &&
                                 f.organizationId?.touched) ||
-                              (submitted &&
-                                f.organizationId?.errors?.required)
+                              (submitted && f.organizationId?.errors?.required)
                             "
                             class="invalid-form"
                           >
@@ -574,8 +547,7 @@
                         [ngClass]="
                           (f.countryBirthPlace.errors &&
                             f.countryBirthPlace?.touched) ||
-                          (submitted &&
-                            f.countryBirthPlace?.errors?.required)
+                          (submitted && f.countryBirthPlace?.errors?.required)
                             ? 'is-invalid'
                             : ''
                         "
@@ -593,8 +565,7 @@
                         *ngIf="
                           (f.countryBirthPlace.errors &&
                             f.countryBirthPlace?.touched) ||
-                          (submitted &&
-                            f.countryBirthPlace?.errors?.required)
+                          (submitted && f.countryBirthPlace?.errors?.required)
                         "
                         class="invalid-form"
                       >
@@ -615,8 +586,7 @@
                         [ngClass]="
                           (f.provinceBirthPlace.errors &&
                             f.provinceBirthPlace?.touched) ||
-                          (submitted &&
-                            f.provinceBirthPlace?.errors?.required)
+                          (submitted && f.provinceBirthPlace?.errors?.required)
                             ? 'is-invalid'
                             : 'is-valid'
                         "
@@ -650,10 +620,7 @@
                           let-modal
                         >
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới Tỉnh/Thành phố
                             </h5>
                             <button
@@ -665,11 +632,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Đà Nẵng</i></small
@@ -701,8 +664,7 @@
                         *ngIf="
                           (f.provinceBirthPlace.errors &&
                             f.provinceBirthPlace?.touched) ||
-                          (submitted &&
-                            f.provinceBirthPlace?.errors?.required)
+                          (submitted && f.provinceBirthPlace?.errors?.required)
                         "
                         class="invalid-form"
                       >
@@ -739,8 +701,7 @@
                         [ngClass]="
                           (f.districtBirthPlace.errors &&
                             f.districtBirthPlace?.touched) ||
-                          (submitted &&
-                            f.districtBirthPlace?.errors?.required)
+                          (submitted && f.districtBirthPlace?.errors?.required)
                             ? 'is-invalid'
                             : ''
                         "
@@ -767,10 +728,7 @@
                           let-modal
                         >
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới Quận/Huyện
                             </h5>
                             <button
@@ -782,11 +740,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Sơn Trà</i></small
@@ -818,8 +772,7 @@
                         *ngIf="
                           (f.districtBirthPlace.errors &&
                             f.districtBirthPlace?.touched) ||
-                          (submitted &&
-                            f.districtBirthPlace?.errors?.required)
+                          (submitted && f.districtBirthPlace?.errors?.required)
                         "
                         class="invalid-form"
                       >
@@ -855,8 +808,7 @@
                         [ngClass]="
                           (f.communeBirthPlace.errors &&
                             f.communeBirthPlace?.touched) ||
-                          (submitted &&
-                            f.communeBirthPlace?.errors?.required)
+                          (submitted && f.communeBirthPlace?.errors?.required)
                             ? 'is-invalid'
                             : ''
                         "
@@ -884,10 +836,7 @@
                           let-modal
                         >
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới Xã/Phường
                             </h5>
                             <button
@@ -899,11 +848,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Thọ Quang</i></small
@@ -935,8 +880,7 @@
                         *ngIf="
                           (f.communeBirthPlace.errors &&
                             f.communeBirthPlace?.touched) ||
-                          (submitted &&
-                            f.communeBirthPlace?.errors?.required)
+                          (submitted && f.communeBirthPlace?.errors?.required)
                         "
                         class="invalid-form"
                       >
@@ -974,8 +918,7 @@
                         [ngClass]="
                           (f.streetBirthPlace.errors &&
                             f.streetBirthPlace?.touched) ||
-                          (submitted &&
-                            f.streetBirthPlace?.errors?.required)
+                          (submitted && f.streetBirthPlace?.errors?.required)
                             ? 'is-invalid'
                             : ''
                         "
@@ -997,26 +940,16 @@
                                   modalOpenCreateStreetBirthPlace
                                 )
                               "
-                              [disabled]="
-                                f.communeBirthPlace.value == null
-                              "
+                              [disabled]="f.communeBirthPlace.value == null"
                             >
                               <i data-feather="plus"></i>
-                              <span class="align-middle ml-25"
-                                >Thêm Đường</span
-                              >
+                              <span class="align-middle ml-25">Thêm Đường</span>
                             </button>
                           </div>
                         </ng-template>
-                        <ng-template
-                          #modalOpenCreateStreetBirthPlace
-                          let-modal
-                        >
+                        <ng-template #modalOpenCreateStreetBirthPlace let-modal>
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới thông tin Đường
                             </h5>
                             <button
@@ -1028,11 +961,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Trần Hưng Đạo</i></small
@@ -1051,10 +980,7 @@
                               type="button"
                               class="btn btn-success"
                               (click)="
-                                onSubmitCreateStreet(
-                                  2,
-                                  addBirthStreet.value
-                                )
+                                onSubmitCreateStreet(2, addBirthStreet.value)
                                   ? modal.close()
                                   : false
                               "
@@ -1073,8 +999,7 @@
                         *ngIf="
                           (f.streetBirthPlace.errors &&
                             f.streetBirthPlace?.touched) ||
-                          (submitted &&
-                            f.streetBirthPlace?.errors?.required)
+                          (submitted && f.streetBirthPlace?.errors?.required)
                         "
                         class="invalid-form"
                       >
@@ -1167,8 +1092,7 @@
                     <div class="col-sm-12">
                       <span
                         *ngIf="
-                          (submitted &&
-                            f.countryResidencePlace.errors) ||
+                          (submitted && f.countryResidencePlace.errors) ||
                           (submitted &&
                             f.countryResidencePlace?.errors?.required)
                         "
@@ -1226,10 +1150,7 @@
                           let-modal
                         >
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới Tỉnh/Thành phố
                             </h5>
                             <button
@@ -1241,11 +1162,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Đà Nẵng</i></small
@@ -1343,10 +1260,7 @@
                           let-modal
                         >
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới Quận/Huyện
                             </h5>
                             <button
@@ -1358,11 +1272,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Sơn Trà</i></small
@@ -1455,15 +1365,9 @@
                             </button>
                           </div>
                         </ng-template>
-                        <ng-template
-                          #modalOpenCreateResidenceCommune
-                          let-modal
-                        >
+                        <ng-template #modalOpenCreateResidenceCommune let-modal>
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới Xã/Phường
                             </h5>
                             <button
@@ -1475,11 +1379,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Thọ Quang</i></small
@@ -1573,26 +1473,16 @@
                                   modalOpenCreateResidenceStreet
                                 )
                               "
-                              [disabled]="
-                                f.communeResidencePlace.value == null
-                              "
+                              [disabled]="f.communeResidencePlace.value == null"
                             >
                               <i data-feather="plus"></i>
-                              <span class="align-middle ml-25"
-                                >Thêm Đường</span
-                              >
+                              <span class="align-middle ml-25">Thêm Đường</span>
                             </button>
                           </div>
                         </ng-template>
-                        <ng-template
-                          #modalOpenCreateResidenceStreet
-                          let-modal
-                        >
+                        <ng-template #modalOpenCreateResidenceStreet let-modal>
                           <div class="modal-header">
-                            <h5
-                              class="modal-title"
-                              id="myModalLabel160"
-                            >
+                            <h5 class="modal-title" id="myModalLabel160">
                               Thêm mới thông tin Đường
                             </h5>
                             <button
@@ -1604,11 +1494,7 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div
-                            class="modal-body"
-                            tabindex="0"
-                            ngbAutofocus
-                          >
+                          <div class="modal-body" tabindex="0" ngbAutofocus>
                             <div class="form-group">
                               <small class="text-muted">
                                 Ví dụ:<i>Trần Hưng Đạo</i></small
@@ -1688,8 +1574,7 @@
                             (f.homeNumberResidencePlace.errors &&
                               f.homeNumberResidencePlace?.touched) ||
                             (submitted &&
-                              f.homeNumberResidencePlace?.errors
-                                ?.required)
+                              f.homeNumberResidencePlace?.errors?.required)
                               ? 'is-invalid'
                               : ''
                           "
@@ -1702,8 +1587,7 @@
                           (f.homeNumberResidencePlace.errors &&
                             f.homeNumberResidencePlace?.touched) ||
                           (submitted &&
-                            f.homeNumberResidencePlace?.errors
-                              ?.required)
+                            f.homeNumberResidencePlace?.errors?.required)
                         "
                         class="invalid-form"
                       >
@@ -1726,6 +1610,7 @@
               >
                 Cập nhật
               </button>
+              <app-return [buttonReturn]="buttonReturn"></app-return>
               <swal (open)="confirmOpen()"></swal>
             </div>
           </form>
