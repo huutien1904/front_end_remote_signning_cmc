@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CertificateRequestService } from '../certificate-request.service';
 import * as x509 from "@peculiar/x509";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-certificate-request-view',
@@ -17,13 +18,15 @@ export class CertificateRequestViewComponent implements OnInit {
   public results: any[]
   public isHasResult: Boolean = false //Hiển thị kế quả thông tin csr trả về
   public buttonReturn: object;
-  public subjectDn:any
+  public subjectDn: any
+  public listFileUrl;
+  public dataCertificateRequest;
   // private
   private _unsubscribeAll: Subject<any>;
   constructor(
     private route: ActivatedRoute,
     private _certificateRequestService: CertificateRequestService,
-    //Khởi tạo service, đồng thời phải khởi tạo trong provider trong request module
+    private sanitizer: DomSanitizer,
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -35,10 +38,10 @@ export class CertificateRequestViewComponent implements OnInit {
       breadcrumbs: {
         links: [
           {
-            name:'Quay lại',
+            name: 'Quay lại',
             isLink: true,
             link: "/apps/tm/certificate-request/certificate-request-list",
-        }
+          }
         ]
       }
     };
@@ -50,7 +53,7 @@ export class CertificateRequestViewComponent implements OnInit {
       sizePublicKey: "",
       modulus: "",
       exponent: ""
-  }]
+    }]
     this.getCertificateRequestById();
   }
   getCertificateRequestById() {
@@ -61,8 +64,9 @@ export class CertificateRequestViewComponent implements OnInit {
       .getCertificateRequestById(id)
       .pipe(takeUntil(this._unsubscribeAll))
 
-      .subscribe((response:any) => {
-        console.log(response.data.certificateRequestContent)
+      .subscribe((response: any) => {
+        this.dataCertificateRequest = response
+        console.log(response)
         this.getCSRFileInformation(response.data.certificateRequestContent)
         // this.data = response.data
         // this.address = response.data.address
@@ -81,7 +85,7 @@ export class CertificateRequestViewComponent implements OnInit {
     console.log(csr2)
     var pki = forge.pki;
     this.results[0].subjectDN = csr2.subject
-    
+
     //this.results[0].sizePublicKey = csr2.publicKey.n.bitLength()
     this.results[0].algorithmPublicKey = csr2.signatureAlgorithm.name
     //this.results[0].exponent = csr2.publicKey.e.data
@@ -121,41 +125,24 @@ export class CertificateRequestViewComponent implements OnInit {
     }
     console.log(modulus)
     this.results[0].modulus = modulus
-    this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1','C').replace('2.5.4.20','Phone_Number').replace('E=','gmail')
+    this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'Phone_Number').replace('E=', 'gmail')
     console.log(this.results[0].subjectDN)
     let check = this.results[0].subjectDN
-    this.subjectDn= this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1','C').replace('2.5.4.20','Phone_Number ').replace('E=','Gmail = ').replace('2.5.4.9','STREET ')
+    this.subjectDn = this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'Phone_Number ').replace('E=', 'Gmail = ').replace('2.5.4.9', 'STREET ')
     // console.log(tien)
     return this.results[0];
   }
-  // selectIdUserFirst(value) {
-  //   // console.log(event.target.value)
-  //   // console.log(value)
-  //   this.inputService.findListPersional(value).subscribe((res: any) => {
-  //     //If api return true: show toast success
-  //     if (res.result === true) {
-  //       // console.log(res.data)
-  //       this.subscriberIdList = []
-  //       for (let i = 0; i < res.data.length; i++) {
-  //         this.subscriberIdList = [...this.subscriberIdList, {
-  //           id: res.data[i].subscriberId,
-  //           content: res.data[i].subscriberId + ", Họ & Tên: "
-  //             + res.data[i].personalFirstName + " "
-  //             + res.data[i].personalMiddleName + " "
-  //             + res.data[i].personalLastName + ", CCCD: "
-  //             + res.data[i].personalCountryId + ", Email: "
-  //             + res.data[i].email
-  //         }]
-  //       }
-  //       this.formSubmitOne.get("subscriberIdForm").setValue(this.subscriberIdList[0])
-  //     }
-  //     // and vice versa
-  //     if (res.result === false) {
 
-  //     }
-  //   })
-
-  // }
+  downloadCertificate() {
+    const data = this.dataCertificateRequest.data.certificateRequestContent
+    console.log(data)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    // this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    //   window.URL.createObjectURL(blob)
+    // );
+    const url= window.URL.createObjectURL(blob);
+    window.open(url);
+  }
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();

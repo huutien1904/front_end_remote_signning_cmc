@@ -46,6 +46,11 @@ export class CertificateRequestListComponent implements OnInit {
   public listFileUrl;
   public results: any[];
   public dataExport: any;
+  public statusCertificate =[
+    {
+      status:"Tạo mới"
+    }
+  ]
   constructor(
     private fb: FormBuilder,
     private _listCerReqService: CertificateRequestListService,
@@ -170,12 +175,12 @@ export class CertificateRequestListComponent implements OnInit {
   downloadSidebar(row) {
     const data = row.certificateRequestContent;
     console.log(row);
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'pem' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
     row.fileName =
-      row.keypairAlias + 'requestId' + row.certificateRequestId + '.csr';
+      row.keypairAlias + ".pem";
     console.log(row);
   }
   downloadList() {
@@ -187,7 +192,7 @@ export class CertificateRequestListComponent implements OnInit {
       return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
     });
     console.log(data);
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'pem' });
     this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
@@ -335,20 +340,22 @@ export class CertificateRequestListComponent implements OnInit {
       })
   }
   // delete list item certificate
-  deleteListCertificate(){
+  async deleteListCertificate(){
+    var selectedCertificate = this.selected
+    this.selected = []
     console.log(this.selected)
-    Swal.fire({
+    await Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
       preConfirm: async () => {
-        console.log("chay den day chua")
-        this.selected.map((item) =>{
+        selectedCertificate.map((item) =>{
           this.deleteRequestCertificate(item.certificateRequestId)
         })
-        this.selected = [];
+        this.selected = []
+        console.log(this.selected)
       },
       cancelButtonColor: '#E42728',
       cancelButtonText: "Thoát",
@@ -373,8 +380,10 @@ export class CertificateRequestListComponent implements OnInit {
         });
       }
     }
-
+    
     );
+    this.selected = []
+    console.log(this.selected)
   }
   /**
    * Custom Checkbox On Select
@@ -391,6 +400,7 @@ export class CertificateRequestListComponent implements OnInit {
    * @param selected
    */
   onSelect({ selected }) {
+    this.selected = []
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }

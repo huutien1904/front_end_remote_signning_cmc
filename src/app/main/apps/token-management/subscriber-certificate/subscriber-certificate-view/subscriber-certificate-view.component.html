@@ -321,6 +321,16 @@
         </form>
       </div>
       <div class="col-12 button_summit d-flex justify-content-end pb-1">
+        <a [href]="listFileUrl" download="Chứng thư số.txt">
+          <button
+            class="btn btn-outline-secondary ml-50 mr-1"
+            (click)="downloadSubscriber()"
+            rippleEffect
+          >
+            <i data-feather="download" class="d-sm-none d-inline-block"></i>
+            <span class="d-none d-sm-inline-block">Tải về</span>
+          </button>
+        </a>
         <app-return [buttonReturn]="buttonReturn"> </app-return>
       </div>
     </core-card>
