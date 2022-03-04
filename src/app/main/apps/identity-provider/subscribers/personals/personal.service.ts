@@ -102,6 +102,12 @@ export class PersonalService {
       this.option
     );
   }
+  public getPersonal(): Observable<ResponseData<Personal>> {
+    return this._httpClient.get<ResponseData<Personal>>(
+      `${environment.apiUrl}/staff/self-info`,
+      this.option
+    );
+  }
 
   getDetailPersonal(id: string): Observable<ResponseData<PersonalDetail>> {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
