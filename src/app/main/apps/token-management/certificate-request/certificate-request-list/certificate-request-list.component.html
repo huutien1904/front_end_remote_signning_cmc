@@ -10,17 +10,6 @@
             [formGroup]="formListCertificateRequest"
           >
             <div class="row mb-1">
-              <div class="col-md-4">
-                <label class="label">Nhập một phần tên , email, trạng thái</label>
-                <input
-                  name="contains"
-                  id="contains"
-                  type="search"
-                  class="form-control"
-                  formControlName="contains"
-                  placeholder="Một phần tên, email, alias,trạng thái"
-                />
-              </div>
               <div class="col-md-2">
                 <label class="label">Trạng thái</label>
                   <ng-select
@@ -32,6 +21,18 @@
                   >
                   </ng-select>
               </div>
+              <div class="col-md-4">
+                <label class="label">Nhập một phần tên , email, trạng thái</label>
+                <input
+                  name="contains"
+                  id="contains"
+                  type="search"
+                  class="form-control"
+                  formControlName="contains"
+                  placeholder="Một phần tên, email, alias,trạng thái"
+                />
+              </div>
+              
               <div class="col-3 col-md-2 mt-2">
                 <button
                   type="button"
@@ -157,7 +158,7 @@
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa yêu cầu </span>
             </button>
-            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.pem">
+            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.csr.csr">
               <button
                 class="btn btn-outline-secondary ml-50"
                 (click)="downloadList()"

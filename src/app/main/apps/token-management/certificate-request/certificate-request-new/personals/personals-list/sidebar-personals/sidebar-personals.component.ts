@@ -26,6 +26,7 @@ import { PersonalDetail } from 'app/main/models/Personal';
 import { AddressService } from 'app/main/apps/identity-provider/address.service';
 import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
 import { controllers } from 'chart.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-personals',
@@ -90,7 +91,8 @@ export class SidebarPersonalsComponent implements OnInit {
     private _hsmService: HsmService,
     private sanitizer: DomSanitizer,
     private _addressService: AddressService,
-    private _entityProfileService: EntityProfileService
+    private _entityProfileService: EntityProfileService,
+    private router : Router
   ) { }
   public hsmListSub = new Subject();
   async ngOnInit() {
@@ -153,13 +155,13 @@ export class SidebarPersonalsComponent implements OnInit {
     this.modal.open(this.modalLink);
     const data = res.data.certificateRequestContent;
     console.log(data)
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'csr' });
     console.log(blob)
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
     // this.fileName = res.data.certificateRequestId + '.csr';
-    this.fileName = res.data.keypairAlias + '.csr';
+    this.fileName = res.data.keypairAlias + '.csr.csr';
     console.log(this.fileName)
   }
   changeCrypto() {
@@ -268,6 +270,7 @@ export class SidebarPersonalsComponent implements OnInit {
           }
         );
         this.downloadSidebar(res);
+        this.router.navigate(['/apps/tm/certificate-request/certificate-request-list']);
       }
     });
   }

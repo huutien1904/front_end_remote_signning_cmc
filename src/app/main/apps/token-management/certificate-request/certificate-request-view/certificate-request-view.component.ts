@@ -20,6 +20,7 @@ export class CertificateRequestViewComponent implements OnInit {
   public buttonReturn: object;
   public subjectDn: any
   public listFileUrl;
+  public fileName;
   public dataCertificateRequest;
   // private
   private _unsubscribeAll: Subject<any>;
@@ -81,7 +82,7 @@ export class CertificateRequestViewComponent implements OnInit {
     csrString = csrString.replace("NEW ", "").replace("NEW ", "")
     var forge = require('node-forge');
     //var csr = forge.pki.certificationRequestFromPem(csrString);
-    const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+    const csr2:any = new x509.Pkcs10CertificateRequest(csrString);
     console.log(csr2)
     var pki = forge.pki;
     this.results[0].subjectDN = csr2.subject
@@ -96,6 +97,8 @@ export class CertificateRequestViewComponent implements OnInit {
     if (csr2.publicKey.algorithm.name === 'ECDSA') {
       this.results[0].subjectDN = csr2.subject;
       this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name;
+      this.results[0].sizePublicKey = csr2.publicKey.algorithm.namedCurve;
+
     }
     if (csr2.publicKey.algorithm.name === 'RSASSA-PKCS1-v1_5') {
       var csr = forge.pki.certificationRequestFromPem(csrString);
@@ -137,6 +140,7 @@ export class CertificateRequestViewComponent implements OnInit {
     const data = this.dataCertificateRequest.data.certificateRequestContent
     console.log(data)
     const blob = new Blob([data], { type: 'application/octet-stream' });
+    // this.fileName = "tien."
     // this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
     //   window.URL.createObjectURL(blob)
     // );

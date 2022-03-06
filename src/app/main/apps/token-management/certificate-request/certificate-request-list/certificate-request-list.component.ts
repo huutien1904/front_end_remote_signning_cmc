@@ -46,9 +46,9 @@ export class CertificateRequestListComponent implements OnInit {
   public listFileUrl;
   public results: any[];
   public dataExport: any;
-  public statusCertificate =[
+  public statusCertificate = [
     {
-      status:"Tạo mới"
+      status: "Tạo mới"
     }
   ]
   constructor(
@@ -175,12 +175,12 @@ export class CertificateRequestListComponent implements OnInit {
   downloadSidebar(row) {
     const data = row.certificateRequestContent;
     console.log(row);
-    const blob = new Blob([data], { type: 'pem' });
+    const blob = new Blob([data], { type: 'csr' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
     row.fileName =
-      row.keypairAlias + ".pem";
+      row.keypairAlias + ".csr.csr";
     console.log(row);
   }
   downloadList() {
@@ -192,7 +192,7 @@ export class CertificateRequestListComponent implements OnInit {
       return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
     });
     console.log(data);
-    const blob = new Blob([data], { type: 'pem' });
+    const blob = new Blob([data], { type: 'csr' });
     this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
@@ -339,23 +339,35 @@ export class CertificateRequestListComponent implements OnInit {
         }
       })
   }
+  deleteListRequestCertificate(body) {
+    this._listCerReqService
+      .deleteListCertificateRequest(body)
+      .subscribe((res) => {
+        console.log(res)
+        if (res.result === true) {
+          this.setPage({
+            offset: 0,
+            pageSize: this.formListCertificateRequest.get('size').value
+          })
+        }
+      })
+  }
   // delete list item certificate
-  async deleteListCertificate(){
-    var selectedCertificate = this.selected
-    this.selected = []
-    console.log(this.selected)
-    await Swal.fire({
+  deleteListCertificate() {
+    var selectedCertificate = []
+        this.selected.map((item) => {
+          selectedCertificate.push(item.certificateRequestId)
+        })
+    Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
       preConfirm: async () => {
-        selectedCertificate.map((item) =>{
-          this.deleteRequestCertificate(item.certificateRequestId)
-        })
-        this.selected = []
-        console.log(this.selected)
+        
+        console.log(JSON.stringify({ "certListReq": selectedCertificate }))
+        this.deleteListRequestCertificate(JSON.stringify({ "certListReq": selectedCertificate }))
       },
       cancelButtonColor: '#E42728',
       cancelButtonText: "Thoát",
@@ -378,9 +390,10 @@ export class CertificateRequestListComponent implements OnInit {
             confirmButton: 'btn btn-success'
           }
         });
+        
       }
     }
-    
+
     );
     this.selected = []
     console.log(this.selected)
@@ -420,7 +433,7 @@ export class CertificateRequestListComponent implements OnInit {
   }
   getCSRFileInformation(csrString) {
     var forge = require('node-forge');
-    const csr2 = new x509.Pkcs10CertificateRequest(csrString);
+    const csr2:any = new x509.Pkcs10CertificateRequest(csrString);
     console.log(csr2);
 
     //var csr = forge.pki.certificationRequestFromPem(csrString);
@@ -428,8 +441,11 @@ export class CertificateRequestListComponent implements OnInit {
 
     var pki = forge.pki;
     if (csr2.publicKey.algorithm.name === 'ECDSA') {
+      // var csr = forge.pki.certificationRequestFromPem(csrString);
+      // const csr2 = new x509.Pkcs10CertificateRequest(csrString);
       this.results[0].subjectDN = csr2.subject;
       this.results[0].algorithmPublicKey = csr2.publicKey.algorithm.name;
+      this.results[0].sizePublicKey = csr2.publicKey.algorithm.namedCurve;
     }
     if (csr2.publicKey.algorithm.name === 'RSASSA-PKCS1-v1_5') {
       var csr = forge.pki.certificationRequestFromPem(csrString);

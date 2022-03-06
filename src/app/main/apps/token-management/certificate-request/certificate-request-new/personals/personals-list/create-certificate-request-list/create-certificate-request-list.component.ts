@@ -31,6 +31,7 @@ import { PagedData } from 'app/main/models/PagedData';
 import { Keypair } from 'app/main/models/Keypair';
 import { KeypairListService } from 'app/main/apps/token-management/keypair/keypair-list/keypair-list.service';
 import { NgIfContext } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-certificate-request-list',
@@ -108,8 +109,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
     private _personalsService: PersonalsService,
     private toastr: ToastrService,
     private _hsmService: HsmService,
-    private sanitizer: DomSanitizer,
-    private _addressService: AddressService,
+    private router: Router,
     private _entityProfileService: EntityProfileService,
     private _keypairService: KeypairListService
   ) {}
@@ -267,6 +267,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
               closeButton: true,
             }
           );
+          this.router.navigate(['/apps/tm/certificate-request/certificate-request-list']);
         }
       });
   }

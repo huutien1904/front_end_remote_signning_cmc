@@ -105,4 +105,8 @@ export class CertificateRequestListService{
     return this._httpClient.delete<ResponseData<PagedData<CertificateRequest>>>
       (`${environment.apiUrl}/certificate-request/delete-by-role/${id}`,this.option);
   }
+  public deleteListCertificateRequest(body): Observable<ResponseData<PagedData<CertificateRequest>>> {
+    return this._httpClient.post<ResponseData<PagedData<CertificateRequest>>>
+      (`${environment.apiUrl}/certificate-request/delete-by-role/list`,body,this.option);
+  }
 }
