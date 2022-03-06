@@ -25,34 +25,40 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="lable text-uppercase">Tên EntityProfile:</label>
-                  <div
-                    class="input-group input-group-merge"
-                    [ngClass]="
-                      (f.endEntityProfileName.errors &&
-                        f.endEntityProfileName?.touched) ||
-                      (submitted && f.endEntityProfileName?.errors?.required)
-                        ? 'is-invalid'
-                        : ''
-                    "
-                  >
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i data-feather="user"></i>
-                      </span>
+                  <div class="col-12 col-md-12 mb-1 d-flex p-0">
+                    <div class="col-9 col-md-9 p-0">
+                      <div
+                        class="input-group input-group-merge"
+                        [ngClass]="
+                          (f.endEntityProfileName.errors &&
+                            f.endEntityProfileName?.touched) ||
+                          (submitted &&
+                            f.endEntityProfileName?.errors?.required)
+                            ? 'is-invalid'
+                            : ''
+                        "
+                      >
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i data-feather="user"></i>
+                          </span>
+                        </div>
+                        <input
+                          placeholder="Tên Profile"
+                          type="text"
+                          formControlName="endEntityProfileName"
+                          class="form-control"
+                          [ngClass]="
+                            (f.endEntityProfileName.errors &&
+                              f.endEntityProfileName?.touched) ||
+                            (submitted &&
+                              f.endEntityProfileName?.errors?.required)
+                              ? 'is-invalid'
+                              : ''
+                          "
+                        />
+                      </div>
                     </div>
-                    <input
-                      placeholder="Tên Profile"
-                      type="text"
-                      formControlName="endEntityProfileName"
-                      class="form-control"
-                      [ngClass]="
-                        (f.endEntityProfileName.errors &&
-                          f.endEntityProfileName?.touched) ||
-                        (submitted && f.endEntityProfileName?.errors?.required)
-                          ? 'is-invalid'
-                          : ''
-                      "
-                    />
                   </div>
                   <div class="">
                     <span
@@ -73,11 +79,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- end name profile -->
-            <!-- select typeProfile  -->
-            <div class="row">
-              <div class="col-12">
+              <div class="col-12 col-md-4">
                 <label class="lable text-uppercase">Loại Profile:</label>
                 <div class="col-12 col-md-12 mb-1 d-flex p-0">
                   <div class="col-9 col-md-9 p-0">
@@ -114,6 +116,9 @@
                 </div>
               </div>
             </div>
+            <!-- end name profile -->
+            <!-- select typeProfile  -->
+            <div class="row"></div>
             <!-- end typeProfile -->
             <!-- select Subject DN Attributes -->
             <div class="row">
@@ -403,7 +408,26 @@
             </div>
             <!-- end Subject DN Alternative Name -->
             <!-- submit -->
-            <div class="col-12 col-md-11 justify-content-center pl-0 pt-1">
+            <div class="row mt-1">
+              <div class="col-12">
+                <div class="col-sm-12 mb-1 col-md-12 d-flex p-0">
+                  <div class="col-9 col-md-9 p-0"></div>
+                  <div class="col-4 col-md-2">
+                    <button
+                      type="submit"
+                      rippleEffect
+                      class="col-md-6 btn btn-primary justify-content-center d-flex mx-auto"
+                      [swal]="SweetAlertConfirm"
+                      rippleEffect
+                    >
+                      Tạo
+                    </button>
+                    <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-12 col-md-11 justify-content-center pl-0 pt-1">
               <button
                 type="submit"
                 rippleEffect
@@ -414,7 +438,7 @@
                 Tạo
               </button>
               <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
-            </div>
+            </div> -->
           </form>
         </div>
       </div>

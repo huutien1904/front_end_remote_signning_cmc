@@ -10,7 +10,15 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { RouterModule, Routes } from '@angular/router';
 
+const routes :Routes = [
+  {
+    path: 'authentication',
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule),
+    
+  },
+]
 @NgModule({
   declarations: [],
   imports: [
@@ -21,7 +29,8 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
     NgSelectModule,
     FormsModule,
     AuthenticationModule,
-    MiscellaneousModule
+    MiscellaneousModule,
+    RouterModule.forChild(routes),
   ],
 
   providers: []
