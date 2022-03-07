@@ -254,7 +254,7 @@ export class KeypairCreateComponent implements OnInit {
               closeButton: true,
             }
           );
-          this.closeModal();
+          this.router.navigate(['/apps/tm/keypair/keypair-list']);
         }
         if (res.result === false) {
           this._toastrService.error('Tên cặp khóa tồn tại', 'Thất Bại', {
