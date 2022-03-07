@@ -6,6 +6,7 @@ import { SubscriberCertificateService } from '../subscriber-certificate.service'
 import * as x509 from "@peculiar/x509";
 import * as forge from 'node-forge';
 import { DomSanitizer } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subscriber-certificate-view',
@@ -38,7 +39,8 @@ export class SubscriberCertificateViewComponent implements OnInit {
   public subject:any
   public algorithmPublicKey:any
   public sizePublicKey:any
-
+  public personalEmail:any
+  public personalFullName:any
   public createdAt:any
   public updatedAt:any
   // private
@@ -79,6 +81,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
       console.log(res)
       this.updatedAt = res.data.updatedAt
       this.createdAt = res.data.createdAt
+      this.personalEmail = res.data.email
       // this.data = res.data
       this.subscriberCertificateId = res.data.subscriberCertificateId
       let cer = res.data.certificateContent
@@ -114,7 +117,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
     console.log(this.dataSubscriberCertificate)
     const data = this.dataSubscriberCertificate
     console.log(data)
-    const blob = new Blob([data], { type: 'crt/octet-stream' });
+    const blob = new Blob([data], { type: 'crt' });
     this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
@@ -209,6 +212,13 @@ export class SubscriberCertificateViewComponent implements OnInit {
     }
     this.serialNumber = this.dataFromX509.serialNumber
     this.issuerDN = this.dataFromX509.issuer
+    console.log(this.issuerDN)
+    if(this.issuerDN.includes("CN=")){
+      this.personalFullName = this.issuerDN.slice(this.issuerDN.indexOf("=") + 1, this.issuerDN.indexOf(","));
+    }else{
+      this.personalFullName = "Chưa khởi tạo"
+    }
+    
     this.subject = this.dataFromX509.subject
     this.algorithmPublicKey = this.dataFromX509.publicKey.algorithm.name
     this.sizePublicKey = this.dataFromX509.publicKey.algorithm.modulusLength
@@ -289,6 +299,60 @@ export class SubscriberCertificateViewComponent implements OnInit {
     return "-----BEGIN CERTIFICATE-----\r\n" +
         atob(certificateBase64) +
         "\r\n-----END CERTIFICATE-----\r\n"
+  }
+
+  // delete subscriber certificate
+  // delete item subscriber certificate 
+  openConfirmDelete() {
+    const routerParams = this.route.snapshot.paramMap
+    const id = routerParams.get('id')
+    this.confirmRemoveRequestCertificate(id);
+  }
+  confirmRemoveRequestCertificate(subscriberCertificateId) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteSubscriberCertificate(subscriberCertificateId)
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+
+    );
+
+  }
+  deleteSubscriberCertificate(id) {
+    this._subscriberCertificateService
+      .deleteSubscriberCertificateById(id)
+      .subscribe((res) => {
+        if (res.result === true) {
+          this.router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-list']);
+        }
+      })
   }
 
   ngOnDestroy(): void {

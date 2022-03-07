@@ -60,6 +60,7 @@ export class CertificateRequestListComponent implements OnInit {
     private _router: Router,
     private _toastrService: ToastrService,
 
+
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -145,7 +146,7 @@ export class CertificateRequestListComponent implements OnInit {
         this.rowsData = pagedData.data.data.map((item) => ({
           ...item,
           subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
-            .subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'Phone_Number').replace('E=', 'gmail'),
+            .subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'telephoneNumber').replace('E=', 'gmail'),
           algorithmPublickey: this.getCSRFileInformation(
             item.certificateRequestContent
           ).algorithmPublicKey.includes('RSA')
@@ -180,22 +181,34 @@ export class CertificateRequestListComponent implements OnInit {
       window.URL.createObjectURL(blob)
     );
     row.fileName =
-      row.keypairAlias + ".csr.csr";
+      row.subjectDN.slice(row.subjectDN.indexOf("=") + 1, row.subjectDN.indexOf(",")) + ".csr.csr";
     console.log(row);
   }
   downloadList() {
-    console.log(this.selected);
-    // const data = this.selected.map()
-    var data = '';
-    this.selected.map((item) => {
-      // console.log(item.certificateRequestContent)
-      return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
-    });
-    console.log(data);
-    const blob = new Blob([data], { type: 'csr' });
-    this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
+    if (this.selected.length > 0) {
+      console.log(this.selected);
+      // const data = this.selected.map()
+      var data = '';
+      this.selected.map((item) => {
+        // console.log(item.certificateRequestContent)
+        return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
+      });
+      console.log(data);
+      const blob = new Blob([data], { type: 'csr' });
+      this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        window.URL.createObjectURL(blob)
+      );
+    } else {
+      this._toastrService.warning(
+        '👋 Bạn chưa chọn yêu cầu chứng thực',
+        'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    }
   }
 
   exportCSV() {
@@ -354,49 +367,64 @@ export class CertificateRequestListComponent implements OnInit {
   }
   // delete list item certificate
   deleteListCertificate() {
-    var selectedCertificate = []
-        this.selected.map((item) => {
-          selectedCertificate.push(item.certificateRequestId)
-        })
-    Swal.fire({
-      title: 'Bạn có chắc muốn xóa?',
-      text: "Bạn sẽ không thể hoàn tác điều này!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7367F0',
-      preConfirm: async () => {
-        
-        console.log(JSON.stringify({ "certListReq": selectedCertificate }))
-        this.deleteListRequestCertificate(JSON.stringify({ "certListReq": selectedCertificate }))
-      },
-      cancelButtonColor: '#E42728',
-      cancelButtonText: "Thoát",
-      confirmButtonText: 'Đúng, tôi muốn xóa!',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      allowOutsideClick: () => {
-        return !Swal.isLoading();
+    console.log(this.selected.length);
+    if(this.selected.length > 0){
+      var selectedCertificate = []
+      this.selected.map((item) => {
+        selectedCertificate.push(item.certificateRequestId)
+      })
+      this.selected = [];
+      Swal.fire({
+        title: 'Bạn có chắc muốn xóa?',
+        text: "Bạn sẽ không thể hoàn tác điều này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#7367F0',
+        preConfirm: async () => {
+          console.log(JSON.stringify({ "certListReq": selectedCertificate }))
+          this.deleteListRequestCertificate(JSON.stringify({ "certListReq": selectedCertificate }))
+        },
+        cancelButtonColor: '#E42728',
+        cancelButtonText: "Thoát",
+        confirmButtonText: 'Đúng, tôi muốn xóa!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        allowOutsideClick: () => {
+          return !Swal.isLoading();
+        }
+      }).then(function (result: any) {
+        console.log(result)
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Bạn đã xóa thành công',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
       }
-    }).then(function (result: any) {
-      console.log(result)
-      if (result.value) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Bạn đã xóa thành công',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-        
-      }
+  
+      );
+      this.selected = []
+      console.log(this.selected)
     }
-
-    );
-    this.selected = []
-    console.log(this.selected)
+    // if(this.selected.length == 0){
+    //   this._toastrService.warning(
+    //     '👋 Bạn chưa chọn yêu cầu chứng thực',
+    //     'Cảnh báo',
+    //     {
+    //       positionClass: 'toast-top-center',
+    //       toastClass: 'toast ngx-toastr',
+    //       closeButton: true,
+    //     }
+    //   );
+    // }
+    
+    
   }
   /**
    * Custom Checkbox On Select
@@ -433,7 +461,7 @@ export class CertificateRequestListComponent implements OnInit {
   }
   getCSRFileInformation(csrString) {
     var forge = require('node-forge');
-    const csr2:any = new x509.Pkcs10CertificateRequest(csrString);
+    const csr2: any = new x509.Pkcs10CertificateRequest(csrString);
     console.log(csr2);
 
     //var csr = forge.pki.certificationRequestFromPem(csrString);

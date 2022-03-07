@@ -1,130 +1,221 @@
-<core-card [actions]="['collapse']">
-    <h6 class="card-title"><b>Thông tin yêu cầu chứng thực</b></h6>
-    <div class="card-body">
-      <form class="form form-horizontal">
-        <div class="row">
-          <!--                            row dùng để hiển thị theo hàng được thiết kế: chia ra 1 hàng -->
+<div class="modal-header">
+  <h4 class="modal-title" id="myModalLabel1">
+    Chi tiết yêu cầu chứng thực của thuê bao : {{personalFullName}}
+  </h4>
+</div>
 
-          <div class="col-12">
-            <div class="card-body">
-              <div class="form-group row">
-                <div class="col-sm-3 col-form-label">
-                  <h6 class="card-title">Subject DN</h6>
-                </div>
-                <div class="col-sm-9 col-form-label">
-                  <p>
-                    <b>{{ subjectDn }}</b>
-                  </p>
-                </div>
-              </div>
+<div class="modal-body" tabindex="0" ngbAutofocus>
+  <section>
+    <!-- thông tin người dùng  -->
+    <core-card [actions]="['collapse']">
+      <h6 class="card-title"><b>Thông tin người dùng</b></h6>
+      <div class="card-body">
+        <form class="form form-horizontal ml-1">
+          <div class="row">
+            <div class="col-sm-5 ">
+              <label class="card-title">Tên Người Dùng </label>
+            </div>
+            <div class="col-sm-7">
+              <p><b>{{userName}}</b></p>
             </div>
           </div>
 
-          <div class="col-12">
-            <core-card [actions]="['collapse']">
-              <h6 class="card-title">Public Key Information</h6>
+          <div class="row">
+            <div class="col-sm-5">
+              <label class="card-title">Thư điện tử</label>
+            </div>
+            <div class="col-sm-7">
+              <p><b>{{personalEmail}}</b></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-5">
+              <label class="card-title">Tên thuê bao</label>
+            </div>
+            <div class="col-sm-7">
+              <p><b>{{personalFullName}}</b></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </core-card>
+    <!-- thông tin yêu cầu chứng thực -->
+    <core-card [actions]="['collapse']">
+      <h6 class="card-title"><b>Thông tin yêu cầu chứng thực</b></h6>
+      <div class="card-body">
+        <form class="form form-horizontal">
+          <div class="row">
+            <!--                            row dùng để hiển thị theo hàng được thiết kế: chia ra 1 hàng -->
+    
+            <div class="col-12">
               <div class="card-body">
-                <div class="col-12">
-                  <div class="form-group row">
-                    <div class="col-sm-3 col-form-label">
-                      <label>Algorithm PublicKey</label>
-                    </div>
-                    <div class="col-sm-9 col-form-label">
-                      <p>
-                        <b>{{
-                          results[0].algorithmPublicKey.includes("RSA")
-                            ? "RSA"
-                            : results[0].algorithmPublicKey.includes(
-                                "ECDSA"
-                              )
-                            ? "ECDSA"
-                            : results[0].algorithmPublicKey.includes(
-                                "DSA"
-                              )
-                            ? "DSA"
-                            : results[0].algorithmPublicKey.includes(
-                                "Ed25519"
-                              )
-                            ? "Ed25519"
-                            : "Ed448"
-                        }}</b>
-                      </p>
-                    </div>
+                <div class="form-group row">
+                  <div class="col-sm-3 col-form-label">
+                    <h6 class="card-title">Subject DN</h6>
                   </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-group row">
-                    <div class="col-sm-3 col-form-label">
-                      <label>Size PublicKey</label>
-                    </div>
-                    <div class="col-sm-9 col-form-label">
-                      <p>
-                        <b>{{ results[0].sizePublicKey }}</b>
-                      </p>
-                    </div>
+                  <div class="col-sm-9 col-form-label">
+                    <p>
+                      <b>{{ subjectDn }}</b>
+                    </p>
                   </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-group row">
-                    <div class="col-sm-3 col-form-label">
-                      <label>Modulus</label>
-                    </div>
-                    <div class="col-sm-9 col-form-label">
-                      <p>
-                        <b>{{ results[0].modulus }}</b>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-group row">
-                    <div class="col-sm-3 col-form-label">
-                      <label>Exponent</label>
-                    </div>
-                    <div class="col-sm-9 col-form-label">
-                      <p>
-                        <b>{{ results[0].exponent }}</b>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </core-card>
-          </div>
-
-          <div class="col-12">
-            <div class="card-body">
-              <div class="form-group row">
-                <div class="col-sm-3 col-form-label">
-                  <h6 class="card-title">Algorithm Signature</h6>
-                </div>
-                <div class="col-sm-9 col-form-label">
-                  <p>{{ results[0].algorithmSignature }}</p>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="col-12 button_summit d-flex justify-content-end pb-1">
-            <a [href]="listFileUrl" download="Yêu cầu chứng thực.txt">
-              <button
-                class="btn btn-outline-secondary ml-50 mr-1"
-                (click)="downloadCertificate()"
-                rippleEffect
-              >
-                <i data-feather="download" class="d-sm-none d-inline-block"></i>
-                <span class="d-none d-sm-inline-block">Tải về</span>
-              </button>
-            </a>
+    
+            <div class="col-12">
+              <core-card [actions]="['collapse']">
+                <h6 class="card-title">Public Key Information</h6>
+                <div class="card-body">
+                  <div class="col-12">
+                    <div class="form-group row">
+                      <div class="col-sm-3 col-form-label">
+                        <label>Algorithm PublicKey</label>
+                      </div>
+                      <div class="col-sm-9 col-form-label">
+                        <p>
+                          <b>{{
+                            results[0].algorithmPublicKey.includes('RSA')
+                              ? 'RSA'
+                              : results[0].algorithmPublicKey.includes('ECDSA')
+                              ? 'ECDSA'
+                              : results[0].algorithmPublicKey.includes('DSA')
+                              ? 'DSA'
+                              : results[0].algorithmPublicKey.includes('Ed25519')
+                              ? 'Ed25519'
+                              : 'Ed448'
+                          }}</b>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="col-12">
+                    <div class="form-group row">
+                      <div class="col-sm-3 col-form-label">
+                        <label>Size PublicKey</label>
+                      </div>
+                      <div class="col-sm-9 col-form-label">
+                        <p>
+                          <b>{{ results[0].sizePublicKey }}</b>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="col-12">
+                    <div class="form-group row">
+                      <div class="col-sm-3 col-form-label">
+                        <label>Modulus</label>
+                      </div>
+                      <div class="col-sm-9 col-form-label">
+                        <p>
+                          <b>{{ results[0].modulus }}</b>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="col-12">
+                    <div class="form-group row">
+                      <div class="col-sm-3 col-form-label">
+                        <label>Exponent</label>
+                      </div>
+                      <div class="col-sm-9 col-form-label">
+                        <p>
+                          <b>{{ results[0].exponent }}</b>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </core-card>
+            </div>
+    
+            <div class="col-12">
+              <div class="card-body">
+                <div class="form-group row">
+                  <div class="col-sm-3 col-form-label">
+                    <h6 class="card-title">Algorithm Signature</h6>
+                  </div>
+                  <div class="col-sm-9 col-form-label">
+                    <p>{{ results[0].algorithmSignature }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             
-            <app-return [buttonReturn]="buttonReturn"> </app-return>
+    
+            
+          </div>
+        </form>
+      </div>
+    </core-card>
+    <!-- thông tin thời gian -->
+    <core-card [actions]="['collapse']">
+      <h6 class="card-title"><b>Thông tin thời gian tạo & cập nhập</b></h6>
+      <div class="card-body ml-1">
+        <form class="form form-horizontal">
+          <div class="row">
+            <div class="col-sm-5">
+              <label class="card-title">Thời gian tạo</label>
+            </div>
+            <div class="col-sm-7">
+              <p>
+                <b>
+                {{ this.dataCertificateRequest.data.createdAt
+                  | date: 'dd/MM/YYYY' }}
+                </b>
+              </p>
+            </div>
           </div>
 
-          
-        </div>
-      </form>
-    </div>
-  </core-card>
+          <div class="row">
+            <div class="col-sm-5">
+              <label class="card-title">Cập nhật </label>
+            </div>
+            <div class="col-sm-7">
+              <p>
+                <b>
+                {{ this.dataCertificateRequest.data.updatedAt
+                  | date: 'dd/MM/YYYY' }}
+                </b>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 button_summit d-flex justify-content-end pb-1">
+        <!-- <a [href]="listFileUrl" download="Yêu cầu chứng thực.txt">
+          <button
+            class="btn btn-outline-secondary ml-50 mr-1"
+            (click)="downloadCertificate()"
+            rippleEffect
+          >
+            <i data-feather="download" class="d-sm-none d-inline-block"></i>
+            <span class="d-none d-sm-inline-block">Tải về</span>
+          </button>
+        </a> -->
+        <a [href]="listFileUrl" download="{{personalFullName}}.csr.csr">
+          <button
+            class="btn btn-outline-secondary ml-50 mr-1"
+            (click)="downloadCertificate()"
+            rippleEffect
+          >
+            <i data-feather="download" class="d-sm-none d-inline-block"></i>
+            <span class="d-none d-sm-inline-block">Tải về</span>
+          </button>
+        </a>
+        <button
+          class="btn btn-outline-secondary ml-50 mr-1"
+          (click)="openConfirmDelete()"
+          rippleEffect
+        >
+          <i data-feather="download" class="d-sm-none d-inline-block"></i>
+          <span class="d-none d-sm-inline-block">Xóa</span>
+        </button>
+        <app-return [buttonReturn]="buttonReturn"> </app-return>
+      </div>
+    </core-card>
+  </section>
+</div>

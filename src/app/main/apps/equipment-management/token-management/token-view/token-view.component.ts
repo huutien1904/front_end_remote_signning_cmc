@@ -53,12 +53,14 @@ export class TokenViewComponent implements OnInit {
   public totalItems: any = 0;
   public selected: any[] = [];
   public mechanismList :Array<MechanismInfo> = null;
+  public numberRow = 20;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private _tokenService: TokenService,
     private _hsmService: HsmService,
-    private   toastr: ToastrService
+    private   toastr: ToastrService,
+    
   ) {
     this._unsubscribeAll = new Subject();
    }
@@ -133,9 +135,11 @@ export class TokenViewComponent implements OnInit {
         numberSecretKeyEntry:res.data.keyInSlotDto.numberSecretKeyEntry,
         numberPrivateKeyEntry:res.data.keyInSlotDto.numberPrivateKeyEntry
       });
-      this.mechanismList = res.data.mechanismDtoList;
+      this.mechanismList = res.data.mechanismDtoList.map((item) => ({
+        ...item,
+        status:"Kích hoạt"
+      }));
     });
-    console.log("tien123",this.pagedData)
 
     
   }
@@ -163,7 +167,10 @@ export class TokenViewComponent implements OnInit {
         console.log(this.hsmList);
       });
   }
-
+  getSize(event){
+    console.log(event);
+    this.numberRow = event
+  }
   
 
   exit() {

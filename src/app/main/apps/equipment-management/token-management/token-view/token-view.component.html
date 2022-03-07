@@ -81,6 +81,24 @@
                 <div class="cart-header">
                   <h1>Danh sách các thuật toán mật mã</h1>
                 </div>
+                <div class="row" [ngbCollapse]="moreOption">
+                  <div class="col-md-2">
+                    <label for="">Số dòng:</label>
+                    <fieldset class="form-group">
+                      <ng-select
+                        [items]="sizePage"
+                        [clearable]="false"
+                        bindLabel = "sizePage"
+                        bindValue="sizePage"
+                        placeholder ="20"
+                        (change)="
+                          getSize($event)
+                        "
+                      ></ng-select>
+                    </fieldset>
+                  </div>
+                  
+                </div>
                 <ngx-datatable
                   #tableRowDetails
                   [rows]="mechanismList"
@@ -89,7 +107,7 @@
                   [headerHeight]="40"
                   [footerHeight]="50"
                   [rowHeight]="50"
-                  [limit]="10"
+                  [limit]="numberRow"
                 >
                   <!-- <ngx-datatable-column
                     [width]="50"
@@ -131,10 +149,7 @@
                     prop="mechanismName"
                     [width]="90"
                   >
-                    <ng-template
-                      ngx-datatable-cell-template
-                      let-row="row"
-                    >
+                    <ng-template ngx-datatable-cell-template let-row="row">
                       {{ row.mechanismName }}
                     </ng-template>
                   </ngx-datatable-column>
@@ -163,7 +178,11 @@
                     prop="isEncrypt"
                     [width]="30"
                   ></ngx-datatable-column>
-
+                  <ngx-datatable-column
+                    name="Trạng thái"
+                    prop="status"
+                    [width]="30"
+                  ></ngx-datatable-column>
                   <ngx-datatable-column
                     name="Hành động"
                     [width]="70"
@@ -198,13 +217,14 @@
                             aria-labelledby="dropdownBrowserState"
                           >
                             <a ngbDropdownItem class="d-flex align-items-center"
-                              ><i data-feather="check" class="mr-50"></i> Kích hoạt</a
+                              ><i data-feather="check" class="mr-50"></i> Kích
+                              hoạt</a
                             >
                             <a ngbDropdownItem class="d-flex align-items-center"
                               ><i data-feather="x" class="mr-50"></i> Vô hiệu
                               hoá</a
                             >
-                            
+
                             <a ngbDropdownItem class="d-flex align-items-center"
                               ><i data-feather="edit" class="mr-50"></i> Chi
                               tiết

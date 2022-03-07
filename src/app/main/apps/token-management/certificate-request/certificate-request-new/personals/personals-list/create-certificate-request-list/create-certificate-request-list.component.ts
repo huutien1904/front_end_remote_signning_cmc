@@ -229,13 +229,13 @@ export class CreateCertificateRequestListComponent implements OnInit {
   async onSubmit() {
     this.submitted = true;
     console.log(this.personals);
-
+    console.log(this.listSubjectDn);
     if (this.newRequestForm.invalid) {
       return;
     }
     let keypairIds = [];
     let body = [];
-    this.personals.forEach((personal) => {
+    this.personals.forEach((personal,index) => {
       console.log(personal.email);
       const newRequest = {
         cryptoAlgorithm: [
@@ -243,7 +243,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
             .cryptoSystem,
           this.newRequestForm.get('cryptoAlgorithm').get('keypairLength').value,
         ],
-        alias: personal.username + Math.floor(Math.random() * 10000 + 2),
+        alias: this.listSubjectDn[index].alias,
         tokenId: this.f.tokenId.value.tokenId,
         templateKeyId: '1',
         userId: personal.userId,

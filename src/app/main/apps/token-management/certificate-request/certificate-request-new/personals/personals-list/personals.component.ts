@@ -162,35 +162,23 @@ export class PersonalsComponent implements OnInit {
   }
   async createCertificateRequest(modalForm) {
     this.listSubjectDn = [];
-    if (this.selected.length > 0) {
-      this.selected.map((personal) => {
-        this._entityProfileService
-          .getSubjectDnById(personal.staffId, this.idProfile)
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe((res) => {
-            console.log(personal);
-            this.listSubjectDn.push({
-              subjectDn: JSON.stringify(res)
-                .replace('{', ' ')
-                .replace('}', ' ')
-                .replace(/['"]+/g, '')
-                .replace(/[":"]+/g, ' = '),
-              alias: personal.username + Math.floor(Math.random() * 1000 + 1),
-            });
+    this.selected.map((personal) => {
+      this._entityProfileService
+        .getSubjectDnById(personal.staffId, this.idProfile)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((res) => {
+          console.log(personal);
+          this.listSubjectDn.push({
+            subjectDn: JSON.stringify(res)
+              .replace('{', ' ')
+              .replace('}', ' ')
+              .replace(/['"]+/g, '')
+              .replace(/[":"]+/g, ' = '),
+            alias: personal.username + Math.floor(Math.random() * 1000 + 1),
           });
-      });
-      this.toggleSidebar(modalForm, this.selected[0]);
-    } else {
-      this.toastr.warning(
-        '👋 Bạn cần chọn thuê bao cá nhân trước',
-        'Cảnh báo',
-        {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true,
-        }
-      );
-    }
+        });
+    });
+    this.toggleSidebar(modalForm, this.selected[0]);
   }
   toggleSidebar(modalForm, item) {
     // console.log(this.)

@@ -148,7 +148,7 @@
                   >
                     <i data-feather="plus" class="d-sm-none d-inline-block"></i>
                     <span class="d-none d-sm-inline-block"
-                      >Nhập chứng thư số</span
+                      >Tải lên</span
                     >
                   </button>
                 </a>
@@ -163,10 +163,20 @@
                       class="d-sm-none d-inline-block"
                     ></i>
                     <span class="d-none d-sm-inline-block"
-                      >Tải chứng thư số</span
+                      >Tải về</span
                     >
                   </button>
                 </a>
+                <button
+                class="btn btn-outline-secondary ml-50"
+                rippleEffect
+                (click)="deleteListSubscriber()"
+              >
+                
+                <span class="d-none d-sm-inline-block"
+                  >Xóa</span
+                >
+              </button>
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
@@ -177,7 +187,7 @@
                     class="d-sm-none d-inline-block"
                   ></i>
                   <span class="d-none d-sm-inline-block"
-                    >Xuất danh sách chứng thư số
+                    >Xuất danh sách 
                   </span>
                 </button>
               </div>
@@ -354,8 +364,7 @@
                           [download]="row.fileName"
                           ngbDropdownItem
                           class="d-flex align-items-center"
-                          ><i data-feather="download" class="mr-50"></i>Tải dữ
-                          liệu
+                          ><i data-feather="download" class="mr-50"></i>Tải về
                         </a>
                       </div>
                     </div>
@@ -407,7 +416,7 @@
                   >
                     <i data-feather="plus" class="d-sm-none d-inline-block"></i>
                     <span class="d-none d-sm-inline-block"
-                      >Nhập chứng thư số</span
+                      >Tải lên</span
                     >
                   </button>
                 </a>
@@ -422,10 +431,23 @@
                       class="d-sm-none d-inline-block"
                     ></i>
                     <span class="d-none d-sm-inline-block"
-                      >Tải chứng thư số</span
+                      >Tải về</span
                     >
                   </button>
                 </a>
+                <button
+                    class="btn btn-outline-secondary ml-50"
+                    rippleEffect
+                    (click)="downloadList()"
+                  >
+                    <i
+                      data-feather="download"
+                      class="d-sm-none d-inline-block"
+                    ></i>
+                    <span class="d-none d-sm-inline-block"
+                      >Xóa</span
+                    >
+                  </button>
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
@@ -436,7 +458,7 @@
                     class="d-sm-none d-inline-block"
                   ></i>
                   <span class="d-none d-sm-inline-block"
-                    >Xuất danh sách chứng thư số
+                    >Xuất danh sách 
                   </span>
                 </button>
               </div>

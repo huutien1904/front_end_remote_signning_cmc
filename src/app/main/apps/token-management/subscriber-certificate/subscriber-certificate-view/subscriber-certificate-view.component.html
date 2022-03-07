@@ -1,18 +1,19 @@
 <div class="modal-header">
   <h4 class="modal-title" id="myModalLabel1">
-    Chi tiết chứng thư số của id : {{ subscriberCertificateId }}
+    Chi tiết chứng thư số của thuê bao : {{ personalFullName }}
   </h4>
 </div>
 
 <div class="modal-body" tabindex="0" ngbAutofocus>
   <section>
+    <!-- thông tin người dùng -->
     <core-card [actions]="['collapse']">
       <h6 class="card-title"><b>Thông tin người dùng</b></h6>
       <div class="card-body">
         <form class="form form-horizontal ml-1">
           <div class="row">
             <div class="col-sm-5 ">
-              <label class="card-title">Id người dùng liên quan</label>
+              <label class="card-title">Tên tài khoản</label>
             </div>
             <div class="col-sm-7">
               <p><b>subscriber0303-01</b></p>
@@ -21,25 +22,25 @@
 
           <div class="row">
             <div class="col-sm-5">
-              <label class="card-title">User Name</label>
+              <label class="card-title">Tên thuê bao</label>
             </div>
             <div class="col-sm-7">
-              <p><b>tien1904</b></p>
+              <p><b>{{personalFullName}}</b></p>
             </div>
           </div>
 
           <div class="row">
             <div class="col-sm-5">
-              <label class="card-title">Id yêu cầu chứng thực liên quan</label>
+              <label class="card-title">Email</label>
             </div>
             <div class="col-sm-7">
-              <p><b>certificate_00002</b></p>
+              <p><b>{{personalEmail}}</b></p>
             </div>
           </div>
         </form>
       </div>
     </core-card>
-
+    <!-- thông tin chứng thư số -->
     <core-card [actions]="['collapse']">
       <h6 class="card-title"><b>Thông tin chứng thư số</b></h6>
       <div class="card-body ml-1">
@@ -211,7 +212,7 @@
           </div>
           
 
-          <div class="row" >
+          <!-- <div class="row" >
             <div class="col-sm-5">
               <label class="card-title">Authority key identifier</label>
             </div>
@@ -220,9 +221,9 @@
                 <b></b>
               </p>
             </div>
-          </div>
+          </div> -->
 
-          <div class="row" >
+          <!-- <div class="row" >
             <div class="col-sm-5">
               <label class="card-title">Enhanced Key Usage</label>
             </div>
@@ -231,18 +232,18 @@
                 <b>{{ extKeyUsage }} </b>
               </p>
             </div>
-          </div>
+          </div> -->
 
-          <div class="row" >
+          <!-- <div class="row" >
             <div class="col-sm-5">
               <label class="card-title">Subject Key Identifier</label>
             </div>
-            <!-- <div class="col-sm-7 ">
+            <div class="col-sm-7 ">
                           <p><b>{{dataFromX509.extensions[3].keyId}}</b></p>
-                      </div> -->
-          </div>
+                      </div>
+          </div> -->
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-sm-5">
               <label class="card-title">Basic Constraints</label>
             </div>
@@ -262,7 +263,7 @@
                 <b>{{ keyUsage }}</b>
               </p>
             </div>
-          </div>
+          </div> -->
 
           <div class="row">
             <div class="col-sm-5">
@@ -289,6 +290,7 @@
       </div>
     </core-card>
 
+    <!--  thông tin thời gian -->
     <core-card [actions]="['collapse']">
       <h6 class="card-title"><b>Thông tin thời gian tạo & cập nhập</b></h6>
       <div class="card-body ml-1">
@@ -308,7 +310,7 @@
 
           <div class="row">
             <div class="col-sm-5">
-              <label class="card-title">Cập nhật </label>
+              <label class="card-title">Thời gian cập nhật </label>
             </div>
             <div class="col-sm-7">
               <p>
@@ -321,7 +323,7 @@
         </form>
       </div>
       <div class="col-12 button_summit d-flex justify-content-end pb-1">
-        <a [href]="listFileUrl" download="Chứng thư số.txt">
+        <a [href]="listFileUrl" download="{{personalFullName}}.crt.crt">
           <button
             class="btn btn-outline-secondary ml-50 mr-1"
             (click)="downloadSubscriber()"
@@ -331,6 +333,14 @@
             <span class="d-none d-sm-inline-block">Tải về</span>
           </button>
         </a>
+        <button
+            class="btn btn-outline-secondary ml-50 mr-1"
+            (click)="openConfirmDelete()"
+            rippleEffect
+          >
+            <i data-feather="download" class="d-sm-none d-inline-block"></i>
+            <span class="d-none d-sm-inline-block">Xóa</span>
+          </button>
         <app-return [buttonReturn]="buttonReturn"> </app-return>
       </div>
     </core-card>
