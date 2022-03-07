@@ -18,6 +18,7 @@ import { CreateSelfComponent } from './create-self/create-self.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SubscriberCertificateListComponent } from './subscriber-certificate-list/subscriber-certificate-list.component';
 import { CertificateRequestListComponent } from './certificate-request-list/certificate-request-list.component';
+import { ReturnModule } from 'app/layout/components/return/return.module';
 
 
 
@@ -40,6 +41,7 @@ const materialModules1234 = [MatDatepickerModule, MatNativeDateModule];
     ...materialModules1234,
     HttpClientModule,
     SweetAlert2Module,
+    ReturnModule,
     
   ],
   exports: [

@@ -24,6 +24,7 @@ export class AuthRegisterV2Component implements OnInit {
   public submitted = false;
   public roles = ['USER'];
   public notifiFalse = false;
+  public typeSubscription = ['Cá nhân','Tổ chức','Thiết bị/dịch vụ'];
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -154,7 +155,8 @@ export class AuthRegisterV2Component implements OnInit {
       password: ['', Validators.required],
       confPassword: ['', Validators.required],
       role: ['USER', Validators.required],
-      agree: [false, Validators.requiredTrue]
+      agree: [false, Validators.requiredTrue],
+      typeSubscription: ['', Validators.required],
      },
      {
       validator: MustMatch('password', 'confPassword')

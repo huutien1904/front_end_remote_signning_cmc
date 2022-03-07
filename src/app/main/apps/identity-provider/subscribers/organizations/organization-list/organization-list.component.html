@@ -105,9 +105,9 @@
             data-feather="plus"
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i
-          ><span class="d-none d-sm-inline-block">Tạo thuê bao</span>
+          ><span class="d-none d-sm-inline-block">Tạo</span>
         </button>
-        <input
+        <!-- <input
           #fileInput
           type="file"
           style="display: none"
@@ -124,7 +124,7 @@
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i>
           <span class="d-none d-sm-inline-block">Tạo danh sách thuê bao</span>
-        </button>
+        </button> -->
         <button
           csvLink
           class="btn btn-outline-secondary ml-50"
@@ -132,7 +132,7 @@
           [disabled]="selected.length === 0"
         >
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
-          <span class="d-none d-sm-inline-block">Xóa thuê bao</span>
+          <span class="d-none d-sm-inline-block">Xóa</span>
         </button>
         <ng-template #newOrganization let-modal>
           <div class="modal-header">
@@ -164,7 +164,7 @@
           (click)="exportCSV()"
         >
           <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
-          <span class="d-none d-sm-inline-block">Xuất danh sách thuê bao </span>
+          <span class="d-none d-sm-inline-block">Xuất danh sách</span>
         </button>
       </div>
     </div>
@@ -277,7 +277,7 @@
       <ngx-datatable-column
         name="Tên tổ chức"
         prop="organizationName"
-        [width]="280"
+        [width]="150"
       ></ngx-datatable-column>
 
       <ngx-datatable-column
@@ -292,11 +292,11 @@
         prop="leaderName"
         [width]="150"
       ></ngx-datatable-column>
-
-      <ngx-datatable-column 
-      name="Địa chỉ" 
-      [width]="150"
+      <ngx-datatable-column
+        name="Chức danh"
+        [width]="150"
       ></ngx-datatable-column>
+      <ngx-datatable-column name="Địa chỉ" [width]="150"></ngx-datatable-column>
 
       <ngx-datatable-column
         name="Hành động"
@@ -432,9 +432,9 @@
             data-feather="plus"
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i
-          ><span class="d-none d-sm-inline-block">Tạo thuê bao</span>
+          ><span class="d-none d-sm-inline-block">Tạo</span>
         </button>
-        <input
+        <!-- <input
           #fileInput
           type="file"
           style="display: none"
@@ -451,7 +451,7 @@
             class="d-sm-none d-inline-block mr-0 mr-sm-1"
           ></i>
           <span class="d-none d-sm-inline-block">Tạo danh sách thuê bao</span>
-        </button>
+        </button> -->
         <button
           csvLink
           class="btn btn-outline-secondary ml-50"
@@ -459,7 +459,7 @@
           [disabled]="selected.length === 0"
         >
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
-          <span class="d-none d-sm-inline-block">Xóa thuê bao</span>
+          <span class="d-none d-sm-inline-block">Xóa</span>
         </button>
         <button
           csvLink
@@ -468,7 +468,7 @@
           (click)="exportCSV()"
         >
           <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
-          <span class="d-none d-sm-inline-block">Xuất danh sách thuê bao </span>
+          <span class="d-none d-sm-inline-block">Xuất danh sách </span>
         </button>
       </div>
     </div>

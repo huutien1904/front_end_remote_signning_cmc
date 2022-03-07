@@ -17,6 +17,7 @@ import { KeypairListService } from './keypair-list.service';
 import { Keypair } from 'app/main/models/Keypair';
 import { Router } from '@angular/router';
 import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-keypair-list',
@@ -337,6 +338,63 @@ export class KeypairListComponent implements OnInit {
         }
       });
   }
+
+
+    // delete keypair
+    openConfirmDelete(keypairId) {
+      this.confirmRemoveKeypair(keypairId);
+    }
+    confirmRemoveKeypair(keypairId) {
+      Swal.fire({
+        title: 'Bạn có chắc muốn xóa?',
+        text: "Bạn sẽ không thể hoàn tác điều này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#7367F0',
+        preConfirm: async () => {
+          this.deleteKeypair(keypairId)
+        },
+        cancelButtonColor: '#E42728',
+        cancelButtonText: "Thoát",
+        confirmButtonText: 'Đúng, tôi muốn xóa!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        allowOutsideClick: () => {
+          return !Swal.isLoading();
+        }
+      }).then(function (result: any) {
+        console.log(result)
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Bạn đã xóa thành công',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
+      }
+  
+      );
+  
+    }
+    deleteKeypair(id) {
+      this._keypairService
+        .deleteKeypairById(id)
+        .subscribe((res) => {
+          if (res.result === true) {
+            this.setPage({
+              offset: 0,
+              pageSize: this.formListPersonal.get('size').value
+            })
+          }
+        })
+    }
+
+
   /**
    * On destroy
    */

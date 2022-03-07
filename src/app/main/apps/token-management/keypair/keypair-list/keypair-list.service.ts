@@ -36,4 +36,10 @@ export class KeypairListService {
     return this._httpClient.post<ResponseData<PagedData<Keypair>>>
     (`${environment.apiUrl}/keypair/search`,body,this.option);
   }
+
+  public deleteKeypairById(id): Observable<ResponseData<PagedData<Keypair>>> {
+    return this._httpClient.delete<ResponseData<PagedData<Keypair>>>
+      (`${environment.apiUrl}/keypair/delete-by-role/${id}`,this.option);
+  }
+
 }

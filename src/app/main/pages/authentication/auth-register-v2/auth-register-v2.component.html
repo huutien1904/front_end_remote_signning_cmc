@@ -33,14 +33,18 @@
     <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
       <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
         <h2 class="card-title font-weight-bold mb-1">Đăng ký tài khoản</h2>
-        <p class="text-danger" *ngIf = "notifiFalse">Tài khoản email đã tồn tại</p>
+        <p class="text-danger" *ngIf="notifiFalse">
+          Tài khoản email đã tồn tại
+        </p>
         <form
           class="auth-register-form mt-2"
           [formGroup]="registerForm"
           (ngSubmit)="onSubmit()"
         >
           <div class="form-group">
-            <label for="register-username" class="form-label">Username</label>
+            <label for="register-username" class="form-label"
+              >Tên tài khoản</label
+            >
             <input
               type="text"
               formControlName="username"
@@ -63,7 +67,42 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="register-email" class="form-label">Email</label>
+            <label for="typeSubscription" class="form-label"
+              >Loại thuê bao</label
+            >
+            <div class="">
+              <ng-select
+                [ngClass]="
+                  (f.typeSubscription.errors && f.typeSubscription?.touched) ||
+                  (submitted && f.typeSubscription?.errors?.required)
+                    ? 'is-invalid'
+                    : ''
+                "
+                [items]="typeSubscription"
+                [clearable]="false"
+                placeholder="Loại thuê bao"
+                formControlName="typeSubscription"
+              >
+              </ng-select>
+            </div>
+            <div class="">
+              <span
+                *ngIf="
+                  (f.typeSubscription.errors && f.typeSubscription?.touched) ||
+                  (submitted && f.typeSubscription?.errors?.required)
+                "
+                class="invalid-form"
+              >
+                <small class="form-text text-danger">
+                  Không được bỏ trống</small
+                >
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-email" class="form-label"
+              >Thư điện tử (Email)</label
+            >
             <input
               type="text"
               formControlName="email"
@@ -210,7 +249,7 @@
             rippleEffect
             (click)="onSubmit()"
           >
-          <swal (open)="confirmOpen()"></swal>
+            <swal (open)="confirmOpen()"></swal>
             Đăng ký
           </button>
         </form>
@@ -239,5 +278,4 @@
     </div>
     <!-- /Register-->
   </div>
-
 </div>
