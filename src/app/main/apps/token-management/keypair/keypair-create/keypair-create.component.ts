@@ -260,7 +260,6 @@ export class KeypairCreateComponent implements OnInit {
               closeButton: true,
             }
           );
-          this.closeModal();
           this.router.navigate(['/apps/tm/keypair/keypair-list']);
         }
         if (res.result === false) {

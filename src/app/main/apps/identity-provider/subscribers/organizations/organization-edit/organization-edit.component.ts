@@ -73,7 +73,7 @@ export class OrganizationEditComponent implements OnInit {
       phoneNumber: ['', [Validators.required,Validators.minLength(10)]],
       parentOrganizationName: ['', [Validators.required]],
       leaderName: ['', [Validators.required]],
-      position:[null, [Validators.required]],
+      position:[null],
     });
     this.formAddress = this.fb.group({
       address: ['', [Validators.required]],

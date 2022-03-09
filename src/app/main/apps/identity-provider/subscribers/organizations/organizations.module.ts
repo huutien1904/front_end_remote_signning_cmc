@@ -22,6 +22,7 @@ import { OrganizationViewService } from "./organization-view/organization-view.s
 import { AppRemoveSpace } from './remove-space.directive';
 import { ExitComponent } from './exit/exit.component';
 import { ReturnModule } from "app/layout/components/return/return.module";
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { ReturnModule } from "app/layout/components/return/return.module";
     RouterModule,
     ReturnModule,
     ContentHeaderModule,
+    SweetAlert2Module.forRoot(),
   ],
   exports: [
     NewOrganizationSidebarComponent,

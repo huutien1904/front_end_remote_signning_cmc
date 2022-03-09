@@ -505,9 +505,14 @@
           ></i>
           <span class="d-none d-sm-inline-block">Thêm Mới Danh Sách</span>
         </button> -->
-        <button class="btn btn-outline-secondary ml-50" rippleEffect>
+        <button
+          class="btn btn-outline-secondary ml-50"
+          rippleEffect
+          (click)="removeListPersonal()"
+        >
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
           <span class="d-none d-sm-inline-block">Xóa</span>
+          <swal (open)="confirmOpenDeleteListPersonal()"></swal>
         </button>
         <a
           csvLink

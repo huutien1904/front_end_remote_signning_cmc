@@ -47,7 +47,7 @@ export class OrganizationListComponent implements OnInit {
   public parentData: any[] = [];
   public totalItems: any = 0;
   public dataExport: any;
-  public data:any = {};
+  public data: any = {};
   public address: any;
   // end variable
   //private
@@ -148,20 +148,25 @@ export class OrganizationListComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((organizationList) => ({
+        this.rowsData = pagedData.data.data.map((organizationList: any) => ({
           ...organizationList,
+          // provinceName: this._addressService
+          //   .getProviceById(organizationList.address.provinceId)
+          //   .subscribe((res: any) => {
+          //     console.log(res);
+          //     organizationList = res.data.provinceName;
+          //     console.log(res.data.provinceName);
+          //     return res.data.provinceName;
+          //   }),
         }));
-        this.data = this.rowsData[0].address;
-        this.address = this.data.provinceId;
-        console.log(this.data);
-        console.log(this.address);
+        console.log(this.rowsData);
         console.log('check 115');
         console.log(this.rowsData);
         console.log(this.pagedData);
         this.isLoading = false;
       });
   }
-  
+
   /**
    * Custom Checkbox On Select
    *
@@ -209,6 +214,101 @@ export class OrganizationListComponent implements OnInit {
         console.log(this.typeOrganization);
       });
   }
+  removeListOrganization() {
+    if (this.selected.length > 0) {
+      this.confirmOpenDeleteListOrganization();
+    }
+  }
+  deleteOrganization(organizationId) {
+    console.log(organizationId);
+    this._organizationListService
+      .deleteOrganization(organizationId)
+      .subscribe((res) => {
+        this._toastrService.success(
+          'Xóa Thuê Bao tổ chức thành công ',
+          'Thành công',
+          { toastClass: 'toast ngx-toastr', closeButton: true }
+        );
+        this.setPage({
+          offset: 0,
+          pageSize: this.formListOrganizations.controls.size,
+        });
+      });
+  }
+  confirmOpenDeleteListOrganization() {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: 'Bạn sẽ không thể hoàn tác điều này!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        return this.selected.map((organization) => {
+          this.deleteOrganization(organization.organizationId);
+        });
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: 'Thoát',
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1',
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      },
+    }).then(function (result) {
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success',
+          },
+        });
+      }
+    });
+  }
+  openConfirmDelete(organizationId) {
+    console.log(organizationId);
+    this.confirmRemoveOrganization(organizationId);
+  }
+  confirmRemoveOrganization(organizationId) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: 'Bạn sẽ không thể hoàn tác điều này!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteOrganization(organizationId);
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: 'Thoát',
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1',
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      },
+    }).then(function (result: any) {
+      console.log(result);
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success',
+          },
+        });
+      }
+    });
+  }
+
   onInputExcel(event: any) {
     const targetFileExcel: DataTransfer = <DataTransfer>event.target;
     const reader: FileReader = new FileReader();

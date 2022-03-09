@@ -130,9 +130,11 @@
           class="btn btn-outline-secondary ml-50"
           rippleEffect
           [disabled]="selected.length === 0"
+          (click)="removeListOrganization()"
         >
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
           <span class="d-none d-sm-inline-block">Xóa</span>
+          <swal (open)="confirmOpenDeleteListOrganization()"></swal>
         </button>
         <ng-template #newOrganization let-modal>
           <div class="modal-header">
@@ -296,7 +298,8 @@
         name="Chức danh"
         [width]="150"
       ></ngx-datatable-column>
-      <ngx-datatable-column name="Địa chỉ" [width]="150"></ngx-datatable-column>
+      <!-- <ngx-datatable-column name="Địa chỉ" [width]="150">
+      </ngx-datatable-column> -->
 
       <ngx-datatable-column
         name="Hành động"
@@ -344,8 +347,12 @@
                   href="javascript:void(0)"
                   ngbDropdownItem
                   class="d-flex align-items-center"
-                  ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
-                >
+                  (click)="openConfirmDelete(value.organizationId)"
+                  ><i data-feather="trash-2" class="mr-50"></i> Xóa
+                  <swal
+                    (open)="confirmRemoveOrganization(value.organizationId)"
+                  ></swal>
+                </a>
               </div>
             </div>
 
@@ -457,9 +464,11 @@
           class="btn btn-outline-secondary ml-50"
           rippleEffect
           [disabled]="selected.length === 0"
+          (click)="removeListOrganization()"
         >
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
           <span class="d-none d-sm-inline-block">Xóa</span>
+          <swal (open)="confirmOpenDeleteListOrganization()"></swal>
         </button>
         <button
           csvLink
