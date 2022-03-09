@@ -184,7 +184,8 @@ export class CertificateRequestListComponent implements OnInit {
       row.subjectDN.slice(row.subjectDN.indexOf("=") + 1, row.subjectDN.indexOf(",")) + ".csr.csr";
     console.log(row);
   }
-  downloadList() {
+  downloadList(event) {
+    console.log(event)
     if (this.selected.length > 0) {
       console.log(this.selected);
       // const data = this.selected.map()
@@ -199,6 +200,7 @@ export class CertificateRequestListComponent implements OnInit {
         window.URL.createObjectURL(blob)
       );
     } else {
+      
       this._toastrService.warning(
         '👋 Bạn chưa chọn yêu cầu chứng thực',
         'Cảnh báo',
@@ -208,6 +210,7 @@ export class CertificateRequestListComponent implements OnInit {
           closeButton: true,
         }
       );
+      event.defaultPrevented = true;
     }
   }
 
@@ -367,13 +370,15 @@ export class CertificateRequestListComponent implements OnInit {
   }
   // delete list item certificate
   deleteListCertificate() {
-    console.log(this.selected.length);
+    console.log("1",this.selected.length);
+    console.log("check",this.selected);
     if(this.selected.length > 0){
+      console.log("2.1")
+
       var selectedCertificate = []
       this.selected.map((item) => {
         selectedCertificate.push(item.certificateRequestId)
       })
-      this.selected = [];
       Swal.fire({
         title: 'Bạn có chắc muốn xóa?',
         text: "Bạn sẽ không thể hoàn tác điều này!",
@@ -411,18 +416,20 @@ export class CertificateRequestListComponent implements OnInit {
       );
       this.selected = []
       console.log(this.selected)
+      return 0;
     }
-    // if(this.selected.length == 0){
-    //   this._toastrService.warning(
-    //     '👋 Bạn chưa chọn yêu cầu chứng thực',
-    //     'Cảnh báo',
-    //     {
-    //       positionClass: 'toast-top-center',
-    //       toastClass: 'toast ngx-toastr',
-    //       closeButton: true,
-    //     }
-    //   );
-    // }
+    if(this.selected.length == 0){
+      console.log("2.2")
+      this._toastrService.warning(
+        '👋 Bạn chưa chọn yêu cầu chứng thực',
+        'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    }
     
     
   }

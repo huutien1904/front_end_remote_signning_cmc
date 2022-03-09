@@ -393,7 +393,46 @@ export class KeypairListComponent implements OnInit {
           }
         })
     }
-
+    //  delete list keypair
+    deleteListKeypair(){
+      Swal.fire({
+        title: 'Bạn có chắc muốn xóa?',
+        text: "Bạn sẽ không thể hoàn tác điều này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#7367F0',
+        preConfirm: async () => {
+          this.selected.map((item) =>{
+            this.deleteKeypair(item.keypairId)
+          })
+          
+        },
+        cancelButtonColor: '#E42728',
+        cancelButtonText: "Thoát",
+        confirmButtonText: 'Đúng, tôi muốn xóa!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        allowOutsideClick: () => {
+          return !Swal.isLoading();
+        }
+      }).then(function (result: any) {
+        console.log(result)
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Bạn đã xóa thành công',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
+      }
+  
+      );
+    }
 
   /**
    * On destroy

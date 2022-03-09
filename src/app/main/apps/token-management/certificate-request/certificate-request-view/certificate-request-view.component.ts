@@ -77,7 +77,7 @@ export class CertificateRequestViewComponent implements OnInit {
       .subscribe((response: any) => {
         this.dataCertificateRequest = response
         this.personalEmail = response.data.email;
-        this.userName = response.data.us
+        this.userName = response.data.username
         console.log(response)
         this.getCSRFileInformation(response.data.certificateRequestContent)
         // this.data = response.data

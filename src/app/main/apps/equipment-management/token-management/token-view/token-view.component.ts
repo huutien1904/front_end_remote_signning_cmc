@@ -135,9 +135,9 @@ export class TokenViewComponent implements OnInit {
         numberSecretKeyEntry:res.data.keyInSlotDto.numberSecretKeyEntry,
         numberPrivateKeyEntry:res.data.keyInSlotDto.numberPrivateKeyEntry
       });
-      this.mechanismList = res.data.mechanismDtoList.map((item) => ({
+      this.mechanismList = res.data.mechanismDtoList.map((item,index) => ({
         ...item,
-        status:"Kích hoạt"
+        status: index % 2 == 0 ? "kích hoạt" : " chưa kích hoạt"
       }));
     });
 

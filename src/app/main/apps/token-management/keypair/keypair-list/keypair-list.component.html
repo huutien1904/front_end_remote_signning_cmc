@@ -173,6 +173,7 @@
               class="btn btn-outline-secondary ml-1"
               rippleEffect
               [disabled]="selected.length === 0"
+              (click) = " deleteListKeypair()"
             >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa cặp khóa</span>

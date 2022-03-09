@@ -291,7 +291,7 @@
     <!-- Modal Upload file -->
     <ng-template #modalUploadCert let-modal>
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel160">Nhập chứng thư số</h5>
+        <h3 class="modal-title" id="myModalLabel160">Tải lên</h3>
         <button
           type="button"
           class="close"
@@ -312,16 +312,17 @@
                   class="form-control custom-file-input"
                   name="file"
                   id="file"
+                  placeholder="Chọn chứng thư số"
                   (change)="onFileChange($event)"
                 />
-                <label for="certificate" class="custom-file-label"
-                  >Chọn chứng thư số</label
+                <label for="certificate" class="custom-file-label" 
+                  >{{selectedSubscriber}} </label
                 >
-                <span
+                <label for="certificate"
                   *ngIf="formUploadCert.controls.certificateContent.value != null"
+                  class="mt-50"
                   ><i data-feather="check"></i
-                  >{{ formUploadCert.controls.certificateContent.value.name }}-Đã
-                  được chọn</span
+                  >Tải lên thành công</label
                 >
                 <div *ngIf="!fileUploaded" class="alert alert-danger">
                   Cần chọn chứng thư số.

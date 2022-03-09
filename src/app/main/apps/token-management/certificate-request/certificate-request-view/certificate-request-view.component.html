@@ -153,7 +153,7 @@
     </core-card>
     <!-- thông tin thời gian -->
     <core-card [actions]="['collapse']">
-      <h6 class="card-title"><b>Thông tin thời gian tạo & cập nhập</b></h6>
+      <h6 class="card-title"><b>Thông tin thời gian tạo & cập nhật</b></h6>
       <div class="card-body ml-1">
         <form class="form form-horizontal">
           <div class="row">
@@ -196,7 +196,7 @@
             <span class="d-none d-sm-inline-block">Tải về</span>
           </button>
         </a> -->
-        <a [href]="listFileUrl" download="{{personalFullName}}.csr.csr">
+        <a [href]="listFileUrl" download="{{personalFullName}}.csr">
           <button
             class="btn btn-outline-secondary ml-50 mr-1"
             (click)="downloadCertificate()"
@@ -207,11 +207,11 @@
           </button>
         </a>
         <button
-          class="btn btn-outline-secondary ml-50 mr-1"
+          class="btn btn-outline-danger ml-50 mr-1"
           (click)="openConfirmDelete()"
           rippleEffect
         >
-          <i data-feather="download" class="d-sm-none d-inline-block"></i>
+          <i data-feather="download" class="d-sm-none d-inline-block "></i>
           <span class="d-none d-sm-inline-block">Xóa</span>
         </button>
         <app-return [buttonReturn]="buttonReturn"> </app-return>

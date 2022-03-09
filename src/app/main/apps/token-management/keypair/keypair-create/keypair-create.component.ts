@@ -56,6 +56,7 @@ export class KeypairCreateComponent implements OnInit {
   public tokenList: any[] = [];
   public keypairAlias: any[] = [];
   public userIdList: any[] = [];
+  public disableAlias = false;
   public numberKeypair: any[] = [
     '1',
     '2',
@@ -206,11 +207,16 @@ export class KeypairCreateComponent implements OnInit {
   //   }
   // }
   disableTokenName(e){
-    // console.log(e);
+    console.log(e);
     if(e > 1 ){
       this.keypairFormView.controls['keypairAlias'].disable();
+      // this.disableAlias = !this.disableAlias
+      this.keypairFormView.controls['alias'].setValue(this.tokenList[0].tokenName + Math.floor(Math.random() * 1000 + 1));
+      // console.log(this.keypairAlias.controls['A'].value)
+      // console.log(this.keypairFormView.value)
     }
     else {
+      // this.disableAlias = false
       this.keypairFormView.controls['keypairAlias'].enable();
     }
     
@@ -235,7 +241,7 @@ export class KeypairCreateComponent implements OnInit {
       templateKeyId: '1',
       tokenId: this.keypairFormView.value.tokenList.tokenId,
       userId: this.keypairFormView.value.userId,
-      alias: this.keypairFormView.value.keypairAlias,
+      alias: this.keypairFormView.value.keypairAlias ? this.keypairFormView.value.keypairAlias : this.keypairFormView.value.alias
     };
     console.log(body);
     this._keypairServices
@@ -255,6 +261,7 @@ export class KeypairCreateComponent implements OnInit {
             }
           );
           this.closeModal();
+          this.router.navigate(['/apps/tm/keypair/keypair-list']);
         }
         if (res.result === false) {
           this._toastrService.error('Tên cặp khóa tồn tại', 'Thất Bại', {

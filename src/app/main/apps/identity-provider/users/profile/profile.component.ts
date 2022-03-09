@@ -260,7 +260,7 @@ export class ProfileComponent implements OnInit {
       gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email]],
-      certificate: [null, [Validators.required]],
+      // certificate: [null, [Validators.required]],
     });
     this.formUploadAvatar = this.fb.group({
       avatar: [null, Validators.required],
@@ -943,6 +943,8 @@ export class ProfileComponent implements OnInit {
 
   onSubmit() {
     if (!this.formInfoEdit.valid) {
+      console.log(this.formInfoEdit.value)
+      console.log("??")
       this.submitted = true;
       return;
     }

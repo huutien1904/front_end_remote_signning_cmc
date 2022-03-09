@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { DateAdapter } from "@angular/material/core";
+import { Router } from "@angular/router";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { CoreConfigService } from "@core/services/config.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -53,6 +54,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   public formListPersonal: FormGroup;
   public formUploadCert: FormGroup;
   public fileUploaded = true;
+  public selectedSubscriber = " Chọn chứng thư số"
   /**
    *
    * @param _personalService
@@ -71,7 +73,8 @@ export class SubscriberCertificateCreateComponent implements OnInit {
     private _keypairService: KeypairService,
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<any>,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -184,6 +187,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
   }
   onFileChange(event) {
     this.fileUploaded = true;
+    this.selectedSubscriber = event.target.files[0].name
     console.log(event);
     if (event.target.files.length > 0) {
       console.log(event.target.files);
@@ -214,6 +218,7 @@ export class SubscriberCertificateCreateComponent implements OnInit {
               }
             );
             this.modalRef.close();
+            this.router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-list']);
           } else {
             this.toastr.error("👋Chứng thư số cập nhật", "Thất bại", {
               positionClass: "toast-top-center",

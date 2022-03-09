@@ -118,7 +118,7 @@ export class KeypairViewComponent implements OnInit {
       console.log(token);
       const data = token.data
       this.keypairFormView.controls.cryptoSystem.patchValue(data.cryptoSystem);
-      this.keypairFormView.controls.keypairAlias.patchValue(data.keypairAlias);
+      this.keypairFormView.controls.keypairAlias.patchValue(data.keypairAlias.trim());
       this.keypairFormView.controls.keypairId.patchValue(data.keypairId);
       this.keypairFormView.controls.keypairLength.patchValue(data.keypairLength);
       this.keypairFormView.controls.keypairStatusName.patchValue(data.keypairStatusName);

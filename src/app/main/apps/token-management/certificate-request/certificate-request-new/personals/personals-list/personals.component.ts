@@ -161,24 +161,37 @@ export class PersonalsComponent implements OnInit {
       });
   }
   async createCertificateRequest(modalForm) {
-    this.listSubjectDn = [];
-    this.selected.map((personal) => {
-      this._entityProfileService
-        .getSubjectDnById(personal.staffId, this.idProfile)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((res) => {
-          console.log(personal);
-          this.listSubjectDn.push({
-            subjectDn: JSON.stringify(res)
-              .replace('{', ' ')
-              .replace('}', ' ')
-              .replace(/['"]+/g, '')
-              .replace(/[":"]+/g, ' = '),
-            alias: personal.username + Math.floor(Math.random() * 1000 + 1),
+    if(this.selected.length > 0){
+      this.listSubjectDn = [];
+      this.selected.map((personal) => {
+        this._entityProfileService
+          .getSubjectDnById(personal.staffId, this.idProfile)
+          .pipe(takeUntil(this._unsubscribeAll))
+          .subscribe((res) => {
+            console.log(personal);
+            this.listSubjectDn.push({
+              subjectDn: JSON.stringify(res)
+                .replace('{', ' ')
+                .replace('}', ' ')
+                .replace(/['"]+/g, '')
+                .replace(/[":"]+/g, ' = '),
+              alias: personal.username + Math.floor(Math.random() * 1000 + 1),
+            });
           });
-        });
-    });
-    this.toggleSidebar(modalForm, this.selected[0]);
+      });
+      this.toggleSidebar(modalForm, this.selected[0]);
+    }
+    else{
+      this.toastr.warning(
+        '👋 Bạn chưa chọn yêu cầu chứng thực',
+        'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    }
   }
   toggleSidebar(modalForm, item) {
     // console.log(this.)

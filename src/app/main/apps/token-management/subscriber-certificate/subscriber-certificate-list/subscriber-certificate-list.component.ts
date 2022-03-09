@@ -17,6 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
 import * as x509 from "@peculiar/x509";
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-subscriber-certificate-list',
@@ -65,6 +66,8 @@ export class SubscriberCertificateListComponent implements OnInit {
     private dateAdapter: DateAdapter<any>,
     private _router: Router,
     private sanitizer: DomSanitizer,
+    private toastr: ToastrService,
+
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -346,7 +349,8 @@ export class SubscriberCertificateListComponent implements OnInit {
       })
   }
   deleteListSubscriber(){
-    Swal.fire({
+    if(this.selected.length > 0){
+      Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
       text: "Bạn sẽ không thể hoàn tác điều này!",
       icon: 'warning',
@@ -383,6 +387,20 @@ export class SubscriberCertificateListComponent implements OnInit {
     }
 
     );
+    }
+    else{
+      this.toastr.warning(
+        '👋 Bạn chưa chọn chứng thư số để xóa ',
+        'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    }
+    
+    
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
