@@ -35,7 +35,7 @@ export class CreateSelfComponent implements OnInit {
   public display = 'none'; //default Variable
   /**@form */
   public newPersonal: FormGroup;
-  public buttonReturn:object;
+  public buttonReturn: object;
   public email;
   public image = '';
   public currentUser: User;
@@ -68,6 +68,7 @@ export class CreateSelfComponent implements OnInit {
   public streetResidencePlace: Street[];
   public organizationId: any[] = [];
   public checkSubmit: boolean = false;
+  public checkStreet = false;
   gender: any[] = ['Nam', 'Nữ'];
 
   /**
@@ -92,12 +93,12 @@ export class CreateSelfComponent implements OnInit {
       breadcrumbs: {
         links: [
           {
-            name:'Quay lại',
+            name: 'Quay lại',
             isLink: true,
-            link: "/pages/authentication/authentication/login",
-        }
-        ]
-      }
+            link: '/pages/authentication/authentication/login',
+          },
+        ],
+      },
     };
     this._unsubscribeAll = new Subject();
     this.newPersonal = this.fb.group({
@@ -121,7 +122,7 @@ export class CreateSelfComponent implements OnInit {
           Validators.pattern(/^[0-9]\d*$/),
         ],
       ],
-      organizationId: [null],
+      organizationId: [null, Validators.required],
       streetBirthPlace: [{ value: null, disabled: true }, Validators.required],
       countryBirthPlace: [
         this.countryBirthPlace[0].countryId,
@@ -158,7 +159,7 @@ export class CreateSelfComponent implements OnInit {
         { value: null, disabled: true },
         Validators.required,
       ],
-      gender: [null, [Validators.required]],
+      gender: [this.gender[0], [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
     });
     this.lastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -231,6 +232,7 @@ export class CreateSelfComponent implements OnInit {
     //   this._personalService.getPersonal().subscribe((res) => {
     //     console.log(res);
     //   });
+    this.getAllOrganization();
   }
 
   get f() {
@@ -249,6 +251,18 @@ export class CreateSelfComponent implements OnInit {
         });
       };
     }
+  }
+
+  getAllOrganization() {
+    this._personalService.getOrganizationId().subscribe((res) => {
+      this.organizationId = res.data;
+      console.log(res);
+      console.log(this.organizationId);
+    });
+  }
+
+  selectOrganization(e) {
+    this.newPersonal.controls['organizationId'].setValue(e.organizationId);
   }
 
   onSubmit() {
@@ -325,10 +339,6 @@ export class CreateSelfComponent implements OnInit {
     if (check) {
       this._router.navigate(['/apps/dashboard']);
     }
-  }
-
-  selectOrganization(e) {
-    this.newPersonal.controls['organizationId'].setValue(e.organizationId);
   }
 
   selectProvince(type) {
@@ -503,6 +513,10 @@ export class CreateSelfComponent implements OnInit {
         break;
       }
       case 1: {
+        if(this.checkStreet === false){
+          this.newPersonal.get('homeNumberResidencePlace').enable();
+          this.checkStreet = true;
+        }
         this.newPersonal.patchValue({
           homeNumberBirthPlace: null,
         });
@@ -510,6 +524,13 @@ export class CreateSelfComponent implements OnInit {
         break;
       }
     }
+  }
+
+  getHomeBirthDay(event) {
+    console.log(event.target.value);
+    this.newPersonal
+      .get('homeNumberResidencePlace')
+      .setValue(this.newPersonal.get('homeNumberBirthPlace').value);
   }
   modalOpenCreateStreet(modalSuccess) {
     this.modalService.open(modalSuccess, {

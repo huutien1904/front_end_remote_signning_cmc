@@ -16,11 +16,13 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   public url = this.router.url;
   public lastValue;
   public data;
+  public submitted = false;
   public buttonReturn: object;
   public endEntityProfileName: string;
   private _unsubscribeAll: Subject<any>;
   public contentHeader: object;
   public formEditProfile: FormGroup;
+  public typeProfile = ['Cá nhân','Tổ chức','Thiết bị/dịch vụ'];
   // declare subject DNA
   public SubjectDnAttrs = [
     {
@@ -353,6 +355,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       endEntityProfileName: [null, [Validators.required]],
       distinguishedName: this.fb.array([]),
       alternativeName: this.fb.array([]),
+      typeProfile: [this.typeProfile[0], Validators.required],
     });
 
     this._unsubscribeAll = new Subject();

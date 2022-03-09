@@ -66,7 +66,7 @@
                 </button>
               </div>
             </div>
-            <div class="row" [ngbCollapse]="moreOption">
+            <div class="row mt-1" [ngbCollapse]="moreOption">
               <div class="col-md-2">
                 <label for="">Số dòng:</label>
                 <fieldset class="form-group">
@@ -146,7 +146,7 @@
                   data-feather="plus"
                   class="d-sm-none d-inline-block mr-0 mr-sm-1"
                 ></i>
-                <span class="d-none d-sm-inline-block">Tạo Profile</span>
+                <span class="d-none d-sm-inline-block">Tạo</span>
               </button>
             </a>
             <button
@@ -155,7 +155,7 @@
               (click)="removeListProfile()"
             >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">Xóa Profile</span>
+              <span class="d-none d-sm-inline-block">Xóa</span>
               <swal (open)="confirmRemoveListProfile()"></swal>
             </button>
             <a
@@ -166,7 +166,7 @@
             >
               <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block"
-                >Xuất danh sách Profile</span
+                >Xuất danh sách</span
               ></a
             >
           </div>
@@ -325,7 +325,7 @@
                     class="dropdown-menu-right"
                     aria-labelledby="dropdownBrowserState"
                   >
-                    <a
+                    <!-- <a
                       [routerLink]="[
                         '../',
                         'profile-view',
@@ -335,7 +335,7 @@
                       class="d-flex align-items-center"
                       ><i data-feather="file-text" class="mr-50"></i> Chi
                       tiết</a
-                    >
+                    > -->
 
                     <a
                       [routerLink]="[
@@ -345,7 +345,7 @@
                       ]"
                       ngbDropdownItem
                       class="d-flex align-items-center"
-                      ><i data-feather="edit" class="mr-50"></i> Chỉnh sửa
+                      ><i data-feather="edit" class="mr-50"></i> Xem/Cập nhật
                     </a>
                     <a
                       ngbDropdownItem
@@ -410,7 +410,7 @@
                   data-feather="plus"
                   class="d-sm-none d-inline-block mr-0 mr-sm-1"
                 ></i>
-                <span class="d-none d-sm-inline-block">Tạo Profile</span>
+                <span class="d-none d-sm-inline-block">Tạo</span>
               </button>
             </a>
             <button
@@ -419,7 +419,7 @@
               (click)="removeListProfile()"
             >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">Xóa Profile</span>
+              <span class="d-none d-sm-inline-block">Xóa</span>
               <swal (open)="confirmRemoveListProfile()"></swal>
             </button>
             <a
@@ -430,7 +430,7 @@
             >
               <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block"
-                >Xuất danh sách Profile</span
+                >Xuất danh sách</span
               >
             </a>
           </div>

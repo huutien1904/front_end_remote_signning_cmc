@@ -22,7 +22,7 @@
           >
             <!-- name profile -->
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-5">
                 <div class="form-group">
                   <label class="lable text-uppercase">Tên EntityProfile:</label>
                   <div class="col-12 col-md-12 mb-1 d-flex p-0">
@@ -82,7 +82,7 @@
               <div class="col-12 col-md-4">
                 <label class="lable text-uppercase">Loại Profile:</label>
                 <div class="col-12 col-md-12 mb-1 d-flex p-0">
-                  <div class="col-9 col-md-9 p-0">
+                  <div class="col-9 col-md-12 p-0">
                     <ng-select
                       [ngClass]="
                         (f.typeProfile.errors && f.typeProfile?.touched) ||
@@ -92,6 +92,7 @@
                       "
                       [items]="typeProfile"
                       bindLabel="typeProfile"
+                      placeholder="Loại Profile"
                       formControlName="typeProfile"
                     >
                     </ng-select>
@@ -117,12 +118,9 @@
               </div>
             </div>
             <!-- end name profile -->
-            <!-- select typeProfile  -->
-            <div class="row"></div>
-            <!-- end typeProfile -->
             <!-- select Subject DN Attributes -->
             <div class="row">
-              <div class="col-12">
+              <div class="col-12 mt-1">
                 <label class="lable text-uppercase"
                   >Subject DN Attributes:</label
                 >

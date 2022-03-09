@@ -260,7 +260,7 @@ export class ProfileComponent implements OnInit {
       gender: [null, [Validators.required]],
       birthday: [null, [Validators.required, Validators.minLength(22)]],
       email: [null, [Validators.required, Validators.email]],
-      certificate: [null, [Validators.required]],
+      // certificate: [null, [Validators.required]],
     });
     this.formUploadAvatar = this.fb.group({
       avatar: [null, Validators.required],

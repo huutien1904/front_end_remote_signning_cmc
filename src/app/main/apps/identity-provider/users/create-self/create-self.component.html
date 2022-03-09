@@ -386,6 +386,7 @@
                           <ng-select
                             [items]="gender"
                             [clearable]="false"
+                            bindLabel="gender"
                             formControlName="gender"
                             placeholder="Giới tính"
                             [ngClass]="
@@ -511,7 +512,8 @@
                             bindLabel="organizationName"
                             bindValue="organizationId"
                             [clearable]="true"
-                            placeholder="Chọn"
+                            (change)="selectOrganization($event)"
+                            placeholder="Tổ chức"
                             formControlName="organizationId"
                           >
                           </ng-select>
@@ -1041,6 +1043,7 @@
                               ? 'is-invalid'
                               : ''
                           "
+                          (change)="getHomeBirthDay($event)"
                         />
                       </div>
                     </div>
