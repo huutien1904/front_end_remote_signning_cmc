@@ -15,7 +15,9 @@
                     [items]="hsmList"
                     [clearable]="false"
                     bindLabel="hsmName"
-                   
+                    placeholder="Chọn"
+                    (change)="changeHsm()"
+                    formControlName="hsmList"
                   >
                   </ng-select>
                 </div>
@@ -26,8 +28,9 @@
                   <ng-select
                     [items]="tokenList"
                     [clearable]="false"
+                    placeholder="Chọn"
                     bindLabel="tokenName"
-                  
+                    formControlName="tokenList"
                   >
                   </ng-select>
                 </div>
@@ -59,7 +62,7 @@
                   <ng-select
                     [items]="keypairStatusName"
                     [clearable]="false"
-                    
+                    placeholder="Chọn"
                   ></ng-select>
                 </div>
               </div>
@@ -100,6 +103,12 @@
                     bindValue="sizePage"
                     [clearable]="false"
                     formControlName="size"
+                    (change)="
+                      setPage({
+                        offset: 0,
+                        pageSize: formListPersonal.controls.size
+                      })
+                    "
                   ></ng-select>
                 </fieldset>
               </div>

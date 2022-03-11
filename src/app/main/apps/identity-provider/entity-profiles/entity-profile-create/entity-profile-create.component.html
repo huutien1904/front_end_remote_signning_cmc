@@ -119,291 +119,294 @@
             </div>
             <!-- end name profile -->
             <!-- select Subject DN Attributes -->
-            <div class="row">
-              <div class="col-12 mt-1">
-                <label class="lable text-uppercase"
-                  >Subject DN Attributes:</label
-                >
-                <div class="col-12 col-md-12 mb-1 d-flex p-0">
-                  <div class="col-9 col-md-9 p-0">
-                    <ng-select
-                      [items]="SubjectDnAttrs"
-                      bindLabel="value"
-                      (change)="selectSubjectDNA($event)"
-                      [(ngModel)]="selectedDnA"
-                      [clearable]="false"
-                      [searchable]="true"
-                      [ngModelOptions]="{ standalone: true }"
-                    >
-                    </ng-select>
-                  </div>
-                  <div class="col-2 col-md-2">
-                    <button
-                      rippleEffect
-                      class="btn btn-primary d-flex justify-content-center mx-auto"
-                      (click)="addSubjectDistinguishedName()"
-                    >
-                      Thêm
-                    </button>
-                  </div>
-                </div>
-                <!-- list Subject DN Attributes -->
-                <ng-container formArrayName="distinguishedName">
-                  <div
-                    *ngFor="let dn of distinguishedName.controls; let i = index"
+              <div class="row">
+                <div class="col-12 mt-1">
+                  <label class="lable text-uppercase"
+                    >Subject DN Attributes:</label
                   >
-                    <div [formGroupName]="i">
-                      <div
-                        class="col-12 col-md-9 d-flex p-md-0 rounded form-custom mb-0-5"
+                  <div class="col-12 col-md-12 mb-1 d-flex p-0">
+                    <div class="col-9 col-md-9 p-0">
+                      <ng-select
+                        [items]="SubjectDnAttrs"
+                        bindLabel="value"
+                        (change)="selectSubjectDNA($event)"
+                        [(ngModel)]="selectedDnA"
+                        [clearable]="false"
+                        [searchable]="true"
+                        [ngModelOptions]="{ standalone: true }"
                       >
+                      </ng-select>
+                    </div>
+                    <div class="col-2 col-md-2">
+                      <button
+                        rippleEffect
+                        class="btn btn-primary d-flex justify-content-center mx-auto"
+                        (click)="addSubjectDistinguishedName()"
+                      >
+                        Thêm
+                      </button>
+                    </div>
+                  </div>
+                  <!-- list Subject DN Attributes -->
+                  <ng-container formArrayName="distinguishedName">
+                    <div
+                      *ngFor="
+                        let dn of distinguishedName.controls;
+                        let i = index
+                      "
+                    >
+                      <div [formGroupName]="i">
                         <div
-                          class="col-1 pl-0 pt-0-5 custom-control custom-checkbox mt-0-5 ml-md-1 pr-0"
+                          class="col-12 col-md-9 d-flex p-md-0 rounded form-custom mb-0-5"
                         >
-                          <input
-                            type="checkbox"
-                            [checked]="dn.value.isSelected"
-                            (change)="
-                              dn.value.isSelected = !dn.value.isSelected
-                            "
-                            class="custom-control-input"
-                            id="distinguishedNameCheckBox{{ i }}"
-                          />
-                          <label
-                            class="custom-control-label"
-                            for="distinguishedNameCheckBox{{ i }}"
-                          ></label>
-                        </div>
-                        <div class="col-11 col-md-9 d-flex p-0">
-                          <div class="col-3 mt-0-5 pr-0 col-md-3">
-                            <p>{{ dn.value.name }}</p>
-                          </div>
-                          <div class="col-9 pl-0 col-md-9 mt-0-5">
+                          <div
+                            class="col-1 pl-0 pt-0-5 custom-control custom-checkbox mt-0-5 ml-md-1 pr-0"
+                          >
                             <input
-                              type="text"
-                              class="form-control"
-                              formControlName="defaultValue"
+                              type="checkbox"
+                              [checked]="dn.value.isSelected"
+                              (change)="
+                                dn.value.isSelected = !dn.value.isSelected
+                              "
+                              class="custom-control-input"
+                              id="distinguishedNameCheckBox{{ i }}"
                             />
-                            <div class="d-md-flex mt-0-25 mb-0-25">
-                              <div
-                                class="col-md-4 custom-control custom-checkbox"
-                              >
-                                <input
-                                  type="checkbox"
-                                  [checked]="dn.value.required"
-                                  (change)="dn.value.required = false"
-                                  id="distinguishedNameRequire{{ i }}"
-                                  class="custom-control-input"
-                                />
-                                <label
-                                  for="distinguishedNameRequire{{ i }}"
-                                  class="custom-control-label"
+                            <label
+                              class="custom-control-label"
+                              for="distinguishedNameCheckBox{{ i }}"
+                            ></label>
+                          </div>
+                          <div class="col-11 col-md-9 d-flex p-0">
+                            <div class="col-3 mt-0-5 pr-0 col-md-3">
+                              <p>{{ dn.value.name }}</p>
+                            </div>
+                            <div class="col-9 pl-0 col-md-9 mt-0-5">
+                              <input
+                                type="text"
+                                class="form-control"
+                                formControlName="defaultValue"
+                              />
+                              <div class="d-md-flex mt-0-25 mb-0-25">
+                                <div
+                                  class="col-md-4 custom-control custom-checkbox"
                                 >
-                                  Required
-                                </label>
-                              </div>
-                              <div
-                                class="col-md-4 custom-control custom-checkbox"
-                              >
-                                <input
-                                  type="checkbox"
-                                  [checked]="dn.value.modifiable"
-                                  (change)="
-                                    dn.value.modifiable = !dn.value.modifiable
-                                  "
-                                  id="distinguishedNameModi{{ i }}"
-                                  class="custom-control-input"
-                                />
-                                <label
-                                  class="custom-control-label"
-                                  for="distinguishedNameModi{{ i }}"
+                                  <input
+                                    type="checkbox"
+                                    [checked]="dn.value.required"
+                                    (change)="dn.value.required = false"
+                                    id="distinguishedNameRequire{{ i }}"
+                                    class="custom-control-input"
+                                  />
+                                  <label
+                                    for="distinguishedNameRequire{{ i }}"
+                                    class="custom-control-label"
+                                  >
+                                    Required
+                                  </label>
+                                </div>
+                                <div
+                                  class="col-md-4 custom-control custom-checkbox"
                                 >
-                                  Modifiable
-                                </label>
-                              </div>
-                              <div
-                                class="col-md-4 custom-control custom-checkbox"
-                              >
-                                <input
-                                  type="checkbox"
-                                  [checked]="dn.value.validation"
-                                  (change)="
-                                    dn.value.validation = !dn.value.validation
-                                  "
-                                  id="distinguishedNameValid{{ i }}"
-                                  class="custom-control-input"
-                                />
-                                <label
-                                  for="distinguishedNameValid{{ i }}"
-                                  class="custom-control-label"
+                                  <input
+                                    type="checkbox"
+                                    [checked]="dn.value.modifiable"
+                                    (change)="
+                                      dn.value.modifiable = !dn.value.modifiable
+                                    "
+                                    id="distinguishedNameModi{{ i }}"
+                                    class="custom-control-input"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="distinguishedNameModi{{ i }}"
+                                  >
+                                    Modifiable
+                                  </label>
+                                </div>
+                                <div
+                                  class="col-md-4 custom-control custom-checkbox"
                                 >
-                                  Validation
-                                </label>
+                                  <input
+                                    type="checkbox"
+                                    [checked]="dn.value.validation"
+                                    (change)="
+                                      dn.value.validation = !dn.value.validation
+                                    "
+                                    id="distinguishedNameValid{{ i }}"
+                                    class="custom-control-input"
+                                  />
+                                  <label
+                                    for="distinguishedNameValid{{ i }}"
+                                    class="custom-control-label"
+                                  >
+                                    Validation
+                                  </label>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="col-md-2 p-0"
-                    *ngIf="distinguishedName.controls.length != 0"
-                  >
-                    <button
-                      rippleEffect
-                      class="btn btn-primary"
-                      (click)="removeDistinguishedName()"
+                    <div
+                      class="col-md-2 p-0"
+                      *ngIf="distinguishedName.controls.length != 0"
                     >
-                      Xóa
-                    </button>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-            <!-- end Subject DN Attributes -->
-            <!-- select Subject DN Alternative Name -->
-            <div class="row mt-2">
-              <div class="col-12">
-                <label class="lable text-uppercase"
-                  >Subject Alternative Attribute:</label
-                >
-                <div class="col-sm-12 mb-1 col-md-12 d-flex p-0">
-                  <div class="col-9 col-md-9 p-0">
-                    <ng-select
-                      [items]="SubjectAlterAttrs"
-                      bindLabel="value"
-                      [(ngModel)]="selectedAlterA"
-                      [clearable]="false"
-                      [searchable]="true"
-                      [ngModelOptions]="{ standalone: true }"
-                    >
-                    </ng-select>
-                  </div>
-                  <div class="col-2 col-md-2">
-                    <button
-                      rippleEffect
-                      class="btn btn-primary justify-content-center d-flex mx-auto"
-                      (click)="addSubjectAlternativeName()"
-                    >
-                      Thêm
-                    </button>
-                  </div>
-                </div>
-                <!-- list Other subject attributes -->
-                <ng-container formArrayName="alternativeName">
-                  <div
-                    *ngFor="let al of alternativeName.controls; let i = index"
-                  >
-                    <div [formGroupName]="i">
-                      <div
-                        class="col-12 col-md-9 d-flex p-md-0 rounded form-custom mb-0-5"
+                      <button
+                        rippleEffect
+                        class="btn btn-primary"
+                        (click)="removeDistinguishedName()"
                       >
+                        Xóa
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <!-- end Subject DN Attributes -->
+              <!-- select Subject DN Alternative Name -->
+              <div class="row mt-2">
+                <div class="col-12">
+                  <label class="lable text-uppercase"
+                    >Subject Alternative Attribute:</label
+                  >
+                  <div class="col-sm-12 mb-1 col-md-12 d-flex p-0">
+                    <div class="col-9 col-md-9 p-0">
+                      <ng-select
+                        [items]="SubjectAlterAttrs"
+                        bindLabel="value"
+                        [(ngModel)]="selectedAlterA"
+                        [clearable]="false"
+                        [searchable]="true"
+                        [ngModelOptions]="{ standalone: true }"
+                      >
+                      </ng-select>
+                    </div>
+                    <div class="col-2 col-md-2">
+                      <button
+                        rippleEffect
+                        class="btn btn-primary justify-content-center d-flex mx-auto"
+                        (click)="addSubjectAlternativeName()"
+                      >
+                        Thêm
+                      </button>
+                    </div>
+                  </div>
+                  <!-- list Other subject attributes -->
+                  <ng-container formArrayName="alternativeName">
+                    <div
+                      *ngFor="let al of alternativeName.controls; let i = index"
+                    >
+                      <div [formGroupName]="i">
                         <div
-                          class="col-1 pl-0 pt-0-5 custom-control custom-checkbox mt-0-5 ml-md-1 pr-0"
+                          class="col-12 col-md-9 d-flex p-md-0 rounded form-custom mb-0-5"
                         >
-                          <input
-                            type="checkbox"
-                            [checked]="al.value.checked"
-                            (change)="
-                              al.value.isSelected = !al.value.isSelected
-                            "
-                            class="custom-control-input"
-                            id="alternativeNameCheckBox{{ i }}"
-                          />
-                          <label
-                            class="custom-control-label"
-                            for="alternativeNameCheckBox{{ i }}"
-                          ></label>
-                        </div>
-                        <div class="col-11 col-md-9 d-flex p-0">
-                          <div class="col-3 mt-0-5 pr-0 col-md-3">
-                            <p>{{ al.value.name }}</p>
-                          </div>
-                          <div class="col-9 pl-0 col-md-9 mt-0-5">
+                          <div
+                            class="col-1 pl-0 pt-0-5 custom-control custom-checkbox mt-0-5 ml-md-1 pr-0"
+                          >
                             <input
-                              type="text"
-                              class="form-control"
-                              formControlName="defaultValue"
+                              type="checkbox"
+                              [checked]="al.value.checked"
+                              (change)="
+                                al.value.isSelected = !al.value.isSelected
+                              "
+                              class="custom-control-input"
+                              id="alternativeNameCheckBox{{ i }}"
                             />
-                            <div class="d-md-flex mt-0-25 mb-0-25">
-                              <div
-                                class="col-md-4 custom-control custom-checkbox"
-                              >
-                                <input
-                                  type="checkbox"
-                                  [checked]="al.value.required"
-                                  (change)="
-                                    al.value.required = !al.value.required
-                                  "
-                                  id="alternativeNameRequire{{ i }}"
-                                  class="custom-control-input"
-                                />
-                                <label
-                                  for="alternativeNameRequire{{ i }}"
-                                  class="custom-control-label"
+                            <label
+                              class="custom-control-label"
+                              for="alternativeNameCheckBox{{ i }}"
+                            ></label>
+                          </div>
+                          <div class="col-11 col-md-9 d-flex p-0">
+                            <div class="col-3 mt-0-5 pr-0 col-md-3">
+                              <p>{{ al.value.name }}</p>
+                            </div>
+                            <div class="col-9 pl-0 col-md-9 mt-0-5">
+                              <input
+                                type="text"
+                                class="form-control"
+                                formControlName="defaultValue"
+                              />
+                              <div class="d-md-flex mt-0-25 mb-0-25">
+                                <div
+                                  class="col-md-4 custom-control custom-checkbox"
                                 >
-                                  Required
-                                </label>
-                              </div>
-                              <div
-                                class="col-md-4 custom-control custom-checkbox"
-                              >
-                                <input
-                                  type="checkbox"
-                                  [checked]="al.modifiable"
-                                  (change)="
-                                    al.value.modifiable = !al.value.modifiable
-                                  "
-                                  id="alternativeNameModi{{ i }}"
-                                  class="custom-control-input"
-                                />
-                                <label
-                                  class="custom-control-label"
-                                  for="alternativeNameModi{{ i }}"
+                                  <input
+                                    type="checkbox"
+                                    [checked]="al.value.required"
+                                    (change)="
+                                      al.value.required = !al.value.required
+                                    "
+                                    id="alternativeNameRequire{{ i }}"
+                                    class="custom-control-input"
+                                  />
+                                  <label
+                                    for="alternativeNameRequire{{ i }}"
+                                    class="custom-control-label"
+                                  >
+                                    Required
+                                  </label>
+                                </div>
+                                <div
+                                  class="col-md-4 custom-control custom-checkbox"
                                 >
-                                  Modifiable
-                                </label>
-                              </div>
-                              <div
-                                class="col-md-4 custom-control custom-checkbox"
-                              >
-                                <input
-                                  type="checkbox"
-                                  [checked]="al.value.validation"
-                                  (change)="
-                                    al.value.validation = !al.value.validation
-                                  "
-                                  id="alternativeNameValid{{ i }}"
-                                  class="custom-control-input"
-                                />
-                                <label
-                                  for="alternativeNameValid{{ i }}"
-                                  class="custom-control-label"
+                                  <input
+                                    type="checkbox"
+                                    [checked]="al.modifiable"
+                                    (change)="
+                                      al.value.modifiable = !al.value.modifiable
+                                    "
+                                    id="alternativeNameModi{{ i }}"
+                                    class="custom-control-input"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="alternativeNameModi{{ i }}"
+                                  >
+                                    Modifiable
+                                  </label>
+                                </div>
+                                <div
+                                  class="col-md-4 custom-control custom-checkbox"
                                 >
-                                  Validation
-                                </label>
+                                  <input
+                                    type="checkbox"
+                                    [checked]="al.value.validation"
+                                    (change)="
+                                      al.value.validation = !al.value.validation
+                                    "
+                                    id="alternativeNameValid{{ i }}"
+                                    class="custom-control-input"
+                                  />
+                                  <label
+                                    for="alternativeNameValid{{ i }}"
+                                    class="custom-control-label"
+                                  >
+                                    Validation
+                                  </label>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="col-md-2 p-0"
-                    *ngIf="alternativeName.controls.length != 0"
-                  >
-                    <button
-                      rippleEffect
-                      class="btn btn-primary"
-                      (click)="removeAlternativeName()"
+                    <div
+                      class="col-md-2 p-0"
+                      *ngIf="alternativeName.controls.length != 0"
                     >
-                      Xóa
-                    </button>
-                  </div>
-                </ng-container>
+                      <button
+                        rippleEffect
+                        class="btn btn-primary"
+                        (click)="removeAlternativeName()"
+                      >
+                        Xóa
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
               </div>
-            </div>
             <!-- end Subject DN Alternative Name -->
             <!-- submit -->
             <div class="row mt-1">

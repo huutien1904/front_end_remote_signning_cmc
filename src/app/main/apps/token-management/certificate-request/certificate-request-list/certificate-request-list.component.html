@@ -249,7 +249,7 @@
             [width]="50"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{ rowIndex + 1 }}
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
@@ -343,8 +343,10 @@
                       class="d-flex align-items-center"
                       ><i data-feather="file-text" class="mr-50"></i> Chi tiết
                     </a>
-                    <a ngbDropdownItem class="d-flex align-items-center"
-                    (click)="openConfirmDelete(value.certificateRequestId)"
+                    <a
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="openConfirmDelete(value.certificateRequestId)"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
                     <a
