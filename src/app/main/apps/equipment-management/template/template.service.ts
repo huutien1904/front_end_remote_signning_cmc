@@ -25,7 +25,7 @@ export class TemplateService {
 
   public getListTemplate(body): Observable<ResponseData<PagedData<Template>>> {
     return this._httpClient.post<ResponseData<PagedData<Template>>>(
-      `${environment.apiUrl}/keypair/search`,
+      `${environment.apiUrl}/keypair-template/search`,
       body,
       this.option
     );

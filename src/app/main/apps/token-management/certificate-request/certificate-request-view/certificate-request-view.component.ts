@@ -27,7 +27,8 @@ export class CertificateRequestViewComponent implements OnInit {
   public personalFullName;
   public personalEmail;
   public userName;
-
+  public createdAt;
+  public updatedAt;
   // private
   private _unsubscribeAll: Subject<any>;
   constructor(
@@ -77,7 +78,10 @@ export class CertificateRequestViewComponent implements OnInit {
       .subscribe((response: any) => {
         this.dataCertificateRequest = response
         this.personalEmail = response.data.email;
-        this.userName = response.data.username
+        this.userName = response.data.username;
+        this.personalFullName = response.data.fullName;
+        this.createdAt = response.data.createdAt
+        this.updatedAt = response.data.updatedAt
         console.log(response)
         this.getCSRFileInformation(response.data.certificateRequestContent)
         // this.data = response.data
@@ -195,7 +199,6 @@ export class CertificateRequestViewComponent implements OnInit {
     console.log(this.results[0].subjectDN)
     let check = this.results[0].subjectDN
     this.subjectDn = this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'telephoneNumber ').replace('E=', 'Gmail = ').replace('2.5.4.9', 'STREET ')
-    this.personalFullName = this.subjectDn.slice(this.subjectDn.indexOf("=") + 1, this.subjectDn.indexOf(","));
     // console.log(tien)
     return this.results[0];
   }
