@@ -182,6 +182,7 @@
         <button
           class="btn btn-outline-secondary ml-50"
           (click)="removeListPersonal()"
+          [disabled]="selected.length === 0"
         >
           <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
           <span class="d-none d-sm-inline-block">Xóa</span>

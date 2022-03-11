@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
 import { DateAdapter } from '@angular/material/core';
 import { CoreConfigService } from '@core/services/config.service';
 import { takeUntil } from 'rxjs/operators';
+import * as JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+
 import {
   ColumnMode,
   DatatableComponent,
@@ -59,7 +62,6 @@ export class CertificateRequestListComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private _router: Router,
     private _toastrService: ToastrService,
-
 
   ) {
     this._unsubscribeAll = new Subject();
@@ -186,20 +188,16 @@ export class CertificateRequestListComponent implements OnInit {
   }
   downloadList(event) {
     console.log(event)
+    
     if (this.selected.length > 0) {
-      console.log(this.selected);
-      // const data = this.selected.map()
-      var data = '';
-      this.selected.map((item) => {
-        // console.log(item.certificateRequestContent)
-        return data += "Mã yêu cầu : " + item.certificateRequestId + '\n' + item.certificateRequestContent + '\n'
-      });
-      console.log(data);
-      const blob = new Blob([data], { type: 'csr' });
-      this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        window.URL.createObjectURL(blob)
-      );
-    } else {
+      var zip = new JSZip();
+        this.selected.map((item) =>{
+          zip.file(item.fullName + ".csr", item.certificateRequestContent);
+        })
+        zip.generateAsync({ type: "blob" })
+          .then(blob => saveAs(blob,'Danh sách yêu cầu chứng thực.zip'));
+    } 
+    else {
       
       this._toastrService.warning(
         '👋 Bạn chưa chọn yêu cầu chứng thực',
@@ -215,92 +213,105 @@ export class CertificateRequestListComponent implements OnInit {
   }
 
   exportCSV() {
-    this._listCerReqService
-      .getListCertificateRequests(
-        JSON.stringify(this.formListCertificateRequest.value)
-      )
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log(pagedData);
-        this.totalItems = pagedData.data.totalItems;
-        console.log(pagedData);
-        console.log(pagedData.data.data);
-        this.dataExport = pagedData.data.data.map((item) => ({
-          ...item,
-          subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
-            .subjectDN,
-          certificateRequestContent: this.getCSRFileInformation(
-            item.certificateRequestContent
-          ).algorithmPublicKey.includes('RSA')
-            ? 'RSA'
-            : this.getCSRFileInformation(
+    if(this.selected.length > 0) {
+      this._listCerReqService
+        .getListCertificateRequests(
+          JSON.stringify(this.formListCertificateRequest.value)
+        )
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((pagedData) => {
+          console.log(pagedData);
+          this.totalItems = pagedData.data.totalItems;
+          console.log(pagedData);
+          console.log(pagedData.data.data);
+          this.dataExport = pagedData.data.data.map((item) => ({
+            ...item,
+            subjectDN: this.getCSRFileInformation(item.certificateRequestContent)
+              .subjectDN,
+            certificateRequestContent: this.getCSRFileInformation(
               item.certificateRequestContent
-            ).algorithmPublicKey.includes('ECDSA')
-              ? 'ECDSA'
+            ).algorithmPublicKey.includes('RSA')
+              ? 'RSA'
               : this.getCSRFileInformation(
                 item.certificateRequestContent
-              ).algorithmPublicKey.includes('DSA')
-                ? 'DSA'
+              ).algorithmPublicKey.includes('ECDSA')
+                ? 'ECDSA'
                 : this.getCSRFileInformation(
                   item.certificateRequestContent
-                ).algorithmPublicKey.includes('Ed25519')
-                  ? 'Ed25519'
-                  : 'Ed448',
-          sizePublicKey: this.getCSRFileInformation(
-            item.certificateRequestContent
-          ).sizePublicKey,
-        }));
-        if (!this.dataExport || !this.dataExport.length) {
-          return;
-        }
-        const separator = ',';
-        const keys = Object.keys(this.dataExport[0]);
-        const csvData =
-          keys.join(separator) +
-          '\n' +
-          this.dataExport
-            .map((row: any) => {
-              return keys
-                .map((k) => {
-                  console.log(k);
-                  console.log(row[k]);
-                  // if(k === "distinguishedName"){
-                  //   row[k] = row[k].distinguishedName
-                  //   console.log(row[k]);
-                  // }
-                  // if(k === "distinguishedName"){
-                  //   row[k] = row[k].distinguishedName
-                  // }
-                  let cell =
-                    row[k] === null || row[k] === undefined ? '' : row[k];
-                  cell =
-                    cell instanceof Date
-                      ? cell.toLocaleString()
-                      : cell.toString().replace(/"/g, '""');
-                  if (cell.search(/("|,|\n)/g) >= 0) {
-                    cell = `"${cell}"`;
-                  }
-                  return cell;
-                })
-                .join(separator);
-            })
-            .join('\n');
-
-        const blob = new Blob(['\ufeff' + csvData], {
-          type: 'text/csv;charset=utf-8;',
+                ).algorithmPublicKey.includes('DSA')
+                  ? 'DSA'
+                  : this.getCSRFileInformation(
+                    item.certificateRequestContent
+                  ).algorithmPublicKey.includes('Ed25519')
+                    ? 'Ed25519'
+                    : 'Ed448',
+            sizePublicKey: this.getCSRFileInformation(
+              item.certificateRequestContent
+            ).sizePublicKey,
+          }));
+          if (!this.dataExport || !this.dataExport.length) {
+            return;
+          }
+          const separator = ',';
+          const keys = Object.keys(this.dataExport[0]);
+          const csvData =
+            keys.join(separator) +
+            '\n' +
+            this.dataExport
+              .map((row: any) => {
+                return keys
+                  .map((k) => {
+                    console.log(k);
+                    console.log(row[k]);
+                    // if(k === "distinguishedName"){
+                    //   row[k] = row[k].distinguishedName
+                    //   console.log(row[k]);
+                    // }
+                    // if(k === "distinguishedName"){
+                    //   row[k] = row[k].distinguishedName
+                    // }
+                    let cell =
+                      row[k] === null || row[k] === undefined ? '' : row[k];
+                    cell =
+                      cell instanceof Date
+                        ? cell.toLocaleString()
+                        : cell.toString().replace(/"/g, '""');
+                    if (cell.search(/("|,|\n)/g) >= 0) {
+                      cell = `"${cell}"`;
+                    }
+                    return cell;
+                  })
+                  .join(separator);
+              })
+              .join('\n');
+  
+          const blob = new Blob(['\ufeff' + csvData], {
+            type: 'text/csv;charset=utf-8;',
+          });
+          const link = document.createElement('a');
+          if (link.download !== undefined) {
+            // Browsers that support HTML5 download attribute
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'Danh sách Yêu cầu chứng thực');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
         });
-        const link = document.createElement('a');
-        if (link.download !== undefined) {
-          // Browsers that support HTML5 download attribute
-          const url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', 'Danh sách Yêu cầu chứng thực');
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+    }
+    else{
+      this._toastrService.warning(
+        '👋 Bạn chưa chọn yêu cầu chứng thực ',
+        'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
         }
-      });
+      );
+    }
   }
   // delete item certificate
   openConfirmDelete(certificateRequestId) {
@@ -439,6 +450,7 @@ export class CertificateRequestListComponent implements OnInit {
    * @param { selected }
    */
   customCheckboxOnSelect({ selected }) {
+    
     this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
     this.chkBoxSelected.push(...selected);
   }

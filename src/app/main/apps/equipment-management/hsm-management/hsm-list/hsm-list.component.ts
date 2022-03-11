@@ -114,6 +114,7 @@ export class HsmListComponent implements OnInit {
         console.log(pagedData);
         console.log(pagedData.data.totalItems);
         this.pagedData = pagedData.data;
+        console.log(this.pagedData)
         this.rowsData = pagedData.data.data.map((item:any,index) => ({
           ...item,
           tokenName:  item.tokens.length > 0 ? item.tokens[0].tokenName : "Chưa khởi tạo"

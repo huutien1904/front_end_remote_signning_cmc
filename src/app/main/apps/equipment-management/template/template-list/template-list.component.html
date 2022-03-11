@@ -223,7 +223,7 @@
           </ngx-datatable-column>
           <ngx-datatable-column
             name="Tên mẫu cặp khóa"
-            prop="cryptoSystem"
+            prop="keypairTemplateName"
             [width]="130"
           ></ngx-datatable-column>
 
@@ -311,10 +311,10 @@
               let-offset="offset"
               let-isVisible="isVisible"
             >
-              <div class="page-count" *ngIf="!isLoading">
+              <!-- <div class="page-count" *ngIf="!isLoading">
                 Có tổng số
                 {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
-              </div>
+              </div> -->
               <datatable-pager
                 [pagerLeftArrowIcon]="'datatable-icon-left'"
                 [pagerRightArrowIcon]="'datatable-icon-right'"

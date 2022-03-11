@@ -147,48 +147,39 @@
                     class="btn btn-primary ml-1"
                   >
                     <i data-feather="plus" class="d-sm-none d-inline-block"></i>
-                    <span class="d-none d-sm-inline-block"
-                      >Tải lên</span
-                    >
-                  </button>
-                </a>
-                <a [href]="listFileUrl" download="Danh sách chứng thư số.pem">
-                  <button
-                    class="btn btn-outline-secondary ml-50"
-                    rippleEffect
-                    (click)="downloadList()"
-                  >
-                    <i
-                      data-feather="download"
-                      class="d-sm-none d-inline-block"
-                    ></i>
-                    <span class="d-none d-sm-inline-block"
-                      >Tải về</span
-                    >
+                    <span class="d-none d-sm-inline-block">Tải lên</span>
                   </button>
                 </a>
                 <button
-                class="btn btn-outline-danger ml-50"
-                rippleEffect
-                (click)="deleteListSubscriber()"
-              >
-                
-                <span class="d-none d-sm-inline-block"
-                  >Xóa</span
+                  class="btn btn-outline-secondary ml-50"
+                  rippleEffect
+                  (click)="downloadList()"
+                  [disabled]="selected.length === 0"
                 >
-              </button>
+                  <i
+                    data-feather="download"
+                    class="d-sm-none d-inline-block"
+                  ></i>
+                  <span class="d-none d-sm-inline-block">Tải về</span>
+                </button>
+                <button
+                  class="btn btn-outline-danger ml-50"
+                  rippleEffect
+                  (click)="deleteListSubscriber()"
+                >
+                  <span class="d-none d-sm-inline-block">Xóa</span>
+                </button>
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
                   (click)="exportCSV()"
+                  [disabled]="selected.length === 0"
                 >
                   <i
                     data-feather="clipboard"
                     class="d-sm-none d-inline-block"
                   ></i>
-                  <span class="d-none d-sm-inline-block"
-                    >Xuất danh sách 
-                  </span>
+                  <span class="d-none d-sm-inline-block">Xuất danh sách </span>
                 </button>
               </div>
             </div>
@@ -283,7 +274,7 @@
                   ngx-datatable-cell-template
                   let-rowIndex="rowIndex"
                 >
-                  {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+                  {{ rowIndex + 1 }}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column
@@ -354,8 +345,12 @@
                           ><i data-feather="file-text" class="mr-50"></i> Chi
                           tiết</a
                         >
-                        <a ngbDropdownItem class="d-flex align-items-center"
-                          (click)="openConfirmDelete(value.subscriberCertificateId)"
+                        <a
+                          ngbDropdownItem
+                          class="d-flex align-items-center"
+                          (click)="
+                            openConfirmDelete(value.subscriberCertificateId)
+                          "
                           ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                         >
                         <a
@@ -389,7 +384,7 @@
                     <span *ngIf="chkBoxSelected">
                       Đã chọn {{ chkBoxSelected.length }} /
                     </span>
-                    {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
+                    {{ totalItems}} {{ totalMessage }} hàng.
                   </div>
                   <datatable-pager
                     [pagerLeftArrowIcon]="'datatable-icon-left'"
@@ -415,51 +410,43 @@
                     class="btn btn-primary ml-1"
                   >
                     <i data-feather="plus" class="d-sm-none d-inline-block"></i>
-                    <span class="d-none d-sm-inline-block"
-                      >Tải lên</span
-                    >
-                  </button>
-                </a>
-                <a [href]="listFileUrl" download="Danh sách chứng thư số.txt">
-                  <button
-                    class="btn btn-outline-secondary ml-50"
-                    rippleEffect
-                    (click)="downloadList()"
-                  >
-                    <i
-                      data-feather="download"
-                      class="d-sm-none d-inline-block"
-                    ></i>
-                    <span class="d-none d-sm-inline-block"
-                      >Tải về</span
-                    >
+                    <span class="d-none d-sm-inline-block">Tải lên</span>
                   </button>
                 </a>
                 <button
-                    class="btn btn-outline-danger ml-50"
-                    rippleEffect
-                    (click)="downloadList()"
-                  >
-                    <i
-                      data-feather="download"
-                      class="d-sm-none d-inline-block"
-                    ></i>
-                    <span class="d-none d-sm-inline-block"
-                      >Xóa</span
-                    >
-                  </button>
+                  class="btn btn-outline-secondary ml-50"
+                  rippleEffect
+                  (click)="downloadList()"
+                  [disabled]="selected.length === 0"
+                >
+                  <i
+                    data-feather="download"
+                    class="d-sm-none d-inline-block"
+                  ></i>
+                  <span class="d-none d-sm-inline-block">Tải về</span>
+                </button>
+                <button
+                  class="btn btn-outline-danger ml-50"
+                  rippleEffect
+                  (click)="deleteListSubscriber()"
+                >
+                  <i
+                    data-feather="download"
+                    class="d-sm-none d-inline-block"
+                  ></i>
+                  <span class="d-none d-sm-inline-block">Xóa</span>
+                </button>
                 <button
                   class="btn btn-outline-secondary float-right mr-1"
                   rippleEffect
                   (click)="exportCSV()"
+                  [disabled]="selected.length === 0"
                 >
                   <i
                     data-feather="clipboard"
                     class="d-sm-none d-inline-block"
                   ></i>
-                  <span class="d-none d-sm-inline-block"
-                    >Xuất danh sách 
-                  </span>
+                  <span class="d-none d-sm-inline-block">Xuất danh sách </span>
                 </button>
               </div>
             </div>

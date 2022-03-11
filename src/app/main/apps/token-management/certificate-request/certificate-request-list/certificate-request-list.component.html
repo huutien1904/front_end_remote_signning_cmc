@@ -12,17 +12,19 @@
             <div class="row mb-1">
               <div class="col-md-2">
                 <label class="label">Trạng thái</label>
-                  <ng-select
-                    [items]="statusCertificate"
-                    [clearable]="false"
-                    bindLabel="status"
-                    bindValue="status"
-                    
-                  >
-                  </ng-select>
+                <ng-select
+                  [items]="statusCertificate"
+                  [clearable]="false"
+                  bindLabel="status"
+                  bindValue="status"
+                  placeholder="Tạo mới"
+                >
+                </ng-select>
               </div>
               <div class="col-md-4">
-                <label class="label">Nhập một phần tên , email, trạng thái</label>
+                <label class="label"
+                  >Nhập một phần tên , email, trạng thái</label
+                >
                 <input
                   name="contains"
                   id="contains"
@@ -32,7 +34,7 @@
                   placeholder="Một phần tên, email, alias,trạng thái"
                 />
               </div>
-              
+
               <div class="col-3 col-md-2 mt-2">
                 <button
                   type="button"
@@ -145,26 +147,24 @@
                 '/apps/tm/certificate-request/certificate-request-new'
               ]"
             >
-              <button type="button" rippleEffect class="btn btn-primary ml-1" >
+              <button type="button" rippleEffect class="btn btn-primary ml-1">
                 <i data-feather="plus" class="d-sm-none d-inline-block"></i>
                 <span class="d-none d-sm-inline-block">Tạo</span>
               </button>
             </a>
-            
-            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.csr.csr ">
-              <button
-                class="btn btn-outline-secondary ml-50" 
-                (click)="downloadList($event)"
-                rippleEffect
-              >
-                <i data-feather="download" class="d-sm-none d-inline-block"></i>
-                <span class="d-none d-sm-inline-block">Tải về</span>
-              </button>
-            </a>
-            <button 
-            class="btn btn-outline-danger ml-50" 
-            rippleEffect
-            (click) = "deleteListCertificate()"
+
+            <button
+              class="btn btn-outline-secondary ml-50"
+              (click)="downloadList($event)"
+              rippleEffect
+            >
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Tải về</span>
+            </button>
+            <button
+              class="btn btn-outline-danger ml-50"
+              rippleEffect
+              (click)="deleteListCertificate()"
             >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa</span>
@@ -424,25 +424,23 @@
                 <span class="d-none d-sm-inline-block">Tạo</span>
               </button>
             </a>
-            <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.pem">
-              <button
-                class="btn btn-outline-secondary ml-50"
-                (click)="downloadList($event)"
-                rippleEffect
-              >
-                <i data-feather="download" class="d-sm-none d-inline-block"></i>
-                <span class="d-none d-sm-inline-block">Tải về</span>
-              </button>
-            </a>
-            <button 
-                class="btn btn-outline-danger ml-50" 
-                rippleEffect
-                (click) = "deleteListCertificate()"
-                >
+
+            <button
+              class="btn btn-outline-secondary ml-50"
+              (click)="downloadList($event)"
+              rippleEffect
+            >
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Tải về</span>
+            </button>
+            <button
+              class="btn btn-outline-danger ml-50"
+              rippleEffect
+              (click)="deleteListCertificate()"
+            >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa</span>
             </button>
-            
 
             <button
               class="btn btn-outline-secondary float-right mr-1"

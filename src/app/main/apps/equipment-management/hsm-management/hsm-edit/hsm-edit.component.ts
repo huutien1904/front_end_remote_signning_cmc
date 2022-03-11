@@ -23,7 +23,7 @@ export class HsmEditComponent implements OnInit {
   public buttonReturn: object;
   public submitted = false;
   public hsmType: any[] = ["NET", "PCI"];
-  public hsmForm: any[] = ["FIPS", "PC5"];
+  public hsmManufacturer: any[] = ["FIPS", "PC5"];
 
   get f() {
     return this.HsmFormEdit.controls;
@@ -48,7 +48,7 @@ export class HsmEditComponent implements OnInit {
         this.hsmName = data.hsmName;
         this.HsmFormEdit.controls.hsmName.patchValue(data.hsmName);
         this.HsmFormEdit.controls.hardwareId.patchValue(data.hardwareId);
-        this.HsmFormEdit.controls.manufacturerId.patchValue(data.manufacturerId);
+        // this.HsmFormEdit.controls.manufacturerId.patchValue(data.manufacturerId);
         this.HsmFormEdit.controls.hsmModel.patchValue(data.hsmModel);
         this.HsmFormEdit.controls.hsmLibraryPath.patchValue(data.hsmLibraryPath);
         this.HsmFormEdit.controls.hsmType.patchValue(data.hsmType);
@@ -59,11 +59,11 @@ export class HsmEditComponent implements OnInit {
     this.HsmFormEdit = this.formBuilder.group({
       hsmName: [null, Validators.required],
       hardwareId: [null, Validators.required],
-      manufacturerId: [null, Validators.required],
+      // manufacturerId: [null, Validators.required],
       hsmModel: [null, Validators.required],
       hsmLibraryPath: ['/opt/utimaco/PKCS11_R2/PKCS11.cfg', Validators.required],
       hsmType: [null, Validators.required],
-      hsmForm: ["FIPS", Validators.required],
+      hsmManufacturer: ["FIPS", Validators.required],
     });
 
     this.contentHeader = {
@@ -107,7 +107,8 @@ export class HsmEditComponent implements OnInit {
     // .subscribe((res) =>{
     //   console.log(res);
     // })
-    this.HsmFormEdit.get("hsmLibraryPath").patchValue("/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg");
+    this.HsmFormEdit.get("hsmLibraryPath").patchValue("/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.so");
+    console.log(this.HsmFormEdit.value)
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',
       text: "Bạn sẽ không thể hoàn tác điều này!",

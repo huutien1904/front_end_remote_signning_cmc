@@ -92,16 +92,25 @@ export class TemplateListComponent implements OnInit {
     this._templateService
       .getListTemplate(JSON.stringify(this.formTemplate.value))
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        this.totalItems = pagedData.data.totalItems;
-        console.log(pagedData);
-        console.log(pagedData.data.totalItems);
+      .subscribe((pagedData:any) => {
+
+        this.pagedData.totalItems = pagedData.data.length;
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((item:any,index) => ({
+        this.pagedData.size = pagedData.data.length;
+        this.pagedData.totalPages = 0
+        this.pagedData.currentPage = 1;
+
+
+
+        this.totalItems = pagedData.data.length;
+        
+        
+        this.rowsData = pagedData.data.map((item:any,index) => ({
           ...item,
           
         }));
         console.log(this.rowsData);
+        console.log(this.pagedData)
         this.isLoading = false;
       });
   }

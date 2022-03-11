@@ -86,15 +86,20 @@ export interface Hsm {
   numberOfSlots: number;
   hsmLibraryPath: string;
 }
-export interface Template{
-    keypairId: number,
-    cryptoSystem: string,
-    keypairLength: string,
-    keypairAlias: string,
-    keypairStatusName: string,
-    p12Content: string,
-    organizationName: string,
-    
-    username: string,
-    email: string
+export interface Template {
+  keypairTemplateId: number,
+  keypairTemplateName: string,
+  privateKeyExtractable: boolean,
+  privateKeySensitive: boolean,
+  privateKeyDerive: boolean,
+  privateKeyDecrypt: boolean,
+  privateKeySign: boolean,
+  privateKeySignRecover: boolean,
+  privateKeyUnwrap: boolean,
+  publicKeyModifiable: boolean,
+  publicKeyToken: boolean,
+  publicKeyPrivate: boolean,
+  publicKeyDerive: boolean,
+  publicKeyWrap: boolean,
+  keypairs: Array<any>;
 }

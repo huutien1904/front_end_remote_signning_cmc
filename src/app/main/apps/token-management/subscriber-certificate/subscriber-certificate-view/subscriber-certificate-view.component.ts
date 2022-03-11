@@ -41,8 +41,9 @@ export class SubscriberCertificateViewComponent implements OnInit {
   public sizePublicKey:any
   public personalEmail:any
   public personalFullName:any
-  public createdAt:any
-  public updatedAt:any
+  public createdAt:string
+  public updatedAt:string
+  public userName:string
   // private
   private _unsubscribeAll: Subject<any>;
   constructor(
@@ -82,6 +83,8 @@ export class SubscriberCertificateViewComponent implements OnInit {
       this.updatedAt = res.data.updatedAt
       this.createdAt = res.data.createdAt
       this.personalEmail = res.data.email
+      this.userName = res.data.username
+      this.personalFullName = res.data.fullName
       // this.data = res.data
       this.subscriberCertificateId = res.data.subscriberCertificateId
       let cer = res.data.certificateContent
@@ -213,11 +216,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
     this.serialNumber = this.dataFromX509.serialNumber
     this.issuerDN = this.dataFromX509.issuer.replaceAll('2.5.4.9',"Street").replaceAll('2.5.4.20','telephoneNumber').replaceAll('E=','Gmail=').replaceAll('0.9.2342.19200300.100.1.1','uid')
     console.log(this.issuerDN)
-    if(this.issuerDN.includes("CN=")){
-      this.personalFullName = this.issuerDN.slice(this.issuerDN.indexOf("=") + 1, this.issuerDN.indexOf(","));
-    }else{
-      this.personalFullName = "Chưa khởi tạo"
-    }
+    
     
     this.subject = this.dataFromX509.subject.replaceAll('2.5.4.9',"Street").replaceAll('2.5.4.20','telephoneNumber').replaceAll('E=','Gmail=').replaceAll('0.9.2342.19200300.100.1.1','uid')
     this.algorithmPublicKey = this.dataFromX509.publicKey.algorithm.name

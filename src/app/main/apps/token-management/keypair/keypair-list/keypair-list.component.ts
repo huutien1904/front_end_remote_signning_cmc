@@ -18,6 +18,7 @@ import { Keypair } from 'app/main/models/Keypair';
 import { Router } from '@angular/router';
 import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-keypair-list',
@@ -48,7 +49,7 @@ export class KeypairListComponent implements OnInit {
   public keypairAlias: any[] = [];
   public tokenName: any;
   public tokenList: any[] = [];
-  public hsmName: any[] = [];
+  public hsmNamesss = "tien"
   // public keypairList: any[] = ['Kết nối HSM', 'Slot'];
   // public cryptoAlgorithm = [
   //   {
@@ -79,12 +80,12 @@ export class KeypairListComponent implements OnInit {
   constructor(
     private _keypairService: KeypairListService,
     private fb: FormBuilder,
-    private _personalService: PersonalService,
     private _coreConfigService: CoreConfigService,
     private modal: NgbModal,
     private dateAdapter: DateAdapter<any>,
     private _hsmService: HsmService,
-    private _router: Router
+    private _router: Router,
+    private toastr: ToastrService,
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -114,7 +115,9 @@ export class KeypairListComponent implements OnInit {
       .then((hsmList) => {
         console.log(hsmList);
         this.hsmList = hsmList.data.data;
-        this.hsmName = this.hsmList[0].hsmName;
+        console.log(this.hsmList)
+        // this.hsmName = this.hsmList[0].hsmName;
+        // console.log(this.hsmName)
         this.tokenList = this.hsmList[0].tokens;
         this.tokenName = this.hsmList[0].tokens[0].tokenName;
         console.log(this.hsmList);
@@ -285,64 +288,77 @@ export class KeypairListComponent implements OnInit {
   }
 
   exportCSV() {
-    const body = {
-      page: 0,
-      size: 1000,
-      sort: null,
-      contains: null,
-      fromDate: null,
-      toDate: null,
-    };
-    this._keypairService
-      .getData(body)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log(pagedData);
-        if (!pagedData.data.data || !pagedData.data.data.length) {
-          return;
-        }
-        const separator = ',';
-        const keys = Object.keys(pagedData.data.data[0]);
-        const csvData =
-          keys.join(separator) +
-          '\n' +
-          pagedData.data.data
-            .map((row) => {
-              return keys
-                .map((k) => {
-                  if (k !== 'createdAt') {
-                    console.log('Test');
-                  }
-                  let cell =
-                    row[k] === null || row[k] === undefined ? '' : row[k];
-                  cell =
-                    cell instanceof Date
-                      ? cell.toLocaleString()
-                      : cell.toString().replace(/"/g, '""');
-                  if (cell.search(/("|,|\n)/g) >= 0) {
-                    cell = `"${cell}"`;
-                  }
-                  return cell;
-                })
-                .join(separator);
-            })
-            .join('\n');
-
-        const blob = new Blob(['\ufeff' + csvData], {
-          type: 'text/csv;charset=utf-8;',
+    if(this.selected.length > 0){
+      const body = {
+        page: 0,
+        size: 1000,
+        sort: null,
+        contains: null,
+        fromDate: null,
+        toDate: null,
+      };
+      this._keypairService
+        .getData(body)
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((pagedData) => {
+          console.log(pagedData);
+          if (!pagedData.data.data || !pagedData.data.data.length) {
+            return;
+          }
+          const separator = ',';
+          const keys = Object.keys(pagedData.data.data[0]);
+          const csvData =
+            keys.join(separator) +
+            '\n' +
+            pagedData.data.data
+              .map((row) => {
+                return keys
+                  .map((k) => {
+                    if (k !== 'createdAt') {
+                      console.log('Test');
+                    }
+                    let cell =
+                      row[k] === null || row[k] === undefined ? '' : row[k];
+                    cell =
+                      cell instanceof Date
+                        ? cell.toLocaleString()
+                        : cell.toString().replace(/"/g, '""');
+                    if (cell.search(/("|,|\n)/g) >= 0) {
+                      cell = `"${cell}"`;
+                    }
+                    return cell;
+                  })
+                  .join(separator);
+              })
+              .join('\n');
+  
+          const blob = new Blob(['\ufeff' + csvData], {
+            type: 'text/csv;charset=utf-8;',
+          });
+          const link = document.createElement('a');
+          if (link.download !== undefined) {
+            // Browsers that support HTML5 download attribute
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'Danh Sách Cặp Khóa');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
         });
-        const link = document.createElement('a');
-        if (link.download !== undefined) {
-          // Browsers that support HTML5 download attribute
-          const url = URL.createObjectURL(blob);
-          link.setAttribute('href', url);
-          link.setAttribute('download', 'Danh Sách Cặp Khóa');
-          link.style.visibility = 'hidden';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+    }
+    else{
+      this.toastr.warning(
+        '👋 Bạn chưa chọn danh sách cặp khóa ',
+        'Cảnh báo',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
         }
-      });
+      );
+    }
   }
 
 

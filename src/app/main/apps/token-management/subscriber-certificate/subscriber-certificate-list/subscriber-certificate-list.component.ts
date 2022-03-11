@@ -18,6 +18,8 @@ import { SubscriberCertificateListService } from './subscriber-certificate-list.
 import * as x509 from "@peculiar/x509";
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-subscriber-certificate-list',
@@ -33,21 +35,21 @@ export class SubscriberCertificateListComponent implements OnInit {
   public chkBoxSelected = [];
   public selected = [];
   public listFileUrl
-  public dataFromNodeForge : any
+  public dataFromNodeForge: any
   //Public Properties
   formListSubscriberCertificate: FormGroup;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public pageAdvancedEllipses = 1;
   public moreOption = true;
   public contentHeader: object;
-  public dataExport:any
-  public dataFromX509 : any
-  public signatureParameters : any
-  public keyUsage : any = ""
-  public basicConstraints : any = ""
-  public extKeyUsage : any = ""
-  public thumbprint : any = ""
-  public modulus : any = ""
+  public dataExport: any
+  public dataFromX509: any
+  public signatureParameters: any
+  public keyUsage: any = ""
+  public basicConstraints: any = ""
+  public extKeyUsage: any = ""
+  public thumbprint: any = ""
+  public modulus: any = ""
 
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -121,16 +123,33 @@ export class SubscriberCertificateListComponent implements OnInit {
       )
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
-        this.totalItems = pagedData.data.totalItems;
+        console.log(pagedData)
         this.pagedData = pagedData.data;
-        this.rowsData = pagedData.data.data.map((item) => ({
-          ...item,
+        // this.rowsData = 
+        this.rowsData = pagedData.data.data.map((item) => (
+          
+          {
+          ...item ,
           SubjectDN: this.readCertificate(item.certificateContent).subject
           // organizationName: this.getOrganization(item),
           // subscribeName: this.getSubscriber(item),
         }));
+        this.rowsData.map((item,index) =>{
+          if(item.keypairStatus.keypairStatusName == "Đã tạo mới"){
+            this.rowsData.splice(index,1)
+            // console.log(index)
+          }
+        })
+        // this.pagedData.totalItems = this.rowsData.length
+        this.totalItems = this.rowsData.length;
+        // this.rowsData.slice(5,1)
         // this.rowsData = pagedData.data.data;
-        console.log(this.rowsData)
+        // pagedData.data.data.map((item:any) =>{
+        //   if(item.keypairStatus.keypairStatusName == "Đã gửi yêu cầu chứng thực"){
+        //     this.rowsData.push(item.SubjectDN = this.readCertificate(item.certificateContent).subject);
+        //   }
+        // })
+        console.log(this.totalItems)
         this.isLoading = false;
       });
   }
@@ -150,7 +169,7 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log(info);
     return info.find((obj) => obj.name === 'commonName').value;
   }
-  changePage(e) {}
+  changePage(e) { }
   onSubmit() {
     console.log(this.formListSubscriberCertificate.value);
     console.log(this.formListSubscriberCertificate.get('toDate').value);
@@ -164,23 +183,17 @@ export class SubscriberCertificateListComponent implements OnInit {
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    row.fileName = row.keypairAlias  + '.crt.crt';
+    row.fileName = row.keypairAlias + '.crt.crt';
     // console.log(row);
   }
-  downloadList(){
-    console.log(this.selected)
-    // const data = this.selected.map()
-    var data = ""
-    this.selected.map((item) =>{
-      // console.log(item.certificateRequestContent)
-      return data += "requestId : " + item.subscriberCertificateId +'\n'+  item.certificateContent + '\n' 
-
+  downloadList() {
+    var zip = new JSZip();
+    this.selected.map((item) => {
+      zip.file(item.fullName + ".pem", item.certificateContent);
     })
-    console.log(data)
-    const blob = new Blob([data], { type: 'pem' });
-    this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      window.URL.createObjectURL(blob)
-    );
+    zip.generateAsync({ type: "blob" })
+      .then(blob => saveAs(blob, 'Danh sách chứng thư số.zip'));
+
   }
   /**
    * Custom Checkbox On Select
@@ -203,9 +216,9 @@ export class SubscriberCertificateListComponent implements OnInit {
     this.selected.push(...selected);
   }
   onActivate(event) {
-    if(!event.event.ctrlKey && event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
+    if (!event.event.ctrlKey && event.event.type === 'click' && event.column.name != "Hành động" && event.column.name != "checkbox") {
       this._router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-view', event.row.subscriberCertificateId]);
-      
+
     }
   }
   exportCSV() {
@@ -217,7 +230,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         this.totalItems = pagedData.data.totalItems;
         console.log(pagedData);
         console.log(pagedData.data.data);
-        this.dataExport = pagedData.data.data.map((item:any) => ({
+        this.dataExport = pagedData.data.data.map((item: any) => ({
           ...item,
           keypairStatus: item.keypairStatus.keypairStatusName,
           // certificateContent:"",
@@ -234,11 +247,11 @@ export class SubscriberCertificateListComponent implements OnInit {
           keys.join(separator) +
           '\n' +
           this.dataExport
-            .map((row:any) => {
+            .map((row: any) => {
               return keys
                 .map((k) => {
-                 
-                  if(k === "certificateContent"){
+
+                  if (k === "certificateContent") {
                     row[k] = delete row[k].certificateContent
                   }
                   // if(k === "distinguishedName"){
@@ -259,7 +272,7 @@ export class SubscriberCertificateListComponent implements OnInit {
             })
             .join('\n');
 
-        const blob = new Blob(['\ufeff'+csvData], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(['\ufeff' + csvData], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         if (link.download !== undefined) {
           // Browsers that support HTML5 download attribute
@@ -278,20 +291,20 @@ export class SubscriberCertificateListComponent implements OnInit {
   readCertificate(certPem) {
     console.log(certPem)
     let read = '-----BEGIN CERTIFICATE-----\r\n' +
-    certPem +
-            '\r\n-----END CERTIFICATE-----\r\n'
+      certPem +
+      '\r\n-----END CERTIFICATE-----\r\n'
     //Đọc chứng thư số ra dạng JSON theo 2 cách dùng Node-Force & X509
     // var forge = require('node-forge');
     // this.dataFromNodeForge = forge.pki.certificateFromPem(read);
     // console.log(this.dataFromNodeForge)
-    
-    
+
+
     // this.issuerDN = this.dataFromNodeForge.subject
     this.dataFromX509 = new x509.X509Certificate(read);
     //  lấy dữ liệu từ chứng thư số
     console.log(this.dataFromX509)
     return this.dataFromX509
-    
+
 
     //Trạng thái đã đọc xong chứng thư số
   }
@@ -348,47 +361,47 @@ export class SubscriberCertificateListComponent implements OnInit {
         }
       })
   }
-  deleteListSubscriber(){
-    if(this.selected.length > 0){
+  deleteListSubscriber() {
+    if (this.selected.length > 0) {
       Swal.fire({
-      title: 'Bạn có chắc muốn xóa?',
-      text: "Bạn sẽ không thể hoàn tác điều này!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7367F0',
-      preConfirm: async () => {
-        this.selected.map((subcriber) =>{
-          this.deleteSubscriberCertificate(subcriber.subscriberCertificateId)
-        })
-        
-      },
-      cancelButtonColor: '#E42728',
-      cancelButtonText: "Thoát",
-      confirmButtonText: 'Đúng, tôi muốn xóa!',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      allowOutsideClick: () => {
-        return !Swal.isLoading();
+        title: 'Bạn có chắc muốn xóa?',
+        text: "Bạn sẽ không thể hoàn tác điều này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#7367F0',
+        preConfirm: async () => {
+          this.selected.map((subcriber) => {
+            this.deleteSubscriberCertificate(subcriber.subscriberCertificateId)
+          })
+          this.chkBoxSelected = []
+        },
+        cancelButtonColor: '#E42728',
+        cancelButtonText: "Thoát",
+        confirmButtonText: 'Đúng, tôi muốn xóa!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1'
+        },
+        allowOutsideClick: () => {
+          return !Swal.isLoading();
+        }
+      }).then(function (result: any) {
+        console.log(result)
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Bạn đã xóa thành công',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
       }
-    }).then(function (result: any) {
-      console.log(result)
-      if (result.value) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Thành công!',
-          text: 'Bạn đã xóa thành công',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      }
-    }
 
-    );
+      );
     }
-    else{
+    else {
       this.toastr.warning(
         '👋 Bạn chưa chọn chứng thư số để xóa ',
         'Cảnh báo',
@@ -399,8 +412,8 @@ export class SubscriberCertificateListComponent implements OnInit {
         }
       );
     }
-    
-    
+
+
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
