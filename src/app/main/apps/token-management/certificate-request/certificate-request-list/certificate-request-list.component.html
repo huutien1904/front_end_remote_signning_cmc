@@ -267,7 +267,7 @@
             [width]="50"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{ rowIndex + 1 }}
+              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column

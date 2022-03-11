@@ -187,6 +187,7 @@ export class KeypairCreateComponent implements OnInit {
     console.log(this.keypairFormView.value);
   }
   changeHsm() {
+    // console.log(this.keypairFormView.get('hsmList').value);
     this.tokenList = this.keypairFormView.get('hsmList').value.tokens;
     this.keypairFormView.patchValue({ tokenId: this.tokenList[0] });
   }

@@ -41,6 +41,7 @@
               type="search"
               class="form-control"
               placeholder="Người đại diện"
+              formControlName="contains"
             />
           </div>
           <div class="col-3 col-md-2 mt-2">
@@ -59,7 +60,12 @@
               type="button"
               rippleEffect
               class="btn btn-primary"
-              (click)="onSubmit()"
+              (click)="
+                setPage({
+                  offset: 0,
+                  pageSize: formListOrganizations.controls.size
+                })
+              "
               [disabled]="!formListOrganizations.valid"
             >
               Tìm kiếm
@@ -67,7 +73,7 @@
           </div>
         </div>
 
-        <div class="row" [ngbCollapse]="moreOption">
+        <div class="row mt-1" [ngbCollapse]="moreOption">
           <div class="col-md-2">
             <label for="">SỐ DÒNG:</label>
             <fieldset class="form-group">
@@ -75,8 +81,13 @@
                 [items]="sizePage"
                 bindValue="sizePage"
                 [clearable]="false"
-                formControlName="sizePage"
-                (change)="selectItem($event)"
+                formControlName="size"
+                (change)="
+                  setPage({
+                    offset: 0,
+                    pageSize: formListOrganizations.controls.size
+                  })
+                "
               ></ng-select>
             </fieldset>
           </div>
@@ -387,7 +398,6 @@
             [count]="rowCount"
             [hidden]="!(rowCount / pageSize > 1)"
             (change)="table.onFooterPage($event)"
-            class="col-md-2"
           >
           </datatable-pager>
         </ng-template>

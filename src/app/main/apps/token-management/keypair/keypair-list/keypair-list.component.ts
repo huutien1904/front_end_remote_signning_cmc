@@ -43,7 +43,7 @@ export class KeypairListComponent implements OnInit {
   gender: string[] = ['Nam', 'Nữ'];
   public pagedData = new PagedData<Keypair>();
   public rowsData = new Array<Keypair>();
-  public hsmList: any[] = [];
+  hsmList: any[] = [];
   public keypairList: any[] =[];
   public keypairAlias: any[] = [];
   public tokenName: any;
@@ -133,10 +133,10 @@ export class KeypairListComponent implements OnInit {
     //     console.log(this.keypairAlias);
     //   });
     this.formListPersonal = this.fb.group({
-      page: [null, Validators.required],
+      page: [null],
       size: [this.sizePage[3]],
       sort: [null],
-      contains: ['', Validators.required],
+      contains: [''],
       fromDate: [''],
       toDate: [''],
       // keypairAlias: ['', Validators.required],
@@ -147,10 +147,10 @@ export class KeypairListComponent implements OnInit {
       //   cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
       //   keypairLength: [this.keypairLengthList[0], Validators.required],
       // }),
-      // hsmList:[null, Validators.required],
-      // tokenList: [null, Validators.required]
+      hsmList:[this.hsmList[0],Validators.required],
+      tokenList: [null,Validators.required],
     });
-    console.log(this.formListPersonal.valid);
+    console.log(this.formListPersonal.value);
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({
@@ -172,6 +172,12 @@ export class KeypairListComponent implements OnInit {
         ],
       },
     };
+  }
+
+  changeHsm() {
+    // console.log(this.formListPersonal.get('hsmList').value);
+    this.tokenList = this.formListPersonal.get('hsmList').value.tokens;
+    this.formListPersonal.patchValue({ tokenId: this.tokenList[0] });
   }
 
   // changeCrypto() {

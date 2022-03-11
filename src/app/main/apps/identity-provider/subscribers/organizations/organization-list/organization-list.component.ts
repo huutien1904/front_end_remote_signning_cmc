@@ -102,9 +102,12 @@ export class OrganizationListComponent implements OnInit {
    */
   async ngOnInit() {
     this.formListOrganizations = this.fb.group({
-      inputOrganization: ['', Validators.required],
-      sizePage: [this.sizePage[3], Validators.required],
-      typeOrganization: [null, Validators.required],
+      inputOrganization: [''],
+      size: [this.sizePage[3], Validators.required],
+      typeOrganization: [null],
+      contains: ['', Validators.required],
+      page: [''],
+      sort: [[]],
     });
 
     // this.typeOrganization = await this._organizationListService
@@ -114,13 +117,11 @@ export class OrganizationListComponent implements OnInit {
     //     console.log(this.typeOrganization);
     //   });
     // this.getOrganization();
-    this.pagedData.size = this.sizePage[3];
-    this.pagedData.currentPage = 0;
-    this.setPage({ offset: 0, pageSize: this.pagedData.size });
+    // this.pagedData.size = this.sizePage[3];
     this.getListTypeOrganization();
     this.setPage({
       offset: 0,
-      pageSize: this.formListOrganizations.get('sizePage').value,
+      pageSize: this.formListOrganizations.get('size').value,
     });
   }
   // getOrganization() {
@@ -140,11 +141,10 @@ export class OrganizationListComponent implements OnInit {
   setPage(pageInfo) {
     console.log(pageInfo);
     this.isLoading = true;
-    this.pagedData.currentPage = pageInfo.offset;
-    this.pagedData.size = pageInfo.pageSize;
+    console.log(JSON.stringify(this.formListOrganizations.value));
     this.formListOrganizations.patchValue({ page: pageInfo.offset });
     this._organizationListService
-      .searchOrganizations(this.pagedData)
+      .searchOrganizations(JSON.stringify(this.formListOrganizations.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.pagedData = pagedData.data;
