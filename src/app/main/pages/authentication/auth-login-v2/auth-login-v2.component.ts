@@ -114,7 +114,7 @@ export class AuthLoginV2Component implements OnInit {
    */
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
-      email: ['hunga1k15tv@gmail.com', [Validators.required, Validators.email]],
+      email: ['supperadmin@cist.cmc.vn', [Validators.required, Validators.email]],
       password: ['cmcPass97', Validators.required],
       rememberMe: [false],
     });
