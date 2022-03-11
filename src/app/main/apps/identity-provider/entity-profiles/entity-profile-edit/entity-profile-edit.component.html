@@ -20,48 +20,69 @@
           <form action class="form form-vertical" [formGroup]="formEditProfile">
             <!-- name profile -->
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-5">
                 <div class="form-group">
                   <label class="lable text-uppercase">Tên EntityProfile:</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i data-feather="user"></i>
-                      </span>
+                  <div class="col-12 col-md-12 mb-1 d-flex p-0">
+                    <div class="col-9 col-md-9 p-0">
+                      <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i data-feather="user"></i>
+                          </span>
+                        </div>
+                        <input
+                          placeholder="Tên Profile"
+                          type="text"
+                          formControlName="endEntityProfileName"
+                          class="form-control"
+                        />
+                      </div>
                     </div>
-                    <input
-                      placeholder="Tên Profile"
-                      type="text"
-                      formControlName="endEntityProfileName"
-                      class="form-control"
-                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <label class="lable text-uppercase">Loại Profile:</label>
+                  <div class="col-12 col-md-12 mb-1 d-flex p-0">
+                    <div class="col-9 col-md-12 p-0">
+                      <ng-select
+                        [ngClass]="
+                          (f.typeProfile.errors && f.typeProfile?.touched) ||
+                          (submitted && f.typeProfile?.errors?.required)
+                            ? 'is-invalid'
+                            : 'is-valid'
+                        "
+                        [items]="typeProfile"
+                        bindLabel="typeProfile"
+                        placeholder="Loại Profile"
+                        formControlName="typeProfile"
+                      >
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="">
+                    <span
+                      *ngIf="
+                        (f.typeProfile?.errors?.required &&
+                          f.typeProfile?.touched) ||
+                        (submitted && f.typeProfile?.errors?.required)
+                      "
+                      class="invalid-form"
+                    >
+                      <small
+                        class="form-text text-danger"
+                        *ngIf="f.typeProfile.errors.required"
+                      >
+                        Không được bỏ trống
+                      </small>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
             <!-- end name profile -->
-            <!-- select typeProfile  -->
-            <div class="row">
-              <div class="col-12 col-md-4">
-                <div class="form-group">
-                  <label class="lable text-uppercase">Loại Profile:</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i data-feather="user"></i>
-                      </span>
-                    </div>
-                    <input
-                      bindLabel="endEntityProfileName"
-                      formControlName="endEntityProfileName"
-                      type="text"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- end typeProfile -->
             <!-- select Subject DN Attributes -->
             <div class="row">
               <div class="col-12">

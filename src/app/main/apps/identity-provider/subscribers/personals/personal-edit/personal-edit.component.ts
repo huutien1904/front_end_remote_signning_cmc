@@ -214,12 +214,23 @@ export class PersonalEditComponent implements OnInit {
     };
 
     // get organizationID
+    // this.organizationId = await this._organizationListService
+    //   .searchOrganizations(this.body)
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .toPromise()
+    //   .then((res) => {
+    //     console.log(res);
+    //     return res.data.data;
+    //   });
     this.organizationId = await this._organizationListService
-      .searchOrganizations(this.body)
+      .getAllOrganizations()
       .pipe(takeUntil(this._unsubscribeAll))
       .toPromise()
       .then((res) => {
-        return res.data.data;
+        console.log(res);
+        console.log(res.data);
+        return res.data;
+        
       });
 
     this.personal = await this._personalService
