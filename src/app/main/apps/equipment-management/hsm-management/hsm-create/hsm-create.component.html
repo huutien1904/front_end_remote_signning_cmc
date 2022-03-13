@@ -35,7 +35,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-7 col-md-6">
                       <label for="UDUserName">Đường dẫn file cấu hình</label>
                       <input
                         type="text"
@@ -65,13 +65,14 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="d-flex justify-content-md-end m-1">
+                      <div class="d-flex justify-content-end m-1">
                         <button
                           class="btn btn-primary mr-1"
                           (click)="onSubmit()"
                           rippleEffect
                         >
-                          Tạo kết nối HSM
+                          <span class="d-sm-none d-inline-block">Tạo kết nối</span>
+                          <span class="d-none d-sm-inline-block">Tạo kết nối HSM</span>
                         </button>
                         <app-return [buttonReturn]="buttonReturn"> </app-return>
                     </div>

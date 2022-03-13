@@ -456,9 +456,9 @@ export class OrganizationListComponent implements OnInit {
         console.log(pagedData);
         console.log(pagedData.data.data);
         this.dataExport = pagedData.data.data.map(
-          async (personalList: any) => ({
+           (personalList: any) => ({
             ...personalList,
-            address: await this._addressService
+            address: this._addressService
               .getAddressById(personalList.address.addressId)
               .pipe(takeUntil(this._unsubscribeAll))
               .toPromise()

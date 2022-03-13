@@ -249,6 +249,7 @@ export class CertificateRequestListComponent implements OnInit {
               item.certificateRequestContent
             ).sizePublicKey,
           }));
+          console.log(this.dataExport);
           if (!this.dataExport || !this.dataExport.length) {
             return;
           }
