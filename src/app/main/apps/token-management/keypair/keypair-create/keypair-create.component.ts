@@ -99,7 +99,7 @@ export class KeypairCreateComponent implements OnInit {
 
   ngOnInit() {
     this.contentHeader = {
-      headerTitle: 'Tạo mới cặp khóa',
+      headerTitle: 'Tạo cặp khóa',
       actionButton: true,
       breadcrumb: {
         type: 'chevron',
@@ -110,7 +110,7 @@ export class KeypairCreateComponent implements OnInit {
             link: '/apps/tm/keypair/keypair-list',
           },
           {
-            name: 'Tạo mới cặp khóa',
+            name: 'Tạo cặp khóa',
             isLink: false,
             // link: '/apps/equipment-management/new-hsm'
           },

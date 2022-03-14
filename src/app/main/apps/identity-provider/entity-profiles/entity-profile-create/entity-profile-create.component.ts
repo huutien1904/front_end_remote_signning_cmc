@@ -13,7 +13,7 @@ import { EntityProfileService } from '../entity-profile.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class EntityProfileCreateComponent implements OnInit {
-  // public 
+  // public
   public submitted = false;
   public contentHeader: object;
   public formCreateProfile: FormGroup;
@@ -23,123 +23,99 @@ export class EntityProfileCreateComponent implements OnInit {
     {
       name: 'CN',
       value: 'CN, Common name',
-      
     },
     {
       name: 'C',
       value: 'C, Country (ISO 3166)',
-      
     },
     {
       name: 'EMAILADDRESS',
       value: 'EmailAddress, E-mail address in DN',
-      
     },
     {
       name: 'UID',
       value: 'UID, Unique Identifier',
-      
     },
     {
       name: 'TELEPHONE_NUMBER',
       value: 'telephoneNumber',
-      
     },
 
     {
       name: 'OU',
       value: 'OU, Organizational Unit',
-      
     },
     {
       name: 'O',
       value: 'O, Organization',
-      
     },
     {
       name: 'L',
       value: 'L, Locality',
-      
     },
     {
       name: 'ST',
       value: 'ST, State or Province',
-      
     },
     {
       name: 'STREET',
       value: 'streetAddress',
-      
     },
     {
       name: 'SERIALNUMBER',
       value: 'SerialNumber, Serial number (in DN)',
-      
     },
     {
       name: 'DN_QUALIFIER',
       value: 'dnQualifier, DN Qualifier',
-      
     },
     {
       name: 'GIVENNAME',
       value: 'GivenName, Given name (first name)',
-      
     },
     {
       name: 'INITIALS',
       value: 'Initials, First name abbreviation',
-      
     },
     {
       name: 'SURNAME',
       value: 'Surname, Surname (last name)',
-      
     },
     {
       name: 'T',
       value: 'Title, Title',
-      
     },
     {
       name: 'POSTAL_ADDRESS',
       value: 'postalAddress',
-      
     },
     {
       name: 'PSEUDONYM',
       value: 'pseudonym',
-      
     },
     {
       name: 'DESCRIPTION',
       value: 'description, Description',
-      
     },
     {
       name: 'UnstructuredAddress',
       value: 'unstructuredAddress, IP address',
-      
     },
     {
       name: 'UnstructuredName',
       value: 'unstructuredName, Domain name (FQDN)',
-      
     },
     {
       name: 'POSTAL_CODE',
       value: 'postalCode',
-      
     },
     {
       name: 'DC',
       value: 'DC, Domain Component',
-      
     },
     {
       name: 'BUSINESS_CATEGORY',
       value: 'businessCategory, Organization type',
-      
     },
   ];
 
@@ -148,192 +124,179 @@ export class EntityProfileCreateComponent implements OnInit {
     {
       name: 'rfc822Name',
       value: 'RFC 822 Name (e-mail address)',
-      
     },
     {
       name: 'dNSName',
       value: 'DNS Name',
-      
     },
     {
       name: 'iPAddress',
       value: 'IP Address',
-      
     },
     {
       name: 'directoryName',
       value: 'Directory Name (Distinguished Name)',
-      
     },
     {
       name: 'uniformResourceIdentifier',
       value: 'Uniform Resource Identifier (URI)',
-      
     },
     {
       name: 'registeredID',
       value: 'Registered Identifier (OID)',
-      
     },
     {
       name: 'ediPartyName',
       value: 'ediPartyName',
-      
     },
     {
       name: 'x400Address',
       value: 'x400Address',
-      
     },
     {
       name: 'otherName',
       value: 'otherName',
-      
     },
     {
       name: 'PI',
       value: 'Permanent Identifier',
-
     },
     {
       id: 'XA',
       value: 'XmppAddr',
-
     },
     {
       id: 'SN',
       value: 'Service Name',
-
     },
     {
       id: 'SIM',
       value: 'Subject Identification Method (SIM)',
-
     },
   ];
-  public typeProfile = ['Cá nhân','Tổ chức','Thiết bị/dịch vụ'];
+  public typeProfile = ['Cá nhân', 'Tổ chức', 'Thiết bị/dịch vụ'];
   // declare subject ATT
   // public SubjectAlterAttrs = [
   //   {
   //     name: 'CN',
   //     value: 'CN, Common name',
-      
+
   //   },
   //   {
   //     name: 'C',
   //     value: 'C, Country (ISO 3166)',
-      
+
   //   },
   //   {
   //     name: 'EMAILADDRESS',
   //     value: 'EmailAddress, E-mail address in DN',
-      
+
   //   },
   //   {
   //     name: 'UID',
   //     value: 'UID, Unique Identifier',
-      
+
   //   },
   //   {
   //     name: 'TELEPHONE_NUMBER',
   //     value: 'telephoneNumber',
-      
+
   //   },
 
   //   {
   //     name: 'OU',
   //     value: 'OU, Organizational Unit',
-      
+
   //   },
   //   {
   //     name: 'O',
   //     value: 'O, Organization',
-      
+
   //   },
   //   {
   //     name: 'L',
   //     value: 'L, Locality',
-      
+
   //   },
   //   {
   //     name: 'ST',
   //     value: 'ST, State or Province',
-      
+
   //   },
   //   {
   //     name: 'STREET',
   //     value: 'streetAddress',
-      
+
   //   },
   //   {
   //     name: 'SERIALNUMBER',
   //     value: 'SerialNumber, Serial number (in DN)',
-      
+
   //   },
   //   {
   //     name: 'DN_QUALIFIER',
   //     value: 'dnQualifier, DN Qualifier',
-      
+
   //   },
   //   {
   //     name: 'GIVENNAME',
   //     value: 'GivenName, Given name (first name)',
-      
+
   //   },
   //   {
   //     name: 'INITIALS',
   //     value: 'Initials, First name abbreviation',
-      
+
   //   },
   //   {
   //     name: 'SURNAME',
   //     value: 'Surname, Surname (last name)',
-      
+
   //   },
   //   {
   //     name: 'T',
   //     value: 'Title, Title',
-      
+
   //   },
   //   {
   //     name: 'POSTAL_ADDRESS',
   //     value: 'postalAddress',
-      
+
   //   },
   //   {
   //     name: 'PSEUDONYM',
   //     value: 'pseudonym',
-      
+
   //   },
   //   {
   //     name: 'DESCRIPTION',
   //     value: 'description, Description',
-      
+
   //   },
   //   {
   //     name: 'UnstructuredAddress',
   //     value: 'unstructuredAddress, IP address',
-      
+
   //   },
   //   {
   //     name: 'UnstructuredName',
   //     value: 'unstructuredName, Domain name (FQDN)',
-      
+
   //   },
   //   {
   //     name: 'POSTAL_CODE',
   //     value: 'postalCode',
-      
+
   //   },
   //   {
   //     name: 'DC',
   //     value: 'DC, Domain Component',
-      
+
   //   },
   //   {
   //     name: 'BUSINESS_CATEGORY',
   //     value: 'businessCategory, Organization type',
-      
+
   //   },
   // ];
   public selectedDnA: any = this.SubjectDnAttrs[0];
@@ -346,12 +309,11 @@ export class EntityProfileCreateComponent implements OnInit {
   ) {
     this.formCreateProfile = this.fb.group({
       endEntityProfileName: [null, [Validators.required]],
-      distinguishedName: this.fb.array([],Validators.required),
+      distinguishedName: this.fb.array([], Validators.required),
       alternativeName: this.fb.array([]),
       typeProfile: [null, Validators.required],
     });
-
-   }
+  }
 
   ngOnInit(): void {
     this.contentHeader = {
@@ -446,7 +408,7 @@ export class EntityProfileCreateComponent implements OnInit {
       }
     }
   }
-  
+
   //  add subject attribute
   addSubjectAlternativeName() {
     this.alternativeName.push(
@@ -474,51 +436,62 @@ export class EntityProfileCreateComponent implements OnInit {
   // submit
   confirmOpen() {
     console.log(this.formCreateProfile.value);
-    if(this.formCreateProfile.value.endEntityProfileName == null || this.formCreateProfile.value.alternativeName.length === 0 || this.formCreateProfile.value.distinguishedName.length === 0 ){
-      
+    if (
+      this.formCreateProfile.value.endEntityProfileName == null ||
+      this.formCreateProfile.value.alternativeName.length === 0 ||
+      this.formCreateProfile.value.distinguishedName.length === 0
+    ) {
       Swal.fire({
-        title: 'Bạn phải điền đầy đủ các trường ?',
-        text: "Bạn sẽ không thể hoàn tác điều này!",
+        title: 'Bạn phải điền đầy đủ các trường?',
+        text: 'Bạn sẽ không thể hoàn tác điều này!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#7367F0',
-        
-       },
-      );
+        cancelButtonText: 'Thoát',
+        confirmButtonText: 'OK',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1',
+        },
+      });
     }
-    if(this.formCreateProfile.value.endEntityProfileName !== null && this.formCreateProfile.value.alternativeName.length > 0 && this.formCreateProfile.value.distinguishedName.length > 0 ){
+    if (
+      this.formCreateProfile.value.endEntityProfileName !== null &&
+      this.formCreateProfile.value.alternativeName.length > 0 &&
+      this.formCreateProfile.value.distinguishedName.length > 0
+    ) {
       Swal.fire({
         title: 'Bạn có chắc muốn tạo profile?',
-        text: "Bạn sẽ không thể hoàn tác điều này!",
+        text: 'Bạn sẽ không thể hoàn tác điều này!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#7367F0',
-        preConfirm:   async () => {
-        return await this._entityProfileService
-        .createProfile( JSON.stringify(this.formCreateProfile.value))
-        // .pipe(takeUntil(this._unsubscribeAll))
-        .toPromise().then(res=>{
-          if(res.result==false){
-            throw new Error(res.message);
-          }
-          this.router.navigate(['/apps/ip/profiles/profile-list']);
-          return res;
-        }).catch(
-          function (error) {
-            Swal.showValidationMessage('Mã lỗi:  ' + error + '');
-          }
-        );
-       },
+        preConfirm: async () => {
+          return await this._entityProfileService
+            .createProfile(JSON.stringify(this.formCreateProfile.value))
+            // .pipe(takeUntil(this._unsubscribeAll))
+            .toPromise()
+            .then((res) => {
+              if (res.result == false) {
+                throw new Error(res.message);
+              }
+              this.router.navigate(['/apps/ip/profiles/profile-list']);
+              return res;
+            })
+            .catch(function (error) {
+              Swal.showValidationMessage('Mã lỗi:  ' + error + '');
+            });
+        },
         cancelButtonColor: '#E42728',
-        cancelButtonText: "Thoát",
+        cancelButtonText: 'Thoát',
         confirmButtonText: 'Đúng, tôi muốn thêm mới!',
         customClass: {
           confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
+          cancelButton: 'btn btn-danger ml-1',
         },
-        allowOutsideClick:  () => {
+        allowOutsideClick: () => {
           return !Swal.isLoading();
-        }
+        },
       }).then(function (result) {
         if (result.value) {
           Swal.fire({
@@ -526,16 +499,13 @@ export class EntityProfileCreateComponent implements OnInit {
             title: 'Thành công!',
             text: 'EntityProfile đã được thêm mới.',
             customClass: {
-              confirmButton: 'btn btn-success'
-            }
+              confirmButton: 'btn btn-success',
+            },
           });
         }
-      }
-      
-      );
+      });
     }
 
-    
     // else{
     //   Swal.fire({
     //     title: 'Bạn có chắc muốn tạo profile?',
@@ -581,10 +551,10 @@ export class EntityProfileCreateComponent implements OnInit {
     //       });
     //     }
     //   }
-      
+
     //   );
     // }
-    
+
     // this._entityProfileService
     //   .createProfile( JSON.stringify(this.formCreateProfile.value))
     //   .subscribe((res) =>{
