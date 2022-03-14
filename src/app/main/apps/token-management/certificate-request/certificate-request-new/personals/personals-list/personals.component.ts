@@ -175,7 +175,7 @@ export class PersonalsComponent implements OnInit {
                 .replace('}', ' ')
                 .replace(/['"]+/g, '')
                 .replace(/[":"]+/g, ' = '),
-              alias: personal.username + Math.floor(Math.random() * 1000 + 1),
+              alias: personal.username + Math.floor(Date.now()),
             });
           });
       });
@@ -183,7 +183,7 @@ export class PersonalsComponent implements OnInit {
     }
     else{
       this.toastr.warning(
-        '👋 Bạn chưa chọn yêu cầu chứng thực',
+        '👋 Bạn chưa chọn thuê bao cá nhân ',
         'Cảnh báo',
         {
           positionClass: 'toast-top-center',
