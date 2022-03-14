@@ -182,7 +182,8 @@ export class TokenListComponent implements OnInit {
           console.log(this.selected[i].tokenId);
           this._tokenService
             .deleteTokenId(this.selected[i].tokenId)
-            .subscribe((res) => {
+            .toPromise()
+            .then((res) => {
               console.log(res);
               this.setPage({
                 offset: 0,
@@ -204,7 +205,7 @@ export class TokenListComponent implements OnInit {
     }).then(function (result) {
       console.log(result);
       console.log(result.value);
-      if (result.isDismissed == false) {
+      if (result.isDismissed == true) {
         Swal.fire({
           icon: 'success',
           title: 'Xóa thành công!',

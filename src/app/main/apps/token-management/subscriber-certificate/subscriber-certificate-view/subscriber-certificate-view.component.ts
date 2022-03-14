@@ -329,7 +329,7 @@ export class SubscriberCertificateViewComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.value) {
+      if (result.isDismissed) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -347,7 +347,8 @@ export class SubscriberCertificateViewComponent implements OnInit {
   deleteSubscriberCertificate(id) {
     this._subscriberCertificateService
       .deleteSubscriberCertificateById(id)
-      .subscribe((res) => {
+      .toPromise()
+      .then((res) => {
         if (res.result === true) {
           this.router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-list']);
         }

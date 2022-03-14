@@ -14,9 +14,8 @@
                   <ng-select
                     [items]="hsmList"
                     bindLabel="hsmName"
-                    placeholder="Chọn"
-                    (change)="changeHsm()"
-                    formControlName="hsmList"
+                    bindValue="hsmId"
+                   placeholder="{{hsmSearchName}}"
                   >
                   </ng-select>
                 </div>
@@ -29,7 +28,7 @@
                     [clearable]="false"
                     placeholder="Chọn"
                     bindLabel="tokenName"
-                    formControlName="tokenList"
+                    placeholder="{{slotSearchName}}"
                   >
                   </ng-select>
                 </div>

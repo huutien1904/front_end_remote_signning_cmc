@@ -183,13 +183,13 @@ export class CertificateRequestListComponent implements OnInit {
       window.URL.createObjectURL(blob)
     );
     row.fileName =
-      row.subjectDN.slice(row.subjectDN.indexOf("=") + 1, row.subjectDN.indexOf(",")) + ".csr.csr";
+      row.subjectDN.slice(row.subjectDN.indexOf("=") + 1, row.subjectDN.indexOf(",")) + ".csr";
     console.log(row);
   }
   downloadList(event) {
     console.log(event)
     
-    if (this.selected.length > 0) {
+    if (this.selected.length > 1) {
       var zip = new JSZip();
         this.selected.map((item) =>{
           zip.file(item.fullName + ".csr", item.certificateRequestContent);
@@ -197,19 +197,31 @@ export class CertificateRequestListComponent implements OnInit {
         zip.generateAsync({ type: "blob" })
           .then(blob => saveAs(blob,'Danh sách yêu cầu chứng thực.zip'));
     } 
-    else {
-      
-      this._toastrService.warning(
-        '👋 Bạn chưa chọn yêu cầu chứng thực',
-        'Cảnh báo',
-        {
-          positionClass: 'toast-top-center',
-          toastClass: 'toast ngx-toastr',
-          closeButton: true,
-        }
+    if(this.selected.length == 1){
+      var data = '';
+      this.selected.map((item) => {
+        // console.log(item.certificateRequestContent)
+        return data += item.certificateRequestContent + '\n'
+      });
+      console.log(data);
+      const blob = new Blob([data], { type: 'csr' });
+      this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        window.URL.createObjectURL(blob)
       );
-      event.defaultPrevented = true;
     }
+    // else {
+      
+    //   this._toastrService.warning(
+    //     '👋 Bạn chưa chọn yêu cầu chứng thực',
+    //     'Cảnh báo',
+    //     {
+    //       positionClass: 'toast-top-center',
+    //       toastClass: 'toast ngx-toastr',
+    //       closeButton: true,
+    //     }
+    //   );
+    //   event.defaultPrevented = true;
+    // }
   }
 
   exportCSV() {
@@ -316,6 +328,7 @@ export class CertificateRequestListComponent implements OnInit {
   }
   // delete item certificate
   openConfirmDelete(certificateRequestId) {
+    console.log("tien")
     this.confirmRemoveRequestCertificate(certificateRequestId);
   }
   confirmRemoveRequestCertificate(certificateRequestId) {
@@ -340,7 +353,7 @@ export class CertificateRequestListComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.value) {
+      if (result.isDismissed) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -358,7 +371,9 @@ export class CertificateRequestListComponent implements OnInit {
   deleteRequestCertificate(id) {
     this._listCerReqService
       .deleteCertificateRequestById(id)
+      
       .subscribe((res) => {
+        console.log(res)
         if (res.result === true) {
           this.setPage({
             offset: 0,
@@ -413,7 +428,7 @@ export class CertificateRequestListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.value) {
+        if (result.isDismissed) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',

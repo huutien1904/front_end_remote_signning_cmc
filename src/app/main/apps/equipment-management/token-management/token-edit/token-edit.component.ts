@@ -182,7 +182,7 @@ export class TokenEditComponent implements OnInit {
           return !Swal.isLoading();
         }
       }).then(function (result) {
-        if (result.value) {
+        if (result.isDismissed) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',

@@ -109,6 +109,7 @@ export class TokenPasswordUserComponent implements OnInit {
           return !Swal.isLoading();
         },
       }).then(function (result) {
+        console.log(result)
         if (result.value) {
           Swal.fire({
             icon: 'success',
