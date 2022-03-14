@@ -334,7 +334,7 @@ export class SubscriberCertificateListComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.value) {
+      if (result.isDismissed) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -352,7 +352,8 @@ export class SubscriberCertificateListComponent implements OnInit {
   deleteSubscriberCertificate(id) {
     this._subscriberCertificateService
       .deleteSubscriberCertificateById(id)
-      .subscribe((res) => {
+      .toPromise()
+      .then((res) => {
         if (res.result === true) {
           this.setPage({
             offset: 0,
@@ -387,7 +388,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.value) {
+        if (result.isDismissed) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',

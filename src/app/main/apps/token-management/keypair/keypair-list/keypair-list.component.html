@@ -10,10 +10,12 @@
             <div class="row">
               <div class="col-6 col-md-2">
                 <div class="form-group">
-                  <label>Kết nối HSM</label>
+                  <label>Vị trí lưu khóa</label>
                   <ng-select
                     [items]="hsmList"
                     bindLabel="hsmName"
+                    bindValue="hsmId"
+                   placeholder="{{hsmSearchName}}"
                   >
                   </ng-select>
                 </div>
@@ -25,7 +27,7 @@
                     [items]="tokenList"
                     [clearable]="false"
                     bindLabel="tokenName"
-                  
+                    placeholder="{{slotSearchName}}"
                   >
                   </ng-select>
                 </div>

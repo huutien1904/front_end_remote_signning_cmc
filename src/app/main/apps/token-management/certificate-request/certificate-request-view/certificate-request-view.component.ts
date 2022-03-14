@@ -120,7 +120,7 @@ export class CertificateRequestViewComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.value) {
+      if (result.isDismissed) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -198,7 +198,7 @@ export class CertificateRequestViewComponent implements OnInit {
     this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'telephoneNumber').replace('E=', 'gmail')
     console.log(this.results[0].subjectDN)
     let check = this.results[0].subjectDN
-    this.subjectDn = this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'telephoneNumber ').replace('E=', 'Gmail = ').replace('2.5.4.9', 'STREET ')
+    this.subjectDn = this.results[0].subjectDN.replace('0.9.2342.19200300.100.1.1', 'C').replace('2.5.4.20', 'telephoneNumber ').replace('2.5.4.9', 'STREET ')
     // console.log(tien)
     return this.results[0];
   }
