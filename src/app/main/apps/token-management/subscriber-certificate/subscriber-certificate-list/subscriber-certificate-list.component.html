@@ -167,6 +167,10 @@
                   rippleEffect
                   (click)="deleteListSubscriber()"
                 >
+                  <i
+                    data-feather="trash-2"
+                    class="d-sm-none d-inline-block"
+                  ></i>
                   <span class="d-none d-sm-inline-block">Xóa</span>
                 </button>
                 <button
@@ -384,7 +388,7 @@
                     <span *ngIf="chkBoxSelected">
                       Đã chọn {{ chkBoxSelected.length }} /
                     </span>
-                    {{ totalItems}} {{ totalMessage }} hàng.
+                    {{ totalItems }} {{ totalMessage }} hàng.
                   </div>
                   <datatable-pager
                     [pagerLeftArrowIcon]="'datatable-icon-left'"
@@ -431,7 +435,7 @@
                   (click)="deleteListSubscriber()"
                 >
                   <i
-                    data-feather="download"
+                    data-feather="trash-2"
                     class="d-sm-none d-inline-block"
                   ></i>
                   <span class="d-none d-sm-inline-block">Xóa</span>

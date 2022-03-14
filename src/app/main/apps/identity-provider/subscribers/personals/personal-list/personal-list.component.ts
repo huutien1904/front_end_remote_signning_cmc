@@ -434,52 +434,60 @@ export class PersonalListComponent implements OnInit {
   }
 
   exportCSV() {
+    const body = {
+      page: null,
+      size: 20,
+      sort: ['staffId,asc'],
+      contains: '',
+      fromDate: '',
+      toDate: '',
+      gender: '',
+      dateOfBirth: '',
+    };
     this._personalService
-      .getListPersonals(JSON.stringify(this.formListPersonal.value))
+      .getListPersonals(body)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
         this.totalItems = pagedData.data.totalItems;
         console.log(pagedData);
         console.log(pagedData.data.data);
-        this.dataExport = pagedData.data.data.map(
-          async (personalList: any) => ({
-            ...personalList,
-            address: await this._addressService
-              .getAddressById(personalList.address.addressId)
-              .pipe(takeUntil(this._unsubscribeAll))
-              .toPromise()
-              .then((res) => {
-                //  console.log(res)
-                console.log(res.data.streetName);
-                return (
-                  'số nhà ' +
-                  res.data.houseNumber +
-                  'Đường ' +
-                  res.data.streetName +
-                  'Xã ' +
-                  res.data.communeName
-                );
-                //  row[k] = res.data.districtName
-              }),
-            birthPlace: this._addressService
-              .getAddressById(personalList.address.addressId)
-              .pipe(takeUntil(this._unsubscribeAll))
-              .toPromise()
-              .then((res) => {
-                console.log(res);
-                console.log(res.data.streetName);
-                return (
-                  'số nhà ' +
-                  res.data.houseNumber +
-                  'Đường ' +
-                  res.data.streetName +
-                  'Xã ' +
-                  res.data.communeName
-                );
-                //  row[k] = res.data.districtName
-              }),
-          })
-        );
+        this.dataExport = pagedData.data.data.map((personalList: any) => ({
+          ...personalList,
+          address: this._addressService
+            .getAddressById(personalList.address.addressId)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .toPromise()
+            .then((res) => {
+              //  console.log(res)
+              console.log(res.data.streetName);
+              return (
+                'số nhà ' +
+                res.data.houseNumber +
+                'Đường ' +
+                res.data.streetName +
+                'Xã ' +
+                res.data.communeName
+              );
+              //  row[k] = res.data.districtName
+            }),
+          birthPlace: this._addressService
+            .getAddressById(personalList.address.addressId)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .toPromise()
+            .then((res) => {
+              console.log(res);
+              console.log(res.data.streetName);
+              return (
+                'số nhà ' +
+                res.data.houseNumber +
+                'Đường ' +
+                res.data.streetName +
+                'Xã ' +
+                res.data.communeName
+              );
+              //  row[k] = res.data.districtName
+            }),
+        }));
         console.log(this.dataExport);
         if (!this.dataExport || !this.dataExport.length) {
           return;
