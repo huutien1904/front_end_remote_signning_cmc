@@ -13,11 +13,14 @@ const routes: Routes = [
     component: TemplateListComponent,
   },
   {
+    path: 'template-create',
+    component: TemplateCreateComponent,
+  },
+  {
     path: 'template-view/:id',
     component: TemplateViewComponent,
   },
   { path: 'template-edit/:id', component: TemplateEditComponent },
-  { path: 'template-create', component: TemplateCreateComponent },
   {
     path: "**",
     redirectTo: "/pages/miscellaneous/error", //Error 404 - Page not found

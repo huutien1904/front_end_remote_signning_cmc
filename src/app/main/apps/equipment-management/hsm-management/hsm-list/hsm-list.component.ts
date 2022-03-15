@@ -129,7 +129,6 @@ export class HsmListComponent implements OnInit {
         this.isLoading = false;
       });
 
-      console.log("tien123hsm",this.pagedData)
   }
   onActivate(event) {
     if (
@@ -225,7 +224,8 @@ export class HsmListComponent implements OnInit {
         return !Swal.isLoading();
       },
     }).then(function (result) {
-      if (result.isDismissed) {
+      console.log(result);
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',

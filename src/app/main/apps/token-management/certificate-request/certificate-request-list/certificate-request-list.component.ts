@@ -7,6 +7,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { takeUntil } from 'rxjs/operators';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { FileSaverService } from 'ngx-filesaver';
 
 import {
   ColumnMode,
@@ -62,7 +63,7 @@ export class CertificateRequestListComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private _router: Router,
     private _toastrService: ToastrService,
-
+    private _FileSaverService: FileSaverService
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -187,41 +188,31 @@ export class CertificateRequestListComponent implements OnInit {
     console.log(row);
   }
   downloadList(event) {
-    console.log(event)
-    
-    if (this.selected.length > 1) {
+    if(this.selected.length > 1){
+      console.log(event)
       var zip = new JSZip();
-        this.selected.map((item) =>{
-          zip.file(item.fullName + ".csr", item.certificateRequestContent);
-        })
-        zip.generateAsync({ type: "blob" })
-          .then(blob => saveAs(blob,'Danh sách yêu cầu chứng thực.zip'));
-    } 
-    if(this.selected.length == 1){
-      var data = '';
+          this.selected.map((item) =>{
+            zip.file(item.fullName + ".csr", item.certificateRequestContent);
+          })
+          zip.generateAsync({ type: "blob" })
+            .then(blob => saveAs(blob,'Danh sách yêu cầu chứng thực.zip'));
+    }
+    
+    if(this.selected.length === 1){
+      console.log("1")
+      var fileName ;
+
+      var data:any = '';
       this.selected.map((item) => {
+        fileName = `${item.fullName}.csr` ;
         // console.log(item.certificateRequestContent)
         return data += item.certificateRequestContent + '\n'
       });
-      console.log(data);
-      const blob = new Blob([data], { type: 'csr' });
-      this.listFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        window.URL.createObjectURL(blob)
-      );
-    }
-    // else {
+      console.log(fileName,data)
+      this._FileSaverService.save(data, fileName);
       
-    //   this._toastrService.warning(
-    //     '👋 Bạn chưa chọn yêu cầu chứng thực',
-    //     'Cảnh báo',
-    //     {
-    //       positionClass: 'toast-top-center',
-    //       toastClass: 'toast ngx-toastr',
-    //       closeButton: true,
-    //     }
-    //   );
-    //   event.defaultPrevented = true;
-    // }
+    }
+    
   }
 
   exportCSV() {
@@ -327,7 +318,6 @@ export class CertificateRequestListComponent implements OnInit {
   }
   // delete item certificate
   openConfirmDelete(certificateRequestId) {
-    console.log("tien")
     this.confirmRemoveRequestCertificate(certificateRequestId);
   }
   confirmRemoveRequestCertificate(certificateRequestId) {
@@ -351,8 +341,8 @@ export class CertificateRequestListComponent implements OnInit {
         return !Swal.isLoading();
       }
     }).then(function (result: any) {
-      console.log(result)
-      if (result.isDismissed) {
+      console.log("check",result)
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -370,7 +360,6 @@ export class CertificateRequestListComponent implements OnInit {
   deleteRequestCertificate(id) {
     this._listCerReqService
       .deleteCertificateRequestById(id)
-      
       .subscribe((res) => {
         console.log(res)
         if (res.result === true) {
@@ -427,7 +416,7 @@ export class CertificateRequestListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.isDismissed) {
+        if (result.value) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',

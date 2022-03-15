@@ -559,7 +559,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         return !Swal.isLoading();
       }
     }).then(function (result) {
-      if (result.isDismissed) {
+      console.log(result)
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',

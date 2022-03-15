@@ -135,7 +135,7 @@ export class TokenPasswordComponent implements OnInit {
           return !Swal.isLoading();
         },
       }).then(function (result:any) {
-        if (result.isDismissed) {
+        if (result.value) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
