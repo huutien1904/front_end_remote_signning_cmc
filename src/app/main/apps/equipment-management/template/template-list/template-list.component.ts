@@ -1,3 +1,4 @@
+import { PagedData } from './../../../../models/PagedData';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
@@ -5,8 +6,11 @@ import { CoreConfigService } from '@core/services/config.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TemplateService } from '../template.service';
-import { PagedData } from 'app/main/models/PagedData';
-import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType,
+} from '@swimlane/ngx-datatable';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Template } from 'app/main/models/Equipment';
@@ -30,7 +34,8 @@ export class TemplateListComponent implements OnInit {
   // data table
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
-  public pagedData:any = new PagedData<Template>();
+  public pagedData: any = new PagedData<any>()
+  
   public rowsData = new Array<Template>();
   public isLoading: boolean = false;
   public ColumnMode = ColumnMode;
@@ -43,7 +48,7 @@ export class TemplateListComponent implements OnInit {
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<any>,
     private _coreConfigService: CoreConfigService,
-    private _templateService:TemplateService,
+    private _templateService: TemplateService,
     private _toastrService: ToastrService,
     private _router: Router
   ) {
@@ -81,8 +86,8 @@ export class TemplateListComponent implements OnInit {
       fromDate: [null],
       toDate: [null],
     });
+    this.pagedData.totalItems = 7;
     this.setPage({ offset: 0, pageSize: this.formTemplate.get('size').value });
-    
   }
   setPage(pageInfo) {
     this.isLoading = true;
@@ -92,25 +97,21 @@ export class TemplateListComponent implements OnInit {
     this._templateService
       .getListTemplate(JSON.stringify(this.formTemplate.value))
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData:any) => {
-
+      .subscribe((pagedData: any) => {
         this.pagedData.totalItems = pagedData.data.length;
+        console.log(this.pagedData.totalItems)
         this.pagedData = pagedData.data;
-        this.pagedData.size = pagedData.data.length;
-        this.pagedData.totalPages = 0
-        this.pagedData.currentPage = 1;
-
-
+        // this.pagedData.size = pagedData.data.length;
+        // this.pagedData.totalPages = 0;
+        // this.pagedData.currentPage = 1;
 
         this.totalItems = pagedData.data.length;
-        
-        
-        this.rowsData = pagedData.data.map((item:any,index) => ({
+
+        this.rowsData = pagedData.data.map((item: any, index) => ({
           ...item,
-          
         }));
         console.log(this.rowsData);
-        console.log(this.pagedData)
+        console.log(this.pagedData);
         this.isLoading = false;
       });
   }

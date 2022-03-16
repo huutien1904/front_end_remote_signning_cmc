@@ -284,7 +284,7 @@ export class PersonalListComponent implements OnInit {
       }
     }).then(function (result:any) {
       console.log(result)
-      if (result.isDismissed) {
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -328,7 +328,7 @@ export class PersonalListComponent implements OnInit {
         return !Swal.isLoading();
       },
     }).then(function (result) {
-      if (result.isDismissed) {
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',

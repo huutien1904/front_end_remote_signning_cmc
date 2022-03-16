@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { FileSaverService } from 'ngx-filesaver';
 
 @Component({
   selector: 'app-subscriber-certificate-list',
@@ -69,7 +70,7 @@ export class SubscriberCertificateListComponent implements OnInit {
     private _router: Router,
     private sanitizer: DomSanitizer,
     private toastr: ToastrService,
-
+    private _FileSaverService: FileSaverService
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -127,16 +128,16 @@ export class SubscriberCertificateListComponent implements OnInit {
         this.pagedData = pagedData.data;
         // this.rowsData = 
         this.rowsData = pagedData.data.data.map((item) => (
-          
+
           {
-          ...item ,
-          SubjectDN: this.readCertificate(item.certificateContent).subject
-          // organizationName: this.getOrganization(item),
-          // subscribeName: this.getSubscriber(item),
-        }));
-        this.rowsData.map((item,index) =>{
-          if(item.keypairStatus.keypairStatusName == "Đã tạo mới"){
-            this.rowsData.splice(index,1)
+            ...item,
+            SubjectDN: this.readCertificate(item.certificateContent).subject
+            // organizationName: this.getOrganization(item),
+            // subscribeName: this.getSubscriber(item),
+          }));
+        this.rowsData.map((item, index) => {
+          if (item.keypairStatus.keypairStatusName == "Đã tạo mới") {
+            this.rowsData.splice(index, 1)
             // console.log(index)
           }
         })
@@ -187,12 +188,29 @@ export class SubscriberCertificateListComponent implements OnInit {
     // console.log(row);
   }
   downloadList() {
-    var zip = new JSZip();
-    this.selected.map((item) => {
-      zip.file(item.fullName + ".pem", item.certificateContent);
-    })
-    zip.generateAsync({ type: "blob" })
-      .then(blob => saveAs(blob, 'Danh sách chứng thư số.zip'));
+
+
+    if (this.selected.length > 1) {
+      var zip = new JSZip();
+      this.selected.map((item) => {
+        zip.file(item.fullName + ".pem", item.certificateContent);
+      })
+      zip.generateAsync({ type: "blob" })
+        .then(blob => saveAs(blob, 'Danh sách chứng thư số.zip'));
+    }
+    if (this.selected.length == 1) {
+      console.log("1")
+      var fileName;
+
+      var data: any = '';
+      this.selected.map((item) => {
+        fileName = `${item.fullName}.pem`;
+        // console.log(item.certificateRequestContent)
+        return data += item.certificateContent + '\n'
+      });
+      console.log(fileName, data)
+      this._FileSaverService.save(data, fileName);
+    }
 
   }
   /**
@@ -334,13 +352,22 @@ export class SubscriberCertificateListComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.isDismissed) {
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
           text: 'Bạn đã xóa thành công',
           customClass: {
             confirmButton: 'btn btn-success'
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Thất bại!',
+          text: 'Không thể xóa chứng thư số tạo từ super admin',
+          customClass: {
+            confirmButton: 'btn btn-waring'
           }
         });
       }

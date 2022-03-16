@@ -1,1 +1,162 @@
-<p>template-create works!</p>
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <app-content-header [contentHeader]="contentHeader"> </app-content-header>
+      <div class="content-body">
+        <section>
+          <div class="card">
+            <div class="card-body">
+              <h3>Tạo mới cặp khóa</h3>
+              <!-- <form [formGroup]="keypairFormView" class="form form-horizontal">
+                <div class="form_content">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Kết nối HSM</label>
+                        <ng-select
+                          [items]="hsmList"
+                          bindLabel="hsmName"
+                          [clearable]="false"
+                          formControlName="hsmList"
+                          (change)="changeHsm()"
+                          [ngClass]="
+                            (f.hsmList.errors && f.hsmList?.touched) ||
+                            (submitted && f.hsmList?.errors?.required)
+                              ? 'is-invalid'
+                              : ''
+                          "
+                        >
+                        </ng-select>
+                        <div
+                          *ngIf="
+                            (f.hsmList.errors && f.hsmList?.touched) ||
+                            (submitted && f.hsmList?.errors?.required)
+                          "
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.hsmList.errors.required">
+                            Bạn cần chọn kết nối HSM
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Slot</label>
+                        <ng-select
+                          [items]="tokenList"
+                          bindLabel="tokenName"
+                          [clearable]="false"
+                          formControlName="tokenList"
+                          [ngClass]="
+                            (f.tokenList.errors && f.tokenList?.touched) ||
+                            (submitted && f.tokenList?.errors?.required)
+                              ? 'is-invalid'
+                              : ''
+                          "
+                        ></ng-select>
+                        <div
+                          *ngIf="
+                            (f.tokenList.errors && f.tokenList?.touched) ||
+                            (submitted && f.tokenList?.errors?.required)
+                          "
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.tokenList.errors.required">
+                            Bạn cần chọn Slot
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Hệ mật</label>
+                        <ng-container formGroupName="cryptoAlgorithm">
+                          <ng-select
+                            [items]="cryptoAlgorithm"
+                            bindLabel="cryptoSystem"
+                            [clearable]="false"
+                            formControlName="cryptoSystem"
+                            (change)="changeCrypto()"
+                          ></ng-select>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Tham số khóa</label>
+                        <ng-container formGroupName="cryptoAlgorithm">
+                          <ng-select
+                            [items]="keypairLengthList"
+                            bindLabel="keypairLength"
+                            [clearable]="false"
+                            formControlName="keypairLength"
+                          ></ng-select>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Số lượng cặp khóa</label>
+                        <ng-select
+                          [items]="numberKeypair"
+                          bindLabel="numberKeypair"
+                          [clearable]="false"
+                          formControlName="numberKeypair"
+                          (change)= "disableTokenName($event)"
+                          [ngClass]="
+                            (f.numberKeypair.errors && f.numberKeypair?.touched) ||
+                            (submitted && f.numberKeypair?.errors?.required)
+                              ? 'is-invalid'
+                              : ''
+                          "
+                        ></ng-select>
+                        <div
+                          *ngIf="
+                            (f.numberKeypair.errors && f.numberKeypair?.touched) ||
+                            (submitted && f.numberKeypair?.errors?.required)
+                          "
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.numberKeypair.errors.required">
+                            Bạn cần chọn số lượng cặp khóa
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Tên cặp khóa (Alias)</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="keypairAlias"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-10 offset-2">
+                      <div class="d-flex justify-content-end m-1">
+                        <button
+                          class="btn btn-primary mr-1"
+                          (click)="onSubmit()"
+                          rippleEffect
+                        >
+                          <span class="d-sm-none d-inline-block">Tạo mới</span>
+                          <span class="d-none d-sm-inline-block"
+                            >Tạo mới cặp khóa</span
+                          >
+                        </button>
+                        <app-return [buttonReturn]="buttonReturn"> </app-return>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form> -->
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  

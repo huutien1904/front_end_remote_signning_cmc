@@ -467,6 +467,16 @@ export class KeypairListComponent implements OnInit {
             }
           });
         }
+        else{
+          Swal.fire({
+            icon: 'warning',
+            title: 'Thất bại!',
+            text: 'Không thể xóa cặp khóa tạo bằng super admin',
+            customClass: {
+              confirmButton: 'btn btn-warning'
+            }
+          });
+        }
       }
   
       );

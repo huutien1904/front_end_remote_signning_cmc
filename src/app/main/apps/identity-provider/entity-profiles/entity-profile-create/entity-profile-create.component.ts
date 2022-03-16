@@ -493,6 +493,7 @@ export class EntityProfileCreateComponent implements OnInit {
           return !Swal.isLoading();
         },
       }).then(function (result) {
+        console.log(result)
         if (result.isDismissed) {
           Swal.fire({
             icon: 'success',
