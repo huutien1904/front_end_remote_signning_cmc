@@ -122,7 +122,7 @@ export class CreateSelfComponent implements OnInit {
           Validators.pattern(/^[0-9]\d*$/),
         ],
       ],
-      organizationId: [null, Validators.required],
+      organizationId: [0],
       streetBirthPlace: [{ value: null, disabled: true }, Validators.required],
       countryBirthPlace: [
         this.countryBirthPlace[0].countryId,

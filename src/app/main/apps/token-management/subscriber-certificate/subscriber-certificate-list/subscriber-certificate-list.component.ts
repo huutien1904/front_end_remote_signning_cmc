@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
@@ -13,7 +14,7 @@ import {
 import { PagedData } from 'app/main/models/PagedData';
 import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { SubscriberCertificateListService } from './subscriber-certificate-list.service';
 import * as x509 from "@peculiar/x509";
 import Swal from 'sweetalert2';
@@ -56,7 +57,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
   public pagedData = new PagedData<SubscriberCertificate>();
-  public rowsData = new Array<SubscriberCertificate>();
+  public rowsData:any = new Array<SubscriberCertificate>();
   public isLoading: boolean = false;
   //Table of personal data
   public totalItems: any = 0;
@@ -123,33 +124,23 @@ export class SubscriberCertificateListComponent implements OnInit {
         JSON.stringify(this.formListSubscriberCertificate.value)
       )
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
+      .subscribe( async (pagedData) => {
         console.log(pagedData)
         this.pagedData = pagedData.data;
-        // this.rowsData = 
-        this.rowsData = pagedData.data.data.map((item) => (
-
-          {
-            ...item,
-            SubjectDN: this.readCertificate(item.certificateContent).subject
-            // organizationName: this.getOrganization(item),
-            // subscribeName: this.getSubscriber(item),
-          }));
-        this.rowsData.map((item, index) => {
-          if (item.keypairStatus.keypairStatusName == "Đã tạo mới") {
-            this.rowsData.splice(index, 1)
-            // console.log(index)
-          }
+        
+        var data = pagedData.data.data.map((item) =>({
+          ...item,
+          SubjectDN: this.readCertificate(item.certificateContent).subject
+        }))
+        console.log(pagedData.data.data)
+        this.rowsData = data.filter((item) =>{
+          return item.keypairStatus.keypairStatusName == "Đã gửi yêu cầu chứng thực"
         })
-        // this.pagedData.totalItems = this.rowsData.length
+        
+        this.pagedData.totalItems = this.rowsData.length
         this.totalItems = this.rowsData.length;
-        // this.rowsData.slice(5,1)
-        // this.rowsData = pagedData.data.data;
-        // pagedData.data.data.map((item:any) =>{
-        //   if(item.keypairStatus.keypairStatusName == "Đã gửi yêu cầu chứng thực"){
-        //     this.rowsData.push(item.SubjectDN = this.readCertificate(item.certificateContent).subject);
-        //   }
-        // })
+        console.log(this.rowsData)
+        
         console.log(this.totalItems)
         this.isLoading = false;
       });
@@ -352,7 +343,7 @@ export class SubscriberCertificateListComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.value) {
+      if (result.isDismissed === true && result.value === true) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -361,7 +352,8 @@ export class SubscriberCertificateListComponent implements OnInit {
             confirmButton: 'btn btn-success'
           }
         });
-      } else {
+      } 
+      if(result.isDismissed === false && result.isConfirmed === true) {
         Swal.fire({
           icon: 'warning',
           title: 'Thất bại!',
@@ -415,7 +407,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.isDismissed) {
+        if (result.value && result.isConfirmed === true) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
