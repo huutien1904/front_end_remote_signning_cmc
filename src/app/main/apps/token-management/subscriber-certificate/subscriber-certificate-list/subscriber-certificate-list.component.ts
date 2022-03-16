@@ -343,7 +343,7 @@ export class SubscriberCertificateListComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.value === true && result.isConfirmed === true) {
+      if (result.isDismissed === true && result.value === true) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -353,7 +353,7 @@ export class SubscriberCertificateListComponent implements OnInit {
           }
         });
       } 
-      if(result.value === false && result.isConfirmed === true) {
+      if(result.isDismissed === false && result.isConfirmed === true) {
         Swal.fire({
           icon: 'warning',
           title: 'Thất bại!',
