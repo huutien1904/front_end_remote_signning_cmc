@@ -443,7 +443,6 @@ export class EntityProfileCreateComponent implements OnInit {
     ) {
       Swal.fire({
         title: 'Bạn phải điền đầy đủ các trường?',
-        text: 'Bạn sẽ không thể hoàn tác điều này!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#7367F0',
