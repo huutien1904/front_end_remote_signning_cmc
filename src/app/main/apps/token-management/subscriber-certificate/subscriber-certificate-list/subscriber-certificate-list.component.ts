@@ -130,7 +130,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         this.rowsData = pagedData.data.data.map((item) => (
 
           {
-            ...item,
+            ...item  ,
             SubjectDN: this.readCertificate(item.certificateContent).subject
             // organizationName: this.getOrganization(item),
             // subscribeName: this.getSubscriber(item),
@@ -141,7 +141,7 @@ export class SubscriberCertificateListComponent implements OnInit {
             // console.log(index)
           }
         })
-        // this.pagedData.totalItems = this.rowsData.length
+        this.pagedData.totalItems = this.rowsData.length
         this.totalItems = this.rowsData.length;
         // this.rowsData.slice(5,1)
         // this.rowsData = pagedData.data.data;
