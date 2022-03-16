@@ -380,6 +380,10 @@ export class KeypairListComponent implements OnInit {
         preConfirm: async () => {
           this._keypairService
           .deleteKeypairById(keypairId)
+          .toPromise()
+          .then((res) =>{
+            return res;
+          })
         },
         cancelButtonColor: '#E42728',
         cancelButtonText: "Thoát",
@@ -393,7 +397,7 @@ export class KeypairListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.isDismissed === true) {
+        if (result.isDismissed === true && result.value === true ) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
@@ -403,7 +407,7 @@ export class KeypairListComponent implements OnInit {
             }
           });
         }
-        if (result.isDismissed === false) {
+        if (result.isDismissed === false && result.isConfirmed === true ) {
           Swal.fire({
             icon: 'warning',
             title: 'Thất bại!',
