@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-template-create',
@@ -9,9 +10,11 @@ export class TemplateCreateComponent implements OnInit {
 
   // public 
   public contentHeader: object;
-
-  
-  constructor() { }
+  public templateFormView: FormGroup;
+  public submitted = false;
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
     this.contentHeader = {
@@ -32,6 +35,28 @@ export class TemplateCreateComponent implements OnInit {
         ],
       },
     };
+    this.templateFormView = this.formBuilder.group({
+      keypairTemplateName: [null, Validators.required],
+      privateKeyExtractable: [null, Validators.required],
+      privateKeySensitive: [null, Validators.required],
+      privateKeyDerive: [null, Validators.required],
+      privateKeyDecrypt: [null, Validators.required],
+      privateKeySign: [null, Validators.required],
+      privateKeySignRecover: [null, Validators.required],
+      privateKeyUnwrap: [null, Validators.required],
+      publicKeyModifiable: [null, Validators.required],
+      publicKeyToken: [null, Validators.required],
+      publicKeyPrivate: [null, Validators.required],
+      publicKeyDerive: [null, Validators.required],
+      publicKeyWrap: [null, Validators.required],
+    
+    });
   }
+
+  get f() {
+    return this.templateFormView.controls;
+  }
+
+
 
 }
