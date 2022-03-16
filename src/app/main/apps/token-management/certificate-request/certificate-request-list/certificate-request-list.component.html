@@ -152,15 +152,17 @@
                 <span class="d-none d-sm-inline-block">Tạo</span>
               </button>
             </a>
-
-            <button
-              class="btn btn-outline-secondary ml-50"
-              (click)="downloadList($event)"
-              rippleEffect
-            >
-              <i data-feather="download" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">Tải về</span>
-            </button>
+            <!-- <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.csr"> -->
+              <button
+                class="btn btn-outline-secondary ml-50"
+                (click)="downloadList($event)"
+                rippleEffect
+                [disabled]="selected.length === 0"
+              >
+                <i data-feather="download" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Tải về</span>
+              </button>
+            <!-- </a> -->
             <button
               class="btn btn-outline-danger ml-50"
               rippleEffect
@@ -373,7 +375,7 @@
                       ngbDropdownItem
                       class="d-flex align-items-center"
                       (click)="downloadSidebar(row)"
-                      ><i data-feather="download" class="mr-50"></i>Tải vê</a
+                      ><i data-feather="download" class="mr-50"></i>Tải về</a
                     >
                   </div>
                 </div>
@@ -425,14 +427,25 @@
               </button>
             </a>
 
-            <button
+            <!-- <button
               class="btn btn-outline-secondary ml-50"
               (click)="downloadList($event)"
               rippleEffect
             >
               <i data-feather="download" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Tải về</span>
-            </button>
+            </button> -->
+            <!-- <a [href]="listFileUrl" download="Danh sách yêu cầu chứng thực.txt"> -->
+              <button
+                class="btn btn-outline-secondary ml-50"
+                (click)="downloadList($event)"
+                rippleEffect
+                [disabled]="selected.length === 0"
+              >
+                <i data-feather="download" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Tải về</span>
+              </button>
+            <!-- </a> -->
             <button
               class="btn btn-outline-danger ml-50"
               rippleEffect

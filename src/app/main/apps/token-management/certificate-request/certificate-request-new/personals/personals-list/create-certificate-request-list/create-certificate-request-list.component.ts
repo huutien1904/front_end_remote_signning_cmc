@@ -143,7 +143,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
         keypairLength: [this.keypairLengthList[0], Validators.required],
       }),
       alias: [
-        this.personals[0].username + Math.floor(Math.random() * 1000 + 1),
+        this.personals[0].username   ,
         Validators.required,
         [this.checkAlias()],
       ],
@@ -212,7 +212,7 @@ export class CreateCertificateRequestListComponent implements OnInit {
               .replace('}', ' ')
               .replace(/['"]+/g, '')
               .replace(/[":"]+/g, ' = '),
-            alias: personal.username + Math.floor(Math.random() * 1000 + 1),
+            alias: personal.username + Math.floor(Date.now()),
           });
         });
     });

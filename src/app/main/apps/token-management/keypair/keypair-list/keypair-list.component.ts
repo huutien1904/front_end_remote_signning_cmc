@@ -49,7 +49,8 @@ export class KeypairListComponent implements OnInit {
   public keypairAlias: any[] = [];
   public tokenName: any;
   public tokenList: any[] = [];
-  public hsmNamesss = "tien"
+  public hsmSearchName = ""
+  public slotSearchName = ""
   // public keypairList: any[] = ['Kết nối HSM', 'Slot'];
   // public cryptoAlgorithm = [
   //   {
@@ -116,9 +117,11 @@ export class KeypairListComponent implements OnInit {
         console.log(hsmList);
         this.hsmList = hsmList.data.data;
         console.log(this.hsmList)
-        // this.hsmName = this.hsmList[0].hsmName;
+        this.hsmSearchName = this.hsmList[0].hsmName;
+        
         // console.log(this.hsmName)
         this.tokenList = this.hsmList[0].tokens;
+        this.slotSearchName = this.tokenList[0].tokenName
         this.tokenName = this.hsmList[0].tokens[0].tokenName;
         console.log(this.hsmList);
         console.log(this.tokenList);
@@ -364,6 +367,7 @@ export class KeypairListComponent implements OnInit {
 
     // delete keypair
     openConfirmDelete(keypairId) {
+      console.log("tien")
       this.confirmRemoveKeypair(keypairId);
     }
     confirmRemoveKeypair(keypairId) {
@@ -374,7 +378,8 @@ export class KeypairListComponent implements OnInit {
         showCancelButton: true,
         confirmButtonColor: '#7367F0',
         preConfirm: async () => {
-          this.deleteKeypair(keypairId)
+          this._keypairService
+          .deleteKeypairById(keypairId)
         },
         cancelButtonColor: '#E42728',
         cancelButtonText: "Thoát",
@@ -388,13 +393,23 @@ export class KeypairListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.value) {
+        if (result.isDismissed === true) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
             text: 'Bạn đã xóa thành công',
             customClass: {
               confirmButton: 'btn btn-success'
+            }
+          });
+        }
+        if (result.isDismissed === false) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Thất bại!',
+            text: 'Không thể xóa khóa được tạo từ Super Admin',
+            customClass: {
+              confirmButton: 'btn btn-warning'
             }
           });
         }
@@ -407,6 +422,7 @@ export class KeypairListComponent implements OnInit {
       this._keypairService
         .deleteKeypairById(id)
         .subscribe((res) => {
+          console.log("tien ",res)
           if (res.result === true) {
             this.setPage({
               offset: 0,
@@ -441,13 +457,23 @@ export class KeypairListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.value) {
+        if (result.isDismissed) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
             text: 'Bạn đã xóa thành công',
             customClass: {
               confirmButton: 'btn btn-success'
+            }
+          });
+        }
+        else{
+          Swal.fire({
+            icon: 'warning',
+            title: 'Thất bại!',
+            text: 'Không thể xóa cặp khóa tạo bằng super admin',
+            customClass: {
+              confirmButton: 'btn btn-warning'
             }
           });
         }

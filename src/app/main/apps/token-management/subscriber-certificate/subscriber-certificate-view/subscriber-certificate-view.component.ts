@@ -347,7 +347,8 @@ export class SubscriberCertificateViewComponent implements OnInit {
   deleteSubscriberCertificate(id) {
     this._subscriberCertificateService
       .deleteSubscriberCertificateById(id)
-      .subscribe((res) => {
+      .toPromise()
+      .then((res) => {
         if (res.result === true) {
           this.router.navigate(['/apps/tm/subscriber-certificate/subscriber-certificate-list']);
         }

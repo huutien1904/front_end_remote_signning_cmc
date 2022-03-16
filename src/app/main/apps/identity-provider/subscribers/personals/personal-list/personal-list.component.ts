@@ -281,9 +281,9 @@ export class PersonalListComponent implements OnInit {
       },
       allowOutsideClick: () => {
         return !Swal.isLoading();
-      },
-    }).then(function (result: any) {
-      console.log(result);
+      }
+    }).then(function (result:any) {
+      console.log(result)
       if (result.value) {
         Swal.fire({
           icon: 'success',

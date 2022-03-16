@@ -135,7 +135,7 @@ export class SidebarPersonalsComponent implements OnInit {
         }),
         alias: [
           this.personal.username +
-          Math.floor(Math.random() * 1000 + 1), Validators.required, [this.checkAlias()]]
+          Math.floor(Date.now()), Validators.required, [this.checkAlias()]]
         ,
         tokenId: [this.tokenList[0] , Validators.required],
         userId: [this.personal.userId],

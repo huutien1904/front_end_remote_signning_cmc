@@ -134,7 +134,7 @@ export class TokenPasswordComponent implements OnInit {
         allowOutsideClick: () => {
           return !Swal.isLoading();
         },
-      }).then(function (result) {
+      }).then(function (result:any) {
         if (result.value) {
           Swal.fire({
             icon: 'success',

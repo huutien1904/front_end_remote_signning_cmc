@@ -146,17 +146,17 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     console.log(entityId);
     this._entityProfileService
     .deleteProfileId(entityId)
-    .subscribe((res) =>{
+    .toPromise()
+    .then((res) =>{
+        if(res.result == true ){
+          this.setPage({
+            offset: 0,
+            pageSize: this.formListProfile.controls.size
+          })
+          return res;
+        }
         // this.updateTableOnDelete();
-        this._toastrService.success(
-          "Xóa Entity Profile thành công ",   
-          "Thành công",
-          { toastClass: "toast ngx-toastr", closeButton: true }
-        );
-        this.setPage({
-          offset: 0,
-          pageSize: this.formListProfile.controls.size
-        })
+        
     })
   }
   deleteProfile(entityId){
@@ -183,6 +183,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         return !Swal.isLoading();
       }
     }).then(function (result:any) {
+      console.log(result)
       if (result.value) {
         Swal.fire({
           icon: 'success',
@@ -225,6 +226,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
         return !Swal.isLoading();
       }
     }).then(function (result) {
+      console.log
       if (result.value) {
         Swal.fire({
           icon: 'success',

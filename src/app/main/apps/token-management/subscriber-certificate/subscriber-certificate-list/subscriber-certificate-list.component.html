@@ -150,18 +150,21 @@
                     <span class="d-none d-sm-inline-block">Tải lên</span>
                   </button>
                 </a>
-                <button
-                  class="btn btn-outline-secondary ml-50"
-                  rippleEffect
-                  (click)="downloadList()"
-                  [disabled]="selected.length === 0"
-                >
-                  <i
-                    data-feather="download"
-                    class="d-sm-none d-inline-block"
-                  ></i>
-                  <span class="d-none d-sm-inline-block">Tải về</span>
-                </button>
+                <!-- <a [href]="listFileUrl" download="Danh sách chứng thư số.pem"> -->
+                  <button
+                    class="btn btn-outline-secondary ml-50"
+                    rippleEffect
+                    (click)="downloadList()"
+                    [disabled]="selected.length === 0"
+                  >
+                    <i
+                      data-feather="download"
+                      class="d-sm-none d-inline-block"
+                    ></i>
+                    <span class="d-none d-sm-inline-block">Tải về</span>
+                  </button>
+
+                <!-- </a> -->
                 <button
                   class="btn btn-outline-danger ml-50"
                   rippleEffect
@@ -388,7 +391,7 @@
                     <span *ngIf="chkBoxSelected">
                       Đã chọn {{ chkBoxSelected.length }} /
                     </span>
-                    {{ totalItems }} {{ totalMessage }} hàng.
+                    {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
                   </div>
                   <datatable-pager
                     [pagerLeftArrowIcon]="'datatable-icon-left'"
@@ -417,18 +420,20 @@
                     <span class="d-none d-sm-inline-block">Tải lên</span>
                   </button>
                 </a>
-                <button
-                  class="btn btn-outline-secondary ml-50"
-                  rippleEffect
-                  (click)="downloadList()"
-                  [disabled]="selected.length === 0"
-                >
-                  <i
-                    data-feather="download"
-                    class="d-sm-none d-inline-block"
-                  ></i>
-                  <span class="d-none d-sm-inline-block">Tải về</span>
-                </button>
+                <!-- <a [href]="listFileUrl" download="Danh sách chứng thư số.pem"> -->
+                  <button
+                    class="btn btn-outline-secondary ml-50"
+                    rippleEffect
+                    (click)="downloadList()"
+                    [disabled]="selected.length === 0"
+                  >
+                    <i
+                      data-feather="download"
+                      class="d-sm-none d-inline-block"
+                    ></i>
+                    <span class="d-none d-sm-inline-block">Tải về</span>
+                  </button>
+                <!-- </a> -->
                 <button
                   class="btn btn-outline-danger ml-50"
                   rippleEffect

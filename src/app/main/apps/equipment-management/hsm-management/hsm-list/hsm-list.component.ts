@@ -110,6 +110,12 @@ export class HsmListComponent implements OnInit {
       .getListHsm(JSON.stringify(this.formListHsm.value))
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((pagedData) => {
+
+        this.pagedData.data = pagedData.data;
+        this.pagedData.currentPage = 0;
+        this.pagedData.size = 10;
+        this.pagedData.data = pagedData.data;
+
         this.totalItems = pagedData.data.totalItems;
         console.log(pagedData);
         console.log(pagedData.data.totalItems);
@@ -123,7 +129,6 @@ export class HsmListComponent implements OnInit {
         this.isLoading = false;
       });
 
-      console.log("tien123hsm",this.pagedData)
   }
   onActivate(event) {
     if (
@@ -153,7 +158,8 @@ export class HsmListComponent implements OnInit {
           console.log(this.selected[i].hsmId);
           this._hsmService
             .deleteHsmId(this.selected[i].hsmId)
-            .subscribe((res) => {
+            .toPromise()
+            .then((res) => {
               console.log(res);
               this.setPage({
                 offset: 0,
@@ -218,6 +224,7 @@ export class HsmListComponent implements OnInit {
         return !Swal.isLoading();
       },
     }).then(function (result) {
+      console.log(result);
       if (result.value) {
         Swal.fire({
           icon: 'success',
