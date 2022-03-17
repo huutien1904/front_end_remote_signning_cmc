@@ -214,11 +214,11 @@ export class SubscriberCertificateViewComponent implements OnInit {
 
     }
     this.serialNumber = this.dataFromX509.serialNumber
-    this.issuerDN = this.dataFromX509.issuer.replaceAll('2.5.4.9',"Street").replaceAll('2.5.4.20','telephoneNumber').replaceAll('E=','Gmail=').replaceAll('0.9.2342.19200300.100.1.1','uid')
+    this.issuerDN = this.dataFromX509.issuer.replaceAll('2.5.4.9',"Street").replaceAll('2.5.4.20','telephoneNumber').replaceAll('0.9.2342.19200300.100.1.1','uid')
     console.log(this.issuerDN)
     
     
-    this.subject = this.dataFromX509.subject.replaceAll('2.5.4.9',"Street").replaceAll('2.5.4.20','telephoneNumber').replaceAll('E=','Gmail=').replaceAll('0.9.2342.19200300.100.1.1','uid')
+    this.subject = this.dataFromX509.subject.replaceAll('2.5.4.9',"Street").replaceAll('2.5.4.20','telephoneNumber').replaceAll('0.9.2342.19200300.100.1.1','uid')
     this.algorithmPublicKey = this.dataFromX509.publicKey.algorithm.name
     this.sizePublicKey = this.dataFromX509.publicKey.algorithm.modulusLength
     this.signatureHashAlgorithm = this.dataFromX509.signatureAlgorithm.hash.name

@@ -8,6 +8,7 @@ import { SubscriberCertificate } from 'app/main/models/SubscriberCertificate';
 import { PagedData } from 'app/main/models/PagedData';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { CertificateRequest } from 'app/main/models/CertificateRequest';
+import { Hsm } from 'app/main/models/Equipment';
 
 @Injectable({
   providedIn: 'root',
@@ -82,4 +83,12 @@ export class SubscriberCertificateListService {
     return this._httpClient.delete<ResponseData<PagedData<SubscriberCertificate>>>
       (`${environment.apiUrl}/subscriber-certificate/delete-by-role/${id}`,this.option);
   }
+  public getListHsm(body): Observable<ResponseData<PagedData<Hsm>>> {
+    return this._httpClient.post<ResponseData<PagedData<Hsm>>>(
+      `${environment.apiUrl}/hsm/search`,
+      body,
+      this.option
+    );
+  }
+
 }

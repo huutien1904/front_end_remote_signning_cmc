@@ -211,9 +211,10 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
       preConfirm:   async () => {
-      return this.selected.map((profile) =>{
+       this.selected.map((profile) =>{
             this.removeProfile(profile.endEntityProfileId)
           });
+          this.chkBoxSelected = []
      },
       cancelButtonColor: '#E42728',
       cancelButtonText: "Thoát",
@@ -225,7 +226,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       allowOutsideClick:  () => {
         return !Swal.isLoading();
       }
-    }).then(function (result) {
+    }).then(function (result:any) {
       console.log
       if (result.value) {
         Swal.fire({

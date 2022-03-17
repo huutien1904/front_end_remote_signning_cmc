@@ -7,6 +7,7 @@ import { CertificateRequest } from 'app/main/models/CertificateRequest';
 import { ResponseData } from 'app/main/models/ResponseData';
 import { PagedData } from 'app/main/models/PagedData';
 import * as x509 from "@peculiar/x509";
+import { Hsm } from 'app/main/models/Equipment';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +97,13 @@ export class CertificateRequestListService{
     this.isHasResult = true
 
   }
-
+  public getListHsm(body): Observable<ResponseData<PagedData<Hsm>>> {
+    return this._httpClient.post<ResponseData<PagedData<Hsm>>>(
+      `${environment.apiUrl}/hsm/search`,
+      body,
+      this.option
+    );
+  }
   public getListCertificateRequests(body) :Observable<ResponseData<PagedData<CertificateRequest>>>{
      return this._httpClient.post<ResponseData<PagedData<CertificateRequest>>>
      (`${environment.apiUrl}/certificate-request/search`, body, this.option);
@@ -109,4 +116,6 @@ export class CertificateRequestListService{
     return this._httpClient.post<ResponseData<PagedData<CertificateRequest>>>
       (`${environment.apiUrl}/certificate-request/delete-by-role/list`,body,this.option);
   }
+
+
 }
