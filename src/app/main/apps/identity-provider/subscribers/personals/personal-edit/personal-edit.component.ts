@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Province, District, Commune, Street } from 'app/main/models/Address';
 import { Organization } from 'app/main/models/Organization';
@@ -22,7 +22,7 @@ import { PersonalService } from '../personal.service';
 export class PersonalEditComponent implements OnInit {
   private _unsubscribeAll = new Subject();
   private personal: Personal;
-  public buttonReturn:object;
+  public buttonReturn: object;
   formPersonalEdit: FormGroup;
   formRoleEdit: FormGroup;
   formUpdateRole: FormGroup;
@@ -81,7 +81,8 @@ export class PersonalEditComponent implements OnInit {
     private _organizationListService: OrganizationListService,
     private _addressService: AddressService,
     private modalService: NgbModal,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private route: ActivatedRoute,
   ) {
     this.contentHeader = {
       headerTitle: 'Thuê Bao',
@@ -107,12 +108,12 @@ export class PersonalEditComponent implements OnInit {
       breadcrumbs: {
         links: [
           {
-            name:'Quay lại',
+            name: 'Quay lại',
             isLink: true,
-            link: "/apps/ip/subscribers-list",
-        }
-        ]
-      }
+            link: '/apps/ip/subscribers-list',
+          },
+        ],
+      },
     };
 
     // this._unsubscribeAll = new Subject();
@@ -154,7 +155,7 @@ export class PersonalEditComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),
+          Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
         ],
       ],
       personalCountryId: [
@@ -191,7 +192,6 @@ export class PersonalEditComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     // this.getPersonalDetail();
     this.contentHeader = {
       headerTitle: 'Thuê Bao',
@@ -202,15 +202,15 @@ export class PersonalEditComponent implements OnInit {
           {
             name: 'Quản lý thuê bao',
             isLink: true,
-            link: '/apps/ip/subscribers-list'
+            link: '/apps/ip/subscribers-list',
           },
           {
             name: 'Chỉnh sửa thuê bao',
             isLink: false,
-            link: '/apps/ip/subscribers-search'
-          }
-        ]
-      }
+            link: '/apps/ip/subscribers-search',
+          },
+        ],
+      },
     };
 
     // get organizationID
@@ -230,7 +230,6 @@ export class PersonalEditComponent implements OnInit {
         console.log(res);
         console.log(res.data);
         return res.data;
-        
       });
 
     this.personal = await this._personalService
@@ -240,7 +239,7 @@ export class PersonalEditComponent implements OnInit {
       .then((res) => {
         return res.data;
       });
-      console.log(this.personal);
+    console.log(this.personal);
     this.formPersonalEdit.patchValue({
       userId: this.personal.userId,
       username: this.personal.username,
@@ -786,6 +785,61 @@ export class PersonalEditComponent implements OnInit {
       }
     });
   }
+  //Xóa thuê bao
+  deletePersonal(staffId) {
+    console.log(staffId);
+    this._personalService.deletePersonal(staffId).subscribe((res) => {
+      if (res.result === true) {
+        this.router.navigate(['/apps/ip/subscribers-list']);
+        this._toastrService.success(
+          'Xóa Thuê Bao cá nhân thành công ',
+          'Thành công',
+          { toastClass: 'toast ngx-toastr', closeButton: true }
+        );
+      }
+    });
+  }
+  openConfirmDelete() {
+    const routerParams = this.route.snapshot.paramMap
+    const id = routerParams.get('id')
+    console.log(id);
+    this.confirmRemovePersonal(id);
+  }
+  confirmRemovePersonal(staffId) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: 'Bạn sẽ không thể hoàn tác điều này!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:async () => {
+        this.deletePersonal(staffId);
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: 'Thoát',
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1',
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      },
+    }).then(function (result: any) {
+      console.log(result);
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success',
+          },
+        });
+      }
+    });
+  }
+
   async updateRole() {
     const adminRole = Object.values(this.formRoleEdit.value.adminRole).filter(
       (f) => f

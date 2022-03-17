@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   AddressFull,
@@ -60,20 +60,28 @@ export class OrganizationEditComponent implements OnInit {
     private _organizationEditService: OrganizationEditService,
     private router: Router,
     private modalService: NgbModal,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private route: ActivatedRoute
   ) {
     this.formOrganizationEdit = this.fb.group({
-      userId: [null,Validators.required],
+      userId: [null, Validators.required],
       username: ['', [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
-      organizationName: ['', [Validators.required]],
+      organizationName: [''],
       countryOrganizationId: ['', [Validators.required]],
       subscriberCategoryName: ['', [Validators.required]],
       website: [null, [Validators.required]],
-      phoneNumber: ['', [Validators.required,Validators.minLength(10)]],
-      parentOrganizationName: ['', [Validators.required]],
+      phoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
+        ],
+      ],
+      parentOrganizationName: [''],
       leaderName: ['', [Validators.required]],
-      position:[null],
+      position: [null],
     });
     this.formAddress = this.fb.group({
       address: ['', [Validators.required]],
@@ -293,6 +301,64 @@ export class OrganizationEditComponent implements OnInit {
     return this.formAddress.controls;
   }
 
+  // Xóa thuê bao
+  deleteOrganization(organizationId) {
+    console.log(organizationId);
+    this._organizationEditService
+      .deleteOrganization(organizationId)
+      .subscribe((res) => {
+        if (res.result === true) {
+          this.router.navigate(['/apps/ip/subscribers-list']);
+          this._toastrService.success(
+            'Xóa Thuê Bao tổ chức thành công ',
+            'Thành công',
+            { toastClass: 'toast ngx-toastr', closeButton: true }
+          );
+        }
+      });
+  }
+  openConfirmDelete() {
+    const routerParams = this.route.snapshot.paramMap;
+    const id = routerParams.get('id');
+    console.log(id);
+    this.confirmRemoveOrganization(id);
+  }
+  confirmRemoveOrganization(organizationId) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: 'Bạn sẽ không thể hoàn tác điều này!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteOrganization(organizationId);
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: 'Thoát',
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1',
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      },
+    }).then(function (result: any) {
+      console.log(result);
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success',
+          },
+        });
+      }
+    });
+  }
+
+  //Tải ảnh và chuyển sang base64
   inputImage(event) {
     if (typeof FileReader !== 'undefined') {
       const reader = new FileReader();
@@ -393,33 +459,31 @@ export class OrganizationEditComponent implements OnInit {
   }
 
   onSubmitCreateStreet(streetName) {
-        const communeId = this.formAddress.get('communeName').value;
-        const body = {
-          streetName: streetName,
-          streetType: 'Đường',
-          communeId: communeId,
-        };
-        this._organizationEditService.createStreet(body).subscribe((res) => {
-          this.streetName = [...this.streetName, res.data];
-          if (
-            this.formAddress.get('communeName').value != null &&
-            communeId == this.formAddress.get('communeName').value
-          ) {
-            this.streetName = [...this.streetName, res.data];
-          }
-          this._toastrService.success(
-            'Thêm thành công đường ' +
-              res.data.streetName +
-              ' vào cơ sở dữ liệu',
-            'Thành công',
-            {
-              positionClass: 'toast-top-center',
-              toastClass: 'toast ngx-toastr',
-              closeButton: true,
-            }
-          );
-        });
-        return true;
+    const communeId = this.formAddress.get('communeName').value;
+    const body = {
+      streetName: streetName,
+      streetType: 'Đường',
+      communeId: communeId,
+    };
+    this._organizationEditService.createStreet(body).subscribe((res) => {
+      this.streetName = [...this.streetName, res.data];
+      if (
+        this.formAddress.get('communeName').value != null &&
+        communeId == this.formAddress.get('communeName').value
+      ) {
+        this.streetName = [...this.streetName, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công đường ' + res.data.streetName + ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
   }
 
   onSubmit() {
@@ -432,23 +496,24 @@ export class OrganizationEditComponent implements OnInit {
 
   confirmOpen() {
     const updateOrganization = {
-    userId: this.formOrganizationEdit.value.userId,
-    countryOrganizationId: this.formOrganizationEdit.value.countryOrganizationId,
-    organizationName: this.formOrganizationEdit.value.organizationName,
-    parentOrganizationId: 1,
-    subscriberCategoryId: 3,
-    leaderName: this.formOrganizationEdit.value.leaderName,
-    province: this.formAddress.value.provinceName,
-    district: this.formAddress.value.districtName,
-    commune: this.formAddress.value.communeName,
-    street: this.formAddress.value.streetName,
-    homeNumber: this.formAddress.value.houseNumber,
-    country: this.formAddress.value.countryCode,
-    phoneNumber: this.formOrganizationEdit.value.phoneNumber,
-    website: this.formOrganizationEdit.value.website,
-    email : this.formOrganizationEdit.value.email,
-    isParent : false
-    }
+      userId: this.formOrganizationEdit.value.userId,
+      countryOrganizationId:
+        this.formOrganizationEdit.value.countryOrganizationId,
+      organizationName: this.formOrganizationEdit.value.organizationName,
+      parentOrganizationId: 1,
+      subscriberCategoryId: 3,
+      leaderName: this.formOrganizationEdit.value.leaderName,
+      province: this.formAddress.value.provinceName,
+      district: this.formAddress.value.districtName,
+      commune: this.formAddress.value.communeName,
+      street: this.formAddress.value.streetName,
+      homeNumber: this.formAddress.value.houseNumber,
+      country: this.formAddress.value.countryCode,
+      phoneNumber: this.formOrganizationEdit.value.phoneNumber,
+      website: this.formOrganizationEdit.value.website,
+      email: this.formOrganizationEdit.value.email,
+      isParent: false,
+    };
     console.log(updateOrganization);
     Swal.fire({
       title: 'Bạn có chắc muốn cập nhật?',

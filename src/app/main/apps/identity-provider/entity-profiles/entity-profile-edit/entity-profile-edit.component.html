@@ -371,19 +371,24 @@
             </div>
             <!-- end Subject DN Alternative Name -->
             <!-- submit -->
-            <div class="col-12 col-md-11 d-flex justify-content-end ml-2">
+            <div class="col-12 col-md-11 d-flex justify-content-end ml-2 mt-2">
               <button
                 type="submit"
                 rippleEffect
-                class="btn btn-primary"
+                class="btn btn-primary mr-1"
                 [swal]="SweetAlertConfirm"
               >
                 Cập nhật
               </button>
-              <app-return
-                class="ml-1"
-                [buttonReturn]="buttonReturn"
-              ></app-return>
+              <button
+                class="btn btn-outline-danger mr-1"
+                (click)="deleteProfile()"
+                rippleEffect
+              >
+                <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Xóa</span>
+              </button>
+              <app-return [buttonReturn]="buttonReturn"></app-return>
               <swal #SweetAlertConfirm (open)="confirmOpen()"></swal>
             </div>
           </form>

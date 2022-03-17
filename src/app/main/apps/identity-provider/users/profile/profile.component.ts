@@ -227,7 +227,7 @@ export class ProfileComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(10),
-          // Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),
+          Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
         ],
       ],
       personalCountryId: [
@@ -984,7 +984,7 @@ export class ProfileComponent implements OnInit {
         return !Swal.isLoading();
       },
     }).then(function (result) {
-      if (result.isDismissed) {
+      if (result.value) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',

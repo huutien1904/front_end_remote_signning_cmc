@@ -40,6 +40,7 @@ export class PersonalListComponent implements OnInit {
   public totalItems: any = 0;
   public pagedData = new PagedData<Personal>();
   public rowsData = new Array<Personal>();
+  public rows;
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
@@ -180,6 +181,14 @@ export class PersonalListComponent implements OnInit {
         console.log(this.totalItems);
         this.isLoading = false;
       });
+    // this._personalService
+    //   .getStaffSelf()
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((res) => {
+    //     console.log(res);
+    //     this.rows = res.data;
+    //     console.log(this.rows);
+    //   });
   }
 
   /**
@@ -281,9 +290,9 @@ export class PersonalListComponent implements OnInit {
       },
       allowOutsideClick: () => {
         return !Swal.isLoading();
-      }
-    }).then(function (result:any) {
-      console.log(result)
+      },
+    }).then(function (result: any) {
+      console.log(result);
       if (result.value) {
         Swal.fire({
           icon: 'success',

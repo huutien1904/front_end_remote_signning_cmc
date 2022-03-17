@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { KeypairService } from '../keypair.service';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Hsm, Token } from 'app/main/models/Equipment';
 import { HsmService } from '../../../equipment-management/hsm-management/hsm.service';
 import { CertificateRequestListService } from '../../certificate-request/certificate-request-list/certificate-request-list.service';
@@ -49,10 +49,14 @@ export class KeypairCreateComponent implements OnInit {
     },
   ];
   public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
+  public keypairLength = this.cryptoAlgorithm[0].keypairLength[0];
   alias: any[] = [];
-  hsmList: any[] = [];
+  public hsmList: any[] = [];
+  // public tokenList: Token[];
+  // public hsmList = new Array<Hsm>();
   keypairAliasName: any;
   public tokenName: any;
+  public hsmName = '';
   public tokenList: any[] = [];
   public keypairAlias: any[] = [];
   public userIdList: any[] = [];
@@ -167,22 +171,27 @@ export class KeypairCreateComponent implements OnInit {
       .then((hsmList) => {
         console.log(hsmList);
         this.hsmList = hsmList.data.data;
+        this.keypairFormView.patchValue({hsmList: this.hsmList[0]})
         this.tokenList = this.hsmList[0].tokens;
+        this.keypairFormView.patchValue({tokenList: this.tokenList[0]})
         this.tokenName = this.hsmList[0].tokens[0].tokenName;
+        this.hsmName = this.hsmList[0].hsmName;
+        console.log(this.hsmName);
         console.log(this.hsmList);
         console.log(this.tokenList);
       });
+
     this.keypairFormView = this.formBuilder.group({
       cryptoAlgorithm: this.formBuilder.group({
-        cryptoSystem: [null, Validators.required],
-        keypairLength: [null, Validators.required],
+        cryptoSystem: [this.cryptoSystem[0], Validators.required],
+        keypairLength: [this.keypairLength, Validators.required],
       }),
       hsmList: [this.hsmList[0], Validators.required],
-      tokenList: [null, Validators.required],
+      tokenList: [this.tokenList[0], Validators.required],
       alias: [null, Validators.required],
       keypairAlias: [null, Validators.required],
       userId: [null, Validators.required],
-      numberKeypair: [null, Validators.required],
+      numberKeypair: [this.numberKeypair[0], Validators.required],
     });
     console.log(this.keypairFormView.value);
   }
@@ -207,20 +216,20 @@ export class KeypairCreateComponent implements OnInit {
   //     this.keypairFormView.controls['keypairAlias'].disable();
   //   }
   // }
-  disableTokenName(e){
+  disableTokenName(e) {
     console.log(e);
-    if(e > 1 ){
+    if (e > 1) {
       this.keypairFormView.controls['keypairAlias'].disable();
       // this.disableAlias = !this.disableAlias
-      this.keypairFormView.controls['alias'].setValue(this.tokenList[0].tokenName + Math.floor(Math.random() * 1000 + 1));
+      this.keypairFormView.controls['alias'].setValue(
+        this.tokenList[0].tokenName + Math.floor(Math.random() * 1000 + 1)
+      );
       // console.log(this.keypairAlias.controls['A'].value)
       // console.log(this.keypairFormView.value)
-    }
-    else {
+    } else {
       // this.disableAlias = false
       this.keypairFormView.controls['keypairAlias'].enable();
     }
-    
   }
   updateTable() {
     this.onUpdate.emit();
@@ -242,7 +251,9 @@ export class KeypairCreateComponent implements OnInit {
       templateKeyId: '1',
       tokenId: this.keypairFormView.value.tokenList.tokenId,
       userId: this.keypairFormView.value.userId,
-      alias: this.keypairFormView.value.keypairAlias ? this.keypairFormView.value.keypairAlias : this.keypairFormView.value.alias
+      alias: this.keypairFormView.value.keypairAlias
+        ? this.keypairFormView.value.keypairAlias
+        : this.keypairFormView.value.alias,
     };
     console.log(body);
     this._keypairServices
