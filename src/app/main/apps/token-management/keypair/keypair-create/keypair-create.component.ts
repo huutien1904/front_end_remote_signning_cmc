@@ -167,22 +167,25 @@ export class KeypairCreateComponent implements OnInit {
       .then((hsmList) => {
         console.log(hsmList);
         this.hsmList = hsmList.data.data;
+        this.keypairFormView.controls['hsmList'].setValue(this.hsmList[0]);
         this.tokenList = this.hsmList[0].tokens;
+        console.log(this.tokenList)
         this.tokenName = this.hsmList[0].tokens[0].tokenName;
+        this.keypairFormView.controls['tokenList'].setValue(this.tokenList[0]);
         console.log(this.hsmList);
         console.log(this.tokenList);
       });
     this.keypairFormView = this.formBuilder.group({
       cryptoAlgorithm: this.formBuilder.group({
-        cryptoSystem: [null, Validators.required],
-        keypairLength: [null, Validators.required],
+        cryptoSystem: [this.cryptoSystem[0], Validators.required],
+        keypairLength: [this.cryptoAlgorithm[0].keypairLength[0], Validators.required],
       }),
       hsmList: [this.hsmList[0], Validators.required],
       tokenList: [null, Validators.required],
       alias: [null, Validators.required],
       keypairAlias: [null, Validators.required],
       userId: [null, Validators.required],
-      numberKeypair: [null, Validators.required],
+      numberKeypair: [this.numberKeypair[0], Validators.required],
     });
     console.log(this.keypairFormView.value);
   }

@@ -13,7 +13,30 @@
                 [formGroup]="formListSubscriberCertificate"
               >
                 <div class="row pb-1">
-                  <div class="col-md-4 mt-1">
+                  <div class="col-md-2">
+                    <label>Kết nối HSM</label>
+                        <ng-select
+                          [items]="hsmList"
+                          bindLabel="hsmName"
+                          [clearable]="false"
+                          formControlName="hsmSearchName"
+                         
+                        >
+                        </ng-select>
+                  </div>
+                  <div class="col-md-2">
+                    <label>Slot</label>
+                        <ng-select
+                          [items]="slotList"
+                          bindLabel="tokenName"
+                          [clearable]="false"
+                          formControlName="slotSearchName"
+                         
+                        >
+                        </ng-select>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Nhập một phần DN</label>
                     <input
                       name="contains"
                       id="contains"
@@ -23,7 +46,7 @@
                       placeholder="Một phần DN"
                     />
                   </div>
-                  <div class="col-3 col-md-2 mt-1">
+                  <div class="col-3 col-md-2 mt-2">
                     <button
                       type="button"
                       class="btn btn-secondary btn-outline-secondary col-12"
@@ -37,7 +60,7 @@
                       <span class="d-none d-sm-inline-block">Tùy chọn</span>
                     </button>
                   </div>
-                  <div class="col-6 col-md-2 mt-1">
+                  <div class="col-6 col-md-2 mt-2">
                     <button
                       type="button"
                       rippleEffect

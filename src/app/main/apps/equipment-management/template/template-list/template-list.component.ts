@@ -101,7 +101,7 @@ export class TemplateListComponent implements OnInit {
         this.pagedData.totalItems = pagedData.data.length;
         console.log(this.pagedData.totalItems)
         this.pagedData = pagedData.data;
-        // this.pagedData.size = pagedData.data.length;
+        this.pagedData.size = pagedData.data.length;
         // this.pagedData.totalPages = 0;
         // this.pagedData.currentPage = 1;
 

@@ -80,8 +80,8 @@ export class CertificateRequestViewComponent implements OnInit {
         this.personalEmail = response.data.email;
         this.userName = response.data.username;
         this.personalFullName = response.data.fullName;
-        this.createdAt = response.data.createdAt
-        this.updatedAt = response.data.updatedAt
+        this.createdAt = new Date (response.data.createdAt);
+        this.updatedAt =  new Date(response.data.updatedAt)
         console.log(response)
         this.getCSRFileInformation(response.data.certificateRequestContent)
         // this.data = response.data

@@ -11,6 +11,28 @@
           >
             <div class="row mb-1">
               <div class="col-md-2">
+                <label>Kết nối HSM</label>
+                    <ng-select
+                      [items]="hsmList"
+                      bindLabel="hsmName"
+                      [clearable]="false"
+                      formControlName="hsmSearchName"
+                     
+                    >
+                    </ng-select>
+              </div>
+              <div class="col-md-2">
+                <label>Slot</label>
+                    <ng-select
+                      [items]="slotList"
+                      bindLabel="tokenName"
+                      [clearable]="false"
+                      formControlName="slotSearchName"
+                     
+                    >
+                    </ng-select>
+              </div>
+              <div class="col-md-2">
                 <label class="label">Trạng thái</label>
                 <ng-select
                   [items]="statusCertificate"

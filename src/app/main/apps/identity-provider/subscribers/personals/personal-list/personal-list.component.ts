@@ -296,11 +296,12 @@ export class PersonalListComponent implements OnInit {
       }
     });
   }
-  removeListPersonal() {
-    if (this.selected.length > 0) {
-      this.confirmOpenDeleteListPersonal();
-    }
-  }
+  // removeListPersonal() {
+  //   if (this.selected.length > 0) {
+  //     this.confirmOpenDeleteListPersonal();
+  //   }
+  // }
+  
   openConfirmDelete(staffId) {
     console.log(staffId);
     this.confirmRemovePersonal(staffId);
@@ -339,6 +340,44 @@ export class PersonalListComponent implements OnInit {
         });
       }
     });
+  }
+  removeListPersonal() {
+    if(this.selected.length > 0){
+      Swal.fire({
+        title: 'Bạn có chắc muốn xóa?',
+        text: 'Bạn sẽ không thể hoàn tác điều này!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#7367F0',
+        preConfirm: async () => {
+           this.selected.map((personal) => {
+            this.deletePersonal(personal.staffId);
+          });
+          this.chkBoxSelected = []
+        },
+        cancelButtonColor: '#E42728',
+        cancelButtonText: 'Thoát',
+        confirmButtonText: 'Đúng, tôi muốn xóa!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-danger ml-1',
+        },
+        allowOutsideClick: () => {
+          return !Swal.isLoading();
+        },
+      }).then(function (result:any) {
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Bạn đã xóa thành công',
+            customClass: {
+              confirmButton: 'btn btn-success',
+            },
+          });
+        }
+      });
+    }
   }
   // removeListPersonal(){
   //   this.selected.map((pesonal) =>{

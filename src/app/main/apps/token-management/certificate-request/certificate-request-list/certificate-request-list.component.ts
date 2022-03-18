@@ -50,6 +50,8 @@ export class CertificateRequestListComponent implements OnInit {
   public listFileUrl;
   public results: any[];
   public dataExport: any;
+  public hsmList = [];
+  public slotList = [];
   public statusCertificate = [
     {
       status: "Tạo mới"
@@ -97,6 +99,8 @@ export class CertificateRequestListComponent implements OnInit {
       contains: [null],
       fromDate: [null],
       toDate: [null],
+      hsmSearchName:[null],
+      slotSearchName:[null]
     });
     console.log(this.formListCertificateRequest.valid);
 
@@ -115,6 +119,7 @@ export class CertificateRequestListComponent implements OnInit {
       offset: 0,
       pageSize: this.formListCertificateRequest.get('size').value,
     });
+    this.getListHsm();
     console.log(this.rowsData);
   }
 
@@ -192,10 +197,12 @@ export class CertificateRequestListComponent implements OnInit {
       console.log(event)
       var zip = new JSZip();
           this.selected.map((item) =>{
-            zip.file(item.fullName + ".csr", item.certificateRequestContent);
+            console.log(item )
+            zip.file(item.fullName + + item.certificateRequestId + ".csr", item.certificateRequestContent);
           })
           zip.generateAsync({ type: "blob" })
             .then(blob => saveAs(blob,'Danh sách yêu cầu chứng thực.zip'));
+          this.chkBoxSelected =[];
     }
     
     if(this.selected.length === 1){
@@ -210,7 +217,7 @@ export class CertificateRequestListComponent implements OnInit {
       });
       console.log(fileName,data)
       this._FileSaverService.save(data, fileName);
-      
+      this.chkBoxSelected = [];
     }
     
   }
@@ -404,6 +411,7 @@ export class CertificateRequestListComponent implements OnInit {
         preConfirm: async () => {
           console.log(JSON.stringify({ "certListReq": selectedCertificate }))
           this.deleteListRequestCertificate(JSON.stringify({ "certListReq": selectedCertificate }))
+          this.chkBoxSelected =[]
         },
         cancelButtonColor: '#E42728',
         cancelButtonText: "Thoát",
@@ -527,6 +535,33 @@ export class CertificateRequestListComponent implements OnInit {
     }
     return this.results[0];
     //this.results[0].modulus = modulus
+  }
+  getListHsm(){
+    this._listCerReqService.getListHsm
+    ({
+      page: 0,
+      size: 10000,
+      sort : ["hsmId,asc"],
+      contains : "",
+      fromDate : "",
+      toDate : "" 
+    })
+    .toPromise()
+    .then((hsmList) => {
+      console.log(hsmList);
+      this.hsmList = hsmList.data.data;
+      this.slotList = this.hsmList[0].tokens
+      console.log(this.hsmList)
+      this.formListCertificateRequest.controls['hsmSearchName'].setValue(this.hsmList[0])
+      this.formListCertificateRequest.controls['slotSearchName'].setValue(this.slotList[0])
+       
+      // // console.log(this.hsmName)
+      // this.tokenList = this.hsmList[0].tokens;
+      // this.slotSearchName = this.tokenList[0].tokenName
+      // this.tokenName = this.hsmList[0].tokens[0].tokenName;
+      // console.log(this.hsmList);
+      // console.log(this.tokenList);
+    });
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

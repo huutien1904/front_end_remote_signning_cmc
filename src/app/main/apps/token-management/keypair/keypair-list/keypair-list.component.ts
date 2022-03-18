@@ -44,13 +44,11 @@ export class KeypairListComponent implements OnInit {
   gender: string[] = ['Nam', 'Nữ'];
   public pagedData = new PagedData<Keypair>();
   public rowsData = new Array<Keypair>();
-  hsmList: any[] = [];
-  public keypairList: any[] =[];
+  public hsmList: any[] = [];
+  public keypairList: any[] = [];
   public keypairAlias: any[] = [];
   public tokenName: any;
   public tokenList: any[] = [];
-  public hsmSearchName = ""
-  public slotSearchName = ""
   // public keypairList: any[] = ['Kết nối HSM', 'Slot'];
   // public cryptoAlgorithm = [
   //   {
@@ -107,44 +105,17 @@ export class KeypairListComponent implements OnInit {
       toDate: [null],
       sizePage: [this.sizePage[3]],
     });
-    this._hsmService
-      .getListHsm({
-        page: 0,
-        size: 100,
-      })
-      .toPromise()
-      .then((hsmList) => {
-        console.log(hsmList);
-        this.hsmList = hsmList.data.data;
-        console.log(this.hsmList)
-        this.hsmSearchName = this.hsmList[0].hsmName;
-        
-        // console.log(this.hsmName)
-        this.tokenList = this.hsmList[0].tokens;
-        this.slotSearchName = this.tokenList[0].tokenName
-        this.tokenName = this.hsmList[0].tokens[0].tokenName;
-        console.log(this.hsmList);
-        console.log(this.tokenList);
-      });
-    // this._keypairService
-    //   .getData({
-    //     page: 0,
-    //     size: 100,
-    //   })
-    //   .toPromise()
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.keypairList = data.data.data;
-    //     this.keypairAlias = this.keypairList[0].keypairAlias;
-    //     console.log(this.keypairAlias);
-    //   });
+    this.getListHsm();
+    
     this.formListPersonal = this.fb.group({
-      page: [null],
+      page: [null, Validators.required],
       size: [this.sizePage[3]],
       sort: [null],
-      contains: [''],
+      contains: ['', Validators.required],
       fromDate: [''],
       toDate: [''],
+      hsmSearchName:[''],
+      tokenSearchName:['']
       // keypairAlias: ['', Validators.required],
       // keypairList: [this.keypairList[0], Validators.required],
       // keypairName: [null, Validators.required],
@@ -153,10 +124,10 @@ export class KeypairListComponent implements OnInit {
       //   cryptoSystem: [this.cryptoAlgorithm[0], Validators.required],
       //   keypairLength: [this.keypairLengthList[0], Validators.required],
       // }),
-      hsmList:[this.hsmList[0],Validators.required],
-      tokenList: [null,Validators.required],
+      // hsmList:[null, Validators.required],
+      // tokenList: [null, Validators.required]
     });
-    console.log(this.formListPersonal.value);
+    console.log(this.formListPersonal.valid);
     this.pagedData.size = this.sizePage[3];
     this.pagedData.currentPage = 0;
     this.setPage({
@@ -179,13 +150,33 @@ export class KeypairListComponent implements OnInit {
       },
     };
   }
-
-  changeHsm() {
-    // console.log(this.formListPersonal.get('hsmList').value);
-    this.tokenList = this.formListPersonal.get('hsmList').value.tokens;
-    this.formListPersonal.patchValue({ tokenId: this.tokenList[0] });
+  getListHsm(){
+    this._hsmService.getListHsm
+    ({
+      page: 0,
+      size: 10000,
+      sort : ["hsmId,asc"],
+      contains : "",
+      fromDate : "",
+      toDate : "" 
+    })
+    .toPromise()
+    .then((hsmList) => {
+      console.log(hsmList);
+      this.hsmList = hsmList.data.data;
+      this.tokenList = this.hsmList[0].tokens
+      console.log(this.hsmList)
+      this.formListPersonal.controls['hsmSearchName'].setValue(this.hsmList[0])
+      this.formListPersonal.controls['tokenSearchName'].setValue(this.tokenList[0])
+       
+      // // console.log(this.hsmName)
+      // this.tokenList = this.hsmList[0].tokens;
+      // this.slotSearchName = this.tokenList[0].tokenName
+      // this.tokenName = this.hsmList[0].tokens[0].tokenName;
+      // console.log(this.hsmList);
+      // console.log(this.tokenList);
+    });
   }
-
   // changeCrypto() {
   //   this.keypairLengthList = this.formListPersonal
   //     .get('cryptoAlgorithm')
@@ -291,7 +282,7 @@ export class KeypairListComponent implements OnInit {
   }
 
   exportCSV() {
-    if(this.selected.length > 0){
+    if (this.selected.length > 0) {
       const body = {
         page: 0,
         size: 1000,
@@ -334,7 +325,7 @@ export class KeypairListComponent implements OnInit {
                   .join(separator);
               })
               .join('\n');
-  
+
           const blob = new Blob(['\ufeff' + csvData], {
             type: 'text/csv;charset=utf-8;',
           });
@@ -351,7 +342,7 @@ export class KeypairListComponent implements OnInit {
           }
         });
     }
-    else{
+    else {
       this.toastr.warning(
         '👋 Bạn chưa chọn danh sách cặp khóa ',
         'Cảnh báo',
@@ -365,126 +356,122 @@ export class KeypairListComponent implements OnInit {
   }
 
 
-    // delete keypair
-    openConfirmDelete(keypairId) {
-      console.log("tien")
-      this.confirmRemoveKeypair(keypairId);
-    }
-    confirmRemoveKeypair(keypairId) {
-      Swal.fire({
-        title: 'Bạn có chắc muốn xóa?',
-        text: "Bạn sẽ không thể hoàn tác điều này!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#7367F0',
-        preConfirm: async () => {
-          this._keypairService
-          .deleteKeypairById(keypairId)
-          .toPromise()
-          .then((res) =>{
-            return res;
-          })
-        },
-        cancelButtonColor: '#E42728',
-        cancelButtonText: "Thoát",
-        confirmButtonText: 'Đúng, tôi muốn xóa!',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        allowOutsideClick: () => {
-          return !Swal.isLoading();
-        }
-      }).then(function (result: any) {
-        console.log(result)
-        if (result.isDismissed === true && result.value === true ) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Thành công!',
-            text: 'Bạn đã xóa thành công',
-            customClass: {
-              confirmButton: 'btn btn-success'
-            }
-          });
-        }
-        if (result.isDismissed === false && result.isConfirmed === true ) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Thất bại!',
-            text: 'Không thể xóa khóa được tạo từ Super Admin',
-            customClass: {
-              confirmButton: 'btn btn-warning'
-            }
-          });
-        }
+  // delete keypair
+  openConfirmDelete(keypairId) {
+    console.log("tien")
+    this.confirmRemoveKeypair(keypairId);
+  }
+  confirmRemoveKeypair(keypairId) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteKeypair(keypairId)
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
       }
-  
-      );
-  
-    }
-    deleteKeypair(id) {
-      this._keypairService
-        .deleteKeypairById(id)
-        .subscribe((res) => {
-          console.log("tien ",res)
-          if (res.result === true) {
-            this.setPage({
-              offset: 0,
-              pageSize: this.formListPersonal.get('size').value
-            })
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value === true) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
           }
-        })
-    }
-    //  delete list keypair
-    deleteListKeypair(){
-      Swal.fire({
-        title: 'Bạn có chắc muốn xóa?',
-        text: "Bạn sẽ không thể hoàn tác điều này!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#7367F0',
-        preConfirm: async () => {
-          this.selected.map((item) =>{
-            this.deleteKeypair(item.keypairId)
-          })
-          
-        },
-        cancelButtonColor: '#E42728',
-        cancelButtonText: "Thoát",
-        confirmButtonText: 'Đúng, tôi muốn xóa!',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-danger ml-1'
-        },
-        allowOutsideClick: () => {
-          return !Swal.isLoading();
-        }
-      }).then(function (result: any) {
-        console.log(result)
-        if (result.isDismissed) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Thành công!',
-            text: 'Bạn đã xóa thành công',
-            customClass: {
-              confirmButton: 'btn btn-success'
-            }
-          });
-        }
-        else{
-          Swal.fire({
-            icon: 'warning',
-            title: 'Thất bại!',
-            text: 'Không thể xóa cặp khóa tạo bằng super admin',
-            customClass: {
-              confirmButton: 'btn btn-warning'
-            }
-          });
-        }
+        });
       }
-  
-      );
+      if (result.value === false && result.isConfirmed === true) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Thất bại!',
+          text: 'Không thể xóa khóa được tạo từ Super Admin',
+          customClass: {
+            confirmButton: 'btn btn-warning'
+          }
+        });
+      }
     }
+
+    );
+
+  }
+  deleteKeypair(id) {
+    this._keypairService
+      .deleteKeypairById(id)
+      .subscribe((res) => {
+        console.log("tien ", res)
+        if (res.result === true) {
+          this.setPage({
+            offset: 0,
+            pageSize: this.formListPersonal.get('size').value
+          })
+        }
+      })
+  }
+  //  delete list keypair
+  deleteListKeypair() {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.selected.map((item) => {
+          this.deleteKeypair(item.keypairId)
+        })
+        this.chkBoxSelected= [];
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value === true) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+      if (result.value === false )
+
+        Swal.fire({
+          icon: 'warning',
+          title: 'Thất bại!',
+          text: 'Không thể xóa cặp khóa tạo bằng super admin',
+          customClass: {
+            confirmButton: 'btn btn-warning'
+          }
+        });
+
+    }
+
+    );
+  }
 
   /**
    * On destroy

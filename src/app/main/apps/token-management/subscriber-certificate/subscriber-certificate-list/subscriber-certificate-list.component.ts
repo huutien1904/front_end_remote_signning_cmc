@@ -52,7 +52,8 @@ export class SubscriberCertificateListComponent implements OnInit {
   public extKeyUsage: any = ""
   public thumbprint: any = ""
   public modulus: any = ""
-
+  public hsmList = [];
+  public slotList=[];
   //page setup
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
@@ -71,7 +72,8 @@ export class SubscriberCertificateListComponent implements OnInit {
     private _router: Router,
     private sanitizer: DomSanitizer,
     private toastr: ToastrService,
-    private _FileSaverService: FileSaverService
+    private _FileSaverService: FileSaverService,
+
   ) {
     this._unsubscribeAll = new Subject();
     const currentYear = new Date().getFullYear();
@@ -106,12 +108,16 @@ export class SubscriberCertificateListComponent implements OnInit {
       toDate: [null],
       page: [null],
       size: [this.sizePage[3]],
+      hsmSearchName:[],
+      slotSearchName:[],
     });
 
     this.setPage({
       offset: 0,
       pageSize: this.formListSubscriberCertificate.get('size').value,
     });
+
+    this.getListHsm();
   }
 
   //Set Table View
@@ -171,23 +177,25 @@ export class SubscriberCertificateListComponent implements OnInit {
     console.log(row)
     const data = row.certificateContent;
     console.log(data)
-    const blob = new Blob([data], { type: 'crt' });
+    const blob = new Blob([data], { type: 'pem' });
     row.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       window.URL.createObjectURL(blob)
     );
-    row.fileName = row.keypairAlias + '.crt.crt';
+    row.fileName = row.fullName + '.pem';
     // console.log(row);
   }
-  downloadList() {
+  async downloadList() {
 
 
     if (this.selected.length > 1) {
       var zip = new JSZip();
       this.selected.map((item) => {
-        zip.file(item.fullName + ".pem", item.certificateContent);
+        console.log(item)
+        zip.file(item.fullName +item.subscriberCertificateId + ".pem", item.certificateContent);
       })
-      zip.generateAsync({ type: "blob" })
+      await zip.generateAsync({ type: "blob" })
         .then(blob => saveAs(blob, 'Danh sách chứng thư số.zip'));
+      this.chkBoxSelected =[];
     }
     if (this.selected.length == 1) {
       console.log("1")
@@ -200,7 +208,9 @@ export class SubscriberCertificateListComponent implements OnInit {
         return data += item.certificateContent + '\n'
       });
       console.log(fileName, data)
-      this._FileSaverService.save(data, fileName);
+      await this._FileSaverService.save(data, fileName);
+      this.chkBoxSelected =[];
+
     }
 
   }
@@ -324,7 +334,7 @@ export class SubscriberCertificateListComponent implements OnInit {
   confirmRemoveRequestCertificate(subscriberCertificateId) {
     Swal.fire({
       title: 'Bạn có chắc muốn xóa?',
-      text: "Bạn sẽ không thể hoàn tác điều này!",
+      text: "Xóa chứng thư số là xóa cả cặp khóa của thuê bao trong cơ sở dữ liệu!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#7367F0',
@@ -343,7 +353,7 @@ export class SubscriberCertificateListComponent implements OnInit {
       }
     }).then(function (result: any) {
       console.log(result)
-      if (result.isDismissed === true && result.value === true) {
+      if (result.isDismissed === true && result.value === true && result.isConfirmed === true) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -353,7 +363,7 @@ export class SubscriberCertificateListComponent implements OnInit {
           }
         });
       } 
-      if(result.isDismissed === false && result.isConfirmed === true) {
+      if(result.isDismissed === false && result.isConfirmed === true && result.value === true) {
         Swal.fire({
           icon: 'warning',
           title: 'Thất bại!',
@@ -385,13 +395,13 @@ export class SubscriberCertificateListComponent implements OnInit {
     if (this.selected.length > 0) {
       Swal.fire({
         title: 'Bạn có chắc muốn xóa?',
-        text: "Bạn sẽ không thể hoàn tác điều này!",
+        text: "Xóa chứng thư số là xóa cả cặp khóa của thuê bao trong cơ sở dữ liệu",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#7367F0',
         preConfirm: async () => {
-          this.selected.map((subcriber) => {
-            this.deleteSubscriberCertificate(subcriber.subscriberCertificateId)
+          this.selected.map((subscriber) => {
+            this.deleteSubscriberCertificate(subscriber.subscriberCertificateId)
           })
           this.chkBoxSelected = []
         },
@@ -407,7 +417,7 @@ export class SubscriberCertificateListComponent implements OnInit {
         }
       }).then(function (result: any) {
         console.log(result)
-        if (result.value && result.isConfirmed === true) {
+        if (result.value === true && result.isConfirmed === true) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',
@@ -417,7 +427,18 @@ export class SubscriberCertificateListComponent implements OnInit {
             }
           });
         }
+        // if(result.isDismissed === false && result.isConfirmed === true && result.value === true){
+        //   Swal.fire({
+        //     icon: 'warning',
+        //     title: 'Thất bại!',
+        //     text: 'Không thể xóa chứng thứ số tạo bằng superadmin',
+        //     customClass: {
+        //       confirmButton: 'btn btn-warning'
+        //     }
+        //   });
+        // }
       }
+      
 
       );
     }
@@ -434,6 +455,34 @@ export class SubscriberCertificateListComponent implements OnInit {
     }
 
 
+  }
+
+  getListHsm(){
+    this._subscriberCertificateService.getListHsm
+    ({
+      page: 0,
+      size: 10000,
+      sort : ["hsmId,asc"],
+      contains : "",
+      fromDate : "",
+      toDate : "" 
+    })
+    .toPromise()
+    .then((hsmList) => {
+      console.log(hsmList);
+      this.hsmList = hsmList.data.data;
+      this.slotList = this.hsmList[0].tokens
+      console.log(this.hsmList)
+      this.formListSubscriberCertificate.controls['hsmSearchName'].setValue(this.hsmList[0])
+      this.formListSubscriberCertificate.controls['slotSearchName'].setValue(this.slotList[0])
+       
+      // // console.log(this.hsmName)
+      // this.tokenList = this.hsmList[0].tokens;
+      // this.slotSearchName = this.tokenList[0].tokenName
+      // this.tokenName = this.hsmList[0].tokens[0].tokenName;
+      // console.log(this.hsmList);
+      // console.log(this.tokenList);
+    });
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next();

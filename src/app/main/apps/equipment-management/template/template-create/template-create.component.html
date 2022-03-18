@@ -30,6 +30,27 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>privateKeyExtractable</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="keypairTemplateName"
+                      />
+                      <div
+                        *ngIf="
+                          (f.keypairTemplateName.errors && f.keypairTemplateName?.touched) ||
+                          (submitted && f.keypairTemplateName?.errors?.required)
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.keypairTemplateName.errors.required">
+                          Bạn cần điền tên Template
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <!-- <div class="row">
                     <div class="col-md-10 offset-2">

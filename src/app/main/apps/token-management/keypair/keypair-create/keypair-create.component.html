@@ -131,6 +131,17 @@
                         class="form-control"
                         formControlName="keypairAlias"
                       />
+                      <div
+                        *ngIf="
+                          (f.keypairAlias.errors && f.keypairAlias?.touched) ||
+                          (submitted && f.keypairAlias?.errors?.required)
+                        "
+                        class="invalid-feedback"
+                      >
+                        <div *ngIf="f.keypairAlias.errors.required">
+                          Bạn cần điền alias
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
