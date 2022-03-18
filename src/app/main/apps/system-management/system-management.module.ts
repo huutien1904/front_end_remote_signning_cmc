@@ -11,6 +11,8 @@ import { HelpCenterComponent } from './help-center/help-center.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { FormsModule } from '@angular/forms';
+import { CoreCommonModule } from '@core/common.module';
 
 
 
@@ -42,10 +44,10 @@ const routes:Routes = [
   }
 ]
 @NgModule({
-  declarations: [IntroduceComponent],
+  declarations: [IntroduceComponent, HelpCenterComponent],
   imports: [
     CommonModule, RouterModule.forChild(routes),
-    NgbModule,NgSelectModule,SweetAlert2Module,
+    NgbModule,NgSelectModule,SweetAlert2Module,FormsModule, CoreCommonModule
   ],
   exports: [IntroduceComponent],
 })
