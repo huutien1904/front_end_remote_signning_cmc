@@ -462,7 +462,7 @@
               <div class="col-sm-12">
                 <ng-select
                   [items]="organizationId"
-                  [clearable]="true"
+                  [clearable]="false"
                   bindLabel="organizationName"
                   bindValue="organizationId"
                   formControlName="organizationId"
@@ -526,6 +526,12 @@
                     *ngIf="f.phoneNumber.errors.required"
                   >
                     Không được bỏ trống
+                  </small>
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="f.phoneNumber.errors.pattern"
+                  >
+                    Số điện thoại chưa đúng
                   </small>
                 </span>
               </div>
@@ -697,8 +703,14 @@
             </ng-select>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.province.errors" class="invalid-form">
-              <small class="form-text text-danger"> Không được bỏ trống </small>
+            <span
+              *ngIf="
+                (f.province.errors && f.province?.touched) ||
+                (submitted && f.province?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> Không được bỏ trống</small>
             </span>
           </div>
         </div>
@@ -783,8 +795,14 @@
             </ng-select>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.district.errors" class="invalid-form">
-              <small class="form-text text-danger"> Không được bỏ trống </small>
+            <span
+              *ngIf="
+                (f.district.errors && f.district?.touched) ||
+                (submitted && f.district?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> Không được bỏ trống</small>
             </span>
           </div>
         </div>
@@ -869,10 +887,14 @@
             </ng-select>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.commune.errors" class="invalid-form">
-              <small class="form-text text-muted danger">
-                Không được bỏ trống
-              </small>
+            <span
+              *ngIf="
+                (f.commune.errors && f.commune?.touched) ||
+                (submitted && f.commune?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> Không được bỏ trống</small>
             </span>
           </div>
         </div>
@@ -974,8 +996,14 @@
             </ng-select>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.street.errors" class="invalid-form">
-              <small class="form-text text-danger"> Không được bỏ trống </small>
+            <span
+              *ngIf="
+                (f.street.errors && f.street?.touched) ||
+                (submitted && f.street?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> Không được bỏ trống</small>
             </span>
           </div>
         </div>
@@ -1007,10 +1035,14 @@
             </div>
           </div>
           <div class="col-sm-12">
-            <span *ngIf="submitted && f.homeNumber.errors" class="invalid-form">
-              <small class="form-text text-muted danger">
-                Không được bỏ trống
-              </small>
+            <span
+              *ngIf="
+                (f.homeNumber.errors && f.homeNumber?.touched) ||
+                (submitted && f.homeNumber?.errors?.required)
+              "
+              class="invalid-form"
+            >
+              <small class="form-text text-danger"> Không được bỏ trống</small>
             </span>
           </div>
         </div>

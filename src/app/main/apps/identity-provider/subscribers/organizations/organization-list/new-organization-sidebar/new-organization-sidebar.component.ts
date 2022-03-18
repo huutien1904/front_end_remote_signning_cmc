@@ -62,12 +62,12 @@ export class NewOrganizationSidebarComponent implements OnInit {
     this.newOrganization = this.fb.group(
       {
         countryOrganizationId: ['', [Validators.required]],
-        organizationName: ['', [Validators.required]],
+        organizationName: [''],
         subscriberCategoryId: [null, [Validators.required]],
         parentOrganizationName: [null, Validators.required],
         parentOrganizationId: [0, [Validators.required]],
         typeOrganization: [null, Validators.required],
-        organizationId: [null, Validators.required],
+        organizationId: [null, [Validators.required]],
         leaderName: ['', [Validators.required]],
         website: [
           '',
@@ -79,7 +79,14 @@ export class NewOrganizationSidebarComponent implements OnInit {
           ],
         ],
         email: ['', [Validators.required, Validators.email]],
-        phoneNumber: [null, [Validators.required, Validators.minLength(10)]],
+        phoneNumber: [
+          null,
+          [
+            Validators.required,
+            Validators.minLength(10),
+            Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
+          ],
+        ],
         street: [{ value: null, disabled: true }, Validators.required],
         country: [this.country[0].countryId, Validators.required],
         province: [null, Validators.required],
@@ -105,6 +112,10 @@ export class NewOrganizationSidebarComponent implements OnInit {
     this.getOrganizationId();
   }
 
+  // selectOrganization(e) {
+  //   this.newOrganization.controls['organizationId'].setValue(e.organizationId);
+  //   console.log(e.organizationId);
+  // }
   getOrganization() {
     this._organizationListService
       .searchOrganizations(JSON.stringify(this.newOrganization.value))

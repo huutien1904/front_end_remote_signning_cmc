@@ -458,15 +458,6 @@
                                 <div class="col-sm-12">
                                   <div
                                     class="input-group input-group-merge"
-                                    [ngClass]="
-                                      (f.parentOrganizationName.errors &&
-                                        f.parentOrganizationName?.touched) ||
-                                      (submitted &&
-                                        f.parentOrganizationName?.errors
-                                          ?.required)
-                                        ? 'is-invalid'
-                                        : ''
-                                    "
                                   >
                                     <input
                                       appRemoveSpace
@@ -484,22 +475,6 @@
                                       "
                                     />
                                   </div>
-                                </div>
-                                <div class="col-sm-12">
-                                  <span
-                                    *ngIf="
-                                      (f.parentOrganizationName.errors &&
-                                        f.parentOrganizationName?.touched) ||
-                                      (submitted &&
-                                        f.parentOrganizationName?.errors
-                                          ?.required)
-                                    "
-                                    class="invalid-form"
-                                  >
-                                    <small class="form-text text-danger">
-                                      Không được bỏ trống</small
-                                    >
-                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -1227,10 +1202,21 @@
                   <button
                     type="submit"
                     rippleEffect
-                    class="btn pl-3 pr-3 btn-primary mr-1"
+                    class="btn btn-primary mr-1"
                     (click)="onSubmit()"
                   >
-                    Cập Nhật
+                    Cập nhật
+                  </button>
+                  <button
+                    class="btn btn-outline-danger mr-1"
+                    (click)="openConfirmDelete()"
+                    rippleEffect
+                  >
+                    <i
+                      data-feather="trash-2"
+                      class="d-sm-none d-inline-block"
+                    ></i>
+                    <span class="d-none d-sm-inline-block">Xóa</span>
                   </button>
                   <app-return [buttonReturn]="buttonReturn"> </app-return>
                 </div>
@@ -1571,7 +1557,7 @@
                           class="btn btn-primary mr-1 mb-50"
                           (click)="updateRole()"
                         >
-                          Cập Nhật
+                          Cập nhật
                         </button>
                         <app-return [buttonReturn]="buttonReturn"> </app-return>
                       </div>

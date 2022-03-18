@@ -311,7 +311,7 @@ export class EntityProfileCreateComponent implements OnInit {
       endEntityProfileName: [null, [Validators.required]],
       distinguishedName: this.fb.array([], Validators.required),
       alternativeName: this.fb.array([]),
-      typeProfile: [null, Validators.required],
+      typeProfile: [this.typeProfile[0], Validators.required],
     });
   }
 

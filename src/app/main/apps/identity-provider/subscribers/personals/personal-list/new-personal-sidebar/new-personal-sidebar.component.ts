@@ -102,7 +102,7 @@ export class NewPersonalSidebarComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(10),
-            Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/),
+            Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
           ],
         ],
         personalCountryId: [
@@ -113,7 +113,7 @@ export class NewPersonalSidebarComponent implements OnInit {
             Validators.pattern(/^[0-9]\d*$/),
           ],
         ],
-        organizationId: [null, Validators.required],
+        organizationId: [0],
         streetBirthPlace: [
           { value: null, disabled: true },
           Validators.required,
@@ -219,6 +219,7 @@ export class NewPersonalSidebarComponent implements OnInit {
 
   selectOrganization(e) {
     this.newPersonal.controls['organizationId'].setValue(e.organizationId);
+    // console.log(e.organizationId);
   }
   // randomUser(length) {
   //   var result = '';

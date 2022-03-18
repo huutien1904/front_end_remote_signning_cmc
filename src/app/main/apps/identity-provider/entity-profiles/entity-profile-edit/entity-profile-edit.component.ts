@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EntityProfileService } from '../entity-profile.service';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './entity-profile-edit.component.html',
@@ -348,7 +349,9 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private _entityProfileService: EntityProfileService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private _toastrService: ToastrService,
   ) {
     //  declare form group
     this.formEditProfile = this.fb.group({
@@ -476,6 +479,65 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     return this.formEditProfile.controls;
   }
 
+  //Xóa Profile
+  removeProfile(entityId){
+    console.log(entityId);
+    this._entityProfileService
+    .deleteProfileId(entityId)
+    .toPromise()
+    .then((res) =>{
+        if(res.result == true ){
+          this.router.navigate(['/apps/ip/profiles/profile-list']);
+          this._toastrService.success(
+            'Xóa Profile thành công ',
+            'Thành công',
+            { toastClass: 'toast ngx-toastr', closeButton: true }
+          );
+        }
+    })
+  }
+  deleteProfile(){
+    const routerParams = this.route.snapshot.paramMap;
+    const id = routerParams.get('id');
+    console.log(id);
+    this.confirmRemoveProfile(id);
+  }
+  confirmRemoveProfile(entityId){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm:   async () => {
+      return this.removeProfile(entityId)
+     },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick:  () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result:any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
+    
+    );
+  }
   // select subject DNA
   selectSubjectDNA(e) {}
   //  add subject DNA

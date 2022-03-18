@@ -35,6 +35,24 @@ export class OrganizationEditService {
       this.option
     );
   }
+  public deleteOrganization(id): Observable<ResponseData<Organization>> {
+    let body = {
+      organizationId: id,
+    };
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = currentUser.token;
+    const option = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: body,
+    };
+    return this._httpClient.delete<ResponseData<Organization>>(
+      `${environment.apiUrl}/organization/delete`,
+      option
+    );
+  }
   public getAddressById(id): Observable<ResponseData<AddressFull>> {
     return this._httpClient.get<ResponseData<AddressFull>>(
       `${environment.apiUrl}/address/${id}`,

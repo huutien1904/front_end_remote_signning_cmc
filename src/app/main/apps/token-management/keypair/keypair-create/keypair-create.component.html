@@ -15,6 +15,7 @@
                       <ng-select
                         [items]="hsmList"
                         bindLabel="hsmName"
+                        placeholder="{{hsmName}}"
                         [clearable]="false"
                         formControlName="hsmList"
                         (change)="changeHsm()"

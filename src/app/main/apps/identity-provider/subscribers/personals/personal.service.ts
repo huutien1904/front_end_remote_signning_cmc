@@ -54,6 +54,12 @@ export class PersonalService {
       this.option
     );
   }
+  public getStaffSelf(): Observable<ResponseData<Personal>> {
+    return this._httpClient.get<ResponseData<Personal>>(
+      `${environment.apiUrl}/staff/self-info`,
+      this.option
+    );
+  }
 
   getData(
     page: number,
