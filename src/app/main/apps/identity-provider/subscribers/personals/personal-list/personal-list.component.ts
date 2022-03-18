@@ -40,7 +40,7 @@ export class PersonalListComponent implements OnInit {
   public totalItems: any = 0;
   public pagedData = new PagedData<Personal>();
   public rowsData = new Array<Personal>();
-  public rows;
+  public rows: any;
   public chkBoxSelected = [];
   public selected = [];
   public SelectionType = SelectionType;
@@ -136,7 +136,7 @@ export class PersonalListComponent implements OnInit {
       size: [this.sizePage[3]],
       sort: [['staffId,asc']],
       contains: ['', Validators.required],
-      gender: [null],
+      gender: [this.gender[0]],
       dateOfBirth: [''],
       fromDate: [''],
       toDate: [''],

@@ -40,7 +40,7 @@ export class OrganizationListComponent implements OnInit {
   @ViewChild('tableRowDetails') tableRowDetails: any;
   public ColumnMode = ColumnMode;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
-  public typeOrganization: any[];
+  public typeOrganization: any[] = [];
   public flag: any;
   public openTable: boolean = true;
   public openTableUpdate: boolean = false;
@@ -104,7 +104,7 @@ export class OrganizationListComponent implements OnInit {
     this.formListOrganizations = this.fb.group({
       inputOrganization: [''],
       size: [this.sizePage[3], Validators.required],
-      typeOrganization: [null],
+      typeOrganization: [this.typeOrganization[0]],
       contains: ['', Validators.required],
       page: [''],
       sort: [[]],

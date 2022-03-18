@@ -111,7 +111,9 @@ export class CreateSelfComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
+          Validators.pattern(
+            /(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/
+          ),
         ],
       ],
       personalCountryId: [
@@ -263,6 +265,7 @@ export class CreateSelfComponent implements OnInit {
 
   selectOrganization(e) {
     this.newPersonal.controls['organizationId'].setValue(e.organizationId);
+    console.log(e.organizationId);
   }
 
   onSubmit() {
@@ -392,6 +395,8 @@ export class CreateSelfComponent implements OnInit {
           )
           .subscribe((res) => {
             this.districtBirthPlace = res;
+            this.districtResidencePlace = res;
+            console.log(res);
             this.newPersonal.get('districtBirthPlace').enable();
           });
         break;
@@ -447,12 +452,14 @@ export class CreateSelfComponent implements OnInit {
             )
             .subscribe((res) => {
               this.communeBirthPlace = res;
+              this.communeResidencePlace = res;
               this.newPersonal.get('communeBirthPlace').enable();
             });
         }
         break;
     }
   }
+
   selectCommune(type: number) {
     switch (type) {
       case 2: {
@@ -497,12 +504,14 @@ export class CreateSelfComponent implements OnInit {
           )
           .subscribe((res) => {
             this.streetBirthPlace = res;
+            this.streetResidencePlace = res;
             this.newPersonal.get('streetBirthPlace').enable();
           });
         break;
       }
     }
   }
+
   selectStreet(type: number) {
     switch (type) {
       case 2: {
@@ -513,9 +522,24 @@ export class CreateSelfComponent implements OnInit {
         break;
       }
       case 1: {
-        if(this.checkStreet === false){
+        if (this.checkStreet === false) {
+          this.newPersonal.get('districtResidencePlace').enable();
+          this.newPersonal.get('communeResidencePlace').enable();
+          this.newPersonal.get('streetResidencePlace').enable();
           this.newPersonal.get('homeNumberResidencePlace').enable();
+          this.newPersonal.patchValue({
+            provinceResidencePlace:
+              this.newPersonal.get('provinceBirthPlace').value,
+            districtResidencePlace:
+              this.newPersonal.get('districtBirthPlace').value,
+            communeResidencePlace:
+              this.newPersonal.get('communeBirthPlace').value,
+            streetResidencePlace:
+              this.newPersonal.get('streetBirthPlace').value,
+            homeNumberResidencePlace: null,
+          });
           this.checkStreet = true;
+          console.log(this.newPersonal.get('districtResidencePlace').value);
         }
         this.newPersonal.patchValue({
           homeNumberBirthPlace: null,

@@ -58,7 +58,7 @@ export class KeypairCreateComponent implements OnInit {
   public tokenName: any;
   public hsmName = '';
   public tokenList: any[] = [];
-  public keypairAlias: any[] = [];
+  // public keypairAlias: any[] = [];
   public userIdList: any[] = [];
   public disableAlias = false;
   public numberKeypair: any[] = [
@@ -153,15 +153,15 @@ export class KeypairCreateComponent implements OnInit {
         console.log(this.userIdList);
       });
 
-    this._keypairService
-      .getData(body)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((pagedData) => {
-        console.log(pagedData);
-        this.keypairAlias = pagedData.data.data;
-        this.keypairAliasName = this.keypairAlias[0].keypairAlias;
-        console.log(this.keypairAlias);
-      });
+    // this._keypairService
+    //   .getData(body)
+    //   .pipe(takeUntil(this._unsubscribeAll))
+    //   .subscribe((pagedData) => {
+    //     console.log(pagedData);
+    //     this.keypairAlias = pagedData.data.data;
+    //     this.keypairAliasName = this.keypairAlias[0].keypairAlias;
+    //     console.log(this.keypairAlias);
+    //   });
     this._hsmService
       .getListHsm({
         page: 0,

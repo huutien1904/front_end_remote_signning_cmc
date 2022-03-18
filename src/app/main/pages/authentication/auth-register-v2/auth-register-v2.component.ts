@@ -156,7 +156,7 @@ export class AuthRegisterV2Component implements OnInit {
       confPassword: ['', Validators.required],
       role: ['USER', Validators.required],
       agree: [false, Validators.requiredTrue],
-      typeSubscription: ['', Validators.required],
+      typeSubscription: [this.typeSubscription[0], Validators.required],
      },
      {
       validator: MustMatch('password', 'confPassword')
