@@ -80,6 +80,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       toDate: [null],
       page: [null],
       size: [this.sizePage[3]],
+      typeProfile: [this.typeProfile[0]],
     });
     // content header profile
     this.contentHeader = {
