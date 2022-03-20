@@ -33,6 +33,7 @@ export class KeypairCreateComponent implements OnInit {
   public newRequestForm: FormGroup;
   public HSMname: string;
   public lastValue;
+  public name;
   public contentHeader: object;
   public submitted = false;
   public hsmType: any[] = ['NET', 'PCI'];
@@ -43,10 +44,10 @@ export class KeypairCreateComponent implements OnInit {
       cryptoSystem: 'RSA',
       keypairLength: ['1024', '1536', '2048', '3072', '4096', '6144', '8192'],
     },
-    {
-      cryptoSystem: 'ECDSA',
-      keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
-    },
+    // {
+    //   cryptoSystem: 'ECDSA',
+    //   keypairLength: ['secp256r1', 'secp384r1', 'secp521r1'],
+    // },
   ];
   public keypairLengthList = this.cryptoAlgorithm[0].keypairLength;
   public keypairLength = this.cryptoAlgorithm[0].keypairLength[0];
@@ -182,7 +183,7 @@ export class KeypairCreateComponent implements OnInit {
 
     this.keypairFormView = this.formBuilder.group({
       cryptoAlgorithm: this.formBuilder.group({
-        cryptoSystem: [this.cryptoSystem[0], Validators.required],
+        cryptoSystem: [this.cryptoAlgorithm[0].cryptoSystem, Validators.required],
         keypairLength: [this.cryptoAlgorithm[0].keypairLength[0], Validators.required],
       }),
       hsmList: [this.hsmList[0], Validators.required],
@@ -244,7 +245,7 @@ export class KeypairCreateComponent implements OnInit {
     const body = {
       cryptoAlgorithm: [
         this.keypairFormView.get('cryptoAlgorithm').get('cryptoSystem').value
-          .cryptoSystem,
+          ,
         this.keypairFormView.get('cryptoAlgorithm').get('keypairLength').value,
       ],
       templateKeyId: '1',
