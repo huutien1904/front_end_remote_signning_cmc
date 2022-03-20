@@ -1,3 +1,1396 @@
-<p>
-  help-center works!
-</p>
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- content-header component -->
+
+    <section id="faq-search-filter">
+      <div
+        class="card faq-search"
+        style="background-image: url('assets/images/pages/banner.png')"
+      >
+        <div class="card-body text-center">
+          <!-- main title -->
+          <h2 class="text-primary">Bạn cần sự trợ giúp?</h2>
+
+          <!-- subtitle -->
+          <p class="card-text mb-2">
+            Hãy nhập câu hỏi hoặc tìm kiếm các danh mục ở dưới
+          </p>
+
+          <!-- search input -->
+          <form class="faq-search-input">
+            <div class="input-group input-group-merge">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i data-feather="search"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="searchText"
+                name="searchbar"
+                class="form-control"
+                placeholder="Tìm kiếm câu hỏi thường gặp"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- account setting page -->
+    <section id="faq">
+      <div class="row nav-vertical d-flex">
+        <div class="col-md-3 mb-2 mb-md-0">
+          <ul
+            ngbNav
+            #navVertical="ngbNav"
+            class="nav nav-pills flex-column nav-left"
+          >
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="payment"
+                data-toggle="pill"
+                href="#faq-payment"
+                aria-expanded="true"
+                role="tab"
+              >
+                <i [data-feather]="'users'" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Thuê bao</span>
+              </a>
+              <ng-template ngbNavContent>
+                <!-- product services -->
+                <div
+                  class="tab-pane collapse-icon mb-2"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-tag bg-light-primary mr-1">
+                      <i [data-feather]="'user'" class="font-medium-4"></i>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">Thuê bao cá nhân</h4>
+                    </div>
+                  </div>
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Tạo tài khoản từ trang đăng nhập</strong
+                              ></span
+                            >
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Ở màn hình đăng nhập, chọn "Tạo tài khoản
+                              mới"
+                            </p>
+                            <p>
+                              Bước 2: Màn hình Đăng ký tài khoản hiện ra, nhập
+                              các đủ trường thông tin
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Sau khi điền đầy đủ chính xác các trường
+                              thông tin, tích chọn "Tôi đồng ý với Chính sách
+                              bảo mật và điều khoản" và ấn "Đăng ký"
+                            </p>
+                            <p>
+                              Bước 4: Kiểm tra email vừa đăng ký để xác thực tài
+                              khoản. Chọn "Xác nhận tài khoản"
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/2.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 5: Đăng nhập với với tài khoản vừa tạo, thực
+                              hiện cập nhật đầy đủ các trường thông tin rồi ấn
+                              "Cập nhật". Sau khi cập nhật thành công, bạn sẽ
+                              được đưa đến giao diện Dashboard.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/3.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Tạo tài khoản với giao diện quản lý thuê
+                                bao</strong
+                              ></span
+                            >
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Thuê bao" ở menu, loại thuê bao:
+                              Thuê bao cá nhân. Màn hình quản lý thuê bao cá
+                              nhân hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/0.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2:Chọn "Tạo", cửa sổ "Tạo thuê bao cá nhân"
+                              hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/4.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Điền đầy đủ các trường thông tin, sau đó
+                              ấn "Tạo thuê bao". Sau khi xuất hiện thông báo
+                              thành công, có thể xem thuê bao mới tạo ở bảng
+                              "Danh sách thuê bao cá nhân"
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Xem thông tin, chỉnh sửa tài khoản đang đăng
+                                nhập hệ thống</strong
+                              ></span
+                            >
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Tại góc trên bên phải màn hình, ấn vào
+                              avatar của tài khoản, chọn "Thuê bao". Màn hình
+                              thông tin của tài khoản hiện ra
+                            </p>
+                            <p>
+                              Bước 2: Người dùng có thể xem hoặc sửa thông tin.
+                              Nếu sửa thì sau khi hoàn thành các trường thông
+                              tin, ấn "Cập nhật" để lưu thông tin vừa chỉnh sửa
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/5.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Xem, sửa, xóa các thuê bao trong danh sách thuê
+                                bao</strong
+                              >
+                            </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Thuê bao" ở menu, loại thuê bao:
+                              Thuê bao cá nhân. Màn hình quản lý thuê bao cá
+                              nhân hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/personal/0.png"
+                              alt=""
+                            />
+                            <p>Bước 2:</p>
+                            <ul>
+                              <li>
+                                Nếu xem/sửa tài khoản, ấn vào dòng có thông tin
+                                tài khoản muốn chọn, hoặc chọn "Xem/cập nhật" ở
+                                phần hành động. Màn hình thông tin thuê bao hiện
+                                ra.
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/ip/personal/6.png"
+                                alt=""
+                              />
+                              <li>
+                                Nếu sửa tài khoản thì sau khi hoàn thành các
+                                trường thông tin, ấn "Cập nhật" để lưu thông tin
+                                đã chỉnh sửa.
+                              </li>
+                              <li>
+                                Nếu xóa tài khoản, chọn "Xóa" ở phần hành động,
+                                hoặc tích chọn các ô rồi ấn "Xóa" ở bảng danh
+                                sách để xóa nhiều tài khoản
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/ip/personal/7.png"
+                                alt=""
+                              />
+                            </ul>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div
+                  class="tab-pane collapse-icon mb-2"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-tag bg-light-primary mr-1">
+                      <i [data-feather]="'users'" class="font-medium-4"></i>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">Thuê bao tổ chức</h4>
+                    </div>
+                  </div>
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Thêm tài khoản mới</strong> </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Thuê bao" ở menu, loại thuê bao:
+                              Thuê bao tổ chức. Màn hình quản lý thuê bao tổ
+                              chức hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/organization/2.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2:Chọn "Tạo", cửa sổ "Tạo thuê bao tổ chức"
+                              hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/organization/1.png "
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Điền đầy đủ các trường thông tin, sau đó
+                              ấn "Tạo thuê bao". Sau khi xuất hiện thông báo
+                              thành công, có thể xem thuê bao mới tạo ở bảng
+                              "Danh sách thuê bao tổ chức"
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Xem, sửa, xóa các tài khoản trong danh
+                                sách</strong
+                              >
+                            </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Thuê bao" ở menu, loại thuê bao:
+                              Thuê bao tổ chức. Màn hình quản lý thuê bao tổ
+                              chức hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/organization/2.png"
+                              alt=""
+                            />
+                            <p>Bước 2:</p>
+                            <ul>
+                              <li>
+                                Nếu xem/sửa tài khoản, ấn vào dòng có thông tin
+                                tài khoản muốn chọn, hoặc chọn "Xem/cập nhật" ở
+                                phần hành động. Màn hình thông tin thuê bao hiện
+                                ra.
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/ip/organization/3.png"
+                                alt=""
+                              />
+                              <li>
+                                Nếu sửa tài khoản thì sau khi hoàn thành các
+                                trường thông tin, ấn "Cập nhật" để lưu thông tin
+                                đã chỉnh sửa.
+                              </li>
+                              <li>
+                                Nếu xóa tài khoản, chọn "Xóa" ở phần hành động,
+                                hoặc tích chọn các ô rồi ấn "Xóa" ở bảng danh
+                                sách để xóa nhiều tài khoản
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/ip/organization/4.png"
+                                alt=""
+                              />
+                            </ul>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div
+                  class="tab-pane collapse-icon"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-tag bg-light-primary mr-1">
+                      <i [data-feather]="'info'" class="font-medium-4"></i>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">Quản lý Profile</h4>
+                    </div>
+                  </div>
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Thêm mới</strong> </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Profile" ở menu. Màn hình quản lý
+                              EntityProfile hiện lên
+                            </p>
+                            <img
+                            class="example-img"
+                            src="assets/images/help/ip/profile/2.png"
+                            alt=""
+                          />
+                            <p>
+                              Bước 2:Chọn "Tạo", màn hình "Thêm mới Profile"
+                              hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/profile/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Chọn các trường thông tin, sau đó ấn
+                              "Tạo". Sau khi xuất hiện thông báo thành công, có
+                              thể xem Profile mới tạo ở bảng "Danh sách Profile"
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Xem, sửa, xóa các profile trong danh
+                                sách</strong
+                              >
+                            </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Profile" ở menu. Màn hình quản lý
+                              EntityProfile hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/ip/profile/2.png"
+                              alt=""
+                            />
+                            <p>Bước 2:</p>
+                            <ul>
+                              <li>
+                                Nếu xem/sửa profile, ấn vào dòng có thông tin
+                                tài khoản muốn chọn, hoặc chọn "Xem/Cập nhật" ở
+                                phần hành động. Màn hình thông tin profile hiện
+                                ra.
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/ip/profile/3.png"
+                                alt=""
+                              />
+                              <li>
+                                Nếu sửa profile thì sau khi hoàn thành các
+                                trường thông tin, ấn "Cập nhật" để lưu thông tin
+                                đã chỉnh sửa.
+                              </li>
+                              <li>
+                                Nếu xóa profile, chọn "Xóa" ở phần hành động,
+                                hoặc tích chọn các ô rồi ấn "Xóa" ở bảng danh
+                                sách để xóa nhiều profile
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/ip/profile/4.png"
+                                alt=""
+                              />
+                            </ul>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="payment"
+                data-toggle="pill"
+                href="#faq-payment"
+                aria-expanded="true"
+                role="tab"
+              >
+                <i [data-feather]="'file-text'" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Chứng thư số</span>
+              </a>
+              <ng-template ngbNavContent>
+                <!-- product services -->
+                <div
+                  class="tab-pane collapse-icon mb-2"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong>Tạo yêu cầu chứng thực</strong>
+                            </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Yêu cầu chứng thực" ở menu (có thể
+                              chọn loại tìm kiếm Thuê bao cá nhân hoặc Thuê bao
+                              tổ chức). Màn hình quản lý yêu cầu chứng thực hiện
+                              lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ấn "Tạo", màn hình danh sách thuê bao hiện
+                              lên. Chọn thuê bao:
+                            </p>
+                            <ul>
+                              <li>
+                                Chọn một thuê bao: Ấn vào một hàng hoặc chọn ấn
+                                "Tạo yêu cầu chứng thực" ở Hành động
+                              </li>
+                              <li>
+                                Chọn nhiều thuê bao: tích chọn các ô rồi ấn "Tạo
+                                yêu cầu"
+                              </li>
+                            </ul>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/2.png"
+                              alt=""
+                            />
+
+                            <p>
+                              Bước 3: Cửa sổ Tạo yêu cầu chứng thực (hoặc Tạo
+                              Danh sách các yêu cầu chứng thực) hiện ra. Chọn
+                              profile, sau đó chọn "Tạo mới cặp khóa" hoặc "Chọn
+                              cặp khóa có sẵn" để hoàn thành thông tin về cặp
+                              khóa. Sau đó ấn "Tạo" để tạo yêu cầu chứng thực.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/3.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 4: Sau khi tạo thành công, một cửa sổ hiện ra
+                              cho phép người dùng tùy chọn tải yêu cầu chứng
+                              thực vừa tạo về máy cá nhân
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/4.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong
+                                >Tải dữ liệu về và updoad lên EJCBAF</strong
+                              >
+                            </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>Bước 1: Tạo yêu cầu trên EJCBA</p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/5.png"
+                              alt=""
+                            />
+
+                            <p>
+                              Bước 2: Tải lên dữ liệu yêu cầu chứng thực lên
+                              EJCBA
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/6.png"
+                              alt=""
+                            />
+
+                            <p>Bước 3: Kiểm tra thông tin và tải về PEM</p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/7.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Chứng thư số</strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Chứng thư số" ở menu. Màn hình quản
+                              lý chứng thư số thực hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/8.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ấn "Tải lên", màn hình danh sách thuê bao
+                              hiện lên. Chọn thuê bao.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/9.png"
+                              alt=""
+                            />
+
+                            <p>
+                              Bước 3: Cửa sổ Tải lên hiện ra. Chọn "Browser" và
+                              chọn một chứng thư số trong máy tính. Sau đó ấn
+                              "Cập nhật" để tải lên chứng thư số.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/10.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 4: Kiểm tra email nhận được chứng thư số và
+                              mật khẩu chứng thư số
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/certificate/11.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="payment"
+                data-toggle="pill"
+                href="#faq-payment"
+                aria-expanded="true"
+                role="tab"
+              >
+                <i [data-feather]="'smartphone'" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Quản lý thiết bị</span>
+              </a>
+              <ng-template ngbNavContent>
+                <!-- product services -->
+                <div
+                  class="tab-pane collapse-icon mb-2"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-tag bg-light-primary mr-1">
+                      <i [data-feather]="'rss'" class="font-medium-4"></i>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">Kết nối HSM</h4>
+                    </div>
+                  </div>
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Tạo kết nối HSM</strong> </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Kết nối HSM" ở menu, màn hình quản
+                              lý hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Chọn "Tạo kết nối", màn hình "Tạo kết nối
+                              HSM" hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/2.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Hoàn thành các trường thông tin, sau đó ấn
+                              "Tạo kết nối HSM". Kiểm tra HSM mới tạo ở bảng
+                              danh sách
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong> Chỉnh sửa kết nối HSM</strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Kết nối HSM" ở menu, màn hình quản
+                              lý hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ở cột hành động của mỗi kết nối HSM, chọn
+                              "Chỉnh sửa", màn hình "Chỉnh sửa kết nối HSM" hiện
+                              ra
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/3.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Hoàn thành các trường thông tin, sau đó ấn
+                              "Cập nhật"
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/4.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong> Xem chi tiết kết nối HSM</strong></span
+                            >
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Kết nối HSM" ở menu, màn hình quản
+                              lý hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ở cột hành động của mỗi kết nối HSM, chọn
+                              "Chi tiết", màn hình "Chi tiết" kết nối HSM" hiện
+                              ra. Người dùng có thể xem thông tin và các slot
+                              của HSM
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/5.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Xóa kết nối HSM</strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Kết nối HSM" ở menu, màn hình quản
+                              lý hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Thực hiện xóa xóa kết nối HSM và xác nhận:
+                            </p>
+                            <ul>
+                              <li>
+                                Xóa một kết nối HSM: ấn "Xóa" ở cột hành động
+                              </li>
+                              <li>
+                                Xóa nhiều kết nối HSM: tích chọn các ô rồi ấn
+                                "Xóa kết nối"
+                              </li>
+                            </ul>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/6.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span
+                              ><strong>Kết nối/Ngắt kết nối HSM</strong></span
+                            >
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Kết nối HSM" ở menu, màn hình quản
+                              lý hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Thực hiện kết nối (đối với HSM đang ngắt
+                              kết nối) hoặc ngắt kết nối (đối vói HSM đang kết
+                              nối). Có 2 cách:
+                            </p>
+                            <ul>
+                              <li>
+                                Cách 1 : Chúng ta có thể chọn "Kết nối" (hoặc
+                                "Ngắt kết nối") ở cột hành động. Sau đó xác nhận
+                                thao tác
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/equipment/hsm/7.png"
+                                alt=""
+                              />
+                              <li>
+                                Cách 2 : Người dùng ấn vào xem chi tiết HSM và
+                                chọn "Kết nối" (hoặc "Ngắt kết nối"). Sau đó xác
+                                nhận thao tác
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/equipment/hsm/8.png"
+                                alt=""
+                              />
+                            </ul>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Xuất danh sách HSM</strong> </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Kết nối HSM" ở menu, màn hình quản
+                              lý hiện ra.
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ấn "Xuất danh sách", cửa sổ thư mục của
+                              máy tính hiện lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/hsm/9.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Chọn thư mục để lưu file được xuất, ấn
+                              Save
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div
+                  class="tab-pane collapse-icon mb-2"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-tag bg-light-primary mr-1">
+                      <i
+                        [data-feather]="'smartphone'"
+                        class="font-medium-4"
+                      ></i>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">Slot</h4>
+                    </div>
+                  </div>
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Xem chi tiết Slot</strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Slot" ở menu, màn hình quản lý hiện
+                              ra
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ở combobox "Kết nối HSM", chọn một HSM.
+                              Danh sách Slot của HSM hiện ra.
+                            </p>
+                            <p>
+                              Bước 3: Chọn một slot hoặc ấn "Xem chi tiết" ở cột
+                              hành động để xem thông tin slot
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/6.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Tạo Slot</strong> </span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Slot" ở menu, màn hình quản lý hiện
+                              ra
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ở combobox "Kết nối HSM", chọn một HSM.
+                              Danh sách Slot của HSM hiện ra.
+                            </p>
+                            <p>
+                              Bước 3: Ấn "Tạo slot", danh sách Slot đã khởi tạo
+                              và chưa khởi tạo hiên lên
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/2.png"
+                              alt=""
+                            />
+                            <p>Bước 4: Người dùng chọn Slot để tạo</p>
+                            <ul>
+                              <li>
+                                Nếu Slot chưa được khỏi tạo mật khẩu SO hoặc mật
+                                khẩu User hệ thống sẽ thông báo cho người dùng
+                                nếu người dùng vẫn muốn khởi tạo ấn vào chấp
+                                nhận và nhập thông tin khởi tạo. Sau khi ấn chấp
+                                nhận người dùng điền các thông tin về mật khẩu
+                                SO và mật khẩu User để tạo Slot. Sau khi ấn
+                                "Tạo" hệ thống sẽ thông báo thành công
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/equipment/slot/3.png"
+                                alt=""
+                              />
+                              <li>
+                                Nếu Slot đã được khởi tạo mật khẩu User và mật
+                                khẩu SO thì hệ thống sẽ thông báo Slot này đã
+                                tồn tại trong hệ thống ,nếu khởi tạo lại mọi cặp
+                                khóa bên trong đều bị xóa bỏ. Sau khi người dùng
+                                ấn chấp nhận , người dùng điền thông tin mật
+                                khẩu So và mật khẩu User để tạo lại mật khẩu.
+                                Sau khi ấn "Tạo" hệ thống sẽ thông báo thành
+                                công
+                              </li>
+                              <img
+                                class="example-img"
+                                src="assets/images/help/equipment/slot/4.png"
+                                alt=""
+                              />
+                            </ul>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Đổi mật khẩu USER</strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Slot" ở menu, màn hình quản lý hiện
+                              ra
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ở combobox "Kết nối HSM", chọn một HSM.
+                              Danh sách Slot của HSM hiện ra.
+                            </p>
+                            <p>
+                              Bước 3: Người dùng chọn "Đổi mật khẩu User" ở cột
+                              hành động
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/5.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 4: Người dùng điền mật khẩu hiện tại và mật
+                              khẩu mới sau đó ấn "Cập nhật" để đổi mật khẩu. Sau
+                              đó hệ thống sẽ thông báo nếu cập nhật mật khẩu
+                              thành công
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Xuất danh sách Slot </strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Chọn "Slot" ở menu, màn hình quản lý hiện
+                              ra
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/equipment/slot/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ở combobox "Kết nối HSM", chọn một HSM.
+                              Danh sách Slot của HSM hiện ra.
+                            </p>
+                            <p>
+                              Bước 3: Ấn "Xuất danh sách", cửa sổ thư mục của
+                              máy tính hiện lên
+                            </p>
+                            <p>
+                              Bước 4: Chọn thư mục để lưu file được xuất, ấn
+                              Save
+                            </p>
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="payment"
+                data-toggle="pill"
+                href="#faq-payment"
+                aria-expanded="true"
+                role="tab"
+              >
+                <i [data-feather]="'at-sign'" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Ứng dụng ký số PDF</span>
+              </a>
+              <ng-template ngbNavContent>
+                <div
+                  class="tab-pane collapse-icon mb-2"
+                  id="faq-product-services"
+                  role="tabpanel"
+                  aria-labelledby="product-services"
+                  aria-expanded="false"
+                >
+                  <!-- icon and header -->
+
+                  <!-- frequent answer and question  collapse  -->
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container>
+                      <ngb-accordion
+                        [destroyOnHide]="false"
+                        [closeOthers]="true"
+                        activeIds="productServicesId1"
+                      >
+                        <ngb-panel [cardClass]="'collapse-margin'">
+                          <ng-template ngbPanelTitle>
+                            <span><strong>Hướng dẫn ký số</strong></span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <p>
+                              Bước 1: Ở màn hình của ứng dụng, ấn "Tải lên" ở
+                              phần Tập tin ký số, chọn các file tài liệu cần ký
+                              trong máy tính. Tích chọn vào ô ở các file cần ký
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/sca/1.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 2: Ấn vào combobox ở phần Chữ ký số, ấn "Tải
+                              lên chứng thư số", chọn tải lên chứng thư số đã
+                              tạo trên hệ thống trong máy tính
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/sca/2.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 3: Ấn "Cấu hình", cấu hình mẫu chữ ký theo
+                              mong muốn (tích vào các thông tin muốn hiển thị,
+                              chọn mầu chữ, cỡ chữ, font chữ). Sau đó ấn "Lưu
+                              cấu hình"
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/sca/3.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 4: Chọn vị trí và kích thước cho chữ ký (Bằng
+                              thao tác kéo thả chữ ký trên file cần ký)
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/sca/4.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 5: Ấn đúp vào chữ ký trên file tài liệu, hoàn
+                              thành các trường tên thuê bao và mật khẩu. Sau đó
+                              ấn "Xác nhận" để ký số
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/sca/5.png"
+                              alt=""
+                            />
+                            <p>
+                              Bước 6: Sau khi hoàn thành các bước, người dùng
+                              nhận được file đã được ký số. Có thể chọn "Tải
+                              xuống" ở phần Tập tin đã ký để tải file tài liệu
+                              chứa chữ ký về máy tính
+                            </p>
+                            <img
+                              class="example-img"
+                              src="assets/images/help/sca/6.png"
+                              alt=""
+                            />
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <!-- FAQ image -->
+            <img
+              src="assets/images/illustration/faq-illustrations.svg"
+              class="img-fluid d-none d-md-block pt-5"
+              alt="demand img"
+            />
+          </ul>
+        </div>
+        <div [ngbNavOutlet]="navVertical" class="col-12 col-md-9"></div>
+      </div>
+    </section>
+    <!--/ account setting page -->
+
+    <!-- contact us -->
+    <section class="faq-contact">
+      <div class="row mt-5 pt-75">
+        <div class="col-12 text-center">
+          <h2>Bạn vẫn còn câu hỏi?</h2>
+          <p class="mb-3">
+Nếu bạn không thể tìm thấy sự trợ giúp ở trang này, hãy liên hệ với chúng tôi để nhận sự hỗ trợ nhanh chóng, chính xác
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <div class="card text-center faq-contact-card shadow-none py-1">
+            <div class="card-body">
+              <div class="avatar avatar-tag bg-light-primary mb-2 mx-auto">
+                <i data-feather="user" class="font-medium-3"></i>
+              </div>
+              <h4>Chuyên viên Lê Quang Huy</h4>
+              <span class="text-body">Email: huylq@cmc.com.vn</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card text-center faq-contact-card shadow-none py-1">
+            <div class="card-body">
+              <div class="avatar avatar-tag bg-light-primary mb-2 mx-auto">
+                <i data-feather="user" class="font-medium-3"></i>
+              </div>
+              <h4>Chuyên viên Nguyễn Việt Hưng</h4>
+              <span class="text-body">Email: nvhung4@cmc.com.vn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/ contact us -->
+  </div>
+</div>
