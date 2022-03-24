@@ -1,10 +1,11 @@
 @import '@core/scss/angular/libs/datatables.component.scss';
 @import '@core/scss/angular/libs/select.component.scss';
-@import '/src/@core/scss/base/bootstrap-extended/variables';
-$enable-responsive-font-sizes: true;
-.title {
-    @include font-size(1rem);
-}
-.item {
-    padding: 1rem;
-}
+@import '@core/scss/angular/libs/date-time-picker.component.scss';
+@import "@core/scss/base/plugins/forms/form-validation.scss";
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+.datatable-body-cell-label {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }

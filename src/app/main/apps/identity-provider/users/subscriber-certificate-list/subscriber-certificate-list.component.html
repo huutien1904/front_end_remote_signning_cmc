@@ -1,37 +1,46 @@
 <div class="col -12">
-  <div class="table-responsive border rounded mt-1">
+  <div class="border rounded mt-1">
     <section>
       <div class="card">
-        <div class="card-header item">
-          <h4 class="card-title col-9 col-md-8">
-            <i data-feather="file" [size]="20" class="mr-25 d-none d-sm-inline-block"></i>
-            <span class="align-middle d-none d-sm-inline-block">Danh sách chứng thư số</span>
-            <span class="align-middle title d-sm-none d-inline-block">Danh sách chứng thư số</span>
-          </h4>
-          <div class="col-3 col-md-3">
+        <div class="card-header">
+          <h4 class="card-title">Danh sách chứng thứ số</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-1">
+            <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
+              <button type="button" rippleEffect class="btn btn-primary ml-1">
+                <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Tải lên</span>
+              </button>
+            </a>
+            <!-- <a [href]="listFileUrl" download="Danh sách chứng thư số.pem"> -->
             <button
-              type="button"
+              class="btn btn-outline-secondary ml-50"
               rippleEffect
-              class="btn btn-primary ml-1 d-none d-sm-inline-block"
-              (click)="openNewCertModal(modalUploadCert)"
-              (click)="onSelect($event)"
+              (click)="downloadList()"
+              [disabled]="selected.length === 0"
             >
-              <i data-feather="plus" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">
-                Cập nhật chứng thư số</span
-              >
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Tải về</span>
+            </button>
+
+            <!-- </a> -->
+            <button
+              class="btn btn-outline-danger ml-50"
+              rippleEffect
+              (click)="deleteListSubscriber()"
+            >
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Xóa</span>
             </button>
             <button
-              type="button"
+              class="btn btn-outline-secondary float-right mr-1"
               rippleEffect
-              class="btn btn-primary btn-sm ml-1 d-sm-none d-inline-block "
-              (click)="openNewCertModal(modalUploadCert)"
-              (click)="onSelect($event)"
+              (click)="exportCSV()"
+              [disabled]="selected.length === 0"
             >
-              <i data-feather="plus" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block">
-                Cập nhật chứng thư số</span
-              >
+              <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Xuất danh sách </span>
             </button>
           </div>
         </div>
@@ -46,6 +55,7 @@
           [selected]="chkBoxSelected"
           (select)="customCheckboxOnSelect($event)"
           (select)="onSelect($event)"
+          (activate)="onActivate($event)"
           [selectionType]="SelectionType.checkbox"
           [columnMode]="ColumnMode.force"
           [headerHeight]="50"
@@ -67,6 +77,7 @@
             [draggable]="false"
             [resizeable]="false"
             class="ml-1"
+            name="checkbox"
           >
             <ng-template
               ngx-datatable-header-template
@@ -118,31 +129,40 @@
             name="TT"
             [sortable]="false"
             [canAutoResize]="false"
-            [width]="50"
+            [width]="60"
           >
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
+              {{ rowIndex + 1 }}
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column
             name="Mã chứng thư số"
             prop="subscriberCertificateId"
-            [width]="80"
-          ></ngx-datatable-column>
-          <ngx-datatable-column
-            name="Trạng thái"
-            prop="keypairStatus.keypairStatusName"
-            [width]="180"
-          ></ngx-datatable-column>
-          <ngx-datatable-column
-            name="Tên thuê bao"
-            prop="tokenName"
-            [width]="80"
+            [width]="150"
           ></ngx-datatable-column>
 
           <ngx-datatable-column
+            name="Trạng thái"
+            prop="keypairStatus.keypairStatusName"
+            [width]="200"
+          ></ngx-datatable-column>
+
+          <ngx-datatable-column
+            name="Subject DN"
+            [width]="600"
+            cellClass="myClass"
+          >
+            <ng-template
+              ngx-datatable-cell-template
+              let-row="row"
+              let-rowIndex="rowIndex"
+            >
+              {{ row.SubjectDN }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
             name="Hành động"
-            [width]="80"
+            [width]="100"
             [sortable]="false"
             prop=""
           >
@@ -183,17 +203,20 @@
                       ><i data-feather="file-text" class="mr-50"></i> Chi
                       tiết</a
                     >
-                    <a ngbDropdownItem class="d-flex align-items-center"
+                    <a
+                      ngbDropdownItem
+                      class="d-flex align-items-center"
+                      (click)="openConfirmDelete(value.subscriberCertificateId)"
                       ><i data-feather="trash-2" class="mr-50"></i> Xóa</a
                     >
                     <a
                       [href]="row.fileUrl"
+                      (click)="downloadOne(row)"
                       [download]="row.fileName"
                       ngbDropdownItem
                       class="d-flex align-items-center"
-                      ><i data-feather="download" class="mr-50"></i>Tải dữ
-                      liệu</a
-                    >
+                      ><i data-feather="download" class="mr-50"></i>Tải về
+                    </a>
                   </div>
                 </div>
                 <i data-feather="edit" class="text-primary cursor-pointer"></i>
@@ -214,8 +237,7 @@
                 <span *ngIf="chkBoxSelected">
                   Đã chọn {{ chkBoxSelected.length }} /
                 </span>
-                {{ rowCount.toLocaleString() }}
-                {{ totalMessage }} hàng.
+                {{ rowCount.toLocaleString() }} {{ totalMessage }} hàng.
               </div>
               <datatable-pager
                 [pagerLeftArrowIcon]="'datatable-icon-left'"
@@ -232,6 +254,44 @@
             </ng-template>
           </ngx-datatable-footer>
         </ngx-datatable>
+        <div class="row">
+          <div class="col-md-12 mb-1">
+            <a [routerLink]="['/apps/tm/subscriber-certificate/update']">
+              <button type="button" rippleEffect class="btn btn-primary ml-1">
+                <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Tải lên</span>
+              </button>
+            </a>
+            <!-- <a [href]="listFileUrl" download="Danh sách chứng thư số.pem"> -->
+            <button
+              class="btn btn-outline-secondary ml-50"
+              rippleEffect
+              (click)="downloadList()"
+              [disabled]="selected.length === 0"
+            >
+              <i data-feather="download" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Tải về</span>
+            </button>
+            <!-- </a> -->
+            <button
+              class="btn btn-outline-danger ml-50"
+              rippleEffect
+              (click)="deleteListSubscriber()"
+            >
+              <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Xóa</span>
+            </button>
+            <button
+              class="btn btn-outline-secondary float-right mr-1"
+              rippleEffect
+              (click)="exportCSV()"
+              [disabled]="selected.length === 0"
+            >
+              <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
+              <span class="d-none d-sm-inline-block">Xuất danh sách </span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   </div>
