@@ -7,6 +7,8 @@ import { KeypairService } from '../keypair.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { HsmService } from 'app/main/apps/equipment-management/hsm-management/hsm.service';
 import { Hsm, Token } from 'app/main/models/Equipment';
+import { KeypairListService } from '../keypair-list/keypair-list.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-keypair-view',
   templateUrl: './keypair-view.component.html',
@@ -39,7 +41,7 @@ export class KeypairViewComponent implements OnInit {
     private   toastr: ToastrService,
     private _hsmService: KeypairService,
     private _hsmServices: HsmService,
-
+    private _keypairService: KeypairListService,
   ) { 
     this._unsubscribeAll = new Subject();
   }
@@ -122,8 +124,69 @@ export class KeypairViewComponent implements OnInit {
       this.keypairFormView.controls.keypairId.patchValue(data.keypairId);
       this.keypairFormView.controls.keypairLength.patchValue(data.keypairLength);
       this.keypairFormView.controls.keypairStatusName.patchValue(data.keypairStatusName);
-      //this.keypairFormView.controls.keypairPath.patchValue(data.hsmType);
+      this.keypairFormView.controls.keypairPath.patchValue(data.username);
     })
     console.log(this.keypairFormView.value)
+  }
+
+  deleteKeypair(id) {
+    this._keypairService
+      .deleteKeypairById(id)
+      .toPromise()
+      .then((res) => {
+        if (res.result === true) {
+         
+          this.router.navigate(['/apps/tm/keypair/keypair-list']);
+           return res
+        }
+        
+      })
+  }
+  deleteListKeypair() {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.deleteKeypair(this.lastValue)
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value === true) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+      if (result.value === false )
+
+        Swal.fire({
+          icon: 'warning',
+          title: 'Thất bại!',
+          text: 'Không thể xóa cặp khóa tạo bằng super admin',
+          customClass: {
+            confirmButton: 'btn btn-warning'
+          }
+        });
+
+    }
+
+    );
   }
 }
