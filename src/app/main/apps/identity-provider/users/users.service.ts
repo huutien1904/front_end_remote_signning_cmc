@@ -40,6 +40,30 @@ export class UsersService {
     );
   }
 
+  updateRole(body): Observable<any> {
+    return this._httpClient.put<any>(
+      `${environment.apiUrl}/role/update`,
+      body,
+      this.option
+    );
+  }
+  getRole(username: string): Observable<any> {
+    return this._httpClient.get<any>(
+      `${environment.apiUrl}/role/${username}`,
+      this.option
+    );
+  }
+  public deleteSubscriberCertificateById(
+    id
+  ): Observable<ResponseData<PagedData<SubscriberCertificate>>> {
+    return this._httpClient.delete<
+      ResponseData<PagedData<SubscriberCertificate>>
+    >(
+      `${environment.apiUrl}/subscriber-certificate/delete-by-role/${id}`,
+      this.option
+    );
+  }
+
   updateSelfStaff(body): Observable<ResponseData<Personal>> {
     return this._httpClient.put<ResponseData<Personal>>(
       `${environment.apiUrl}/staff/update-self`,
@@ -60,12 +84,9 @@ export class UsersService {
     };
     return this._httpClient.post<
       ResponseData<PagedData<SubscriberCertificate>>
-    >(
-      `${environment.apiUrl}/subscriber-certificate/search-by-current-user`,
-      body,
-      option
-    );
+    >(`${environment.apiUrl}/subscriber-certificate/search`, body, option);
   }
+
   public getListCertificateRequests(
     body
   ): Observable<ResponseData<PagedData<CertificateRequest>>> {
@@ -89,7 +110,7 @@ export class UsersService {
         Authorization: 'Bearer ' + this.token,
       },
     };
-    
+
     return this._httpClient.post<any>(
       `${environment.apiUrl}/subscriber-certificate/update-self`,
       formData,
@@ -130,24 +151,21 @@ export class UsersService {
       this.option
     );
   }
-  
+
   updateAvatar(
     form: FormGroup
   ): Observable<ResponseData<PagedData<CertificateRequest>>> {
     var formData = new FormData();
     // formData.append('userId', form.get('userId').value);
     console.log(form.value);
-    formData.append('avatar', "tien");
-    
+    formData.append('avatar', 'tien');
+
     console.log(formData);
-  
+
     return this._httpClient.post<any>(
       `${environment.apiUrl}/user/self-user`,
-      JSON.stringify(form.value), 
+      JSON.stringify(form.value),
       this.option
     );
   }
-
-  
-
 }

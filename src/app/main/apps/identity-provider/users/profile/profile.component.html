@@ -13,452 +13,64 @@
                   data-feather="user"
                   class="mr-sm-50 d-none d-sm-inline-block"
                 ></i>
-                <span class="d-none d-sm-inline-block">Tài khoản</span>
+                <span class="d-none d-sm-inline-block">Thông tin tài khoản</span>
               </a>
               <ng-template ngbNavContent>
-                <!--Account tab start-->
+                <!-- Account Tab starts -->
                 <div
                   class="tab-pane active"
                   id="account"
                   aria-labelledby="account-tab"
                   role="tabpanel"
                 >
-                  <div class="media mb-2">
-                    <div
-                      *ngIf="currentUser.avatar.length > 0; else customAvatar"
-                    >
-                      <img
-                        class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
-                        src="assets/images/portrait/small/super-admin.png"
-                        height="90"
-                        width="90"
-                        alt="User avatar"
-                      />
-                    </div>
-                    <ng-template #customAvatar>
-                      <div class="mr-1 ml-0">
-                        <!-- <div class="rounded p-3">
-                        {{ lastName.fullName | initials }}
-                      </div> -->
-                      </div>
-                    </ng-template>
-                    <div class="media-body mt-50">
-                      <h4 *ngIf="this.personal != null">
-                        {{ this.personal.username }}
-                      </h4>
-                      <div class="col-12 d-flex mt-1 px-0">
-                        <label
-                          class="btn btn-primary mr-75 mb-0"
-                          for="change-picture"
-                        >
-                          <span class="d-none d-sm-block">Thay đổi</span>
-                          <input
-                            class="form-control"
-                            type="file"
-                            id="change-picture"
-                            hidden
-                            accept="image/png, image/jpeg, image/jpg"
-                            (change)="handleFileSelect($event)"
-                          />
-                          <span class="d-block d-sm-none">
-                            <i class="mr-0" data-feather="edit"></i>
-                          </span>
-                        </label>
-                        <button
-                          class="btn btn-outline-secondary d-none d-sm-block"
-                          rippleEffect
-                        >
-                          Xóa
-                        </button>
-                        <button
-                          class="btn btn-outline-secondary d-block d-sm-none"
-                        >
-                          <i class="mr-0" data-feather="trash-2"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <!-- users edit media object start -->
 
-                  <!--Account form start-->
-                  <form class="form" [formGroup]="formProfile">
+                  <!-- users edit media object ends -->
+                  <!-- users edit account form start -->
+                  <form class="form" [formGroup]="formInfoEdit">
+                    <h3>Thông tin tài khoản</h3>
                     <div class="row">
                       <!-- user name -->
-                      <div class="col-md-3">
+                      <div class="col-12 col-lg-3">
                         <div class="form-group">
-                          <label for="first-name-column">USERNAME</label>
-                          <input
-                            type="text"
-                            id="first-name-column"
-                            class="form-control"
-                            name="fname-column"
-                            formControlName="username"
-                            [readonly]="true"
-                          />
+                          <div class="col-sm-12 col-form-label">
+                            <label for="first-name-column">TÊN TÀI KHOẢN</label>
+                          </div>
+                          <div class="col-sm-12">
+                            <input
+                              type="text"
+                              id="first-name-column"
+                              class="form-control"
+                              name="fname-column"
+                              formControlName="username"
+                              [readonly]="true"
+                            />
+                          </div>
                         </div>
                       </div>
                       <!-- email -->
-                      <div class="col-md-3">
+                      <div class="col-12 col-lg-3">
                         <div class="form-group">
-                          <label for="first-name-column">EMAIL</label>
-                          <input
-                            type="text"
-                            id="first-name-column"
-                            class="form-control"
-                            placeholder="EMAIL"
-                            name="fname-column"
-                            formControlName="email"
-                            [readonly]="true"
-                          />
-                        </div>
-                      </div>
-                      <!-- cấp quyền  -->
-                      <div class="col-12">
-                        <div class="table-responsive border rounded mt-1">
-                          <h6 class="py-1 mx-1 mb-0 font-medium-2">
-                            <i
-                              data-feather="lock"
-                              [size]="20"
-                              class="mr-25"
-                            ></i>
-                            <span class="align-middle"
-                              >Danh sách quyền truy cập</span
+                          <div class="col-sm-12 col-form-label">
+                            <label for="first-name-column"
+                              >THƯ ĐIỆN TỬ (EMAIL)</label
                             >
-                          </h6>
-                          <table class="table table-striped table-borderless">
-                            <thead class="thead-light">
-                              <tr>
-                                <th>Module</th>
-                                <th>Read</th>
-                                <th>Write</th>
-                                <th>Create</th>
-                                <th>Delete</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Admin</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-read"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="admin-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="admin-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Staff</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-read"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-write"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="staff-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="staff-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Author</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-read"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-create"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="author-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="author-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Contributor</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-read"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="contributor-delete"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="contributor-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>User</td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-read"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-read"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-create"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-create"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-write"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-write"
-                                    ></label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="custom-control custom-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="user-delete"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="user-delete"
-                                    ></label>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          </div>
+                          <div class="col-sm-12">
+                            <input
+                              type="text"
+                              id="first-name-column"
+                              class="form-control"
+                              placeholder="EMAIL"
+                              name="fname-column"
+                              formControlName="email"
+                              [readonly]="true"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="col-12 d-flex justify-content-end mt-2">
-                      <button
-                        type="submit"
-                        rippleEffect
-                        class="btn btn-primary mr-1 mb-50"
-                      >
-                        Cập Nhật
-                      </button>
                     </div>
                   </form>
-                  <!--Accont form end-->
-                </div>
-              </ng-template>
-            </li>
-            <li ngbNavItem class="col-3 col-md-3">
-              <a
-                ngbNavLink
-                class="d-flex align-items-center"
-                (click)="loadProfile()"
-              >
-                <span class="d-sm-none d-inline-block"
-                  ><i data-feather="info"></i
-                ></span>
-
-                <i data-feather="info" class="mr-sm-50 d-none d-sm-inline-block"></i
-                ><span class="d-none d-sm-inline-block"
-                  >Thông tin tài khoản</span
-                ></a
-              >
-              <ng-template ngbNavContent>
-                <!-- Information Tab starts -->
-                <div
-                  class="tab-pane"
-                  id="information"
-                  aria-labelledby="information-tab"
-                  role="tabpanel"
-                >
-                  <!-- users edit Info form start  -->
                   <form
                     class="form form-horizontal"
                     id="form-personal"
@@ -467,453 +79,503 @@
                     <div class="form_content">
                       <h3>Thông tin cá nhân</h3>
                       <div class="row">
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">HỌ</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <div
-                                class="input-group input-group-merge"
-                                [ngClass]="
-                                  (f.firstName.errors &&
-                                    f.firstName?.touched) ||
-                                  (submitted && f.firstName?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
+                        <div class="col-11 col-lg-2">
+                          <div class="">
+                            <input
+                              #imageInput
+                              type="file"
+                              style="display: none"
+                              accept="image/png, image/jpeg, image/jpg"
+                              (change)="inputImage($event)"
+                            />
+                          </div>
+                          <div class="h-100">
+                            <div
+                              class="border border-dark h-75 w-100 mt-1 ml-1 mr-1 mb-1"
+                            >
+                              <img
+                                class="w-100 h-100"
+                                (click)="imageInput.click()"
+                                [src]="
+                                  image
+                                    ? image
+                                    : 'assets/images/portrait/small/super-admin.png'
                                 "
-                              >
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i data-feather="user"></i
-                                  ></span>
-                                </div>
-                                <input
-                                  formControlName="firstName"
-                                  placeholder="Họ"
-                                  type="text"
-                                  class="form-control"
-                                  [ngClass]="
-                                    (f.firstName.errors &&
-                                      f.firstName?.touched) ||
-                                    (submitted && f.firstName?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                />
-                              </div>
+                                alt="Upload Image"
+                              />
                             </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.firstName?.errors?.required &&
-                                    f.firstName?.touched) ||
-                                  (submitted && f.firstName?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.firstName.errors.required"
-                                >
-                                  Không được bỏ trống
-                                </small>
-                              </span>
+                            <div class="text-center mb-1 ml-1">
+                              <span>Ảnh đại diện</span>
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">TÊN ĐỆM</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <div
-                                class="input-group input-group-merge"
-                                [ngClass]="
-                                  (f.middleName.errors &&
-                                    f.middleName?.touched) ||
-                                  (submitted && f.middleName?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
-                                "
-                              >
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i data-feather="user"></i
-                                  ></span>
+                        <div class="col-12 col-lg-10">
+                          <div class="row">
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">HỌ</label>
                                 </div>
-                                <input
-                                  formControlName="middleName"
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Tên đệm"
-                                  [ngClass]="
-                                    (f.middleName.errors &&
-                                      f.middleName?.touched) ||
-                                    (submitted &&
-                                      f.middleName?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                />
-                              </div>
-                            </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.middleName.errors?.required &&
-                                    f.middleName.touched) ||
-                                  (submitted && f.middleName?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small class="form-text text-danger">
-                                  Không được bỏ trống
-                                </small>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">TÊN</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <div
-                                class="input-group input-group-merge"
-                                [ngClass]="
-                                  (f.lastName.errors && f.lastName?.touched) ||
-                                  (submitted && f.lastName?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
-                                "
-                              >
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i data-feather="user"></i
-                                  ></span>
+                                <div class="col-sm-12">
+                                  <div
+                                    class="input-group input-group-merge"
+                                    [ngClass]="
+                                      (f.firstName.errors &&
+                                        f.firstName?.touched) ||
+                                      (submitted &&
+                                        f.firstName?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i data-feather="user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      formControlName="firstName"
+                                      placeholder="Họ"
+                                      type="text"
+                                      class="form-control"
+                                      [ngClass]="
+                                        (f.firstName.errors &&
+                                          f.firstName?.touched) ||
+                                        (submitted &&
+                                          f.firstName?.errors?.required)
+                                          ? 'is-invalid'
+                                          : ''
+                                      "
+                                    />
+                                  </div>
                                 </div>
-                                <input
-                                  formControlName="lastName"
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Tên"
-                                  [ngClass]="
-                                    (f.lastName.errors &&
-                                      f.lastName?.touched) ||
-                                    (submitted && f.lastName?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                />
-                              </div>
-                            </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.lastName.errors && f.lastName?.touched) ||
-                                  (submitted && f.lastName?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small class="form-text text-danger">
-                                  Không được bỏ trống
-                                </small>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">SỐ CCCD/PASSPORT</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <div
-                                class="input-group input-group-merge"
-                                [ngClass]="
-                                  (f.personalCountryId.errors &&
-                                    f.personalCountryId?.touched) ||
-                                  (submitted &&
-                                    f.personalCountryId?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
-                                "
-                              >
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i data-feather="user"></i
-                                  ></span>
-                                </div>
-                                <input
-                                  appRemoveSpace
-                                  formControlName="personalCountryId"
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="03520001170"
-                                  [ngClass]="
-                                    (f.personalCountryId.errors &&
-                                      f.personalCountryId?.touched) ||
-                                    (submitted &&
-                                      f.personalCountryId?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                />
-                              </div>
-                            </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.personalCountryId.errors &&
-                                    f.personalCountryId?.touched) ||
-                                  (submitted &&
-                                    f.personalCountryId?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.personalCountryId.errors.required"
-                                >
-                                  Không được bỏ trống
-                                </small>
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.personalCountryId.errors.pattern"
-                                >
-                                  Không được chứa chữ cái
-                                </small>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">NGÀY SINH</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <div
-                                class="input-group input-group-merge"
-                                [ngClass]="
-                                  (f.birthday.errors && f.birthday?.touched) ||
-                                  (submitted && f.birthday?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
-                                "
-                              >
-                                <div class="input-group-prepend">
+                                <div class="col-sm-12">
                                   <span
-                                    class="input-group-text"
-                                    (click)="picker1.open()"
-                                    ><i data-feather="calendar"></i
-                                  ></span>
+                                    *ngIf="
+                                      (f.firstName?.errors?.required &&
+                                        f.firstName?.touched) ||
+                                      (submitted &&
+                                        f.firstName?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.firstName.errors.required"
+                                    >
+                                      Không được bỏ trống
+                                    </small>
+                                  </span>
                                 </div>
-                                <input
-                                  [matDatepicker]="picker1"
-                                  formControlName="birthday"
-                                  class="form-control"
-                                  type="text"
-                                  placeholder="19/04/1992"
-                                  [ngClass]="
-                                    (f.birthday.errors &&
-                                      f.birthday?.touched) ||
-                                    (submitted && f.birthday?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                />
                               </div>
-                              <mat-datepicker #picker1></mat-datepicker>
                             </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.birthday.errors?.required &&
-                                    f.birthday?.touched) ||
-                                  (submitted && f.birthday?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.birthday.invalid"
-                                >
-                                  Điền đúng cú pháp. Ví dụ: 19/04/1992
-                                </small>
-                              </span>
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">TÊN ĐỆM</label>
+                                </div>
+                                <div class="col-sm-12">
+                                  <div
+                                    class="input-group input-group-merge"
+                                    [ngClass]="
+                                      (f.middleName.errors &&
+                                        f.middleName?.touched) ||
+                                      (submitted &&
+                                        f.middleName?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i data-feather="user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      formControlName="middleName"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Tên đệm"
+                                      [ngClass]="
+                                        (f.middleName.errors &&
+                                          f.middleName?.touched) ||
+                                        (submitted &&
+                                          f.middleName?.errors?.required)
+                                          ? 'is-invalid'
+                                          : ''
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.middleName.errors?.required &&
+                                        f.middleName.touched) ||
+                                      (submitted &&
+                                        f.middleName?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small class="form-text text-danger">
+                                      Không được bỏ trống
+                                    </small>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">TÊN</label>
+                                </div>
+                                <div class="col-sm-12">
+                                  <div
+                                    class="input-group input-group-merge"
+                                    [ngClass]="
+                                      (f.lastName.errors &&
+                                        f.lastName?.touched) ||
+                                      (submitted &&
+                                        f.lastName?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i data-feather="user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      formControlName="lastName"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Tên"
+                                      [ngClass]="
+                                        (f.lastName.errors &&
+                                          f.lastName?.touched) ||
+                                        (submitted &&
+                                          f.lastName?.errors?.required)
+                                          ? 'is-invalid'
+                                          : ''
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.lastName.errors &&
+                                        f.lastName?.touched) ||
+                                      (submitted &&
+                                        f.lastName?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small class="form-text text-danger">
+                                      Không được bỏ trống
+                                    </small>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">SỐ CCCD/PASSPORT</label>
+                                </div>
+                                <div class="col-sm-12">
+                                  <div
+                                    class="input-group input-group-merge"
+                                    [ngClass]="
+                                      (f.personalCountryId.errors &&
+                                        f.personalCountryId?.touched) ||
+                                      (submitted &&
+                                        f.personalCountryId?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i data-feather="user"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      appRemoveSpace
+                                      formControlName="personalCountryId"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="03520001170"
+                                      [ngClass]="
+                                        (f.personalCountryId.errors &&
+                                          f.personalCountryId?.touched) ||
+                                        (submitted &&
+                                          f.personalCountryId?.errors?.required)
+                                          ? 'is-invalid'
+                                          : ''
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.personalCountryId.errors &&
+                                        f.personalCountryId?.touched) ||
+                                      (submitted &&
+                                        f.personalCountryId?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="
+                                        f.personalCountryId.errors.required
+                                      "
+                                    >
+                                      Không được bỏ trống
+                                    </small>
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.personalCountryId.errors.pattern"
+                                    >
+                                      Không được chứa chữ cái
+                                    </small>
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                          <div class="col-12">
-                            <div class="form-group">
-                              <div class="col-sm-12 col-form-label">
-                                <label class="lable">GIỚI TÍNH</label>
-                              </div>
-                              <div class="col-sm-12">
-                                <ng-select
-                                  [items]="gender"
-                                  [clearable]="false"
-                                  formControlName="gender"
-                                  placeholder="Giới tính"
-                                  [ngClass]="
-                                    (f.gender.errors && f.gender?.touched) ||
-                                    (submitted && f.gender?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                >
-                                  >
-                                </ng-select>
-                              </div>
-                              <div class="col-sm-12">
-                                <span
-                                  *ngIf="
-                                    (f.gender.errors && f.gender?.touched) ||
-                                    (submitted && f.gender?.errors?.required)
-                                  "
-                                  class="invalid-form"
-                                >
-                                  <small class="form-text text-danger">
-                                    Không được bỏ trống</small
-                                  >
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">SỐ ĐIỆN THOẠI</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <div
-                                class="input-group input-group-merge"
-                                [ngClass]="
-                                  (f.phoneNumber.errors &&
-                                    f.phoneNumber?.touched) ||
-                                  (submitted && f.phoneNumber?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
-                                "
-                              >
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"
-                                    ><i data-feather="phone-call"></i
-                                  ></span>
+                          <div class="row mt-1">
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">NGÀY SINH</label>
                                 </div>
-                                <input
-                                  formControlName="phoneNumber"
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Phone Number"
-                                  appRemoveSpace
-                                  [ngClass]="
-                                    (f.phoneNumber.errors &&
-                                      f.phoneNumber?.touched) ||
-                                    (submitted &&
-                                      f.phoneNumber?.errors?.required)
-                                      ? 'is-invalid'
-                                      : ''
-                                  "
-                                />
+                                <div class="col-sm-12">
+                                  <div
+                                    class="input-group input-group-merge"
+                                    [ngClass]="
+                                      (f.birthday.errors &&
+                                        f.birthday?.touched) ||
+                                      (submitted &&
+                                        f.birthday?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    <div class="input-group-prepend">
+                                      <span
+                                        class="input-group-text"
+                                        (click)="picker1.open()"
+                                        ><i data-feather="calendar"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      [matDatepicker]="picker1"
+                                      formControlName="birthday"
+                                      class="form-control"
+                                      type="text"
+                                      placeholder="19/04/1992"
+                                      [ngClass]="
+                                        (f.birthday.errors &&
+                                          f.birthday?.touched) ||
+                                        (submitted &&
+                                          f.birthday?.errors?.required)
+                                          ? 'is-invalid'
+                                          : ''
+                                      "
+                                    />
+                                  </div>
+                                  <mat-datepicker #picker1></mat-datepicker>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.birthday.errors?.required &&
+                                        f.birthday?.touched) ||
+                                      (submitted &&
+                                        f.birthday?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.birthday.invalid"
+                                    >
+                                      Điền đúng cú pháp. Ví dụ: 19/04/1992
+                                    </small>
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.phoneNumber.errors &&
-                                    f.phoneNumber?.touched) ||
-                                  (submitted && f.phoneNumber?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.phoneNumber.errors.minLength"
-                                >
-                                  Phải đủ 10 số
-                                </small>
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.phoneNumber.errors.required"
-                                >
-                                  Không được bỏ trống
-                                </small>
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">GIỚI TÍNH</label>
+                                </div>
+                                <div class="col-sm-12">
+                                  <ng-select
+                                    [items]="gender"
+                                    [clearable]="false"
+                                    formControlName="gender"
+                                    placeholder="Giới tính"
+                                    [ngClass]="
+                                      (f.gender.errors && f.gender?.touched) ||
+                                      (submitted && f.gender?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    >
+                                  </ng-select>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.gender.errors && f.gender?.touched) ||
+                                      (submitted && f.gender?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small class="form-text text-danger">
+                                      Không được bỏ trống</small
+                                    >
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">SỐ ĐIỆN THOẠI</label>
+                                </div>
+                                <div class="col-sm-12">
+                                  <div
+                                    class="input-group input-group-merge"
+                                    [ngClass]="
+                                      (f.phoneNumber.errors &&
+                                        f.phoneNumber?.touched) ||
+                                      (submitted &&
+                                        f.phoneNumber?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                  >
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"
+                                        ><i data-feather="phone-call"></i
+                                      ></span>
+                                    </div>
+                                    <input
+                                      formControlName="phoneNumber"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Phone Number"
+                                      appRemoveSpace
+                                      [ngClass]="
+                                        (f.phoneNumber.errors &&
+                                          f.phoneNumber?.touched) ||
+                                        (submitted &&
+                                          f.phoneNumber?.errors?.required)
+                                          ? 'is-invalid'
+                                          : ''
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.phoneNumber.errors &&
+                                        f.phoneNumber?.touched) ||
+                                      (submitted &&
+                                        f.phoneNumber?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.phoneNumber.errors.minLength"
+                                    >
+                                      Phải đủ 10 số
+                                    </small>
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.phoneNumber.errors.required"
+                                    >
+                                      Không được bỏ trống
+                                    </small>
 
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.phoneNumber.errors.pattern"
-                                >
-                                  Số điện thoại chưa đúng
-                                </small>
-                              </span>
-                              <span
-                                *ngIf="f.phoneNumber.errors"
-                                class="invalid-form"
-                              >
-                                <small
-                                  class="form-text text-danger"
-                                  *ngIf="f.phoneNumber.errors.minLength"
-                                >
-                                  Phải đủ 10 số
-                                </small>
-                              </span>
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.phoneNumber.errors.pattern"
+                                    >
+                                      Số điện thoại chưa đúng
+                                    </small>
+                                  </span>
+                                  <span
+                                    *ngIf="f.phoneNumber.errors"
+                                    class="invalid-form"
+                                  >
+                                    <small
+                                      class="form-text text-danger"
+                                      *ngIf="f.phoneNumber.errors.minLength"
+                                    >
+                                      Phải đủ 10 số
+                                    </small>
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                          <div class="form-group">
-                            <div class="col-sm-12 col-form-label">
-                              <label class="lable">TỔ CHỨC</label>
-                            </div>
-                            <div class="col-sm-12">
-                              <ng-select
-                                [ngClass]="
-                                  (f.organizationId.errors &&
-                                    f.organizationId?.touched) ||
-                                  (submitted &&
-                                    f.organizationId?.errors?.required)
-                                    ? 'is-invalid'
-                                    : ''
-                                "
-                                [items]="organizationId"
-                                bindLabel="organizationName"
-                                bindValue="organizationId"
-                                [clearable]="true"
-                                placeholder="Chọn"
-                                formControlName="organizationId"
-                              >
-                              </ng-select>
-                            </div>
-                            <div class="col-sm-12">
-                              <span
-                                *ngIf="
-                                  (f.organizationId.errors &&
-                                    f.organizationId?.touched) ||
-                                  (submitted &&
-                                    f.organizationId?.errors?.required)
-                                "
-                                class="invalid-form"
-                              >
-                                <small class="form-text text-danger">
-                                  Không được bỏ trống</small
-                                >
-                              </span>
+                            <div class="col-12 col-lg-3">
+                              <div class="form-group">
+                                <div class="col-sm-12 col-form-label">
+                                  <label class="lable">TỔ CHỨC</label>
+                                </div>
+                                <div class="col-sm-12">
+                                  <ng-select
+                                    [ngClass]="
+                                      (f.organizationId.errors &&
+                                        f.organizationId?.touched) ||
+                                      (submitted &&
+                                        f.organizationId?.errors?.required)
+                                        ? 'is-invalid'
+                                        : ''
+                                    "
+                                    [items]="organizationId"
+                                    bindLabel="organizationName"
+                                    bindValue="organizationId"
+                                    [clearable]="true"
+                                    placeholder="Chọn"
+                                    formControlName="organizationId"
+                                  >
+                                  </ng-select>
+                                </div>
+                                <div class="col-sm-12">
+                                  <span
+                                    *ngIf="
+                                      (f.organizationId.errors &&
+                                        f.organizationId?.touched) ||
+                                      (submitted &&
+                                        f.organizationId?.errors?.required)
+                                    "
+                                    class="invalid-form"
+                                  >
+                                    <small class="form-text text-danger">
+                                      Không được bỏ trống</small
+                                    >
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <h3>Nơi sinh</h3>
                       <div class="row">
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">QUỐC GIA</label>
@@ -954,7 +616,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">TỈNH/THÀNH PHỐ</label>
@@ -977,6 +639,72 @@
                                 formControlName="provinceBirthPlace"
                                 (change)="selectProvince(1)"
                               >
+                                <ng-template ng-header-tmp>
+                                  <div>
+                                    <button
+                                      class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                                      (click)="
+                                        modalOpenCreateStreet(
+                                          modalOpenCreateProvinceBirthPlace
+                                        )
+                                      "
+                                    >
+                                      <i data-feather="plus"></i>
+                                      <span class="align-middle ml-25"
+                                        >Thêm Tỉnh/Thành phố</span
+                                      >
+                                    </button>
+                                  </div>
+                                </ng-template>
+                                <ng-template
+                                  #modalOpenCreateProvinceBirthPlace
+                                  let-modal
+                                >
+                                  <div class="modal-header">
+                                    <h5
+                                      class="modal-title"
+                                      id="myModalLabel160"
+                                    >
+                                      Thêm mới Tỉnh/Thành phố
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      (click)="modal.dismiss('Cross click')"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="modal-body"
+                                    tabindex="0"
+                                    ngbAutofocus
+                                  >
+                                    <div class="form-group">
+                                      <small class="text-muted">
+                                        Ví dụ:<i>Đà Nẵng</i></small
+                                      >
+                                      <input
+                                        type="text"
+                                        name="addBirthProvince"
+                                        id="addBirthProvince"
+                                        #addBirthProvince
+                                        class="form-control"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-success"
+                                      data-dismiss="closeModal"
+                                      rippleEffect
+                                    >
+                                      Thêm
+                                    </button>
+                                  </div>
+                                </ng-template>
                               </ng-select>
                             </div>
                             <div class="col-sm-12">
@@ -996,7 +724,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">QUẬN/HUYỆN</label>
@@ -1028,6 +756,72 @@
                                     : ''
                                 "
                               >
+                                <ng-template ng-header-tmp>
+                                  <div>
+                                    <button
+                                      class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                                      (click)="
+                                        modalOpenCreateStreet(
+                                          modalOpenCreateDistrictBirthPlace
+                                        )
+                                      "
+                                    >
+                                      <i data-feather="plus"></i>
+                                      <span class="align-middle ml-25"
+                                        >Thêm Quận/Huyện</span
+                                      >
+                                    </button>
+                                  </div>
+                                </ng-template>
+                                <ng-template
+                                  #modalOpenCreateDistrictBirthPlace
+                                  let-modal
+                                >
+                                  <div class="modal-header">
+                                    <h5
+                                      class="modal-title"
+                                      id="myModalLabel160"
+                                    >
+                                      Thêm mới Quận/Huyện
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      (click)="modal.dismiss('Cross click')"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="modal-body"
+                                    tabindex="0"
+                                    ngbAutofocus
+                                  >
+                                    <div class="form-group">
+                                      <small class="text-muted">
+                                        Ví dụ:<i>Sơn Trà</i></small
+                                      >
+                                      <input
+                                        type="text"
+                                        name="addBirthDistrict"
+                                        id="addBirthDistrict"
+                                        #addBirthDistrict
+                                        class="form-control"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-success"
+                                      data-dismiss="closeModal"
+                                      rippleEffect
+                                    >
+                                      Thêm
+                                    </button>
+                                  </div>
+                                </ng-template>
                               </ng-select>
                             </div>
                             <div class="col-sm-12">
@@ -1047,7 +841,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">XÃ/PHƯỜNG</label>
@@ -1079,6 +873,72 @@
                                 "
                                 (change)="selectCommune(1)"
                               >
+                                <ng-template ng-header-tmp>
+                                  <div>
+                                    <button
+                                      class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                                      (click)="
+                                        modalOpenCreateStreet(
+                                          modalOpenCreateCommuneBirthPlace
+                                        )
+                                      "
+                                    >
+                                      <i data-feather="plus"></i>
+                                      <span class="align-middle ml-25"
+                                        >Thêm Xã/Phường</span
+                                      >
+                                    </button>
+                                  </div>
+                                </ng-template>
+                                <ng-template
+                                  #modalOpenCreateCommuneBirthPlace
+                                  let-modal
+                                >
+                                  <div class="modal-header">
+                                    <h5
+                                      class="modal-title"
+                                      id="myModalLabel160"
+                                    >
+                                      Thêm mới Xã/Phường
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      (click)="modal.dismiss('Cross click')"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="modal-body"
+                                    tabindex="0"
+                                    ngbAutofocus
+                                  >
+                                    <div class="form-group">
+                                      <small class="text-muted">
+                                        Ví dụ:<i>Thọ Quang</i></small
+                                      >
+                                      <input
+                                        type="text"
+                                        name="addBirthCommune"
+                                        id="addBirthCommune"
+                                        #addBirthCommune
+                                        class="form-control"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-success"
+                                      data-dismiss="closeModal"
+                                      rippleEffect
+                                    >
+                                      Thêm
+                                    </button>
+                                  </div>
+                                </ng-template>
                               </ng-select>
                             </div>
                             <div class="col-sm-12">
@@ -1100,7 +960,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">ĐƯỜNG/PHỐ</label>
@@ -1236,7 +1096,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-lg-4">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable"
@@ -1288,10 +1148,9 @@
                           </div>
                         </div>
                       </div>
-
                       <h3>Nơi cư trú</h3>
                       <div class="row">
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">QUỐC GIA</label>
@@ -1333,7 +1192,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">TỈNH/THÀNH PHỐ</label>
@@ -1356,6 +1215,72 @@
                                 "
                                 (change)="selectProvince(2)"
                               >
+                                <ng-template ng-header-tmp>
+                                  <div>
+                                    <button
+                                      class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                                      (click)="
+                                        modalOpenCreateStreet(
+                                          modalOpenCreateResidenceProvince
+                                        )
+                                      "
+                                    >
+                                      <i data-feather="plus"></i>
+                                      <span class="align-middle ml-25"
+                                        >Thêm Tỉnh/Thành phố</span
+                                      >
+                                    </button>
+                                  </div>
+                                </ng-template>
+                                <ng-template
+                                  #modalOpenCreateResidenceProvince
+                                  let-modal
+                                >
+                                  <div class="modal-header">
+                                    <h5
+                                      class="modal-title"
+                                      id="myModalLabel160"
+                                    >
+                                      Thêm mới Tỉnh/Thành phố
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      (click)="modal.dismiss('Cross click')"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="modal-body"
+                                    tabindex="0"
+                                    ngbAutofocus
+                                  >
+                                    <div class="form-group">
+                                      <small class="text-muted">
+                                        Ví dụ:<i>Đà Nẵng</i></small
+                                      >
+                                      <input
+                                        type="text"
+                                        name="addResidenceProvince"
+                                        id="addResidenceProvince"
+                                        #addResidenceProvince
+                                        class="form-control"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-success"
+                                      data-dismiss="closeModal"
+                                      rippleEffect
+                                    >
+                                      Thêm
+                                    </button>
+                                  </div>
+                                </ng-template>
                               </ng-select>
                             </div>
                             <div class="col-sm-12">
@@ -1375,8 +1300,7 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">QUẬN/HUYỆN</label>
@@ -1408,6 +1332,72 @@
                                 "
                                 (change)="selectDistrict(2)"
                               >
+                                <ng-template ng-header-tmp>
+                                  <div>
+                                    <button
+                                      class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                                      (click)="
+                                        modalOpenCreateStreet(
+                                          modalOpenCreateResidenceDistrict
+                                        )
+                                      "
+                                    >
+                                      <i data-feather="plus"></i>
+                                      <span class="align-middle ml-25"
+                                        >Thêm Quận/Huyện</span
+                                      >
+                                    </button>
+                                  </div>
+                                </ng-template>
+                                <ng-template
+                                  #modalOpenCreateResidenceDistrict
+                                  let-modal
+                                >
+                                  <div class="modal-header">
+                                    <h5
+                                      class="modal-title"
+                                      id="myModalLabel160"
+                                    >
+                                      Thêm mới Quận/Huyện
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      (click)="modal.dismiss('Cross click')"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="modal-body"
+                                    tabindex="0"
+                                    ngbAutofocus
+                                  >
+                                    <div class="form-group">
+                                      <small class="text-muted">
+                                        Ví dụ:<i>Sơn Trà</i></small
+                                      >
+                                      <input
+                                        type="text"
+                                        name="addResidenceDistrict"
+                                        id="addResidenceDistrict"
+                                        #addResidenceDistrict
+                                        class="form-control"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-success"
+                                      data-dismiss="closeModal"
+                                      rippleEffect
+                                    >
+                                      Thêm
+                                    </button>
+                                  </div>
+                                </ng-template>
                               </ng-select>
                             </div>
                             <div class="col-sm-12">
@@ -1427,8 +1417,7 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">XÃ/PHƯỜNG</label>
@@ -1460,6 +1449,72 @@
                                 "
                                 (change)="selectCommune(2)"
                               >
+                                <ng-template ng-header-tmp>
+                                  <div>
+                                    <button
+                                      class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                                      (click)="
+                                        modalOpenCreateStreet(
+                                          modalOpenCreateResidenceCommune
+                                        )
+                                      "
+                                    >
+                                      <i data-feather="plus"></i>
+                                      <span class="align-middle ml-25"
+                                        >Thêm Xã/Phường</span
+                                      >
+                                    </button>
+                                  </div>
+                                </ng-template>
+                                <ng-template
+                                  #modalOpenCreateResidenceCommune
+                                  let-modal
+                                >
+                                  <div class="modal-header">
+                                    <h5
+                                      class="modal-title"
+                                      id="myModalLabel160"
+                                    >
+                                      Thêm mới Xã/Phường
+                                    </h5>
+                                    <button
+                                      type="button"
+                                      class="close"
+                                      (click)="modal.dismiss('Cross click')"
+                                      aria-label="Close"
+                                    >
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="modal-body"
+                                    tabindex="0"
+                                    ngbAutofocus
+                                  >
+                                    <div class="form-group">
+                                      <small class="text-muted">
+                                        Ví dụ:<i>Thọ Quang</i></small
+                                      >
+                                      <input
+                                        type="text"
+                                        name="addCommuneResidence"
+                                        id="addCommuneResidence"
+                                        #addCommuneResidence
+                                        class="form-control"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button
+                                      type="button"
+                                      class="btn btn-success"
+                                      data-dismiss="closeModal"
+                                      rippleEffect
+                                    >
+                                      Thêm
+                                    </button>
+                                  </div>
+                                </ng-template>
                               </ng-select>
                             </div>
                             <div class="col-sm-12">
@@ -1481,7 +1536,7 @@
                         </div>
                       </div>
                       <div class="row row_bottom">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-lg-3">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
                               <label class="lable">ĐƯỜNG/PHỐ</label>
@@ -1617,12 +1672,11 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-lg-4">
                           <div class="form-group">
                             <div class="col-sm-12 col-form-label">
-                              <label
-                                >ĐỊA CHỈ CỤ THỂ(SỐ NHÀ ,NGÕ ,NGÁCH ....)</label
+                              <label class="lable"
+                                >ĐỊA CHỈ CỤ THỂ( SỐ NHÀ,NGÕ NGÁCH...)</label
                               >
                             </div>
                             <div
@@ -1673,24 +1727,22 @@
                         </div>
                       </div>
                     </div>
-
-                    <div
-                      class="col-12 button_summit d-flex justify-content-end pb-1"
-                    >
-                      <button
-                        type="submit"
-                        rippleEffect
-                        class="btn pl-3 pr-3 btn-primary mr-1"
-                        (click)="onSubmit()"
-                      >
-                        Cập nhật
-                      </button>
-                      <swal (open)="confirmOpen()"></swal>
-                    </div>
                   </form>
-                  <!-- users edit Info form ends -->
+                  <div
+                    class="col-12 button_summit d-flex justify-content-end pb-1"
+                  >
+                    <button
+                      type="submit"
+                      rippleEffect
+                      class="btn btn-primary mr-1"
+                      (click)="onSubmit()"
+                    >
+                      Cập nhật
+                    </button>
+                    <swal (open)="confirmOpen()"></swal>
+                  </div>
                 </div>
-                <!-- Information Tab ends -->
+                <!-- Account Tab ends -->
               </ng-template>
             </li>
             <li ngbNavItem class="col-3 col-md-3">
@@ -1699,24 +1751,352 @@
                   ><i data-feather="file"></i
                 ></span>
                 <i data-feather="file" class="mr-sm-50 d-none d-sm-inline-block"></i
-                ><span class="d-none d-sm-inline-block">Chứng thư số</span>
+                ><span class="d-none d-sm-inline-block">Danh sách chứng thư số</span>
               </a>
               <ng-template ngbNavContent>
                 <app-subscriber-certificate-list></app-subscriber-certificate-list>
               </ng-template>
             </li>
-            <li ngbNavItem class="col-3 col-md-3">
+            <li ngbNavItem>
               <a ngbNavLink class="d-flex align-items-center">
-                <span class="d-sm-none d-inline-block"
-                  ><i data-feather="file-text"></i
-                ></span>
-                <i data-feather="file-text" class="mr-sm-50 d-none d-sm-inline-block"></i
-                ><span class="d-none d-sm-inline-block"
-                  >Yêu cầu chứng thực</span
+                <i data-feather="lock" class="mr-sm-50"></i
+                ><span class="d-none d-sm-block"
+                  >Thông tin quyền thuê bao</span
                 ></a
               >
               <ng-template ngbNavContent>
-                <app-certificate-request-list></app-certificate-request-list>
+                <div
+                  class="tab-pane active"
+                  id="account"
+                  aria-labelledby="account-tab"
+                  role="tabpanel"
+                >
+                  <div class="">
+                    <div class="col-12">
+                      <div class="table-responsive border rounded mt-1">
+                        <h6 class="py-1 mx-1 mb-0 font-medium-2">
+                          <i data-feather="lock" [size]="20" class="mr-25"></i>
+                          <span class="align-middle">Quyền Truy Cập</span>
+                        </h6>
+                        <table class="table table-striped table-borderless">
+                          <thead class="thead-light">
+                            <tr>
+                              <th>Module</th>
+                              <th>Read</th>
+                              <th>Write</th>
+                              <th>Create</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody [formGroup]="formRoleEdit">
+                            <tr formGroupName="adminRole">
+                              <td>Admin</td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasRead"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="admin-read"
+                                    checked
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="admin-read"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasWrite"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="admin-write"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="admin-write"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasCreate"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="admin-create"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="admin-create"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasDelete"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="admin-delete"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="admin-delete"
+                                  ></label>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr formGroupName="superAdminRole">
+                              <td>SuperAdmin</td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasRead"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="staff-read"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="staff-read"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasWrite"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="staff-write"
+                                    checked
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="staff-write"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasCreate"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="staff-create"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="staff-create"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasDelete"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="staff-delete"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="staff-delete"
+                                  ></label>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr formGroupName="userRole">
+                              <td>User</td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasRead"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="author-read"
+                                    checked
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="author-read"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasWrite"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="author-write"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="author-write"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasCreate"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="author-create"
+                                    checked
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="author-create"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    formControlName="hasDelete"
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="author-delete"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="author-delete"
+                                  ></label>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Contributor</td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="contributor-read"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="contributor-read"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="contributor-write"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="contributor-write"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="contributor-create"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="contributor-create"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="contributor-delete"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="contributor-delete"
+                                  ></label>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>User</td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="user-read"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="user-read"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="user-create"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="user-create"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="user-write"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="user-write"
+                                  ></label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="user-delete"
+                                    checked
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="user-delete"
+                                  ></label>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col-12 d-flex justify-content-end mt-2">
+                        <button
+                          type="submit"
+                          rippleEffect
+                          class="btn btn-primary mr-1 mb-50"
+                          (click)="updateRole()"
+                        >
+                          Cập nhật
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </ng-template>
             </li>
           </ul>

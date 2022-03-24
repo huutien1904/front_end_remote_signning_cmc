@@ -56,7 +56,12 @@ export class ProfileComponent implements OnInit {
   public tempRow;
   public item: any;
   public flag: any;
+  public image = '';
+  roleArray: any[] = [];
+  public getRoles;
   public personal: Personal;
+  formRoleEdit: FormGroup;
+  formUpdateRole: FormGroup;
   public modalRef;
   public personalSelected: Personal;
   public url = this.router.url;
@@ -178,7 +183,7 @@ export class ProfileComponent implements OnInit {
   public totalItems: any = 0;
   public ColumnMode = ColumnMode;
   // get string base64
-  public base64textString: String = "";
+  public base64textString: String = '';
   // Danh sách yêu cầu chứng thực
   public rowsDataCRL = new Array<CertificateRequest>();
   public pagedDataCRL = new PagedData<CertificateRequest>();
@@ -200,7 +205,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private dateAdapter: DateAdapter<any>,
-    // private _authenticationService: 
+    // private _authenticationService:
     private toastr: ToastrService,
     private _usersService: UsersService,
     private fb: FormBuilder,
@@ -227,7 +232,9 @@ export class ProfileComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
+          Validators.pattern(
+            /(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/
+          ),
         ],
       ],
       personalCountryId: [
@@ -264,7 +271,6 @@ export class ProfileComponent implements OnInit {
     });
     this.formUploadAvatar = this.fb.group({
       avatar: [null, Validators.required],
-
     });
 
     this.formProfile = this.fb.group({
@@ -276,21 +282,266 @@ export class ProfileComponent implements OnInit {
       certificateContent: ['', Validators.required],
       userId: [null, Validators.required],
     });
+    this.formRoleEdit = this.fb.group({
+      adminRole: this.fb.group({
+        hasRead: true,
+        hasWrite: false,
+        hasCreate: true,
+        hasDelete: false,
+      }),
+      superAdminRole: this.fb.group({
+        hasRead: true,
+        hasWrite: false,
+        hasCreate: false,
+        hasDelete: false,
+      }),
+      userRole: this.fb.group({
+        hasRead: false,
+        hasWrite: true,
+        hasCreate: false,
+        hasDelete: true,
+      }),
+    });
+    this.formUpdateRole = this.fb.group({
+      username: [''],
+      roles: [[]],
+    });
   }
   async ngOnInit() {
     //get User-Email Account
-    if (this._authenticationService.isStaff) {
-      this.personal = await this._usersService
-        .getStaffSelf()
+    if (this.formInfoEdit.value.userId == null) {
+      this.organizationId = await this._organizationListService
+        .getAllOrganizations()
         .pipe(takeUntil(this._unsubscribeAll))
         .toPromise()
         .then((res) => {
+          console.log(res.data);
+
           return res.data;
         });
-      this.formProfile.patchValue({
-        username: this.personal.username,
-        email: this.personal.email,
-      });
+
+      this.provinceBirthPlace = this.provinceResidencePlace =
+        await this._addressService
+          .getProvince()
+          .pipe(
+            map((res) => {
+              const data = res.data.map((city) => ({
+                ...city,
+                provinceDisplay: city.provinceType + ' ' + city.provinceName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+      if (this._authenticationService.isStaff) {
+        this.personal = await this._usersService
+          .getStaffSelf()
+          .pipe(takeUntil(this._unsubscribeAll))
+          .toPromise()
+          .then((res) => {
+            return res.data;
+          });
+
+        this.formInfoEdit.patchValue({
+          userId: this.personal.userId,
+          username: this.personal.username,
+          firstName: this.personal.firstName,
+          middleName: this.personal.middleName,
+          lastName: this.personal.lastName,
+          phoneNumber: this.personal.phoneNumber,
+          personalCountryId: this.personal.personalCountryId,
+          birthday: this.personal.birthday,
+          gender: this.personal.gender,
+          email: this.personal.email,
+          homeNumberBirthPlace: this.personal.birthPlace.houseNumber,
+          homeNumberResidencePlace: this.personal.address.houseNumber,
+        });
+
+        this.organizationId.forEach((organization) => {
+          if (organization.organizationName == this.personal.organizationName) {
+            this.formInfoEdit
+              .get('organizationId')
+              .setValue(organization.organizationId);
+          }
+        });
+
+        // set province birth place
+        this.provinceBirthPlace.forEach((province) => {
+          if (province.provinceId == this.personal.birthPlace.provinceId) {
+            this.formInfoEdit
+              .get('provinceBirthPlace')
+              .setValue(province.provinceId);
+          }
+        });
+
+        this.provinceResidencePlace.forEach((province) => {
+          if (province.provinceId == this.personal.address.provinceId) {
+            this.formInfoEdit
+              .get('provinceResidencePlace')
+              .setValue(province.provinceId);
+          }
+        });
+
+        // get list district birth place
+        this.districtBirthPlace = await this._addressService
+          .getDistrict(this.personal.birthPlace.provinceId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((district) => ({
+                ...district,
+                districtDisplay:
+                  district.districtType + ' ' + district.districtName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.districtBirthPlace.forEach((district) => {
+          if (district.districtId == this.personal.birthPlace.districtId) {
+            this.formInfoEdit
+              .get('districtBirthPlace')
+              .setValue(district.districtId);
+          }
+        });
+
+        // get list district resident place
+        this.districtResidencePlace = await this._addressService
+          .getDistrict(this.personal.address.provinceId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((district) => ({
+                ...district,
+                districtDisplay:
+                  district.districtType + ' ' + district.districtName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.districtResidencePlace.forEach((district) => {
+          if (district.districtId == this.personal.address.districtId) {
+            this.formInfoEdit
+              .get('districtResidencePlace')
+              .setValue(district.districtId);
+          }
+        });
+
+        this.communeBirthPlace = await this._addressService
+          .getCommune(this.personal.birthPlace.districtId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.communeType + ' ' + commune.communeName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.communeBirthPlace.forEach((commune) => {
+          if (commune.communeId == this.personal.birthPlace.communeId) {
+            this.formInfoEdit
+              .get('communeBirthPlace')
+              .setValue(commune.communeId);
+          }
+        });
+
+        // get list commune residen place
+        this.communeResidencePlace = await this._addressService
+          .getCommune(this.personal.address.districtId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.communeType + ' ' + commune.communeName,
+              }));
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.communeResidencePlace.forEach((commune) => {
+          if (commune.communeId == this.personal.address.communeId) {
+            this.formInfoEdit
+              .get('communeResidencePlace')
+              .setValue(commune.communeId);
+          }
+        });
+
+        this.streetBirthPlace = await this._addressService
+          .getStreet(this.personal.birthPlace.communeId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.streetType + ' ' + commune.streetName,
+              }));
+              console.log(data);
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.streetResidencePlace = await this._addressService
+          .getStreet(this.personal.address.communeId)
+          .pipe(
+            map((res) => {
+              const data = res.data.map((commune) => ({
+                ...commune,
+                communeDisplay: commune.streetType + ' ' + commune.streetName,
+              }));
+              console.log(data);
+              return data;
+            }),
+            takeUntil(this._unsubscribeAll)
+          )
+          .toPromise()
+          .then((res) => {
+            return res;
+          });
+
+        this.streetBirthPlace.forEach((street) => {
+          if (street.streetId == this.personal.birthPlace.streetId) {
+            this.formInfoEdit.get('streetBirthPlace').setValue(street.streetId);
+          }
+        });
+
+        this.streetResidencePlace.forEach((street) => {
+          if (street.streetId == this.personal.address.streetId) {
+            this.formInfoEdit
+              .get('streetResidencePlace')
+              .setValue(street.streetId);
+          }
+        });
+      }
     }
     // form danh sách chứng thư số
     this.formListSubscriberCertificate = this.fb.group({
@@ -585,8 +836,8 @@ export class ProfileComponent implements OnInit {
           }
           this._toastrService.success(
             'Thêm thành công đường ' +
-            res.data.streetName +
-            'vào cơ sở dữ liệu',
+              res.data.streetName +
+              'vào cơ sở dữ liệu',
             'Thành công',
             {
               positionClass: 'toast-top-center',
@@ -620,8 +871,8 @@ export class ProfileComponent implements OnInit {
           //Gửi thông báo thành công lên góc bên phải màn hình
           this._toastrService.success(
             'Thêm thành công đường ' +
-            res.data.streetName +
-            'vào cơ sở dữ liệu',
+              res.data.streetName +
+              'vào cơ sở dữ liệu',
             'Thành công',
             {
               positionClass: 'toast-top-center',
@@ -641,14 +892,28 @@ export class ProfileComponent implements OnInit {
     return this.newRequestForm.controls;
   }
   uploadImage(e) {
-    console.log(e)
+    console.log(e);
+  }
+  inputImage(event) {
+    if (typeof FileReader !== 'undefined') {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.image = e.target.result;
+        console.log(this.image);
+        console.log(this.image.split(',')[1]);
+        this.formInfoEdit.patchValue({
+          photo: this.image.split(',')[1],
+        });
+      };
+    }
   }
   handleFileSelect(evt) {
     var files = evt.target.files;
     var file = files[0];
-    console.log(files)
-    console.log(file.name)
-    this.handleReaderLoaded(file.name)
+    console.log(files);
+    console.log(file.name);
+    this.handleReaderLoaded(file.name);
     // change base64
     // if (files && file) {
     //   var reader = new FileReader();
@@ -659,292 +924,374 @@ export class ProfileComponent implements OnInit {
     // }
   }
 
-
-
   handleReaderLoaded(fileName) {
     // var binaryString = readerEvt.target.result;
     // this.base64textString = btoa(binaryString);
     // console.log(btoa(binaryString));
-    this.formUploadAvatar.get("avatar").setValue(fileName);
-    console.log(this.formUploadAvatar.value)
+    this.formUploadAvatar.get('avatar').setValue(fileName);
+    console.log(this.formUploadAvatar.value);
     if (this.formUploadAvatar.invalid) {
       return;
     }
-    this._usersService
-      .updateAvatar(this.formUploadAvatar)
-      .subscribe(
-        (res) => {
-          console.log(res.result);
-          if (res.result === true) {
-            this.toastr.success(
-              "👋 Thay avatar thành công",
-              "Thành công",
-              {
-                positionClass: "toast-top-center",
-                toastClass: "toast ngx-toastr",
-                closeButton: true,
-              }
-            );
-            this.modalRef.close();
-          } else {
-            this.toastr.error("👋Thay avatar", "Thất bại", {
-              positionClass: "toast-top-center",
-              toastClass: "toast ngx-toastr",
-              closeButton: true,
-            });
-          }
-        },
-        (error) => {
-          alert("File ảnh không khả dụng");
-          return false;
+    this._usersService.updateAvatar(this.formUploadAvatar).subscribe(
+      (res) => {
+        console.log(res.result);
+        if (res.result === true) {
+          this.toastr.success('👋 Thay avatar thành công', 'Thành công', {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          });
+          this.modalRef.close();
+        } else {
+          this.toastr.error('👋Thay avatar', 'Thất bại', {
+            positionClass: 'toast-top-center',
+            toastClass: 'toast ngx-toastr',
+            closeButton: true,
+          });
         }
-      );
-  }
-  async loadProfile() {
-    console.log('Loading');
-    // keyCheck
-    // const keyCheck = false;
-    // console.log(this.formInfoEdit.value)
-    if (this.formInfoEdit.value.userId == null) {
-      this.organizationId = await this._organizationListService
-        .getAllOrganizations()
-        .pipe(takeUntil(this._unsubscribeAll))
-        .toPromise()
-        .then((res) => {
-          console.log(res.data);
-
-          return res.data;
-        });
-
-      this.provinceBirthPlace = this.provinceResidencePlace =
-        await this._addressService
-          .getProvince()
-          .pipe(
-            map((res) => {
-              const data = res.data.map((city) => ({
-                ...city,
-                provinceDisplay: city.provinceType + ' ' + city.provinceName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-      if (this._authenticationService.isStaff) {
-        this.personal = await this._usersService
-          .getStaffSelf()
-          .pipe(takeUntil(this._unsubscribeAll))
-          .toPromise()
-          .then((res) => {
-            return res.data;
-          });
-
-        this.formInfoEdit.patchValue({
-          userId: this.personal.userId,
-          username: this.personal.username,
-          firstName: this.personal.firstName,
-          middleName: this.personal.middleName,
-          lastName: this.personal.lastName,
-          phoneNumber: this.personal.phoneNumber,
-          personalCountryId: this.personal.personalCountryId,
-          birthday: this.personal.birthday,
-          gender: this.personal.gender,
-          email: this.personal.email,
-          homeNumberBirthPlace: this.personal.birthPlace.houseNumber,
-          homeNumberResidencePlace: this.personal.address.houseNumber,
-        });
-
-        this.organizationId.forEach((organization) => {
-          if (organization.organizationName == this.personal.organizationName) {
-            this.formInfoEdit
-              .get('organizationId')
-              .setValue(organization.organizationId);
-          }
-        });
-
-        // set province birth place
-        this.provinceBirthPlace.forEach((province) => {
-          if (province.provinceId == this.personal.birthPlace.provinceId) {
-            this.formInfoEdit
-              .get('provinceBirthPlace')
-              .setValue(province.provinceId);
-          }
-        });
-
-        this.provinceResidencePlace.forEach((province) => {
-          if (province.provinceId == this.personal.address.provinceId) {
-            this.formInfoEdit
-              .get('provinceResidencePlace')
-              .setValue(province.provinceId);
-          }
-        });
-
-        // get list district birth place
-        this.districtBirthPlace = await this._addressService
-          .getDistrict(this.personal.birthPlace.provinceId)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((district) => ({
-                ...district,
-                districtDisplay:
-                  district.districtType + ' ' + district.districtName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-        this.districtBirthPlace.forEach((district) => {
-          if (district.districtId == this.personal.birthPlace.districtId) {
-            this.formInfoEdit
-              .get('districtBirthPlace')
-              .setValue(district.districtId);
-          }
-        });
-
-        // get list district resident place
-        this.districtResidencePlace = await this._addressService
-          .getDistrict(this.personal.address.provinceId)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((district) => ({
-                ...district,
-                districtDisplay:
-                  district.districtType + ' ' + district.districtName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-        this.districtResidencePlace.forEach((district) => {
-          if (district.districtId == this.personal.address.districtId) {
-            this.formInfoEdit
-              .get('districtResidencePlace')
-              .setValue(district.districtId);
-          }
-        });
-
-        this.communeBirthPlace = await this._addressService
-          .getCommune(this.personal.birthPlace.districtId)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((commune) => ({
-                ...commune,
-                communeDisplay: commune.communeType + ' ' + commune.communeName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-        this.communeBirthPlace.forEach((commune) => {
-          if (commune.communeId == this.personal.birthPlace.communeId) {
-            this.formInfoEdit
-              .get('communeBirthPlace')
-              .setValue(commune.communeId);
-          }
-        });
-
-        // get list commune residen place
-        this.communeResidencePlace = await this._addressService
-          .getCommune(this.personal.address.districtId)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((commune) => ({
-                ...commune,
-                communeDisplay: commune.communeType + ' ' + commune.communeName,
-              }));
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-        this.communeResidencePlace.forEach((commune) => {
-          if (commune.communeId == this.personal.address.communeId) {
-            this.formInfoEdit
-              .get('communeResidencePlace')
-              .setValue(commune.communeId);
-          }
-        });
-
-        this.streetBirthPlace = await this._addressService
-          .getStreet(this.personal.birthPlace.communeId)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((commune) => ({
-                ...commune,
-                communeDisplay: commune.streetType + ' ' + commune.streetName,
-              }));
-              console.log(data);
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-        this.streetResidencePlace = await this._addressService
-          .getStreet(this.personal.address.communeId)
-          .pipe(
-            map((res) => {
-              const data = res.data.map((commune) => ({
-                ...commune,
-                communeDisplay: commune.streetType + ' ' + commune.streetName,
-              }));
-              console.log(data);
-              return data;
-            }),
-            takeUntil(this._unsubscribeAll)
-          )
-          .toPromise()
-          .then((res) => {
-            return res;
-          });
-
-        this.streetBirthPlace.forEach((street) => {
-          if (street.streetId == this.personal.birthPlace.streetId) {
-            this.formInfoEdit.get('streetBirthPlace').setValue(street.streetId);
-          }
-        });
-
-        this.streetResidencePlace.forEach((street) => {
-          if (street.streetId == this.personal.address.streetId) {
-            this.formInfoEdit
-              .get('streetResidencePlace')
-              .setValue(street.streetId);
-          }
-        });
+      },
+      (error) => {
+        alert('File ảnh không khả dụng');
+        return false;
       }
-    }
+    );
   }
+  // async loadProfile() {
+  //   console.log('Loading');
+  //   // keyCheck
+  //   // const keyCheck = false;
+  //   // console.log(this.formInfoEdit.value)
+  //   if (this.formInfoEdit.value.userId == null) {
+  //     this.organizationId = await this._organizationListService
+  //       .getAllOrganizations()
+  //       .pipe(takeUntil(this._unsubscribeAll))
+  //       .toPromise()
+  //       .then((res) => {
+  //         console.log(res.data);
 
+  //         return res.data;
+  //       });
+
+  //     this.provinceBirthPlace = this.provinceResidencePlace =
+  //       await this._addressService
+  //         .getProvince()
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((city) => ({
+  //               ...city,
+  //               provinceDisplay: city.provinceType + ' ' + city.provinceName,
+  //             }));
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //     if (this._authenticationService.isStaff) {
+  //       this.personal = await this._usersService
+  //         .getStaffSelf()
+  //         .pipe(takeUntil(this._unsubscribeAll))
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res.data;
+  //         });
+
+  //       this.formInfoEdit.patchValue({
+  //         userId: this.personal.userId,
+  //         username: this.personal.username,
+  //         firstName: this.personal.firstName,
+  //         middleName: this.personal.middleName,
+  //         lastName: this.personal.lastName,
+  //         phoneNumber: this.personal.phoneNumber,
+  //         personalCountryId: this.personal.personalCountryId,
+  //         birthday: this.personal.birthday,
+  //         gender: this.personal.gender,
+  //         email: this.personal.email,
+  //         homeNumberBirthPlace: this.personal.birthPlace.houseNumber,
+  //         homeNumberResidencePlace: this.personal.address.houseNumber,
+  //       });
+
+  //       this.organizationId.forEach((organization) => {
+  //         if (organization.organizationName == this.personal.organizationName) {
+  //           this.formInfoEdit
+  //             .get('organizationId')
+  //             .setValue(organization.organizationId);
+  //         }
+  //       });
+
+  //       // set province birth place
+  //       this.provinceBirthPlace.forEach((province) => {
+  //         if (province.provinceId == this.personal.birthPlace.provinceId) {
+  //           this.formInfoEdit
+  //             .get('provinceBirthPlace')
+  //             .setValue(province.provinceId);
+  //         }
+  //       });
+
+  //       this.provinceResidencePlace.forEach((province) => {
+  //         if (province.provinceId == this.personal.address.provinceId) {
+  //           this.formInfoEdit
+  //             .get('provinceResidencePlace')
+  //             .setValue(province.provinceId);
+  //         }
+  //       });
+
+  //       // get list district birth place
+  //       this.districtBirthPlace = await this._addressService
+  //         .getDistrict(this.personal.birthPlace.provinceId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((district) => ({
+  //               ...district,
+  //               districtDisplay:
+  //                 district.districtType + ' ' + district.districtName,
+  //             }));
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //       this.districtBirthPlace.forEach((district) => {
+  //         if (district.districtId == this.personal.birthPlace.districtId) {
+  //           this.formInfoEdit
+  //             .get('districtBirthPlace')
+  //             .setValue(district.districtId);
+  //         }
+  //       });
+
+  //       // get list district resident place
+  //       this.districtResidencePlace = await this._addressService
+  //         .getDistrict(this.personal.address.provinceId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((district) => ({
+  //               ...district,
+  //               districtDisplay:
+  //                 district.districtType + ' ' + district.districtName,
+  //             }));
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //       this.districtResidencePlace.forEach((district) => {
+  //         if (district.districtId == this.personal.address.districtId) {
+  //           this.formInfoEdit
+  //             .get('districtResidencePlace')
+  //             .setValue(district.districtId);
+  //         }
+  //       });
+
+  //       this.communeBirthPlace = await this._addressService
+  //         .getCommune(this.personal.birthPlace.districtId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((commune) => ({
+  //               ...commune,
+  //               communeDisplay: commune.communeType + ' ' + commune.communeName,
+  //             }));
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //       this.communeBirthPlace.forEach((commune) => {
+  //         if (commune.communeId == this.personal.birthPlace.communeId) {
+  //           this.formInfoEdit
+  //             .get('communeBirthPlace')
+  //             .setValue(commune.communeId);
+  //         }
+  //       });
+
+  //       // get list commune residen place
+  //       this.communeResidencePlace = await this._addressService
+  //         .getCommune(this.personal.address.districtId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((commune) => ({
+  //               ...commune,
+  //               communeDisplay: commune.communeType + ' ' + commune.communeName,
+  //             }));
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //       this.communeResidencePlace.forEach((commune) => {
+  //         if (commune.communeId == this.personal.address.communeId) {
+  //           this.formInfoEdit
+  //             .get('communeResidencePlace')
+  //             .setValue(commune.communeId);
+  //         }
+  //       });
+
+  //       this.streetBirthPlace = await this._addressService
+  //         .getStreet(this.personal.birthPlace.communeId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((commune) => ({
+  //               ...commune,
+  //               communeDisplay: commune.streetType + ' ' + commune.streetName,
+  //             }));
+  //             console.log(data);
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //       this.streetResidencePlace = await this._addressService
+  //         .getStreet(this.personal.address.communeId)
+  //         .pipe(
+  //           map((res) => {
+  //             const data = res.data.map((commune) => ({
+  //               ...commune,
+  //               communeDisplay: commune.streetType + ' ' + commune.streetName,
+  //             }));
+  //             console.log(data);
+  //             return data;
+  //           }),
+  //           takeUntil(this._unsubscribeAll)
+  //         )
+  //         .toPromise()
+  //         .then((res) => {
+  //           return res;
+  //         });
+
+  //       this.streetBirthPlace.forEach((street) => {
+  //         if (street.streetId == this.personal.birthPlace.streetId) {
+  //           this.formInfoEdit.get('streetBirthPlace').setValue(street.streetId);
+  //         }
+  //       });
+
+  //       this.streetResidencePlace.forEach((street) => {
+  //         if (street.streetId == this.personal.address.streetId) {
+  //           this.formInfoEdit
+  //             .get('streetResidencePlace')
+  //             .setValue(street.streetId);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
+
+  async updateRole() {
+    const adminRole = Object.values(this.formRoleEdit.value.adminRole).filter(
+      (f) => f
+    );
+    const superAdminRole = Object.values(
+      this.formRoleEdit.value.superAdminRole
+    ).filter((f) => f);
+    const userRole = Object.values(this.formRoleEdit.value.userRole).filter(
+      (f) => f
+    );
+    if (adminRole.length > 0) {
+      this.roleArray.push('ROLE_ADMIN');
+    }
+    if (superAdminRole.length > 0) {
+      this.roleArray.push('ROLE_SUPER_ADMIN');
+    }
+    if (userRole.length > 0) {
+      this.roleArray.push('ROLE_USER');
+    }
+    console.log(this.roleArray);
+    this.formUpdateRole.patchValue({
+      username: this.personal.username,
+      roles: this.roleArray,
+    });
+    await this._usersService
+      .updateRole(JSON.stringify(this.formUpdateRole.value))
+      .pipe(takeUntil(this._unsubscribeAll))
+      .toPromise()
+      .then((res) => {
+        //console.log(res);
+        if (res.result == false) {
+          throw new Error(res.message);
+        }
+        return res;
+      });
+    this.roleArray = [];
+    this.getRole();
+  }
+  getRole() {
+    this._usersService
+      .getRole(this.personal.username)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .toPromise()
+      .then((res) => {
+        console.log(res.data);
+        this.getRoles = res.data;
+        if (res.result == false) {
+          throw new Error(res.message);
+        }
+
+        return res;
+      });
+    //load lại checkbox
+    setTimeout(() => {
+      // <<<---using ()=> syntax
+      console.log(this.getRoles);
+      for (let i = 0; i < this.getRoles.length; i++) {
+        if (this.getRoles[i] === 'USER') {
+          this.formRoleEdit.patchValue({
+            userRole: {
+              hasRead: true,
+              hasWrite: false,
+              hasCreate: false,
+              hasDelete: false,
+            },
+          });
+        }
+        if (this.getRoles[i] === 'SUPER_ADMIN') {
+          this.formRoleEdit.patchValue({
+            superAdminRole: {
+              hasRead: true,
+              hasWrite: false,
+              hasCreate: false,
+              hasDelete: false,
+            },
+          });
+        }
+        if (this.getRoles[i] === 'ADMIN') {
+          this.formRoleEdit.patchValue({
+            adminRole: {
+              hasRead: true,
+              hasWrite: false,
+              hasCreate: false,
+              hasDelete: false,
+            },
+          });
+        }
+      }
+    }, 500);
+  }
   onSubmit() {
     if (!this.formInfoEdit.valid) {
-      console.log(this.formInfoEdit.value)
-      console.log("??")
+      console.log(this.formInfoEdit.value);
+      console.log('??');
       this.submitted = true;
       return;
     }
