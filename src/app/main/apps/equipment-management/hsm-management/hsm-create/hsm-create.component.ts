@@ -20,6 +20,7 @@ export class HsmCreateComponent implements OnInit {
   public hsmType: any[] = ["NET", "PCI"];
   public hardware: any[] = [{ name: "FIPS" }, { name: "CP5" }]
   public data= "check"
+  public selectedFile = "/opt/utimaco/PKCS11_R2/lib/libcs_pkcs11_R2.cfg"
   people: any[] = [ 
     {
      firstName: "Alex",
@@ -127,6 +128,9 @@ export class HsmCreateComponent implements OnInit {
   }
   toggleSidebar(modalForm ) {
     this.modal.open(modalForm, {size: 'xl'})
+  }
+  onFileChange(event){
+    this.selectedFile = event.target.files[0].name
   }
 
 }

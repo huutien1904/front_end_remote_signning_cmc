@@ -35,9 +35,12 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group col-7 col-md-6">
-                      <label for="UDUserName">Đường dẫn file cấu hình</label>
-                      <input
+                    <div class="form-group col-7 col-md-6 mt-2">
+                      <!-- <div>Đường dẫn file cấu hình</div> -->
+                      <label for="hsm" class="custom-file-label"
+                        >{{selectedFile}}
+                      </label>
+                      <!-- <input
                         type="text"
                         formControlName="hsmLibraryPath"
                         class="form-control"
@@ -48,7 +51,18 @@
                             ? 'is-invalid'
                             : ''
                         "
+                      /> -->
+                      <input
+                        #hsm
+                        type="file"
+                        formControlName="hsmLibraryPath"
+                        class="form-control custom-file-input"
+                        name="file"
+                        id="file"
+                        placeholder="Chọn đường dẫn file cấu hình"
+                        (change)="onFileChange($event)"
                       />
+                      
                       <div
                         *ngIf="
                           (f.hsmLibraryPath.errors &&
@@ -71,11 +85,15 @@
                           (click)="onSubmit()"
                           rippleEffect
                         >
-                          <span class="d-sm-none d-inline-block">Tạo kết nối</span>
-                          <span class="d-none d-sm-inline-block">Tạo kết nối HSM</span>
+                          <span class="d-sm-none d-inline-block"
+                            >Tạo kết nối</span
+                          >
+                          <span class="d-none d-sm-inline-block"
+                            >Tạo kết nối HSM</span
+                          >
                         </button>
                         <app-return [buttonReturn]="buttonReturn"> </app-return>
-                    </div>
+                      </div>
                     </div>
                   </div>
                   <!-- <div class="d-flex m-1">
@@ -173,5 +191,5 @@
   </div>
 </div>
 <ng-template #modalForm let-modal>
-  <app-hsm-create-sidebar [person]="people" ></app-hsm-create-sidebar>
+  <app-hsm-create-sidebar [person]="people"></app-hsm-create-sidebar>
 </ng-template>

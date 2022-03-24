@@ -207,6 +207,16 @@
                       </p>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <label class="card-title">Thumbprint</label>
+                    </div>
+                    <div class="col-sm-7">
+                      <p>
+                        <b>{{ thumbprint }}</b>
+                      </p>
+                    </div>
+                  </div>
                 </form>
               </div>
           </div>
@@ -265,16 +275,7 @@
             </div>
           </div> -->
 
-          <div class="row">
-            <div class="col-sm-5">
-              <label class="card-title">Thumbprint</label>
-            </div>
-            <div class="col-sm-7">
-              <p>
-                <b>{{ thumbprint }}</b>
-              </p>
-            </div>
-          </div>
+          
 
           <div class="row">
             <!-- <div class="col-sm-5">
@@ -302,7 +303,7 @@
             <div class="col-sm-7">
               <p>
                 <b>
-                {{ createdAt | date: 'dd/MM/YYYY HH:mm' }}
+                {{ createdAt | date: 'dd/MM/YYYY HH:mm:ss' }}
                 </b>
               </p>
             </div>
@@ -315,7 +316,7 @@
             <div class="col-sm-7">
               <p>
                 <b>
-                {{ updatedAt | date: 'dd/MM/YYYY HH:mm' }}
+                {{ updatedAt | date: 'dd/MM/YYYY HH:mm:ss' }}
                 </b>
               </p>
             </div>
