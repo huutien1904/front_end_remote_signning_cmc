@@ -6,7 +6,7 @@
     <div class="card-body">
       <form class="form form-vertical" [formGroup]="formListPersonal">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-2">
             <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
             <input
               name="distinguishedName"
@@ -16,6 +16,19 @@
               formControlName="contains"
               placeholder="Nhập họ tên, thư điện tử, địa chỉ"
             />
+          </div>
+          <div class="col-md-2">
+            <label class="lable">Tổ chức</label>
+            <fieldset class="form-group">
+              <ng-select
+                [items]="organizations"
+                bindLabel="organizationName"
+                formControlName="organizations"
+                [clearable]="true"
+                placeholder="Tổ chức"
+              >
+              </ng-select>
+            </fieldset>
           </div>
           <div class="col-md-2">
             <label class="lable">Giới tính</label>

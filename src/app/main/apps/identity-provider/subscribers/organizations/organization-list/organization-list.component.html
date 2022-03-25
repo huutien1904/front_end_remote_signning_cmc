@@ -7,28 +7,40 @@
       <!-- [formGroup]="formListPersonal" -->
       <form class="form form-vertical" [formGroup]="formListOrganizations">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <!-- formControlName="inputPersonal" -->
-            <label class="lable">Họ tên, thư điện tử, địa chỉ, website</label>
+            <label class="lable">Họ tên, thư điện tử, địa chỉ</label>
             <input
               formControlName="inputOrganization"
               name="findName"
               id="findName"
               type="search"
               class="form-control"
-              placeholder="Nhập họ tên, thư điện tử, địa chỉ, website"
+              placeholder="Nhập họ tên, thư điện tử, địa chỉ"
             />
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
+            <label class="lable">Tổ chức</label>
+            <fieldset class="form-group">
+              <ng-select
+                [items]="organizations"
+                bindLabel="organizationName"
+                formControlName="organizations"
+                [clearable]="true"
+                placeholder="Tổ chức"
+              >
+              </ng-select>
+            </fieldset>
+          </div>
+          <div class="col-md-2">
             <label class="lable">Loại tổ chức</label>
             <fieldset class="form-group">
               <ng-select
                 [items]="typeOrganization"
                 bindLabel="subscriberCategoryName"
-                bindValue="subscriberCategoryId"
                 formControlName="typeOrganization"
-                [clearable]="false"
                 placeholder="Loại tổ chức"
+                [clearable]="false"
               >
               </ng-select>
             </fieldset>

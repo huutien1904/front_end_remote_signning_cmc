@@ -71,6 +71,7 @@ export class PersonalListComponent implements OnInit {
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   gender: string[] = ['Nam', 'Nữ'];
   public parentData: any[] = [];
+  public organizations: any[] = [];
   public openTable: boolean = true;
   public openTableUpdate: boolean = false;
   public contentHeader: object;
@@ -141,14 +142,26 @@ export class PersonalListComponent implements OnInit {
       fromDate: [''],
       toDate: [''],
       searchType: [this.searchType[0], Validators.required],
+      organizations: [this.organizations[0]],
     });
     this.setPage({
       offset: 0,
       pageSize: this.formListPersonal.get('size').value,
     });
+    this.getAllOrganizations();
     // this.formSelectSearch = this.fb.group({
     //   searchType : [this.searchType[0], Validators.required]
     // })
+  }
+  //get organizations
+  getAllOrganizations() {
+    this._personalService
+      .getOrganizationId()
+      .subscribe((response: any) => {
+        this.organizations = response.data;
+        this.formListPersonal.controls['organizations'].setValue(this.organizations[0]);
+        console.log(this.organizations);
+      });
   }
 
   //Set Table View

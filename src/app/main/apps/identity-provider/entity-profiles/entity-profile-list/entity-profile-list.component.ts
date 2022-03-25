@@ -34,7 +34,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any>;
   public SelectionType = SelectionType;
   public rowIndex: any;
-
+  public organizations: any[] = [];
   public formListProfile: FormGroup;
   public contentHeader: object;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
@@ -81,6 +81,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       page: [null],
       size: [this.sizePage[3]],
       typeProfile: [this.typeProfile[0]],
+      organizations: [this.organizations[0]],
     });
     // content header profile
     this.contentHeader = {
@@ -102,6 +103,7 @@ export class ProfileListComponent implements OnInit, OnDestroy {
       offset: 0,
       pageSize: this.formListProfile.get('size').value,
     });
+    this.getAllOrganizations();
   }
   // get seleted item
   onSelect({ selected }) {
@@ -141,6 +143,16 @@ export class ProfileListComponent implements OnInit, OnDestroy {
     if(event.event.type === 'click' && event.column.name!="Hành động" && event.column.name!="checkbox") {
       this._router.navigate(['/apps/ip/profiles/profile-edit', event.row.endEntityProfileId]);
     }
+  }
+  // get Organizations
+  getAllOrganizations() {
+    this._entityProfileService
+      .getAllOrganizations()
+      .subscribe((response: any) => {
+        this.organizations = response.data;
+        this.formListProfile.controls['organizations'].setValue(this.organizations[0]);
+        console.log(this.organizations);
+      });
   }
   // remove profile item
   removeProfile(entityId){

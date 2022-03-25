@@ -10,7 +10,7 @@
                 <div class="col-sm-3 col-form-label">
                   <h5>Loại thuê bao:</h5>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                   <ng-select
                     [items]="searchType"
                     bindLabel="name"
@@ -25,18 +25,21 @@
         </form>
       </div>
     </section>
-    <section id="search-content"  *ngIf="formSelectSearch.valid"  [ngSwitch]="formSelectSearch.controls['searchType'].value.key">
-      <div *ngSwitchCase="'Thuê bao cá nhân'">
-        <app-personal-list></app-personal-list>
-      </div>
-      <div *ngSwitchCase="'Thuê bao tổ chức'">
+    <section
+      id="search-content"
+      *ngIf="formSelectSearch.valid"
+      [ngSwitch]="formSelectSearch.controls['searchType'].value.key"
+    >
+      <div *ngSwitchCase="'Tổ chức'">
         <app-organization-list></app-organization-list>
       </div>
-      <div *ngSwitchCase="'Thuê bao thiết bị/dịch vụ'">
+      <div *ngSwitchCase="'Cá nhân'">
+        <app-personal-list></app-personal-list>
+      </div>
+      <div *ngSwitchCase="'Thiết bị/dịch vụ'">
         <app-service-list></app-service-list>
       </div>
     </section>
-    
   </div>
 </div>
 <!-- <app-new-personal-sidebar></app-new-personal-sidebar> -->

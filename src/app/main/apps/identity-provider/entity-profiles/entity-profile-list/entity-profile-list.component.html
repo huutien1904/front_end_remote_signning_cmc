@@ -27,7 +27,20 @@
                   placeholder="Nhập tên profile"
                 />
               </div>
-              <div class=" col-6 col-md-2">
+              <div class="col-md-2">
+                <label class="lable">Tổ chức</label>
+                <fieldset class="form-group">
+                  <ng-select
+                    [items]="organizations"
+                    bindLabel="organizationName"
+                    formControlName="organizations"
+                    [clearable]="true"
+                    placeholder="Tổ chức"
+                  >
+                  </ng-select>
+                </fieldset>
+              </div>
+              <div class="col-6 col-md-2">
                 <label class="label">Loại Profile</label>
                 <ng-select
                   [items]="typeProfile"
@@ -155,7 +168,7 @@
               class="btn btn-outline-secondary ml-50"
               rippleEffect
               (click)="removeListProfile()"
-              [disabled] ="selected.length === 0"
+              [disabled]="selected.length === 0"
             >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa</span>
@@ -168,9 +181,7 @@
               (click)="exportCSV()"
             >
               <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block"
-                >Xuất danh sách</span
-              ></a
+              <span class="d-none d-sm-inline-block">Xuất danh sách</span></a
             >
           </div>
         </div>
@@ -420,7 +431,7 @@
               class="btn btn-outline-secondary ml-50"
               rippleEffect
               (click)="removeListProfile()"
-              [disabled] ="selected.length === 0"
+              [disabled]="selected.length === 0"
             >
               <i data-feather="trash-2" class="d-sm-none d-inline-block"></i>
               <span class="d-none d-sm-inline-block">Xóa</span>
@@ -433,9 +444,7 @@
               (click)="exportCSV()"
             >
               <i data-feather="clipboard" class="d-sm-none d-inline-block"></i>
-              <span class="d-none d-sm-inline-block"
-                >Xuất danh sách</span
-              >
+              <span class="d-none d-sm-inline-block">Xuất danh sách</span>
             </a>
           </div>
         </div>

@@ -41,6 +41,7 @@ export class OrganizationListComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public sizePage: number[] = [5, 10, 15, 20, 50, 100];
   public typeOrganization: any[] = [];
+  public organizations: any[] = [];
   public flag: any;
   public openTable: boolean = true;
   public openTableUpdate: boolean = false;
@@ -105,6 +106,7 @@ export class OrganizationListComponent implements OnInit {
       inputOrganization: [''],
       size: [this.sizePage[3], Validators.required],
       typeOrganization: [this.typeOrganization[0]],
+      organizations: [this.organizations[0]],
       contains: ['', Validators.required],
       page: [''],
       sort: [[]],
@@ -119,6 +121,7 @@ export class OrganizationListComponent implements OnInit {
     // this.getOrganization();
     // this.pagedData.size = this.sizePage[3];
     this.getListTypeOrganization();
+    this.getAllOrganizations();
     this.setPage({
       offset: 0,
       pageSize: this.formListOrganizations.get('size').value,
@@ -211,7 +214,17 @@ export class OrganizationListComponent implements OnInit {
       .getListOrganizationCategory()
       .subscribe((res: any) => {
         this.typeOrganization = res.data;
+        this.formListOrganizations.controls['typeOrganization'].setValue(this.typeOrganization[0]);
         console.log(this.typeOrganization);
+      });
+  }
+  getAllOrganizations() {
+    this._organizationListService
+      .getAllOrganizations()
+      .subscribe((response: any) => {
+        this.organizations = response.data;
+        this.formListOrganizations.controls['organizations'].setValue(this.organizations[0]);
+        console.log(this.organizations);
       });
   }
   removeListOrganization() {
@@ -455,45 +468,43 @@ export class OrganizationListComponent implements OnInit {
         this.totalItems = pagedData.data.totalItems;
         console.log(pagedData);
         console.log(pagedData.data.data);
-        this.dataExport = pagedData.data.data.map(
-           (personalList: any) => ({
-            ...personalList,
-            address: this._addressService
-              .getAddressById(personalList.address.addressId)
-              .pipe(takeUntil(this._unsubscribeAll))
-              .toPromise()
-              .then((res) => {
-                //  console.log(res)
-                console.log(res.data.streetName);
-                return (
-                  'số nhà ' +
-                  res.data.houseNumber +
-                  'Đường ' +
-                  res.data.streetName +
-                  'Xã ' +
-                  res.data.communeName
-                );
-                //  row[k] = res.data.districtName
-              }),
-            birthPlace: this._addressService
-              .getAddressById(personalList.address.addressId)
-              .pipe(takeUntil(this._unsubscribeAll))
-              .toPromise()
-              .then((res) => {
-                console.log(res);
-                console.log(res.data.streetName);
-                return (
-                  'số nhà ' +
-                  res.data.houseNumber +
-                  'Đường ' +
-                  res.data.streetName +
-                  'Xã ' +
-                  res.data.communeName
-                );
-                //  row[k] = res.data.districtName
-              }),
-          })
-        );
+        this.dataExport = pagedData.data.data.map((personalList: any) => ({
+          ...personalList,
+          address: this._addressService
+            .getAddressById(personalList.address.addressId)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .toPromise()
+            .then((res) => {
+              //  console.log(res)
+              console.log(res.data.streetName);
+              return (
+                'số nhà ' +
+                res.data.houseNumber +
+                'Đường ' +
+                res.data.streetName +
+                'Xã ' +
+                res.data.communeName
+              );
+              //  row[k] = res.data.districtName
+            }),
+          birthPlace: this._addressService
+            .getAddressById(personalList.address.addressId)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .toPromise()
+            .then((res) => {
+              console.log(res);
+              console.log(res.data.streetName);
+              return (
+                'số nhà ' +
+                res.data.houseNumber +
+                'Đường ' +
+                res.data.streetName +
+                'Xã ' +
+                res.data.communeName
+              );
+              //  row[k] = res.data.districtName
+            }),
+        }));
         console.log(this.dataExport);
         if (!this.dataExport || !this.dataExport.length) {
           return;

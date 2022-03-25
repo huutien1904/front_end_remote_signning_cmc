@@ -493,7 +493,7 @@ export class EntityProfileCreateComponent implements OnInit {
         },
       }).then(function (result) {
         console.log(result)
-        if (result.isDismissed) {
+        if (result.value) {
           Swal.fire({
             icon: 'success',
             title: 'Thành công!',

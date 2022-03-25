@@ -4,3 +4,9 @@
 @import "@core/scss/base/plugins/forms/form-validation.scss";
 @import '@core/scss/angular/libs/toastr.component.scss';
 
+.datatable-body-cell-label {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+

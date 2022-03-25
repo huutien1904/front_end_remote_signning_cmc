@@ -5,6 +5,7 @@ import { EntityProfile } from "app/main/models/EntityProfile";
 import { ResponseData } from "app/main/models/ResponseData";
 import { environment } from "environments/environment";
 import { Observable } from "rxjs";
+import { Organization } from "app/main/models/Organization";
 
 @Injectable({
   providedIn: "root",
@@ -43,6 +44,12 @@ export class EntityProfileService {
   public deleteProfileId(id): Observable<any> {
     return this._httpClient.delete<any>(
       `${environment.apiUrl}/entity-profile/${id}`,
+      this.option
+    );
+  }
+  public getAllOrganizations(): Observable<any> {
+    return this._httpClient.get<ResponseData<PagedData<Organization>>>(
+      `${environment.apiUrl}/organization/get-all`,
       this.option
     );
   }
