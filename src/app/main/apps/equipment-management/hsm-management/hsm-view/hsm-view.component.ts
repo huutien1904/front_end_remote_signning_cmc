@@ -178,8 +178,9 @@ export class HsmViewComponent implements OnInit {
       allowOutsideClick: () => {
         return !Swal.isLoading();
       },
-    }).then(function (result) {
-      if (result.isDismissed) {
+    }).then(function (result:any) {
+      console.log(result)
+      if (result.value.result) {
         Swal.fire({
           icon: 'success',
           title: 'Thành công!',
@@ -191,7 +192,53 @@ export class HsmViewComponent implements OnInit {
       }
     });
   }
+  removeHSM(id){
+    this._hsmService.deleteHsmId(id)
+    .subscribe((res) =>{
+      console.log(res)
+      if(res.result === true){
+        console.log("tienChecl",res.value)
+        this.router.navigate(['/apps/equipment-management/hsm/hsm-list']);
+      }
+    })
+    
+  }
+  deleteHSM(){
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      text: "Bạn sẽ không thể hoàn tác điều này!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      preConfirm: async () => {
+        this.removeHSM(this.hsm.hsmId)
+      },
+      cancelButtonColor: '#E42728',
+      cancelButtonText: "Thoát",
+      confirmButtonText: 'Đúng, tôi muốn xóa!',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      allowOutsideClick: () => {
+        return !Swal.isLoading();
+      }
+    }).then(function (result: any) {
+      console.log(result)
+      if (result.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công!',
+          text: 'Bạn đã xóa thành công',
+          customClass: {
+            confirmButton: 'btn btn-success'
+          }
+        });
+      }
+    }
 
+    );
+  }
   get f() {
     return this.hsmFormView.controls;
   }

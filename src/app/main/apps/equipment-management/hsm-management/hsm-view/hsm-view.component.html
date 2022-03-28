@@ -29,11 +29,13 @@
                     </div>
                   </div>
                   <div class="d-flex">
-                    <div class="form-group col-md-6 justify-content-center d-flex">
+                    <div
+                      class="form-group col-md-6 justify-content-center d-flex"
+                    >
                       <button
                         class="btn btn-primary"
-                        [disabled] = "hsm!=null&&hsm.connect"
-                        (click) = "connectHsm()"
+                        [disabled]="hsm != null && hsm.connect"
+                        (click)="connectHsm()"
                         rippleEffect
                       >
                         <i
@@ -43,22 +45,26 @@
                         ><span class="d-none d-sm-inline-block">Kết nối</span>
                       </button>
                     </div>
-                    <div class="form-group col-md-6 justify-content-center d-flex">
+                    <div
+                      class="form-group col-md-6 justify-content-center d-flex"
+                    >
                       <button
-                        class="btn btn-primary "
-                        [disabled] ="hsm!=null&&!hsm.connect"
-                        (click) = "connectHsm()"
+                        class="btn btn-primary"
+                        [disabled]="hsm != null && !hsm.connect"
+                        (click)="connectHsm()"
                         rippleEffect
                       >
                         <i
                           data-feather="plus"
                           class="d-sm-none d-inline-block mr-0 mr-sm-1"
                         ></i
-                        ><span class="d-none d-sm-inline-block">Ngắt kết nối</span>
+                        ><span class="d-none d-sm-inline-block"
+                          >Ngắt kết nối</span
+                        >
                       </button>
                     </div>
                   </div>
-                  <div class="" *ngIf="hsm!=null&&hsm.connect">
+                  <div class="" *ngIf="hsm != null && hsm.connect">
                     <div class="d-flex">
                       <div class="form-group col-md-6">
                         <label for="UDUserName">Model</label>
@@ -126,52 +132,58 @@
                       [loadingIndicator]="isLoading"
                       [selectionType]="'checkbox'"
                     >
-                    
-                  <ngx-datatable-column
-                    name="TT"
-                    [sortable]="false"
-                    [canAutoResize]="false"
-                    [width]="50"
-                  >
-                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
-                      {{ pagedData.currentPage * pagedData.size + rowIndex + 1 }}
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="Số hiệu SLOT"
-                    prop="slotNumber"
-                    [width]="130"
-                  ></ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="Tên Slot"
-                    prop="tokenName"
-                    [width]="130"
-                  ></ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="Mật khẩu SO"
-                    prop="passwordSO"
-                    [width]="130"
-                  ></ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="MẬT KHẨU USER"
-                    prop="passwordUser"
-                    [width]="130"
-                  ></ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="SỐ CHỨNG THƯ SỐ"
-                    prop="hsmId"
-                    [width]="130"
-                  ></ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="SỐ KHÓA RIÊNG"
-                    prop="privateKey"
-                    [width]="130"
-                  ></ngx-datatable-column>
-                  <ngx-datatable-column
-                    name="SỐ KHÓA BÍ MẬT"
-                    prop="secretKey"
-                    [width]="130"
-                  ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="TT"
+                        [sortable]="false"
+                        [canAutoResize]="false"
+                        [width]="50"
+                      >
+                        <ng-template
+                          ngx-datatable-cell-template
+                          let-rowIndex="rowIndex"
+                        >
+                          {{
+                            pagedData.currentPage * pagedData.size +
+                              rowIndex +
+                              1
+                          }}
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="Số hiệu SLOT"
+                        prop="slotNumber"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="Tên Slot"
+                        prop="tokenName"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="Mật khẩu SO"
+                        prop="passwordSO"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="MẬT KHẨU USER"
+                        prop="passwordUser"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="SỐ CHỨNG THƯ SỐ"
+                        prop="hsmId"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="SỐ KHÓA RIÊNG"
+                        prop="privateKey"
+                        [width]="130"
+                      ></ngx-datatable-column>
+                      <ngx-datatable-column
+                        name="SỐ KHÓA BÍ MẬT"
+                        prop="secretKey"
+                        [width]="130"
+                      ></ngx-datatable-column>
                       <ngx-datatable-footer>
                         <ng-template
                           ngx-datatable-footer-template
@@ -202,12 +214,23 @@
                         </ng-template>
                       </ngx-datatable-footer>
                     </ngx-datatable>
-
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 offset-6">
                     <div class="d-flex justify-content-md-end m-1">
+                      <button
+                        csvLink
+                        class="btn btn-outline-danger mr-1"
+                        rippleEffect
+                        (click)="deleteHSM()"
+                      >
+                        <i
+                          data-feather="trash-2"
+                          class="d-sm-none d-inline-block"
+                        ></i>
+                        <span class="d-none d-sm-inline-block">Xóa</span>
+                      </button>
                       <app-return [buttonReturn]="buttonReturn"></app-return>
                     </div>
                   </div>
