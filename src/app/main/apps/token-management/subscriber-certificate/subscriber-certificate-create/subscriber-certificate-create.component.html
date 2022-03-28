@@ -149,6 +149,21 @@
         <div class="card-header">
           <h4 class="card-title">Danh sách thuê bao cá nhân</h4>
         </div>
+        <div class="row">
+          <div class="col-md-12 mb-1">
+            <a [routerLink]="['/apps/tm/subscriber-certificate/subscriber-certificate-list']">
+              <button
+                type="button"
+                rippleEffect
+                class="btn btn-outline-primary ml-1"
+              >
+                <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Quay lại</span>
+              </button>
+            </a>
+            <!-- <a [href]="listFileUrl" download="Danh sách chứng thư số.pem"> -->
+          </div>
+        </div>
         <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
         <ngx-datatable
           #tableRowDetails
@@ -285,6 +300,21 @@
             </ng-template>
           </ngx-datatable-footer>
         </ngx-datatable>
+        <div class="row">
+          <div class="col-md-12 mb-1">
+            <a [routerLink]="['/apps/tm/subscriber-certificate/subscriber-certificate-list']">
+              <button
+                type="button"
+                rippleEffect
+                class="btn btn-outline-primary ml-1"
+              >
+                <i data-feather="plus" class="d-sm-none d-inline-block"></i>
+                <span class="d-none d-sm-inline-block">Quay lại</span>
+              </button>
+            </a>
+            <!-- <a [href]="listFileUrl" download="Danh sách chứng thư số.pem"> -->
+          </div>
+        </div>
       </div>
     </section>
     

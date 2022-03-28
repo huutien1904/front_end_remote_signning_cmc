@@ -71,14 +71,14 @@
               name="TT"
               [sortable]="false"
               [canAutoResize]="false"
-              [width]="100"
+              [width]="50"
             >
               <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
                 {{ rowIndex + 1 }}
               </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="SUBJECT DN" [width]="1000">
+            <ngx-datatable-column name="SUBJECT DN" [width]="600">
               <ng-template
                 ngx-datatable-cell-template
                 let-row="row"
