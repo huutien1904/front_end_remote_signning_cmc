@@ -698,6 +698,14 @@
                                     <button
                                       type="button"
                                       class="btn btn-success"
+                                      (click)="
+                                      onSubmitCreateProvince(
+                                        2,
+                                        addBirthProvince.value
+                                      )
+                                        ? modal.close()
+                                        : false
+                                    "
                                       data-dismiss="closeModal"
                                       rippleEffect
                                     >
@@ -815,6 +823,14 @@
                                     <button
                                       type="button"
                                       class="btn btn-success"
+                                      (click)="
+                                      onSubmitCreateDistrict(
+                                        2,
+                                        addBirthDistrict.value
+                                      )
+                                        ? modal.close()
+                                        : false
+                                    "
                                       data-dismiss="closeModal"
                                       rippleEffect
                                     >
@@ -932,6 +948,14 @@
                                     <button
                                       type="button"
                                       class="btn btn-success"
+                                      (click)="
+                                      onSubmitCreateCommune(
+                                        2,
+                                        addBirthCommune.value
+                                      )
+                                        ? modal.close()
+                                        : false
+                                    "
                                       data-dismiss="closeModal"
                                       rippleEffect
                                     >
@@ -1274,6 +1298,14 @@
                                     <button
                                       type="button"
                                       class="btn btn-success"
+                                      (click)="
+                                      onSubmitCreateProvince(
+                                        1,
+                                        addResidenceProvince.value
+                                      )
+                                        ? modal.close()
+                                        : false
+                                    "
                                       data-dismiss="closeModal"
                                       rippleEffect
                                     >
@@ -1391,6 +1423,14 @@
                                     <button
                                       type="button"
                                       class="btn btn-success"
+                                      (click)="
+                                      onSubmitCreateDistrict(
+                                        1,
+                                        addResidenceDistrict.value
+                                      )
+                                        ? modal.close()
+                                        : false
+                                    "
                                       data-dismiss="closeModal"
                                       rippleEffect
                                     >
@@ -1508,6 +1548,14 @@
                                     <button
                                       type="button"
                                       class="btn btn-success"
+                                      (click)="
+                                        onSubmitCreateCommune(
+                                          1,
+                                          addCommuneResidence.value
+                                        )
+                                          ? modal.close()
+                                          : false
+                                      "
                                       data-dismiss="closeModal"
                                       rippleEffect
                                     >

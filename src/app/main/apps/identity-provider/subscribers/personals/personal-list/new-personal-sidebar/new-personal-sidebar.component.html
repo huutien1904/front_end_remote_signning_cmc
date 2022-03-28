@@ -243,9 +243,7 @@
             <img
               class="w-100 h-100"
               (click)="imageInput.click()"
-              [src]="
-                image ? image : 'assets/images/portrait/small/users.png'
-              "
+              [src]="image ? image : 'assets/images/portrait/small/users.png'"
               alt="Upload Image"
             />
           </div>
@@ -777,6 +775,11 @@
                   <button
                     type="button"
                     class="btn btn-success"
+                    (click)="
+                    onSubmitCreateProvince(2, addBirthProvince.value)
+                      ? modal.close()
+                      : false
+                  "
                     data-dismiss="closeModal"
                     rippleEffect
                   >
@@ -831,56 +834,61 @@
                   : ''
               "
             >
-            <ng-template ng-header-tmp>
-              <div>
-                <button
-                  class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
-                  (click)="
-                    modalOpenCreateStreet(modalOpenCreateDistrictBirthPlace)
-                  "
-                >
-                  <i data-feather="plus"></i>
-                  <span class="align-middle ml-25">Thêm Quận/Huyện</span>
-                </button>
-              </div>
-            </ng-template>
-            <ng-template #modalOpenCreateDistrictBirthPlace let-modal>
-              <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel160">
-                  Thêm mới Quận/Huyện
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  (click)="modal.dismiss('Cross click')"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" tabindex="0" ngbAutofocus>
-                <div class="form-group">
-                  <small class="text-muted"> Ví dụ:<i>Sơn Trà</i></small>
-                  <input
-                    type="text"
-                    name="addBirthDistrict"
-                    id="addBirthDistrict"
-                    #addBirthDistrict
-                    class="form-control"
-                  />
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateDistrictBirthPlace)
+                    "
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Quận/Huyện</span>
+                  </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  data-dismiss="closeModal"
-                  rippleEffect
-                >
-                  Thêm
-                </button>
-              </div>
-            </ng-template>
+              </ng-template>
+              <ng-template #modalOpenCreateDistrictBirthPlace let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Quận/Huyện
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Sơn Trà</i></small>
+                    <input
+                      type="text"
+                      name="addBirthDistrict"
+                      id="addBirthDistrict"
+                      #addBirthDistrict
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                      onSubmitCreateDistrict(2, addBirthDistrict.value)
+                        ? modal.close()
+                        : false
+                    "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">
@@ -927,56 +935,61 @@
               "
               (change)="selectCommune(1)"
             >
-            <ng-template ng-header-tmp>
-              <div>
-                <button
-                  class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
-                  (click)="
-                    modalOpenCreateStreet(modalOpenCreateCommuneBirthPlace)
-                  "
-                >
-                  <i data-feather="plus"></i>
-                  <span class="align-middle ml-25">Thêm Xã/Phường</span>
-                </button>
-              </div>
-            </ng-template>
-            <ng-template #modalOpenCreateCommuneBirthPlace let-modal>
-              <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel160">
-                  Thêm mới Xã/Phường
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  (click)="modal.dismiss('Cross click')"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" tabindex="0" ngbAutofocus>
-                <div class="form-group">
-                  <small class="text-muted"> Ví dụ:<i>Thọ Quang</i></small>
-                  <input
-                    type="text"
-                    name="addBirthCommune"
-                    id="addBirthCommune"
-                    #addBirthCommune
-                    class="form-control"
-                  />
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateCommuneBirthPlace)
+                    "
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Xã/Phường</span>
+                  </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  data-dismiss="closeModal"
-                  rippleEffect
-                >
-                  Thêm
-                </button>
-              </div>
-            </ng-template>
+              </ng-template>
+              <ng-template #modalOpenCreateCommuneBirthPlace let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Xã/Phường
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Thọ Quang</i></small>
+                    <input
+                      type="text"
+                      name="addBirthCommune"
+                      id="addBirthCommune"
+                      #addBirthCommune
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                      onSubmitCreateCommune(2, addBirthCommune.value)
+                        ? modal.close()
+                        : false
+                    "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">
@@ -1214,56 +1227,61 @@
               "
               (change)="selectProvince(2)"
             >
-            <ng-template ng-header-tmp>
-              <div>
-                <button
-                  class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
-                  (click)="
-                    modalOpenCreateStreet(modalOpenCreateResidenceProvince)
-                  "
-                >
-                  <i data-feather="plus"></i>
-                  <span class="align-middle ml-25">Thêm Tỉnh/Thành phố</span>
-                </button>
-              </div>
-            </ng-template>
-            <ng-template #modalOpenCreateResidenceProvince let-modal>
-              <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel160">
-                  Thêm mới Tỉnh/Thành phố
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  (click)="modal.dismiss('Cross click')"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" tabindex="0" ngbAutofocus>
-                <div class="form-group">
-                  <small class="text-muted"> Ví dụ:<i>Đà Nẵng</i></small>
-                  <input
-                    type="text"
-                    name="addResidenceProvince"
-                    id="addResidenceProvince"
-                    #addResidenceProvince
-                    class="form-control"
-                  />
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateResidenceProvince)
+                    "
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Tỉnh/Thành phố</span>
+                  </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  data-dismiss="closeModal"
-                  rippleEffect
-                >
-                  Thêm
-                </button>
-              </div>
-            </ng-template>
+              </ng-template>
+              <ng-template #modalOpenCreateResidenceProvince let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Tỉnh/Thành phố
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Đà Nẵng</i></small>
+                    <input
+                      type="text"
+                      name="addResidenceProvince"
+                      id="addResidenceProvince"
+                      #addResidenceProvince
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                    onSubmitCreateProvince(1, addResidenceProvince.value)
+                      ? modal.close()
+                      : false
+                  "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">
@@ -1311,56 +1329,61 @@
               "
               (change)="selectDistrict(2)"
             >
-            <ng-template ng-header-tmp>
-              <div>
-                <button
-                  class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
-                  (click)="
-                    modalOpenCreateStreet(modalOpenCreateResidenceDistrict)
-                  "
-                >
-                  <i data-feather="plus"></i>
-                  <span class="align-middle ml-25">Thêm Quận/Huyện</span>
-                </button>
-              </div>
-            </ng-template>
-            <ng-template #modalOpenCreateResidenceDistrict let-modal>
-              <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel160">
-                  Thêm mới Quận/Huyện
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  (click)="modal.dismiss('Cross click')"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" tabindex="0" ngbAutofocus>
-                <div class="form-group">
-                  <small class="text-muted"> Ví dụ:<i>Sơn Trà</i></small>
-                  <input
-                    type="text"
-                    name="addResidenceDistrict"
-                    id="addResidenceDistrict"
-                    #addResidenceDistrict
-                    class="form-control"
-                  />
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateResidenceDistrict)
+                    "
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Quận/Huyện</span>
+                  </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  data-dismiss="closeModal"
-                  rippleEffect
-                >
-                  Thêm
-                </button>
-              </div>
-            </ng-template>
+              </ng-template>
+              <ng-template #modalOpenCreateResidenceDistrict let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Quận/Huyện
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Sơn Trà</i></small>
+                    <input
+                      type="text"
+                      name="addResidenceDistrict"
+                      id="addResidenceDistrict"
+                      #addResidenceDistrict
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                      onSubmitCreateDistrict(1, addResidenceDistrict.value)
+                        ? modal.close()
+                        : false
+                    "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">
@@ -1408,56 +1431,61 @@
               "
               (change)="selectCommune(2)"
             >
-            <ng-template ng-header-tmp>
-              <div>
-                <button
-                  class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
-                  (click)="
-                    modalOpenCreateStreet(modalOpenCreateResidenceCommune)
-                  "
-                >
-                  <i data-feather="plus"></i>
-                  <span class="align-middle ml-25">Thêm Xã/Phường</span>
-                </button>
-              </div>
-            </ng-template>
-            <ng-template #modalOpenCreateResidenceCommune let-modal>
-              <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel160">
-                  Thêm mới Xã/Phường
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  (click)="modal.dismiss('Cross click')"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" tabindex="0" ngbAutofocus>
-                <div class="form-group">
-                  <small class="text-muted"> Ví dụ:<i>Thọ Quang</i></small>
-                  <input
-                    type="text"
-                    name="addCommuneResidence"
-                    id="addCommuneResidence"
-                    #addCommuneResidence
-                    class="form-control"
-                  />
+              <ng-template ng-header-tmp>
+                <div>
+                  <button
+                    class="btn btn-flat-success cursor-pointer rounded-0 text-left p-50 w-100"
+                    (click)="
+                      modalOpenCreateStreet(modalOpenCreateResidenceCommune)
+                    "
+                  >
+                    <i data-feather="plus"></i>
+                    <span class="align-middle ml-25">Thêm Xã/Phường</span>
+                  </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  data-dismiss="closeModal"
-                  rippleEffect
-                >
-                  Thêm
-                </button>
-              </div>
-            </ng-template>
+              </ng-template>
+              <ng-template #modalOpenCreateResidenceCommune let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel160">
+                    Thêm mới Xã/Phường
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" tabindex="0" ngbAutofocus>
+                  <div class="form-group">
+                    <small class="text-muted"> Ví dụ:<i>Thọ Quang</i></small>
+                    <input
+                      type="text"
+                      name="addCommuneResidence"
+                      id="addCommuneResidence"
+                      #addCommuneResidence
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="
+                      onSubmitCreateCommune(1, addCommuneResidence.value)
+                        ? modal.close()
+                        : false
+                    "
+                    data-dismiss="closeModal"
+                    rippleEffect
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </ng-template>
             </ng-select>
           </div>
           <div class="col-sm-12">

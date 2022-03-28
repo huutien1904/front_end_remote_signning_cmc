@@ -95,6 +95,27 @@ export class OrganizationEditService {
       this.option
     );
   }
+  public createCommune(body): Observable<ResponseData<Commune>> {
+    return this._httpClient.post<ResponseData<Commune>>(
+      `${environment.apiUrl}/address/commune/create`,
+      body,
+      this.option
+    );
+  }
+  public createDistrict(body): Observable<ResponseData<District>> {
+    return this._httpClient.post<ResponseData<District>>(
+      `${environment.apiUrl}/address/district/create`,
+      body,
+      this.option
+    );
+  }
+  public createProvince(body): Observable<ResponseData<Province>> {
+    return this._httpClient.post<ResponseData<Province>>(
+      `${environment.apiUrl}/address/province/create`,
+      body,
+      this.option
+    );
+  }
 
   updateOrganization(body): Observable<ResponseData<Personal>> {
     console.log('test');
