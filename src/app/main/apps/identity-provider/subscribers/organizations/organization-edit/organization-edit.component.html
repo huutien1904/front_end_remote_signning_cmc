@@ -743,6 +743,13 @@
                                       <button
                                         type="button"
                                         class="btn btn-success"
+                                        (click)="
+                                        onSubmitCreateProvince(
+                                          addProvince.value
+                                        )
+                                          ? modal.close()
+                                          : false
+                                      "
                                         data-dismiss="closeModal"
                                         rippleEffect
                                       >
@@ -860,6 +867,13 @@
                                       <button
                                         type="button"
                                         class="btn btn-success"
+                                        (click)="
+                                        onSubmitCreateDistrict(
+                                          addDistrict.value
+                                        )
+                                          ? modal.close()
+                                          : false
+                                      "
                                         data-dismiss="closeModal"
                                         rippleEffect
                                       >
@@ -977,6 +991,13 @@
                                       <button
                                         type="button"
                                         class="btn btn-success"
+                                        (click)="
+                                        onSubmitCreateCommune(
+                                          addCommune.value
+                                        )
+                                          ? modal.close()
+                                          : false
+                                      "
                                         data-dismiss="closeModal"
                                         rippleEffect
                                       >

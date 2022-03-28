@@ -460,6 +460,213 @@ export class NewPersonalSidebarComponent implements OnInit {
       windowClass: 'modal modal-success',
     });
   }
+  onSubmitCreateProvince(type,provinceName){
+    switch (type) {
+      case 1: {
+        const countryId = this.newPersonal.get('countryResidencePlace').value;
+        const body = {
+          provinceName: provinceName,
+          provinceType: 'Tỉnh/Thành phố',
+          countryId: countryId,
+        };
+        this._addressService.createProvince(body).subscribe((res) => {
+          this.provinceResidencePlace = [...this.provinceResidencePlace, res.data];
+          if (
+            this.newPersonal.get('countryResidencePlace').value != null &&
+            countryId == this.newPersonal.get('countryResidencePlace').value
+          ) {
+            this.provinceBirthPlace = [...this.provinceBirthPlace, res.data];
+          }
+          this._toastrService.success(
+            'Thêm thành công Tỉnh/Thành phố ' +
+              res.data.provinceName +
+              'vào cơ sở dữ liệu',
+            'Thành công',
+            {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
+        });
+        return true;
+      }
+      case 2: {
+        const countryId = this.newPersonal.get('countryBirthPlace').value;
+        const body = {
+          provinceName: provinceName,
+          provinceType: 'Tỉnh/Thành phố',
+          countryId: countryId,
+        };
+        //Tạo dữ liệu Tỉnh/Thành phố mới - lấy từ dữ liệu Quốc gia đã select
+        this._addressService.createProvince(body).subscribe((res) => {
+          //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
+          this.provinceBirthPlace = [...this.provinceBirthPlace, res.data];
+          this.provinceResidencePlace = [...this.provinceResidencePlace, res.data];
+          if (
+            this.newPersonal.get('countryResidencePlace').value != null &&
+            countryId == this.newPersonal.get('countryResidencePlace').value
+          ) {
+            this.provinceResidencePlace = [
+              ...this.provinceResidencePlace,
+              res.data,
+            ];
+          }
+          //Gửi thông báo thành công lên góc bên phải màn hình
+          this._toastrService.success(
+            'Thêm thành công Tỉnh/Thành phố' +
+              res.data.provinceName +
+              'vào cơ sở dữ liệu',
+            'Thành công',
+            {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
+        });
+        return true;
+      }
+    }
+  }
+  onSubmitCreateDistrict(type,districtName) {
+    switch (type) {
+      case 1: {
+        const provinceId = this.newPersonal.get('provinceResidencePlace').value;
+        const body = {
+          districtName: districtName,
+          districtType: 'Quận/Huyện',
+          provinceId: provinceId,
+        };
+        this._addressService.createDistrict(body).subscribe((res) => {
+          this.districtResidencePlace = [...this.districtResidencePlace, res.data];
+          if (
+            this.newPersonal.get('provinceBirthPlace').value != null &&
+            provinceId == this.newPersonal.get('provinceBirthPlace').value
+          ) {
+            this.districtBirthPlace = [...this.districtBirthPlace, res.data];
+          }
+          this._toastrService.success(
+            'Thêm thành công Quận/Huyện ' +
+              res.data.districtName +
+              'vào cơ sở dữ liệu',
+            'Thành công',
+            {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
+        });
+        return true;
+      }
+      case 2: {
+        const provinceId = this.newPersonal.get('provinceBirthPlace').value;
+        const body = {
+          districtName: districtName,
+          districtType: 'Quận/Huyện',
+          provinceId: provinceId,
+        };
+        //Tạo dữ liệu Quận/Huyện mới - lấy từ dữ liệu Tỉnh/Thành phố đã select
+        this._addressService.createDistrict(body).subscribe((res) => {
+          //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
+          this.districtBirthPlace = [...this.districtBirthPlace, res.data];
+          this.districtResidencePlace = [...this.districtResidencePlace, res.data];
+          if (
+            this.newPersonal.get('provinceResidencePlace').value != null &&
+            provinceId == this.newPersonal.get('provinceResidencePlace').value
+          ) {
+            this.districtResidencePlace = [
+              ...this.districtResidencePlace,
+              res.data,
+            ];
+          }
+          //Gửi thông báo thành công lên góc bên phải màn hình
+          this._toastrService.success(
+            'Thêm thành công Quận/Huyện ' +
+              res.data.districtName +
+              'vào cơ sở dữ liệu',
+            'Thành công',
+            {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
+        });
+        return true;
+      }
+    }
+  }
+  onSubmitCreateCommune(type,communeName){
+    switch (type) {
+      case 1: {
+        const districtId = this.newPersonal.get('districtResidencePlace').value;
+        const body = {
+          communeName: communeName,
+          communeType: 'Xã/Phường',
+          districtId: districtId,
+        };
+        this._addressService.createCommune(body).subscribe((res) => {
+          this.communeResidencePlace = [...this.communeResidencePlace, res.data];
+          if (
+            this.newPersonal.get('districtBirthPlace').value != null &&
+            districtId == this.newPersonal.get('districtBirthPlace').value
+          ) {
+            this.communeBirthPlace = [...this.communeBirthPlace, res.data];
+          }
+          this._toastrService.success(
+            'Thêm thành công Xã/Phường ' +
+              res.data.communeName +
+              'vào cơ sở dữ liệu',
+            'Thành công',
+            {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
+        });
+        return true;
+      }
+      case 2: {
+        const districtId = this.newPersonal.get('districtBirthPlace').value;
+        const body = {
+          communeName: communeName,
+          communeType: 'Xã/Phường',
+          districtId: districtId,
+        };
+        //Tạo dữ liệu xã/phường mới - lấy từ dữ liệu quận huyện đã select
+        this._addressService.createCommune(body).subscribe((res) => {
+          //Cập nhật state do khi lưu dữ liệu lên server nhưng select không cập nhật dữ liệu mới
+          this.communeBirthPlace = [...this.communeBirthPlace, res.data];
+          this.communeResidencePlace = [...this.communeResidencePlace, res.data];
+          if (
+            this.newPersonal.get('districtResidencePlace').value != null &&
+            districtId == this.newPersonal.get('districtResidencePlace').value
+          ) {
+            this.communeResidencePlace = [
+              ...this.communeResidencePlace,
+              res.data,
+            ];
+          }
+          //Gửi thông báo thành công lên góc bên phải màn hình
+          this._toastrService.success(
+            'Thêm thành công Xã/Phường ' +
+              res.data.communeName +
+              'vào cơ sở dữ liệu',
+            'Thành công',
+            {
+              positionClass: 'toast-top-center',
+              toastClass: 'toast ngx-toastr',
+              closeButton: true,
+            }
+          );
+        });
+        return true;
+      }
+    }
+  }
   onSubmitCreateStreet(type, streetName) {
     switch (type) {
       case 1: {

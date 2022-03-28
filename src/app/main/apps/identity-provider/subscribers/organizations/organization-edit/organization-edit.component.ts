@@ -458,6 +458,93 @@ export class OrganizationEditComponent implements OnInit {
     });
   }
 
+  onSubmitCreateProvince(provinceName) {
+    const countryId = this.formAddress.get('countryCode').value;
+    const body = {
+      provinceName: provinceName,
+      provinceType: 'Tỉnh/Thành phố',
+      countryId: countryId,
+    };
+    this._organizationEditService.createProvince(body).subscribe((res) => {
+      this.provinceName = [...this.provinceName, res.data];
+      if (
+        this.formAddress.get('countryCode').value != null &&
+        countryId == this.formAddress.get('countryCode').value
+      ) {
+        this.provinceName = [...this.provinceName, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công Tỉnh/Thành phố ' +
+          res.data.provinceName +
+          ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
+  }
+  onSubmitCreateDistrict(districtName) {
+    const provinceId = this.formAddress.get('provinceName').value;
+    const body = {
+      districtName: districtName,
+      districtType: 'Quận/Huyện',
+      provinceId: provinceId,
+    };
+    this._organizationEditService.createDistrict(body).subscribe((res) => {
+      this.districtName = [...this.districtName, res.data];
+      if (
+        this.formAddress.get('provinceName').value != null &&
+        provinceId == this.formAddress.get('provinceName').value
+      ) {
+        this.districtName = [...this.districtName, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công Quận/Huyện ' +
+          res.data.districtName +
+          ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
+  }
+  onSubmitCreateCommune(communeName) {
+    const districtId = this.formAddress.get('districtName').value;
+    const body = {
+      communeName: communeName,
+      communeType: 'Xã/Phường',
+      districtId: districtId,
+    };
+    this._organizationEditService.createCommune(body).subscribe((res) => {
+      this.communeName = [...this.communeName, res.data];
+      if (
+        this.formAddress.get('districtName').value != null &&
+        districtId == this.formAddress.get('districtName').value
+      ) {
+        this.communeName = [...this.communeName, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công Xã/Phường ' +
+          res.data.communeName +
+          ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
+  }
   onSubmitCreateStreet(streetName) {
     const communeId = this.formAddress.get('communeName').value;
     const body = {

@@ -84,7 +84,9 @@ export class NewOrganizationSidebarComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(10),
-            Validators.pattern(/(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/),
+            Validators.pattern(
+              /(01|03|05|07|08|09|02[0|1|2|3|4|5|6|7|8|9])+([0-9]{8})\b/
+            ),
           ],
         ],
         street: [{ value: null, disabled: true }, Validators.required],
@@ -294,6 +296,93 @@ export class NewOrganizationSidebarComponent implements OnInit {
   }
   updateTable() {
     this.onUpdate.emit();
+  }
+  onSubmitCreateProvince(provinceName) {
+    const countryId = this.newOrganization.get('country').value;
+    const body = {
+      provinceName: provinceName,
+      provinceType: 'Tỉnh/Thành phố',
+      countryId: countryId,
+    };
+    this._addressService.createProvince(body).subscribe((res) => {
+      this.province = [...this.province, res.data];
+      if (
+        this.newOrganization.get('country').value != null &&
+        countryId == this.newOrganization.get('country').value
+      ) {
+        this.province = [...this.province, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công Tỉnh/Thành phố ' +
+          res.data.provinceName +
+          ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
+  }
+  onSubmitCreateDistrict(districtName) {
+    const provinceId = this.newOrganization.get('province').value;
+    const body = {
+      districtName: districtName,
+      districtType: 'Quận/Huyện',
+      provinceId: provinceId,
+    };
+    this._addressService.createDistrict(body).subscribe((res) => {
+      this.district = [...this.district, res.data];
+      if (
+        this.newOrganization.get('province').value != null &&
+        provinceId == this.newOrganization.get('province').value
+      ) {
+        this.district = [...this.district, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công Quận/Huyện ' +
+          res.data.districtName +
+          ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
+  }
+  onSubmitCreateCommune(communeName) {
+    const districtId = this.newOrganization.get('district').value;
+    const body = {
+      communeName: communeName,
+      communeType: 'Xã/Phường',
+      districtId: districtId,
+    };
+    this._addressService.createCommune(body).subscribe((res) => {
+      this.commune = [...this.commune, res.data];
+      if (
+        this.newOrganization.get('district').value != null &&
+        districtId == this.newOrganization.get('district').value
+      ) {
+        this.commune = [...this.commune, res.data];
+      }
+      this._toastrService.success(
+        'Thêm thành công Xã/Phường ' +
+          res.data.communeName +
+          ' vào cơ sở dữ liệu',
+        'Thành công',
+        {
+          positionClass: 'toast-top-center',
+          toastClass: 'toast ngx-toastr',
+          closeButton: true,
+        }
+      );
+    });
+    return true;
   }
   onSubmitCreateStreet(streetName) {
     const communeId = this.newOrganization.get('commune').value;
